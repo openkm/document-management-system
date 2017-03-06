@@ -1,4 +1,4 @@
-# Open Source Document Management System ( Open DMS )
+# Open Source Document Management System
 OpenKM Community Edition is an Open Source Document Management System. If you are looking for a free cost then "Community" is your best option. OpenKM document management system (DMS) allows businesses to control the production, storage, management and distribution of electronic documents, yielding greater effectiveness and the ability to reuse information and to control the flow of the documents.
 
 OpenKM integrates all essential documents management, collaboration and an advanced search functionality into one easy to use solution. The system also includes administration tools to define the roles of various users, access control, user quota, level of document security, detailed logs of activity and automations setup.
