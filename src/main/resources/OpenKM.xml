@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:security="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+  <!-- Tasks configuration -->
+  <!--
+  <task:scheduler id="taskScheduler" pool-size="1"/>
+  <task:scheduled-tasks scheduler="taskScheduler">
+    <task:scheduled ref="textExtractorWorker" method="work" fixed-delay="60000"/>
+  </task:scheduled-tasks>
+  <beans:bean id="textExtractorWorker" class="com.openkm.extractor.TextExtractorWorker" />
+  -->
+  
+  <!-- Security configuration -->
+  <security:authentication-manager alias="authenticationManager">
+    <security:authentication-provider>
+      <security:password-encoder hash="md5"/>
+      <security:jdbc-user-service 
+        data-source-ref="dataSource"
+        users-by-username-query="select usr_id, usr_password, 1 from OKM_USER where usr_id=? and usr_active='T'"
+        authorities-by-username-query="select ur_user, ur_role from OKM_USER_ROLE where ur_user=?"/>
+    </security:authentication-provider>
+  </security:authentication-manager>
+</beans:beans>

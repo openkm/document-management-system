@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT workflow-forms (workflow-form+)>
+
+<!ELEMENT workflow-form (input|checkbox|textarea|select|button)*>
+<!ATTLIST workflow-form
+	task CDATA #REQUIRED
+>
+
+<!ELEMENT input (validator*)>
+<!ATTLIST input
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type (text | date | link | folder) "text"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true|false) "false"
+>
+
+<!ELEMENT checkbox (validator*)>
+<!ATTLIST checkbox
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value (true|false) "false"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true|false) "false"
+>
+
+<!ELEMENT textarea (validator*)>
+<!ATTLIST textarea 
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true|false) "false"
+>
+
+<!ELEMENT select (option+, validator*)>
+<!ATTLIST select
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (simple|multiple) "simple"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true|false) "false"
+>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	label CDATA #REQUIRED
+	value CDATA #REQUIRED
+	selected (true|false) "false"
+>
+
+<!ELEMENT validator EMPTY>
+<!ATTLIST validator
+	type (req | alpha | dec | num | email | url | maxlen | minlen | lt | gt | min | max | regexp) "req"
+	parameter CDATA #IMPLIED
+>
+
+<!ELEMENT button EMPTY>
+<!ATTLIST button
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type (submit|transition) "submit"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>

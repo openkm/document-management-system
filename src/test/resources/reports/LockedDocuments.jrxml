@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Locked Documents" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" whenResourceMissingType="Key">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="host" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[import javax.jcr.*;
+import javax.jcr.query.*;
+import org.apache.jackrabbit.*;
+import com.openkm.module.direct.*;
+
+List al = new ArrayList ();
+String statement = "/jcr:root/okm:root//element(*,okm:document)[@jcr:lockOwner]/@jcr:lockOwner";
+String type = "xpath";
+Session jcrSession = DirectRepositoryModule.getSystemSession();
+Workspace workspace = jcrSession.getWorkspace();
+QueryManager queryManager = workspace.getQueryManager();
+Query query = queryManager.createQuery(statement, type);
+QueryResult result = query.execute();
+
+for (RowIterator it = result.getRows(); it.hasNext();) {
+  Map ld = new HashMap();
+  javax.jcr.query.Row row = it.nextRow();
+  javax.jcr.Value v = row.getValue(JcrConstants.JCR_LOCKOWNER);
+  ld.put("owner", v==null?"NULL":v.getString());
+  v = row.getValue(JcrConstants.JCR_PATH);
+  ld.put("path", v==null?"NULL":v.getString());
+  al.add(ld);
+}
+
+return al;]]>
+	</queryString>
+	<field name="owner" class="java.lang.String">
+		<fieldDescription><![CDATA[owner]]></fieldDescription>
+	</field>
+	<field name="path" class="java.lang.String">
+		<fieldDescription><![CDATA[path]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<image>
+				<reportElement key="image-1" x="374" y="0" width="150" height="35"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{host}+"/logo/report"]]></imageExpression>
+			</image>
+			<textField pattern="yyyy/MM/dd" isBlankWhenNull="false">
+				<reportElement key="textField-13" x="0" y="0" width="65" height="10" forecolor="#010101"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a" isBlankWhenNull="false">
+				<reportElement key="textField-14" x="0" y="10" width="65" height="10" forecolor="#010101"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line-3" x="-15" y="42" width="562" height="1" forecolor="#010101"/>
+				<graphicElement fill="Solid"/>
+			</line>
+			<staticText>
+				<reportElement x="77" y="0" width="297" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="22" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Locked Documents]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement key="line-4" x="0" y="28" width="91" height="1" forecolor="#010101"/>
+			</line>
+			<line>
+				<reportElement key="line-5" x="97" y="28" width="438" height="1" forecolor="#010101"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="14" width="90" height="14"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Locked By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="97" y="13" width="102" height="14"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Document Path]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="97" y="0" width="438" height="18"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{path}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="0" y="0" width="91" height="18"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{owner}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement key="line-2" x="-15" y="4" width="567" height="1" forecolor="#010101" backcolor="#FFFFFF"/>
+				<graphicElement fill="Solid"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

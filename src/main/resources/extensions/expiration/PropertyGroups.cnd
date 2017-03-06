@@ -1,0 +1,12 @@
+<okm = 'http://www.openkm.org/1.0'>
+<okg = 'http://www.openkm.org/group/1.0'>
+<okp = 'http://www.openkm.org/group/property/1.0'>
+
+[okg:expiration] mixin
+- okp:expiration.date (string) = '' autocreated
+- okp:expiration.state (string) = '' autocreated
+- okp:expiration.group.notify (string) = '' multiple autocreated
+- okp:expiration.group.alert (string) = '' multiple autocreated
+- okp:expiration.group.expired (string) = '' multiple autocreated
+
+

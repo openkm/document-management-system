@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.Translation" table="OKM_TRANSLATION">
+    <cache usage="nonstrict-read-write"/>
+    <!-- Hibernate In Action 8.3.1 -->
+    <composite-id name="translationId" class="com.openkm.dao.bean.TranslationId">
+      <key-property name="module" column="TR_MODULE" length="64"/>
+      <key-property name="key" column="TR_KEY" length="127"/>
+      <key-property name="language" column="TR_LANGUAGE" length="8" />
+    </composite-id>
+    <property name="text" column="TR_TEXT" not-null="true" />
+  </class>
+</hibernate-mapping>

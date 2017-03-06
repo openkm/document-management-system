@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.StapleGroup" table="OKM_STAPLE_GROUP">
+    <id name="id" column="SG_ID"><generator class="native"/></id>
+    <property name="user" column="SG_USER" not-null="true" length="64"/>
+    <set name="staples" table="OKM_STAPLE" order-by="ST_ID asc" cascade="all-delete-orphan" lazy="false">
+      <key column="ST_GROUPID"/>
+      <one-to-many class="com.openkm.extension.dao.bean.Staple"/>
+    </set>
+  </class>
+</hibernate-mapping>

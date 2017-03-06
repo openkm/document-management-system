@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Workflow Workload" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Key">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="242"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="host" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ti.actorid_ as ti_actorid, pd.name_ as pd_name, ti.name_ as ti_name, ti.start_ as ti_start, ti.end_ as ti_end
+from JBPM_TASKINSTANCE as ti, JBPM_PROCESSINSTANCE as pi, JBPM_PROCESSDEFINITION as pd
+where ti.procinst_ = pi.id_ and pi.processdefinition_ = pd.id_
+order by ti_actorid, pd_name, ti_name, ti_start, ti_end]]>
+	</queryString>
+	<field name="ti_actorid" class="java.lang.String"/>
+	<field name="pd_name" class="java.lang.String"/>
+	<field name="ti_name" class="java.lang.String"/>
+	<field name="ti_start" class="java.sql.Timestamp"/>
+	<field name="ti_end" class="java.sql.Timestamp"/>
+	<group name="Usuarios">
+		<groupExpression><![CDATA[$F{ti_actorid}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<rectangle radius="10">
+					<reportElement x="172" y="10" width="170" height="20" backcolor="#A4D4F5"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="355" y="32" width="87" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[End]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="32" width="119" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Task]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="242" y="14" width="100" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{ti_actorid}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="182" y="14" width="60" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[User:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="453" y="32" width="102" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Elapse]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="47" width="555" height="1"/>
+				</line>
+				<staticText>
+					<reportElement x="249" y="31" width="93" height="15"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Start]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="32" width="100" height="14"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isPdfEmbedded="false"/>
+					</textElement>
+					<text><![CDATA[Process]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="84" y="0" width="297" height="44"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="22" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Workflow Workload]]></text>
+			</staticText>
+			<textField pattern="yyyy/MM/dd" isBlankWhenNull="false">
+				<reportElement key="textField-13" x="0" y="0" width="65" height="10" forecolor="#010101"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm.ss a" isBlankWhenNull="false">
+				<reportElement key="textField-14" x="0" y="10" width="65" height="10" forecolor="#010101"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement key="image-1" x="405" y="0" width="150" height="35"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{host}+"/logo/report"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="6" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="7" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="1" width="93" height="13"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{ti_start}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="355" y="0" width="87" height="14"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{ti_end}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="1" width="119" height="13"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ti_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH.mm.ss" isBlankWhenNull="true">
+				<reportElement x="453" y="1" width="102" height="13"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[new java.sql.Timestamp(($F{ti_end}.getTime()-$F{ti_start}.getTime())-1000*60*60)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="14"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{pd_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement key="line-2" x="0" y="2" width="552" height="1" forecolor="#010101" backcolor="#FFFFFF"/>
+				<graphicElement fill="Solid"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="3" splitType="Stretch"/>
+	</summary>
+</jasperReport>

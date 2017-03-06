@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.openkm.extension.dao.bean.ForumPost" table="OKM_FORUM_POST">
+   <id name="id" column="FPS_ID"><generator class="native"/></id>
+   <property name="user" column="FPS_USER" not-null="true" length="64"/>
+   <property name="subject" column="FPS_SUBJECT" not-null="true" length="255"/>
+   <property name="message" column="FPS_MESSAGE" not-null="true" type="text"/>
+   <property name="date" column="FPS_DATE" not-null="true"/>
+ </class>
+</hibernate-mapping>

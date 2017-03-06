@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:jaxws="http://cxf.apache.org/jaxws"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                                 http://cxf.apache.org/jaxws
+                                 http://cxf.apache.org/schemas/jaxws.xsd">
+
+  <!-- OpenCMIS -->
+  <jaxws:endpoint id="cmisNavigationService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.NavigationService" address="/cmis/NavigationService"/>
+  <jaxws:endpoint id="cmisPolicyService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.PolicyService" address="/cmis/PolicyService"/>
+  <jaxws:endpoint id="cmisDiscoveryService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.DiscoveryService" address="/cmis/DiscoveryService"/>
+  <jaxws:endpoint id="cmisMultiFilingService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.MultiFilingService" address="/cmis/MultiFilingService"/>
+  <jaxws:endpoint id="cmisRepositoryService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.RepositoryService" address="/cmis/RepositoryService"/>
+  <jaxws:endpoint id="cmisRelationshipService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.RelationshipService" address="/cmis/RelationshipService"/>
+  <jaxws:endpoint id="cmisVersioningService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.VersioningService" address="/cmis/VersioningService"/>
+  <jaxws:endpoint id="cmisObjectService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.ObjectService" address="/cmis/ObjectService"/>
+  <jaxws:endpoint id="cmisAclService" implementor="org.apache.chemistry.opencmis.server.impl.webservices.AclService" address="/cmis/ACLService"/>
+
+  <!-- OpenCMIS -->
+  <beans:bean id="CmisLifecycleBean" class="com.openkm.cmis.CmisLifecycleBean">
+    <beans:property name="cmisServiceFactory" ref="CmisServiceFactory"/>
+  </beans:bean>
+  <beans:bean id="CmisServiceFactory" class="com.openkm.cmis.CmisServiceFactory"/>
+</beans:beans>

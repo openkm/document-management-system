@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.Staple" table="OKM_STAPLE">
+    <id name="id" column="ST_ID"><generator class="native"/></id>
+    <property name="node" column="ST_NODE" not-null="true" length="64"/>
+    <property name="type" column="ST_TYPE" not-null="true" length="32"/>
+  </class>
+</hibernate-mapping>

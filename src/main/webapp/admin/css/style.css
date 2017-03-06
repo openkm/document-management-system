@@ -1,0 +1,338 @@
+@CHARSET "UTF-8";
+
+body {
+	background-color: #f6f6ee;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+body, td, a, div, .p {
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+}
+
+a:link, .w, .w a:link {
+	color: #0000cc;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #551a8b;
+	text-decoration: none;
+}
+
+a:active {
+	color: #ff0000;
+	text-decoration: none;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: left;
+}
+
+img {
+	border: 0;
+}
+
+ul {
+	margin: 0px;
+	padding-left: 30px;
+}
+
+textarea, input, select {
+	border: 1px solid #A5A596;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+}
+
+input.submit {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+}
+
+table.form {
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #707090;
+	background-color: #eeeeee;
+}
+
+table.form tr.fuzzy {
+	background-color: #C3D9FF;
+}
+
+table.form th {
+	font-weight: bold;
+	font-size: 10px;
+	height: 16px;
+	background-image: url("../img/table_title.gif");
+	border: 1px solid #A5A596;
+}
+
+table.results {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 15px;
+	border: 1px solid #789DB3;
+	border-collapse: collapse;
+}
+
+table.results th {
+	font-weight: bold;
+	font-size: 10px;
+	height: 16px;
+	background-image: url("../img/table_title.gif");
+	border: 1px solid #A5A596;
+}
+
+table.results tr.odd {
+	background-color: #F6F6EE;
+}
+
+table.results tr.even {
+	background-color: #E0ECFF;
+}
+
+table.results tr.fuzzy {
+	background-color: #C3D9FF;
+}
+
+table.results tr.warn {
+	background-color: #FF7979;
+}
+
+table.results tr.form {
+	background-color: #789DB3;
+}
+
+legend {
+	font-weight: bold;
+}
+
+div.error {
+	color: red;
+	text-align: center;
+}
+
+div.warn {
+	color: maroon;
+	text-align: left;
+}
+	
+div.ok {
+	color: green;
+	text-align: left;
+}
+
+span.highlight {
+	color: red;
+	font-weight: bold;
+}
+
+input.vanadium-invalid {
+	border: 1px solid #f00;
+}
+
+span.vanadium-invalid {
+	color: #f00;
+	margin-left: 5px;
+}
+
+#breadcrumb {
+	font: 11px Arial, Helvetica, sans-serif;
+	background-image: url('../img/bc_bg.gif'); 
+	background-repeat: repeat-x;
+	height: 20px;
+	line-height: 20px;
+	color: #888;
+	border-bottom: solid 1px #cacaca;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+}
+
+#breadcrumb li.action {
+	list-style-type: none;
+	display: inline-block;
+	float: right;
+}
+
+#breadcrumb li.action {
+	background-image: url('../img/table_title.gif'); 
+}
+
+#breadcrumb li.action > a {
+	display: inline-block;
+	background-image: url('../img/bc_vertical_separator.gif'); 
+	background-repeat: no-repeat; 
+	background-position: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	color: #333333;
+	outline: none;
+}
+
+#breadcrumb li.path {
+	list-style-type: none;
+	padding-left: 10px;
+	display: inline-block;
+	float: left;
+}
+
+#breadcrumb li.path > a {
+	display: inline-block;
+	background-image: url('../img/bc_separator.gif'); 
+	background-repeat: no-repeat; 
+	background-position: right;
+	padding-right: 15px;
+	text-decoration: none;
+	color: #333333;
+	outline: none;
+}
+
+#breadcrumb a:hover {
+	color: #90A6CC;
+}
+
+.utilButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	padding: 8px;
+	margin: 16px;
+	width: 150px;
+	cursor: pointer;
+  	cursor: hand;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	background-image: url("../img/action/generic.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 5px center;
+}
+
+.noButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/false.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.yesButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/true.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.addButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/new.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.deleteButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/delete.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.searchButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/examine.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.saveButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/save.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.loadButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/load.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+.executeButton {
+	background-color: #E5E5E1;
+	border: 1px solid #A5A596;
+	height: 18px;
+	font-size: 10px;
+	font-family: verdana, arial, sans-serif;
+	cursor: pointer;
+  	cursor: hand;
+	background-image: url("../img/action/signal.png");
+	background-repeat: no-repeat;
+	padding-left: 17px;
+	background-position: 2px center;
+}
+
+/* Chrome fix for button images */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.noButton, .yesButton, .addButton, .deleteButton, .searchButton, .saveButton, .loadButton, .executeButton {
+		padding-left: 20px;
+	}
+}

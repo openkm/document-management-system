@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.ProposedQueryReceived" table="OKM_PROP_QUERY_RECEIVED">
+    <id name="id" column="PQR_ID"><generator class="native"/></id>
+    <property name="from" column="PQR_FROM" not-null="true" length="64"/>
+    <property name="to" column="PQR_TO" not-null="true" length="64"/>
+    <property name="user" column="PQR_USER" not-null="true" length="64"/>
+    <property name="comment" column="PQR_COMMENT" type="text"/>
+    <property name="accepted" column="PQR_ACCEPTED" type="true_false" not-null="true"/>
+    <property name="sentDate" column="PQR_SENT_DATE" not-null="true"/>
+    <property name="seenDate" column="PQR_SEEN_DATE"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.MailAccount" table="OKM_MAIL_ACCOUNT">
+    <id name="id" column="MA_ID"><generator class="native"/></id>
+    <property name="user" column="MA_USER" not-null="true" length="64"/>
+    <property name="mailProtocol" column="MA_MPROTOCOL" not-null="true"/>
+    <property name="mailHost" column="MA_MHOST" not-null="true"/>
+    <property name="mailFolder" column="MA_MFOLDER" not-null="true"/>
+    <property name="mailUser" column="MA_MUSER" not-null="true"/>
+    <property name="mailPassword" column="MA_MPASSWORD" not-null="true"/>
+    <property name="mailMarkSeen" column="MA_MMARK_SEEN" not-null="true"/>
+    <property name="mailMarkDeleted" column="MA_MMARK_DELETED" not-null="true"/>
+    <property name="mailLastUid" column="MA_MLAST_UID" not-null="true"/>
+    <property name="active" column="MA_ACTIVE" type="true_false" not-null="true"/>
+    <set name="mailFilters" table="OKM_MAIL_FILTER" order-by="MF_ID asc" cascade="all-delete-orphan" lazy="false">
+      <key column="MF_MAIL_ACCOUNT" not-null="true"/>
+      <one-to-many class="com.openkm.dao.bean.MailFilter"/>
+    </set>
+  </class>
+</hibernate-mapping>

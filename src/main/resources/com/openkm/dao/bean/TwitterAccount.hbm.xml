@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.TwitterAccount" table="OKM_TWITTER_ACCOUNT">
+    <id name="id" column="TA_ID"><generator class="native"/></id>
+    <property name="user" column="TA_USER" not-null="true" length="64"/>
+    <property name="twitterUser" column="TA_TUSER" not-null="true"/>
+    <property name="active" column="TA_ACTIVE" type="true_false" not-null="true"/>
+  </class>
+</hibernate-mapping>

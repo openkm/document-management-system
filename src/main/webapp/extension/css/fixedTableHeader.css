@@ -1,0 +1,21 @@
+.faux-head {
+  position: absolute;
+  z-index: 100px;
+  padding: 0px;
+  margin: 0px;
+  background-image: url('../img/table_title.gif');
+  list-style-type: none;
+}
+
+.faux-head li {
+  float: left;
+  margin: 0px;
+  padding: 1px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  text-valign: middle;
+  border-right: 1px solid #A5A596;
+  border-bottom: 1px solid #A5A596;
+}

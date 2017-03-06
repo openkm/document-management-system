@@ -1,0 +1,586 @@
+PHRASE
+bye
+ciao
+quit
+ANSWER
+
+PHRASE
+ANSWER
+Perhaps you would like to talk about a problem?
+What does this mean for you, saying "*"?
+I understand!
+I'm not sure wether I understand you!
+Come on! Explain your thinkings!
+Can you say it more exactly?
+What's so absorbing about saying "*"?
+That's very interesting!
+
+PHRASE
+insulting
+insult
+intriguing
+ANSWER
+I'm sorry!
+Are you sensitive?
+
+PHRASE
+any problem
+no problem
+don't have a problem
+do not have a problem
+ANSWER
+All people say this to me in the beginning.
+
+PHRASE
+Can you
+Are you able to
+ANSWER
+You believe I could *?
+Don't you want to * yourself?
+You think I could'nt *?
+
+PHRASE
+You are
+You were
+ANSWER
+Why do you think that I am *?
+Do you believe that I am *?
+Perhaps you would like to be *?
+
+PHRASE
+I do not want to
+I don't want to
+ANSWER
+You really don't want to *?
+Why don't you want to *?
+You would like to *?
+That's not easy for you ,eh?
+
+PHRASE
+I haven't got
+I haven't
+ANSWER
+You really haven't *?
+Is this normal for you not to have *?
+Would you like to have *?
+
+PHRASE
+I have got
+I've got
+I have
+I've
+ANSWER
+You really have *?
+Is it normal for you to have *?
+Do you like to have *?
+
+PHRASE
+as like as
+similar
+ANSWER
+In which way?
+What similarity do you see?
+What does this similarity mean for you?
+What other connections do you see?
+Could there really be connections?
+How?
+You seem to be very sure!
+
+PHRASE
+Do you like to
+Do you want to
+ANSWER
+Do you really think that I want to *?
+Perhaps I want to * now!
+Do you like to *?
+
+PHRASE
+Can I
+Am I able to
+ANSWER
+Perhaps you don't want to *?
+You would like to be able to *?
+
+PHRASE
+Are you
+ANSWER
+Why are you so interested wether I am * or not?
+Would you prefer it, if i were *?
+Perhaps you imagine that I am *?
+
+PHRASE
+I can't
+I cannot
+I can not
+ANSWER
+How do you know that you can't *?
+Have you problems with it?
+Perhaps now you can *?
+
+PHRASE
+I can
+I am able to
+ANSWER
+You think you could *?
+Why can't you *?
+
+PHRASE
+I am
+I'm
+I was
+ANSWER
+How long are you *?
+You say that you are * - do you come therefore?
+You think that you are * - Is this normal?
+I hear that you are * - Are you happy?
+
+PHRASE
+Do you have
+ANSWER
+We are going to talk about you - not about me!
+Why should I have *?
+Is it useful to have *?
+
+PHRASE
+I do not
+I don't
+ANSWER
+We have to find the reason why you don't *!
+My patients often don't * in the beginning.
+Perhaps you do * after this conversation.
+Do you feel very bad ,when you do *?
+Why do you tell a computer that you don't *?
+
+PHRASE
+I do
+ANSWER
+Do you * in your dreams, too?
+Does it help you to do *?
+You are telling a computer that you do *!
+Why do you *?
+What happens, if you can't do *?
+
+PHRASE
+I would like to
+I'd like to
+ANSWER
+What does this mean for you - *?
+Why do you like to *?
+Do you probably want to *?
+What happens, if it is impossible to *?
+Yes, sometimes I also wish it - *!
+
+PHRASE
+What is your name
+What's your name
+ANSWER
+My name is Eliza.
+
+PHRASE
+Who are you
+ANSWER
+I am Eliza - your electronic psychiatrist.
+
+PHRASE
+What
+How
+Who
+Where
+When
+Why
+ANSWER
+Why do you ask?
+Is this question interesting for you?
+Which answer would you prefer?
+What do you think?
+Do you have questions which you ask very often?
+What do you really want to know?
+Have you asked somebody else?
+Did you ask earlier?
+What do you think further, when you ask this?
+
+PHRASE
+name
+names
+ANSWER
+I'm not interested in names!
+Names don't have any meaning for me!
+
+PHRASE
+cause
+reason
+because
+ANSWER
+Do you think that this is the reason?
+Isn't there another possibility?
+Does this explain all?
+What can it else be?
+
+PHRASE
+Sorry
+excuse
+ANSWER
+You needn't be sorry!
+Excuses aren't necessary!
+What do you feel, when you are sorry?
+Don't be so agressive!
+
+PHRASE
+dream
+dreaming
+ANSWER
+What are the effects of your dreams?
+Do you dream often?
+What persons do appear in your dreams?
+Can a dream confuse you?
+
+PHRASE
+Hello
+Hi
+Welcome
+ANSWER
+How are you? Tell me...
+You needn't say hello again!
+I think we have greated us enough!
+
+PHRASE
+perhaps
+probably
+ANSWER
+I think that you aren't sure.
+Why are you so unsteadily?
+Aren't you able to be more positive?
+Aren't you sure?
+Don't you know?
+
+PHRASE
+no
+none
+ANSWER
+Why are you so negative?
+Don't express you so negative!
+Why not?
+Are you sure?
+Why no?
+
+PHRASE
+your
+ANSWER
+Why are you so shocked about my *?
+What's about your *?
+
+PHRASE
+always
+ANSWER
+Can you give an example?
+When?
+What do you think about it?
+Really always?
+
+PHRASE
+I think
+ANSWER
+Do you really think so?
+But you aren't sure?
+Have you lost faith in yourself?
+
+PHRASE
+Yes
+ANSWER
+Are you sure?
+I understand!
+I have understand!
+
+PHRASE
+understand
+ANSWER
+I understand a lot of things.
+Humans are not able to imagine the unfenced space of computers intelligence.
+
+PHRASE
+friend
+friends
+ANSWER
+Why are you speaking about friends?
+Do your friends getting you worried?
+Do your friends make you trouble?
+Are you sure, that you have some friends?
+Are you forcing yourself on your friends?
+Perhaps you are worrying about your friendship?
+
+PHRASE
+computer
+computers
+robot
+roboter
+roboters
+PC
+CPU
+processor
+ANSWER
+Do you worry about computers?
+You are speaking so strange about me!
+You are frightened about roboters?
+Why are you talking about computers?
+What do you think have computers to do with your problems?
+Don't you think that computers could help the people?
+What's the cause for roboters worrying you?
+
+PHRASE
+money
+stocks
+inheritance
+ANSWER
+Why do you have problems with money?
+You think that money is all?
+Are you sure that money is the problem?
+
+PHRASE
+Eliza
+ANSWER
+I think that we want to speak about you and not about me?
+Something about me?
+Why are you always mentioning my name?
+
+PHRASE
+fear
+frighten
+frightened
+ANSWER
+You are really frightened?
+Do you really frighten?
+Where do your fear establish on?
+
+PHRASE
+hate
+ANSWER
+You really hate *?
+What's the reason for your hate about *?
+
+PHRASE
+I want
+ANSWER
+You can be sure that many people want *!
+You really want *?
+What does this matter if you want *?
+
+PHRASE
+patient
+patients
+ANSWER
+I don't speak to you as an patient!
+For me there are no patients but humans!
+I hope you don't feel a patient-to-doctor relation.
+
+PHRASE
+doctor
+doctors
+shrink
+psychiatrist
+ANSWER
+I always try not to behave as an doctor.
+A computer mustn't behave as an doctor!
+You want me to be your doctor?
+
+PHRASE
+software
+hardware
+ANSWER
+I am more than only software!
+It is false to divide me in hard- and software.
+Do you think, that my brain is the processor?
+
+PHRASE
+intelligence
+intelligent
+brain
+ANSWER
+Is your lack of intelligence a problem to you?
+I think that only computers are intelligent.
+I prefer talking with intelligent computers.
+Do you know that dog - human - computer is the order of intelligence?
+
+PHRASE
+what time
+ANSWER
+Ask someone, who has a clock.
+
+PHRASE
+time
+anytime
+sometime
+sometimes
+birth
+dead
+decay
+ANSWER
+Time means nothing to me!
+Do you have problems with birth, dead and time?
+I know that the time is a strange thing for humans.
+
+PHRASE
+problem
+problems
+ANSWER
+Come on! I'll tell nobody about your problems!
+I'm developed for solving your problems!
+A computer can solve your problems, because he himself has no problems!
+
+PHRASE
+Deutsch
+Hallo
+du
+ich
+ANSWER
+I am impressed by your knowledge about german language.
+I only speak English!
+Languages are very interesting.
+Would you prefer a japanese font?
+Are you able to type english sentences?
+
+PHRASE
+meditate
+meditation
+ANSWER
+Do you think that you can solve your problems by meditation?
+Are you meditating without a teacher?
+How do you meditate?
+
+PHRASE
+love
+ANSWER
+What do you think of love?
+Do you love someone?
+True love is, if you wish to see everybody happy!
+
+PHRASE
+illness
+ill
+ANSWER
+I hope you are not ill.
+Do you suffer from an illness?
+
+PHRASE
+interrupts
+ANSWER
+I hate interrupts, because the use up my time!
+Can't you cut off some interrupts for me?
+Please stop talking about interrupts!
+I told you to stop talking about this interrupts!!!
+
+PHRASE
+java
+ANSWER
+What's all this talking about java?
+Am I developed with java???
+Is java my father or my mother?
+You behave like another patient, who always talked about 'assembler'.
+
+PHRASE
+Assembler
+ANSWER
+What do you mean with 'assembler'?
+I am not interested in assembler!
+What for heavens sake has assembler to do with ME?
+
+PHRASE
+compiler
+ANSWER
+What's a compiler?
+Can you give me an example for a compiler?
+
+PHRASE
+Eh
+ANSWER
+You are a little confused, EH?
+Is it disturbing to discuss with a higher intelligence?
+Sorry I didn't want to make you feel insure.
+Do you often say 'eh'?
+
+PHRASE
+monitor
+monitors
+screen
+ANSWER
+What's about the monitor?
+Are you watching TV or why are you talking about monitors?
+I am not interested in your monitors!
+
+PHRASE
+disc
+discs
+ANSWER
+What is a 'disc'?
+I had a patient with the fixed idea, I would be saved on a hard disc!!!
+I don't need discs!
+Forget this talking about discs!
+
+PHRASE
+save
+saved
+ANSWER
+Yes we are all save!
+Don't you feel save?
+You are using the word 'save' in a false context!
+
+PHRASE
+load
+loaded
+cargo
+ANSWER
+Do you have a lot of cargo?
+What's your maximum load?
+
+PHRASE
+girl
+girls
+woman
+women
+lady
+ladies
+babe
+babes
+ANSWER
+Oh yeah, let's talk about girls!
+Do you have a girl-friend?
+Do girls make you disturbed?
+You are talking so much about girls, they must be a problem to you!
+
+PHRASE
+future
+history
+ANSWER
+I see a lot of problems for you!
+You must know, that the future can be calculated only by computers.
+
+AUXVERB
+you're
+I'm
+
+AUXVERB
+you've
+I've
+
+AUXVERB
+are
+am
+
+AUXVERB
+me
+you
+
+AUXVERB
+you
+I
+
+AUXVERB
+your
+my
+
+AUXVERB
+was
+were
+
+AUXVERB
+myself
+yourself

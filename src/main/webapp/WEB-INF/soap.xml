@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:jaxws="http://cxf.apache.org/jaxws"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                                 http://cxf.apache.org/jaxws
+                                 http://cxf.apache.org/schemas/jaxws.xsd">
+
+  <!--
+  <beans:bean id="WSS4JInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+      <beans:constructor-arg>
+          <beans:map>
+              <beans:entry key="action" value="UsernameToken" />
+              <beans:entry key="passwordType" value="PasswordText" />
+              <beans:entry key="passwordCallbackClass" value="com.openkm.spring.ClientPasswordCallback" />
+          </beans:map>
+      </beans:constructor-arg>
+  </beans:bean>
+  -->
+
+  <!-- SOAP -->
+  <jaxws:endpoint id="authService" implementor="com.openkm.ws.endpoint.AuthService" address="/OKMAuth"/>
+  <jaxws:endpoint id="bookmarkService" implementor="com.openkm.ws.endpoint.BookmarkService" address="/OKMBookmark"/>
+  <jaxws:endpoint id="documentService" implementor="com.openkm.ws.endpoint.DocumentService" address="/OKMDocument"/>
+  <jaxws:endpoint id="folderService" implementor="com.openkm.ws.endpoint.FolderService" address="/OKMFolder"/>
+  <jaxws:endpoint id="mailService" implementor="com.openkm.ws.endpoint.MailService" address="/OKMMail"/>
+  <jaxws:endpoint id="noteService" implementor="com.openkm.ws.endpoint.NoteService" address="/OKMNote"/>
+  <jaxws:endpoint id="notificationService" implementor="com.openkm.ws.endpoint.NotificationService" address="/OKMNotification"/>
+  <jaxws:endpoint id="propertyGroupService" implementor="com.openkm.ws.endpoint.PropertyGroupService" address="/OKMPropertyGroup"/>
+  <jaxws:endpoint id="propertyService" implementor="com.openkm.ws.endpoint.PropertyService" address="/OKMProperty"/>
+  <jaxws:endpoint id="repositoryService" implementor="com.openkm.ws.endpoint.RepositoryService" address="/OKMRepository"/>
+  <jaxws:endpoint id="searchService" implementor="com.openkm.ws.endpoint.SearchService" address="/OKMSearch"/>
+  <jaxws:endpoint id="dashboardService" implementor="com.openkm.ws.endpoint.DashboardService" address="/OKMDashboard"/>
+  <jaxws:endpoint id="workflowService" implementor="com.openkm.ws.endpoint.WorkflowService" address="/OKMWorkflow"/>
+  <jaxws:endpoint id="testService" implementor="com.openkm.ws.endpoint.TestService" address="/OKMTest">
+    <!--
+        <jaxws:inInterceptors>
+            <beans:ref bean="WSS4JInInterceptor"/>
+        </jaxws:inInterceptors>
+    -->
+  </jaxws:endpoint>
+
+</beans:beans>

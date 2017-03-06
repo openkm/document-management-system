@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.MailFilterRule" table="OKM_MAIL_FILTER_RULE" lazy="false">
+    <id name="id" column="MFR_ID"><generator class="native"/></id>
+    <property name="field" column="MFR_FIELD" not-null="true"/>
+    <property name="operation" column="MFR_OPERATION" not-null="true"/>
+    <property name="value" column="MFR_VALUE" not-null="true"/>
+    <property name="active" column="MFR_ACTIVE" type="true_false" not-null="true"/>
+  </class>
+</hibernate-mapping>

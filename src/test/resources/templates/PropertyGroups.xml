@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE property-groups PUBLIC "-//OpenKM//DTD Property Groups 1.0//EN"
+                                 "http://www.openkm.com/dtd/property-groups-1.1.dtd">
+<property-groups>
+  <property-group label="Sample Template" name="okg:tpl">
+    <input label="Name" name="okp:tpl.name"/>
+    <input label="Bird Date" name="okp:tpl.bird_date" type="date" />
+    <select label="Language" name="okp:tpl.language" type="simple">
+      <option label="Java" value="java"/>
+      <option label="Python" value="python"/>
+      <option label="PHP" value="php" />
+    </select>
+  </property-group>
+</property-groups>

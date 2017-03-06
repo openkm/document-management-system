@@ -1,0 +1,10 @@
+NOTAS SOBRE LA VERSIÓN DE TINYMCE
+
+Se ha utilizado la version TinyMCE 3.5.7 jQuery package
+http://github.com/downloads/tinymce/tinymce/tinymce_3.5.7_jquery.zip
+
+Para los idiomas se han seleccionado todos los paquetes disponibles en 
+
+http://www.tinymce.com/i18n/index.php?ctrl=lang&act=download&pr_id=1
+
+y se han sobreescrito las carpetas generadas.

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxws-config xmlns="urn:jboss:jaxws-config:2.0"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="urn:jboss:jaxws-config:2.0 jaxws-config_2_0.xsd">
+  <endpoint-config>
+    <config-name>Standard WSSecurity Endpoint</config-name>
+    <post-handler-chains>
+      <!--
+      <javaee:handler-chain>
+        <javaee:protocol-bindings>##SOAP11_HTTP</javaee:protocol-bindings>
+        <javaee:handler>
+          <javaee:handler-name>WSSecurity Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.ws.extensions.security.jaxws.WSSecurityHandlerServer</javaee:handler-class>
+        </javaee:handler>
+        <javaee:handler>
+          <javaee:handler-name>Recording Handler</javaee:handler-name>
+          <javaee:handler-class>org.jboss.wsf.framework.invocation.RecordingServerHandler</javaee:handler-class>
+        </javaee:handler>
+      </javaee:handler-chain>
+      -->
+    </post-handler-chains>
+  </endpoint-config>
+</jaxws-config>

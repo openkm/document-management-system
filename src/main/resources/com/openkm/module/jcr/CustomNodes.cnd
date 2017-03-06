@@ -1,0 +1,78 @@
+<nt = 'http://www.jcp.org/jcr/nt/1.0'>
+<jcr = 'http://www.jcp.org/jcr/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
+<okm = 'http://www.openkm.org/1.0'>
+
+[mix:accessControlled] mixin
+- okm:authUsersRead (string) multiple
+- okm:authUsersWrite (string) multiple
+- okm:authUsersDelete (string) multiple
+- okm:authUsersSecurity (string) multiple
+- okm:authRolesRead (string) multiple
+- okm:authRolesWrite (string) multiple
+- okm:authRolesDelete (string) multiple
+- okm:authRolesSecurity (string) multiple
+
+[mix:notification] mixin
+- okm:subscriptors (string) = '' multiple autocreated
+
+[mix:scripting] mixin
+- okm:scriptCode (string)
+
+[mix:encryption] mixin
+- okm:cipherName (string)
+
+[okm:resource] > nt:resource, mix:versionable
+- okm:size (long)
+- okm:author (string)
+- okm:text (string)
+- okm:versionComment (string) copy
+
+[okm:note]
+- okm:user (string)
+- okm:date (date)
+- okm:text (string)
+
+[okm:notes] > nt:hierarchyNode
++ * (okm:note)
+
+[mix:notes] mixin
++ okm:notes (okm:notes) = okm:notes autocreated
+
+[okm:document] > nt:hierarchyNode, mix:referenceable, mix:lockable, mix:accessControlled
+- okm:author (string)
+- okm:name (string)
+- okm:language (string)
+- okm:title (String)
+- okm:description (String)
+- okm:keywords (string) multiple
+- okm:categories (reference) multiple
++ okm:content (okm:resource) primary
+
+[okm:folder] > nt:folder, mix:referenceable, mix:lockable, mix:accessControlled
+- okm:author (string)
+- okm:name (string)
+- okm:description (String)
+- okm:keywords (string) multiple
+- okm:categories (reference) multiple
+
+[okm:mail] > nt:folder, mix:referenceable, mix:accessControlled
+- okm:size (long)
+- okm:author (string)
+- okm:from (string)
+- okm:reply (string) multiple
+- okm:to (string) multiple
+- okm:cc (string) multiple
+- okm:bcc (string) multiple
+- okm:sentDate (date)
+- okm:receivedDate (date)
+- okm:subject (string)
+- okm:content (string)
+- okm:mimeType (string)
+- okm:keywords (string) multiple
+- okm:categories (reference) multiple
++ * (okm:document)
+
+[okm:sysConfig]
+- okm:uuid (string)
+- okm:version (string)

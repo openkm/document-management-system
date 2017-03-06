@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT property-groups (property-group+)>
+
+<!ELEMENT property-group (input|checkbox|textarea|select)*>
+<!ATTLIST property-group
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	visible (true|false) "true"
+>
+
+<!ELEMENT input (validator*)>
+<!ATTLIST input
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (text | date | link | folder) "text"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT checkbox (validator*)>
+<!ATTLIST checkbox
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT textarea (validator*)>
+<!ATTLIST textarea 
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT select (option+, validator*)>
+<!ATTLIST select
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (simple|multiple) "simple"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	label CDATA #REQUIRED
+	value CDATA #REQUIRED
+	selected (true|false) "false"
+>
+
+<!ELEMENT validator EMPTY>
+<!ATTLIST validator
+	type (req | alpha | dec | num | email | url | maxlen | minlen | lt | gt | min | max | regexp) "req"
+	parameter CDATA #IMPLIED
+>

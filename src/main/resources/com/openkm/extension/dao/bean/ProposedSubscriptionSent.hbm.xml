@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.ProposedSubscriptionSent" table="OKM_PROP_SUB_SENT">
+    <id name="id" column="PS_ID"><generator class="native"/></id>
+    <property name="from" column="PS_FROM" not-null="true" length="64"/>
+    <property name="to" column="PS_TO" not-null="true" length="64"/>
+    <property name="user" column="PS_USER" not-null="true" length="64"/>
+    <property name="node" column="PS_NODE" not-null="true" length="64"/>
+    <property name="type" column="PS_TYPE" not-null="true" length="16"/>
+    <property name="comment" column="PS_COMMENT" type="text"/>
+    <property name="sentDate" column="PS_SENT_DATE" not-null="true"/>
+  </class>
+</hibernate-mapping>

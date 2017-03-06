@@ -1,0 +1,25 @@
+<mail-templates>
+
+  <variable name="applicationUrl" value="http://localhost:8080/OpenKM/index.jsp" />
+
+  <mail-template name='task-assign'>
+    <actors>#{taskInstance.actorId}</actors>
+    <subject>Task '#{taskInstance.name}' (#{taskInstance.id})</subject>
+    <text><![CDATA[Hi,
+
+Task '#{taskInstance.name}' (related to document #{applicationUrl}?uuid=#{uuid}) has been assigned to you.
+
+Thanks.]]></text>
+  </mail-template>
+
+  <mail-template name='task-reminder'>
+    <actors>#{taskInstance.actorId}</actors>
+    <subject>Task '#{taskInstance.name}' !</subject>
+    <text><![CDATA[Hey,
+
+Don't forget about task #{taskInstance.name} (related to document #{applicationUrl}?uuid=#{uuid}). 
+
+Get going !]]></text>
+  </mail-template>
+
+</mail-templates>

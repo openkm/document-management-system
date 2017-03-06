@@ -1,0 +1,52 @@
+/* Just some base styles not needed for example to function */
+*, html { font-family: Verdana, Arial, Helvetica, sans-serif; }
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: none;
+	padding: 10px 8px;
+}
+
+/* Advanced CSS hover styles */
+ul {
+	overflow: hidden;
+}
+
+ul > li {
+	position: relative;
+	float: left;
+	list-style: none;
+	margin: 0 0;
+	font-size: 8px;
+	z-index: 1;
+}
+
+ul a {
+	text-decoration: none;
+	display: block;
+}
+
+/* IE8 fix, background color appears behind image for unknown reason set negative z-index */
+ul li img {
+	display: block;
+	position: relative;
+	z-index: -1;
+}
+
+/* Reset relative position, as this plays havoc with good browsers */
+ul li:not([class=na]) img {
+	position: static;
+}
+
+ul li.over, ul li.selected {
+	background-color: #b5bad7;
+	display: block;
+	outline: none;
+	-moz-box-shadow: 3px 3px 5px #b5bad7;
+	-webkit-box-shadow: 3px 3px 5px #b5bad7;
+	box-shadow: 3px 3px 5px #b5bad7;
+}

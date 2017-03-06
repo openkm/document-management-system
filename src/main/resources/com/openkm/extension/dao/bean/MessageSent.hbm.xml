@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.MessageSent" table="OKM_MESSAGE_SENT">
+    <id name="id" column="MSS_ID"><generator class="native"/></id>
+    <property name="from" column="MSS_FROM" not-null="true" length="64"/>
+    <property name="to" column="MSS_TO" not-null="true" length="255"/>
+    <property name="user" column="MSS_USER" not-null="true" length="64"/>
+    <property name="subject" column="MSS_SUBJECT" not-null="true"/>
+    <property name="content" column="MSS_CONTENT" type="text"/>
+    <property name="sentDate" column="MSS_SENT_DATE" not-null="true"/>
+  </class>
+</hibernate-mapping>

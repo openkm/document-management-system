@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- 
+  Original: <Context path="/OpenKM" docBase="OpenKM" reloadable="true" crossContext="true" allowLinking="true">
+  Actual: <Context path="/OpenKM" reloadable="false" crossContext="true" allowLinking="true">
+  Reason: http://old.nabble.com/Tomcat-failing-to-process-JAR%27s-within-web-app-td31070894.html
+-->
+<Context path="/OpenKM" reloadable="false" crossContext="true" allowLinking="true">
+
+    <!-- maxActive: Maximum number of dB connections in pool. Make sure you
+         configure your mysqld max_connections large enough to handle
+         all of your db connections. Set to -1 for no limit.
+         -->
+
+    <!-- maxIdle: Maximum number of idle dB connections to retain in pool.
+         Set to -1 for no limit.  See also the DBCP documentation on this
+         and the minEvictableIdleTimeMillis configuration parameter.
+         -->
+
+    <!-- maxWait: Maximum time to wait for a dB connection to become available
+         in ms, in this example 10 seconds. An Exception is thrown if
+         this timeout is exceeded.  Set to -1 to wait indefinitely.
+         -->
+
+    <!-- username and password: MySQL dB username and password for dB connections  -->
+
+    <!-- driverClassName: Class name for the old mm.mysql JDBC driver is
+         org.gjt.mm.mysql.Driver - we recommend using Connector/J though.
+         Class name for the official MySQL Connector/J driver is com.mysql.jdbc.Driver.
+         -->
+    
+    <!-- url: The JDBC connection url for connecting to your MySQL dB.
+         -->
+  <!--
+  <Resource name="jdbc/OpenKMDS" auth="Container" type="javax.sql.DataSource"
+            maxActive="100" maxIdle="30" maxWait="10000"
+            username="sa" password="" driverClassName="org.hsqldb.jdbcDriver"
+            url="jdbc:hsqldb:${catalina.base}/OPENKM"/>
+  -->
+  <!--
+  <Resource name="jdbc/OpenKMDS" auth="Container" type="javax.sql.DataSource"
+            maxActive="100" maxIdle="30" maxWait="10000"
+            username="openkm" password="openkm" driverClassName="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/okm_app?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"/>
+  -->
+  <!--
+  <Resource name="jdbc/OpenKMDS" auth="Container" type="javax.sql.DataSource"
+            maxActive="100" maxIdle="30" maxWait="10000"
+            username="okm60" password="okm60" driverClassName="oracle.jdbc.driver.OracleDriver"
+            url="jdbc:oracle:thin:@localhost:1521:XE"/>
+  -->
+  <!--      
+  <Resource name="mail/OpenKM" auth="Container" type="javax.mail.Session"
+            mail.smtp.host="localhost" mail.from="testing@openkm.com"/>
+  -->
+  <!--
+  <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+         resourceName="UserDatabase"/>
+  -->
+  <!--
+  <Realm className="org.apache.catalina.realm.JAASRealm" 
+         appName="OpenKM" 
+         userClassNames="com.openkm.jaas.User" 
+         roleClassNames="com.openkm.jaas.Role" debug="true" />
+  -->
+</Context>

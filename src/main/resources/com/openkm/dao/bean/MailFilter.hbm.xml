@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.MailFilter" table="OKM_MAIL_FILTER">
+    <id name="id" column="MF_ID"><generator class="native"/></id>
+    <property name="path" column="MF_PATH" not-null="true" type="text"/>
+    <property name="node" column="MF_NODE" not-null="true" length="64"/>
+    <property name="grouping" column="MF_GROUPING" not-null="true"/>
+    <property name="active" column="MF_ACTIVE" type="true_false" not-null="true"/>
+    <set name="filterRules" table="OKM_MAIL_FILTER_RULE" order-by="MFR_ID asc" cascade="all-delete-orphan" lazy="false">
+      <key column="MFR_MAIL_FILTER" not-null="true"/>
+      <one-to-many class="com.openkm.dao.bean.MailFilterRule"/>
+    </set>
+  </class>
+</hibernate-mapping>

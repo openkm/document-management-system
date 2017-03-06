@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.MessageReceived" table="OKM_MESSAGE_RECEIVED">
+    <id name="id" column="MSR_ID"><generator class="native"/></id>
+    <property name="from" column="MSR_FROM" not-null="true" length="64"/>
+    <property name="to" column="MSR_TO" not-null="true" length="255"/>
+    <property name="user" column="MSR_USER" not-null="true" length="64"/>
+    <property name="subject" column="MSR_SUBJECT" not-null="true"/>
+    <property name="content" column="MSR_CONTENT" type="text"/>
+    <property name="sentDate" column="MSR_SENT_DATE" not-null="true"/>
+    <property name="seenDate" column="MSR_SEEN_DATE"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT workflow-forms (workflow-form+)>
+
+<!ELEMENT workflow-form (input|textarea|select|button)*>
+<!ATTLIST workflow-form
+	task CDATA #REQUIRED
+>
+
+<!ELEMENT input EMPTY>
+<!ATTLIST input
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT textarea EMPTY>
+<!ATTLIST textarea 
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT select (option+)>
+<!ATTLIST select
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (simple) "simple"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	label CDATA #REQUIRED
+	value CDATA #REQUIRED
+	selected (true|false) "false"
+>
+
+<!ELEMENT button EMPTY>
+<!ATTLIST button
+	label CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type (submit|transition) "submit"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>

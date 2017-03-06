@@ -1,0 +1,35 @@
+<jbpm-configuration>
+
+  <!-- 
+    The default configurations can be found in org/jbpm/default.jbpm.cfg.xml 
+    Those configurations can be overwritten by putting this file called 
+    jbpm.cfg.xml on the root of the classpath and put in the customized values.
+  -->
+  <jbpm-context>
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="persistence" factory="org.jbpm.persistence.db.DbPersistenceServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+  </jbpm-context>
+  
+  <string name="resource.mail.templates" value="jbpm.mail.templates.xml"/>
+  <string name="jbpm.mail.from.address" value="noreply@openkm.com" />
+  <string name="jbpm.mail.smtp.host" value="localhost" />
+  <string name="jbpm.mail.debug" value="true" />
+  <!--
+  <string name="jbpm.mail.smtp.ssl" value="false" />
+  <string name="jbpm.mail.smtp.port" value="25" />
+  <string name="jbpm.mail.smtp.user" value="openkm@nosuchdomain.com" />
+  <string name="jbpm.mail.smtp.pwd" value="somepassword" />
+  <string name="jbpm.mail.smtp.pass" value="somepassword" />
+  <string name="jbpm.mail.smtp.password" value="somepassword" />
+  <string name="jbpm.mail.smtp.auth" value="true" />
+  <string name="jbpm.mail.smtp.starttls.enable" value="false" />
+  <string name="jbpm.mail.debug" value="true" />
+  -->
+    
+  <bean name="jbpm.mail.address.resolver" class="com.openkm.workflow.AddressResolver" singleton="true"/>
+  
+</jbpm-configuration>

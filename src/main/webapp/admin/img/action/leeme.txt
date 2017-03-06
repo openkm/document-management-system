@@ -1,0 +1,2 @@
+Imagen -> Modo -> Escala de grises
+Herramientas -> Herramientas de color -> Brillo-Contraste: Brillo al máximo (127)

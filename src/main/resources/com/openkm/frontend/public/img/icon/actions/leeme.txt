@@ -1,0 +1,4 @@
+Imagen -> Modo -> Escala de grises
+Herramientas -> Herramientas de color -> Brillo-Contraste: Brillo al máximo (127)
+
+Nota: Si queda muy claro poner brillo a 95.

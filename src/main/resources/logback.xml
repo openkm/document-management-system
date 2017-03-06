@@ -1,0 +1,46 @@
+<configuration scan="true">
+
+  <jmxConfigurator/>
+  <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+  <!-- To define where the log files will be saved -->
+  <property name="LOG_PATH" value="${catalina.home}/logs"/>
+
+  <!--
+    Insert the current time formatted as "yyyyMMdd'T'HHmmss" under the key
+    "bySecond" into the logger context. This value will be available to
+    all subsequent configuration elements.
+  -->
+  <!-- timestamp key="bySecond" datePattern="yyyyMMdd'_'HHmmss" /-->
+  <timestamp key="bySecond" datePattern="yyyy-MM-dd"/>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!--
+      encoders are assigned the type
+      ch.qos.logback.classic.encoder.PatternLayoutEncoder by default
+    -->
+    <encoder>
+      <pattern>%d [%8t] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_PATH}/openkm.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_PATH}/openkm_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <!-- Number of files to keep -->
+      <maxHistory>30</maxHistory>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- or whenever the file size reaches 10MB -->
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>%d [%8t] [%X{username}] %-5level %logger{36} - %msg%n</pattern>
+    </layout>
+  </appender>
+
+  <include file="${catalina.home}/logback.xml"/>
+
+</configuration>

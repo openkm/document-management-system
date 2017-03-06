@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.openkm.extension.dao.bean.Forum" table="OKM_FORUM">
+   <id name="id" column="FRM_ID"><generator class="native"/></id>
+   <property name="name" column="FRM_NAME" not-null="true" length="255"/>
+   <property name="description" column="FRM_DESCRIPTION" not-null="true" type="text"/>
+   <property name="date" column="FRM_DATE" not-null="true"/>
+   <property name="lastPostUser" column="FRM_LAST_POST_USER" not-null="true" length="64"/>
+   <property name="lastPostDate" column="FRM_LAST_POST_DATE" not-null="true"/>
+   <property name="numTopics" column="FRM_NUM_TOPICS" not-null="true"/>
+   <property name="numPosts" column="FRM_NUM_POSTS" not-null="true"/>
+   <property name="active" column="FRM_ACTIVE" type="true_false" not-null="true"/>
+   <set name="topics" table="OKM_FORUM_TOPIC" order-by="FTP_ID asc" cascade="all-delete-orphan" lazy="false">
+     <key column="FTP_FORUM" not-null="true"/>
+     <one-to-many class="com.openkm.extension.dao.bean.ForumTopic"/>
+   </set>
+ </class>
+</hibernate-mapping>

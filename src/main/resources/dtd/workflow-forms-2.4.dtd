@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT workflow-forms (workflow-form+)>
+
+<!ELEMENT workflow-form (input | suggestbox | upload | download | print | checkbox | textarea | select | button | separator | text)*>
+<!ATTLIST workflow-form
+	task CDATA #REQUIRED
+>
+
+<!ELEMENT input (validator*)>
+<!ATTLIST input
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	data CDATA #IMPLIED
+	type (text | date | link | folder) "text"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true | false) "false"
+>
+
+<!ELEMENT suggestbox (validator*)>
+<!ATTLIST suggestbox
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true | false) "false"
+	table CDATA #IMPLIED
+	filterQuery CDATA #REQUIRED
+	valueQuery CDATA #REQUIRED
+	dialogTitle CDATA #REQUIRED
+	filterMinLen CDATA #IMPLIED
+>
+
+<!ELEMENT upload (validator*)>
+<!ATTLIST upload
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	folderPath CDATA #IMPLIED
+	folderUuid CDATA #IMPLIED
+	documentName CDATA #IMPLIED
+	documentUuid CDATA #IMPLIED
+	type (create | update) "create"
+	data CDATA #IMPLIED
+>
+
+<!ELEMENT download (node+, validator*)>
+<!ATTLIST download
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	data CDATA #IMPLIED
+>
+
+<!ELEMENT print (node+, validator*)>
+<!ATTLIST print
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	data CDATA #IMPLIED
+>
+
+<!ELEMENT node EMPTY>
+<!ATTLIST node
+	label CDATA #REQUIRED
+	path CDATA #IMPLIED
+	uuid CDATA #IMPLIED
+>
+
+<!ELEMENT checkbox (validator*)>
+<!ATTLIST checkbox
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value (true | false) "false"
+	data CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true | false) "false"
+>
+
+<!ELEMENT textarea (validator*)>
+<!ATTLIST textarea 
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	data CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	readonly (true | false) "false"
+>
+
+<!ELEMENT select (option*, validator*)>
+<!ATTLIST select
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (simple | multiple) "simple"
+	data CDATA #IMPLIED
+	optionsData CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+	table CDATA #IMPLIED
+	optionsQuery CDATA #IMPLIED
+	readonly (true | false) "false"
+>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	label CDATA #REQUIRED
+	value CDATA #REQUIRED
+	selected (true | false) "false"
+>
+
+<!ELEMENT validator EMPTY>
+<!ATTLIST validator
+	type (req | alpha | dec | num | email | url | maxlen | minlen | lt | gt | min | max | regexp) "req"
+	parameter CDATA #IMPLIED
+>
+
+<!ELEMENT button EMPTY>
+<!ATTLIST button
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	transition CDATA #IMPLIED
+	confirmation CDATA #IMPLIED
+	validate (true | false) "true"
+	style (yes | no | add | delete | download | downloadZip | home | view | change | compact | clean | search | save | comment) "yes"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT separator EMPTY>
+<!ATTLIST separator
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	width CDATA #IMPLIED
+>
+
+<!ELEMENT text EMPTY>
+<!ATTLIST text
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	data CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>

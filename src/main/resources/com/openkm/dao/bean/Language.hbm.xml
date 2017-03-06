@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.Language" table="OKM_LANGUAGE">
+    <cache usage="nonstrict-read-write"/>
+    <id name="id" column="LG_ID" length="8"><generator class="assigned"/></id>
+    <property name="name" column="LG_NAME" length="64" not-null="true"/>
+    <property name="imageContent" column="LG_IMAGE_CONTENT" type="text" not-null="true"/>
+    <property name="imageMime" column="LG_IMAGE_MIME" length="64" not-null="true"/>
+    <!-- http://docs.jboss.org/hibernate/core/3.3/reference/en/html/associations.html#assoc-bidirectional -->
+    <set name="translations" table="OKM_TRANSLATION" order-by="TR_KEY asc" inverse="true" cascade="all-delete-orphan" lazy="false">
+      <cache usage="nonstrict-read-write"/>
+      <key column="TR_LANGUAGE"/>
+      <one-to-many class="com.openkm.dao.bean.Translation"/>
+    </set>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.CronTab" table="OKM_CRON_TAB">
+    <id name="id" column="CT_ID"><generator class="native"/></id>
+    <property name="name" column="CT_NAME" not-null="true"/>
+    <property name="expression" column="CT_EXPRESSION" not-null="true"/>
+    <property name="fileContent" column="CT_FILE_CONTENT" type="text" not-null="true"/>
+    <property name="fileName" column="CT_FILE_NAME" not-null="true"/>
+    <property name="fileMime" column="CT_FILE_MIME" not-null="true"/>
+    <property name="mail" column="CT_MAIL" not-null="true"/>
+    <property name="active" column="CT_ACTIVE" type="true_false" not-null="true"/>
+    <property name="lastBegin" column="CT_LAST_BEGIN"/>
+    <property name="lastEnd" column="CT_LAST_END"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.dao.bean.QueryParams" table="OKM_QUERY_PARAMS">
+    <id name="id" column="QP_ID"><generator class="native"/></id>
+    <property name="queryName" column="QP_QUERY_NAME" not-null="true"/>
+    <property name="user" column="QP_USER" not-null="true" length="64"/>
+    <property name="name" column="QP_NAME"/>
+    <property name="content" column="QP_CONTENT"/>
+    <property name="mimeType" column="QP_MIME_TYPE"/>
+    <property name="author" column="QP_AUTHOR"/>
+    <property name="path" column="QP_PATH"/>
+    <property name="dashboard" type="true_false" column="QP_DASHBOARD"/>
+    <property name="lastModifiedFrom" column="QP_LAST_MODIFIED_FROM"/>
+    <property name="lastModifiedTo" column="QP_LAST_MODIFIED_TO"/>
+    <property name="mailSubject" column="QP_MAIL_SUBJECT"/>
+    <property name="mailFrom" column="QP_MAIL_FROM"/>
+	<property name="mailTo" column="QP_MAIL_TO"/>
+    <property name="statementQuery" column="QP_STATEMENT_QUERY" type="text"/>
+    <property name="statementType" column="QP_STATEMENT_TYPE"/>
+    <set name="keywords" table="OKM_QUERY_PARAMS_KEYWORD" lazy="false">
+      <key column="QPK_ID" not-null="true"/>
+      <element column="QPK_NAME" type="string"/>
+    </set>
+    <set name="categories" table="OKM_QUERY_PARAMS_CATEGORY" lazy="false">
+      <key column="QPC_ID" not-null="true"/>
+      <element column="QPC_NAME" type="string"/>
+    </set>
+    <map name="properties" table="OKM_QUERY_PARAMS_PROPERTY" lazy="false">
+      <key column="QPP_ID" not-null="true"/>
+      <index column="QPP_NAME" type="string"/>
+      <element column="QPP_VALUE" type="string"/>
+    </map>
+    <set name="shared" table="OKM_QUERY_PARAMS_SHARED" lazy="false">
+      <key column="QPS_ID" not-null="true"/>
+      <element column="QPS_USER" type="string"/>
+    </set>
+    <set name="proposedSent" table="OKM_PROP_QUERY_SENT" order-by="PQS_ID asc" cascade="all-delete-orphan" lazy="false">
+      <key column="PQS_QUERY"/>
+      <one-to-many class="com.openkm.extension.dao.bean.ProposedQuerySent"/>
+    </set>
+    <set name="proposedReceived" table="OKM_PROP_QUERY_RECEIVED" order-by="PQR_ID asc" cascade="all-delete-orphan" lazy="false">
+      <key column="PQR_QUERY"/>
+      <one-to-many class="com.openkm.extension.dao.bean.ProposedQueryReceived"/>
+    </set>
+  </class>
+</hibernate-mapping>

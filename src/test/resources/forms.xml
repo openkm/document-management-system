@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow-forms PUBLIC "-//OpenKM//DTD Workflow Forms 2.1//EN"
+                                "http://www.openkm.com/dtd/workflow-forms-2.1.dtd">
+<workflow-forms>
+  <workflow-form task="start">
+  	<input label="Quantity" name="quantity" value="10"/>
+  	<button name="save" label="Save" />
+  </workflow-form>
+  <workflow-form task="user_info">
+    <input label="Name" type="text" name="name" value="John" />
+    <input label="Surname" type="text" name="surname" value="Doe" />
+    <textarea label="Info" name="info" value=""/>
+    <select label="Type" name="type" type="simple">
+      <option label="Type 1" value="t1" />
+      <option label="Type 2" value="t2" selected="true" />
+      <option label="Type 3" value="t3" />
+    </select>
+    <button name="goto_1" label="Goto 1" transition="route 1" />
+    <button name="goto_2" label="Goto 2" transition="route 2" />
+  </workflow-form>
+  <workflow-form task="download">
+    <download name="download" label="Download">
+      <node label="Document" path="/okm:root/test.txt"/>
+    </download>
+    <button name="next" label="Next"/>
+  </workflow-form>
+</workflow-forms>

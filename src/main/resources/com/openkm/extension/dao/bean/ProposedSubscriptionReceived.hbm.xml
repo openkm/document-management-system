@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.openkm.extension.dao.bean.ProposedSubscriptionReceived" table="OKM_PROP_SUB_RECEIVED">
+    <id name="id" column="PSR_ID"><generator class="native"/></id>
+    <property name="from" column="PSR_FROM" not-null="true" length="64"/>
+    <property name="to" column="PSR_TO" not-null="true" length="64"/>
+    <property name="user" column="PSR_USER" not-null="true" length="64"/>
+    <property name="node" column="PSR_NODE" not-null="true" length="64"/>
+    <property name="type" column="PSR_TYPE" not-null="true" length="16"/>
+    <property name="comment" column="PSR_COMMENT" type="text"/>
+    <property name="accepted" column="PSR_ACCEPTED" type="true_false" not-null="true"/>
+    <property name="sentDate" column="PSR_SENT_DATE" not-null="true"/>
+    <property name="seenDate" column="PSR_SEEN_DATE"/>
+  </class>
+</hibernate-mapping>

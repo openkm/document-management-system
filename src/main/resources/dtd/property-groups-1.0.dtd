@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT property-groups (property-group+)>
+
+<!ELEMENT property-group (input|textarea|select)*>
+<!ATTLIST property-group
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+
+<!ELEMENT input EMPTY>
+<!ATTLIST input
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT textarea EMPTY>
+<!ATTLIST textarea 
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT select (option+)>
+<!ATTLIST select
+	label CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type (simple|multiple) "simple"
+	width CDATA #IMPLIED
+	height CDATA #IMPLIED
+>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	label CDATA #REQUIRED
+	value CDATA #REQUIRED
+	selected (true|false) "false"
+>
