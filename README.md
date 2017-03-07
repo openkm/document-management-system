@@ -1,9 +1,9 @@
 # Open Source Document Management System
-OpenKM Community Edition is an Open Source Document Management System. If you are looking for a free cost then "Community" is your best option. OpenKM document management system (DMS) allows businesses to control the production, storage, management and distribution of electronic documents, yielding greater effectiveness and the ability to reuse information and to control the flow of the documents.
+OpenKM Community Edition is an [Open Source Document Management System](https://www.openkm.com/en/open-source-document-management-system.html). If you are looking for a free cost then "Community" is your best option. OpenKM [document management system (DMS)](https://www.openkm.com/en/document-management.html) allows businesses to control the production, storage, management and distribution of electronic documents, yielding greater effectiveness and the ability to reuse information and to control the flow of the documents.
 
 OpenKM integrates all essential documents management, collaboration and an advanced search functionality into one easy to use solution. The system also includes administration tools to define the roles of various users, access control, user quota, level of document security, detailed logs of activity and automations setup.
 
-OpenKM builds a highly valuable repository of corporate information assets to facilitate knowledge creation and improve business decision making, boosting workgroups and enterprise productivity through shared practices, greater, better customer relations, faster sales cycles, improved product time-to-market, and better-informed decision making.
+OpenKM builds a highly valuable repository of corporate information assets to facilitate [knowledge](https://www.openkm.com/en/knowledge-management-system.html) creation and improve business decision making, boosting workgroups and enterprise productivity through shared practices, greater, better customer relations, faster sales cycles, improved product time-to-market, and better-informed decision making.
 
 With OpenKM Open Source Community Edition you can:
  * Collect information from any digital source.
@@ -36,5 +36,5 @@ OpenKM Open Source Community Edition is supported by developers and technical en
  * Please provide as much detailed information as possible with the issue report. We need to know the version of OpenKM, Operating System, browser and whatever you think might help us to understand the problem or question.
 
 ## License
-OpenKM Document Management System Community Edition is available to Open Source community under the [GNU General Public Licence version 2](https://www.gnu.org/licenses/gpl-2.0.html).
+[OpenKM Document Management System Community Edition](https://www.openkm.com/en/open-source-document-management-system.html) is available to Open Source community under the [GNU General Public Licence version 2](https://www.gnu.org/licenses/gpl-2.0.html).
 The OpenKM source code is available for the entire community, which is free to use, modify and redistribute under the premises of such license.
