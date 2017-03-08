@@ -11,6 +11,11 @@ With OpenKM Open Source Community Edition you can:
  * Empower organizations to capitalize on accumulated knowledge by locating documents, experts, and information sources.
  * Embedded workflow engine to take control of your business case.
  * Automate task.
+ 
+## Installing binaries
+You can install OpenKM binaries from [sourceforge](https://sourceforge.net/projects/openkm/) there you have avaiable:
+ * OpenKM-${Version}-tomcat-bundle.zip what contains Tomcat plus OpenKM.war with all configuration files needed to get it running.
+ * OpenKM-${Version}-community.zip what contains only the OpenKM.war application without Tomcat and configuration files needed to get it running.
 
 ## Building from Source
 ```sh
