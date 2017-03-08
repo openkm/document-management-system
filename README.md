@@ -13,8 +13,8 @@ With OpenKM Open Source Community Edition you can:
  * Automate task.
  
 ## Installing binaries
-You can install OpenKM binaries from [sourceforge](https://sourceforge.net/projects/openkm/) there you have avaiable:
- * OpenKM-${Version}-tomcat-bundle.zip what contains Tomcat plus OpenKM.war with all configuration files needed to get it running.
+You can install OpenKM binaries from [sourceforge](https://sourceforge.net/projects/openkm/):
+ * OpenKM-${Version}-community-tomcat-bundle.zip what contains Tomcat plus OpenKM.war with all configuration files needed to get it running.
  * OpenKM-${Version}-community.zip what contains only the OpenKM.war application without Tomcat and configuration files needed to get it running.
 
 ## Building from Source
