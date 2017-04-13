@@ -14,8 +14,8 @@ With OpenKM Open Source Community Edition you can:
  
 ## Installing binaries
 You can install OpenKM binaries from [sourceforge](https://sourceforge.net/projects/openkm/):
- * OpenKM-${Version}-community-tomcat-bundle.zip what contains Tomcat plus OpenKM.war with all configuration files needed to get it running.
- * OpenKM-${Version}-community.zip what contains only the OpenKM.war application without Tomcat and configuration files needed to get it running.
+ * OKMInstaller.jar the installer assistant for full OpenKM configuration. Read information about how [using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html).
+ * OpenKM-${Version}.zip what contains only the OpenKM.war application without Tomcat and configuration files needed to get it running.
 
 ## Building from Source
 ```sh
@@ -28,6 +28,7 @@ $ mvn clean package
  * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
  * [Hardware and software requirements](https://docs.openkm.com/kcenter/view/okm-6.3-com/hardware-and-software-requirements.html)
  * [Installation](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
+ * [Using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html)
  * [Troubleshooting](https://docs.openkm.com/kcenter/view/okm-6.3-com/troubleshooting.html)
  * [Administration guide](https://docs.openkm.com/kcenter/view/okm-6.3-com/administration-guide.html)
  * [User guide](https://docs.openkm.com/kcenter/view/okm-6.3-com/user-guide.html)
