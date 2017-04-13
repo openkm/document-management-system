@@ -13,9 +13,25 @@ With OpenKM Open Source Community Edition you can:
  * Automate task.
  
 ## Installing binaries
-You can install OpenKM binaries from [sourceforge](https://sourceforge.net/projects/openkm/):
- * OpenKM-${Version}-community-tomcat-bundle.zip what contains Tomcat plus OpenKM.war with all configuration files needed to get it running.
- * OpenKM-${Version}-community.zip what contains only the OpenKM.war application without Tomcat and configuration files needed to get it running.
+You can install OpenKM binaries from [SourceForge](https://sourceforge.net/projects/openkm/):
+ * **OKMInstaller.jar**: The OpenKM installer assistant. Usage information at [using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html).
+ * **OpenKM-${Version}.zip**: Which just contains the OpenKM.war application without Tomcat and configuration
+ files needed to get it running.
+ 
+## Installation wizard videos
+### Linux
+This video shows step by step the installation process of OpenKM Community version in Linux.
+
+[![Community version installation in Linux](https://img.youtube.com/vi/WJrkD2BdAJo/0.jpg)](https://www.youtube.com/watch?v=WJrkD2BdAJo "Community version installation in Linux")
+
+[Spanish version](https://www.youtube.com/watch?v=2_CMEpHkwqA)
+
+### Windows
+This video shows step by step the installation process of OpenKM Community version in Windows.
+
+[![Community installation process in Windows](https://img.youtube.com/vi/7C40UMajJ0k/0.jpg)](https://www.youtube.com/watch?v=7C40UMajJ0k "Community installation process in Windows")
+
+[Spanish version](https://www.youtube.com/watch?v=6F7Hany7BMc)
 
 ## Building from Source
 ```sh
@@ -28,6 +44,7 @@ $ mvn clean package
  * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
  * [Hardware and software requirements](https://docs.openkm.com/kcenter/view/okm-6.3-com/hardware-and-software-requirements.html)
  * [Installation](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
+ * [Using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html)
  * [Troubleshooting](https://docs.openkm.com/kcenter/view/okm-6.3-com/troubleshooting.html)
  * [Administration guide](https://docs.openkm.com/kcenter/view/okm-6.3-com/administration-guide.html)
  * [User guide](https://docs.openkm.com/kcenter/view/okm-6.3-com/user-guide.html)
