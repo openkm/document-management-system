@@ -347,6 +347,10 @@
     <servlet-name>MailPreviewServlet</servlet-name>
     <servlet-class>com.openkm.servlet.MailPreviewServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RssServlet</servlet-name>
+    <servlet-class>com.openkm.servlet.RssServlet</servlet-class>
+  </servlet>
   
   <!-- Admin servlets -->
   <servlet>
@@ -784,6 +788,10 @@
   <servlet-mapping>
     <servlet-name>MailPreviewServlet</servlet-name>
     <url-pattern>/MailPreview</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RssServlet</servlet-name>
+    <url-pattern>/Rss</url-pattern>
   </servlet-mapping>
   
   <!-- Admin Servlet Mappings -->

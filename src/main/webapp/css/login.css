@@ -3172,3 +3172,65 @@ only screen and (min-device-pixel-ratio: 1.5) {
     /* If you used a CSS img background, you can put your high resolution here */
 
 }
+
+/*
+=================================================================
+OpenKM
+=================================================================
+*/
+.openkm-news {
+	width:200px; 
+	position:fixed; 
+	top:0px; 
+	left:0px; 
+	z-index:1;
+}
+
+.openkm-version {
+	padding: 5px 20px; 
+	color: #404040; 
+	font-weight: bold; 
+	background:#fed400;
+}
+
+.openkm-sticker {
+	position:absolute; 
+	top: 5px; 
+	right: 5px; 
+	z-index:2;
+}
+
+.openkm-sticker img {
+	padding: 0px 5px;
+}
+
+.vticket-border-right {
+	border-right: 1px solid #394263;
+}
+
+.vticker {
+    border-left: 1px solid #394263;
+    border-right: 1px solid #394263;
+    border-bottom: 1px solid #394263;
+    background: white;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    border-bottom-right-radius: 10px;
+}
+
+.vticker ul{
+    padding: 0;
+}
+
+.vticker li{
+    list-style: none;
+    border-bottom: 1px solid green;
+    padding: 10px;
+}
+
+.vticker h4 {
+	color: #0885bd;
+	font-weight: bold;
+}
+}
