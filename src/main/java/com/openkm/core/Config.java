@@ -21,6 +21,20 @@
 
 package com.openkm.core;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.*;
+import java.util.Map.Entry;
+
+import javax.servlet.ServletContext;
+
+import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openkm.bean.ConfigStoredFile;
 import com.openkm.dao.ConfigDAO;
 import com.openkm.dao.SearchDAO;
@@ -32,21 +46,6 @@ import com.openkm.util.EnvironmentDetector;
 import com.openkm.util.FormatUtil;
 import com.openkm.validator.password.NoPasswordValidator;
 import com.openkm.vernum.MajorMinorVersionNumerationAdapter;
-import org.apache.lucene.util.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.TreeMap;
 
 public class Config {
 	private static Logger log = LoggerFactory.getLogger(Config.class);
@@ -344,6 +343,12 @@ public class Config {
 	public static final String PROPERTY_UNIT_TESTING_PASSWORD = "unit.testing.password";
 	public static final String PROPERTY_UNIT_TESTING_FOLDER = "unit.testing.folder";
 
+	// Rss news
+	public static String PROPERTY_RSS_NEWS = "rss.news";
+	public static String PROPERTY_RSS_NEWS_BOX_WIDTH = "rss.news.box.width";
+	public static String PROPERTY_RSS_NEWS_MAX_SIZE = "rss.news.max.size";
+	public static String PROPERTY_RSS_NEWS_VISIBLE = "rss.news.visible";
+
 	/**
 	 * Default values
 	 */
@@ -629,6 +634,12 @@ public class Config {
 	public static String UNIT_TESTING_USER = "okmAdmin";
 	public static String UNIT_TESTING_PASSWORD = "admin";
 	public static String UNIT_TESTING_FOLDER = "/okm:root/okmTesting";
+
+	// OpenKM RSS news
+	public static boolean RSS_NEWS = true;
+	public static int RSS_NEWS_BOX_WIDTH = 300;
+	public static int RSS_NEWS_MAX_SIZE = 10;
+	public static int RSS_NEWS_VISIBLE = 1;
 
 	// Misc
 	public static int SESSION_EXPIRATION = 1800; // 30 mins (session.getMaxInactiveInterval())
@@ -1171,6 +1182,12 @@ public class Config {
 			// Extended security
 			SECURITY_EXTENDED_MASK = ConfigDAO.getInteger(PROPERTY_SECURITY_EXTENDED_MASK, Integer.valueOf(cfg.getProperty(PROPERTY_SECURITY_EXTENDED_MASK, String.valueOf(SECURITY_EXTENDED_MASK))));
 			values.put(PROPERTY_SECURITY_EXTENDED_MASK, Integer.toString(SECURITY_EXTENDED_MASK));
+
+			// Rss news
+			RSS_NEWS = ConfigDAO.getBoolean(PROPERTY_RSS_NEWS, RSS_NEWS);
+			RSS_NEWS_BOX_WIDTH = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_BOX_WIDTH, RSS_NEWS_BOX_WIDTH);
+			RSS_NEWS_MAX_SIZE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_MAX_SIZE, RSS_NEWS_MAX_SIZE);
+			RSS_NEWS_VISIBLE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_VISIBLE, RSS_NEWS_VISIBLE);
 
 			for (Entry<String, String> entry : values.entrySet()) {
 				log.info("RELOAD - {}={}", entry.getKey(), entry.getValue());
