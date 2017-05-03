@@ -15,7 +15,113 @@
   <link rel="Shortcut icon" href="<%=request.getContextPath() %>/logo/favicon" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css?v=%{TIMESTAMP}%" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css?v=%{TIMESTAMP}%" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css?v=%{TIMESTAMP}%" type="text/css" />  
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css?v=%{TIMESTAMP}%" type="text/css" />
+  <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.easy-ticker.min.js"></script>
+  
+  <% if (Config.RSS_NEWS) { %>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // Always show sticker when rss is enabled
+        var loaded = false;
+        $('#stickerController').show();
+
+        // Change div style when sticker is enabled
+        $('#openkmNews').width('<%=Config.RSS_NEWS_BOX_WIDTH %>px');
+        $('#feedContainer').width('<%=Config.RSS_NEWS_BOX_WIDTH %>px');
+        $('#openkmVersion').addClass("vticket-border-right");
+
+        $('#stop').on({
+          'click': function () {
+            var src = ($('#stopImg').attr('src') === 'img/stop.png')
+              ? 'img/pause.png'
+              : 'img/stop.png';
+            $('#stopImg').attr('src', src);
+          }
+        });
+
+        $('#eye').on({
+          'click': function () {
+            if ($('#eyeImg').attr('src') === 'img/eye.png') {
+              localStorage.setItem('openkmNews', 'hide');
+              $('#eyeImg').attr('src', 'img/eye-disabled.png');
+              $('#feedContainer').hide();
+              $('#stop').hide();
+              $('#forward').hide();
+              $('#backward').hide();
+            } else {
+              localStorage.setItem('openkmNews', 'show');
+              $('#eyeImg').attr('src', 'img/eye.png');
+              $('#feedContainer').show();
+              $('#stop').show();
+              $('#forward').show();
+              $('#backward').show();
+              loadRss();
+            }
+          }
+        });
+
+        if (localStorage.getItem('openkmNews') == 'hide') {
+          $('#eyeImg').attr('src', 'img/eye-disabled.png');
+          $('#feedContainer').hide();
+          $('#stop').hide();
+          $('#forward').hide();
+          $('#backward').hide();
+        } else {
+          $('#feedContainer').show();
+          loadRss();
+        }
+
+        function loadRss() {
+          // Rss must be loaded only one time, because easyTicket can not be executed twice
+          if (!loaded) {
+            loaded = true;
+            $.get("Rss", function (data) {
+              // Clean sticker
+              $('#feedContainer').empty();
+
+              // Parse xml
+              var html = '<ul>';
+              $(data).find('item').each(function () {
+                var $item = $(this);
+                var title = $item.find('title').text();
+                var link = $item.find('link').text();
+                var description = $item.find('description').text();
+                var pubDate = $item.find('pubDate').text();
+
+                html += "<li>";
+                html += "<h4>" + title + "</h4>";
+                html += "<em>" + pubDate + "</em>";
+                html += "<p>" + description + "</p>";
+                html += "<div align=\"right\"><a href=\"" + link + "\" target=\"_blank\" style=\"cursor:hand !important;\">Read More</a></div>";
+                html += "</li>";
+              });
+              html += '</ul>';
+
+              // Set html
+              $('#feedContainer').append(html);
+
+              // Load sticker
+              $('#feedContainer').easyTicker({
+                direction: 'up',
+                easing: 'swing',
+                speed: 'slow',
+                interval: 5000,
+                height: 'auto',
+                visible: <%=Config.RSS_NEWS_VISIBLE %>,
+                mousePause: 1,
+                controls: {
+                  up: '#forward',
+                  down: '#backward',
+                  toggle: '#stop'
+                }
+              });
+            });
+          }
+        }
+      });
+    </script>
+  <% } %>
   <%
     Locale locale = request.getLocale();
     Cookie[] cookies = request.getCookies();
@@ -36,9 +142,19 @@
   <title><%=Config.TEXT_TITLE%></title>
 </head>
 <body onload="document.forms[0].elements[0].focus()">
-  <div class="openkm-version" style="padding: 5px 20px; color: #404040; font-wight:bold; background:#fed400; width:200px; position:fixed; top:0px; left:0px; z-index:1;">
-    <strong>Community Version</strong>
+  <div id="openkmNews" class="openkm-news">
+    <div id="openkmVersion" class="openkm-version">
+      <strong>Community Version</strong>
+      <div id="stickerController" class="openkm-sticker" style="display:none;">
+        <a href="#" id="backward" style="cursor:hand !important;"><img src="img/backward.png" alt="Backward" title="Backward" /></a>
+        <a href="#" id="stop" style="cursor:hand !important;"><img id="stopImg" src="img/stop.png" alt="Stop" title="Stop"/></a>
+        <a href="#" id="forward" style="cursor:hand !important;"><img src="img/forward.png" alt="Forward" title="Forward" /></a>
+        <a href="#" id="eye" style="cursor:hand !important;"><img id="eyeImg" src="img/eye.png" alt="Show / hide news" title="Show / hide news" /></a>
+      </div>
+    </div>
+    <div style="display:none;" id="feedContainer" class="vticker"></div>
   </div>
+  
   <div id="login-background" class="background-zen">
     <div id="col-xs-12" class="hidden-xs hidden-sm hidden-md" style="height:100%;">
       <div class="background-zen" style="height:100%;"></div>

@@ -21,6 +21,9 @@
 
 package com.openkm.frontend.client.widget.properties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
@@ -30,9 +33,6 @@ import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.constants.service.RPCService;
 import com.openkm.frontend.client.extension.widget.preview.PreviewExtension;
 import com.openkm.frontend.client.util.Util;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Notes
@@ -171,9 +171,9 @@ public class Preview extends Composite {
 
 				if (Main.get().workspaceUserProperties.getWorkspace().getPreviewer().equals("flexpaper")) {
 					if (Main.get().workspaceUserProperties.getWorkspace().isPrintPreview()) {
-						Util.createPDFViewerFlexPaper(url, "" + width, "" + height, "true");
+						Util.createPDFViewerFlexPaper(url, "" + width, "" + height);
 					} else {
-						Util.createPDFViewerFlexPaper(url, "" + width, "" + height, "false");
+						Util.createPDFViewerFlexPaper(url, "" + width, "" + height);
 					}
 				}
 

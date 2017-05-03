@@ -17,7 +17,7 @@ You can install OpenKM binaries from [SourceForge](https://sourceforge.net/proje
  * **OKMInstaller.jar**: The OpenKM installer assistant. Usage information at [using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html).
  * **OpenKM-${Version}.zip**: Which just contains the OpenKM.war application without Tomcat and configuration
  files needed to get it running.
- 
+
 ## Installation wizard videos
 ### Linux
 This video shows step by step the installation process of OpenKM Community version in Linux.
