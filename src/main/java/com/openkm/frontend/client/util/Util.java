@@ -21,6 +21,9 @@
 
 package com.openkm.frontend.client.util;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.http.client.URL;
@@ -32,9 +35,6 @@ import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.constants.service.RPCService;
 import com.openkm.frontend.client.service.OKMGeneralService;
 import com.openkm.frontend.client.service.OKMGeneralServiceAsync;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Util
@@ -567,47 +567,39 @@ public class Util {
         obj.height = height;
     }-*/;
 
-	public static native void createPDFViewerFlexPaper(String pdfUrl, String width, String height, String printEnabled) /*-{
-        if (printEnabled == 'true') {
-            fpViewer = "../js/flexpaper/FlexPaperViewer.swf";
-        } else {
-            fpViewer = "../js/flexpaper/FlexPaperViewerRO.swf";
-        }
-
-        pdfUrl = encodeURIComponent(pdfUrl);
-        $wnd.swfobject.embedSWF(fpViewer, "pdfviewercontainer", width, height, "10.0.0", "playerProductInstall.swf",
-            {
-                SwfFile: pdfUrl,
-                Scale: 0.6,
-                ZoomTransition: "easeOut",
-                ZoomTime: 0.5,
-                ZoomInterval: 0.1,
-                FitPageOnLoad: false,
-                FitWidthOnLoad: true,
-                PrintEnabled: printEnabled,
-                FullScreenAsMaxWindow: false,
-                ProgressiveLoading: true,
-
-                // PrintToolsVisible : printEnabled,
-                ViewModeToolsVisible: true,
-                ZoomToolsVisible: true,
-                FullScreenVisible: true,
-                NavToolsVisible: true,
-                CursorToolsVisible: true,
-                SearchToolsVisible: true,
-                localeChain: "en_US"
-            },
-            {
-                quality: "high",
-                bgcolor: "#ffffff",
-                allowscriptaccess: "sameDomain",
-                allowfullscreen: "true"
-            },
-            {
-                id: "FlexPaperViewer",
-                name: "FlexPaperViewer"
-            });
-    }-*/;
+	public static native void createPDFViewerFlexPaper(String pdfUrl, String width, String height) /*-{
+		fpViewer = "../js/flexpaper/FlexPaperViewer.swf";
+		pdfUrl = encodeURIComponent(pdfUrl);
+		$wnd.swfobject.embedSWF(fpViewer, "pdfviewercontainer", width, height, "10.0.0", "playerProductInstall.swf",
+			{
+				SwfFile : pdfUrl,
+				Scale : 0.6,
+				ZoomTransition : "easeOut",
+				ZoomTime : 0.5,
+				ZoomInterval : 0.1,
+				FitPageOnLoad : false,
+				FitWidthOnLoad : true,
+				FullScreenAsMaxWindow : false,
+				ProgressiveLoading : true,
+				ViewModeToolsVisible : true,
+				ZoomToolsVisible : true,
+				FullScreenVisible : true,
+				NavToolsVisible : true,
+				CursorToolsVisible : true,
+				SearchToolsVisible : true,
+				localeChain: "en_US"
+			},
+			{
+				quality : "high",
+				bgcolor : "#ffffff",
+				allowscriptaccess : "sameDomain",
+				allowfullscreen : "true"
+			},
+			{
+				id : "FlexPaperViewer",
+				name : "FlexPaperViewer"
+			});
+	}-*/;
 
 	public static native void resizePDFViewerFlexPaper(String width, String height) /*-{
         obj = $wnd.swfobject.getObjectById('FlexPaperViewer');
