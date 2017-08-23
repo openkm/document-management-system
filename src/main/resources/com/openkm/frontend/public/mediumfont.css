@@ -1048,6 +1048,7 @@ input.okm-Input {
   	white-space: nowrap;
   	margin: 0px;
   	overflow: hidden;
+  	padding-left: 2px;
 }
 
 /**
