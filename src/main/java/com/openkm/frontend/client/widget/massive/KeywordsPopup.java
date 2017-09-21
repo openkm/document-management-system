@@ -220,6 +220,8 @@ public class KeywordsPopup extends DialogBox {
 			keywordList.add(keyword);
 		}
 
+		keywordMap = new HashMap<String, Widget>();
+		suggestKey.setText("");
 		hKeyPanel.clear();
 		if (!Main.get().mainPanel.desktop.browser.fileBrowser.isMassive()) {
 			// Filebrowser panel selected
