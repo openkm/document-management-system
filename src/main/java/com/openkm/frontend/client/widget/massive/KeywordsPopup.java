@@ -220,6 +220,7 @@ public class KeywordsPopup extends DialogBox {
 			keywordList.add(keyword);
 		}
 
+		keyWordsListPending = new ArrayList<String>();
 		keywordMap = new HashMap<String, Widget>();
 		suggestKey.setText("");
 		hKeyPanel.clear();
@@ -405,6 +406,11 @@ public class KeywordsPopup extends DialogBox {
 			} else {
 				// Otherside tree panel is selected
 				Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.addKeyword(keyword);
+			}
+			if (keyWordsListPending.isEmpty()) {
+				drawTagCloud(docKeywords);
+			} else {
+				addPendingKeyWordsList();
 			}
 		}
 	}
