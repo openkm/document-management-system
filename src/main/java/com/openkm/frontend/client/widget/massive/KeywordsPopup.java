@@ -22,7 +22,6 @@
 package com.openkm.frontend.client.widget.massive;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -284,8 +283,10 @@ public class KeywordsPopup extends DialogBox {
 				addKeyword(keyword);
 				Main.get().mainPanel.dashboard.keyMapDashboard.increaseKeywordRate(keyword);
 			} else if (keyWordsListPending.isEmpty()) {
-				drawTagCloud(docKeywords);
-			}
+				WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
+			} else {
+				addPendingKeyWordsList();	
+			}	
 		}
 	}
 
@@ -335,32 +336,7 @@ public class KeywordsPopup extends DialogBox {
 			docKeywords.remove(keyword);
 			removeKeyword(keyword);
 			Main.get().mainPanel.dashboard.keyMapDashboard.decreaseKeywordRate(keyword);
-			drawTagCloud(docKeywords);
-		}
-	}
-
-	/**
-	 * Draws a tag cloud
-	 */
-	private void drawTagCloud(Collection<String> keywords) {
-		// Deletes all tag clouds keys
-		keywordsCloud.clear();
-		keywordsCloud.setMinFrequency(Main.get().mainPanel.dashboard.keyMapDashboard.getTotalMinFrequency());
-		keywordsCloud.setMaxFrequency(Main.get().mainPanel.dashboard.keyMapDashboard.getTotalMaxFrequency());
-
-		for (Iterator<String> it = keywords.iterator(); it.hasNext(); ) {
-			String keyword = it.next();
-			HTML tagKey = new HTML(keyword);
-			tagKey.setStyleName("okm-cloudTags");
-			Style linkStyle = tagKey.getElement().getStyle();
-			int fontSize = keywordsCloud.getLabelSize(Main.get().mainPanel.dashboard.keyMapDashboard
-					.getKeywordRate(keyword));
-			linkStyle.setProperty("fontSize", fontSize + "pt");
-			linkStyle.setProperty("color", keywordsCloud.getColor(fontSize));
-			if (fontSize > 0) {
-				linkStyle.setProperty("top", (keywordsCloud.getMaxFontSize() - fontSize) / 2 + "px");
-			}
-			keywordsCloud.add(tagKey);
+			WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
 		}
 	}
 
@@ -375,7 +351,7 @@ public class KeywordsPopup extends DialogBox {
 						@Override
 						public void onSuccess(Object result) {
 							if (keyWordsListPending.isEmpty()) {
-								drawTagCloud(docKeywords);
+								WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
 							} else {
 								addPendingKeyWordsList();
 							}
@@ -385,7 +361,7 @@ public class KeywordsPopup extends DialogBox {
 						@Override
 						public void onFailure(Throwable caught) {
 							if (keyWordsListPending.isEmpty()) {
-								drawTagCloud(docKeywords);
+								WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
 							} else {
 								addPendingKeyWordsList();
 							}
@@ -408,7 +384,7 @@ public class KeywordsPopup extends DialogBox {
 				Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.addKeyword(keyword);
 			}
 			if (keyWordsListPending.isEmpty()) {
-				drawTagCloud(docKeywords);
+				WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
 			} else {
 				addPendingKeyWordsList();
 			}
