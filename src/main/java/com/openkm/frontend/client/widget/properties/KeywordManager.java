@@ -321,8 +321,7 @@ public class KeywordManager {
 			hKeyPanel.add(keywordButton);
 			keywords.add(keyword);
 
-			if (keyWordsListPending.isEmpty()) {
-				Main.get().mainPanel.desktop.browser.tabMultiple.status.unsetKeywords();
+			if (keyWordsListPending.isEmpty()) {				
 				WidgetUtil.drawTagCloud(keywordsCloud, keywords);
 
 				if (object instanceof GWTDocument) {
@@ -335,6 +334,7 @@ public class KeywordManager {
 			} else {
 				addPendingKeyWordsList();
 			}
+			Main.get().mainPanel.desktop.browser.tabMultiple.status.unsetKeywords();
 		}
 
 		public void onFailure(Throwable caught) {
@@ -396,7 +396,9 @@ public class KeywordManager {
 			Main.get().mainPanel.dashboard.keyMapDashboard.increaseKeywordRate(keyword);
 		} else if (keyWordsListPending.isEmpty()) {
 			WidgetUtil.drawTagCloud(keywordsCloud, keywords);
-		}
+		} else {
+			addPendingKeyWordsList();	
+		}	
 	}
 
 	/**
