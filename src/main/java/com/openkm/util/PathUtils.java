@@ -106,9 +106,12 @@ public class PathUtils {
 	 * @return The string with the encoded entities.
 	 */
 	public static String encodeEntities(String path) {
-		String tmp = path.replaceAll("&(?![alg][mt]p?;)", "&amp;");
+		String tmp = path.replaceAll("&(?![alg#][mt0-9][0-9]?p?;)", "&amp;");
 		tmp = tmp.replaceAll("<", "&lt;");
-		return tmp.replaceAll(">", "&gt;");
+		tmp = tmp.replaceAll(">", "&gt;");
+		tmp = tmp.replaceAll("\"", "&#34;");
+		tmp = tmp.replaceAll("'", "&#39;");
+		return tmp;
 	}
 
 	/**
@@ -122,8 +125,8 @@ public class PathUtils {
 		String tmp = path.replaceAll("&amp;", "&");
 		tmp = tmp.replaceAll("&lt;", "<");
 		tmp = tmp.replaceAll("&gt;", ">");
-		// tmp = tmp.replaceAll("&#34;", "\"");
-		// tmp = tmp.replaceAll("&#39;", "'");
+		tmp = tmp.replaceAll("&#34;", "\"");
+		tmp = tmp.replaceAll("&#39;", "'");
 		return tmp;
 	}
 
