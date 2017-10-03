@@ -37,6 +37,12 @@ public class Mail extends Node {
 	public static final String MIME_TEXT = "text/plain";
 	public static final String MIME_HTML = "text/html";
 
+	public static final String ORIGIN_MSG = "msg";
+	public static final String ORIGIN_EML = "eml";
+	public static final String ORIGIN_API = "api";
+	public static final String ORIGIN_POP3 = "pop3";
+	public static final String ORIGIN_IMAP = "imap";
+	
 	public static final String TYPE = "okm:mail";
 	public static final String SIZE = "okm:size";
 	public static final String FROM = "okm:from";
@@ -49,6 +55,7 @@ public class Mail extends Node {
 	public static final String SUBJECT = "okm:subject";
 	public static final String CONTENT = "okm:content";
 	public static final String MIME_TYPE = "okm:mimeType";
+	public static final String INBOX = "inbox";
 
 	private String from;
 	private String[] reply = new String[]{};

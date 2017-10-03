@@ -18,5 +18,9 @@
       <key column="MF_MAIL_ACCOUNT" not-null="true"/>
       <one-to-many class="com.openkm.dao.bean.MailFilter"/>
     </set>
+    <set name="mailImportErrors" table="OKM_MAIL_IMPORT_ERROR" cascade="all-delete-orphan" lazy="false">
+      <key column="MIE_MAIL_ACCOUNT" not-null="true"/>
+      <one-to-many class="com.openkm.dao.bean.MailImportError"/>
+    </set>
   </class>
 </hibernate-mapping>
