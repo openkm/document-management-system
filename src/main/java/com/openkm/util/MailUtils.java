@@ -63,7 +63,6 @@ import com.openkm.bean.Repository;
 import com.openkm.core.*;
 import com.openkm.dao.MailAccountDAO;
 import com.openkm.dao.bean.MailAccount;
-//import com.openkm.dao.bean.MailAccountFolder;
 import com.openkm.dao.bean.MailFilter;
 import com.openkm.dao.bean.MailFilterRule;
 import com.openkm.dao.bean.MailImportError;
