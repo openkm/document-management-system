@@ -124,6 +124,9 @@ public class HibernateUtil {
 		cfg.addAnnotatedClass(NodeProperty.class);
 		cfg.addAnnotatedClass(RegisteredPropertyGroup.class);
 
+		//..
+		cfg.addAnnotatedClass(MailImportError.class);
+		
 		return cfg;
 	}
 

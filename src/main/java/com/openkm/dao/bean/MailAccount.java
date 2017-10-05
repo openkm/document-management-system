@@ -44,6 +44,7 @@ public class MailAccount implements Serializable {
 	private boolean mailMarkDeleted = false;
 	private long mailLastUid = 0;
 	private Set<MailFilter> mailFilters = new HashSet<MailFilter>();
+	private Set<MailImportError> mailImportErrors = new HashSet<>();
 	private boolean active = false;
 
 	public long getId() {
@@ -141,34 +142,31 @@ public class MailAccount implements Serializable {
 	public void setMailLastUid(long mailLastUid) {
 		this.mailLastUid = mailLastUid;
 	}
+	
+	public Set<MailImportError> getMailImportErrors() {
+		return mailImportErrors;
+	}
+
+	public void setMailImportErrors(Set<MailImportError> mailImportErrors) {
+		this.mailImportErrors = mailImportErrors;
+	}
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("id=");
-		sb.append(id);
-		sb.append(", user=");
-		sb.append(user);
-		sb.append(", mailProtocol=");
-		sb.append(mailProtocol);
-		sb.append(", mailHost=");
-		sb.append(mailHost);
-		sb.append(", mailFolder=");
-		sb.append(mailFolder);
-		sb.append(", mailUser=");
-		sb.append(mailUser);
-		sb.append(", mailPassword=");
-		sb.append(mailPassword);
-		sb.append(", mailMarkSeen=");
-		sb.append(mailMarkSeen);
-		sb.append(", mailMarkDeleted=");
-		sb.append(mailMarkDeleted);
-		sb.append(", mailLastUid=");
-		sb.append(mailLastUid);
-		sb.append(", active=");
-		sb.append(active);
-		sb.append(", mailFilters=");
-		sb.append(mailFilters);
+		sb.append("id=").append(id);
+		sb.append(", user=").append(user);
+		sb.append(", mailProtocol=").append(mailProtocol);
+		sb.append(", mailHost=").append(mailHost);
+		sb.append(", mailFolder=").append(mailFolder);
+		sb.append(", mailUser=").append(mailUser);
+		sb.append(", mailPassword=").append(mailPassword);
+		sb.append(", mailMarkSeen=").append(mailMarkSeen);
+		sb.append(", mailMarkDeleted=").append(mailMarkDeleted);
+		sb.append(", mailLastUid=").append(mailLastUid);
+		sb.append(", active=").append(active);
+		sb.append(", mailFilters=").append(mailFilters);		
+		sb.append(", mailAccountFolders=").append(mailImportErrors.isEmpty() ? "" : mailImportErrors.toString());
 		sb.append("}");
 		return sb.toString();
 	}
