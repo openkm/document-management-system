@@ -21,6 +21,31 @@
 
 package com.openkm.util;
 
+import java.io.*;
+import java.util.*;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.mail.search.FlagTerm;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hsmf.MAPIMessage;
+import org.apache.poi.hsmf.datatypes.AttachmentChunks;
+import org.apache.poi.hsmf.exceptions.ChunkNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.auxilii.msgparser.RecipientEntry;
 import com.auxilii.msgparser.attachment.Attachment;
 import com.auxilii.msgparser.attachment.FileAttachment;
@@ -38,7 +63,7 @@ import com.openkm.bean.Repository;
 import com.openkm.core.*;
 import com.openkm.dao.MailAccountDAO;
 import com.openkm.dao.bean.MailAccount;
-import com.openkm.dao.bean.MailAccountFolder;
+//import com.openkm.dao.bean.MailAccountFolder;
 import com.openkm.dao.bean.MailFilter;
 import com.openkm.dao.bean.MailFilterRule;
 import com.openkm.dao.bean.MailImportError;
@@ -47,31 +72,9 @@ import com.openkm.module.db.DbDocumentModule;
 import com.openkm.module.db.DbMailModule;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.pop3.POP3Folder;
+
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hsmf.MAPIMessage;
-import org.apache.poi.hsmf.datatypes.AttachmentChunks;
-import org.apache.poi.hsmf.exceptions.ChunkNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.search.FlagTerm;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
-import java.io.*;
-import java.util.*;
 
 /**
  * Java Mail configuration properties
@@ -295,7 +298,7 @@ public class MailUtils {
 		}
 
 		if (toAddress != null && !toAddress.isEmpty()) {
-			String[] to = (String[]) toAddress.toArray(new String[toAddress.size()]);
+			String[] to = toAddress.toArray(new String[toAddress.size()]);
 			mail.setTo(to);
 		}
 
@@ -369,6 +372,7 @@ public class MailUtils {
 					// Document attachment part
 					MimeBodyPart docPart = new MimeBodyPart();
 					DataSource source = new FileDataSource(tmpAttch.getPath()) {
+						@Override
 						public String getContentType() {
 							return doc.getMimeType();
 						}
@@ -551,7 +555,6 @@ public class MailUtils {
 			Folder[] folderList = new Folder[]{};
 			folder.open(Folder.READ_WRITE);
 			Message messages[];
-			String origin;
 
 			if (folder instanceof IMAPFolder) {
 				// IMAP folder UIDs begins at 1 and are supposed to be sequential.
@@ -560,26 +563,24 @@ public class MailUtils {
 				IMAPFolder imapFolder = (IMAPFolder) folder;
 				Message[] tmp = imapFolder.getMessagesByUID(startUid, UIDFolder.LASTUID);
 				messages = removeAlreadyImported(imapFolder, tmp, startUid);
-				origin = Mail.ORIGIN_IMAP;
 				folderList = folder.list();
 			} else {
 				messages = folder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
-				origin = Mail.ORIGIN_POP3;
 			}
-			
-			exceptionMessage = importMessages(token, origin, messages, folder, ma);
+
+			exceptionMessage = importMessages(token, messages, folder, ma);
 
 			// Close connection
 			log.debug("Expunge: {}", ma.isMailMarkDeleted());
 			folder.close(ma.isMailMarkDeleted());
 			store.close();
-		} catch (NoSuchProviderException e) {			
+		} catch (NoSuchProviderException e) {
 			log.error(e.getMessage() + " - MailAccount [Id: " + ma.getId() + ", User: " + ma.getUser() + "]", e);
 			exceptionMessage = e.getMessage();
 		} catch (MessagingException e) {
 			log.error(e.getMessage() + " - MailAccount [Id: " + ma.getId() + ", User: " + ma.getUser() + "]", e);
 			exceptionMessage = e.getMessage();
-		} 
+		}
 
 		log.debug("importMessages: {}", exceptionMessage);
 		return exceptionMessage;
@@ -601,7 +602,7 @@ public class MailUtils {
 
 		return result.toArray(new Message[0]);
 	}
-	
+
 	/**
 	 * Returns the full name of the folder with the correct separator
 	 *
@@ -622,11 +623,11 @@ public class MailUtils {
 
 		return fldName;
 	}
-	
+
 	/**
 	 * Import helper.
 	 */
-	private static String importMessages(String token, String origin, Message messages[], Folder folder, MailAccount ma)
+	private static String importMessages(String token, Message messages[], Folder folder, MailAccount ma)
 			throws MessagingException, DatabaseException {
 		String exceptionMessage = null;
 
@@ -638,42 +639,42 @@ public class MailUtils {
 			log.info("From: {}", msg.getFrom());
 			log.info("Received: {}", msg.getReceivedDate());
 			log.info("Sent: {}", msg.getSentDate());
-			
+
 			try {
 				com.openkm.bean.Mail mail = messageToMail(msg);
-				
+
 				if (ma.getMailFilters().isEmpty()) {
 					log.debug("Import in compatibility mode");
 					String mailPath = getUserMailPath(ma.getUser());
-					
+
 					mailPath = mailPath + "/" + Mail.INBOX;
-					
+
 					// Check that the folder exists
 					OKMFolder.getInstance().createMissingFolders(null, mailPath);
-					importMail(token, mailPath, true, folder, msg, ma, mail);									
+					importMail(token, mailPath, true, folder, msg, ma, mail);
 				} else {
 					for (MailFilter mf : ma.getMailFilters()) {
 						log.debug("MailFilter: {}", mf);
 
 						if (checkRules(mail, mf.getFilterRules())) {
 							String mailPath = mf.getPath();
-							importMail(token, mailPath, mf.isGrouping(), folder, msg, ma, mail);							
+							importMail(token, mailPath, mf.isGrouping(), folder, msg, ma, mail);
 						}
 					}
 				}
-				
+
 				// Set message as seen
 				if (ma.isMailMarkSeen()) {
 					msg.setFlag(Flags.Flag.SEEN, true);
 				} else {
 					msg.setFlag(Flags.Flag.SEEN, false);
 				}
-				
+
 				// Delete read mail if requested
 				if (ma.isMailMarkDeleted()) {
 					msg.setFlag(Flags.Flag.DELETED, true);
 				}
-				
+
 				// Set lastUid
 				if (folder instanceof IMAPFolder) {
 					long msgUid = ((IMAPFolder) folder).getUID(msg);
@@ -684,7 +685,7 @@ public class MailUtils {
 			} catch (Exception e) {
 				log.warn(e.getMessage(), e);
 				exceptionMessage = e.getMessage();
-				
+
 				boolean alreadyLogged = false;
 				String msgId;
 
@@ -718,12 +719,12 @@ public class MailUtils {
 					ma.getMailImportErrors().add(mie);
 					MailAccountDAO.update(ma);
 				}
-			}					
+			}
 		}
-		
+
 		return exceptionMessage;
 	}
-	
+
 	/**
 	 * Convert Mime Message to Mail
 	 */
@@ -770,7 +771,7 @@ public class MailUtils {
 		// Need to replace 0x00 because PostgreSQL does not accept string containing 0x00
 		// Need to remove Unicode surrogate because of MySQL => SQL Error: 1366, SQLState: HY000
 		String subject = FormatUtil.trimUnicodeSurrogates(FormatUtil.fixUTF8(msg.getSubject()));
-						
+
 		mail.setContent(body.substring(1));
 		mail.setSubject((subject == null || subject.isEmpty()) ? NO_SUBJECT : subject);
 		mail.setTo(addressToString(msg.getRecipients(Message.RecipientType.TO)));
@@ -866,7 +867,7 @@ public class MailUtils {
 		// Need to replace 0x00 because PostgreSQL does not accept string containing 0x00
 		// Need to remove Unicode surrogate because of MySQL => SQL Error: 1366, SQLState: HY000
 		String subject = FormatUtil.trimUnicodeSurrogates(FormatUtil.fixUTF8(msg.getSubject()));
-		
+
 		mail.setSize(mail.getContent().length());
 		mail.setSubject((subject == null || subject.isEmpty()) ? NO_SUBJECT : subject);
 		mail.setFrom(fixAddressName(msg.getFromName()) + " <" + msg.getFromEmail() + ">");
@@ -875,7 +876,7 @@ public class MailUtils {
 
 		return mail;
 	}
-	
+
 	/**
 	 * Convert Outlook Message to Mail
 	 */
@@ -933,7 +934,7 @@ public class MailUtils {
 			// Need to replace 0x00 because PostgreSQL does not accept string containing 0x00
 			// Need to remove Unicode surrogate because of MySQL => SQL Error: 1366, SQLState: HY000
 			String subject = FormatUtil.trimUnicodeSurrogates(FormatUtil.fixUTF8(msg.getSubject()));
-			
+
 			mail.setSize(mail.getContent().length());
 			mail.setSubject((subject == null || subject.isEmpty()) ? NO_SUBJECT : subject);
 			mail.setFrom(msg.getDisplayFrom());
@@ -1201,7 +1202,7 @@ public class MailUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * Add attachments to an imported mail.
 	 */
@@ -1224,8 +1225,8 @@ public class MailUtils {
 				for (int j = 1; OKMRepository.getInstance().hasNode(token, mail.getPath() + "/" + testName); j++) {
 					// log.debug("Trying with: {}", testName);
 					testName = fileName + " (" + j + ")." + fileExtension;
-				}		
-				
+				}
+
 				Document attachment = new Document();
 				String mimeType = MimeTypeConfig.mimeTypes.getContentType(testName.toLowerCase());
 				attachment.setMimeType(mimeType);
@@ -1242,7 +1243,7 @@ public class MailUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * Add attachments to an imported mail.
 	 */
@@ -1365,7 +1366,7 @@ public class MailUtils {
 
 		return list.toArray(new String[list.size()]);
 	}
-	
+
 	/**
 	 * Conversion from array of Recipient to array of Strings.
 	 */

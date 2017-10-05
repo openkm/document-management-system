@@ -21,10 +21,11 @@
 
 package com.openkm.bean;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author pavila
@@ -37,12 +38,6 @@ public class Mail extends Node {
 	public static final String MIME_TEXT = "text/plain";
 	public static final String MIME_HTML = "text/html";
 
-	public static final String ORIGIN_MSG = "msg";
-	public static final String ORIGIN_EML = "eml";
-	public static final String ORIGIN_API = "api";
-	public static final String ORIGIN_POP3 = "pop3";
-	public static final String ORIGIN_IMAP = "imap";
-	
 	public static final String TYPE = "okm:mail";
 	public static final String SIZE = "okm:size";
 	public static final String FROM = "okm:from";
@@ -166,6 +161,7 @@ public class Mail extends Node {
 		this.attachments = attachments;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
