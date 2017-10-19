@@ -58,6 +58,8 @@ public class Preview extends Composite {
 	private HorizontalPanel hReturnPanel;
 	private Button backButton;
 	private String pdfID = "jsPdfViewer";
+	public EmbeddedPreview embeddedPreview;
+	private String pdfContainer = "pdfembededcontainer";
 
 	/**
 	 * Preview
@@ -92,6 +94,7 @@ public class Preview extends Composite {
 		hReturnPanel.addStyleName("okm-Border-Top");
 		hReturnPanel.addStyleName("okm-Border-Left");
 		hReturnPanel.addStyleName("okm-Border-Right");
+		embeddedPreview = new EmbeddedPreview();
 		initWidget(vPanel);
 	}
 
@@ -102,6 +105,7 @@ public class Preview extends Composite {
 		this.height = (previewEvent == null) ? height : height - TURN_BACK_HEIGHT;
 		htmlPreview.setPixelSize(this.width, this.height);
 		syntaxHighlighterPreview.setPixelSize(this.width, this.height);
+		embeddedPreview.setPixelSize(this.width, this.height);
 	}
 
 	/**
@@ -237,6 +241,7 @@ public class Preview extends Composite {
 	 */
 	public void cleanPreview() {
 		swf.setHTML("<div id=\"pdfviewercontainer\" ></div>\n");
+		embeddedPreview.clear();
 	}
 
 	/**
@@ -353,6 +358,11 @@ public class Preview extends Composite {
 			if (!refreshing) {
 				showSyntaxHighlighterHTML(doc);
 			}
+		} else if (doc.getMimeType().equals("application/pdf")) {
+			setPreviewConversion(false);
+			if (!refreshing) {
+				showPDF(doc.getUuid());
+			}
 		} else if (doc.getMimeType().equals("application/x-shockwave-flash")) {
 			setPreviewConversion(false);
 
@@ -372,9 +382,15 @@ public class Preview extends Composite {
 				setPreviewConversion(true);
 
 				if (!refreshing) {
-					showEmbedSWF(doc.getUuid());
+					if (doc.isConvertibleToPdf()) {
+						showPDF(doc.getUuid());
+					} else {
+						showEmbedSWF(doc.getUuid());
+					}
 				} else {
-					resizeEmbedSWF(width, height);
+					if (!doc.isConvertibleToPdf()) {
+						resizeEmbedSWF(width, height);
+					}
 				}
 			}
 		}
@@ -385,5 +401,43 @@ public class Preview extends Composite {
 	 */
 	public void addPreviewExtension(PreviewExtension extension) {
 		widgetPreviewExtensionList.add(extension);
+	}
+
+	/**
+	 * Preview PDF, take in consideration profile selection
+	 */
+	public void showPDF(String uuid) {
+			hideWidgetExtension();
+			vPanel.clear();
+
+			vPanel.add(pdf);
+			vPanel.setCellHorizontalAlignment(pdf, HasAlignment.ALIGN_CENTER);
+			vPanel.setCellVerticalAlignment(pdf, HasAlignment.ALIGN_MIDDLE);
+
+			if (previewAvailable) {
+				pdf.setHTML("<div id=\"" + pdfContainer + "\"></div>\n"); // needed for rewriting  purpose
+					showSystemEmbeddedPreview(EmbeddedPreview.PDFJS_URL + URL.encodeQueryString(RPCService.ConverterServlet +"?toPdf=true&inline=true&uuid=" + uuid));
+			} else {
+				pdf.setHTML("<div id=\"" + pdfContainer + "\" align=\"center\"><br><br>" + Main.i18n("preview.unavailable") + "</div>\n");
+			}
+	}
+
+	/**
+	 * showSystemEmbeddedPreview
+	 */
+	public void showSystemEmbeddedPreview(String url) {
+		hideWidgetExtension();
+		vPanel.clear();
+
+		if (previewEvent != null) {
+			vPanel.add(hReturnPanel);
+			vPanel.setCellHeight(hReturnPanel, String.valueOf(TURN_BACK_HEIGHT) + "px");
+		}
+
+		vPanel.add(embeddedPreview);
+		vPanel.setCellHorizontalAlignment(embeddedPreview, HasAlignment.ALIGN_CENTER);
+		vPanel.setCellVerticalAlignment(embeddedPreview, HasAlignment.ALIGN_MIDDLE);
+
+		embeddedPreview.showEmbedded(url);
 	}
 }
