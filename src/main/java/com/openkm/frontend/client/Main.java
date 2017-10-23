@@ -122,7 +122,8 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	public ConversionStatus conversionStatus;
 	public UpdatePropertyGroupPopup updatePropertyGroupPopup;
 	public ConvertPopup convertPopup;
-
+	public OmrPopup omrPopup;
+	
 	// User workspace properties
 	public WorkspaceUserProperties workspaceUserProperties;
 
@@ -470,7 +471,11 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		convertPopup.setWidth("150px");
 		convertPopup.setHeight("50px");
 		convertPopup.setStyleName("okm-Popup");
-
+		omrPopup = new OmrPopup();
+		omrPopup.setWidth("150px");
+		omrPopup.setHeight("75px");
+		omrPopup.setStyleName("okm-Popup");
+		
 		// Get grid of scrollbars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area.
 		Window.enableScrolling(false);
@@ -556,6 +561,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 				templatePopup.langRefresh();
 				updatePropertyGroupPopup.langRefresh();
 				convertPopup.langRefresh();
+				omrPopup.langRefresh();
 				// Refreshing all menus on tabs not only the active
 				mainPanel.desktop.navigator.taxonomyTree.langRefresh();
 				mainPanel.desktop.navigator.thesaurusTree.langRefresh();

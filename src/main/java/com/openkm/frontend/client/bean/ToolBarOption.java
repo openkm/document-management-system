@@ -1,5 +1,5 @@
 /**
- * OpenKM, Open Document Management System (http://www.openkm.com)
+0 * OpenKM, Open Document Management System (http://www.openkm.com)
  * Copyright (c) 2006-2017  Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
@@ -71,6 +71,7 @@ public class ToolBarOption {
 	public boolean mergePdfOption;
 	public boolean findSimilarDocumentOption;
 	public boolean convertOption;
+	public boolean omrOption;
 
 	/**
 	 * ToolBarOption
@@ -119,5 +120,6 @@ public class ToolBarOption {
 		mergePdfOption = false;
 		findSimilarDocumentOption = false;
 		convertOption = false;
+		omrOption = false;
 	}
 }

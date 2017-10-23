@@ -204,6 +204,10 @@
     <servlet-class>com.openkm.servlet.frontend.MassiveServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>FrontendOmrServlet</servlet-name>
+    <servlet-class>com.openkm.servlet.frontend.OmrServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>PaginationServlet</servlet-name>
     <servlet-class>com.openkm.servlet.frontend.PaginationServlet</servlet-class>
   </servlet>
@@ -482,6 +486,10 @@
     <servlet-class>com.openkm.servlet.admin.CssServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>OmrServlet</servlet-name>
+    <servlet-class>com.openkm.servlet.admin.OmrServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>PurgePermissionsServlet</servlet-name>
     <servlet-class>com.openkm.servlet.admin.PurgePermissionsServlet</servlet-class>
   </servlet>
@@ -630,6 +638,10 @@
   <servlet-mapping>
     <servlet-name>MassiveServlet</servlet-name>
     <url-pattern>/frontend/Massive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FrontendOmrServlet</servlet-name>
+    <url-pattern>/frontend/Omr</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PaginationServlet</servlet-name>
@@ -919,6 +931,10 @@
     <servlet-name>CssServlet</servlet-name>
     <url-pattern>/admin/Css</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OmrServlet</servlet-name>
+    <url-pattern>/admin/Omr</url-pattern>
+  </servlet-mapping>  
   <servlet-mapping>
     <servlet-name>PurgePermissionsServlet</servlet-name>
     <url-pattern>/admin/PurgePermissions</url-pattern>

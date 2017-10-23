@@ -45,7 +45,7 @@ public class RevokeUser implements Action {
 	@Override
 	public void executePost(HashMap<String, Object> env, Object... params) {
 		String role = AutomationUtils.getString(0, params);
-		Integer permissions = AutomationUtils.getInterger(1, params);
+		Integer permissions = AutomationUtils.getInteger(1, params);
 		String uuid = AutomationUtils.getUuid(env);
 
 		try {

@@ -48,6 +48,7 @@ public class Status extends PopupPanel {
 	private boolean flag_delete = false;
 	private boolean flag_copy = false;
 	private boolean flag_move = false;
+	private boolean flag_omr = false;
 	private boolean flag_convert = false;
 	private boolean flag_lock = false;
 	private boolean flag_unlock = false;
@@ -87,7 +88,7 @@ public class Status extends PopupPanel {
 	public void refresh() {
 		if (flag_merge || flag_setCategories || flag_addKeywords || flag_addNotes || flag_removeCategories ||
 				flag_removeKeywords || flag_addPropertyGroup || flag_removePropertyGroup || flag_delete ||
-				flag_copy || flag_move || flag_convert || flag_lock || flag_unlock) {
+				flag_copy || flag_move || flag_omr || flag_convert || flag_lock || flag_unlock) {
 			int left = widget.getAbsoluteLeft() + (widget.getOffsetWidth() - 200) / 2;
 			int top = widget.getAbsoluteTop() + (widget.getOffsetHeight() - 40) / 2;
 
@@ -287,6 +288,23 @@ public class Status extends PopupPanel {
 		refresh();
 	}
 
+	/**
+	 * Set set omr flag
+	 */
+	public void setFlagOmr() {
+		msg.setHTML(Main.i18n("filebrowser.status.omr"));
+		flag_omr = true;
+		refresh();
+	}
+
+	/**
+	 * Unset set omr flag
+	 */
+	public void unsetFlagOmr() {
+		flag_omr = false;
+		refresh();
+	}
+	
 	/**
 	 * Set set convert flag
 	 */

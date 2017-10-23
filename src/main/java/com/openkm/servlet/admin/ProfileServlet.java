@@ -327,6 +327,7 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfMenu().getPrfTool().setDebugVisible(WebUtils.getBoolean(request, "prf_menu_tool_debug_visible"));
 		prf.getPrfMenu().getPrfTool().setAdministrationVisible(WebUtils.getBoolean(request, "prf_menu_tool_administration_visible"));
 		prf.getPrfMenu().getPrfTool().setPreferencesVisible(WebUtils.getBoolean(request, "prf_menu_tool_preferences_visible"));
+		prf.getPrfMenu().getPrfTool().setOmrVisible(WebUtils.getBoolean(request, "prf_menu_tool_omr_visible"));
 		prf.getPrfMenu().getPrfTool().setConvertVisible(WebUtils.getBoolean(request, "prf_menu_tool_convert_visible"));
 
 		// Menu Edit
@@ -420,6 +421,7 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfToolbar().setRefreshVisible(WebUtils.getBoolean(request, "prf_toolbar_refresh_visible"));
 		prf.getPrfToolbar().setHomeVisible(WebUtils.getBoolean(request, "prf_toolbar_home_visible"));
 		prf.getPrfToolbar().setSplitterResizeVisible(WebUtils.getBoolean(request, "prf_toolbar_splitter_resize_visible"));
+		prf.getPrfToolbar().setOmrVisible(WebUtils.getBoolean(request, "prf_toolbar_omr_visible"));
 
 		// File browser
 		prf.getPrfFileBrowser().setStatusVisible(WebUtils.getBoolean(request, "prf_filebrowser_status_visible"));
