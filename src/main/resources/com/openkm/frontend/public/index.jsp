@@ -24,6 +24,7 @@
 		<script type="text/javascript" src="../js/swfobject/swfobject.js"></script>
 		<script type="text/javascript" src="../js/flexpaper/flexpaper_flash.js"></script>
 		<script type="text/javascript" src="../js/digitalsignature/digitalsignature.js"></script>
+		<script type="text/javascript" src="../js/clipboard.js"></script>
     	
 		<!-- Load TinyMCE -->
 		<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
