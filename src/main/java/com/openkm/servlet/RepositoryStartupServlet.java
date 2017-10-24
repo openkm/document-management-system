@@ -259,7 +259,7 @@ public class RepositoryStartupServlet extends HttpServlet {
 
 			String pptContent = "new com.openkm.util.pendtask.PendingTaskExecutor().run();";
 			CronTabUtils.createOrUpdate("Process Pending Tasks", "*/5 * * * *", pptContent);
-
+			
 			// Datastore garbage collection
 			if (!Config.REPOSITORY_NATIVE && hasConfiguredDataStore) {
 				String dgcContent = "new com.openkm.module.jcr.stuff.DataStoreGarbageCollector().run();";

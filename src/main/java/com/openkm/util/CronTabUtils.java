@@ -21,15 +21,14 @@
 
 package com.openkm.util;
 
-import com.openkm.core.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openkm.core.DatabaseException;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.dao.CronTabDAO;
 import com.openkm.dao.bean.CronTab;
-import com.openkm.module.common.CommonAuthModule;
 import com.openkm.principal.PrincipalAdapterException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CronTabUtils {
 	private static Logger log = LoggerFactory.getLogger(CronTabUtils.class);
@@ -43,8 +42,6 @@ public class CronTabUtils {
 		CronTab ct = CronTabDAO.findByName(name);
 
 		if (ct == null) {
-			String mail = CommonAuthModule.getMail(Config.ADMIN_USER);
-
 			ct = new CronTab();
 			ct.setActive(true);
 			ct.setExpression(expression);
@@ -52,13 +49,7 @@ public class CronTabUtils {
 			ct.setFileMime(MimeTypeConfig.MIME_BSH);
 			ct.setFileName(toFileName(name) + ".bsh");
 			ct.setName(name);
-
-			if (mail != null && !mail.equals("")) {
-				ct.setMail(mail);
-			} else {
-				ct.setMail(Config.DEFAULT_CRONTAB_MAIL);
-			}
-
+			ct.setMail("");
 			CronTabDAO.create(ct);
 		} else {
 			ct.setFileContent(SecureStore.b64Encode(content.getBytes()));
