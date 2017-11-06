@@ -60,6 +60,7 @@ import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.search.FlagTerm;
+import javax.mail.util.ByteArrayDataSource;
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 import java.io.*;
@@ -446,29 +447,24 @@ public class MailUtils {
 			textPart.setDisposition(Part.INLINE);
 			content.addBodyPart(textPart);
 		}
-
+		
 		for (Document doc : mail.getAttachments()) {
-			InputStream is = null;
-			FileOutputStream fos = null;
 			String docName = PathUtils.getName(doc.getPath());
+			InputStream is = null;
 
 			try {
 				is = OKMDocument.getInstance().getContent(token, doc.getPath(), false);
-				File tmp = File.createTempFile("okm", ".tmp");
-				fos = new FileOutputStream(tmp);
-				IOUtils.copy(is, fos);
-				fos.flush();
+				String mimeType = MimeTypeConfig.mimeTypes.getContentType(docName.toLowerCase());
 
 				// Document attachment part
 				MimeBodyPart docPart = new MimeBodyPart();
-				DataSource source = new FileDataSource(tmp.getPath());
+				DataSource source = new ByteArrayDataSource(is, mimeType);
 				docPart.setDataHandler(new DataHandler(source));
 				docPart.setFileName(docName);
 				docPart.setDisposition(Part.ATTACHMENT);
 				content.addBodyPart(docPart);
 			} finally {
 				IOUtils.closeQuietly(is);
-				IOUtils.closeQuietly(fos);
 			}
 		}
 
