@@ -468,6 +468,7 @@ public interface OKMBundleResources extends ClientBundle {
 	public ImageResource exportCSV();
 
 	@Source("com/openkm/frontend/public/img/icon/actions/options.png")
+
 	public ImageResource options();	
 	
 	@Source("com/openkm/frontend/public/img/icon/actions/omr.png")
@@ -475,4 +476,10 @@ public interface OKMBundleResources extends ClientBundle {
 	
 	@Source("com/openkm/frontend/public/img/icon/actions/omr_disabled.png")
 	public ImageResource omrDisabled();
+
+  @Source("com/openkm/frontend/public/img/icon/actions/clipboard.png")
+	public ImageResource clipboard();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/clipboard_small.png")
+	public ImageResource clipboardSmall();
 }
