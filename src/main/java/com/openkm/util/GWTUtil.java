@@ -1787,6 +1787,16 @@ public class GWTUtil {
 	}
 
 	/**
+	 * Copy Omr to GWTOmr
+	 */
+	public static GWTOmr copy(Omr omr) {
+		GWTOmr gWTOmr = new GWTOmr();
+		gWTOmr.setId(omr.getId());
+		gWTOmr.setName(omr.getName());
+		return gWTOmr;
+	}
+	
+	/**
 	 * GWTProcessInstanceLogEntry
 	 */
 	public static GWTProcessInstanceLogEntry copy(ProcessInstanceLogEntry logEntry) {

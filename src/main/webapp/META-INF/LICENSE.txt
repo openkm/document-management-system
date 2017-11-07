@@ -26,6 +26,7 @@ Below is the list of licenses and modules used under corresponding licenses,
      (BSD) ASM Core (asm:asm:3.3.1 - http://asm.objectweb.org/asm/)
      (Bouncy Castle License) Legion of the Bouncy Castle Java Cryptography APIs (bouncycastle:bcmail-jdk14:138 - http://www.bouncycastle.org/java.html)
      (Bouncy Castle License) Legion of the Bouncy Castle Java Cryptography APIs (bouncycastle:bcprov-jdk14:138 - http://www.bouncycastle.org/java.html)
+     (Unknown license) omr-tool (ca.uwaterloo.a3seth:omr-tool:2007.07.01 - no url defined)
      (Apache License, Version 2.0) AWS SDK for Java (com.amazonaws:aws-java-sdk:1.3.0 - http://aws.amazon.com/sdkforjava)
      (Unknown license) msgparser (com.auxilii:msgparser:1.12 - no url defined)
      (Unknown license) odfutils (com.catcode:odfutils:051129 - no url defined)

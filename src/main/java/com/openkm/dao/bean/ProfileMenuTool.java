@@ -30,6 +30,7 @@ public class ProfileMenuTool implements Serializable {
 	private boolean debugVisible;
 	private boolean administrationVisible;
 	private boolean preferencesVisible;
+	private boolean omrVisible;
 	private boolean convertVisible;
 
 	public boolean isLanguagesVisible() {
@@ -71,6 +72,14 @@ public class ProfileMenuTool implements Serializable {
 	public void setPreferencesVisible(boolean preferencesVisible) {
 		this.preferencesVisible = preferencesVisible;
 	}
+	
+	public boolean isOmrVisible() {
+		return omrVisible;
+	}
+
+	public void setOmrVisible(boolean omrVisible) {
+		this.omrVisible = omrVisible;
+	}
 
 	public boolean isConvertVisible() {
 		return convertVisible;
@@ -83,18 +92,13 @@ public class ProfileMenuTool implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("languagesVisible=");
-		sb.append(languagesVisible);
-		sb.append(", skinVisible=");
-		sb.append(skinVisible);
-		sb.append(", debugVisible=");
-		sb.append(debugVisible);
-		sb.append(", administrationVisible=");
-		sb.append(administrationVisible);
-		sb.append(", preferencesVisible=");
-		sb.append(preferencesVisible);
-		sb.append(", convertVisible=");
-		sb.append(convertVisible);
+		sb.append("languagesVisible=").append(languagesVisible);
+		sb.append(", skinVisible=").append(skinVisible);
+		sb.append(", debugVisible=").append(debugVisible);
+		sb.append(", administrationVisible=").append(administrationVisible);
+		sb.append(", preferencesVisible=").append(preferencesVisible);		
+		sb.append(", omrVisible=").append(omrVisible);
+		sb.append(", convertVisible=").append(convertVisible);		
 		sb.append("}");
 		return sb.toString();
 	}

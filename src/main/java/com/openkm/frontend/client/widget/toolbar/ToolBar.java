@@ -79,6 +79,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 	private ToolBarButton home;
 	private ToolBarButton refresh;
 	private ToolBarButton splitterResize;
+	private ToolBarButton omr;
 	private Object node;
 	private ResizeToolBarMenu resizeToolBarMenu;
 	private FindToolBarMenu findToolBarMenu;
@@ -630,6 +631,18 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 			}
 		}
 	};
+	
+	/**
+	 * Arrow rotate clock wise Handler
+	 */
+	ClickHandler arrowHomeHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (toolBarOption.homeOption) {
+				executeGoToUserHome();
+			}
+		}
+	};
 
 	/**
 	 * Execute remove property group
@@ -656,6 +669,18 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		}
 	};
 
+	/**
+	 * OMR Handler
+	 */
+	ClickHandler omrHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent event) {
+			if (toolBarOption.omrOption) {
+				executeOmr();
+			}
+		}
+	};
+	
 	/**
 	 * Refreshing workspace
 	 */
@@ -695,17 +720,20 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 	}
 
 	/**
-	 * Arrow rotate clock wise Handler
+	 * executeOmr
 	 */
-	ClickHandler arrowHomeHandler = new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-			if (toolBarOption.homeOption) {
-				executeGoToUserHome();
+	public void executeOmr() {
+		if (toolBarOption.omrOption) {
+			if (Main.get().mainPanel.desktop.browser.fileBrowser.isPanelSelected()) {
+				if (Main.get().mainPanel.desktop.browser.fileBrowser.isDocumentSelected()) {
+					Main.get().omrPopup.reset(Main.get().mainPanel.desktop.browser.fileBrowser.getDocument());
+					Main.get().omrPopup.center();
+					fireEvent(HasToolBarEvent.EXECUTE_OMR);
+				}
 			}
 		}
-	};
-
+	}
+		
 	/**
 	 * Goes home
 	 */
@@ -893,6 +921,8 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 				}
 			}
 		});
+		
+		omr = new ToolBarButton(new Image(OKMBundleResources.INSTANCE.omr()), Main.i18n("general.menu.file.omr"), omrHandler);
 
 		find.addMouseOverHandler(mouseOverHandler);
 		find.addMouseOutHandler(mouseOutHandler);
@@ -934,7 +964,9 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		refresh.addMouseOutHandler(mouseOutHandler);
 		splitterResize.addMouseOverHandler(mouseOverHandler);
 		splitterResize.addMouseOutHandler(mouseOutHandler);
-
+		omr.addMouseOverHandler(mouseOverHandler);
+		omr.addMouseOutHandler(mouseOutHandler);
+		
 		find.setStyleName("okm-ToolBar-button");
 		lock.setStyleName("okm-ToolBar-button");
 		unlock.setStyleName("okm-ToolBar-button");
@@ -955,7 +987,8 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		home.setStyleName("okm-ToolBar-button-disabled");
 		refresh.setStyleName("okm-ToolBar-button-disabled");
 		splitterResize.setStyleName("okm-ToolBar-button-disabled");
-
+		omr.setStyleName("okm-ToolBar-button-disabled");
+		
 		panel = new HorizontalPanel();
 		panel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 		panel.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
@@ -1008,7 +1041,9 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		panel.add(new Image(OKMBundleResources.INSTANCE.separator()));
 		panel.add(splitterResize);
 		panel.add(space());
-
+		panel.add(omr);
+		panel.add(space());
+		
 		// Hide all buttons at startup
 		for (int i = 0; i < panel.getWidgetCount(); i++) {
 			panel.getWidget(i).setVisible(false);
@@ -1344,6 +1379,10 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 					} else if (!doc.isLocked()) {
 						toolBarOption.addSubscription = true;
 					}
+					
+					if (doc.getMimeType().startsWith("image/png")) {
+						toolBarOption.omrOption = true;
+					}
 				} else {
 					if (doc.isCheckedOut()) {
 						if (doc.getLockInfo().getOwner().equals(user) || Main.get().workspaceUserProperties.getWorkspace().isAdminRole()) {
@@ -1358,6 +1397,10 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 									toolBarOption.addPropertyGroupOption = true;
 									toolBarOption.updatePropertyGroupOption = true;
 									toolBarOption.removePropertyGroupOption = true;
+								}
+								
+								if (doc.getMimeType().equals("image/png")) {
+									toolBarOption.omrOption = true;
 								}
 
 								toolBarOption.addNoteOption = true;
@@ -1399,6 +1442,10 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 								toolBarOption.removePropertyGroupOption = true;
 							}
 
+							if (doc.getMimeType().equals("image/png")) {
+								toolBarOption.omrOption = true;
+							}
+							
 							toolBarOption.addNoteOption = true;
 							toolBarOption.addCategoryOption = true;
 							toolBarOption.addKeywordOption = false;
@@ -2215,6 +2262,26 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 	}
 
 	/**
+	 * Disables omr
+	 */
+	public void disableOmr() {
+		toolBarOption.omrOption = false;
+		omr.setStyleName("okm-ToolBar-button-disabled");
+		omr.setResource(OKMBundleResources.INSTANCE.omrDisabled());
+		omr.setTitle(Main.i18n("general.menu.file.omr"));
+	}
+	
+	/**
+	 * Enables omr
+	 */
+	public void enableOmr() {
+		toolBarOption.omrOption = true;
+		omr.setStyleName("okm-ToolBar-button");
+		omr.setResource(OKMBundleResources.INSTANCE.omr());
+		omr.setTitle(Main.i18n("general.menu.file.omr"));
+	}
+	
+	/**
 	 * Disables fired property group
 	 */
 	public void disableFiredRemovePropertyGroup() {
@@ -2361,6 +2428,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2414,6 +2482,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2467,6 +2536,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2520,6 +2590,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2573,6 +2644,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2626,6 +2698,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2679,6 +2752,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2732,6 +2806,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2785,6 +2860,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2838,6 +2914,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2891,6 +2968,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -2944,6 +3022,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		tmpToolBarOption.purge = false;
 		tmpToolBarOption.purgeTrash = true;
 		tmpToolBarOption.mergePdfOption = false;
+		tmpToolBarOption.omrOption = false;
 		tmpToolBarOption.convertOption = false;
 
 		return tmpToolBarOption;
@@ -3076,6 +3155,12 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 			enableSplitterResize();
 		} else {
 			disableSplitterResize();
+		}
+		
+		if (toolBarOption.omrOption) {
+			enableOmr();
+		} else {
+			disableOmr();
 		}
 
 		// Checking extension button
@@ -3549,6 +3634,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		toolBarOption.purge = false;
 		toolBarOption.purgeTrash = false;
 		toolBarOption.mergePdfOption = false;
+		toolBarOption.omrOption = false;
 		toolBarOption.convertOption = false;
 		Main.get().mainPanel.topPanel.mainMenu.disableAllOptions();
 		Main.get().mainPanel.desktop.browser.fileBrowser.disableAllOptions();
@@ -3644,6 +3730,8 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 		splitterResize.setVisible(option.isSplitterResizeVisible());
 		panel.getWidget(47).setVisible(option.isSplitterResizeVisible()); // hide
 		// space
+		omr.setVisible(option.isOmrVisible());
+		panel.getWidget(49).setVisible(option.isOmrVisible()); // hide space
 	}
 
 	/**
