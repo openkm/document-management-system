@@ -89,6 +89,7 @@ public class GWTAvailableOption implements IsSerializable {
 	private boolean removeCategoryOption = true;
 	private boolean removeKeywordOption = true;
 	private boolean mergePdfOption = true;
+	private boolean omr = true;
 
 	public GWTAvailableOption() {
 	}
@@ -564,4 +565,13 @@ public class GWTAvailableOption implements IsSerializable {
 	public void setMergePdfOption(boolean mergeOption) {
 		this.mergePdfOption = mergeOption;
 	}
+	
+	public boolean isOmr() {
+		return omr;
+	}
+
+	public void setOmr(boolean omr) {
+		this.omr = omr;
+	}
+	
 }

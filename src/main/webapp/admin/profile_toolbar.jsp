@@ -289,5 +289,18 @@
         </c:choose>
       </td>
     </tr>
+    <tr>
+      <td nowrap>OMR</td>
+      <td>
+        <c:choose>
+          <c:when test="${prf.prfToolbar.omrVisible}">
+            <input name="prf_toolbar_omr_visible" type="checkbox" checked="checked"/>
+          </c:when>
+          <c:otherwise>
+            <input name="prf_toolbar_omr_visible" type="checkbox"/>
+          </c:otherwise>
+        </c:choose>
+      </td>
+    </tr>
   </table>
 </fieldset>

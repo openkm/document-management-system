@@ -24,6 +24,7 @@ package com.openkm.frontend.client.util;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 
 /**
  * OKMBundleResources
@@ -467,5 +468,11 @@ public interface OKMBundleResources extends ClientBundle {
 	public ImageResource exportCSV();
 
 	@Source("com/openkm/frontend/public/img/icon/actions/options.png")
-	public ImageResource options();
+	public ImageResource options();	
+	
+	@Source("com/openkm/frontend/public/img/icon/actions/omr.png")
+	public ImageResource omr();
+	
+	@Source("com/openkm/frontend/public/img/icon/actions/omr_disabled.png")
+	public ImageResource omrDisabled();
 }

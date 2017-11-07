@@ -19,41 +19,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.openkm.automation.action;
-
-import com.openkm.automation.Action;
-import com.openkm.automation.AutomationUtils;
-import com.openkm.dao.NodeBaseDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
+package com.openkm.omr;
 
 /**
- * GrantUser
- *
  * @author jllort
- *
  */
-public class GrantUser implements Action {
-	private static Logger log = LoggerFactory.getLogger(GrantUser.class);
+public class OMRException extends Exception {
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void executePre(HashMap<String, Object> env, Object... params) {
+	public OMRException() {
+		super();
 	}
 
-	@Override
-	public void executePost(HashMap<String, Object> env, Object... params) {
-		String role = AutomationUtils.getString(0, params);
-		Integer permissions = AutomationUtils.getInteger(1, params);
-		String uuid = AutomationUtils.getUuid(env);
+	public OMRException(String arg0) {
+		super(arg0);
+	}
 
-		try {
-			if (uuid != null) {
-				NodeBaseDAO.getInstance().grantUserPermissions(uuid, role, permissions, false);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
+	public OMRException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
+
+	public OMRException(Throwable arg0) {
+		super(arg0);
 	}
 }

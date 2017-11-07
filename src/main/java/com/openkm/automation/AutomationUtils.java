@@ -34,6 +34,7 @@ import com.openkm.util.PathUtils;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * AutomationUtils
@@ -66,6 +67,32 @@ public class AutomationUtils {
 	public static final String PROPERTY_GROUP_NAME = "propGroupName";
 	public static final String PROPERTY_GROUP_PROPERTIES = "propGroupProperties";
 
+	/**
+	 * getPath
+	 */
+	public static String getPath(Map<String, Object> env) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+			DatabaseException {
+		NodeDocument docNode = (NodeDocument) env.get(DOCUMENT_NODE);
+		NodeFolder fldNode = (NodeFolder) env.get(FOLDER_NODE);
+		NodeMail mailNode = (NodeMail) env.get(MAIL_NODE);		
+		String uuid = null;
+		String path = null;
+
+		if (docNode != null) {
+			uuid = docNode.getUuid();
+		} else if (fldNode != null) {
+			uuid = fldNode.getUuid();
+		} else if (mailNode != null) {
+			uuid = mailNode.getUuid();
+		} 
+
+		if (uuid != null) {
+			path = OKMRepository.getInstance().getNodePath(null, uuid);
+		}
+
+		return path;
+	}
+	
 	/**
 	 * getUuid
 	 */
@@ -170,7 +197,7 @@ public class AutomationUtils {
 	/**
 	 * getInterger
 	 */
-	public static Integer getInterger(int index, Object... params) {
+	public static Integer getInteger(int index, Object... params) {
 		return (Integer) params[index];
 	}
 

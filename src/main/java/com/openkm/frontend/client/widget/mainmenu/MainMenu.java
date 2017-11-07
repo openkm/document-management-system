@@ -139,6 +139,7 @@ public class MainMenu extends Composite {
 	private MenuItem preferences;
 	private MenuBar subMenuPreferences;
 	private MenuItem userPreferences;
+	private MenuItem omr;
 	private MenuItem convert;
 	private MenuItem menuBookmark;
 	public MenuBar subMenuBookmark;
@@ -428,6 +429,11 @@ public class MainMenu extends Composite {
 				subMenuPreferences);
 		preferences.addStyleName("okm-MainMenuItem");
 
+		// OMR
+		omr = new MenuItem(Util.menuHTML("img/icon/actions/omr.png", Main.i18n("general.menu.tools.omr")), true, executeOmr);
+		omr.addStyleName("okm-MainMenuItem");
+		
+		// Convert
 		convert = new MenuItem(Util.menuHTML("img/icon/menu/convert.png", Main.i18n("general.menu.tools.convert")), true, showConvert);
 		convert.addStyleName("okm-MainMenuItem");
 		convert.setVisible(false);
@@ -441,6 +447,7 @@ public class MainMenu extends Composite {
 		subMenuTools.addItem(debugConsole);
 		subMenuTools.addItem(administration);
 		subMenuTools.addItem(preferences);
+		subMenuTools.addItem(omr);
 		subMenuTools.addItem(convert);
 
 		// Menu tools
@@ -645,6 +652,7 @@ public class MainMenu extends Composite {
 		administration.setHTML(Util.menuHTML("img/icon/menu/administration.gif", Main.i18n("general.menu.tools.administration")));
 		preferences.setHTML(Util.menuHTML("img/icon/menu/preferences.gif", Main.i18n("general.menu.tools.preferences")));
 		userPreferences.setHTML(Util.menuHTML("img/icon/menu/user_preferences.gif", Main.i18n("general.menu.tools.user.preferences")));
+		omr.setHTML(Util.menuHTML("img/icon/actions/omr.png", Main.i18n("general.menu.tools.omr")));
 		convert.setHTML(Util.menuHTML("img/icon/menu/convert.png", Main.i18n("general.menu.tools.convert")));
 		menuBookmark.setText(Main.i18n("general.menu.bookmark"));
 		home.setHTML(Util.menuHTML("img/icon/actions/bookmark_go.gif", Main.i18n("general.menu.bookmark.home")));
@@ -926,6 +934,12 @@ public class MainMenu extends Composite {
 			disable(removeSubscription);
 		}
 
+		if (mainMenuOption.omrOption) {
+			enable(omr);
+		} else {
+			disable(omr);
+		}
+		
 		if (mainMenuOption.convertOption) {
 			enable(convert);
 		} else {
@@ -1476,6 +1490,15 @@ public class MainMenu extends Composite {
 		}
 	};
 
+	// Command menu to go to set omr capture
+	Command executeOmr = new Command() {
+		public void execute() {
+			if (mainMenuOption.omrOption) {
+				Main.get().mainPanel.topPanel.toolBar.executeOmr();
+			}
+		}
+	};
+	
 	// Command menu to convert
 	Command showConvert = new Command() {
 		@Override
@@ -1645,6 +1668,7 @@ public class MainMenu extends Composite {
 		if (!option.isPreferencesOption()) {
 			subMenuTools.removeItem(preferences);
 		}
+		omr.setVisible(option.isOmr());
 		convert.setVisible(option.isConvertOption());
 
 		// MENU BOOKMARKS
