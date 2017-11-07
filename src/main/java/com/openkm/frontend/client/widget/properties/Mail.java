@@ -29,6 +29,7 @@ import com.openkm.frontend.client.bean.GWTFolder;
 import com.openkm.frontend.client.bean.GWTMail;
 import com.openkm.frontend.client.bean.GWTPermission;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.Clipboard;
 import com.openkm.frontend.client.widget.properties.CategoryManager.CategoryToRemove;
 import com.openkm.frontend.client.widget.properties.KeywordManager.KeywordToRemove;
 import com.openkm.frontend.client.widget.thesaurus.ThesaurusSelectPopup;
@@ -126,13 +127,31 @@ public class Mail extends Composite {
 	 * @param mail
 	 */
 	public void set(GWTMail mail) {
-		this.mail = mail;
+		this.mail = mail;	
+
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(new HTML(mail.getUuid()));
+		hPanel.add(Util.hSpace("3px"));
+		hPanel.add(new Clipboard(mail.getUuid()));
+		
+		tableProperties.setWidget(0, 1, hPanel);
+		tableProperties.setHTML(1, 1, mail.getSubject());
+		tableProperties.setHTML(2, 1, mail.getParentPath());
+		tableProperties.setHTML(3, 1, Util.formatSize(mail.getSize()));
+		DateTimeFormat dtf = DateTimeFormat.getFormat(Main.i18n("general.date.pattern"));
+		tableProperties.setHTML(4, 1, dtf.format(mail.getCreated()) + " " + Main.i18n("mail.by") + " " + mail.getAuthor());
+		tableProperties.setHTML(6, 1, mail.getMimeType());
+		tableProperties.setWidget(7, 1, keywordManager.getKeywordPanel());
+
+		// Enable select
+		tableProperties.getFlexCellFormatter().setStyleName(0, 1, "okm-EnableSelect");
+		tableProperties.getFlexCellFormatter().setStyleName(1, 1, "okm-EnableSelect");
+		tableProperties.getFlexCellFormatter().setStyleName(2, 1, "okm-EnableSelect");
 
 		// URL clipboard button
 		String url = Main.get().workspaceUserProperties.getApplicationURL();
 		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(mail.getUuid()));
-		tableProperties.setWidget(8, 1, new HTML("<div id=\"urlClipboard\"></div>\n"));
-		Util.createClipboardButton("urlClipboard", url);
+		tableProperties.setWidget(8, 1, new Clipboard(url));
 
 		// Webdav button
 		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
@@ -148,27 +167,9 @@ public class Mail extends Composite {
 			webdavPath = Util.encodePathElements(webdavPath);
 			webdavUrl = webdavUrl.substring(0, webdavUrl.lastIndexOf('/')) + "/webdav" + webdavPath;
 		}
-
-		tableProperties.setWidget(0, 1, new HTML(" <div id=\"uuidClipboard\"></div> " + mail.getUuid() + "\n"));
-		Util.createClipboardButton("uuidClipboard", mail.getUuid());
-
-		tableProperties.setWidget(9, 1, new HTML("<div id=\"webdavClipboard\"></div>\n"));
-		Util.createClipboardButton("webdavClipboard", webdavUrl);
-
-		tableProperties.setHTML(0, 1, mail.getUuid());
-		tableProperties.setHTML(1, 1, mail.getSubject());
-		tableProperties.setHTML(2, 1, mail.getParentPath());
-		tableProperties.setHTML(3, 1, Util.formatSize(mail.getSize()));
-		DateTimeFormat dtf = DateTimeFormat.getFormat(Main.i18n("general.date.pattern"));
-		tableProperties.setHTML(4, 1, dtf.format(mail.getCreated()) + " " + Main.i18n("mail.by") + " " + mail.getAuthor());
-		tableProperties.setHTML(6, 1, mail.getMimeType());
-		tableProperties.setWidget(7, 1, keywordManager.getKeywordPanel());
-
-		// Enable select
-		tableProperties.getFlexCellFormatter().setStyleName(0, 1, "okm-EnableSelect");
-		tableProperties.getFlexCellFormatter().setStyleName(1, 1, "okm-EnableSelect");
-		tableProperties.getFlexCellFormatter().setStyleName(2, 1, "okm-EnableSelect");
-
+				
+		tableProperties.setWidget(9, 1, new Clipboard(webdavUrl));
+				
 		remove = ((mail.getPermissions() & GWTPermission.WRITE) == GWTPermission.WRITE);
 
 		// Enables or disables change keywords with user permissions and document is not check-out or locked

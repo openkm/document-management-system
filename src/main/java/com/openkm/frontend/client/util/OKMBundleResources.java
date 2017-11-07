@@ -468,4 +468,10 @@ public interface OKMBundleResources extends ClientBundle {
 
 	@Source("com/openkm/frontend/public/img/icon/actions/options.png")
 	public ImageResource options();
+	
+	@Source("com/openkm/frontend/public/img/icon/actions/clipboard.png")
+	ImageResource clipboard();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/clipboard_small.png")
+	ImageResource clipboardSmall();
 }

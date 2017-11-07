@@ -613,15 +613,31 @@ public class Util {
         obj.height = height;
     }-*/;
 
-	public static native void createClipboardButton(String divId, String textToCopy) /*-{
-        $wnd.swfobject.embedSWF("../clippy.swf", divId, 14, 14, "9.0.0", "../clippy.swf", {text: textToCopy}, {
-            quality: "high",
-            scale: "noscale",
-            bgcolor: "#FFFFFF"
-        }, {id: "clippy", name: "clippy"});
-    }-*/;
+	public static native void copyToClipboard(String text) /*-{
+    	var elto = $doc.createElement('DIV');
+    	elto.textContent = text;
+    	$doc.body.appendChild(elto);
+
+    	if ($doc.selection) {
+        	var range = $doc.body.createTextRange();
+        	range.moveToElementText(elto);
+        	range.select();
+    	} else if ($wnd.getSelection) {
+        	var range = $doc.createRange();
+        	range.selectNode(elto);
+        	$wnd.getSelection().removeAllRanges();
+        	$wnd.getSelection().addRange(range);
+    	}
+
+    	$doc.execCommand('copy');
+    	elto.remove();
+	}-*/;
 
 	public static native String escape(String text) /*-{
         return escape(text);
     }-*/;
+	
+	public static native void consoleLog(String message) /*-{
+    	console.log(message);
+	}-*/;
 }
