@@ -191,8 +191,7 @@ public class Document extends Composite {
 		// URL clipboard button
 		String url = Main.get().workspaceUserProperties.getApplicationURL();
 		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(document.getUuid()));
-		tableProperties.setWidget(11, 1, new HTML("<div id=\"urlClipboard\"></div>\n"));
-		Util.createClipboardButton("urlClipboard", url);
+		tableProperties.setWidget(11, 1, new HTML("<img class=\"js-textareacopybtn\" src=\"/OpenKM/img/clipboard.png\" title=\"Copy URL to clipboard\" onclick=\"copyTextToClipboard('" + url + "')\">"));
 
 		// Webdav button
 		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
