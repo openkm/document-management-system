@@ -101,6 +101,7 @@ public class HibernateUtil {
 		cfg.addAnnotatedClass(Profiling.class);
 		cfg.addAnnotatedClass(DashboardActivity.class);
 		cfg.addAnnotatedClass(Css.class);
+		cfg.addAnnotatedClass(Omr.class);
 		cfg.addAnnotatedClass(PendingTask.class);
 
 		// Cache
@@ -124,6 +125,9 @@ public class HibernateUtil {
 		cfg.addAnnotatedClass(NodeProperty.class);
 		cfg.addAnnotatedClass(RegisteredPropertyGroup.class);
 
+		//..
+		cfg.addAnnotatedClass(MailImportError.class);
+		
 		return cfg;
 	}
 

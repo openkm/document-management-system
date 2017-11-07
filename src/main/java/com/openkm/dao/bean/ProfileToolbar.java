@@ -47,7 +47,8 @@ public class ProfileToolbar implements Serializable {
 	private boolean refreshVisible;
 	private boolean homeVisible;
 	private boolean splitterResizeVisible;
-
+	private boolean omrVisible;
+	
 	public boolean isCreateFolderVisible() {
 		return createFolderVisible;
 	}
@@ -224,54 +225,40 @@ public class ProfileToolbar implements Serializable {
 		this.splitterResizeVisible = splitterResizeVisible;
 	}
 
-	@Override
+	public boolean isOmrVisible() {
+		return omrVisible;
+	}
+
+	public void setOmrVisible(boolean omrVisible) {
+		this.omrVisible = omrVisible;
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("createFolderVisible=");
-		sb.append(createFolderVisible);
-		sb.append(", findFolderVisible=");
-		sb.append(findFolderVisible);
-		sb.append(", findDocumentVisible=");
-		sb.append(findDocumentVisible);
-		sb.append(", similarDocumentVisible=");
-		sb.append(similarDocumentVisible);
-		sb.append(", downloadVisible=");
-		sb.append(downloadVisible);
-		sb.append(", downloadPdfVisible=");
-		sb.append(downloadPdfVisible);
-		sb.append(", printVisible=");
-		sb.append(printVisible);
-		sb.append(", addDocumentVisible=");
-		sb.append(addDocumentVisible);
-		sb.append(", lockVisible=");
-		sb.append(lockVisible);
-		sb.append(", unlockVisible=");
-		sb.append(unlockVisible);
-		sb.append(", checkinVisible=");
-		sb.append(checkinVisible);
-		sb.append(", checkoutVisible=");
-		sb.append(checkoutVisible);
-		sb.append(", cancelCheckoutVisible=");
-		sb.append(cancelCheckoutVisible);
-		sb.append(", deleteVisible=");
-		sb.append(deleteVisible);
-		sb.append(", addPropertyGroupVisible=");
-		sb.append(addPropertyGroupVisible);
-		sb.append(", removePropertyGroupVisible=");
-		sb.append(removePropertyGroupVisible);
-		sb.append(", startWorkflowVisible=");
-		sb.append(startWorkflowVisible);
-		sb.append(", addSubscriptionVisible=");
-		sb.append(addSubscriptionVisible);
-		sb.append(", removeSubscriptionVisible=");
-		sb.append(removeSubscriptionVisible);
-		sb.append(", homeVisible=");
-		sb.append(homeVisible);
-		sb.append(", refreshVisible=");
-		sb.append(refreshVisible);
-		sb.append(", splitterResizeVisible=");
-		sb.append(splitterResizeVisible);
+		sb.append("createFolderVisible=").append(createFolderVisible);
+		sb.append(", findFolderVisible=").append(findFolderVisible);
+		sb.append(", findDocumentVisible=").append(findDocumentVisible);
+		sb.append(", similarDocumentVisible=").append(similarDocumentVisible);
+		sb.append(", downloadVisible=").append(downloadVisible);
+		sb.append(", downloadPdfVisible=").append(downloadPdfVisible);
+		sb.append(", printVisible=").append(printVisible);
+		sb.append(", addDocumentVisible=").append(addDocumentVisible);
+		sb.append(", lockVisible=").append(lockVisible);
+		sb.append(", unlockVisible=").append(unlockVisible);
+		sb.append(", checkinVisible=").append(checkinVisible);
+		sb.append(", checkoutVisible=").append(checkoutVisible);
+		sb.append(", cancelCheckoutVisible=").append(cancelCheckoutVisible);
+		sb.append(", deleteVisible=").append(deleteVisible);
+		sb.append(", addPropertyGroupVisible=").append(addPropertyGroupVisible);
+		sb.append(", removePropertyGroupVisible=").append(removePropertyGroupVisible);
+		sb.append(", startWorkflowVisible=").append(startWorkflowVisible);
+		sb.append(", addSubscriptionVisible=").append(addSubscriptionVisible);
+		sb.append(", removeSubscriptionVisible=").append(removeSubscriptionVisible);
+		sb.append(", homeVisible=").append(homeVisible);
+		sb.append(", refreshVisible=").append(refreshVisible);	
+		sb.append(", splitterResizeVisible=").append(splitterResizeVisible);		
+		sb.append(", omrVisible=").append(omrVisible);
 		sb.append("}");
 		return sb.toString();
 	}

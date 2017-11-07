@@ -797,6 +797,19 @@
       <version>50.1.1</version>
     </dependency>
 
+    <!-- OMR Tool -->
+    <!-- http://www.cse.iitd.ernet.in/~aseth/udai/OMRProj/README.html -->
+    <dependency>
+      <groupId>ca.uwaterloo.a3seth</groupId>
+      <artifactId>omr-tool</artifactId>
+      <version>2007.07.01</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge</groupId>
+      <artifactId>jiu</artifactId>
+      <version>2007.07.01</version>
+    </dependency>
+    
     <!-- MS Office templates -->
     <dependency>
       <groupId>org.docx4j</groupId>

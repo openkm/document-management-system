@@ -167,11 +167,13 @@ public class DownloadServlet extends OKMHttpServlet {
 					ServletOutputStream sos = response.getOutputStream();
 					String fileName = PathUtils.getName(mail.getSubject() + ".eml");
 					WebUtils.prepareSendFile(request, response, fileName, MimeTypeConfig.MIME_EML, inline);
-					response.setContentLength((int) mail.getSize());
-					MimeMessage m = MailUtils.create(null, mail);
-					m.writeTo(sos);
-					sos.flush();
-					sos.close();
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					MimeMessage msg = MailUtils.create(null, mail);
+					msg.writeTo(baos);
+					response.setContentLength(baos.size());
+					baos.writeTo(sos);
+					IOUtils.closeQuietly(baos);
+					IOUtils.closeQuietly(sos);
 				}
 			}
 		} catch (PathNotFoundException e) {

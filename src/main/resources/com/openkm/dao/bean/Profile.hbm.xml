@@ -405,6 +405,9 @@
 	    <property name="preferencesVisible" type="true_false" not-null="true">
 	      <column name="PRF_MN_TL_PREFS_VIS" default="'T'"/>
 	    </property>
+	    <property name="omrVisible" type="true_false" not-null="true">
+          <column name="PRF_MN_TL_OMR_VIS" default="'F'" />
+        </property>
       <property name="convertVisible" type="true_false" not-null="true">
         <column name="PRF_MN_TL_CONVERT_VIS" default="'T'"/>
       </property>
@@ -504,6 +507,9 @@
 	  <property name="splitterResizeVisible" type="true_false" not-null="true">
 	    <column name="PRF_TB_SPLITTER_RS_VIS" default="'T'"/>
 	  </property>
+	  <property name="omrVisible" type="true_false" not-null="true">
+        <column name="PRF_TB_OMR_VIS" default="'F'" />
+      </property>
     </component>
     
     <!-- FILE BROWSER -->

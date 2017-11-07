@@ -100,6 +100,11 @@
         </a>
       </li>
       <li>
+        <a target="frame" href="Omr" title="OMR">
+          <img src="img/toolbar/omr.png">
+        </a>
+      </li>
+      <li>
         <a target="frame" href="generate_thesaurus.jsp" title="Thesaurus">
           <img src="img/toolbar/thesaurus.png">
         </a>
