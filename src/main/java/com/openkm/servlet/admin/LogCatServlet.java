@@ -127,7 +127,7 @@ public class LogCatServlet extends BaseServlet {
 	@SuppressWarnings("unchecked")
 	private void purge(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("purge({}, {})", request, response);
-		for (File lf : (Collection<File>) FileUtils.listFiles(logFolder, null, false)) {
+		for (File lf : FileUtils.listFiles(logFolder, null, false)) {
 			if (lf.getName().matches(".+[0-9][0-9]-[0-9][0-9]-[0-9][0-9].*")) {
 				lf.delete();
 			}
