@@ -292,18 +292,25 @@ public class WebUtils {
 	}
 
 	/**
-	 * Send file to client browser.
-	 *
-	 * @throws IOException If there is a communication error.
+	 * {@link #sendFile(HttpServletRequest, HttpServletResponse, String, String, boolean, InputStream, long)}
 	 */
 	public static void sendFile(HttpServletRequest request, HttpServletResponse response,
 	                            String fileName, String mimeType, boolean inline, InputStream is) throws IOException {
 		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, is});
+		sendFile(request, response, fileName, mimeType, inline, is, is.available());
+	}
+	
+	/**
+	 * Send file to client browser.
+	 */
+	public static void sendFile(HttpServletRequest request, HttpServletResponse response, String fileName, String mimeType,
+	                            boolean inline, InputStream is, long overallSize) throws IOException {
+		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, is});
 		prepareSendFile(request, response, fileName, mimeType, inline);
 
 		// Set length
-		response.setContentLength(is.available());
-		log.debug("File: {}, Length: {}", fileName, is.available());
+		response.addHeader("Content-Length", Long.toString(overallSize));
+		log.debug("File: {}, Length: {}", fileName, overallSize);
 
 		ServletOutputStream sos = response.getOutputStream();
 		IOUtils.copy(is, sos);

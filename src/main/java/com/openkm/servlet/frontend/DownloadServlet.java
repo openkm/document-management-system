@@ -21,23 +21,9 @@
 
 package com.openkm.servlet.frontend;
 
-import com.openkm.api.OKMDocument;
-import com.openkm.api.OKMMail;
-import com.openkm.api.OKMRepository;
-import com.openkm.api.OKMSearch;
-import com.openkm.bean.Document;
-import com.openkm.bean.Mail;
-import com.openkm.bean.Repository;
-import com.openkm.core.*;
-import com.openkm.frontend.client.OKMException;
-import com.openkm.frontend.client.constants.service.ErrorCode;
-import com.openkm.util.*;
-import com.openkm.util.impexp.RepositoryExporter;
-import com.openkm.util.impexp.TextInfoDecorator;
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -45,9 +31,26 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.openkm.api.OKMDocument;
+import com.openkm.api.OKMMail;
+import com.openkm.api.OKMRepository;
+import com.openkm.api.OKMSearch;
+import com.openkm.bean.Document;
+import com.openkm.bean.Mail;
+import com.openkm.bean.Repository;
+import com.openkm.bean.Version;
+import com.openkm.core.*;
+import com.openkm.frontend.client.OKMException;
+import com.openkm.frontend.client.constants.service.ErrorCode;
+import com.openkm.util.*;
+import com.openkm.util.impexp.RepositoryExporter;
+import com.openkm.util.impexp.TextInfoDecorator;
 
 /**
  * Document download servlet
@@ -58,6 +61,7 @@ public class DownloadServlet extends OKMHttpServlet {
 	private static final boolean exportZip = true;
 	private static final boolean exportJar = false;
 
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("service({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
@@ -119,7 +123,7 @@ public class DownloadServlet extends OKMHttpServlet {
 					is = new FileInputStream(tmp);
 
 					// Send document
-					WebUtils.sendFile(request, response, fileName, MimeTypeConfig.MIME_ZIP, inline, is);
+					WebUtils.sendFile(request, response, fileName, MimeTypeConfig.MIME_ZIP, inline, is, tmp.length());
 				} else if (exportJar) {
 					// Get document
 					FileOutputStream os = new FileOutputStream(tmp);
@@ -130,17 +134,25 @@ public class DownloadServlet extends OKMHttpServlet {
 
 					// Send document
 					String fileName = PathUtils.getName(path) + ".jar";
-					WebUtils.sendFile(request, response, fileName, "application/x-java-archive", inline, is);
+					WebUtils.sendFile(request, response, fileName, "application/x-java-archive", inline, is, tmp.length());
 				}
 			} else {
 				if (OKMDocument.getInstance().isValid(null, path)) {
 					// Get document
 					Document doc = OKMDocument.getInstance().getProperties(null, path);
+					long overallSize = doc.getActualVersion().getSize();
 
 					if (ver != null && !ver.equals("")) {
 						is = OKMDocument.getInstance().getContentByVersion(null, path, ver);
+						for (Version version : OKMDocument.getInstance().getVersionHistory(null, path)) {
+							if (version.getName().equals(ver)) {
+								overallSize = version.getSize();
+								break;
+							}
+						}
 					} else {
 						is = OKMDocument.getInstance().getContent(null, path, checkout != null);
+						ver = doc.getActualVersion().getName();
 					}
 
 					// Send document
@@ -152,13 +164,13 @@ public class DownloadServlet extends OKMHttpServlet {
 						if (ver != null && !ver.equals("")) {
 							versionToAppend = " rev " + ver;
 						} else {
-							versionToAppend = " rev " + OKMDocument.getInstance().getProperties(null, uuid).getActualVersion().getName();
+							versionToAppend = " rev " + doc.getActualVersion().getName();
 						}
 						String[] nameParts = fileName.split("\\.(?=[^\\.]+$)");
 						fileName = nameParts[0] + versionToAppend + "." + nameParts[1];
 					}
 
-					WebUtils.sendFile(request, response, fileName, doc.getMimeType(), inline, is);
+					WebUtils.sendFile(request, response, fileName, doc.getMimeType(), inline, is, overallSize);
 				} else if (OKMMail.getInstance().isValid(null, path)) {
 					// Get mail
 					Mail mail = OKMMail.getInstance().getProperties(null, path);

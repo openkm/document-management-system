@@ -331,9 +331,10 @@ public class DbRepositoryViewServlet extends BaseServlet {
 		String fileName = WebUtils.getString(request, "fileName");
 		String mimeType = WebUtils.getString(request, "mimeType");
 		InputStream is = NodeDocumentVersionDAO.getInstance().getVersionContentByParent(uuid, name);
+		NodeDocumentVersion ndv = NodeDocumentVersionDAO.getInstance().findVersion(uuid, name);
 
 		try {
-			WebUtils.sendFile(request, response, fileName, mimeType, false, is);
+			WebUtils.sendFile(request, response, fileName, mimeType, false, is, ndv.getSize());
 		} finally {
 			IOUtils.closeQuietly(is);
 		}

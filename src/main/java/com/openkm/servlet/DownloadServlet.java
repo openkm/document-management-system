@@ -81,7 +81,7 @@ public class DownloadServlet extends HttpServlet {
 
 				log.info("Download {} by {} ({})", new Object[]{path, userId, (inline ? "inline" : "attachment")});
 				is = OKMDocument.getInstance().getContent(null, path, false);
-				WebUtils.sendFile(request, response, fileName, doc.getMimeType(), inline, is);
+				WebUtils.sendFile(request, response, fileName, doc.getMimeType(), inline, is, doc.getActualVersion().getSize());
 			} else {
 				response.setContentType("text/plain; charset=UTF-8");
 				PrintWriter out = response.getWriter();
