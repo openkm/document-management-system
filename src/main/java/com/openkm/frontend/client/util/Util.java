@@ -21,9 +21,6 @@
 
 package com.openkm.frontend.client.util;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.http.client.URL;
@@ -36,11 +33,13 @@ import com.openkm.frontend.client.constants.service.RPCService;
 import com.openkm.frontend.client.service.OKMGeneralService;
 import com.openkm.frontend.client.service.OKMGeneralServiceAsync;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Util
  *
  * @author jllort
- *
  */
 public class Util {
 	private static final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
@@ -49,7 +48,7 @@ public class Util {
 	 * Generates HTML for item with an attached icon.
 	 *
 	 * @param imageUrl the url of the icon image
-	 * @param title the title of the item
+	 * @param title    the title of the item
 	 * @return the resultant HTML
 	 */
 	public static String imageItemHTML(String imageUrl, String title) {
@@ -61,7 +60,7 @@ public class Util {
 	 * Generates HTML for item with an attached icon.
 	 *
 	 * @param imageUrl the url of the icon image
-	 * @param title the title of the item
+	 * @param title    the title of the item
 	 * @return the resultant HTML
 	 */
 	public static String imageItemHTML(String imageUrl, String title, String align) {
@@ -83,8 +82,8 @@ public class Util {
 	 * Generates HTML image code with style.
 	 *
 	 * @param imageUrl the url of the icon image
-	 * @param alt image alt
-	 * @param style the style of the image
+	 * @param alt      image alt
+	 * @param style    the style of the image
 	 * @return the resultant HTML
 	 */
 	public static String imageHTML(String imageUrl, String alt, String style) {
@@ -99,7 +98,7 @@ public class Util {
 	 * Generates HTML image code with style.
 	 *
 	 * @param imageUrl the url of the icon image
-	 * @param alt the image alt
+	 * @param alt      the image alt
 	 * @return the resultant HTML
 	 */
 	public static String imageHTML(String imageUrl, String alt) {
@@ -130,7 +129,7 @@ public class Util {
 	 * Return the menu html value
 	 *
 	 * @param imageUrl The image url
-	 * @param text The text value
+	 * @param text     The text value
 	 */
 	public static String flagMenuHTML(String flag, String text) {
 		return "<img style='margin-right:8px; margin-left:2px; vertical-align:middle;' " + "src=\"" + Main.CONTEXT + "/flag/" + flag
@@ -141,7 +140,7 @@ public class Util {
 	 * Return the menu html value
 	 *
 	 * @param imageUrl The image url
-	 * @param text The text value
+	 * @param text     The text value
 	 */
 	public static String menuHTML(String imageUrl, String text) {
 		return "<img style='margin-right:8px; margin-left:2px; vertical-align:middle;' src='" + imageUrl + "'>" + text;
@@ -161,7 +160,7 @@ public class Util {
 	 * in a group header.
 	 *
 	 * @param imageUrl the url of the icon image to be used
-	 * @param caption the group caption
+	 * @param caption  the group caption
 	 * @return the header HTML fragment
 	 */
 	public static String createHeaderHTML(String imageUrl, String caption) {
@@ -197,7 +196,7 @@ public class Util {
 	/**
 	 * Creates an square spacer
 	 *
-	 * @param width The desired width space
+	 * @param width  The desired width space
 	 * @param height The desired height space
 	 * @return an HTML element meaning the with and height
 	 */
@@ -212,7 +211,7 @@ public class Util {
 	 * Creates an HTML to opens a url with text on a new window
 	 *
 	 * @param text The text url description
-	 * @param uri The url to open
+	 * @param uri  The url to open
 	 */
 	public static String windowOpen(String text, String uri) {
 		return "<span onclick=\"javascript:window.open('" + uri + "')\">" + text + "</span>";
@@ -466,14 +465,14 @@ public class Util {
 	 * @param title The css name
 	 */
 	public static native void browserChangeCss(String title) /*-{
-        new $wnd.changeCss(title);
+      new $wnd.changeCss(title);
     }-*/;
 
 	/**
 	 * printFile
 	 */
 	public static native void printFile() /*-{
-        new $wnd.printFile();
+      new $wnd.printFile();
     }-*/;
 
 	/**
@@ -483,19 +482,19 @@ public class Util {
 	 * @return The formated file size.
 	 */
 	public static native String formatSize(double size) /*-{
-        if (size / 1024 < 1) {
-            str = size + " Bytes";
-        } else if (size / 1048576 < 1) {
-            str = (size / 1024).toFixed(1) + " KB";
-        } else if (size / 1073741824 < 1) {
-            str = (size / 1048576).toFixed(1) + " MB";
-        } else if (size / 1099511627776 < 1) {
-            str = (size / 1073741824).toFixed(1) + " GB";
-        } else {
-            str = "BIG";
-        }
+      if (size / 1024 < 1) {
+        str = size + " Bytes";
+      } else if (size / 1048576 < 1) {
+        str = (size / 1024).toFixed(1) + " KB";
+      } else if (size / 1073741824 < 1) {
+        str = (size / 1048576).toFixed(1) + " MB";
+      } else if (size / 1099511627776 < 1) {
+        str = (size / 1073741824).toFixed(1) + " GB";
+      } else {
+        str = "BIG";
+      }
 
-        return str;
+      return str;
     }-*/;
 
 	/**
@@ -504,124 +503,140 @@ public class Util {
 	 * @return The language in ISO 639 format.
 	 */
 	public static native String getBrowserLanguage() /*-{
-        var lang = navigator.language ? navigator.language : navigator.userLanguage;
+      var lang = navigator.language ? navigator.language : navigator.userLanguage;
 
-        if (lang) {
-            return lang;
-        } else {
-            return "en";
-        }
+      if (lang) {
+        return lang;
+      } else {
+        return "en";
+      }
     }-*/;
 
 	/**
 	 * returns 'opera', 'safari', 'ie6', 'ie7', 'ie8', 'ie9', 'gecko' or 'unknown'.
 	 */
 	public static native String getUserAgent() /*-{
-        try {
-            if (window.opera) return 'opera';
-            var ua = navigator.userAgent.toLowerCase();
-            if (ua.indexOf('chrome') != -1) return 'chrome';
-            if (ua.indexOf('webkit') != -1) return 'safari';
-            if (ua.indexOf('msie 6.0') != -1) return 'ie6';
-            if (ua.indexOf('msie 7.0') != -1) return 'ie7';
-            if (ua.indexOf('msie 8.0') != -1) return 'ie8';
-            if (ua.indexOf('msie 9.0') != -1) return 'ie9';
-            if (ua.indexOf('gecko') != -1) return 'gecko';
-            if (ua.indexOf('opera') != -1) return 'opera';
-            return 'unknown';
-        } catch (e) {
-            return 'unknown'
-        }
+      try {
+        if (window.opera) return 'opera';
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf('chrome') != -1) return 'chrome';
+        if (ua.indexOf('webkit') != -1) return 'safari';
+        if (ua.indexOf('msie 6.0') != -1) return 'ie6';
+        if (ua.indexOf('msie 7.0') != -1) return 'ie7';
+        if (ua.indexOf('msie 8.0') != -1) return 'ie8';
+        if (ua.indexOf('msie 9.0') != -1) return 'ie9';
+        if (ua.indexOf('gecko') != -1) return 'gecko';
+        if (ua.indexOf('opera') != -1) return 'opera';
+        return 'unknown';
+      } catch (e) {
+        return 'unknown'
+      }
     }-*/;
 
 	public static native void removeMediaPlayer() /*-{
-        $wnd.swfobject.removeSWF("jsmediaplayer");
+      $wnd.swfobject.removeSWF("jsmediaplayer");
     }-*/;
 
 	public static native void createMediaPlayer(String mediaUrl, String mediaProvider, String width, String height) /*-{
-        $wnd.swfobject.embedSWF("../js/mediaplayer/player.swf", "mediaplayercontainer", width, height, "9.0.0", "../js/mediaplayer/expressinstall.swf", {
-            file: mediaUrl,
-            provider: mediaProvider,
-            autostart: "true",
-            width: width,
-            height: height
-        }, {allowscriptaccess: "always", allowfullscreen: "true"}, {id: "jsmediaplayer", name: "jsmediaplayer"});
+      $wnd.swfobject.embedSWF("../js/mediaplayer/player.swf", "mediaplayercontainer", width, height, "9.0.0", "../js/mediaplayer/expressinstall.swf", {
+        file: mediaUrl,
+        provider: mediaProvider,
+        autostart: "true",
+        width: width,
+        height: height
+      }, {allowscriptaccess: "always", allowfullscreen: "true"}, {id: "jsmediaplayer", name: "jsmediaplayer"});
     }-*/;
 
 	public static native void resizeMediaPlayer(String width, String height) /*-{
-        obj = $wnd.swfobject.getObjectById('jsmediaplayer');
-        obj.width = width;
-        obj.height = height;
+      obj = $wnd.swfobject.getObjectById('jsmediaplayer');
+      obj.width = width;
+      obj.height = height;
     }-*/;
 
 	public static native void createSwfViewer(String swfUrl, String width, String height) /*-{
-        $wnd.swfobject.embedSWF(swfUrl, "swfviewercontainer", width, height, "9.0.0", "../js/mediaplayer/expressinstall.swf", {
-            width: width,
-            height: height
-        }, {}, {id: "jswfviewer", name: "jswfviewer"});
+      $wnd.swfobject.embedSWF(swfUrl, "swfviewercontainer", width, height, "9.0.0", "../js/mediaplayer/expressinstall.swf", {
+        width: width,
+        height: height
+      }, {}, {id: "jswfviewer", name: "jswfviewer"});
     }-*/;
 
 	public static native void resizeSwfViewer(String width, String height) /*-{
-        obj = $wnd.swfobject.getObjectById('jswfviewer');
-        obj.width = width;
-        obj.height = height;
+      obj = $wnd.swfobject.getObjectById('jswfviewer');
+      obj.width = width;
+      obj.height = height;
     }-*/;
 
 	public static native void createPDFViewerFlexPaper(String pdfUrl, String width, String height) /*-{
-		fpViewer = "../js/flexpaper/FlexPaperViewer.swf";
-		pdfUrl = encodeURIComponent(pdfUrl);
-		$wnd.swfobject.embedSWF(fpViewer, "pdfviewercontainer", width, height, "10.0.0", "playerProductInstall.swf",
-			{
-				SwfFile : pdfUrl,
-				Scale : 0.6,
-				ZoomTransition : "easeOut",
-				ZoomTime : 0.5,
-				ZoomInterval : 0.1,
-				FitPageOnLoad : false,
-				FitWidthOnLoad : true,
-				FullScreenAsMaxWindow : false,
-				ProgressiveLoading : true,
-				ViewModeToolsVisible : true,
-				ZoomToolsVisible : true,
-				FullScreenVisible : true,
-				NavToolsVisible : true,
-				CursorToolsVisible : true,
-				SearchToolsVisible : true,
-				localeChain: "en_US"
-			},
-			{
-				quality : "high",
-				bgcolor : "#ffffff",
-				allowscriptaccess : "sameDomain",
-				allowfullscreen : "true"
-			},
-			{
-				id : "FlexPaperViewer",
-				name : "FlexPaperViewer"
-			});
-	}-*/;
+      fpViewer = "../js/flexpaper/FlexPaperViewer.swf";
+      pdfUrl = encodeURIComponent(pdfUrl);
+      $wnd.swfobject.embedSWF(fpViewer, "pdfviewercontainer", width, height, "10.0.0", "playerProductInstall.swf",
+        {
+          SwfFile: pdfUrl,
+          Scale: 0.6,
+          ZoomTransition: "easeOut",
+          ZoomTime: 0.5,
+          ZoomInterval: 0.1,
+          FitPageOnLoad: false,
+          FitWidthOnLoad: true,
+          FullScreenAsMaxWindow: false,
+          ProgressiveLoading: true,
+          ViewModeToolsVisible: true,
+          ZoomToolsVisible: true,
+          FullScreenVisible: true,
+          NavToolsVisible: true,
+          CursorToolsVisible: true,
+          SearchToolsVisible: true,
+          localeChain: "en_US"
+        },
+        {
+          quality: "high",
+          bgcolor: "#ffffff",
+          allowscriptaccess: "sameDomain",
+          allowfullscreen: "true"
+        },
+        {
+          id: "FlexPaperViewer",
+          name: "FlexPaperViewer"
+        });
+    }-*/;
 
 	public static native void resizePDFViewerFlexPaper(String width, String height) /*-{
-        obj = $wnd.swfobject.getObjectById('FlexPaperViewer');
-        obj.width = width;
-        obj.height = height;
+      obj = $wnd.swfobject.getObjectById('FlexPaperViewer');
+      obj.width = width;
+      obj.height = height;
     }-*/;
 
 	public static native void resizeEmbededPDF(String width, String height, String pdfId) /*-{
-        obj = $wnd.document.getElementById(pdfId);
-        obj.width = width;
-        obj.height = height;
+      obj = $wnd.document.getElementById(pdfId);
+      obj.width = width;
+      obj.height = height;
     }-*/;
 
-	public static native void createClipboardButton(String divId, String textToCopy) /*-{
-        $wnd.swfobject.embedSWF("../clippy.swf", divId, 14, 14, "9.0.0", "../clippy.swf", {text: textToCopy}, {
-            quality: "high",
-            scale: "noscale",
-            bgcolor: "#FFFFFF"
-        }, {id: "clippy", name: "clippy"});
+	public static native void copyToClipboard(String text) /*-{
+      var elto = $doc.createElement('DIV');
+      elto.textContent = text;
+      $doc.body.appendChild(elto);
+
+      if ($doc.selection) {
+        var range = $doc.body.createTextRange();
+        range.moveToElementText(elto);
+        range.select();
+      } else if ($wnd.getSelection) {
+        var range = $doc.createRange();
+        range.selectNode(elto);
+        $wnd.getSelection().removeAllRanges();
+        $wnd.getSelection().addRange(range);
+      }
+
+      $doc.execCommand('copy');
+      elto.remove();
     }-*/;
 
 	public static native String escape(String text) /*-{
-        return escape(text);
+      return escape(text);
+    }-*/;
+
+	public static native void consoleLog(String message) /*-{
+      console.log(message);
     }-*/;
 }
