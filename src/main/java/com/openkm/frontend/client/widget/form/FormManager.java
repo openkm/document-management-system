@@ -37,6 +37,7 @@ import com.openkm.frontend.client.constants.ui.UIFileUploadConstants;
 import com.openkm.frontend.client.service.*;
 import com.openkm.frontend.client.util.*;
 import com.openkm.frontend.client.util.validator.ValidatorBuilder;
+import com.openkm.frontend.client.widget.Clipboard;
 import com.openkm.frontend.client.widget.ConfirmPopup;
 import com.openkm.frontend.client.widget.searchin.CalendarWidget;
 import com.openkm.frontend.client.widget.searchin.HasPropertyHandler;
@@ -145,7 +146,7 @@ public class FormManager {
 	/**
 	 * Set the WordWarp for all the row cells
 	 *
-	 * @param row The row cell
+	 * @param row     The row cell
 	 * @param columns Number of row columns
 	 * @param warp
 	 */
@@ -158,8 +159,8 @@ public class FormManager {
 	/**
 	 * Set the WordWarp for all the row cells
 	 *
-	 * @param table FlexTable The table to format
-	 * @param row The row cell
+	 * @param table   FlexTable The table to format
+	 * @param row     The row cell
 	 * @param columns Number of row columns
 	 * @param warp
 	 */
@@ -350,6 +351,7 @@ public class FormManager {
 				if (!value.equals("")) {
 					HorizontalPanel hLinkPanel = new HorizontalPanel();
 					Anchor anchor = new Anchor(value, true);
+					anchor.setStyleName("okm-Hyperlink");
 					final String url = value;
 
 					anchor.addClickHandler(new ClickHandler() {
@@ -359,15 +361,10 @@ public class FormManager {
 						}
 					});
 
-					anchor.setStyleName("okm-Hyperlink");
-					String containerName = ((GWTInput) gwtFormElement).getName() + "ContainerName";
-					hLinkPanel.add(new HTML("<div id=\"" + containerName + "\"></div>\n"));
-					HTML space = new HTML("");
-					hLinkPanel.add(space);
 					hLinkPanel.add(anchor);
-					hLinkPanel.setCellWidth(space, "5px");
+					hLinkPanel.add(Util.hSpace("5px"));
+					hLinkPanel.add(new Clipboard(url));
 					table.setWidget(row, 1, hLinkPanel);
-					Util.createClipboardButton(containerName, url);
 				} else {
 					table.setHTML(row, 1, "");
 				}
@@ -1215,7 +1212,7 @@ public class FormManager {
 
 	/**
 	 * getDrawedFormElement
-	 *
+	 * <p>
 	 * Called externally by file browser to draw form element, really used to do not reply draw logic and use actual
 	 * Use with caution table elements will be removed after executed this method
 	 *
@@ -1274,7 +1271,7 @@ public class FormManager {
 
 	/**
 	 * getDrawEditFormElement
-	 *
+	 * <p>
 	 * Called externally by file browser to draw form element, really used to do not reply draw logic and use actual
 	 * Use with caution table elements will be removed after executed this method
 	 *

@@ -40,6 +40,7 @@ import com.openkm.frontend.client.service.OKMDocumentService;
 import com.openkm.frontend.client.service.OKMDocumentServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.Clipboard;
 import com.openkm.frontend.client.widget.properties.CategoryManager.CategoryToRemove;
 import com.openkm.frontend.client.widget.properties.KeywordManager.KeywordToRemove;
 import com.openkm.frontend.client.widget.thesaurus.ThesaurusSelectPopup;
@@ -50,7 +51,6 @@ import java.util.Collection;
  * Document
  *
  * @author jllort
- *
  */
 public class Document extends Composite {
 	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
@@ -167,10 +167,10 @@ public class Document extends Composite {
 	/**
 	 * Set the WordWarp for all the row cells
 	 *
-	 * @param row The row cell
+	 * @param row     The row cell
 	 * @param columns Number of row columns
 	 * @param warp
-	 * @param table The table to change word wrap
+	 * @param table   The table to change word wrap
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp, FlexTable table) {
 		CellFormatter cellFormatter = table.getCellFormatter();
@@ -188,31 +188,12 @@ public class Document extends Composite {
 	public void set(GWTDocument doc) {
 		this.document = doc;
 
-		// URL clipboard button
-		String url = Main.get().workspaceUserProperties.getApplicationURL();
-		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(document.getUuid()));
-		tableProperties.setWidget(11, 1, new HTML("<div id=\"urlClipboard\"></div>\n"));
-		Util.createClipboardButton("urlClipboard", url);
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(new HTML(doc.getUuid()));
+		hPanel.add(Util.hSpace("3px"));
+		hPanel.add(new Clipboard(doc.getUuid()));
 
-		// Webdav button
-		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
-		String webdavPath = document.getPath();
-
-		// Replace only in case webdav fix is enabled
-		if (Main.get().workspaceUserProperties.getWorkspace() != null && Main.get().workspaceUserProperties.getWorkspace().isWebdavFix()) {
-			webdavPath = webdavPath.replace("okm:", "okm_");
-		}
-
-		// Login case write empty folder
-		if (!webdavUrl.isEmpty()) {
-			webdavPath = Util.encodePathElements(webdavPath);
-			webdavUrl = webdavUrl.substring(0, webdavUrl.lastIndexOf('/')) + "/webdav" + webdavPath;
-		}
-
-		tableProperties.setWidget(12, 1, new HTML("<div id=\"webdavClipboard\"></div>\n"));
-		Util.createClipboardButton("webdavClipboard", webdavUrl);
-
-		tableProperties.setHTML(0, 1, doc.getUuid());
+		tableProperties.setWidget(0, 1, hPanel);
 		tableProperties.setHTML(1, 1, doc.getName());
 		tableProperties.setHTML(2, 1, doc.getParentPath());
 		tableProperties.setHTML(3, 1, Util.formatSize(doc.getActualVersion().getSize()));
@@ -243,6 +224,28 @@ public class Document extends Composite {
 		} else {
 			tableProperties.setHTML(9, 1, Main.i18n("document.subscribed.no"));
 		}
+
+		// URL clipboard button
+		String url = Main.get().workspaceUserProperties.getApplicationURL();
+		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(document.getUuid()));
+		tableProperties.setWidget(11, 1, new Clipboard(url));
+
+		// Webdav button
+		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
+		String webdavPath = document.getPath();
+
+		// Replace only in case webdav fix is enabled
+		if (Main.get().workspaceUserProperties.getWorkspace() != null && Main.get().workspaceUserProperties.getWorkspace().isWebdavFix()) {
+			webdavPath = webdavPath.replace("okm:", "okm_");
+		}
+
+		// Login case write empty folder
+		if (!webdavUrl.isEmpty()) {
+			webdavPath = Util.encodePathElements(webdavPath);
+			webdavUrl = webdavUrl.substring(0, webdavUrl.lastIndexOf('/')) + "/webdav" + webdavPath;
+		}
+
+		tableProperties.setWidget(12, 1, new Clipboard(webdavUrl));
 
 		// Enables or disables change keywords with user permissions and document is not check-out or locked
 		if (remove) {
@@ -452,7 +455,6 @@ public class Document extends Composite {
 
 	/**
 	 * Adds keywords sequentially
-	 *
 	 */
 	public void addPendingKeyWordsList() {
 		keywordManager.addPendingKeyWordsList();

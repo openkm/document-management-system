@@ -35,6 +35,7 @@ import com.openkm.frontend.client.bean.GWTUser;
 import com.openkm.frontend.client.constants.ui.UIDesktopConstants;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.Clipboard;
 import com.openkm.frontend.client.widget.properties.CategoryManager.CategoryToRemove;
 import com.openkm.frontend.client.widget.properties.KeywordManager.KeywordToRemove;
 import com.openkm.frontend.client.widget.thesaurus.ThesaurusSelectPopup;
@@ -45,7 +46,6 @@ import java.util.Collection;
  * Folder
  *
  * @author jllort
- *
  */
 public class Folder extends Composite {
 	private ScrollPanel scrollPanel;
@@ -157,10 +157,10 @@ public class Folder extends Composite {
 	/**
 	 * Set the WordWarp for all the row cells
 	 *
-	 * @param row The row cell
+	 * @param row     The row cell
 	 * @param columns Number of row columns
 	 * @param warp
-	 * @param table The table to change word wrap
+	 * @param table   The table to change word wrap
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp, FlexTable table) {
 		CellFormatter cellFormatter = table.getCellFormatter();
@@ -185,31 +185,12 @@ public class Folder extends Composite {
 	public void set(GWTFolder fld) {
 		this.folder = fld;
 
-		// URL clipboard button
-		String url = Main.get().workspaceUserProperties.getApplicationURL();
-		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(folder.getUuid()));
-		tableProperties.setWidget(9, 1, new HTML("<div id=\"urlClipboard\"></div>\n"));
-		Util.createClipboardButton("urlClipboard", url);
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.add(new HTML(folder.getUuid()));
+		hPanel.add(Util.hSpace("3px"));
+		hPanel.add(new Clipboard(folder.getUuid()));
 
-		// Webdav
-		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
-		String webdavPath = folder.getPath();
-
-		// Replace only in case webdav fix is enabled
-		if (Main.get().workspaceUserProperties.getWorkspace() != null && Main.get().workspaceUserProperties.getWorkspace().isWebdavFix()) {
-			webdavPath = webdavPath.replace("okm:", "okm_");
-		}
-
-		// Login case write empty folder
-		if (!webdavUrl.isEmpty()) {
-			webdavPath = Util.encodePathElements(webdavPath);
-			webdavUrl = webdavUrl.substring(0, webdavUrl.lastIndexOf('/')) + "/webdav" + webdavPath;
-		}
-
-		tableProperties.setWidget(10, 1, new HTML("<div id=\"webdavClipboard\"></div>\n"));
-		Util.createClipboardButton("webdavClipboard", webdavUrl);
-
-		tableProperties.setHTML(0, 1, folder.getUuid());
+		tableProperties.setWidget(0, 1, hPanel);
 		tableProperties.setHTML(1, 1, folder.getName());
 		tableProperties.setHTML(2, 1, folder.getParentPath());
 		DateTimeFormat dtf = DateTimeFormat.getFormat(Main.i18n("general.date.pattern"));
@@ -316,6 +297,28 @@ public class Folder extends Composite {
 		categoryManager.removeAllRows();
 		categoryManager.setObject(folder, remove);
 		categoryManager.drawAll();
+
+		// URL clipboard button
+		String url = Main.get().workspaceUserProperties.getApplicationURL();
+		url += "?uuid=" + URL.encodeQueryString(URL.encodeQueryString(folder.getUuid()));
+		tableProperties.setWidget(9, 1, new Clipboard(url));
+
+		// Webdav
+		String webdavUrl = Main.get().workspaceUserProperties.getApplicationURL();
+		String webdavPath = folder.getPath();
+
+		// Replace only in case webdav fix is enabled
+		if (Main.get().workspaceUserProperties.getWorkspace() != null && Main.get().workspaceUserProperties.getWorkspace().isWebdavFix()) {
+			webdavPath = webdavPath.replace("okm:", "okm_");
+		}
+
+		// Login case write empty folder
+		if (!webdavUrl.isEmpty()) {
+			webdavPath = Util.encodePathElements(webdavPath);
+			webdavUrl = webdavUrl.substring(0, webdavUrl.lastIndexOf('/')) + "/webdav" + webdavPath;
+		}
+
+		tableProperties.setWidget(10, 1, new Clipboard(webdavUrl));
 	}
 
 	/**
@@ -459,7 +462,6 @@ public class Folder extends Composite {
 
 	/**
 	 * Adds keywords sequentially
-	 *
 	 */
 	public void addPendingKeyWordsList() {
 		keywordManager.addPendingKeyWordsList();
