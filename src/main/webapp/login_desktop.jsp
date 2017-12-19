@@ -13,9 +13,9 @@
   <meta content="OpenKM is an EDRMS EDRMS, Document Management System and Record Management, easily to manage digital content, simplify your workload and yield high efficiency." name="description">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
   <link rel="Shortcut icon" href="<%=request.getContextPath() %>/logo/favicon" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css?v=%{TIMESTAMP}%" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css?v=%{TIMESTAMP}%" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css?v=%{TIMESTAMP}%" type="text/css" />
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />
   <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.easy-ticker.min.js"></script>
   

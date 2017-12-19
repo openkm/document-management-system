@@ -9,9 +9,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <link rel="Shortcut icon" href="<%=request.getContextPath() %>/favicon.ico" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css?v=%{TIMESTAMP}%" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css?v=%{TIMESTAMP}%" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css?v=%{TIMESTAMP}%" type="text/css" />  
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />  
   <title>OpenKM Mobile</title>
 </head>
 <body>
