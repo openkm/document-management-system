@@ -15,7 +15,7 @@
   </jbpm-context>
   
   <string name="resource.mail.templates" value="jbpm.mail.templates.xml"/>
-  <string name="jbpm.mail.from.address" value="noreply@openkm.com" />
+  <string name="jbpm.mail.from.address" value="none@nomail.com" />
   <string name="jbpm.mail.smtp.host" value="localhost" />
   <string name="jbpm.mail.debug" value="true" />
   <!--
