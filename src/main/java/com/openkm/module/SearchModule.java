@@ -85,7 +85,7 @@ public interface SearchModule {
 	 */
 	public ResultSet findPaginated(String token, QueryParams params, int offset, int limit) throws IOException,
 			ParseException, AccessDeniedException, RepositoryException, DatabaseException;
-
+	
 	/**
 	 * Save a search for future use.
 	 *

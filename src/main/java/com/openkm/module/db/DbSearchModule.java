@@ -389,13 +389,14 @@ public class DbSearchModule implements SearchModule {
 					qr.setScore((long) (100 * nqr.getScore()));
 
 					if (nqr.getDocument() != null) {
-						qr.setDocument(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
+						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
 					} else if (nqr.getFolder() != null) {
-						qr.setFolder(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
+						qr.setNode(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
 					} else if (nqr.getMail() != null) {
-						qr.setMail(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
+						qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));					
 					} else if (nqr.getAttachment() != null) {
-						qr.setAttachment(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
+						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
+						qr.setAttachment(true);
 					}
 
 					results.add(qr);
@@ -1063,13 +1064,14 @@ public class DbSearchModule implements SearchModule {
 					qr.setScore((long) (100 * nqr.getScore()));
 
 					if (nqr.getDocument() != null) {
-						qr.setDocument(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
+						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
 					} else if (nqr.getFolder() != null) {
-						qr.setFolder(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
+						qr.setNode(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
 					} else if (nqr.getMail() != null) {
-						qr.setMail(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
-					} else if (nqr.getAttachment() != null) {
-						qr.setAttachment(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
+						qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
+					} else if (nqr.getAttachment() != null) {						
+						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
+						qr.setAttachment(true);
 					}
 
 					results.add(qr);
@@ -1124,11 +1126,11 @@ public class DbSearchModule implements SearchModule {
 				qr.setScore((long) (100 * nqr.getScore()));
 
 				if (nqr.getDocument() != null) {
-					qr.setDocument(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
+					qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getDocument()));
 				} else if (nqr.getFolder() != null) {
-					qr.setFolder(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
+					qr.setNode(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
 				} else if (nqr.getMail() != null) {
-					qr.setMail(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
+					qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
 				}
 
 				results.add(qr);
