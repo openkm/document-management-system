@@ -25,42 +25,24 @@ import java.io.Serializable;
 
 public class QueryResult implements Serializable {
 	private static final long serialVersionUID = -6397099389620834328L;
-	private Document document;
-	private Folder folder;
-	private Mail mail;
-	private Document attachment;
+	private Node node;
+	private boolean attachment;
 	private String excerpt;
 	private long score;
 
-	public Document getDocument() {
-		return document;
+	public Node getNode() {
+		return node;
 	}
 
-	public void setDocument(Document document) {
-		this.document = document;
+	public void setNode(Node node) {
+		this.node = node;
 	}
 
-	public Folder getFolder() {
-		return folder;
-	}
-
-	public void setFolder(Folder folder) {
-		this.folder = folder;
-	}
-
-	public Mail getMail() {
-		return mail;
-	}
-
-	public void setMail(Mail mail) {
-		this.mail = mail;
-	}
-
-	public Document getAttachment() {
+	public boolean isAttachment() {
 		return attachment;
 	}
 
-	public void setAttachment(Document attachment) {
+	public void setAttachment(boolean attachment) {
 		this.attachment = attachment;
 	}
 
@@ -83,18 +65,10 @@ public class QueryResult implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("document=");
-		sb.append(document);
-		sb.append(", folder=");
-		sb.append(folder);
-		sb.append(", mail=");
-		sb.append(mail);
-		sb.append(", attachment=");
-		sb.append(attachment);
-		sb.append(", excerpt=");
-		sb.append(excerpt);
-		sb.append(", score=");
-		sb.append(score);
+		sb.append("node=").append(node);
+		sb.append(", attachment=").append(attachment);
+		sb.append(", excerpt=").append(excerpt);
+		sb.append(", score=").append(score);
 		sb.append("}");
 		return sb.toString();
 	}

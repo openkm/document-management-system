@@ -264,7 +264,7 @@ public class BaseDocumentModule {
 		log.debug("getProperties: {}", doc);
 		return doc;
 	}
-
+	
 	/**
 	 * Retrieve the content input stream from a document
 	 *

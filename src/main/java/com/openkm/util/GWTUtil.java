@@ -21,28 +21,156 @@
 
 package com.openkm.util;
 
-import com.openkm.api.*;
-import com.openkm.bean.*;
-import com.openkm.bean.form.*;
-import com.openkm.bean.form.Node;
-import com.openkm.bean.workflow.*;
-import com.openkm.core.*;
-import com.openkm.core.Config;
-import com.openkm.dao.KeyValueDAO;
-import com.openkm.dao.bean.*;
-import com.openkm.extension.dao.bean.*;
-import com.openkm.frontend.client.bean.*;
-import com.openkm.frontend.client.bean.extension.*;
-import com.openkm.frontend.client.bean.form.*;
-import com.openkm.module.db.DbPropertyGroupModule;
-import com.openkm.principal.PrincipalAdapterException;
-import com.openkm.util.WorkflowUtils.ProcessInstanceLogEntry;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.*;
+import com.openkm.api.OKMAuth;
+import com.openkm.api.OKMDocument;
+import com.openkm.api.OKMFolder;
+import com.openkm.api.OKMMail;
+import com.openkm.api.OKMPropertyGroup;
+import com.openkm.api.OKMRepository;
+import com.openkm.bean.AppVersion;
+import com.openkm.bean.DashboardDocumentResult;
+import com.openkm.bean.DashboardFolderResult;
+import com.openkm.bean.DashboardMailResult;
+import com.openkm.bean.Document;
+import com.openkm.bean.ExtendedAttributes;
+import com.openkm.bean.Folder;
+import com.openkm.bean.LockInfo;
+import com.openkm.bean.Mail;
+import com.openkm.bean.Note;
+import com.openkm.bean.PropertyGroup;
+import com.openkm.bean.QueryResult;
+import com.openkm.bean.Version;
+import com.openkm.bean.form.Button;
+import com.openkm.bean.form.CheckBox;
+import com.openkm.bean.form.Download;
+import com.openkm.bean.form.FormElement;
+import com.openkm.bean.form.Input;
+import com.openkm.bean.form.Node;
+import com.openkm.bean.form.Option;
+import com.openkm.bean.form.Print;
+import com.openkm.bean.form.Select;
+import com.openkm.bean.form.Separator;
+import com.openkm.bean.form.SuggestBox;
+import com.openkm.bean.form.Text;
+import com.openkm.bean.form.TextArea;
+import com.openkm.bean.form.Upload;
+import com.openkm.bean.form.Validator;
+import com.openkm.bean.workflow.Comment;
+import com.openkm.bean.workflow.ProcessDefinition;
+import com.openkm.bean.workflow.ProcessInstance;
+import com.openkm.bean.workflow.TaskInstance;
+import com.openkm.bean.workflow.Token;
+import com.openkm.bean.workflow.Transition;
+import com.openkm.core.AccessDeniedException;
+import com.openkm.core.Config;
+import com.openkm.core.DatabaseException;
+import com.openkm.core.NoSuchGroupException;
+import com.openkm.core.ParseException;
+import com.openkm.core.PathNotFoundException;
+import com.openkm.core.RepositoryException;
+import com.openkm.dao.KeyValueDAO;
+import com.openkm.dao.bean.Activity;
+import com.openkm.dao.bean.Bookmark;
+import com.openkm.dao.bean.KeyValue;
+import com.openkm.dao.bean.Language;
+import com.openkm.dao.bean.MimeType;
+import com.openkm.dao.bean.Omr;
+import com.openkm.dao.bean.QueryParams;
+import com.openkm.dao.bean.Report;
+import com.openkm.dao.bean.UserConfig;
+import com.openkm.extension.dao.bean.Forum;
+import com.openkm.extension.dao.bean.ForumPost;
+import com.openkm.extension.dao.bean.ForumTopic;
+import com.openkm.extension.dao.bean.MessageReceived;
+import com.openkm.extension.dao.bean.MessageSent;
+import com.openkm.extension.dao.bean.ProposedQueryReceived;
+import com.openkm.extension.dao.bean.ProposedQuerySent;
+import com.openkm.extension.dao.bean.ProposedSubscriptionReceived;
+import com.openkm.extension.dao.bean.ProposedSubscriptionSent;
+import com.openkm.extension.dao.bean.Staple;
+import com.openkm.extension.dao.bean.StapleGroup;
+import com.openkm.extension.dao.bean.WikiPage;
+import com.openkm.frontend.client.bean.GWTAppVersion;
+import com.openkm.frontend.client.bean.GWTBookmark;
+import com.openkm.frontend.client.bean.GWTComment;
+import com.openkm.frontend.client.bean.GWTConfig;
+import com.openkm.frontend.client.bean.GWTDashboardDocumentResult;
+import com.openkm.frontend.client.bean.GWTDashboardFolderResult;
+import com.openkm.frontend.client.bean.GWTDashboardMailResult;
+import com.openkm.frontend.client.bean.GWTDocument;
+import com.openkm.frontend.client.bean.GWTExtendedAttributes;
+import com.openkm.frontend.client.bean.GWTFilebrowseExtraColumn;
+import com.openkm.frontend.client.bean.GWTFolder;
+import com.openkm.frontend.client.bean.GWTKeyValue;
+import com.openkm.frontend.client.bean.GWTLanguage;
+import com.openkm.frontend.client.bean.GWTLockInfo;
+import com.openkm.frontend.client.bean.GWTMail;
+import com.openkm.frontend.client.bean.GWTMimeType;
+import com.openkm.frontend.client.bean.GWTNote;
+import com.openkm.frontend.client.bean.GWTOmr;
+import com.openkm.frontend.client.bean.GWTProcessDefinition;
+import com.openkm.frontend.client.bean.GWTProcessInstance;
+import com.openkm.frontend.client.bean.GWTProcessInstanceLogEntry;
+import com.openkm.frontend.client.bean.GWTPropertyGroup;
+import com.openkm.frontend.client.bean.GWTPropertyParams;
+import com.openkm.frontend.client.bean.GWTQueryParams;
+import com.openkm.frontend.client.bean.GWTQueryResult;
+import com.openkm.frontend.client.bean.GWTReport;
+import com.openkm.frontend.client.bean.GWTTaskInstance;
+import com.openkm.frontend.client.bean.GWTToken;
+import com.openkm.frontend.client.bean.GWTTransition;
+import com.openkm.frontend.client.bean.GWTUser;
+import com.openkm.frontend.client.bean.GWTUserConfig;
+import com.openkm.frontend.client.bean.GWTVersion;
+import com.openkm.frontend.client.bean.GWTWorkflowComment;
+import com.openkm.frontend.client.bean.GWTWorkspace;
+import com.openkm.frontend.client.bean.extension.GWTActivity;
+import com.openkm.frontend.client.bean.extension.GWTForum;
+import com.openkm.frontend.client.bean.extension.GWTForumPost;
+import com.openkm.frontend.client.bean.extension.GWTForumTopic;
+import com.openkm.frontend.client.bean.extension.GWTMessageReceived;
+import com.openkm.frontend.client.bean.extension.GWTProposedQueryReceived;
+import com.openkm.frontend.client.bean.extension.GWTProposedQuerySent;
+import com.openkm.frontend.client.bean.extension.GWTProposedSubscriptionReceived;
+import com.openkm.frontend.client.bean.extension.GWTProposedSubscriptionSent;
+import com.openkm.frontend.client.bean.extension.GWTStaple;
+import com.openkm.frontend.client.bean.extension.GWTStapleGroup;
+import com.openkm.frontend.client.bean.extension.GWTTextMessageSent;
+import com.openkm.frontend.client.bean.extension.GWTWikiPage;
+import com.openkm.frontend.client.bean.form.GWTButton;
+import com.openkm.frontend.client.bean.form.GWTCheckBox;
+import com.openkm.frontend.client.bean.form.GWTDownload;
+import com.openkm.frontend.client.bean.form.GWTFormElement;
+import com.openkm.frontend.client.bean.form.GWTInput;
+import com.openkm.frontend.client.bean.form.GWTNode;
+import com.openkm.frontend.client.bean.form.GWTOption;
+import com.openkm.frontend.client.bean.form.GWTPrint;
+import com.openkm.frontend.client.bean.form.GWTSelect;
+import com.openkm.frontend.client.bean.form.GWTSeparator;
+import com.openkm.frontend.client.bean.form.GWTSuggestBox;
+import com.openkm.frontend.client.bean.form.GWTText;
+import com.openkm.frontend.client.bean.form.GWTTextArea;
+import com.openkm.frontend.client.bean.form.GWTUpload;
+import com.openkm.frontend.client.bean.form.GWTValidator;
+import com.openkm.module.db.DbPropertyGroupModule;
+import com.openkm.principal.PrincipalAdapterException;
+import com.openkm.util.WorkflowUtils.ProcessInstanceLogEntry;
 
 public class GWTUtil {
 	private static Logger log = LoggerFactory.getLogger(GWTUtil.class);
@@ -472,16 +600,20 @@ public class GWTUtil {
 			ParseException, NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
 		GWTQueryResult gwtQueryResult = new GWTQueryResult();
 
-		if (queryResult.getDocument() != null) {
-			gwtQueryResult.setDocument(copy(queryResult.getDocument(), workspace));
-			gwtQueryResult.getDocument().setAttachment(false);
-		} else if (queryResult.getFolder() != null) {
-			gwtQueryResult.setFolder(copy(queryResult.getFolder(), workspace));
-		} else if (queryResult.getMail() != null) {
-			gwtQueryResult.setMail(copy(queryResult.getMail(), workspace));
-		} else if (queryResult.getAttachment() != null) {
-			gwtQueryResult.setAttachment(copy(queryResult.getAttachment(), workspace));
-			gwtQueryResult.getAttachment().setAttachment(true);
+		if (queryResult.getNode() instanceof Document) {
+			if (!queryResult.isAttachment()) {
+				// Normal document
+				gwtQueryResult.setDocument(copy((Document) queryResult.getNode(), workspace));
+				gwtQueryResult.getDocument().setAttachment(false);
+			} else {
+				// Attachment
+				gwtQueryResult.setAttachment(copy((Document) queryResult.getNode(), workspace));
+				gwtQueryResult.getAttachment().setAttachment(true);
+			}
+		} else if (queryResult.getNode() instanceof Folder) {
+			gwtQueryResult.setFolder(copy((Folder) queryResult.getNode(), workspace));
+		} else if (queryResult.getNode() instanceof Mail) {
+			gwtQueryResult.setMail(copy((Mail) queryResult.getNode(), workspace));
 		}
 
 		gwtQueryResult.setExcerpt(queryResult.getExcerpt());
@@ -493,7 +625,7 @@ public class GWTUtil {
 	/**
 	 * Copy the QueryParams data to GWTQueryParams data object
 	 *
-	 * @param GWTQueryParams The original QueryParams
+	 * @param params The original QueryParams
 	 * @return The GWTQueryParams object with the data from de original QueryParams
 	 */
 	public static GWTQueryParams copy(QueryParams params) throws RepositoryException, IOException, AccessDeniedException,

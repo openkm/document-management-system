@@ -184,103 +184,134 @@ public class CSVUtil {
 			NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException,
 			PrincipalAdapterException {
 		String[] columns = new String[cols];
-		if (qr.getDocument() != null) {
-			Document doc = qr.getDocument();
-			int col = 0;
-			if (up.getPrfFileBrowser().isIconVisible() || !compact) {
-				columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.document");
+		if (qr.getNode() instanceof Document) {
+			if (!qr.isAttachment()) {
+				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);	
+			} else {
+				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);				
 			}
-			if (up.getPrfFileBrowser().isNameVisible() || !compact) {
-				columns[col++] = PathUtils.getName(doc.getPath());
-			}
-			if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
-				columns[col++] = FormatUtil.formatSize(doc.getActualVersion().getSize());
-			}
-			if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
-				columns[col++] = dtf.format(doc.getActualVersion().getCreated().getTime());
-			}
-			if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
-				columns[col++] = doc.getAuthor();
-			}
-			if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
-				columns[col++] = doc.getActualVersion().getName();
-			}
-			columns[col++] = Config.APPLICATION_URL + "?uuid=" + doc.getUuid();
-			addExtraColumnsValues(columns, up, col, doc.getPath(), ecMap, dtf);
-		} else if (qr.getAttachment() != null) {
-			Document doc = qr.getAttachment();
-			int col = 0;
-			if (up.getPrfFileBrowser().isIconVisible() || !compact) {
-				columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.document");
-			}
-			if (up.getPrfFileBrowser().isNameVisible() || !compact) {
-				columns[col++] = PathUtils.getName(doc.getPath());
-			}
-			if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
-				columns[col++] = FormatUtil.formatSize(doc.getActualVersion().getSize());
-			}
-			if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
-				columns[col++] = dtf.format(doc.getActualVersion().getCreated().getTime());
-			}
-			if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
-				columns[col++] = doc.getAuthor();
-			}
-			if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
-				columns[col++] = doc.getActualVersion().getName();
-			}
-			columns[col++] = Config.APPLICATION_URL + "?uuid=" + doc.getUuid();
-			addExtraColumnsValues(columns, up, col, doc.getPath(), ecMap, dtf);
-		} else if (qr.getFolder() != null) {
-			Folder fld = qr.getFolder();
-			int col = 0;
-			if (up.getPrfFileBrowser().isIconVisible() || !compact) {
-				columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.folder");
-			}
-			if (up.getPrfFileBrowser().isNameVisible() || !compact) {
-				columns[col++] = PathUtils.getName(fld.getPath());
-			}
-			if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
-				columns[col++] = "";
-			}
-			if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
-				columns[col++] = dtf.format(fld.getCreated().getTime());
-			}
-			if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
-				columns[col++] = fld.getAuthor();
-			}
-			if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
-				columns[col++] = "";
-			}
-			columns[col++] = Config.APPLICATION_URL + "?uuid=" + fld.getUuid();
-			addExtraColumnsValues(columns, up, col, fld.getPath(), ecMap, dtf);
-		} else if (qr.getMail() != null) {
-			Mail mail = qr.getMail();
-			int col = 0;
-			if (up.getPrfFileBrowser().isIconVisible() || !compact) {
-				columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.mail");
-			}
-			if (up.getPrfFileBrowser().isNameVisible() || !compact) {
-				columns[col++] = mail.getSubject();
-			}
-			if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
-				columns[col++] = FormatUtil.formatSize(mail.getSize());
-			}
-			if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
-				columns[col++] = dtf.format(mail.getCreated().getTime());
-			}
-			if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
-				columns[col++] = mail.getAuthor();
-			}
-			if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
-				columns[col++] = "";
-			}
-			columns[col++] = Config.APPLICATION_URL + "?uuid=" + mail.getUuid();
-
-			addExtraColumnsValues(columns, up, col, mail.getPath(), ecMap, dtf);
+		} else if (qr.getNode() instanceof Folder) {
+			columns = handleFolder((Folder) qr.getNode(), dtf, translations, cols, up, ecMap, compact);
+		} else if (qr.getNode() instanceof Mail) {
+			columns = handleMail((Mail) qr.getNode(), dtf, translations, cols, up, ecMap, compact);
 		}
 		return columns;
 	}
 
+	/**
+	 * Handle document
+	 */
+	private static String[] handleDocument(Document doc, DateFormat dtf, Map<String, String> translations, int cols, Profile up,
+	                                       Map<String, GWTFilebrowseExtraColumn> ecMap, boolean compact) throws DatabaseException, ParseException, IOException,
+			RepositoryException, PrincipalAdapterException, PathNotFoundException, AccessDeniedException, NoSuchGroupException {
+		String[] columns = new String[cols];
+		int col = 0;
+
+		if (up.getPrfFileBrowser().isIconVisible() || !compact) {
+			columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.document");
+		}
+
+		if (up.getPrfFileBrowser().isNameVisible() || !compact) {
+			columns[col++] = PathUtils.getName(doc.getPath());
+		}
+
+		if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
+			columns[col++] = FormatUtil.formatSize(doc.getActualVersion().getSize());
+		}
+
+		if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
+			columns[col++] = dtf.format(doc.getActualVersion().getCreated().getTime());
+		}
+
+		if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
+			columns[col++] = doc.getAuthor();
+		}
+
+		if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
+			columns[col++] = doc.getActualVersion().getName();
+		}
+
+		columns[col++] = Config.APPLICATION_URL + "?uuid=" + doc.getUuid();
+		addExtraColumnsValues(columns, up, col, doc.getPath(), ecMap, dtf);
+		return columns;
+	}
+
+	/**
+	 * Handle folder
+	 */
+	private static String[] handleFolder(Folder fld, DateFormat dtf, Map<String, String> translations, int cols, Profile up,
+	                                     Map<String, GWTFilebrowseExtraColumn> ecMap, boolean compact) throws DatabaseException, ParseException, IOException,
+			RepositoryException, PrincipalAdapterException, PathNotFoundException, AccessDeniedException, NoSuchGroupException {
+		String[] columns = new String[cols];
+		int col = 0;
+
+		if (up.getPrfFileBrowser().isIconVisible() || !compact) {
+			columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.folder");
+		}
+
+		if (up.getPrfFileBrowser().isNameVisible() || !compact) {
+			columns[col++] = PathUtils.getName(fld.getPath());
+		}
+
+		if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
+			columns[col++] = "";
+		}
+
+		if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
+			columns[col++] = dtf.format(fld.getCreated().getTime());
+		}
+
+		if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
+			columns[col++] = fld.getAuthor();
+		}
+
+		if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
+			columns[col++] = "";
+		}
+
+		columns[col++] = Config.APPLICATION_URL + "?uuid=" + fld.getUuid();
+		addExtraColumnsValues(columns, up, col, fld.getPath(), ecMap, dtf);
+		return columns;
+	}
+
+	/**
+	 * Handle mail
+	 */
+	private static String[] handleMail(Mail mail, DateFormat dtf, Map<String, String> translations, int cols, Profile up,
+	                                   Map<String, GWTFilebrowseExtraColumn> ecMap, boolean compact) throws DatabaseException, ParseException, IOException,
+			RepositoryException, PrincipalAdapterException, PathNotFoundException, AccessDeniedException, NoSuchGroupException {
+		String[] columns = new String[cols];
+		int col = 0;
+
+		if (up.getPrfFileBrowser().isIconVisible() || !compact) {
+			columns[col++] = translations.get(Translation.MODULE_FRONTEND + "." + "search.type.mail");
+		}
+
+		if (up.getPrfFileBrowser().isNameVisible() || !compact) {
+			columns[col++] = mail.getSubject();
+		}
+
+		if (up.getPrfFileBrowser().isSizeVisible() || !compact) {
+			columns[col++] = FormatUtil.formatSize(mail.getSize());
+		}
+
+		if (up.getPrfFileBrowser().isLastModifiedVisible() || !compact) {
+			columns[col++] = dtf.format(mail.getCreated().getTime());
+		}
+
+		if (up.getPrfFileBrowser().isAuthorVisible() || !compact) {
+			columns[col++] = mail.getAuthor();
+		}
+
+		if (up.getPrfFileBrowser().isVersionVisible() || !compact) {
+			columns[col++] = "";
+		}
+
+		columns[col++] = Config.APPLICATION_URL + "?uuid=" + mail.getUuid();
+		addExtraColumnsValues(columns, up, col, mail.getPath(), ecMap, dtf);
+		return columns;
+	}
+	
 	/**
 	 * numberOfExtraColumns
 	 */
