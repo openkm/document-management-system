@@ -162,116 +162,126 @@
   </div>
   <u:constantsMap className="com.openkm.core.Config" var="Config"/>
   <div id="login-container">
-            <div class="login-title">
-                <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">                
-            </div>                 
-            <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">              
-              <form name="loginform" method="post" action="j_spring_security_check" onsubmit="setCookie()" class="form-horizontal form-bordered form-control-borderless" id="form-login">
-                <div class="form-group form-header text-center">
-                        <div class="col-xs-12">
-                            <%=Config.TEXT_BANNER %>
-                      <%=Config.TEXT_WELCOME %>
-                        </div>
-                    </div>
-                <c:if test="${not empty param.error}">
-                  <div class="form-group form-error">
-                      <div id="col-xs-12">                                    
-                    <p class="text-danger text-center">
-                        Authentication error
-                      <c:if test="${Config.USER_PASSWORD_RESET && Config.PRINCIPAL_ADAPTER == 'com.openkm.principal.DatabasePrincipalAdapter'}">
-                          (<a href="password_reset.jsp">Forgot your password?</a>)
-                      </c:if>
-                    </p>
-                    
-                </div>  
-              </div>   
-            </c:if>                     
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <div class="input-group">                                
-                                <% if (Config.SYSTEM_MAINTENANCE) { %>                        
-                        <span class="input-group-addon"><i class="gi gi-user"></i></i></span>
-                        <input name="j_username" id="j_username" type="hidden" value="<%=Config.SYSTEM_LOGIN_LOWERCASE?Config.ADMIN_USER.toLowerCase():Config.ADMIN_USER%>" class="form-control input-lg" placeholder="System under maintenance"/>
-                    <% } else { %>
-                      <span class="input-group-addon"><i class="fa fa-user"></i></i></span>                       
-                        <input name="j_username" id="j_username" type="text" <%=Config.SYSTEM_LOGIN_LOWERCASE?"onchange=\"makeLowercase();\"":"" %> class="form-control input-lg" placeholder="User"/>
-                    <% } %>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-                                <input type="password" id="j_password" name="j_password" class="form-control input-lg" placeholder="Password">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group form-actions">
-                      <!-- 
-                        <div class="col-xs-3">                          
-                            <label class="switch switch-primary" data-toggle="tooltip" title="Recordarme?">
-                                <input type="checkbox" id="_spring_security_remember_me" name="_spring_security_remember_me" >
-                                <span></span>
-                            </label>                            
-                        </div>
-                        -->
-                        <div class="col-xs-5">
-                          <select name="j_language" id="j_language" class="form-control" style="border-bottom: 1px solid #eaedf1 !important;">
-                    <%
-                        List<Language> langs = LanguageDAO.findAll();
-                        String whole = null;
-                        String part = null;
-          
-                      // Match whole locale
-                        for (Language lang : langs) {
-                          String id = lang.getId();
-            
-                          if (preset.equalsIgnoreCase(id)) {
-                              whole = id;
-                          } else if (preset.substring(0, 2).equalsIgnoreCase(id.substring(0, 2))) {
-                              part = id;
-                          }
-                        }
-          
-                        // Select selected
-                        for (Language lang : langs) {
-                          String id = lang.getId();
-                          String selected = "";
-            
-                          if (whole != null && id.equalsIgnoreCase(whole)) {
-                              selected = "selected";
-                          } else if (whole == null && part != null && id.equalsIgnoreCase(part)) {
-                              selected = "selected";
-                          } else if (whole == null && part == null && Language.DEFAULT.equals(id)) {
-                              selected = "selected";
-                          }
-            
-                          out.print("<option "+selected+" value=\""+id+"\">"+lang.getName()+"</option>");
-                        }
-                  %>
-                  </select>
-                        </div>
-                        <div class="col-xs-4 pull-right">
-                            <button name="submit" type="submit" class="btn btn-sm btn-primary btn-block"><i class="fa fa-key"></i> Login</button>                            
-                        </div>
-                    </div>
-                    <% if (Config.SYSTEM_DEMO) { %>
-                      <div class="form-group low" style="background-color:white !important;">
-                          <div class="col-xs-12 hidden-lg">
-                              <jsp:include flush="true" page="login_demo_users.jsp"/>
-                          </div>
-                      </div>
-                    <% } %>
-                    <div class="form-group form-footer" style="border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important;">
-                      <div class="col-xs-12 text-center">
-                            <p>&copy; 2006-2017 OpenKM. All rights reserved.</p>
-                        </div>                      
-                    </div>
-                </form>
+    <div class="login-title">
+      <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">
+    </div>
+    <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+      <form name="loginform" method="post" action="j_spring_security_check" onsubmit="setCookie()"
+            class="form-horizontal form-bordered form-control-borderless" id="form-login">
+        <div class="form-group form-header text-center">
+          <div class="col-xs-12">
+            <%=Config.TEXT_BANNER %>
+            <%=Config.TEXT_WELCOME %>
+          </div>
+        </div>
+        <c:if test="${not empty param.error}">
+          <div class="form-group form-error">
+            <div id="col-xs-12">
+              <p class="text-danger text-center">
+                Authentication error
+                <c:if
+                    test="${Config.USER_PASSWORD_RESET && Config.PRINCIPAL_ADAPTER == 'com.openkm.principal.DatabasePrincipalAdapter'}">
+                  (<a href="password_reset.jsp">Forgot your password?</a>)
+                </c:if>
+              </p>
+
             </div>
-  </div>   
-  
+          </div>
+        </c:if>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <div class="input-group">
+              <% if (Config.SYSTEM_MAINTENANCE) { %>
+              <span class="input-group-addon"><i class="gi gi-user"></i></span>
+              <input name="j_username" id="j_username" type="hidden"
+                     value="<%=Config.SYSTEM_LOGIN_LOWERCASE?Config.ADMIN_USER.toLowerCase():Config.ADMIN_USER%>"
+                     class="form-control input-lg" placeholder="System under maintenance"/>
+              <% } else { %>
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input name="j_username" id="j_username"
+                     type="text" <%=Config.SYSTEM_LOGIN_LOWERCASE ? "onchange=\"makeLowercase();\"" : "" %>
+                     class="form-control input-lg" placeholder="User"/>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+              <input type="password" id="j_password" name="j_password" class="form-control input-lg"
+                     placeholder="Password">
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-actions">
+          <!--
+            <div class="col-xs-3">
+                <label class="switch switch-primary" data-toggle="tooltip" title="Recordarme?">
+                    <input type="checkbox" id="_spring_security_remember_me" name="_spring_security_remember_me" >
+                    <span></span>
+                </label>
+            </div>
+            -->
+          <div class="col-xs-5">
+            <select name="j_language" id="j_language" class="form-control"
+                    style="border-bottom: 1px solid #eaedf1 !important;">
+              <%
+                List<Language> langs = LanguageDAO.findAll();
+                String whole = null;
+                String part = null;
+
+                // Match whole locale
+                for (Language lang : langs) {
+                  String id = lang.getId();
+
+                  if (preset.equalsIgnoreCase(id)) {
+                    whole = id;
+                  } else if (preset.substring(0, 2).equalsIgnoreCase(id.substring(0, 2))) {
+                    part = id;
+                  }
+                }
+
+                // Select selected
+                for (Language lang : langs) {
+                  String id = lang.getId();
+                  String selected = "";
+
+                  if (whole != null && id.equalsIgnoreCase(whole)) {
+                    selected = "selected";
+                  } else if (whole == null && part != null && id.equalsIgnoreCase(part)) {
+                    selected = "selected";
+                  } else if (whole == null && part == null && Language.DEFAULT.equals(id)) {
+                    selected = "selected";
+                  }
+
+                  out.print("<option " + selected + " value=\"" + id + "\">" + lang.getName() + "</option>");
+                }
+              %>
+            </select>
+          </div>
+          <div class="col-xs-4 pull-right">
+            <button name="submit" type="submit" class="btn btn-sm btn-primary btn-block"><i class="fa fa-key"></i> Login
+            </button>
+          </div>
+        </div>
+        <% if (Config.SYSTEM_DEMO) { %>
+        <div class="form-group low" style="background-color:white !important;">
+          <div class="col-xs-12 hidden-lg">
+            <jsp:include flush="true" page="login_demo_users.jsp"/>
+          </div>
+        </div>
+        <% } %>
+        <div class="form-group form-footer"
+             style="border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important;">
+          <div class="col-xs-12 text-center">
+            <p>&copy; 2006-2017 OpenKM. All rights reserved.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <% if (Config.SYSTEM_DEMO) { %>
     <div class="demo_users high">
       <div class="col-xs-12 hidden-xs hidden-sm hidden-md">

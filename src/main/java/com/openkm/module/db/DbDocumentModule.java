@@ -273,6 +273,7 @@ public class DbDocumentModule implements DocumentModule {
 			Map<String, Object> env = new HashMap<String, Object>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
+			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_DELETE, AutomationRule.AT_PRE, env);
 
 			// Check subscriptions
@@ -326,6 +327,7 @@ public class DbDocumentModule implements DocumentModule {
 			Map<String, Object> env = new HashMap<String, Object>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
+			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_RENAME, AutomationRule.AT_PRE, env);
 
 			String name = PathUtils.getName(docNode.getPath());
@@ -885,6 +887,7 @@ public class DbDocumentModule implements DocumentModule {
 			NodeDocument docNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
 			Map<String, Object> env = new HashMap<String, Object>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
+			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_PRE, env);
 			docNode = (NodeDocument) env.get(AutomationUtils.DOCUMENT_NODE);
 
@@ -1224,9 +1227,13 @@ public class DbDocumentModule implements DocumentModule {
 				}
 			}
 
+			NodeDocument docNode = (NodeDocument) BaseModule.resolveNodeById(docUuid);			
+			
 			// AUTOMATION - PRE
 			Map<String, Object> env = new HashMap<String, Object>();
-			env.put(AutomationUtils.DOCUMENT_UUID, docUuid);
+			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
+			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
+			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			env.put(AutomationUtils.FOLDER_UUID, dstUuid);
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_MOVE, AutomationRule.AT_PRE, env);
 
@@ -1649,7 +1656,7 @@ public class DbDocumentModule implements DocumentModule {
 	 */
 	public Version liveEditCheckin(String token, String docId, String comment, int increment) throws FileSizeExceededException,
 			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException {
+			LockException, VersionException, IOException, DatabaseException, AutomationException {
 		log.debug("liveEditCheckin({}, {}, {})", new Object[]{token, docId, comment});
 		Version version = new Version();
 		Authentication auth = null, oldAuth = null;
@@ -1677,10 +1684,21 @@ public class DbDocumentModule implements DocumentModule {
 			}
 
 			NodeDocument docNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
+
+			// AUTOMATION - PRE
+			Map<String, Object> env = new HashMap<>();
+			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
+			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
+			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_PRE, env);
+			docNode = (NodeDocument) env.get(AutomationUtils.DOCUMENT_NODE);
+			
 			NodeDocumentVersion newDocVersion = NodeDocumentVersionDAO.getInstance().liveEditCheckin(auth.getName(), comment, increment,
 					docUuid);
 			version = BaseModule.getProperties(newDocVersion);
 
+			// AUTOMATION - POST
+			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_POST, env);
+			
 			// Add comment (as system user)
 			String text = "New version " + version.getName() + " by " + auth.getName() + ": " + comment;
 			BaseNoteModule.create(docUuid, Config.SYSTEM_USER, text);
