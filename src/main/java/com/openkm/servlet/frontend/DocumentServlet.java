@@ -1051,6 +1051,9 @@ public class DocumentServlet extends OKMRemoteServiceServlet implements OKMDocum
 			} catch (PrincipalAdapterException e) {
 				log.error(e.getMessage(), e);
 				throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMDocumentService, ErrorCode.CAUSE_PrincipalAdapter), e.getMessage());
+			} catch (AutomationException e) {
+				log.error(e.getMessage(), e);
+				throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMDocumentService, ErrorCode.CAUSE_Automation), e.getMessage());
 			}
 		}
 	}

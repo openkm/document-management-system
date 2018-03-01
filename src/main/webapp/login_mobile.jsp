@@ -11,7 +11,7 @@
   <link rel="Shortcut icon" href="<%=request.getContextPath() %>/favicon.ico" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />  
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />
   <title>OpenKM Mobile</title>
 </head>
 <body>
