@@ -21,6 +21,18 @@
 
 package com.openkm.module.db;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+
 import com.google.gson.Gson;
 import com.openkm.automation.AutomationException;
 import com.openkm.automation.AutomationManager;
@@ -42,17 +54,6 @@ import com.openkm.util.FormUtils;
 import com.openkm.util.PathUtils;
 import com.openkm.util.SystemProfiling;
 import com.openkm.util.UserActivity;
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DbPropertyGroupModule implements PropertyGroupModule {
 	private static Logger log = LoggerFactory.getLogger(DbPropertyGroupModule.class);
@@ -62,8 +63,6 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 			RepositoryException, DatabaseException, AutomationException {
 		log.debug("addGroup({}, {}, {})", new Object[]{token, nodeId, grpName});
 		Authentication auth = null, oldAuth = null;
-		String nodePath = null;
-		String nodeUuid = null;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -88,13 +87,13 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 			env.put(AutomationUtils.PROPERTY_GROUP_NAME, grpName);
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_ADD, AutomationRule.AT_PRE, env);
 
-			NodeBaseDAO.getInstance().addPropertyGroup(nodeUuid, grpName);
+			NodeBaseDAO.getInstance().addPropertyGroup(node.getUuid(), grpName);
 
 			// AUTOMATION - POST
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_ADD, AutomationRule.AT_POST, env);
 
 			// Activity log
-			UserActivity.log(auth.getName(), "ADD_PROPERTY_GROUP", nodeUuid, nodePath, grpName);
+			UserActivity.log(auth.getName(), "ADD_PROPERTY_GROUP", node.getUuid(), node.getPath(), grpName);
 		} catch (DatabaseException e) {
 			throw e;
 		} finally {
@@ -445,8 +444,6 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, AutomationException {
 		log.debug("setProperties({}, {}, {}, {})", new Object[]{token, nodeId, grpName, properties});
 		Authentication auth = null, oldAuth = null;
-		String nodePath = null;
-		String nodeUuid = null;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -512,13 +509,13 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 				env.put(AutomationUtils.PROPERTY_GROUP_PROPERTIES, nodProps);
 				AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_PRE, env);
 
-				NodeBaseDAO.getInstance().setProperties(nodeUuid, grpName, nodProps);
+				NodeBaseDAO.getInstance().setProperties(node.getUuid(), grpName, nodProps);
 
 				// AUTOMATION - POST
 				AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_POST, env);
 
 				// Activity log
-				UserActivity.log(auth.getName(), "SET_PROPERTY_GROUP_PROPERTIES", nodeUuid, nodePath, grpName + ", " + properties);
+				UserActivity.log(auth.getName(), "SET_PROPERTY_GROUP_PROPERTIES", node.getUuid(), node.getPath(), grpName + ", " + properties);
 			} else {
 				throw new RepositoryException("Property group not assigned to this node");
 			}
