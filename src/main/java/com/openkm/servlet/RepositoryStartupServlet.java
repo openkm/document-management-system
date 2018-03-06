@@ -39,7 +39,6 @@ import org.apache.commons.io.IOUtils;
 import org.jbpm.JbpmContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
@@ -74,10 +73,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 
 		// Read configuration file
 		Properties config = Config.load(sc);
-
-		// Call only once during initialization time of your application
-		// @see http://issues.openkm.com/view.php?id=1577
-		SLF4JBridgeHandler.install();
 
 		// Get OpenKM version
 		WarUtils.readAppVersion(sc);
@@ -145,14 +140,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 			// Database shutdown
 			log.info("*** Hibernate shutdown ***");
 			HibernateUtil.closeSessionFactory();
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-
-		try {
-			// Call only once during destroy time of your application
-			// @see http://issues.openkm.com/view.php?id=1577
-			SLF4JBridgeHandler.uninstall();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
