@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2017 Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -11,7 +11,7 @@
  * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along
@@ -21,38 +21,94 @@
 
 package com.openkm.automation.action;
 
+import java.util.Map;
+
 import com.openkm.automation.Action;
 import com.openkm.automation.AutomationUtils;
 import com.openkm.dao.NodeBaseDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.openkm.dao.bean.Automation;
 
-import java.util.HashMap;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 /**
  * RemoveKeyword
  *
  * @author jllort
- *
  */
+@PluginImplementation
 public class RemoveKeyword implements Action {
-	private static Logger log = LoggerFactory.getLogger(RemoveKeyword.class);
 
 	@Override
-	public void executePre(HashMap<String, Object> env, Object... params) {
+	public void executePre(Map<String, Object> env, Object... params) throws Exception {
 	}
 
 	@Override
-	public void executePost(HashMap<String, Object> env, Object... params) {
+	public void executePost(Map<String, Object> env, Object... params) throws Exception {
 		String keyword = AutomationUtils.getString(0, params);
 		String uuid = AutomationUtils.getUuid(env);
 
-		try {
-			if (uuid != null) {
-				NodeBaseDAO.getInstance().removeKeyword(uuid, keyword);
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+		if (uuid != null && keyword != null && !keyword.isEmpty()) {
+			NodeBaseDAO.getInstance().removeKeyword(uuid, keyword);
 		}
+	}
+
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return false;
+	}
+
+	@Override
+	public String getName() {
+		return "RevokeKeyword";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "Keyword";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
 	}
 }

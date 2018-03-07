@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2018  Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,22 +21,30 @@
 
 package com.openkm.automation;
 
-public class AutomationException extends Exception {
+import com.openkm.core.OKMException;
+import com.openkm.frontend.client.constants.service.ErrorCode;
+
+public class AutomationException  extends OKMException {
 	private static final long serialVersionUID = 1L;
 
 	public AutomationException() {
 		super();
+		setErrorCode(ErrorCode.CAUSE_Automation);
 	}
 
 	public AutomationException(String message) {
 		super(message);
+		setErrorCode(ErrorCode.CAUSE_Automation);
 	}
 
 	public AutomationException(String message, Throwable cause) {
 		super(message, cause);
+		setErrorCode(ErrorCode.CAUSE_Automation);
 	}
 
 	public AutomationException(Throwable arg0) {
 		super(arg0);
+		setErrorCode(ErrorCode.CAUSE_Automation);
 	}
 }
+

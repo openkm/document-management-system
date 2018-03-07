@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="../js/vanadium-min.js" type="text/javascript"></script>
   <title>Language edit</title>
 </head>

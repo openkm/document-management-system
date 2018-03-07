@@ -21,37 +21,90 @@
 
 package com.openkm.automation.validation;
 
-import com.openkm.api.OKMRepository;
-import com.openkm.automation.AutomationUtils;
-import com.openkm.automation.Validation;
-import com.openkm.dao.bean.NodeDocument;
-import com.openkm.dao.bean.NodeFolder;
-import com.openkm.dao.bean.NodeMail;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import com.openkm.automation.AutomationUtils;
+import com.openkm.automation.Validation;
+import com.openkm.dao.bean.Automation;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+
+@PluginImplementation
 public class PathMatches implements Validation {
-	private static Logger log = LoggerFactory.getLogger(NameContains.class);
+	private static Logger log = LoggerFactory.getLogger(PathMatches.class);
 
 	@Override
-	public boolean isValid(HashMap<String, Object> env, Object... params) {
-		try {
-			String regEx = AutomationUtils.getString(0, params);
-			String path = AutomationUtils.getParentPath(env);
-			
-			if (path.matches(regEx)) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+	public boolean isValid(Map<String, Object> env, Object... params) throws Exception {
+		String regEx = AutomationUtils.getString(0, params);
+		String path = AutomationUtils.getParentPath(env);
+
+		if (path.matches(regEx)) {
+			return true;
+		} else {
+			return false;
 		}
-
-		return false;
 	}
-	
-}
 
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return true;
+	}
+
+	@Override
+	public String getName() {
+		return "PathMatches";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "String";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
+	}
+}

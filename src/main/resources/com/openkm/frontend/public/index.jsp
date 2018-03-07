@@ -26,7 +26,7 @@
 		<script type="text/javascript" src="../js/digitalsignature/digitalsignature.js"></script>
     	
 		<!-- Load TinyMCE -->
-		<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="../js/tiny_mce/jquery.tinymce.js"></script>
 		<script type="text/javascript" src="../js/okm_tinymce.js"></script>
     	

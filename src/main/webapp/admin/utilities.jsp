@@ -42,6 +42,7 @@
         <a href="ProfilingStats"><button class="utilButton">Profiling stats</button></a>
         <a href="system_properties.jsp"><button class="utilButton">System properties</button></a>
         <a href="LogCat"><button class="utilButton">LogCat</button></a>
+        <a href="Plugin"><button class="utilButton">Plugins</button></a>
         <a href="Css"><button class="utilButton">CSS</button></a>
       </center>
     </c:when>

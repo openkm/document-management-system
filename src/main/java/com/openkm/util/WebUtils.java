@@ -45,7 +45,9 @@ import java.util.List;
 public class WebUtils {
 	private static Logger log = LoggerFactory.getLogger(WebUtils.class);
 	public static final String EMPTY_STRING = "";
-
+	public static final String METHOD_GET = "GET";
+	public static final String METHOD_POST = "POST";
+	
 	/**
 	 * Extrae un parámetro de tipo String del request. Si el parámetro no existe devuelve
 	 * un String vacio.
@@ -106,6 +108,34 @@ public class WebUtils {
 			try {
 				for (int i = 0; i < value.length; i++) {
 					stringValue.add(new String(value[i].getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), "UTF-8"));
+				}
+			} catch (UnsupportedEncodingException e) {
+				// Ignore
+			}
+		}
+
+		return stringValue;
+	}
+	
+	/**
+	 * Extrae un parámetro de tipo String del request. Si el parámetro no existe devuelve
+	 * un String vacio.
+	 *
+	 * @param request Petición de la que extraer el parámetro.
+	 * @param name    Nombre del parámetro
+	 * @return El valor String del parámetro o un String vacio si no existe.
+	 */
+	public static final String getStringComaSeparedValues(HttpServletRequest request, String name) {
+		String[] value = request.getParameterValues(name);
+		String stringValue = EMPTY_STRING;
+
+		if (value != null) {
+			try {
+				for (int i = 0; i < value.length; i++) {
+					if (i > 0) {
+						stringValue += ",";
+					}
+					stringValue += (new String(value[i].getBytes("ISO-8859-1"), "UTF-8"));
 				}
 			} catch (UnsupportedEncodingException e) {
 				// Ignore

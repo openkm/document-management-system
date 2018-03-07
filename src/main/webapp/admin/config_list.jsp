@@ -10,7 +10,7 @@
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="css/fixedTableHeader.css" />
-  <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
   <script type="text/javascript" src="js/fixedTableHeader.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {

@@ -330,6 +330,10 @@ span.vanadium-invalid {
 	background-position: 2px center;
 }
 
+.chosen-container {
+	text-align: left
+}
+
 /* Chrome fix for button images */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.noButton, .yesButton, .addButton, .deleteButton, .searchButton, .saveButton, .loadButton, .executeButton {

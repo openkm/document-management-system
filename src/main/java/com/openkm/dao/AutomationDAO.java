@@ -21,16 +21,33 @@
 
 package com.openkm.dao;
 
-import com.openkm.core.DatabaseException;
-import com.openkm.dao.bean.AutomationAction;
-import com.openkm.dao.bean.AutomationMetadata;
-import com.openkm.dao.bean.AutomationRule;
-import com.openkm.dao.bean.AutomationValidation;
-import org.hibernate.*;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import com.openkm.automation.Action;
+import com.openkm.automation.AutomationException;
+import com.openkm.automation.Validation;
+import com.openkm.core.DatabaseException;
+import com.openkm.dao.bean.Automation;
+import com.openkm.dao.bean.AutomationAction;
+import com.openkm.dao.bean.AutomationRule;
+import com.openkm.dao.bean.AutomationValidation;
+import com.openkm.util.PluginUtils;
+
+import net.xeoh.plugins.base.Plugin;
 
 /**
  * AutomationDAO
@@ -40,6 +57,9 @@ import java.util.List;
 public class AutomationDAO {
 	private static Logger log = LoggerFactory.getLogger(AutomationDAO.class);
 	private static AutomationDAO single = new AutomationDAO();
+	private static List<Validation> validatorsList;
+	private static List<Action> actionsList;
+	public static final String PLUGIN_URI = "classpath://com.openkm.automation.**";
 
 	private AutomationDAO() {
 	}
@@ -308,50 +328,124 @@ public class AutomationDAO {
 
 	/**
 	 * Get all metadata actions
-	 */
-	@SuppressWarnings("unchecked")
-	public List<AutomationMetadata> findMetadataValidationsByAt(String at) throws DatabaseException {
-		log.debug("findAllMetadataValidations()");
-		String qs = "from AutomationMetadata am where am.group=:group and am.at=:at order by am.name";
-		Session session = null;
+	 */	
+	public List<Automation> findMetadataValidationsByAt(String at) throws URISyntaxException {
+		log.debug("findMetadataValidationsByAt()");
+		List<Automation> amList = new ArrayList<Automation>();
 
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query q = session.createQuery(qs);
-			q.setString("group", AutomationMetadata.GROUP_VALIDATION);
-			q.setString("at", at);
-			List<AutomationMetadata> ret = q.list();
-			log.debug("findAllMetadataValidations: {}", ret);
-			return ret;
-		} catch (HibernateException e) {
-			throw new DatabaseException(e.getMessage(), e);
-		} finally {
-			HibernateUtil.close(session);
+		for (Validation val : findValidations(false)) {
+			if (at.equals(Automation.AT_PRE)) {
+				if (val.hasPre()) {
+					amList.add(convert(val));
+				}
+			} else if (at.equals(Automation.AT_POST)) {
+				if (val.hasPost()) {
+					amList.add(convert(val));
+				}
+			}
 		}
+
+		return amList;
 	}
 
 	/**
 	 * Get all metadata actions
 	 */
-	@SuppressWarnings("unchecked")
-	public List<AutomationMetadata> findMetadataActionsByAt(String at) throws DatabaseException {
-		log.debug("findAllMetadataActions()");
-		String qs = "from AutomationMetadata am where am.group=:group and am.at=:at order by am.name";
-		Session session = null;
+	public List<Automation> findMetadataActionsByAt(String at)
+			throws DatabaseException, IllegalArgumentException, SecurityException, URISyntaxException,
+			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		log.debug("findMetadataActionsByAt()");
+		List<Automation> amList = new ArrayList<Automation>();
 
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query q = session.createQuery(qs);
-			q.setString("group", AutomationMetadata.GROUP_ACTION);
-			q.setString("at", at);
-			List<AutomationMetadata> ret = q.list();
-			log.debug("findAllMetadataActions: {}", ret);
-			return ret;
-		} catch (HibernateException e) {
-			throw new DatabaseException(e.getMessage(), e);
-		} finally {
-			HibernateUtil.close(session);
+		for (Action act : findActions(false)) {
+			if (at.equals(Automation.AT_PRE)) {
+				if (act.hasPre()) {
+					amList.add(convert(act));
+				}
+			} else if (at.equals(Automation.AT_POST)) {
+				if (act.hasPost()) {
+					amList.add(convert(act));
+				}
+			}
 		}
+
+		return amList;
+	}
+
+	/**
+	 * findValidations
+	 */
+	public synchronized List<Validation> findValidations(boolean reload) throws URISyntaxException {
+		log.debug("findValidations({})", reload);
+
+		if (validatorsList == null || reload) {
+			if (validatorsList == null) {
+				validatorsList = new ArrayList<>();
+			}
+
+			validatorsList.clear();
+			URI uri = new URI(PLUGIN_URI);
+
+			for (Plugin plg : PluginUtils.getPlugins(uri, Validation.class)) {
+				validatorsList.add((Validation) plg);
+			}
+
+			Collections.sort(validatorsList, new ValidationComparator());
+		}
+
+		log.debug("findValidations: {}", validatorsList);
+		return validatorsList;
+	}
+
+	/**
+	 * findActions
+	 */
+	public synchronized List<Action> findActions(boolean reload) throws URISyntaxException {
+		log.debug("findActions({})", reload);
+
+		if (actionsList == null || reload) {
+			if (actionsList == null) {
+				actionsList = new ArrayList<>();
+			}
+
+			actionsList.clear();
+			URI uri = new URI(PLUGIN_URI);
+
+			for (Plugin plg : PluginUtils.getPlugins(uri, Action.class)) {
+				actionsList.add((Action) plg);
+			}
+
+			Collections.sort(actionsList, new ActionComparator());
+		}
+
+		log.debug("findActions: {}", actionsList);
+		return actionsList;
+	}
+
+	/**
+	 * findValidationByClassName
+	 */
+	public Validation findValidationByClassName(String className) throws AutomationException {
+		for (Validation validation : validatorsList) {
+			if (validation.getClass().getName().equals(className)) {
+				return validation;
+			}
+		}
+
+		throw new AutomationException("Class not found exception: " + className);
+	}
+
+	/**
+	 * findActionByClassName
+	 */
+	public Action findActionByClassName(String className) throws AutomationException {
+		for (Action action : actionsList) {
+			if (action.getClass().getName().equals(className)) {
+				return action;
+			}
+		}
+
+		throw new AutomationException("Class not found exception: " + className);
 	}
 
 	/**
@@ -380,23 +474,24 @@ public class AutomationDAO {
 	/**
 	 * Get metadata by pk
 	 */
-	public AutomationMetadata findMetadataByPk(long amId) throws DatabaseException {
-		log.debug("findMetadataByPk({})", amId);
-		String qs = "from AutomationMetadata am where am.id=:id";
-		Session session = null;
+	public Automation findMetadataByPk(String className) throws DatabaseException, IllegalArgumentException, SecurityException,
+			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
+			IllegalAccessException {
+		log.debug("findMetadataByPk({})", className);
 
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query q = session.createQuery(qs);
-			q.setLong("id", amId);
-			AutomationMetadata ret = (AutomationMetadata) q.setMaxResults(1).uniqueResult();
-			log.debug("findMetadataByPk: {}", ret);
-			return ret;
-		} catch (HibernateException e) {
-			throw new DatabaseException(e.getMessage(), e);
-		} finally {
-			HibernateUtil.close(session);
+		for (Action action : findActions(false)) {
+			if (action.getClass().getName().equals(className)) {
+				return convert(action);
+			}
 		}
+
+		for (Validation validation : findValidations(false)) {
+			if (validation.getClass().getName().equals(className)) {
+				return convert(validation);
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -501,5 +596,31 @@ public class AutomationDAO {
 		for (AutomationAction aAction : nActionList) {
 			initialize(aAction);
 		}
+	}
+
+	private class ActionComparator implements Comparator<Action> {
+		public int compare(Action arg0, Action arg1) {
+			return (arg0.getName()).compareTo(arg1.getName());
+		}
+	}
+
+	private class ValidationComparator implements Comparator<Validation> {
+		public int compare(Validation arg0, Validation arg1) {
+			return (arg0.getName()).compareTo(arg1.getName());
+		}
+	}
+
+	/**
+	 * convert
+	 */
+	public Automation convert(Action action) {
+		return new Automation(action);
+	}
+
+	/**
+	 * convert
+	 */
+	public Automation convert(Validation validation) {
+		return new Automation(validation);
 	}
 }

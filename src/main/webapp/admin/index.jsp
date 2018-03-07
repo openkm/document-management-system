@@ -9,7 +9,7 @@
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="css/style.css" type="text/css" />
   <link rel="stylesheet" href="../css/menu.css" type="text/css" media="screen"/>
-  <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <style type="text/css">
     html, body, div, iframe { margin: 0; padding: 0; width: 100%; }
     iframe { width: 100%; border: none; visibility: hidden; }

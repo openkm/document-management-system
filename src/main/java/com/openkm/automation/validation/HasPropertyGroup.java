@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2017 Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -11,7 +11,7 @@
  * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along
@@ -21,39 +21,94 @@
 
 package com.openkm.automation.validation;
 
+import java.util.List;
+import java.util.Map;
+
 import com.openkm.automation.AutomationUtils;
 import com.openkm.automation.Validation;
 import com.openkm.dao.NodeBaseDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.openkm.dao.bean.Automation;
 
-import java.util.HashMap;
-import java.util.List;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 /**
  * HasPropertyGroup
  *
  * @author jllort
- *
  */
+@PluginImplementation
 public class HasPropertyGroup implements Validation {
-	private static Logger log = LoggerFactory.getLogger(HasPropertyGroup.class);
 
 	@Override
-	public boolean isValid(HashMap<String, Object> env, Object... params) {
+	public boolean isValid(Map<String, Object> env, Object... params) throws Exception {
 		String grpName = AutomationUtils.getString(0, params);
 		String uuid = AutomationUtils.getUuid(env);
 
-		try {
-			if (uuid != null) {
-				List<String> propGrps = NodeBaseDAO.getInstance().getPropertyGroups(uuid);
-				return propGrps.contains(grpName);
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+		if (uuid != null && !uuid.isEmpty()) {
+			List<String> propGrps = NodeBaseDAO.getInstance().getPropertyGroups(uuid);
+			return propGrps.contains(grpName);
+		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return false;
+	}
+
+	@Override
+	public String getName() {
+		return "HasPropertyGroup";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "Property group";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
 	}
 }

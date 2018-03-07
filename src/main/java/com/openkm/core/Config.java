@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -63,6 +64,7 @@ public class Config {
 	public static final String JNDI_BASE = EnvironmentDetector.getServerJndiBase();
 	public static final boolean IN_SERVER = EnvironmentDetector.inServer();
 	public static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
+	public static final URI PLUGIN_DIR = new File(Config.HOME_DIR + File.separator + "plugins").toURI();
 
 	// Scripting
 	public static final String START_SCRIPT = "start.bsh";
@@ -93,6 +95,7 @@ public class Config {
 	public static String EXPORT_METADATA_EXT = ".okm";
 	public static String ROOT_NODE_UUID = "cafebabe-cafe-babe-cafe-babecafebabe";
 	public static Version LUCENE_VERSION = Version.LUCENE_31;
+	public static String DEFAULT_CRONTAB_MAIL = "none@nomail.com";
 
 	// Preview cache
 	public static String REPOSITORY_CACHE_HOME;
