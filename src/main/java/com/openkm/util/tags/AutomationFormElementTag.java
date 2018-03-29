@@ -21,7 +21,10 @@
 
 package com.openkm.util.tags;
 
-import com.openkm.dao.bean.AutomationMetadata;
+import com.openkm.core.DatabaseException;
+import com.openkm.dao.OmrDAO;
+import com.openkm.dao.bean.Automation;
+import com.openkm.dao.bean.Omr;
 
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -39,13 +42,13 @@ public class AutomationFormElementTag extends TagSupport {
 	public int doStartTag() {
 		String html = "";
 
-		if (type.equals(AutomationMetadata.TYPE_TEXT)) {
+		if (type.equals(Automation.PARAM_TYPE_TEXT)) {
 			if (source != null) {
 				if (source.equals("")) {
 					html += "<input class=\":required :only_on_blur\" size=\"40\" type=\"text\" name=\"" + name + "\" id=\""
 							+ name + "\" value=\"" + ((value == null) ? "" : value) + "\" "
 							+ ((readonly) ? "readonly=\"readonly\"" : "") + ">";
-				} else if (source.equals(AutomationMetadata.SOURCE_FOLDER)) {
+				} else if (source.equals(Automation.PARAM_SOURCE_FOLDER)) {
 					// @formatter:off
 					html += "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">"
 							+ "<tr><td>"
@@ -60,11 +63,29 @@ public class AutomationFormElementTag extends TagSupport {
 					// @formatter:on
 				}
 			}
-		} else if (type.equals(AutomationMetadata.TYPE_INTEGER)) {
-			html += "<input class=\":integer :required :only_on_blur\" size=\"40\" type=\"text\" name=\"" + name + "\" id=\""
-					+ name + "\" value=\"" + ((value == null) ? "" : value) + "\" "
-					+ ((readonly) ? "readonly=\"readonly\"" : "") + ">";
-		} else if (type.equals(AutomationMetadata.TYPE_BOOLEAN)) {
+		} else if (type.equals(Automation.PARAM_TYPE_INTEGER) || type.equals(Automation.PARAM_TYPE_LONG)) {
+			if (source.equals("")) {
+				html += "<input class=\":integer :required :only_on_blur\" size=\"40\" type=\"text\" name=\"" + name + "\" id=\""
+						+ name + "\" value=\"" + ((value == null) ? "" : value) + "\" "
+						+ ((readonly) ? "readonly=\"readonly\"" : "") + ">";
+			} else if (source.equals(Automation.PARAM_SOURCE_OMR)) {
+				// @formatter:off
+				html += "<select class=\":integer :required :only_on_blur\" name=\"" + name + "\" id=\"" + name + "\">";
+
+				try {
+					html += "<option value=\"\">-</otpion>";
+					for (Omr omr : OmrDAO.getInstance().findAllActive()) {
+						String selected = value.equals(String.valueOf(omr.getId())) ? " selected=\"selected\" " : "";
+						html += "<option value=\"" + omr.getId() + "\"" + selected + ">" + omr.getName() + "</option>";
+					}
+				} catch (DatabaseException e) {
+					e.printStackTrace();
+				}
+
+				html += "</select>";
+				// @formatter:on
+			}
+		} else if (type.equals(Automation.PARAM_TYPE_BOOLEAN)) {
 			if (readonly) {
 				html += "<input type=\"hidden\" name=\"" + name + "\" id=\"" + name + "\">"
 						+ ((value == null) ? "" : value);
@@ -86,40 +107,40 @@ public class AutomationFormElementTag extends TagSupport {
 
 				html += "</select>";
 			}
-		} else if (type.equals(AutomationMetadata.TYPE_TEXTAREA)) {
+		} else if (type.equals(Automation.PARAM_TYPE_CODE)) {
 			// @formatter:off
 			// Table
 			html += "<table class=\"form\">"
 					+ "<tr><td>";
 			// Text are
-			html += "<textarea cols=\"80\" rows=\"25\" name=\"" + name + "\" id=\"" + name + "\">" + ((value != null) ? value : "") + "</textarea>";
+			html += "<textarea cols=\"80\" rows=\"25\" name=\"" + name + "\" id=\"" + name + "\">" + (value != null ? value : "") + "</textarea>";
 			// Js and css resources
 			html += "<link rel=\"stylesheet\" type=\"text/css\" href=\"js/codemirror/lib/codemirror.css\" />\n"
-					+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"js/codemirror/mode/clike/clike.css\" />\n"
 					+ "<style type=\"text/css\">"
-					+ ".CodeMirror { width: 600px; height: 300px; background-color: #f8f6c2; }\n"
-					+ ".activeline { background: #f0fcff !important; }\n"
+					+ ".CodeMirror { width: 700px; height: 300px; background-color: #f8f6c2; }\n"
 					+ "</style>\n"
 					+ "<script type=\"text/javascript\" src=\"js/codemirror/lib/codemirror.js\"></script>\n"
-					+ "<script type=\"text/javascript\" src=\"js/codemirror/mode/clike/clike.js\"></script>\n";
-			// Initilizing codemirror
+					+ "<script type=\"text/javascript\" src=\"js/codemirror/mode/clike/clike.js\"></script>\n"
+					+ "<script type=\"text/javascript\" src=\"js/codemirror/addon/selection/active-line.js\"></script>\n";
+			// Initializing codemirror
 			html += "<script type=\"text/javascript\">\n"
-					+ "cm = CodeMirror.fromTextArea(document.getElementById('" + name + "'), {\n"
+					+ "setTimeout(function() {\n"
+					+ "var cm = CodeMirror.fromTextArea(document.getElementById('" + name + "'), {\n"
 					+ "lineNumbers: true,\n"
 					+ "matchBrackets: true,\n"
-					+ "indentUnit: 4,\n"
+					+ "styleActiveLine: true,\n"
 					+ "mode: \"text/x-java\",\n"
-					+ "onCursorActivity: function() {\n"
-					+ "cm.setLineClass(hlLine, null);\n"
-					+ "hlLine = cm.setLineClass(cm.getCursor().line, \"activeline\");\n"
-					+ "}\n"
+					+ "indentUnit: 4\n"
 					+ "});\n"
-					+ "\n"
-					+ "hlLine = cm.setLineClass(0, \"activeline\");\n"
+					+ "}, 10);\n"
 					+ "</script>\n";
 			// closing table
 			html += "</td></tr>"
 					+ "</table>";
+			// @formatter:on	
+		} else if (type.equals(Automation.PARAM_TYPE_TEXTAREA)) {
+			// @formatter:off
+			html += "<textarea cols=\"80\" rows=\"25\" style=\"width: 600px; height: 300px;\" name=\"" + name + "\" id=\"" + name + "\">" + value + "</textarea>";
 			// @formatter:on
 		}
 

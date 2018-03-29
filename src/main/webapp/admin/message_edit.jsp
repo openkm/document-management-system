@@ -10,7 +10,7 @@
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="../js/cleditor/jquery.cleditor.css" />
-  <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <script src="../js/vanadium-min.js" type="text/javascript"></script>
   <script src="../js/cleditor/jquery.cleditor.js" type="text/javascript"></script>
   <script type="text/javascript">

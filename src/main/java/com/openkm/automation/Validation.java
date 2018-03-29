@@ -21,10 +21,36 @@
 
 package com.openkm.automation;
 
-import java.util.HashMap;
+import net.xeoh.plugins.base.Plugin;
 
-public interface Validation {
-	public static final String METHOD = "isValid";
+import java.util.Map;
 
-	boolean isValid(HashMap<String, Object> env, Object... params);
+public interface Validation extends Plugin {
+	String METHOD = "isValid";
+
+	boolean isValid(Map<String, Object> env, Object... params) throws Exception;
+
+	boolean hasPost();
+
+	boolean hasPre();
+
+	String getName();
+
+	String getParamType00();
+
+	String getParamSrc00();
+
+	String getParamDesc00();
+
+	String getParamType01();
+
+	String getParamSrc01();
+
+	String getParamDesc01();
+
+	String getParamType02();
+
+	String getParamSrc02();
+
+	String getParamDesc02();
 }

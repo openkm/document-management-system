@@ -4,6 +4,7 @@ import com.openkm.core.AccessDeniedException;
 import com.openkm.core.Config;
 import com.openkm.core.HttpSessionManager;
 import com.openkm.util.UserActivity;
+import com.openkm.util.WebUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -44,6 +45,13 @@ public class BaseServlet extends HttpServlet {
 		HttpSessionManager.getInstance().update(request.getSession().getId());
 	}
 
+	/**
+	 * Check if this is a POST request
+	 */
+	public boolean isPost(HttpServletRequest request) {
+		return WebUtils.METHOD_POST.equals(request.getMethod());
+	}
+	
 	/**
 	 * Test if an user can access to administration
 	 */
@@ -93,7 +101,7 @@ public class BaseServlet extends HttpServlet {
 		out.println("<link rel=\"stylesheet\" href=\"css/style.css\" type=\"text/css\" />");
 		out.println("<script src=\"js/biblioteca.js\" type=\"text/javascript\"></script>");
 		out.println("<script type=\"text/javascript\">scrollToBottom();</script>");
-		out.println("<script type=\"text/javascript\" src=\"../js/jquery-1.7.1.min.js\"></script>");
+		out.println("<script type=\"text/javascript\" src=\"../js/jquery-1.11.3.min.js\"></script>");
 		out.println("<script type=\"text/javascript\" src=\"js/jquery.DOMWindow.js\"></script>");
 		out.println("<script type=\"text/javascript\">");
 		out.println("$(document).ready(function() { $dm = $('.ds').openDOMWindow({");

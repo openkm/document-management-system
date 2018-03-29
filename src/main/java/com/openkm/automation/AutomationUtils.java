@@ -21,6 +21,9 @@
 
 package com.openkm.automation;
 
+import java.io.File;
+import java.util.Map;
+
 import com.openkm.api.OKMRepository;
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
@@ -31,10 +34,6 @@ import com.openkm.dao.bean.NodeDocument;
 import com.openkm.dao.bean.NodeFolder;
 import com.openkm.dao.bean.NodeMail;
 import com.openkm.util.PathUtils;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * AutomationUtils
@@ -66,7 +65,8 @@ public class AutomationUtils {
 	public static final String NODE_PATH = "nodePath";
 	public static final String PROPERTY_GROUP_NAME = "propGroupName";
 	public static final String PROPERTY_GROUP_PROPERTIES = "propGroupProperties";
-
+	public static final String EVENT = "event";
+	
 	/**
 	 * getPath
 	 */
@@ -96,7 +96,7 @@ public class AutomationUtils {
 	/**
 	 * getUuid
 	 */
-	public static String getUuid(HashMap<String, Object> env) {
+	public static String getUuid(Map<String, Object> env) {
 		NodeDocument docNode = (NodeDocument) env.get(DOCUMENT_NODE);
 		NodeFolder fldNode = (NodeFolder) env.get(FOLDER_NODE);
 		NodeMail mailNode = (NodeMail) env.get(MAIL_NODE);
@@ -128,7 +128,7 @@ public class AutomationUtils {
 	/**
 	 * getNode
 	 */
-	public static NodeBase getNode(HashMap<String, Object> env) {
+	public static NodeBase getNode(Map<String, Object> env) {
 		NodeDocument docNode = (NodeDocument) env.get(DOCUMENT_NODE);
 		NodeFolder fldNode = (NodeFolder) env.get(FOLDER_NODE);
 		NodeMail mailNode = (NodeMail) env.get(MAIL_NODE);
@@ -147,21 +147,31 @@ public class AutomationUtils {
 	/**
 	 * getFile
 	 */
-	public static File getFile(HashMap<String, Object> env) {
+	public static File getFile(Map<String, Object> env) {
 		return (File) env.get(DOCUMENT_FILE);
 	}
 
 	/**
 	 * getParentUuid
 	 */
-	public static String getParentUuid(HashMap<String, Object> env) {
-		return (String) env.get(PARENT_UUID);
+	public static String getParentUuid(Map<String, Object> env) throws AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
+		if (env.containsKey(PARENT_UUID)) {
+			return (String) env.get(PARENT_UUID);
+		} else {
+			// Trying to search parent uuid from parent path variables
+			String parentPath = getParentPath(env);
+			if (parentPath != null) {
+				return OKMRepository.getInstance().getNodeUuid(null, parentPath);
+			} else {
+				return null;
+			}
+		}
 	}
-
+	
 	/**
 	 * getParentPath
 	 */
-	public static String getParentPath(HashMap<String, Object> env) throws AccessDeniedException, PathNotFoundException,
+	public static String getParentPath(Map<String, Object> env) throws AccessDeniedException, PathNotFoundException,
 			RepositoryException, DatabaseException {
 		if (env.containsKey(PARENT_PATH)) {
 			return (String) env.get(PARENT_PATH);
@@ -183,7 +193,7 @@ public class AutomationUtils {
 	/**
 	 * getTextExtracted
 	 */
-	public static String getTextExtracted(HashMap<String, Object> env) {
+	public static String getTextExtracted(Map<String, Object> env) {
 		return (String) env.get(TEXT_EXTRACTED);
 	}
 
@@ -199,6 +209,13 @@ public class AutomationUtils {
 	 */
 	public static Integer getInteger(int index, Object... params) {
 		return (Integer) params[index];
+	}
+	
+	/**
+	 * getLong
+	 */
+	public static Long getLong(int index, Object... params) {
+		return (Long) params[index];
 	}
 
 	/**

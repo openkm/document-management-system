@@ -23,9 +23,15 @@ package com.openkm.util.tags;
 
 import org.hibernate.collection.PersistentSet;
 
+import com.openkm.core.Config;
+import com.openkm.spring.PrincipalUtils;
+
 import java.util.Collection;
 
 public class UtilFunctions {
+	/**
+	 * Check if collection contains an element.
+	 */
 	public static boolean contains(Collection<?> collection, Object obj) {
 		if (collection != null) {
 			if (collection instanceof PersistentSet) {
@@ -43,7 +49,17 @@ public class UtilFunctions {
 			return false;
 		}
 	}
+	
+	/**
+	 * Check for user with ROLE_ADMIN role.
+	 */
+	public static boolean isAdmin() {
+		return PrincipalUtils.hasRole(Config.DEFAULT_ADMIN_ROLE);
+	}
 
+	/**
+	 * Make bitwise and.
+	 */
 	public static int bitwiseAnd(int arg0, int arg1) {
 		return arg0 & arg1;
 	}

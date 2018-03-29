@@ -623,8 +623,8 @@
     <!-- Plugin framework -->
     <dependency>
       <groupId>com.google.code</groupId>
-      <artifactId>jspf</artifactId>
-      <version>1.0.1</version>
+      <artifactId>jspf.core</artifactId>
+      <version>1.0.3.1</version>
     </dependency>
 
     <!-- Apache Chemistry (CMIS) -->

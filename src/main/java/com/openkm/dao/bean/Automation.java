@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2017 Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -11,7 +11,7 @@
  * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along
@@ -21,73 +21,83 @@
 
 package com.openkm.dao.bean;
 
-import javax.persistence.*;
+import com.openkm.automation.Action;
+import com.openkm.automation.Validation;
+
 import java.io.Serializable;
 
-@Entity
-@Table(name = "OKM_AUTO_METADATA", uniqueConstraints = {
-		// ALTER TABLE OKM_AUTO_METADATA ADD CONSTRAINT IDX_AUTO_MD_ATCLS UNIQUE (AMD_AT, AMD_CLASS_NAME)
-		@UniqueConstraint(name = "IDX_AUTO_MD_ATCLS", columnNames = {"AMD_AT", "AMD_CLASS_NAME"})})
-public class AutomationMetadata implements Serializable {
+public class Automation implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	public static final String GROUP_ACTION = "action";
-	public static final String GROUP_VALIDATION = "validation";
-
-	public static final String TYPE_TEXT = "text";
-	public static final String TYPE_INTEGER = "integer";
-	public static final String TYPE_BOOLEAN = "boolean";
-	public static final String TYPE_TEXTAREA = "textarea";
 
 	public static final String AT_PRE = "pre";
 	public static final String AT_POST = "post";
 
-	public static final String SOURCE_FOLDER = "okm:folder";
+	public static final String PARAM_TYPE_EMPTY = "";
+	public static final String PARAM_TYPE_TEXT = "text";
+	public static final String PARAM_TYPE_LONG = "long";
+	public static final String PARAM_TYPE_INTEGER = "integer";
+	public static final String PARAM_TYPE_BOOLEAN = "boolean";
+	public static final String PARAM_TYPE_TEXTAREA = "textarea";
+	public static final String PARAM_TYPE_CODE = "code";
+	public static final String PARAM_TYPE_USER = "user";
+	public static final String PARAM_TYPE_ROLE = "role";
+	public static final String PARAM_TYPE_OMR = "okm:omr";
 
-	@Id
-	@Column(name = "AMD_ID")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	public static final String PARAM_SOURCE_EMPTY = "";
+	public static final String PARAM_SOURCE_FOLDER = "okm:folder";
+	public static final String PARAM_SOURCE_OMR = "okm:omr";
 
-	@Column(name = "AMD_NAME", length = 255)
+	public static final String PARAM_DESCRIPTION_EMPTY = "";
+
 	private String name;
-
-	@Column(name = "AMD_GROUP", length = 255)
-	private String group;
-
-	@Column(name = "AMD_CLASS_NAME", length = 255)
 	private String className;
-
-	@Column(name = "AMD_AT", length = 32)
 	private String at;
-
-	@Transient
+	private boolean post = false;
+	private boolean pre = false;
 	private boolean active;
-
-	@Column(name = "AMD_TYPE00", length = 32)
 	private String type00;
-
-	@Column(name = "AMD_TYPE01", length = 32)
 	private String type01;
-
-	@Column(name = "AMD_SRC00", length = 32)
+	private String type02;
 	private String source00;
-
-	@Column(name = "AMD_SRC01", length = 32)
 	private String source01;
-
-	@Column(name = "AMD_DESC00", length = 32)
+	private String source02;
 	private String description00;
-
-	@Column(name = "AMD_DESC01", length = 32)
 	private String description01;
+	private String description02;
 
-	public long getId() {
-		return id;
+	public Automation() {
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public Automation(Validation val) {
+		this.className = val.getClass().getName();
+		this.setPost(val.hasPost());
+		this.setPre(val.hasPre());
+		this.setName(val.getName());
+		this.setType00(val.getParamType00());
+		this.setType01(val.getParamType01());
+		this.setType02(val.getParamType02());
+		this.setSource00(val.getParamSrc00());
+		this.setSource01(val.getParamSrc01());
+		this.setSource02(val.getParamSrc02());
+		this.setDescription00(val.getParamDesc00());
+		this.setDescription01(val.getParamDesc01());
+		this.setDescription02(val.getParamDesc02());
+	}
+
+	public Automation(Action act) {
+		this.className = act.getClass().getName();
+		this.setPost(act.hasPost());
+		this.setPre(act.hasPre());
+		this.setName(act.getName());
+		this.setType00(act.getParamType00());
+		this.setType01(act.getParamType01());
+		this.setType02(act.getParamType02());
+		this.setSource00(act.getParamSrc00());
+		this.setSource01(act.getParamSrc01());
+		this.setSource02(act.getParamSrc02());
+		this.setDescription00(act.getParamDesc00());
+		this.setDescription01(act.getParamDesc01());
+		this.setDescription02(act.getParamDesc02());
 	}
 
 	public String getName() {
@@ -96,14 +106,6 @@ public class AutomationMetadata implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getGroup() {
-		return group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
 	}
 
 	public String getClassName() {
@@ -120,6 +122,22 @@ public class AutomationMetadata implements Serializable {
 
 	public void setAt(String at) {
 		this.at = at;
+	}
+
+	public boolean isPost() {
+		return post;
+	}
+
+	public void setPost(boolean post) {
+		this.post = post;
+	}
+
+	public boolean isPre() {
+		return pre;
+	}
+
+	public void setPre(boolean pre) {
+		this.pre = pre;
 	}
 
 	public boolean isActive() {
@@ -178,20 +196,45 @@ public class AutomationMetadata implements Serializable {
 		this.description01 = description01;
 	}
 
+	public String getType02() {
+		return type02;
+	}
+
+	public void setType02(String type02) {
+		this.type02 = type02;
+	}
+
+	public String getDescription02() {
+		return description02;
+	}
+
+	public void setDescription02(String description02) {
+		this.description02 = description02;
+	}
+
+	public String getSource02() {
+		return source02;
+	}
+
+	public void setSource02(String source02) {
+		this.source02 = source02;
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("id=").append(id);
 		sb.append(", name=").append(name);
-		sb.append(", group=").append(group);
 		sb.append(", className=").append(className);
 		sb.append(", at=").append(at);
 		sb.append(", type00=").append(type00);
 		sb.append(", type01=").append(type01);
+		sb.append(", type02=").append(type02);
 		sb.append(", source00=").append(source00);
 		sb.append(", source01=").append(source01);
+		sb.append(", source02=").append(source02);
 		sb.append(", description00=").append(description00);
 		sb.append(", description01=").append(description01);
+		sb.append(", description02=").append(description02);
 		sb.append("}");
 		return sb.toString();
 	}

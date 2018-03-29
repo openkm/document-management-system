@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2017 Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -11,7 +11,7 @@
  * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along
@@ -21,13 +21,14 @@
 
 package com.openkm.automation.validation;
 
+import java.util.Map;
+
 import com.openkm.api.OKMRepository;
 import com.openkm.automation.AutomationUtils;
 import com.openkm.automation.Validation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.openkm.dao.bean.Automation;
 
-import java.util.HashMap;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 /**
  * Check if the current parent path contains a designed one. The only
@@ -36,25 +37,78 @@ import java.util.HashMap;
  *
  * @author pavila
  */
+@PluginImplementation
 public class PathContains implements Validation {
-	private static Logger log = LoggerFactory.getLogger(PathContains.class);
 
 	@Override
-	public boolean isValid(HashMap<String, Object> env, Object... params) {
-		try {
-			String uuid = AutomationUtils.getString(0, params);
-			String parentPath = AutomationUtils.getParentPath(env);
-			String path = OKMRepository.getInstance().getNodePath(null, uuid);
-
-			if (parentPath.startsWith(path)) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+	public boolean isValid(Map<String, Object> env, Object... params) throws Exception {
+		String fldUuid = AutomationUtils.getString(0, params);
+		String parentPath = AutomationUtils.getParentPath(env);
+		String fldPath = OKMRepository.getInstance().getNodePath(null, fldUuid);
+		if (parentPath.startsWith(fldPath)) {
+			return true;
+		} else {
+			return false;
 		}
+	}
 
-		return false;
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return true;
+	}
+
+	@Override
+	public String getName() {
+		return "PathContains";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_FOLDER;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "String";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
 	}
 }

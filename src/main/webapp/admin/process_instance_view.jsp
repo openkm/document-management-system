@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="css/style.css" type="text/css" />
-  <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
   <title>Workflow Process Instances View</title>
   <script type="text/javascript">
     $(document).ready(function() {

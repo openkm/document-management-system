@@ -14,7 +14,7 @@
   <script type="text/javascript" src="js/jscalendar/calendar.js"></script>
   <script type="text/javascript" src="js/jscalendar/lang/calendar-en.js"></script>
   <script type="text/javascript" src="js/jscalendar/calendar-setup.js"></script>
-  <script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
   <script type="text/javascript" src="js/fixedTableHeader.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {

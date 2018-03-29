@@ -21,48 +21,102 @@
 
 package com.openkm.automation.validation;
 
+import java.util.Map;
+
 import com.openkm.automation.AutomationUtils;
 import com.openkm.automation.Validation;
 import com.openkm.dao.NodeBaseDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.openkm.dao.bean.Automation;
 
-import java.util.HashMap;
-import java.util.Map;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 /**
  * HasPropertyGroupValue
  *
  * @author jllort
- *
  */
+@PluginImplementation
 public class HasPropertyGroupValue implements Validation {
-	private static Logger log = LoggerFactory.getLogger(HasPropertyGroupValue.class);
 
 	@Override
-	public boolean isValid(HashMap<String, Object> env, Object... params) {
+	public boolean isValid(Map<String, Object> env, Object... params) throws Exception {
 		String prpName = AutomationUtils.getString(0, params);
 		String value = AutomationUtils.getString(1, params);
 		String uuid = AutomationUtils.getUuid(env);
 
-		try {
-			if (uuid != null) {
-				String grpName = prpName.substring(0, prpName.indexOf("."));
-				grpName = grpName.replace("okp", "okg");
-				Map<String, String> props = NodeBaseDAO.getInstance().getProperties(uuid, grpName);
-				String propValue = props.get(prpName);
+		if (uuid != null && !uuid.isEmpty()) {
+			String grpName = prpName.substring(0, prpName.indexOf("."));
+			grpName = grpName.replace("okp", "okg");
+			Map<String, String> props = NodeBaseDAO.getInstance().getProperties(uuid, grpName);
+			String propValue = props.get(prpName);
 
-				if (propValue != null) {
-					return propValue.equals(value);
-				} else {
-					return false;
-				}
+			if (propValue != null) {
+				return propValue.equals(value);
 			} else {
 				return false;
 			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return false;
+	}
+
+	@Override
+	public String getName() {
+		return "HasPropertyGroupValue";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "Property";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "Value";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
 	}
 }

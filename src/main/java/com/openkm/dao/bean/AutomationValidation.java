@@ -38,8 +38,8 @@ public class AutomationValidation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Column(name = "AVL_TYPE")
-	private long type;
+	@Column(name = "AVL_CLASS_NAME", length = 255)
+	private String className;
 
 	@Column(name = "AVL_ORDER")
 	private int order;
@@ -52,7 +52,7 @@ public class AutomationValidation implements Serializable {
 
 	@Column(name = "AVL_ACTIVE", nullable = false)
 	@Type(type = "true_false")
-	private boolean active;
+	private Boolean active = Boolean.FALSE;
 
 	public long getId() {
 		return id;
@@ -62,12 +62,12 @@ public class AutomationValidation implements Serializable {
 		this.id = id;
 	}
 
-	public long getType() {
-		return type;
+	public String getClassName() {
+		return className;
 	}
 
-	public void setType(long type) {
-		this.type = type;
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	public int getOrder() {
@@ -86,7 +86,10 @@ public class AutomationValidation implements Serializable {
 		this.params = params;
 	}
 
-	public boolean isActive() {
+	public Boolean getActive() {
+		if (active == null) {
+			return false;
+		}
 		return active;
 	}
 
@@ -98,7 +101,7 @@ public class AutomationValidation implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		sb.append("id=").append(id);
-		sb.append(", type=").append(type);
+		sb.append(", className=").append(className);
 		sb.append(", order=").append(order);
 		sb.append(", params=").append(params);
 		sb.append(", active=").append(active);

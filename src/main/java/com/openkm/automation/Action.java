@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2018  Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,13 +21,39 @@
 
 package com.openkm.automation;
 
-import java.util.HashMap;
+import java.util.Map;
 
-public interface Action {
+import net.xeoh.plugins.base.Plugin;
+
+public interface Action extends Plugin {
 	public static final String METHOD_PRE = "executePre";
 	public static final String METHOD_POST = "executePost";
 
-	public void executePre(HashMap<String, Object> env, Object... params);
+	void executePre(Map<String, Object> env, Object... params) throws Exception;
 
-	public void executePost(HashMap<String, Object> env, Object... params);
+	void executePost(Map<String, Object> env, Object... params) throws Exception;
+
+	boolean hasPost();
+
+	boolean hasPre();
+
+	String getName();
+
+	String getParamType00();
+
+	String getParamSrc00();
+
+	String getParamDesc00();
+
+	String getParamType01();
+
+	String getParamSrc01();
+
+	String getParamDesc01();
+
+	String getParamType02();
+
+	String getParamSrc02();
+
+	String getParamDesc02();
 }

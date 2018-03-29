@@ -26,15 +26,17 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "OKM_AUTO_RULE")
 public class AutomationRule implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	public static final String AT_PRE = AutomationMetadata.AT_PRE;
-	public static final String AT_POST = AutomationMetadata.AT_POST;
+	public static final String AT_PRE = Automation.AT_PRE;
+	public static final String AT_POST = Automation.AT_POST;
 
 	public static final String EVENT_DOCUMENT_CREATE = "doc_create";
 	public static final String EVENT_DOCUMENT_UPDATE = "doc_update";
@@ -55,6 +57,31 @@ public class AutomationRule implements Serializable {
 	public static final String EVENT_PROPERTY_GROUP_SET = "prop_group_set";
 	public static final String EVENT_PROPERTY_GROUP_REMOVE = "prop_group_remove";
 
+	public static final Map<String, String> EVENTS = new LinkedHashMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+
+		{
+			put(AutomationRule.EVENT_DOCUMENT_CREATE, "Document create");
+			put(AutomationRule.EVENT_DOCUMENT_UPDATE, "Document update");
+			put(AutomationRule.EVENT_DOCUMENT_DELETE, "Document delete");
+			put(AutomationRule.EVENT_DOCUMENT_RENAME, "Document rename");
+			put(AutomationRule.EVENT_DOCUMENT_MOVE, "Document move");
+
+			put(AutomationRule.EVENT_FOLDER_CREATE, "Folder create");
+
+			put(AutomationRule.EVENT_MAIL_CREATE, "Mail creation");
+
+			put(AutomationRule.EVENT_PROPERTY_GROUP_ADD, "Add metadata group");
+			put(AutomationRule.EVENT_PROPERTY_GROUP_SET, "Set metadata group");
+			put(AutomationRule.EVENT_PROPERTY_GROUP_REMOVE, "Remove metadata group");
+
+			put(AutomationRule.EVENT_TEXT_EXTRACTOR, "Text extraction");
+
+			put(AutomationRule.EVENT_CONVERSION_PDF, "Convert to PDF");
+			put(AutomationRule.EVENT_CONVERSION_SWF, "Convert to SWF");
+		}
+	};
+	
 	@Id
 	@Column(name = "ARL_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,11 +101,11 @@ public class AutomationRule implements Serializable {
 
 	@Column(name = "ARL_EXCLUSIVE", nullable = false)
 	@Type(type = "true_false")
-	private boolean exclusive;
+	private Boolean exclusive = Boolean.FALSE;
 
 	@Column(name = "ARL_ACTIVE", nullable = false)
 	@Type(type = "true_false")
-	private boolean active;
+	private Boolean active = Boolean.FALSE;
 
 	@OrderBy("order ASC")
 	@OneToMany(cascade = CascadeType.ALL)
@@ -130,7 +157,10 @@ public class AutomationRule implements Serializable {
 		this.order = order;
 	}
 
-	public boolean isExclusive() {
+	public Boolean getExclusive() {
+		if (exclusive == null) {
+			return false;
+		}
 		return exclusive;
 	}
 
@@ -138,7 +168,10 @@ public class AutomationRule implements Serializable {
 		this.exclusive = exclusive;
 	}
 
-	public boolean isActive() {
+	public Boolean getActive() {
+		if (active == null) {
+			return false;
+		}
 		return active;
 	}
 

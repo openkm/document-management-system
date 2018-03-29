@@ -21,19 +21,19 @@
 
 package com.openkm.extension.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openkm.core.Config;
+
 import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.util.PluginManagerUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Base for implementing core extension managers.
@@ -42,7 +42,6 @@ import java.util.List;
  */
 public class ExtensionManager {
 	private static Logger log = LoggerFactory.getLogger(ExtensionManager.class);
-	protected static URI base = new File(Config.HOME_DIR + File.separator + "plugins").toURI();
 	private static ExtensionManager em = null;
 	private static PluginManager pm = null;
 
@@ -51,9 +50,9 @@ public class ExtensionManager {
 		pm = PluginManagerFactory.createPluginManager();
 
 		if (Config.PLUGIN_DEBUG) {
-			pm.addPluginsFrom(base, new OptionReportAfter());
+			pm.addPluginsFrom(Config.PLUGIN_DIR, new OptionReportAfter());
 		} else {
-			pm.addPluginsFrom(base);
+			pm.addPluginsFrom(Config.PLUGIN_DIR);
 		}
 	}
 
@@ -82,9 +81,9 @@ public class ExtensionManager {
 		pm = PluginManagerFactory.createPluginManager();
 
 		if (Config.PLUGIN_DEBUG) {
-			pm.addPluginsFrom(base, new OptionReportAfter());
+			pm.addPluginsFrom(Config.PLUGIN_DIR, new OptionReportAfter());
 		} else {
-			pm.addPluginsFrom(base);
+			pm.addPluginsFrom(Config.PLUGIN_DIR);
 		}
 	}
 

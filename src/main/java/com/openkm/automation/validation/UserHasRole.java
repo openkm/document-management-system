@@ -21,13 +21,17 @@
 
 package com.openkm.automation.validation;
 
-import com.openkm.automation.AutomationUtils;
-import com.openkm.automation.Validation;
-import com.openkm.spring.PrincipalUtils;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import com.openkm.automation.AutomationUtils;
+import com.openkm.automation.Validation;
+import com.openkm.dao.bean.Automation;
+import com.openkm.spring.PrincipalUtils;
+
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 /**
  * UserHasRole
@@ -35,18 +39,73 @@ import java.util.HashMap;
  * @author jllort
  *
  */
+@PluginImplementation
 public class UserHasRole implements Validation {
 	private static Logger log = LoggerFactory.getLogger(UserHasRole.class);
 
 	@Override
-	public boolean isValid(HashMap<String, Object> env, Object... params) {
+	public boolean isValid(Map<String, Object> env, Object... params) throws Exception {
 		String role = AutomationUtils.getString(0, params);
+		return PrincipalUtils.hasRole(role);
+	}
 
-		try {
-			return PrincipalUtils.hasRole(role);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return false;
-		}
+	@Override
+	public boolean hasPost() {
+		return true;
+	}
+
+	@Override
+	public boolean hasPre() {
+		return true;
+	}
+
+	@Override
+	public String getName() {
+		return "UserHasRole";
+	}
+
+	@Override
+	public String getParamType00() {
+		return Automation.PARAM_TYPE_TEXT;
+	}
+
+	@Override
+	public String getParamSrc00() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc00() {
+		return "String";
+	}
+
+	@Override
+	public String getParamType01() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc01() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc01() {
+		return "";
+	}
+
+	@Override
+	public String getParamType02() {
+		return Automation.PARAM_TYPE_EMPTY;
+	}
+
+	@Override
+	public String getParamSrc02() {
+		return Automation.PARAM_SOURCE_EMPTY;
+	}
+
+	@Override
+	public String getParamDesc02() {
+		return "";
 	}
 }
