@@ -21,18 +21,6 @@
 
 package com.openkm.module.db;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-
 import com.google.gson.Gson;
 import com.openkm.automation.AutomationException;
 import com.openkm.automation.AutomationManager;
@@ -54,6 +42,17 @@ import com.openkm.util.FormUtils;
 import com.openkm.util.PathUtils;
 import com.openkm.util.SystemProfiling;
 import com.openkm.util.UserActivity;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DbPropertyGroupModule implements PropertyGroupModule {
 	private static Logger log = LoggerFactory.getLogger(DbPropertyGroupModule.class);
@@ -458,67 +457,61 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 			}
 
 			NodeBase node = BaseModule.resolveNodeById(nodeId);
-			List<String> nodeGroups = NodeBaseDAO.getInstance().getPropertyGroups(node.getUuid());
+			Map<String, String> nodProps = new HashMap<>();
+			Gson gson = new Gson();
 
-			if (nodeGroups.contains(grpName)) {
-				Map<String, String> nodProps = new HashMap<>();
-				Gson gson = new Gson();
+			// Now we can safely set all property values.
+			for (FormElement fe : properties) {
+				if (fe instanceof Input) {
+					nodProps.put(fe.getName(), ((Input) fe).getValue());
+				} else if (fe instanceof SuggestBox) {
+					nodProps.put(fe.getName(), ((SuggestBox) fe).getValue());
+				} else if (fe instanceof CheckBox) {
+					nodProps.put(fe.getName(), Boolean.toString(((CheckBox) fe).getValue()));
+				} else if (fe instanceof TextArea) {
+					nodProps.put(fe.getName(), ((TextArea) fe).getValue());
+				} else if (fe instanceof Select) {
+					List<String> tmp = new ArrayList<>();
 
-				// Now we can safely set all property values.
-				for (FormElement fe : properties) {
-					if (fe instanceof Input) {
-						nodProps.put(fe.getName(), ((Input) fe).getValue());
-					} else if (fe instanceof SuggestBox) {
-						nodProps.put(fe.getName(), ((SuggestBox) fe).getValue());
-					} else if (fe instanceof CheckBox) {
-						nodProps.put(fe.getName(), Boolean.toString(((CheckBox) fe).getValue()));
-					} else if (fe instanceof TextArea) {
-						nodProps.put(fe.getName(), ((TextArea) fe).getValue());
-					} else if (fe instanceof Select) {
-						List<String> tmp = new ArrayList<>();
-
-						for (Option opt : ((Select) fe).getOptions()) {
-							if (opt.isSelected()) {
-								tmp.add(opt.getValue());
-							}
+					for (Option opt : ((Select) fe).getOptions()) {
+						if (opt.isSelected()) {
+							tmp.add(opt.getValue());
 						}
-
-						if (((Select) fe).getType().equals(Select.TYPE_SIMPLE) && tmp.size() > 1) {
-							throw new ParseException("Inconsistent property definition: " + fe.getName());
-						} else {
-							String value = gson.toJson(tmp);
-							nodProps.put(fe.getName(), value);
-						}
-					} else if (fe instanceof Text) {
-						// Ignore presentation property
-					} else if (fe instanceof Separator) {
-						// Ignore presentation property
-					} else {
-						log.warn("Unknown property definition: {}", fe.getName());
-						throw new ParseException("Unknown property definition: " + fe.getName());
 					}
+
+					if (((Select) fe).getType().equals(Select.TYPE_SIMPLE) && tmp.size() > 1) {
+						throw new ParseException("Inconsistent property definition: " + fe.getName());
+					} else {
+						String value = gson.toJson(tmp);
+						nodProps.put(fe.getName(), value);
+					}
+				} else if (fe instanceof Text) {
+					// Ignore presentation property
+				} else if (fe instanceof Separator) {
+					// Ignore presentation property
+				} else {
+					log.warn("Unknown property definition: {}", fe.getName());
+					throw new ParseException("Unknown property definition: " + fe.getName());
 				}
-
-				// AUTOMATION - PRE
-				Map<String, Object> env = new HashMap<>();
-				env.put(AutomationUtils.NODE_UUID, node.getUuid());
-				env.put(AutomationUtils.NODE_PATH, node.getPath());
-				env.put(AutomationUtils.PARENT_PATH, PathUtils.getParent(node.getPath()));
-				env.put(AutomationUtils.PARENT_UUID, node.getParent());
-				env.put(AutomationUtils.PROPERTY_GROUP_NAME, grpName);
-				env.put(AutomationUtils.PROPERTY_GROUP_PROPERTIES, nodProps);
-				AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_PRE, env);
-
-				NodeBaseDAO.getInstance().setProperties(node.getUuid(), grpName, nodProps);
-
-				// AUTOMATION - POST
-				AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_POST, env);
-
-				// Activity log
-				UserActivity.log(auth.getName(), "SET_PROPERTY_GROUP_PROPERTIES", node.getUuid(), node.getPath(), grpName + ", " + properties);
-			} else {
-				throw new RepositoryException("Property group not assigned to this node");
 			}
+
+			// AUTOMATION - PRE
+			Map<String, Object> env = new HashMap<>();
+			env.put(AutomationUtils.NODE_UUID, node.getUuid());
+			env.put(AutomationUtils.NODE_PATH, node.getPath());
+			env.put(AutomationUtils.PARENT_PATH, PathUtils.getParent(node.getPath()));
+			env.put(AutomationUtils.PARENT_UUID, node.getParent());
+			env.put(AutomationUtils.PROPERTY_GROUP_NAME, grpName);
+			env.put(AutomationUtils.PROPERTY_GROUP_PROPERTIES, nodProps);
+			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_PRE, env);
+
+			NodeBaseDAO.getInstance().setProperties(node.getUuid(), grpName, nodProps);
+
+			// AUTOMATION - POST
+			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_PROPERTY_GROUP_SET, AutomationRule.AT_POST, env);
+
+			// Activity log
+			UserActivity.log(auth.getName(), "SET_PROPERTY_GROUP_PROPERTIES", node.getUuid(), node.getPath(), grpName + ", " + properties);
 		} catch (DatabaseException e) {
 			throw e;
 		} finally {
