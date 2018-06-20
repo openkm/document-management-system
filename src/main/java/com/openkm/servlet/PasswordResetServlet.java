@@ -26,6 +26,9 @@ import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
 import com.openkm.dao.AuthDAO;
 import com.openkm.dao.bean.User;
+import com.openkm.jaas.PrincipalUtils;
+import com.openkm.module.db.stuff.DbSessionManager;
+import com.openkm.spring.SecurityHolder;
 import com.openkm.util.MailUtils;
 import com.openkm.util.WebUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -54,22 +57,21 @@ public class PasswordResetServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String username = WebUtils.getString(request, "username");
+		String userId = WebUtils.getString(request, "userId");
 		ServletContext sc = getServletContext();
 		User usr = null;
 
 		if (Config.USER_PASSWORD_RESET) {
 			try {
-				usr = AuthDAO.findUserByPk(username);
+				usr = AuthDAO.findUserByPk(userId);
 			} catch (DatabaseException e) {
-				log.error(getServletName() + " User '" + username + "' not found");
+				log.error(getServletName() + " User '" + userId + "' not found");
 			}
 
 			if (usr != null) {
 				try {
-					String password = RandomStringUtils.randomAlphanumeric(8);
-					AuthDAO.updateUserPassword(username, password);
-					MailUtils.sendMessage(usr.getEmail(), usr.getEmail(), "Password reset", "Your new password is: " + password
+					String newPass = resetPassword(userId);
+					MailUtils.sendMessage(usr.getEmail(), usr.getEmail(), "OpenKM Password reset", "Your new password is: " + newPass
 							+ "<br/>" + "To change it log in and then go to 'Tools' > 'Preferences' > 'User Configuration'.");
 					sc.setAttribute("resetOk", usr.getEmail());
 					response.sendRedirect("password_reset.jsp");
@@ -92,6 +94,21 @@ public class PasswordResetServlet extends HttpServlet {
 			}
 		} else {
 			sc.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+
+	private String resetPassword(String userId) throws DatabaseException, AccessDeniedException {
+		try {
+			// Necessary to have privileges to change the password
+			String sysToken = DbSessionManager.getInstance().getSystemToken();
+			SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(sysToken));
+
+			String newPass = RandomStringUtils.randomAlphanumeric(12);
+			AuthDAO.updateUserPassword(userId, newPass);
+
+			return newPass;
+		} finally {
+			SecurityHolder.unset();
 		}
 	}
 }
