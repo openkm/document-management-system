@@ -21,6 +21,10 @@
 
 package com.openkm.jaas;
 
+import com.openkm.core.AccessDeniedException;
+import com.openkm.module.db.stuff.DbSessionManager;
+import org.springframework.security.core.Authentication;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.security.auth.Subject;
@@ -98,5 +102,18 @@ public class PrincipalUtils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get Authentication by token and also set it as current Authentication.
+	 */
+	public static Authentication getAuthenticationByToken(String token) throws AccessDeniedException {
+		Authentication auth = DbSessionManager.getInstance().getAuthentication(token);
+
+		if (auth != null) {
+			return auth;
+		} else {
+			throw new AccessDeniedException("Invalid token: " + token);
+		}
 	}
 }
