@@ -99,6 +99,26 @@ public class OKMSearch implements SearchModule {
 	}
 
 	@Override
+	public List<QueryResult> findByQuery(String token, String query) throws IOException, ParseException, AccessDeniedException,
+			RepositoryException, DatabaseException {
+		log.debug("findByQuery({}, {})", token, query);
+		SearchModule sm = ModuleManager.getSearchModule();
+		List<QueryResult> col = sm.findByQuery(token, query);
+		log.debug("findByQuery: {}", col);
+		return col;
+	}
+
+	@Override
+	public ResultSet findByQueryPaginated(String token, String query, int offset, int limit) throws IOException, ParseException,
+			AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("findByQueryPaginated({}, {}, {}, {})", new Object[]{token, query, offset, limit});
+		SearchModule sm = ModuleManager.getSearchModule();
+		ResultSet rs = sm.findByQueryPaginated(token, query, offset, limit);
+		log.debug("findByQueryPaginated: {}", rs);
+		return rs;
+	}
+
+	@Override
 	public long saveSearch(String token, QueryParams params) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("saveSearch({}, {})", token, params);

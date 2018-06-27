@@ -43,6 +43,7 @@ import com.openkm.module.db.base.BaseMailModule;
 import com.openkm.spring.PrincipalUtils;
 import com.openkm.util.*;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -125,6 +126,40 @@ public class DbSearchModule implements SearchModule {
 			ResultSet rs = findByStatementPaginated(auth, query, offset, limit);
 			log.debug("findPaginated: {}", rs);
 			return rs;
+		} finally {
+			if (token != null) {
+				PrincipalUtils.setAuthentication(oldAuth);
+			}
+		}
+	}
+
+	@Override
+	public List<QueryResult> findByQuery(String token, String query) throws ParseException, AccessDeniedException,
+			RepositoryException, DatabaseException {
+		return findByQueryPaginated(token, query, 0, Config.MAX_SEARCH_RESULTS).getResults();
+	}
+
+	@Override
+	public ResultSet findByQueryPaginated(String token, String query, int offset, int limit) throws ParseException,
+			AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("findByQueryPaginated({}, {}, {}, {})", new Object[]{token, query, offset, limit});
+		Authentication auth = null, oldAuth = null;
+
+		try {
+			if (token == null) {
+				auth = PrincipalUtils.getAuthentication();
+			} else {
+				oldAuth = PrincipalUtils.getAuthentication();
+				auth = PrincipalUtils.getAuthenticationByToken(token);
+			}
+
+			QueryParser qp = new QueryParser(Config.LUCENE_VERSION, "text", SearchDAO.analyzer);
+			Query q = qp.parse(query);
+			ResultSet rs = findByStatementPaginated(auth, q, offset, limit);
+			log.debug("findByQueryPaginated: {}", rs);
+			return rs;
+		} catch (org.apache.lucene.queryParser.ParseException e) {
+			throw new ParseException(e.getMessage(), e);
 		} finally {
 			if (token != null) {
 				PrincipalUtils.setAuthentication(oldAuth);
