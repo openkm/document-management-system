@@ -26,7 +26,7 @@
 	}
 	
 	if (!Config.DEFAULT_LANG.equals("")) {
-		if (docPath != null || fldPath != null) {
+		if (docPath != null || fldPath != null || uuid != null) {
 			url += "&lang=" + Config.DEFAULT_LANG;
 		} else {
 			url += "?lang=" + Config.DEFAULT_LANG;
