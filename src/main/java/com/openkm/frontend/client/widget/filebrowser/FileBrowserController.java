@@ -1120,7 +1120,7 @@ public class FileBrowserController extends Composite {
 							((GWTSuggestBox) formElement).setValue(filter.getFilterValue1());
 						}
 					}
-					FormManager formManager = new FormManager();
+					FormManager formManager = new FormManager(null);
 					final Widget widget = formManager.getDrawEditFormElement(formElement, widgetControlChanged);
 					table.setHTML(row, 0, filter.getItem() + "&nbsp;");
 					table.setWidget(row, 1, widget);

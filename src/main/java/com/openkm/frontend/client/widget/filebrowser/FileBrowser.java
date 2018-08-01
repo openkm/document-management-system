@@ -2171,6 +2171,13 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 	}
 
 	/**
+	 * getAllSelectedUUIDs
+	 */
+	public List<String> getAllSelectedUUIDs() {
+		return table.getAllSelectedUUIDs();
+	}
+
+	/**
 	 * getAllSelectedPdfDocuments
 	 *
 	 * @return

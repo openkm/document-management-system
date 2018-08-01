@@ -36,12 +36,13 @@ import com.openkm.frontend.client.bean.form.*;
 import com.openkm.frontend.client.constants.ui.UIFileUploadConstants;
 import com.openkm.frontend.client.service.*;
 import com.openkm.frontend.client.util.*;
+import com.openkm.frontend.client.util.validator.ExtendedDefaultValidatorProcessor;
 import com.openkm.frontend.client.util.validator.ValidatorBuilder;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.Clipboard;
 import com.openkm.frontend.client.widget.ConfirmPopup;
 import com.openkm.frontend.client.widget.searchin.CalendarWidget;
 import com.openkm.frontend.client.widget.searchin.HasPropertyHandler;
-import eu.maydu.gwt.validation.client.DefaultValidationProcessor;
 import eu.maydu.gwt.validation.client.ValidationProcessor;
 import eu.maydu.gwt.validation.client.actions.FocusAction;
 
@@ -53,13 +54,10 @@ import java.util.*;
  * @author jllort
  */
 public class FormManager {
-	private final OKMKeyValueServiceAsync keyValueService = (OKMKeyValueServiceAsync) GWT
-			.create(OKMKeyValueService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT
-			.create(OKMRepositoryService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT
-			.create(OKMDocumentService.class);
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
+	private final OKMKeyValueServiceAsync keyValueService = GWT.create(OKMKeyValueService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
 
 	// Boolean contants
 	private String BOOLEAN_TRUE = String.valueOf(Boolean.TRUE);
@@ -69,7 +67,7 @@ public class FormManager {
 	private Map<String, Widget> hWidgetProperties = new HashMap<String, Widget>();
 	private FlexTable table;
 	private FolderSelectPopup folderSelectPopup;
-	private ValidationProcessor validationProcessor;
+	private ExtendedDefaultValidatorProcessor validationProcessor;
 	private boolean drawed = false;
 	private boolean readOnly = false;
 	private GWTTaskInstance taskInstance;
@@ -82,22 +80,25 @@ public class FormManager {
 	private List<Button> buttonControlList;
 	private Map<String, Object> workflowVarMap = new HashMap<String, Object>();
 	private FormManager singleton;
-
+	private ValidatorToFire validatorToFire;
+	
 	/**
 	 * FormManager used in workflow mode
 	 */
-	public FormManager(HasWorkflow workflow) {
+	public FormManager(HasWorkflow workflow, ValidatorToFire validatorToFire) {
 		singleton = this;
 		this.workflow = workflow;
+		this.validatorToFire = validatorToFire;
 		init();
 	}
 
 	/**
 	 * FormManager used in search mode
 	 */
-	public FormManager(HasPropertyHandler propertyHandler) {
+	public FormManager(HasPropertyHandler propertyHandler, ValidatorToFire validatorToFire) {
 		singleton = this;
 		this.propertyHandler = propertyHandler;
+		this.validatorToFire = validatorToFire;
 		isSearchView = true;
 		init();
 	}
@@ -105,8 +106,9 @@ public class FormManager {
 	/**
 	 * FormManager used in property group mode
 	 */
-	public FormManager() {
+	public FormManager(ValidatorToFire validatorToFire) {
 		singleton = this;
+		this.validatorToFire = validatorToFire;
 		init();
 	}
 
@@ -1361,7 +1363,7 @@ public class FormManager {
 	 */
 	public void buildValidators() {
 		int rows = 0;
-		validationProcessor = new DefaultValidationProcessor();
+		validationProcessor = new ExtendedDefaultValidatorProcessor(validatorToFire);
 		FocusAction focusAction = new FocusAction();
 
 		for (Iterator<GWTFormElement> it = formElementList.iterator(); it.hasNext(); ) {
@@ -2259,7 +2261,7 @@ public class FormManager {
 	/**
 	 *
 	 */
-	public ValidationProcessor getValidationProcessor() {
+	public ExtendedDefaultValidatorProcessor getValidationProcessor() {
 		return validationProcessor;
 	}
 

@@ -36,7 +36,9 @@ import com.openkm.frontend.client.service.OKMPropertyGroupService;
 import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
 import com.openkm.frontend.client.service.OKMRepositoryService;
 import com.openkm.frontend.client.service.OKMRepositoryServiceAsync;
+import com.openkm.frontend.client.util.CommonUI;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.propertygroup.PropertyGroupWidget;
 import com.openkm.frontend.client.widget.propertygroup.PropertyGroupWidgetToFire;
 import com.openkm.frontend.client.widget.upload.FancyFileUpload;
@@ -50,10 +52,9 @@ import java.util.List;
  *
  * @author jllort
  */
-public class WizardPopup extends DialogBox {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT
-			.create(OKMPropertyGroupService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
+public class WizardPopup extends DialogBox implements ValidatorToFire {
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
 
 	private static final int STATUS_NONE = -1;
 	private static final int STATUS_ADD_PROPERTY_GROUPS = 0;
@@ -64,7 +65,8 @@ public class WizardPopup extends DialogBox {
 	private static final int STATUS_FINISH = 5;
 
 	private FiredVerticalPanel vPanelFired;
-	private String docPath = "";
+	private String nodePath = "";
+	private String initialNodePath = "";
 	private List<GWTPropertyGroup> groupsList = null;
 	private List<String> workflowsList = null;
 	private int groupIndex = 0;
@@ -102,13 +104,10 @@ public class WizardPopup extends DialogBox {
 
 	/**
 	 * Starting wizard
-	 *
-	 * @param docPath
-	 * @param jsWizard
 	 */
-	public void start(String docPath, boolean jsWizard) {
+	public void start(String nodePath, boolean jsWizard) {
 		this.jsWizard = jsWizard;
-		String fileName = Util.getName(docPath);
+		String fileName = Util.getName(nodePath);
 		if (fileName.length() > FancyFileUpload.MAX_FILENAME_LENGHT - 35) {
 			setText(Main.i18n("wizard.document.uploading") + ": " + fileName.substring(0, (FancyFileUpload.MAX_FILENAME_LENGHT - 35))
 					+ "...");
@@ -118,7 +117,8 @@ public class WizardPopup extends DialogBox {
 		vPanelFired.clear();
 		actualButton = new Button("");
 		actualButton.setEnabled(false);
-		this.docPath = docPath;
+		this.nodePath = nodePath;
+		this.initialNodePath = nodePath;
 		docToSign = null;
 		status = STATUS_ADD_PROPERTY_GROUPS;
 
@@ -136,7 +136,7 @@ public class WizardPopup extends DialogBox {
 		hasWorkflows = Main.get().workspaceUserProperties.getWorkspace().isWizardWorkflows();
 
 		// getting uuid
-		repositoryService.getUUIDByPath(docPath, new AsyncCallback<String>() {
+		repositoryService.getUUIDByPath(nodePath, new AsyncCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
 				uuid = result;
@@ -153,9 +153,9 @@ public class WizardPopup extends DialogBox {
 	/**
 	 * Starting wizard
 	 */
-	public void start(String docPath, GWTFileUploadResponse fuResponse, boolean jsWizard) {
+	public void start(String nodePath, GWTFileUploadResponse fuResponse, boolean jsWizard) {
 		this.jsWizard = jsWizard;
-		String fileName = Util.getName(docPath);
+		String fileName = Util.getName(nodePath);
 		if (fileName.length() > FancyFileUpload.MAX_FILENAME_LENGHT - 35) {
 			setText(Main.i18n("wizard.document.uploading") + ": " + fileName.substring(0, (FancyFileUpload.MAX_FILENAME_LENGHT - 35))
 					+ "...");
@@ -165,7 +165,8 @@ public class WizardPopup extends DialogBox {
 		vPanelFired.clear();
 		actualButton = new Button("");
 		actualButton.setEnabled(false);
-		this.docPath = docPath;
+		this.nodePath = nodePath;
+		this.initialNodePath = nodePath;
 		docToSign = null;
 		status = STATUS_ADD_PROPERTY_GROUPS;
 
@@ -188,7 +189,7 @@ public class WizardPopup extends DialogBox {
 		hasWorkflows = (fuResponse.getWorkflowList().size() > 0);
 
 		// getting uuid
-		repositoryService.getUUIDByPath(docPath, new AsyncCallback<String>() {
+		repositoryService.getUUIDByPath(nodePath, new AsyncCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
 				uuid = result;
@@ -209,6 +210,7 @@ public class WizardPopup extends DialogBox {
 		@Override
 		public void onSuccess(Object result) {
 			groupIndex++;
+			
 			if (groupsList.size() > groupIndex) {
 				addPropertyGroups();
 			} else {
@@ -229,12 +231,10 @@ public class WizardPopup extends DialogBox {
 	private void addPropertyGroups() {
 		if (groupsList != null && groupsList.size() > groupIndex) {
 			status = STATUS_PROPERTY_GROUPS;
-			propertyGroupService.addGroup(docPath, groupsList.get(groupIndex).getName(), callbackAddGroup);
-
+			propertyGroupService.addGroup(nodePath, groupsList.get(groupIndex).getName(), callbackAddGroup);
 		} else if (groupsList == null || (groupsList != null && groupsList.isEmpty())) {
 			status = STATUS_WORKFLOWS;
 			showNextWizard();
-
 		} else if (groupsList.size() == 0) {
 			status = STATUS_WORKFLOWS;
 			showNextWizard();
@@ -250,8 +250,8 @@ public class WizardPopup extends DialogBox {
 		hPanel.add(actualButton);
 		hPanel.add(space);
 		hPanel.setCellWidth(space, "3px");
-		propertyGroupWidget = new PropertyGroupWidget(docPath, groupsList.get(groupIndex), new HTML(groupsList.get(groupIndex).getLabel()),
-				vPanelFired);
+		propertyGroupWidget = new PropertyGroupWidget(nodePath, groupsList.get(groupIndex), new HTML(groupsList.get(groupIndex).getLabel()),
+				vPanelFired, this);
 		vPanelFired.clear();
 		vPanelFired.add(propertyGroupWidget);
 		vPanelFired.add(hPanel);
@@ -288,6 +288,25 @@ public class WizardPopup extends DialogBox {
 	 * showNextWizard
 	 */
 	public void showNextWizard() {
+		repositoryService.getPathByUUID(uuid, new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(String result) {
+				nodePath = result;
+				showNextWizard2();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Main.get().showError("", caught);
+				hide();
+			}
+		});
+	}
+	
+	/**
+	 * showNextWizard
+	 */
+	public void showNextWizard2() {
 		switch (status) {
 			case STATUS_PROPERTY_GROUPS:
 				if (groupsList != null && groupsList.size() > groupIndex) {
@@ -357,24 +376,37 @@ public class WizardPopup extends DialogBox {
 
 			case STATUS_FINISH:
 				hide();
+				
+				boolean pathModified = false;
+				// check if nodePath has changed
+				if (!nodePath.equals(initialNodePath)) {
+					pathModified = true;
+				}
+				
 				if (jsWizard) {
 					// By default selected row after uploading is uploaded file
-					if (docPath != null && !docPath.equals("")) {
-						Main.get().mainPanel.desktop.browser.fileBrowser.mantainSelectedRowByPath(docPath);
-					}
+					if (nodePath != null && !nodePath.equals("")) {
+						Main.get().mainPanel.desktop.browser.fileBrowser.mantainSelectedRowByPath(nodePath);
+					}					
 					Main.get().mainPanel.desktop.browser.fileBrowser.refresh(Main.get().activeFolderTree.getActualPath());
 				} else {
-					Main.get().fileUpload.resetAfterWizardFinished(); // Restoring
-					// wizard
+					Main.get().fileUpload.resetAfterWizardFinished(!pathModified); // Restoring wizard 
 				}
+				
+				if (pathModified) {
+					CommonUI.openPath(Util.getParent(nodePath), nodePath);
+				}
+
+				// Clean values
+				hasKeywords = false;
+				hasCategories = false;				
+				hasWorkflows = false;				
 				break;
 		}
 	}
 
 	/**
 	 * Accept button
-	 *
-	 * @return
 	 */
 	private Button acceptButton() {
 		Button button = new Button(Main.i18n("button.accept"), new ClickHandler() {
@@ -391,8 +423,6 @@ public class WizardPopup extends DialogBox {
 
 	/**
 	 * Next button
-	 *
-	 * @return
 	 */
 	private Button nextButton() {
 		Button button = new Button(Main.i18n("button.next"), new ClickHandler() {
@@ -441,7 +471,7 @@ public class WizardPopup extends DialogBox {
 	 * setCategories
 	 */
 	private void setCategories() {
-		categoriesWidget = new CategoriesWidget(docPath, new HTML(Main.i18n("document.categories")));
+		categoriesWidget = new CategoriesWidget(nodePath, new HTML(Main.i18n("document.categories")));
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		HTML space = new HTML("");
@@ -466,7 +496,7 @@ public class WizardPopup extends DialogBox {
 	 */
 	private void setKeywords() {
 		// To be implemented
-		keywordsWidget = new KeywordsWidget(docPath, new HTML(Main.i18n("document.keywords")));
+		keywordsWidget = new KeywordsWidget(nodePath, new HTML(Main.i18n("document.keywords")));
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		HTML space = new HTML("");
@@ -487,7 +517,7 @@ public class WizardPopup extends DialogBox {
 	}
 
 	/**
-	 * changeView Ensures fileupload is hiden and panel is centered
+	 * changeView Ensures fileupload is hidden and panel is centered
 	 */
 	public void changeView() {
 		Main.get().fileUpload.hide();
@@ -543,9 +573,6 @@ public class WizardPopup extends DialogBox {
 
 		/**
 		 * setCellHorizontalAlignment
-		 *
-		 * @param w
-		 * @param align
 		 */
 		public void setCellHorizontalAlignment(Widget w, HorizontalAlignmentConstant align) {
 			vPanel.setCellHorizontalAlignment(w, align);
@@ -553,9 +580,6 @@ public class WizardPopup extends DialogBox {
 
 		/**
 		 * setCellHeight
-		 *
-		 * @param w
-		 * @param height
 		 */
 		public void setCellHeight(Widget w, String height) {
 			vPanel.setCellHeight(w, height);
@@ -563,9 +587,6 @@ public class WizardPopup extends DialogBox {
 
 		/**
 		 * setCellVerticalAlignment
-		 *
-		 * @param w
-		 * @param align
 		 */
 		public void setCellVerticalAlignment(Widget w, VerticalAlignmentConstant align) {
 			vPanel.setCellVerticalAlignment(w, align);
@@ -580,8 +601,6 @@ public class WizardPopup extends DialogBox {
 
 		/**
 		 * add
-		 *
-		 * @param widget
 		 */
 		public void add(Widget widget) {
 			vPanel.add(widget);
@@ -597,10 +616,17 @@ public class WizardPopup extends DialogBox {
 
 	/**
 	 * getDocumentToSign
-	 *
-	 * @return
 	 */
 	public GWTDocument getDocumentToSign() {
 		return docToSign;
+	}
+	
+	@Override
+	public void validationWithPluginsFinished(boolean result) {
+		if (result) {
+			propertyGroupWidget.setProperties();
+		} else {
+			actualButton.setEnabled(true);
+		}
 	}
 }

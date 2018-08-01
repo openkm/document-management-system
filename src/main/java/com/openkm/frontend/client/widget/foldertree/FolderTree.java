@@ -21,10 +21,6 @@
 
 package com.openkm.frontend.client.widget.foldertree;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.*;
 import com.google.gwt.user.client.Element;
@@ -44,6 +40,10 @@ import com.openkm.frontend.client.widget.ConfirmPopup;
 import com.openkm.frontend.client.widget.MenuPopup;
 import com.openkm.frontend.client.widget.OriginPanel;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Folder tree
  *
@@ -58,9 +58,9 @@ public class FolderTree extends Composite implements OriginPanel {
 	public static final int ACTION_RENAME = 1;
 	public static final int ACTION_SECURITY_REFRESH = 2;
 
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMNotifyServiceAsync notifyService = (OKMNotifyServiceAsync) GWT.create(OKMNotifyService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private final OKMNotifyServiceAsync notifyService = GWT.create(OKMNotifyService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
 
 	private ExtendedTree tree;
 	public TreeItem actualItem;
@@ -769,8 +769,7 @@ public class FolderTree extends Composite implements OriginPanel {
 		refreshFileBrowser = true;
 		String rootPath = folderRoot.getPath();
 		String actualPath = fldId;
-		// getChilds method needs it for last
-		// folder)
+		// getChilds method needs it for last folder)
 
 		// Set the selected document to file browser
 		// The browser is only called on the last child node refreshing and

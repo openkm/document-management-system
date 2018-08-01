@@ -58,7 +58,7 @@ import java.util.List;
  * @author jllort
  */
 public class TabDocument extends Composite implements HasDocumentEvent, HasDocumentHandlerExtension, HasPropertyGroupHandlerExtension {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private static final int TAB_HEIGHT = 20;
 	public int PREVIEW_TAB = -1;
@@ -158,6 +158,7 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 	 * @param width With of the widget
 	 * @param height Height of the widget
 	 */
+	@Override
 	public void setPixelSize(int width, int height) {
 		//do not set if width and height are not changed
 		if (this.height == height && this.width == width)
@@ -403,13 +404,12 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 	 * Gets asynchronous to get all groups assigned to a document
 	 */
 	final AsyncCallback<List<GWTPropertyGroup>> callbackGetGroups = new AsyncCallback<List<GWTPropertyGroup>>() {
+		@Override
 		public void onSuccess(List<GWTPropertyGroup> result) {
-			GWTFolder gwtFolder = Main.get().activeFolderTree.getFolder();
-
 			boolean enableUpdatePropertyGroup = false;
 			for (GWTPropertyGroup gwtGroup : result) {
 				String groupTranslation = gwtGroup.getLabel();
-				PropertyGroup group = new PropertyGroup(gwtGroup, doc, gwtFolder, visibleButton, gwtGroup.isReadonly());
+				PropertyGroup group = new PropertyGroup(gwtGroup, doc, visibleButton, gwtGroup.isReadonly());
 				tabPanel.add(group, groupTranslation);
 				propertyGroup.add(group);
 
@@ -435,15 +435,13 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 				tabPanel.selectTab(tabPanel.getWidgetCount() - 1);
 			} else {
 				tabPanel.selectTab(latestSelectedTab); // Always enable selected
-				// tab because on
-				// document change tab
-				// group are removed
-				// and on remove loses
-				// selectedTab
+				// tab because on document change tab group are removed and on remove loses selectedTab
 			}
+
 			Main.get().mainPanel.desktop.browser.tabMultiple.status.unsetGroupProperties();
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			Main.get().mainPanel.desktop.browser.tabMultiple.status.unsetGroupProperties();
 			Main.get().showError("GetGroups", caught);

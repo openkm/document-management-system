@@ -45,7 +45,6 @@ import java.util.Map;
  *
  */
 public class SearchMetadata extends Composite {
-
 	private ScrollPanel scrollPanel;
 	private FlexTable table;
 	private FormManager formManager;
@@ -56,7 +55,7 @@ public class SearchMetadata extends Composite {
 	 * SearchMetadata
 	 */
 	public SearchMetadata(HasPropertyHandler propertyHandler) {
-		formManager = new FormManager(propertyHandler);
+		formManager = new FormManager(propertyHandler, null);
 		table = new FlexTable();
 		scrollPanel = new ScrollPanel(table);
 

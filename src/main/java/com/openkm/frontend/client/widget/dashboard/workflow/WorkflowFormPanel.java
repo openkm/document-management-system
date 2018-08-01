@@ -34,6 +34,7 @@ import com.openkm.frontend.client.service.*;
 import com.openkm.frontend.client.util.CommonUI;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 import com.openkm.frontend.client.widget.form.HasWorkflow;
 
@@ -45,11 +46,11 @@ import java.util.*;
  * @author jllort
  *
  */
-public class WorkflowFormPanel extends Composite implements HasWorkflow {
-	private final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
+public class WorkflowFormPanel extends Composite implements HasWorkflow, ValidatorToFire {
+	private final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
 
 	private VerticalPanel vPanel;
 	private GWTTaskInstance taskInstance;
@@ -76,7 +77,7 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow {
 	public WorkflowFormPanel() {
 		vPanel = new VerticalPanel();
 		table = new FlexTable();
-		manager = new FormManager(this);
+		manager = new FormManager(this, this);
 		parameterTable = new FlexTable();
 		newNotePanel = new VerticalPanel();
 		tableNotes = new FlexTable();
@@ -86,7 +87,7 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow {
 
 		textArea.addKeyUpHandler(new KeyUpHandler() {
 			@Override
-			public void onKeyUp(KeyUpEvent arg0) {
+			public void onKeyUp(KeyUpEvent event) {
 				if (!textArea.getText().equals("")) {
 					add.setEnabled(true);
 				} else {
@@ -695,5 +696,21 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow {
 		public HandlerRegistration addClickHandler(ClickHandler handler) {
 			return addHandler(handler, ClickEvent.getType());
 		}
+	}
+	
+	@Override
+	public void validationWithPluginsFinished(boolean result) {
+		// Submit form is not visible when other buttons are declared into form.xml, in these case must not be executed the setTaskInstanceValues
+		if (result && submitForm.isVisible()) {
+			validationPassed();
+		}
+	}
+	
+	/**
+	 * validationPassed
+	 */
+	private void validationPassed() {
+		setTaskInstanceValues(taskInstance.getId(), null);
+		submitForm.setEnabled(false);
 	}
 }
