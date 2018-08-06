@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module SYSTEM "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
+<!DOCTYPE module SYSTEM "www.gwtproject.org/doctype/2.8.2/gwt-module.dtd">
 <module rename-to="frontend">
+  <!-- 2.6 configuration for styles -->
+  <public path='public'/>
 
   <!-- Inherit the core Web Toolkit stuff -->
   <inherits name="com.google.gwt.user.User"/>
@@ -24,7 +26,7 @@
   <entry-point class="com.openkm.frontend.client.Main"/>
 
   <!-- only build for Firefox -->
-  <!-- <set-property name="user.agent" value="gecko1_8" /> -->
+  <!-- <set-property name="user.agent" value="gecko1_8" />  -->
 
   <!-- only build for Chrome -->
   <!-- <set-property name="user.agent" value="safari" /> -->
@@ -32,10 +34,17 @@
   <!-- Compile debug levels gwt-log -->
   <extend-property name="log_level" values="DEBUG" />
   <set-property name="log_level" value="DEBUG" />
-  <set-property name="log_FirebugLogger" value="DISABLED" />
+  <!-- <set-property name="log_FirebugLogger" value="DISABLED" /> -->
   <set-configuration-property name="log_pattern" value="%d [%-5p] %m%n" />
 
   <!-- Suppress compilation warnings -->
   <set-property name="gwt.suppressNonStaticFinalFieldWarnings" value="true"/>
-
+  
+  <!--
+  Use GWT 2.7.0 to debug in Firefox  
+  <add-linker name="xsiframe"/> 
+  <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>  
+  <set-configuration-property name="devModeUrlWhitelistRegexp" value="http://(localhost|127\.0\.0\.1|192\.168\.1\.34)(:\d+)?/.*" /> 
+  -->
+  
 </module>

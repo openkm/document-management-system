@@ -52,14 +52,14 @@
 
   <properties>
     <!-- Using this GWT version -->
-    <gwt.version>2.4.0</gwt.version>
+    <gwt.version>2.8.2</gwt.version>
 
     <!-- Using this Spring version -->
-    <spring.version>3.2.8.RELEASE</spring.version>
+    <spring.version>3.2.9.RELEASE</spring.version>
     <spring.security.version>3.2.3.RELEASE</spring.security.version>
 
     <!-- Apache CXF -->
-    <cxf.version>2.7.12</cxf.version>
+    <cxf.version>3.2.5</cxf.version>
 
     <!-- Apache POI -->
     <poi.version>3.12</poi.version>
@@ -76,10 +76,10 @@
     <!-- OpenCMIS -->
     <opencmis.version>0.12.0</opencmis.version>
 
-    <!-- Tell the compiler we can use 1.7 -->
-    <java.compiler>1.7</java.compiler>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <!-- Tell the compiler we can use 1.8 -->
+    <java.compiler>1.8</java.compiler>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <!-- Default source encoding ${default.encoding} -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -431,20 +431,19 @@
       <scope>provided</scope>
     </dependency>
     <!-- Only for development -->
-    <!--
+    <!-- 
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
       <version>${gwt.version}</version>
       <scope>provided</scope>
-    </dependency>
-    -->
+    </dependency> -->
 
     <!-- GWT plugins -->
     <dependency>
-      <groupId>com.google.code.gwt-log</groupId>
+      <groupId>com.allen-sauer.gwt.log</groupId>
       <artifactId>gwt-log</artifactId>
-      <version>3.1.6</version>
+      <version>3.3.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
@@ -529,6 +528,12 @@
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-security</artifactId>
       <version>${cxf.version}</version>
+      <exclusions>
+      	<exclusion>
+      		<groupId>net.sf.ehcache</groupId>
+      		<artifactId>ehcache</artifactId>
+      	</exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
