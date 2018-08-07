@@ -1751,6 +1751,7 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 
 		// Enable// Enable
 		if (Main.get().mainPanel.desktop.navigator.getStackIndex() != UIDesktopConstants.NAVIGATOR_TRASH) {
+			toolBarOption.addCategoryOption = true;
 			toolBarOption.addKeywordOption = true;
 			toolBarOption.copyOption = true;
 			toolBarOption.moveOption = true;
