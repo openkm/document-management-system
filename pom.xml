@@ -59,7 +59,7 @@
     <spring.security.version>3.2.3.RELEASE</spring.security.version>
 
     <!-- Apache CXF -->
-    <cxf.version>2.7.12</cxf.version>
+    <cxf.version>3.2.5</cxf.version>
 
     <!-- Apache POI -->
     <poi.version>3.12</poi.version>
@@ -512,10 +512,6 @@
           <groupId>org.apache.geronimo.specs</groupId>
           <artifactId>geronimo-javamail_1.4_spec</artifactId>
         </exclusion>
-        <exclusion>
-        	<groupId>asm</groupId>
-        	<artifactId>asm</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -532,6 +528,12 @@
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-ws-security</artifactId>
       <version>${cxf.version}</version>
+      <exclusions>
+      	<exclusion>
+      		<groupId>net.sf.ehcache</groupId>
+      		<artifactId>ehcache</artifactId>
+      	</exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
