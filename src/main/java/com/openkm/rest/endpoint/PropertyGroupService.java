@@ -23,6 +23,7 @@ package com.openkm.rest.endpoint;
 
 import com.openkm.bean.form.*;
 import com.openkm.core.Config;
+import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.PropertyGroupModule;
 import com.openkm.rest.GenericException;
@@ -43,6 +44,7 @@ import java.util.StringTokenizer;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/propertyGroup")
 public class PropertyGroupService {
 	private static Logger log = LoggerFactory.getLogger(PropertyGroupService.class);
 
@@ -224,13 +226,14 @@ public class PropertyGroupService {
 
 	@GET
 	@Path("/hasGroup")
-	public boolean hasGroup(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean hasGroup(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName) throws GenericException {
 		try {
 			log.debug("hasGroup({}, {})", new Object[]{nodeId, grpName});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			boolean ret = cm.hasGroup(null, nodeId, grpName);
-			log.debug("hasGroup: {}", ret);
-			return ret;
+			log.debug("hasGroup: {}", ret);			
+			return new Boolean(ret);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

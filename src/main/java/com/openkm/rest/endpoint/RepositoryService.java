@@ -28,6 +28,7 @@ import com.openkm.bean.ScriptExecutionResult;
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
+import com.openkm.core.MimeTypeConfig;
 import com.openkm.dao.LegacyDAO;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.RepositoryModule;
@@ -53,6 +54,7 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/repository")
 public class RepositoryService {
 	private static Logger log = LoggerFactory.getLogger(RepositoryService.class);
 
@@ -197,13 +199,14 @@ public class RepositoryService {
 
 	@GET
 	@Path("/hasNode")
-	public boolean hasNode(@QueryParam("nodeId") String nodeId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean hasNode(@QueryParam("nodeId") String nodeId) throws GenericException {
 		try {
 			log.debug("hasNode()");
 			RepositoryModule rm = ModuleManager.getRepositoryModule();
 			boolean has = rm.hasNode(null, nodeId);
 			log.debug("hasNode: {}", has);
-			return has;
+			return new Boolean(has);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

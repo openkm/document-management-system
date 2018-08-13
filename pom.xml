@@ -844,6 +844,7 @@
             <module>com.openkm.frontend.Main</module>
           </modules>
           <localWorkers>4</localWorkers>
+          <extraJvmArgs>-Xms256m -Xmx2048m</extraJvmArgs>
         </configuration>
       </plugin>
 
