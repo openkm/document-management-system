@@ -32,6 +32,7 @@ import javax.ws.rs.core.MediaType;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/property")
 public class PropertyService {
 	private static Logger log = LoggerFactory.getLogger(PropertyService.class);
 

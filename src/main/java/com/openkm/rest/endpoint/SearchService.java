@@ -22,6 +22,7 @@
 package com.openkm.rest.endpoint;
 
 import com.openkm.bean.ResultSet;
+import com.openkm.core.MimeTypeConfig;
 import com.openkm.dao.bean.QueryParams;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.SearchModule;
@@ -38,6 +39,7 @@ import java.util.Map.Entry;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/search")
 public class SearchService {
 	private static Logger log = LoggerFactory.getLogger(SearchService.class);
 
@@ -169,7 +171,7 @@ public class SearchService {
 	@Path("/getKeywordMap")
 	public KeywordMapList getKeywordMap(@QueryParam("filter") String[] filter) throws GenericException {
 		try {
-			log.debug("getKeywordMap({})", filter);
+			log.debug("getKeywordMap({})", (Object[]) filter);
 			SearchModule sm = ModuleManager.getSearchModule();
 			List<String> alFilter = Arrays.asList(filter);
 			Map<String, Integer> map = sm.getKeywordMap(null, alFilter);
@@ -207,14 +209,15 @@ public class SearchService {
 
 	@POST
 	@Path("/saveSearch")
+	@Produces(MimeTypeConfig.MIME_TEXT)
 	// The "params" parameter comes in the POST request body (encoded as XML or JSON).
-	public long saveSearch(QueryParams params) throws GenericException {
+	public Long saveSearch(QueryParams params) throws GenericException {
 		try {
 			log.debug("saveSearch({})", params);
 			SearchModule sm = ModuleManager.getSearchModule();
 			long id = sm.saveSearch(null, params);
 			log.debug("saveSearch: {}", id);
-			return id;
+			return new Long(id);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -227,7 +230,7 @@ public class SearchService {
 		try {
 			log.debug("updateSearch({})", params);
 			SearchModule sm = ModuleManager.getSearchModule();
-			sm.saveSearch(null, params);
+			sm.updateSearch(null, params);
 			log.debug("updateSearch: void");
 		} catch (Exception e) {
 			throw new GenericException(e);

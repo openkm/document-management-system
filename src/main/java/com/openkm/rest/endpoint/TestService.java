@@ -33,6 +33,7 @@ import java.util.Calendar;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/test")
 public class TestService {
 	private static Logger log = LoggerFactory.getLogger(TestService.class);
 
@@ -87,7 +88,7 @@ public class TestService {
 	@Path("/sort1/{array}")
 	public String[] sort1(@PathParam("array") String[] array) throws GenericException {
 		try {
-			log.info("sort1({})", array);
+			log.info("sort1({})", (Object[]) array);
 
 			if (array != null) {
 				log.info("sort1: a.length={}", array.length);
@@ -104,10 +105,10 @@ public class TestService {
 	@Path("/sort2/{array}")
 	public String[] sort2(@PathParam("array") String[] array) throws GenericException {
 		try {
-			log.info("sort2({})", array);
+			log.info("sort2({})", (Object[]) array);
 
 			if (array != null) {
-				log.info("sort2: a.value={}", array);
+				log.info("sort2: a.value={}", (Object[]) array);
 				log.info("sort2: a.length={}", array.length);
 				Arrays.sort(array);
 			}

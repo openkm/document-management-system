@@ -8,107 +8,17 @@
                                  http://cxf.apache.org/schemas/jaxrs.xsd">
 
   <!-- REST -->
-  <jaxrs:server id="restAuth" address="/rest/auth">
+  <jaxrs:server id="rest" address="/rest">
     <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.AuthService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restDocument" address="/rest/document">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.DocumentService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restFolder" address="/rest/folder">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.FolderService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restMail" address="/rest/mail">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.MailService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restNote" address="/rest/note">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.NoteService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restPropertyGroup" address="/rest/propertyGroup">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.PropertyGroupService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restSearch" address="/rest/search">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.SearchService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restRepository" address="/rest/repository">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.RepositoryService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restProperty" address="/rest/property">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.PropertyService"/>
-    </jaxrs:serviceBeans>
-    <jaxrs:providers>
-      <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
-        <property name="dropRootElement" value="true"/>
-        <property name="supportUnwrapped" value="true"/>
-      </bean>
-    </jaxrs:providers>
-  </jaxrs:server>
-  <jaxrs:server id="restTest" address="/rest/test">
-    <jaxrs:serviceBeans>
       <beans:bean class="com.openkm.rest.endpoint.TestService"/>
     </jaxrs:serviceBeans>
     <jaxrs:providers>
@@ -118,5 +28,4 @@
       </bean>
     </jaxrs:providers>
   </jaxrs:server>
-
 </beans:beans>
