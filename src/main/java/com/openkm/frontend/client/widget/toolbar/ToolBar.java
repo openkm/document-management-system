@@ -1232,7 +1232,6 @@ public class ToolBar extends Composite implements OriginPanel, HasToolBarEvent, 
 					toolBarOption.copyOption = false;
 					toolBarOption.addCategoryOption = false;
 					toolBarOption.addKeywordOption = false;
-					toolBarOption.addNoteOption = false;
 				}
 			}
 			// Disable move & copy option in metadata case
