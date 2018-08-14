@@ -26,6 +26,7 @@ import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.openkm.automation.AutomationManager;
 import com.openkm.automation.AutomationUtils;
+import com.openkm.bean.Document;
 import com.openkm.bean.Permission;
 import com.openkm.cache.UserItemsManager;
 import com.openkm.core.*;
@@ -1044,6 +1045,68 @@ public class NodeDocumentDAO {
 		}
 	}
 
+	/**
+	 * Set document properties.
+	 */
+	public void setProperties(String uuid, Document props) throws PathNotFoundException, AccessDeniedException, LockException,
+			DatabaseException {
+		log.debug("setProperties({}, {})", uuid, props);
+		Session session = null;
+		Transaction tx = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.beginTransaction();
+
+			// Security Check
+			NodeDocument nDoc = (NodeDocument) session.load(NodeDocument.class, uuid);
+			SecurityHelper.checkRead(nDoc);
+			SecurityHelper.checkWrite(nDoc);
+
+			// Lock Check
+			LockHelper.checkWriteLock(nDoc);
+
+			// Set title
+			if (props.getTitle() != null && !props.getTitle().isEmpty()) {
+				nDoc.setTitle(props.getTitle());
+			}
+
+			// Set description
+			if (props.getDescription() != null && !props.getDescription().isEmpty()) {
+				nDoc.setDescription(props.getDescription());
+			}
+
+			// Set language
+			if (props.getLanguage() != null && !props.getLanguage().isEmpty()) {
+				nDoc.setLanguage(props.getLanguage());
+			}
+
+			// Set common properties
+			NodeBaseDAO.getInstance().setProperties(session, nDoc, props);
+
+			session.update(nDoc);
+			HibernateUtil.commit(tx);
+			log.debug("setProperties: void");
+		} catch (PathNotFoundException e) {
+			HibernateUtil.rollback(tx);
+			throw e;
+		} catch (AccessDeniedException e) {
+			HibernateUtil.rollback(tx);
+			throw e;
+		} catch (LockException e) {
+			HibernateUtil.rollback(tx);
+			throw e;
+		} catch (DatabaseException e) {
+			HibernateUtil.rollback(tx);
+			throw e;
+		} catch (HibernateException e) {
+			HibernateUtil.rollback(tx);
+			throw new DatabaseException(e.getMessage(), e);
+		} finally {
+			HibernateUtil.close(session);
+		}
+	}
+	
 	/**
 	 * Lock node
 	 */

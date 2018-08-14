@@ -2071,6 +2071,34 @@ public class NodeBaseDAO {
 	}
 
 	/**
+	 * Set common node properties
+	 */
+	public void setProperties(Session session, NodeBase nBase, Node props) throws PathNotFoundException, DatabaseException {
+		// Set keywords
+		if (props.getKeywords() != null && !props.getKeywords().isEmpty()) {
+			nBase.setKeywords(props.getKeywords());
+		}
+
+		// Set categories
+		if (props.getCategories() != null && !props.getCategories().isEmpty()) {
+			Set<String> catIds = new HashSet<>();
+
+			for (Folder fld : props.getCategories()) {
+				if (fld.getUuid() != null && !fld.getUuid().isEmpty()) {
+					catIds.add(fld.getUuid());
+				} else if (fld.getPath() != null && !fld.getPath().isEmpty()) {
+					if (fld.getPath().startsWith("/" + Repository.CATEGORIES)) {
+						// Categories should be at /okm:categories
+						catIds.add(getUuidFromPath(session, fld.getPath()));
+					}
+				}
+			}
+
+			nBase.setCategories(catIds);
+		}
+	}
+	
+	/**
 	 * Set properties from property group
 	 */
 	public Map<String, String> setProperties(String uuid, String grpName, Map<String, String> properties) throws PathNotFoundException,

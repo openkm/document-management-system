@@ -56,8 +56,8 @@ public class BaseDocumentModule {
 	 */
 	@SuppressWarnings("unchecked")
 	public static NodeDocument create(String user, String parentPath, NodeBase parentNode, String name, String title, Calendar created,
-	                                  String mimeType, InputStream is, long size, Set<String> keywords, Set<String> categories, Set<NodeProperty> propertyGroups,
-	                                  List<NodeNote> notes, WikiPage wiki, Ref<FileUploadResponse> fuResponse) throws PathNotFoundException, AccessDeniedException,
+			String mimeType, InputStream is, long size, Set<String> keywords, Set<String> categories, Set<NodeProperty> propertyGroups,
+			List<NodeNote> notes, WikiPage wiki, Ref<FileUploadResponse> fuResponse) throws PathNotFoundException, AccessDeniedException,
 			ItemExistsException, UserQuotaExceededException, AutomationException, DatabaseException, IOException {
 
 		// Check user quota
@@ -81,7 +81,7 @@ public class BaseDocumentModule {
 		}
 
 		// AUTOMATION - PRE
-		Map<String, Object> env = new HashMap<String, Object>();
+		Map<String, Object> env = new HashMap<>();
 		env.put(AutomationUtils.PARENT_UUID, parentNode.getUuid());
 		env.put(AutomationUtils.PARENT_PATH, parentPath);
 		env.put(AutomationUtils.PARENT_NODE, parentNode);
@@ -202,6 +202,9 @@ public class BaseDocumentModule {
 		doc.setMimeType(nDocument.getMimeType());
 		doc.setCheckedOut(nDocument.isCheckedOut());
 		doc.setLocked(nDocument.isLocked());
+		doc.setDescription(nDocument.getDescription());
+		doc.setTitle(nDocument.getTitle());
+		doc.setLanguage(nDocument.getLanguage());
 
 		if (doc.isLocked()) {
 			NodeLock nLock = nDocument.getLock();
@@ -230,7 +233,7 @@ public class BaseDocumentModule {
 		doc.setKeywords(nDocument.getKeywords());
 
 		// Get categories
-		Set<Folder> categories = new HashSet<Folder>();
+		Set<Folder> categories = new HashSet<>();
 		NodeFolderDAO nFldDao = NodeFolderDAO.getInstance();
 		Set<NodeFolder> resolvedCategories = nFldDao.resolveCategories(nDocument.getCategories());
 
@@ -241,7 +244,7 @@ public class BaseDocumentModule {
 		doc.setCategories(categories);
 
 		// Get notes
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		List<NodeNote> nNoteList = NodeNoteDAO.getInstance().findByParent(nDocument.getUuid());
 
 		for (NodeNote nNote : nNoteList) {
@@ -264,7 +267,7 @@ public class BaseDocumentModule {
 		log.debug("getProperties: {}", doc);
 		return doc;
 	}
-	
+
 	/**
 	 * Retrieve the content input stream from a document
 	 *
@@ -290,7 +293,7 @@ public class BaseDocumentModule {
 	 * Check if a node is being used in a running workflow
 	 */
 	public static boolean hasWorkflowNodes(String docUuid) throws WorkflowException, PathNotFoundException, DatabaseException {
-		Set<String> workflowNodes = new HashSet<String>();
+		Set<String> workflowNodes = new HashSet<>();
 
 		for (ProcessDefinition procDef : CommonWorkflowModule.findAllProcessDefinitions()) {
 			for (ProcessInstance procIns : CommonWorkflowModule.findProcessInstances(procDef.getId())) {
@@ -312,17 +315,17 @@ public class BaseDocumentModule {
 	 * Is invoked from DbDocumentNode and DbFolderNode.
 	 */
 	public static NodeDocument copy(String user, NodeDocument srcDocNode, String dstPath, NodeBase dstNode, String docName,
-	                                ExtendedAttributes extAttr) throws PathNotFoundException, AccessDeniedException, ItemExistsException,
+			ExtendedAttributes extAttr) throws PathNotFoundException, AccessDeniedException, ItemExistsException,
 			UserQuotaExceededException, AutomationException, DatabaseException, IOException {
 		log.debug("copy({}, {}, {}, {}, {})", new Object[]{user, srcDocNode, dstNode, docName, extAttr});
 		InputStream is = null;
-		NodeDocument newDocument = null;
+		NodeDocument newDocument;
 
 		try {
-			Set<String> keywords = new HashSet<String>();
-			Set<String> categories = new HashSet<String>();
-			Set<NodeProperty> propertyGroups = new HashSet<NodeProperty>();
-			List<NodeNote> notes = new ArrayList<NodeNote>();
+			Set<String> keywords = new HashSet<>();
+			Set<String> categories = new HashSet<>();
+			Set<NodeProperty> propertyGroups = new HashSet<>();
+			List<NodeNote> notes = new ArrayList<>();
 			WikiPage wiki = null;
 
 			if (extAttr != null) {
@@ -347,7 +350,7 @@ public class BaseDocumentModule {
 				}
 			}
 
-			Ref<FileUploadResponse> fuResponse = new Ref<FileUploadResponse>(new FileUploadResponse());
+			Ref<FileUploadResponse> fuResponse = new Ref<>(new FileUploadResponse());
 			is = NodeDocumentVersionDAO.getInstance().getCurrentContentByParent(srcDocNode.getUuid(), true);
 			NodeDocumentVersion nDocVer = NodeDocumentVersionDAO.getInstance().findCurrentVersion(srcDocNode.getUuid());
 			newDocument = create(user, dstPath, dstNode, docName, srcDocNode.getTitle(), Calendar.getInstance(), srcDocNode.getMimeType(),

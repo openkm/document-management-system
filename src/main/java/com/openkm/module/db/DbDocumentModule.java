@@ -270,7 +270,7 @@ public class DbDocumentModule implements DocumentModule {
 			String name = PathUtils.getName(docNode.getPath());
 
 			// AUTOMATION - PRE
-			Map<String, Object> env = new HashMap<String, Object>();
+			Map<String, Object> env = new HashMap<>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
 			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
@@ -324,7 +324,7 @@ public class DbDocumentModule implements DocumentModule {
 			NodeDocument docNode = (NodeDocument) BaseModule.resolveNodeById(docId);
 
 			// AUTOMATION - PRE
-			Map<String, Object> env = new HashMap<String, Object>();
+			Map<String, Object> env = new HashMap<>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
 			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
@@ -368,10 +368,10 @@ public class DbDocumentModule implements DocumentModule {
 	public Document getProperties(String token, String docId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException {
 		log.debug("getProperties({}, {})", token, docId);
-		Document doc = null;
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
+		Document doc;
 
 		try {
 			if (token == null) {
@@ -410,10 +410,10 @@ public class DbDocumentModule implements DocumentModule {
 	public void setProperties(String token, Document doc) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("setProperties({}, {})", token, doc);
-		Authentication auth = null, oldAuth = null;
+		Authentication auth, oldAuth = null;
 		@SuppressWarnings("unused")
 		String docPath = null;
-		String docUuid = null;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -432,7 +432,8 @@ public class DbDocumentModule implements DocumentModule {
 			}
 
 			NodeDocument docNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
-
+			NodeDocumentDAO.getInstance().setProperties(docUuid, doc);
+			
 			// Check subscriptions
 			BaseNotificationModule.checkSubscriptions(docNode, auth.getName(), "SET_DOCUMENT_PROPERTIES", null);
 
@@ -469,10 +470,10 @@ public class DbDocumentModule implements DocumentModule {
 			AccessDeniedException, RepositoryException, IOException, DatabaseException {
 		log.debug("getContent({}, {}, {}, {})", new Object[]{token, docId, checkout, extendedSecurity});
 		long begin = System.currentTimeMillis();
-		InputStream is = null;
+		InputStream is;
 		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		String docPath;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -509,10 +510,10 @@ public class DbDocumentModule implements DocumentModule {
 	public InputStream getContentByVersion(String token, String docId, String verName) throws RepositoryException, AccessDeniedException,
 			PathNotFoundException, IOException, DatabaseException {
 		log.debug("getContentByVersion({}, {}, {})", new Object[]{token, docId, verName});
-		InputStream is = null;
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		InputStream is;
+		String docPath;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -558,10 +559,10 @@ public class DbDocumentModule implements DocumentModule {
 			DatabaseException {
 		log.debug("getChildren({}, {})", token, fldId);
 		long begin = System.currentTimeMillis();
-		List<Document> children = new ArrayList<Document>();
-		Authentication auth = null, oldAuth = null;
-		String fldPath = null;
-		String fldUuid = null;
+		List<Document> children = new ArrayList<>();
+		Authentication auth, oldAuth = null;
+		String fldPath;
+		String fldUuid;
 
 		try {
 			if (token == null) {
@@ -612,9 +613,9 @@ public class DbDocumentModule implements DocumentModule {
 			RepositoryException, DatabaseException {
 		log.debug("checkout({}, {}, {})", new Object[]{token, docId, userId});
 		long begin = System.currentTimeMillis();
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -686,10 +687,10 @@ public class DbDocumentModule implements DocumentModule {
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("cancelCheckoutHelper({}, {}, {})", new Object[]{token, docId, force});
 		long begin = System.currentTimeMillis();
-		Authentication auth = null, oldAuth = null;
+		Authentication auth, oldAuth = null;
 		String action = force ? "FORCE_CANCEL_DOCUMENT_CHECKOUT" : "CANCEL_DOCUMENT_CHECKOUT";
-		String docPath = null;
-		String docUuid = null;
+		String docPath;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -810,10 +811,10 @@ public class DbDocumentModule implements DocumentModule {
 			AutomationException {
 		log.debug("checkin({}, {}, {}, {}, {}, {})", new Object[]{token, docId, is, size, comment, userId});
 		long begin = System.currentTimeMillis();
-		Version version = new Version();
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		Version version;
+		String docPath;
+		String docUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -935,10 +936,10 @@ public class DbDocumentModule implements DocumentModule {
 	public LockInfo lock(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
 		log.debug("lock({}, {})", token, docId);
-		LockInfo lck = null;
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
+		LockInfo lck;
 
 		try {
 			if (token == null) {
@@ -1005,10 +1006,10 @@ public class DbDocumentModule implements DocumentModule {
 	private void unlockHelper(String token, String docId, boolean force) throws LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("unlock({}, {}, {})", new Object[]{token, docId, force});
-		Authentication auth = null, oldAuth = null;
+		Authentication auth, oldAuth = null;
 		String action = force ? "FORCE_UNLOCK_DOCUMENT" : "UNLOCK_DOCUMENT";
-		String docPath = null;
-		String docUuid = null;
+		String docPath;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -1049,12 +1050,12 @@ public class DbDocumentModule implements DocumentModule {
 	public boolean isLocked(String token, String docId) throws RepositoryException, AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("isLocked({}, {})", token, docId);
-		boolean locked = false;
+		boolean locked;
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
 		@SuppressWarnings("unused")
 		String docPath = null;
-		String docUuid = null;
+		String docUuid;
 
 		try {
 			if (token == null) {
@@ -1089,11 +1090,10 @@ public class DbDocumentModule implements DocumentModule {
 	public LockInfo getLockInfo(String token, String docId) throws RepositoryException, AccessDeniedException, PathNotFoundException,
 			LockException, DatabaseException {
 		log.debug("getLock({}, {})", token, docId);
-		LockInfo lock = null;
-		@SuppressWarnings("unused")
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
+		LockInfo lock;
 
 		try {
 			if (token == null) {
@@ -1129,10 +1129,9 @@ public class DbDocumentModule implements DocumentModule {
 	public void purge(String token, String docId) throws LockException, AccessDeniedException, RepositoryException, PathNotFoundException,
 			DatabaseException {
 		log.debug("purge({}, {})", token, docId);
-		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		String docPath;
+		String docUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -1185,11 +1184,11 @@ public class DbDocumentModule implements DocumentModule {
 	public void move(String token, String docId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
 			LockException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("move({}, {}, {})", new Object[]{token, docId, dstId});
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
-		String dstPath = null;
-		String dstUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
+		String dstPath;
+		String dstUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -1230,7 +1229,7 @@ public class DbDocumentModule implements DocumentModule {
 			NodeDocument docNode = (NodeDocument) BaseModule.resolveNodeById(docUuid);			
 			
 			// AUTOMATION - PRE
-			Map<String, Object> env = new HashMap<String, Object>();
+			Map<String, Object> env = new HashMap<>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.DOCUMENT_UUID, docNode.getUuid());
 			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
@@ -1267,11 +1266,11 @@ public class DbDocumentModule implements DocumentModule {
 			throws ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
 			AutomationException, DatabaseException, UserQuotaExceededException {
 		log.debug("extendedCopy({}, {}, {}, {}, {})", new Object[]{token, docId, dstId, docName, extAttr});
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
-		String dstPath = null;
-		String dstUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
+		String dstPath;
+		String dstUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");
@@ -1330,9 +1329,9 @@ public class DbDocumentModule implements DocumentModule {
 	public void restoreVersion(String token, String docId, String versionId) throws PathNotFoundException, AccessDeniedException,
 			LockException, RepositoryException, DatabaseException {
 		log.debug("restoreVersion({}, {}, {})", new Object[]{token, docId, versionId});
-		Authentication auth = null, oldAuth = null;
-		String docPath = null;
-		String docUuid = null;
+		Authentication auth, oldAuth = null;
+		String docPath;
+		String docUuid;
 
 		if (Config.SYSTEM_READONLY) {
 			throw new AccessDeniedException("System is in read-only mode");

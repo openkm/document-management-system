@@ -161,6 +161,7 @@ public class Document extends Node {
 		this.signed = signed;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -184,6 +185,7 @@ public class Document extends Node {
 		sb.append(", convertibleToSwf=").append(convertibleToSwf);
 		sb.append(", cipherName=").append(cipherName);
 		sb.append(", notes=").append(notes);
+		sb.append(", language=").append(language);
 		sb.append("}");
 		return sb.toString();
 	}
