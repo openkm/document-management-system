@@ -34,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/note")
 public class NoteService {
 	private static Logger log = LoggerFactory.getLogger(NoteService.class);
 

@@ -22,6 +22,7 @@
 package com.openkm.rest.endpoint;
 
 import com.openkm.bean.Folder;
+import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.FolderModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
@@ -34,6 +35,7 @@ import javax.ws.rs.core.MediaType;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/folder")
 public class FolderService {
 	private static Logger log = LoggerFactory.getLogger(FolderService.class);
 
@@ -140,13 +142,14 @@ public class FolderService {
 
 	@GET
 	@Path("/isValid")
-	public boolean isValid(@QueryParam("fldId") String fldId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean isValid(@QueryParam("fldId") String fldId) throws GenericException {
 		try {
 			log.debug("isValid({})", fldId);
 			FolderModule fm = ModuleManager.getFolderModule();
 			boolean valid = fm.isValid(null, fldId);
 			log.debug("isValid: {}", valid);
-			return valid;
+			return new Boolean(valid);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

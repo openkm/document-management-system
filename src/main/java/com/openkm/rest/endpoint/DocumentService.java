@@ -21,30 +21,43 @@
 
 package com.openkm.rest.endpoint;
 
-import com.openkm.bean.Document;
-import com.openkm.bean.LockInfo;
-import com.openkm.bean.Version;
-import com.openkm.module.DocumentModule;
-import com.openkm.module.ModuleManager;
-import com.openkm.rest.GenericException;
-import com.openkm.rest.util.DocumentList;
-import com.openkm.rest.util.VersionList;
-import org.apache.commons.io.IOUtils;
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.openkm.bean.Document;
+import com.openkm.bean.LockInfo;
+import com.openkm.bean.Version;
+import com.openkm.core.MimeTypeConfig;
+import com.openkm.module.DocumentModule;
+import com.openkm.module.ModuleManager;
+import com.openkm.rest.GenericException;
+import com.openkm.rest.util.DocumentList;
+import com.openkm.rest.util.VersionList;
+
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/document")
 public class DocumentService {
 	private static Logger log = LoggerFactory.getLogger(DocumentService.class);
 
@@ -263,7 +276,8 @@ public class DocumentService {
 
 	@GET
 	@Path("/isCheckedOut")
-	public boolean isCheckedOut(@QueryParam("docId") String docId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean isCheckedOut(@QueryParam("docId") String docId) throws GenericException {
 		try {
 			log.debug("cancelCheckout({})", docId);
 			DocumentModule dm = ModuleManager.getDocumentModule();
@@ -364,7 +378,8 @@ public class DocumentService {
 
 	@GET
 	@Path("/isLocked")
-	public boolean isLocked(@QueryParam("docId") String docId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean isLocked(@QueryParam("docId") String docId) throws GenericException {
 		try {
 			log.debug("isLocked({})", docId);
 			DocumentModule dm = ModuleManager.getDocumentModule();
@@ -457,13 +472,14 @@ public class DocumentService {
 
 	@GET
 	@Path("/getVersionHistorySize")
-	public long getVersionHistorySize(@QueryParam("docId") String docId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Long getVersionHistorySize(@QueryParam("docId") String docId) throws GenericException {
 		try {
 			log.debug("getVersionHistorySize({})", docId);
 			DocumentModule dm = ModuleManager.getDocumentModule();
 			long size = dm.getVersionHistorySize(null, docId);
 			log.debug("getVersionHistorySize: {}", size);
-			return size;
+			return new Long(size);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -471,13 +487,14 @@ public class DocumentService {
 
 	@GET
 	@Path("/isValid")
-	public boolean isValid(@QueryParam("docId") String docId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean isValid(@QueryParam("docId") String docId) throws GenericException {
 		try {
 			log.debug("isValid({})", docId);
 			DocumentModule dm = ModuleManager.getDocumentModule();
 			boolean valid = dm.isValid(null, docId);
 			log.debug("isValid: {}", valid);
-			return valid;
+			return new Boolean(valid);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

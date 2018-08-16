@@ -45,6 +45,7 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/mail")
 public class MailService {
 	private static Logger log = LoggerFactory.getLogger(MailService.class);
 
@@ -134,13 +135,14 @@ public class MailService {
 
 	@GET
 	@Path("/isValid")
-	public boolean isValid(@QueryParam("mailId") String mailId) throws GenericException {
+	@Produces(MimeTypeConfig.MIME_TEXT)
+	public Boolean isValid(@QueryParam("mailId") String mailId) throws GenericException {
 		try {
 			log.debug("isValid({})", mailId);
 			MailModule mm = ModuleManager.getMailModule();
 			boolean valid = mm.isValid(null, mailId);
 			log.debug("isValid: {}", valid);
-			return valid;
+			return new Boolean(valid);
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

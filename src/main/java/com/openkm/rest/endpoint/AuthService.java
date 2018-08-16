@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Path("/auth")
 public class AuthService {
 	private static Logger log = LoggerFactory.getLogger(AuthService.class);
 
