@@ -21,6 +21,9 @@
 
 package com.openkm.frontend.client.widget.thesaurus;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -36,9 +39,6 @@ import com.openkm.frontend.client.service.OKMRepositoryService;
 import com.openkm.frontend.client.service.OKMRepositoryServiceAsync;
 import com.openkm.frontend.client.util.Util;
 
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * Folder tree
  *
@@ -50,13 +50,14 @@ public class FolderSelectTree extends Composite {
 	private TreeItem actualItem;
 	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
 	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
-	TreeItem rootItem = new TreeItem(Util.imageItemHTML("img/menuitem_childs.gif", "root_schema", "top"));
+	TreeItem rootItem = new TreeItem();
 
 	/**
 	 * Folder Tree
 	 */
 	public FolderSelectTree() {
 		tree = new Tree();
+		rootItem.setHTML(Util.imageItemHTML("img/menuitem_childs.gif", "root_schema", "top"));
 		rootItem.setStyleName("okm-TreeItem");
 		rootItem.setUserObject(new GWTFolder());
 		rootItem.setSelected(true);
@@ -107,7 +108,7 @@ public class FolderSelectTree extends Composite {
 	}
 
 	/**
-	 * Resets all tree values		
+	 * Resets all tree values
 	 */
 	public void reset() {
 		actualItem = rootItem;
@@ -122,18 +123,19 @@ public class FolderSelectTree extends Composite {
 	 * Refresh asyncronous subtree branch
 	 */
 	final AsyncCallback<List<GWTFolder>> callbackGetChilds = new AsyncCallback<List<GWTFolder>>() {
+		@Override
 		public void onSuccess(List<GWTFolder> result) {
 			boolean directAdd = true;
 
 			// If has no childs directly add values is permited
 			if (actualItem.getChildCount() > 0) {
 				directAdd = false;
-				// to prevent remote folder remove it disables all tree branch 
+				// to prevent remote folder remove it disables all tree branch
 				// items and after sequentially activate
 				hideAllBranch(actualItem);
 			}
 
-			// On refreshing not refreshed the actual item values but must 
+			// On refreshing not refreshed the actual item values but must
 			// ensure that has childs value is consistent
 			if (result.isEmpty()) {
 				((GWTFolder) actualItem.getUserObject()).setHasChildren(false);
@@ -144,11 +146,12 @@ public class FolderSelectTree extends Composite {
 			// Ads folders childs if exists
 			for (Iterator<GWTFolder> it = result.iterator(); it.hasNext(); ) {
 				GWTFolder folder = it.next();
-				TreeItem folderItem = new TreeItem(folder.getName());
+				TreeItem folderItem = new TreeItem();
+				folderItem.setHTML(folder.getName());
 				folderItem.setUserObject(folder);
 				folderItem.setStyleName("okm-TreeItem");
 
-				// If has no childs directly add values is permited, else 
+				// If has no childs directly add values is permited, else
 				// evalues each node to refresh, remove or add
 				if (directAdd) {
 					evaluesFolderIcon(folderItem);
@@ -164,6 +167,7 @@ public class FolderSelectTree extends Composite {
 			Main.get().mainPanel.desktop.navigator.thesaurusTree.thesaurusSelectPopup.thesaurusPanel.status.unsetFlagChilds();
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			Main.get().mainPanel.desktop.navigator.thesaurusTree.thesaurusSelectPopup.thesaurusPanel.status.unsetFlagChilds();
 			Main.get().showError("GetChilds", caught);
@@ -174,8 +178,9 @@ public class FolderSelectTree extends Composite {
 	 * Gets asyncronous root node
 	 */
 	final AsyncCallback<GWTFolder> callbackGetThesaurusFolder = new AsyncCallback<GWTFolder>() {
+		@Override
 		public void onSuccess(GWTFolder result) {
-			// Only executes on initalization and the actualItem is root 
+			// Only executes on initalization and the actualItem is root
 			// element on initialization
 			//We put the id on root
 			actualItem.setUserObject(result);
@@ -187,6 +192,7 @@ public class FolderSelectTree extends Composite {
 			getChilds(result.getPath());
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			Main.get().mainPanel.desktop.navigator.thesaurusTree.thesaurusSelectPopup.thesaurusPanel.status.unsetFlagRoot();
 			Main.get().showError("GetThesaurusFolder", caught);
