@@ -54,9 +54,7 @@ import com.openkm.frontend.client.widget.OriginPanel;
 import com.openkm.frontend.client.widget.filebrowser.menu.*;
 import com.openkm.frontend.client.widget.foldertree.FolderSelectPopup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * File browser panel
@@ -146,7 +144,8 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 	// Controller
 	private FileBrowserController fBController;
 	private int nextRefresh = GET_NONE;
-
+	private Map<String, GWTFilter> mapFilter;
+	
 	/**
 	 * FileBrowser
 	 */
@@ -157,6 +156,7 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 		docHandlerExtensionList = new ArrayList<DocumentHandlerExtension>();
 		folderHandlerExtensionList = new ArrayList<FolderHandlerExtension>();
 		mailHandlerExtensionList = new ArrayList<MailHandlerExtension>();
+		mapFilter = new LinkedHashMap<String, GWTFilter>();
 
 		panel = new VerticalPanel();
 		filePath = new FilePath();
@@ -1900,6 +1900,10 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 					fBController.setController(viewValues.get("view_root:controller"));
 				} else {
 					fBController.setController(createDefaultController());
+					
+					Controller tmp = createDefaultController();
+			        tmp.setMapFilter(fBController.getFilter());
+			        fBController.setController(tmp);
 				}
 				break;
 
@@ -2381,6 +2385,8 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 			// If pagination is not visible default sorter shold be enabled
 			enableDefaultTableSorter(true);
 		}
+		
+		this.mapFilter = fBController.getController().getMapFilter();
 	}
 
 	/**
@@ -2464,24 +2470,23 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 
 	/**
 	 * createDefaultController
-	 *
-	 * @return
 	 */
 	private Controller createDefaultController() {
 		Controller controller = new Controller();
 		controller.setPaginated(profilePagination.isPaginationEnabled());
+
 		if (profilePagination.isTypeFilterEnabled()) {
 			controller.setShowFolders(profilePagination.isShowFoldersEnabled());
 			controller.setShowDocuments(profilePagination.isShowDocumentsEnabled());
 			controller.setMails(profilePagination.isShowMailsEnabled());
 		}
+
+		controller.setMapFilter(this.mapFilter);
 		return controller;
 	}
 
 	/**
 	 * setFileBrowserAction
-	 *
-	 * @param fileBrowserAction
 	 */
 	public void setFileBrowserAction(int fileBrowserAction) {
 		this.fileBrowserAction = fileBrowserAction;
@@ -2489,8 +2494,6 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 
 	/**
 	 * addDocumentHandlerExtension
-	 *
-	 * @param handlerExtension
 	 */
 	public void addDocumentHandlerExtension(DocumentHandlerExtension handlerExtension) {
 		docHandlerExtensionList.add(handlerExtension);
