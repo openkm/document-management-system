@@ -42,7 +42,6 @@ import java.util.Collection;
  *
  */
 public class FileUploadPopup extends DialogBox {
-
 	private Button closeButton;
 	private Button addButton;
 	private Button sendButton;
@@ -248,8 +247,8 @@ public class FileUploadPopup extends DialogBox {
 	/**
 	 * resetAfterWizardFinished
 	 */
-	public void resetAfterWizardFinished() {
-		ffUpload.refresh();
+	public void resetAfterWizardFinished(boolean refresh) {
+		ffUpload.refresh(refresh);
 		closeButton.setVisible(true);
 		addButton.setVisible(true);
 		super.show();

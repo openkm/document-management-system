@@ -52,8 +52,8 @@ import java.util.Map;
  *
  */
 public class TemplateWizardPopup extends DialogBox {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private static final int STATUS_NONE = -1;
 	private static final int STATUS_PROPERTY_GROUPS = 0;
@@ -134,7 +134,7 @@ public class TemplateWizardPopup extends DialogBox {
 		hPanel.add(space);
 		hPanel.setCellWidth(space, "3px");
 		propertyGroupWidget = new PropertyGroupWidget(docPath, groupsList.get(groupIndex),
-				new HTML(groupsList.get(groupIndex).getLabel()), vPanelFired);
+				new HTML(groupsList.get(groupIndex).getLabel()), vPanelFired, null);
 		vPanelFired.clear();
 		vPanelFired.add(propertyGroupWidget);
 		vPanelFired.add(hPanel);

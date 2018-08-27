@@ -33,6 +33,7 @@ import com.openkm.frontend.client.constants.ui.UIDockPanelConstants;
 import com.openkm.frontend.client.service.OKMMassiveService;
 import com.openkm.frontend.client.service.OKMMassiveServiceAsync;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 import com.openkm.frontend.client.widget.searchin.GroupPopup;
 import com.openkm.frontend.client.widget.searchin.HasPropertyHandler;
@@ -46,8 +47,8 @@ import java.util.List;
  *
  * @author jllort
  */
-public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHandler {
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
+public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHandler, ValidatorToFire {
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
 
 	private VerticalPanel vPanel;
 	private FlexTable table;
@@ -71,7 +72,7 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 
 		uuidList = new ArrayList<String>();
 		vPanel = new VerticalPanel();
-		formManager = new FormManager();
+		formManager = new FormManager(this);
 		formManager.setIsMassiveUpdate(this);
 		table = new FlexTable();
 		table.setWidth("100%");
@@ -193,10 +194,46 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 	}
 
 	/**
+	 * validationPassed
+	 */
+	private void validationPassed() {
+		uuidList.clear();
+		final boolean isMassive = Main.get().mainPanel.desktop.browser.fileBrowser.isMassive();
+
+		if (!isMassive) {
+			uuidList.add(Main.get().mainPanel.topPanel.toolBar.getActualNodeUUID());
+		} else {
+			uuidList.addAll(Main.get().mainPanel.desktop.browser.fileBrowser.table.getAllSelectedUUIDs());
+		}
+
+		massiveService.setMixedProperties(uuidList, formManager.updateFormElementsValuesWithNewer(), recursive.getValue(),
+				new AsyncCallback<Object>() {
+					@Override
+					public void onSuccess(Object result) {
+						if (!isMassive) {
+							PropertyGroupUtils.refreshingActualNode(formManager.updateFormElementsValuesWithNewer(), false);
+						} else {
+							Main.get().mainPanel.topPanel.toolBar.executeRefresh();
+						}
+						hide();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Main.get().showError("setMixedProperties", caught);
+					}
+				});
+
+		if (isMassive) {
+			hide();
+		}
+	}
+	
+	/**
 	 * reset
 	 */
 	public void reset() {
-		formManager = new FormManager();
+		formManager = new FormManager(this);
 		formManager.setIsMassiveUpdate(this);
 		table.setWidget(1, 1, formManager.getTable());
 		recursive.setValue(false);
@@ -260,5 +297,12 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 
 	@Override
 	public void metadataValueChanged() {
+	}
+	
+	@Override
+	public void validationWithPluginsFinished(boolean result) {
+		if (result) {
+			validationPassed();
+		}
 	}
 }

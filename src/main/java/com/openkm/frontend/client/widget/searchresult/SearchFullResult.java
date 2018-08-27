@@ -50,11 +50,12 @@ import java.util.*;
  *
  */
 public class SearchFullResult extends Composite {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private ScrollPanel scrollPanel;
 	private FlexTable table;
 	private FormManager formManager;
+
 	// Columns
 	private GWTProfileFileBrowser profileFileBrowser;
 
@@ -62,10 +63,9 @@ public class SearchFullResult extends Composite {
 	 * SearchFullResult
 	 */
 	public SearchFullResult() {
-		formManager = new FormManager(); // Used to draw extended columns
+		formManager = new FormManager(null); // Used to draw extended columns
 		table = new FlexTable();
 		scrollPanel = new ScrollPanel(table);
-
 		scrollPanel.setStyleName("okm-Input");
 
 		initWidget(scrollPanel);
@@ -398,7 +398,7 @@ public class SearchFullResult extends Composite {
 					Image verticalLine = new Image("img/transparent_pixel.gif");
 					verticalLine.setStyleName("okm-Vertical-Line-Border");
 					verticalLine.setSize("2px", "100%");
-					FormManager manager = new FormManager();
+					FormManager manager = new FormManager(null);
 					manager.setFormElements(result);
 					manager.draw(true); // read only !
 					VerticalPanel vPanel = new VerticalPanel();

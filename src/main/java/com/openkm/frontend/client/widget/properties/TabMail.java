@@ -57,7 +57,7 @@ import java.util.List;
  *
  */
 public class TabMail extends Composite implements HasMailEvent, HasMailHandlerExtension, HasPropertyGroupHandlerExtension {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private static final int TAB_HEIGHT = 20;
 	private int SECURITY_TAB = -1;
@@ -73,7 +73,7 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 	private List<MailHandlerExtension> mailHandlerExtensionList;
 	private List<PropertyGroupHandlerExtension> propertyGroupHandlerExtensionList;
 	private boolean visibleButton = true; // Sets visibleButtons enabled to default view 
-	private int selectedTab = 0; // Used to determine selected tab to mantain on change document, because not all documents
+	private int selectedTab = 0; // Used to determine selected tab to maintain on change document, because not all documents
 	// have the same numeber of tabs ( document group properties are variable )
 	private int latestSelectedTab = 0;
 	private boolean propertiesVisible = false;
@@ -334,12 +334,10 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 	 */
 	final AsyncCallback<List<GWTPropertyGroup>> callbackGetGroups = new AsyncCallback<List<GWTPropertyGroup>>() {
 		public void onSuccess(List<GWTPropertyGroup> result) {
-			GWTFolder gwtFolder = Main.get().activeFolderTree.getFolder();
-
 			boolean enableUpdatePropertyGroup = false;
 			for (GWTPropertyGroup gwtGroup : result) {
 				String groupTranslation = gwtGroup.getLabel();
-				PropertyGroup group = new PropertyGroup(gwtGroup, mail.get(), gwtFolder, visibleButton, gwtGroup.isReadonly());
+				PropertyGroup group = new PropertyGroup(gwtGroup, mail.get(), visibleButton, gwtGroup.isReadonly());
 				tabPanel.add(group, groupTranslation);
 				propertyGroup.add(group);
 

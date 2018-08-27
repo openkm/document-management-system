@@ -31,6 +31,7 @@ import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.bean.form.GWTFormElement;
 import com.openkm.frontend.client.service.OKMWorkflowService;
 import com.openkm.frontend.client.service.OKMWorkflowServiceAsync;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ import java.util.Map;
  * @author jllort
  *
  */
-public class WorkflowWidget extends Composite {
-	private final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
+public class WorkflowWidget extends Composite implements ValidatorToFire {
+	private final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private boolean drawed = false;
@@ -66,7 +67,7 @@ public class WorkflowWidget extends Composite {
 
 		vPanel = new VerticalPanel();
 		hPanel = new HorizontalPanel();
-		manager = new FormManager();
+		manager = new FormManager(this);
 
 		vPanel.setWidth("300px");
 		vPanel.setHeight("50px");
@@ -152,5 +153,14 @@ public class WorkflowWidget extends Composite {
 	private void drawForm() {
 		manager.edit();
 		drawed = true;
+	}
+	
+	@Override
+	public void validationWithPluginsFinished(boolean result) {
+		if (result) {
+			runProcessDefinitionWithValues();
+		} else {
+			workflowWidgetToFire.hasPendingProcessDefinitionForms();
+		}
 	}
 }

@@ -57,8 +57,8 @@ import java.util.List;
  * @author jllort
  */
 public class FancyFileUpload extends Composite implements HasText, HasChangeHandlers {
-	private final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
+	private final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
 
 	/**
 	 * State definitions
@@ -286,11 +286,9 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 		private void setLoaded() {
 			// Sometimes if upload is fast, has no time to getting file uploading status
 			// information on this cases must be setting it directly ( simulating )
-			if (fileUploadingStatus.getContentLength() == 0) {
-				progressBar.setTextFormatter(finalFormater);
-				progressBar.setMaxProgress(100);
-				progressBar.setProgress(100);
-			}
+			progressBar.setTextFormatter(finalFormater);
+			progressBar.setMaxProgress(100);
+			progressBar.setProgress(100);
 
 			pendingPanel.setStyleName("fancyfileupload-loaded");
 			status.setHTML(Main.i18n("fileupload.status.ok"));
@@ -299,7 +297,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 
 			// normal case is not a workflow
 			if (!wizard && actualFileToUpload.getWorkflow() == null) {
-				refresh();
+				refresh(true);
 			}
 
 			fireChange();
@@ -341,7 +339,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 			pendingPanel.setStyleName("fancyfileupload-failed");
 			widgetState = FAILED_STATE;
 			fileUplodingStartedFlag = false;
-			refresh();
+			refresh(true);
 			fireChange();
 			uploadNewPendingFile();
 		}
@@ -431,11 +429,13 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	/**
 	 * Refresh folders and documents
 	 */
-	public void refresh() {
-		if (importZip.getValue()) {
-			Main.get().activeFolderTree.refresh(true);
-		} else {
-			Main.get().mainPanel.desktop.browser.fileBrowser.refresh(Main.get().activeFolderTree.getActualPath());
+	public void refresh(boolean refresh) {
+		if (refresh) {
+			if (importZip.getValue()) {
+				Main.get().activeFolderTree.refresh(true);
+			} else {
+				Main.get().mainPanel.desktop.browser.fileBrowser.refresh(Main.get().activeFolderTree.getActualPath());
+			}
 		}
 	}
 
@@ -1106,6 +1106,9 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 
 					// Normal case document uploaded is not a workflow
 					if (actualFileToUpload.getWorkflow() == null) {
+						wizard = false;
+						boolean fuResponseWizard = false;
+						
 						// Case is not importing a zip and wizard is enabled
 						if (fuResponse.isHasAutomation()) {
 							// If is importing file as zip wizard should be disabled
@@ -1114,8 +1117,9 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 									|| fuResponse.isShowWizardKeywords()
 									|| fuResponse.getGroupsList().size() > 0 || fuResponse.getWorkflowList()
 									.size() > 0)) {
-								Main.get().wizardPopup.start(docPath, fuResponse, false);
-							}
+								fuResponseWizard = true;
+								wizard = true;
+							} 
 						} else {
 							if (!uploadForm.isImportZip()
 									&& action == UIFileUploadConstants.ACTION_INSERT
@@ -1125,9 +1129,13 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 									.get().workspaceUserProperties.getWorkspace().isWizardKeywords())) {
 								wizard = true;
 							}
-
-							if (wizard && docPath != null) {
+						}
+						
+						if (wizard && docPath != null) {
+							if (!fuResponseWizard) {
 								Main.get().wizardPopup.start(docPath, false);
+							} else {
+								Main.get().wizardPopup.start(docPath, fuResponse, false);
 							}
 						}
 

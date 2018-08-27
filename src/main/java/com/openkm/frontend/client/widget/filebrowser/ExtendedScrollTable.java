@@ -97,7 +97,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	public ExtendedScrollTable(FixedWidthGrid dataTable, FixedWidthFlexTable headerTable,
 	                           ScrollTableImages scrollTableImages) {
 		super(dataTable, headerTable, scrollTableImages);
-		formManager = new FormManager(); // Used to draw extended columns
+		formManager = new FormManager(null); // Used to draw extended columns
 
 		this.dataTable = dataTable;
 		this.headerTable = headerTable;

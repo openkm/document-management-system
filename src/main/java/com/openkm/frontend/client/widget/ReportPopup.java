@@ -38,7 +38,6 @@ import java.util.Map;
  *
  */
 public class ReportPopup extends DialogBox {
-
 	private VerticalPanel vPanel;
 	private Button cancelbutton;
 	private Button executeButton;
@@ -55,7 +54,7 @@ public class ReportPopup extends DialogBox {
 		setText(Main.i18n("report.parameters"));
 		vPanel = new VerticalPanel();
 
-		manager = new FormManager();
+		manager = new FormManager(null);
 
 		cancelbutton = new Button(Main.i18n("button.cancel"));
 		cancelbutton.addClickHandler(new ClickHandler() {

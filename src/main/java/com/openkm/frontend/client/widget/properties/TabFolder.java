@@ -58,7 +58,7 @@ import java.util.List;
  *
  */
 public class TabFolder extends Composite implements HasFolderEvent, HasFolderHandlerExtension, HasPropertyGroupHandlerExtension {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private static final int TAB_HEIGHT = 20;
 	private int SECURITY_TAB = -1;
@@ -334,13 +334,11 @@ public class TabFolder extends Composite implements HasFolderEvent, HasFolderHan
 	 * Gets asynchronous to get all groups assigned to a document
 	 */
 	final AsyncCallback<List<GWTPropertyGroup>> callbackGetGroups = new AsyncCallback<List<GWTPropertyGroup>>() {
-		public void onSuccess(List<GWTPropertyGroup> result) {
-			GWTFolder gwtFolder = Main.get().activeFolderTree.getFolder();
-
+		public void onSuccess(List<GWTPropertyGroup> result) {			
 			boolean enableUpdatePropertyGroup = false;
 			for (GWTPropertyGroup gwtGroup : result) {
 				String groupTranslation = gwtGroup.getLabel();
-				PropertyGroup group = new PropertyGroup(gwtGroup, folder.get(), gwtFolder, visibleButton, gwtGroup.isReadonly());
+				PropertyGroup group = new PropertyGroup(gwtGroup, folder.get(), visibleButton, gwtGroup.isReadonly());
 				tabPanel.add(group, groupTranslation);
 				propertyGroup.add(group);
 

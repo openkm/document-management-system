@@ -33,12 +33,12 @@ import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.bean.GWTPropertyGroup;
 import com.openkm.frontend.client.bean.form.GWTFormElement;
-import com.openkm.frontend.client.service.OKMMassiveService;
-import com.openkm.frontend.client.service.OKMMassiveServiceAsync;
-import com.openkm.frontend.client.service.OKMPropertyGroupService;
-import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
+import com.openkm.frontend.client.service.*;
+import com.openkm.frontend.client.util.CommonUI;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,9 +47,10 @@ import java.util.List;
  *
  * @author jllort
  */
-public class PropertyGroupPopup extends DialogBox {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
+public class PropertyGroupPopup extends DialogBox implements ValidatorToFire {
+	private static final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
 
 	public static final int PHASE_NONE = 0;
 	public static final int PHASE_SELECT = 1;
@@ -62,6 +63,7 @@ public class PropertyGroupPopup extends DialogBox {
 	private Button add;
 	private ListBox listBox;
 	private String path;
+	private String uuid;
 	private FormManager manager;
 	private HTML propertyGroupName;
 	private FlexTable propertyGroupTable;
@@ -69,7 +71,8 @@ public class PropertyGroupPopup extends DialogBox {
 	private boolean groupsLoaded = false;
 	private int phase = PHASE_NONE;
 	private Status status;
-
+	private String grpName;
+	
 	/**
 	 * PropertyGroupPopup popup
 	 */
@@ -87,7 +90,7 @@ public class PropertyGroupPopup extends DialogBox {
 		table.setCellSpacing(0);
 		table.setWidth("100%");
 		hPanel = new HorizontalPanel();
-		manager = new FormManager();
+		manager = new FormManager(this);
 
 		propertyGroupTable = manager.getTable();
 		propertyGroupTable.setWidth("100%");
@@ -231,6 +234,7 @@ public class PropertyGroupPopup extends DialogBox {
 	private void getAllGroups() {
 		if (!Main.get().mainPanel.desktop.browser.fileBrowser.isMassive()) {
 			path = Main.get().mainPanel.topPanel.toolBar.getActualNodePath();
+			uuid = Main.get().mainPanel.topPanel.toolBar.getActualNodeUUID();
 			if (!path.equals("")) {
 				propertyGroupService.getAllGroups(path, new AsyncCallback<List<GWTPropertyGroup>>() {
 					@Override
@@ -276,72 +280,17 @@ public class PropertyGroupPopup extends DialogBox {
 	 */
 	private void addGroup() {
 		if (listBox.getSelectedIndex() > 0) {
-			final String grpName = listBox.getValue(listBox.getSelectedIndex());
+			grpName = listBox.getValue(listBox.getSelectedIndex());
 			if (phase == PHASE_SHOW_PROPERTIES) {
+				List<String> uuids;
+
 				if (!Main.get().mainPanel.desktop.browser.fileBrowser.isMassive()) {
-					if (manager.getValidationProcessor().validate()) {
-						status.setFlagAddPropertyGroup();
-						propertyGroupService.addGroup(path, grpName, new AsyncCallback<Object>() {
-							@Override
-							public void onSuccess(Object result) {
-								// Adding properties
-								propertyGroupService.setProperties(path, grpName, manager.updateFormElementsValuesWithNewer(), new AsyncCallback<Object>() {
-									@Override
-									public void onSuccess(Object result) {
-										PropertyGroupUtils.refreshingActualNode(manager.updateFormElementsValuesWithNewer(), (listBox.getItemCount() == 1));
-										switchPhase(PHASE_PROPERTIES_ADDED);
-										status.unsetFlagAddPropertyGroup();
-									}
-
-									@Override
-									public void onFailure(Throwable caught) {
-										status.unsetFlagAddPropertyGroup();
-										Main.get().showError("setProperties", caught);
-									}
-								});
-							}
-
-							@Override
-							public void onFailure(Throwable caught) {
-								status.unsetFlagAddPropertyGroup();
-								Main.get().showError("AddGroup", caught);
-							}
-						});
-					}
+					uuids = Arrays.asList(Main.get().mainPanel.topPanel.toolBar.getActualNodeUUID());
 				} else {
-					if (manager.getValidationProcessor().validate()) {
-						status.setFlagAddPropertyGroup();
-						massiveService.addPropertyGroup(Main.get().mainPanel.desktop.browser.fileBrowser.getAllSelectedPaths(), grpName,
-								new AsyncCallback<Object>() {
-									@Override
-									public void onSuccess(Object result) {
-										massiveService.setProperties(Main.get().mainPanel.desktop.browser.fileBrowser.getAllSelectedPaths(), grpName,
-												manager.updateFormElementsValuesWithNewer(), new AsyncCallback<Object>() {
-													@Override
-													public void onSuccess(Object result) {
-														PropertyGroupUtils.refreshingActualNode(manager.updateFormElementsValuesWithNewer(),
-																(listBox.getItemCount() == 1));
-														switchPhase(PHASE_PROPERTIES_ADDED);
-														status.unsetFlagAddPropertyGroup();
-													}
-
-													@Override
-													public void onFailure(Throwable caught) {
-														Main.get().showError("addPropertyGroup", caught);
-														status.unsetFlagAddPropertyGroup();
-													}
-												});
-									}
-
-									@Override
-									public void onFailure(Throwable caught) {
-										status.unsetFlagAddPropertyGroup();
-										Main.get().showError("AddGroup", caught);
-									}
-								});
-					}
+					uuids = Main.get().mainPanel.desktop.browser.fileBrowser.getAllSelectedUUIDs();
 				}
 
+				manager.getValidationProcessor().validate(uuids); // Allow plugins
 			} else {
 				propertyGroupName.setHTML(listBox.getItemText(listBox.getSelectedIndex()));
 				// Case massive or non single document selected
@@ -375,6 +324,90 @@ public class PropertyGroupPopup extends DialogBox {
 						}
 					});
 				}
+			}
+		}
+	}
+	
+	@Override
+	public void validationWithPluginsFinished(boolean result) {
+		if (result) {
+			if (!Main.get().mainPanel.desktop.browser.fileBrowser.isMassive()) {
+				status.setFlagAddPropertyGroup();
+				propertyGroupService.addGroup(path, grpName, new AsyncCallback<Object>() {
+					@Override
+					public void onSuccess(Object result) {
+						// Adding properties
+						propertyGroupService.setProperties(path, grpName, manager.updateFormElementsValuesWithNewer(),
+								new AsyncCallback<Object>() {
+									@Override
+									public void onSuccess(Object result) {
+										repositoryService.getPathByUUID(uuid, new AsyncCallback<String>() {
+											@Override
+											public void onSuccess(String newPath) {
+												if (!path.equals(newPath)) {
+													path = newPath;
+													CommonUI.openPathByUuid(uuid);
+												} else {
+													PropertyGroupUtils.refreshingActualNode(manager.updateFormElementsValuesWithNewer(), (listBox.getItemCount() == 1));
+												}
+
+												switchPhase(PHASE_PROPERTIES_ADDED);
+												status.unsetFlagAddPropertyGroup();
+											}
+
+											@Override
+											public void onFailure(Throwable caught) {
+												status.unsetFlagAddPropertyGroup();
+												Main.get().showError("setProperties", caught);
+											}
+										});
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										status.unsetFlagAddPropertyGroup();
+										Main.get().showError("setProperties", caught);
+									}
+								});
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						status.unsetFlagAddPropertyGroup();
+						Main.get().showError("AddGroup", caught);
+					}
+				});
+			} else {
+				status.setFlagAddPropertyGroup();
+				massiveService.addPropertyGroup(Main.get().mainPanel.desktop.browser.fileBrowser.getAllSelectedPaths(), grpName,
+						new AsyncCallback<Object>() {
+							@Override
+							public void onSuccess(Object result) {
+								massiveService.setProperties(
+										Main.get().mainPanel.desktop.browser.fileBrowser.getAllSelectedPaths(), grpName,
+										manager.updateFormElementsValuesWithNewer(), new AsyncCallback<Object>() {
+											@Override
+											public void onSuccess(Object result) {
+												PropertyGroupUtils.refreshingActualNode(
+														manager.updateFormElementsValuesWithNewer(), (listBox.getItemCount() == 1));
+												switchPhase(PHASE_PROPERTIES_ADDED);
+												status.unsetFlagAddPropertyGroup();
+											}
+
+											@Override
+											public void onFailure(Throwable caught) {
+												Main.get().showError("setProperties", caught);
+												status.unsetFlagAddPropertyGroup();
+											}
+										});
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								status.unsetFlagAddPropertyGroup();
+								Main.get().showError("AddGroup", caught);
+							}
+						});
 			}
 		}
 	}

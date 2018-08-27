@@ -72,7 +72,7 @@ public class ExtendedScrollTable extends ScrollTable {
 		this.dataTable = dataTable;
 		this.headerTable = headerTable;
 
-		formManager = new FormManager(); // Used to draw extended columns
+		formManager = new FormManager(null); // Used to draw extended columns
 
 		dataTable.setSelectionPolicy(SelectionGrid.SelectionPolicy.ONE_ROW);
 		setResizePolicy(ResizePolicy.FILL_WIDTH);

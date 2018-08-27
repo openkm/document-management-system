@@ -35,8 +35,9 @@ import com.openkm.frontend.client.extension.event.handler.PropertyGroupHandlerEx
 import com.openkm.frontend.client.extension.event.hashandler.HasPropertyGroupHandlerExtension;
 import com.openkm.frontend.client.service.OKMPropertyGroupService;
 import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
+import com.openkm.frontend.client.util.validator.ExtendedDefaultValidatorProcessor;
+import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
-import eu.maydu.gwt.validation.client.ValidationProcessor;
 
 import java.util.*;
 
@@ -47,8 +48,7 @@ import java.util.*;
  *
  */
 public class PropertyGroupWidget extends Composite implements HasPropertyGroupEvent, HasPropertyGroupHandlerExtension {
-
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private String path;
 	private CellFormatter cellFormatter;
@@ -63,25 +63,19 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	 * PropertyGroup
 	 *
 	 * @param path The document path
-	 * @param propertyGroup The group 
+	 * @param propertyGroup The group
 	 * @param widget Widget at first row
-	 * @param PropertyGroupWidgetToFire widget with methods to be fired
+	 * @param propertyGroupWidgetToFire widget with methods to be fired
 	 */
-	public PropertyGroupWidget(String path, GWTPropertyGroup propertyGroup, Widget widget, PropertyGroupWidgetToFire propertyGroupWidgetToFire) {
-		start(path, propertyGroup, widget, propertyGroupWidgetToFire);
+	public PropertyGroupWidget(String path, GWTPropertyGroup propertyGroup, Widget widget, PropertyGroupWidgetToFire propertyGroupWidgetToFire, ValidatorToFire validatorToFire) {
+		start(path, propertyGroup, widget, propertyGroupWidgetToFire, validatorToFire);
 	}
-
 	/**
 	 * start
-	 *
-	 * @param path
-	 * @param propertyGroup
-	 * @param widget
-	 * @param propertyGroupWidgetToFire
 	 */
-	private void start(String path, GWTPropertyGroup propertyGroup, Widget widget, PropertyGroupWidgetToFire propertyGroupWidgetToFire) {
+	private void start(String path, GWTPropertyGroup propertyGroup, Widget widget, PropertyGroupWidgetToFire propertyGroupWidgetToFire, ValidatorToFire validatorToFire) {
 		propertyGroupHandlerExtensionList = new ArrayList<PropertyGroupHandlerExtension>();
-		manager = new FormManager();
+		manager = new FormManager(validatorToFire);
 		this.path = path;
 		this.propertyGroup = propertyGroup;
 		this.propertyGroupWidgetToFire = propertyGroupWidgetToFire;
@@ -124,6 +118,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	 * Gets asyncronous to group properties
 	 */
 	final AsyncCallback<List<GWTFormElement>> callbackGetProperties = new AsyncCallback<List<GWTFormElement>>() {
+		@Override
 		public void onSuccess(List<GWTFormElement> result) {
 			manager.setFormElements(result);
 			if (!propertyGroupVariablesMap.isEmpty()) {
@@ -146,6 +141,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 			}
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			Main.get().showError("getMetaData", caught);
 
@@ -159,6 +155,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	 * Gets asyncronous to set properties
 	 */
 	final AsyncCallback<Object> callbackSetProperties = new AsyncCallback<Object>() {
+		@Override
 		public void onSuccess(Object result) {
 			if (propertyGroupWidgetToFire != null) {
 				propertyGroupWidgetToFire.finishedSetProperties();
@@ -166,6 +163,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 			fireEvent(HasPropertyGroupEvent.PROPERTYGROUP_CHANGED);
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			if (propertyGroupWidgetToFire != null) {
 				propertyGroupWidgetToFire.finishedSetProperties();
@@ -178,6 +176,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	 * Gets asyncronous to remove document group properties
 	 */
 	final AsyncCallback<Object> callbackRemoveGroup = new AsyncCallback<Object>() {
+		@Override
 		public void onSuccess(Object result) {
 			if (propertyGroupWidgetToFire != null) {
 				propertyGroupWidgetToFire.finishedRemoveGroup();
@@ -185,6 +184,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 			fireEvent(HasPropertyGroupEvent.PROPERTYGROUP_REMOVED);
 		}
 
+		@Override
 		public void onFailure(Throwable caught) {
 			Main.get().showError("callbackRemoveGroup", caught);
 		}
@@ -225,7 +225,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	}
 
 	/**
-	 * Gets all group properties 
+	 * Gets all group properties
 	 */
 	public void getProperties(boolean suggestion) {
 		propertyGroupService.getProperties(path, propertyGroup.getName(), suggestion, callbackGetProperties);
@@ -249,22 +249,17 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 
 	/**
 	 * getValidationProcessor
-	 *
-	 * @return
 	 */
-	public ValidationProcessor getValidationProcessor() {
+	public ExtendedDefaultValidatorProcessor getValidationProcessor() {
 		return manager.getValidationProcessor();
 	}
 
 	/**
 	 * getManager
-	 *
-	 * @return
 	 */
 	public FormManager getManager() {
 		return manager;
 	}
-
 
 	@Override
 	public void fireEvent(PropertyGroupEventConstant event) {
