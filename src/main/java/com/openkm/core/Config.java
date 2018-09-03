@@ -21,24 +21,6 @@
 
 package com.openkm.core;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.TreeMap;
-
-import javax.servlet.ServletContext;
-
-import org.apache.lucene.util.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.bean.ConfigStoredFile;
 import com.openkm.dao.ConfigDAO;
 import com.openkm.dao.SearchDAO;
@@ -50,6 +32,23 @@ import com.openkm.util.EnvironmentDetector;
 import com.openkm.util.FormatUtil;
 import com.openkm.validator.password.NoPasswordValidator;
 import com.openkm.vernum.MajorMinorVersionNumerationAdapter;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.TreeMap;
 
 public class Config {
 	private static Logger log = LoggerFactory.getLogger(Config.class);
@@ -146,6 +145,7 @@ public class Config {
 	public static final String PROPERTY_VERSION_APPEND_DOWNLOAD = "version.append.download";
 	public static final String PROPERTY_MAX_FILE_SIZE = "max.file.size";
 	public static final String PROPERTY_MAX_SEARCH_RESULTS = "max.search.results";
+	public static final String PROPERTY_MAX_SEARCH_CLAUSES = "max.search.clauses";
 	public static final String PROPERTY_MIN_SEARCH_CHARACTERS = "min.search.characters";
 	public static final String PROPERTY_SEND_MAIL_FROM_USER = "send.mail.from.user";
 	public static final String PROPERTY_DEFAULT_USER_ROLE = "default.user.role";
@@ -409,6 +409,7 @@ public class Config {
 	public static boolean VERSION_APPEND_DOWNLOAD = false;
 	public static long MAX_FILE_SIZE;
 	public static int MAX_SEARCH_RESULTS;
+	public static int MAX_SEARCH_CLAUSES;
 	public static int MIN_SEARCH_CHARACTERS;
 	public static boolean SEND_MAIL_FROM_USER;
 	public static String SYSTEM_USER = "system";
@@ -860,6 +861,8 @@ public class Config {
 			values.put(PROPERTY_MAX_FILE_SIZE, Long.toString(MAX_FILE_SIZE));
 			MAX_SEARCH_RESULTS = ConfigDAO.getInteger(PROPERTY_MAX_SEARCH_RESULTS, 500);
 			values.put(PROPERTY_MAX_SEARCH_RESULTS, Integer.toString(MAX_SEARCH_RESULTS));
+			MAX_SEARCH_CLAUSES = ConfigDAO.getInteger(PROPERTY_MAX_SEARCH_CLAUSES, 1024);
+			values.put(PROPERTY_MAX_SEARCH_CLAUSES, Integer.toString(MAX_SEARCH_CLAUSES));
 			MIN_SEARCH_CHARACTERS = ConfigDAO.getInteger(PROPERTY_MIN_SEARCH_CHARACTERS, 3);
 			values.put(PROPERTY_MIN_SEARCH_CHARACTERS, Integer.toString(MIN_SEARCH_CHARACTERS));
 			SEND_MAIL_FROM_USER = ConfigDAO.getBoolean(PROPERTY_SEND_MAIL_FROM_USER, "on".equalsIgnoreCase(cfg.getProperty(PROPERTY_SEND_MAIL_FROM_USER, "on")));
@@ -868,6 +871,9 @@ public class Config {
 			values.put(PROPERTY_DEFAULT_USER_ROLE, DEFAULT_USER_ROLE);
 			DEFAULT_ADMIN_ROLE = ConfigDAO.getString(PROPERTY_DEFAULT_ADMIN_ROLE, cfg.getProperty(PROPERTY_DEFAULT_ADMIN_ROLE, DEFAULT_ADMIN_ROLE));
 			values.put(PROPERTY_DEFAULT_ADMIN_ROLE, DEFAULT_ADMIN_ROLE);
+
+			// Set max search clauses
+			BooleanQuery.setMaxClauseCount(MAX_SEARCH_CLAUSES);
 
 			// Text extractors
 			REGISTERED_TEXT_EXTRACTORS = ConfigDAO.getList(PROPERTY_REGISTERED_TEXT_EXTRACTORS, DEFAULT_REGISTERED_TEXT_EXTRACTORS);
