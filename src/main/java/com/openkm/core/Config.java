@@ -150,6 +150,7 @@ public class Config {
 	public static final String PROPERTY_SEND_MAIL_FROM_USER = "send.mail.from.user";
 	public static final String PROPERTY_DEFAULT_USER_ROLE = "default.user.role";
 	public static final String PROPERTY_DEFAULT_ADMIN_ROLE = "default.admin.role";
+	public static final String PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES = "webservices.visible.properties";
 
 	// Text extractors
 	public static final String PROPERTY_REGISTERED_TEXT_EXTRACTORS = "registered.text.extractors";
@@ -417,6 +418,8 @@ public class Config {
 
 	public static String DEFAULT_USER_ROLE = "ROLE_USER";
 	public static String DEFAULT_ADMIN_ROLE = "ROLE_ADMIN";
+
+	public static List<String> WEBSERVICES_VISIBLE_PROPERTIES = new ArrayList<>();
 
 	// Text extractors
 	public static List<String> REGISTERED_TEXT_EXTRACTORS = new ArrayList<String>();
@@ -871,6 +874,9 @@ public class Config {
 			values.put(PROPERTY_DEFAULT_USER_ROLE, DEFAULT_USER_ROLE);
 			DEFAULT_ADMIN_ROLE = ConfigDAO.getString(PROPERTY_DEFAULT_ADMIN_ROLE, cfg.getProperty(PROPERTY_DEFAULT_ADMIN_ROLE, DEFAULT_ADMIN_ROLE));
 			values.put(PROPERTY_DEFAULT_ADMIN_ROLE, DEFAULT_ADMIN_ROLE);
+
+			WEBSERVICES_VISIBLE_PROPERTIES = ConfigDAO.getList(PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES, PROPERTY_RESTRICT_FILE_NAME);
+            values.put(PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES, String.valueOf(WEBSERVICES_VISIBLE_PROPERTIES));
 
 			// Set max search clauses
 			BooleanQuery.setMaxClauseCount(MAX_SEARCH_CLAUSES);

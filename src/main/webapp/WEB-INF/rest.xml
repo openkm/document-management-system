@@ -20,6 +20,7 @@
       <beans:bean class="com.openkm.rest.endpoint.RepositoryService"/>
       <beans:bean class="com.openkm.rest.endpoint.PropertyService"/>
       <beans:bean class="com.openkm.rest.endpoint.TestService"/>
+      <beans:bean class="com.openkm.rest.endpoint.ConversionService"/>
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">

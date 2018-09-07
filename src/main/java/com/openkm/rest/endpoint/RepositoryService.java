@@ -29,10 +29,12 @@ import com.openkm.core.AccessDeniedException;
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
 import com.openkm.core.MimeTypeConfig;
+import com.openkm.dao.ConfigDAO;
 import com.openkm.dao.LegacyDAO;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.RepositoryModule;
 import com.openkm.rest.GenericException;
+import com.openkm.rest.util.Configuration;
 import com.openkm.rest.util.HqlQueryResults;
 import com.openkm.rest.util.SqlQueryResultColumns;
 import com.openkm.rest.util.SqlQueryResults;
@@ -417,6 +419,29 @@ public class RepositoryService {
 			throw new GenericException(e);
 		} finally {
 			IOUtils.closeQuietly(is);
+		}
+	}
+
+	@GET
+	@Path("getConfiguration")
+	public Configuration getConfiguration(@QueryParam("key") String key) throws GenericException {
+		try {
+			log.debug("getConfiguration({})", key);
+			Configuration config;
+
+			if (PrincipalUtils.hasRole(Config.DEFAULT_ADMIN_ROLE)) {
+				config = new Configuration(ConfigDAO.findByPk(key));
+			} else {
+				if (Config.WEBSERVICES_VISIBLE_PROPERTIES.contains(key)) {
+					config = new Configuration(ConfigDAO.findByPk(key));
+				} else {
+					throw new AccessDeniedException(key);
+				}
+			}
+
+			return config;
+		} catch (Exception e) {
+			throw new GenericException(e);
 		}
 	}
 }
