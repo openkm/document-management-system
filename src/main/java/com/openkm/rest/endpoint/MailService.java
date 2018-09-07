@@ -31,6 +31,7 @@ import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.MailList;
 import com.openkm.util.PathUtils;
+import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="mail-service", value="mail-service")
 @Path("/mail")
 public class MailService {
 	private static Logger log = LoggerFactory.getLogger(MailService.class);

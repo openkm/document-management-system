@@ -21,21 +21,26 @@
 
 package com.openkm.rest.endpoint;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openkm.module.AuthModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.Map;
-import java.util.Map.Entry;
+import io.swagger.annotations.Api;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="auth-service", value="auth-service")
 @Path("/auth")
 public class AuthService {
 	private static Logger log = LoggerFactory.getLogger(AuthService.class);

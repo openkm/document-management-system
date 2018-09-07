@@ -19,6 +19,9 @@
   <beans:import resource="soap.xml"/>
   <beans:import resource="rest.xml"/>
   <beans:import resource="cmis.xml"/>
+  
+  <!-- Swagger -->
+  <beans:bean id="swagger2Feature" class="com.openkm.core.Swagger2Config" />
 
   <!--
   <beans:bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

@@ -23,6 +23,7 @@ package com.openkm.rest.endpoint;
 
 import com.openkm.bean.Note;
 import com.openkm.rest.GenericException;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,7 @@ import java.util.Calendar;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="test-service", value="test-service")
 @Path("/test")
 public class TestService {
 	private static Logger log = LoggerFactory.getLogger(TestService.class);
