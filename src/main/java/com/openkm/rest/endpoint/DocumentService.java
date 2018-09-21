@@ -26,16 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -55,8 +46,11 @@ import com.openkm.rest.GenericException;
 import com.openkm.rest.util.DocumentList;
 import com.openkm.rest.util.VersionList;
 
+import io.swagger.annotations.Api;
+
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="document-service", value="document-service")
 @Path("/document")
 public class DocumentService {
 	private static Logger log = LoggerFactory.getLogger(DocumentService.class);

@@ -26,6 +26,7 @@ import com.openkm.module.ModuleManager;
 import com.openkm.module.NoteModule;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.NoteList;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ import javax.ws.rs.core.MediaType;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="note-service", value="note-service")
 @Path("/note")
 public class NoteService {
 	private static Logger log = LoggerFactory.getLogger(NoteService.class);

@@ -27,5 +27,8 @@
         <property name="supportUnwrapped" value="true"/>
       </bean>
     </jaxrs:providers>
+    <jaxrs:features>
+       <ref bean="swagger2Feature" />
+    </jaxrs:features>
   </jaxrs:server>
 </beans:beans>

@@ -32,6 +32,7 @@ import com.openkm.rest.util.PropertyGroupList;
 import com.openkm.rest.util.SimplePropertyGroup;
 import com.openkm.rest.util.SimplePropertyGroupList;
 import com.openkm.ws.util.FormElementComplex;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,7 @@ import java.util.StringTokenizer;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="gropertyGroup-service", value="gropertyGroup-service")
 @Path("/propertyGroup")
 public class PropertyGroupService {
 	private static Logger log = LoggerFactory.getLogger(PropertyGroupService.class);
@@ -232,7 +234,7 @@ public class PropertyGroupService {
 			log.debug("hasGroup({}, {})", new Object[]{nodeId, grpName});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			boolean ret = cm.hasGroup(null, nodeId, grpName);
-			log.debug("hasGroup: {}", ret);			
+			log.debug("hasGroup: {}", ret);
 			return new Boolean(ret);
 		} catch (Exception e) {
 			throw new GenericException(e);

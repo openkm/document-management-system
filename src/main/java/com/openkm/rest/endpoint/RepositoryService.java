@@ -37,6 +37,7 @@ import com.openkm.rest.util.HqlQueryResults;
 import com.openkm.rest.util.SqlQueryResultColumns;
 import com.openkm.rest.util.SqlQueryResults;
 import com.openkm.spring.PrincipalUtils;
+import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.hibernate.QueryException;
@@ -54,6 +55,7 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="repository-service", value="repository-service")
 @Path("/repository")
 public class RepositoryService {
 	private static Logger log = LoggerFactory.getLogger(RepositoryService.class);

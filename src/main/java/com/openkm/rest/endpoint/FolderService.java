@@ -21,20 +21,24 @@
 
 package com.openkm.rest.endpoint;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openkm.bean.Folder;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.FolderModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.FolderList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import io.swagger.annotations.Api;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Api(description="folder-service", value="folder-service")
 @Path("/folder")
 public class FolderService {
 	private static Logger log = LoggerFactory.getLogger(FolderService.class);
