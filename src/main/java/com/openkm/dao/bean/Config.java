@@ -39,6 +39,7 @@ public class Config implements Serializable {
 	public static final String SELECT = "select";
 	public static final String HIDDEN = "hidden";
 	public static final String LIST = "list";
+	public static final String HTML = "html";
 
 	@Id
 	@Column(name = "CFG_KEY", length = 64)

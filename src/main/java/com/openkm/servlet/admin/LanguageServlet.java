@@ -305,9 +305,16 @@ public class LanguageServlet extends BaseServlet {
 		Language langBase = LanguageDAO.findByPk(Language.DEFAULT); // English always it'll be used as a translations base
 		Set<Translation> translationsBase = langBase.getTranslations();
 
+		List<String> modules = new ArrayList<>();
+		modules.add("");
+		modules.add(Translation.MODULE_FRONTEND);
+		modules.add(Translation.MODULE_EXTENSION);
+		modules.add(Translation.MODULE_MOBILE);
+		
 		if (WebUtils.getBoolean(request, "persist")) {
 			Set<Translation> newTranslations = new HashSet<Translation>();
-			Language lang = LanguageDAO.findByPk(request.getParameter("lg_id"));
+			String lgId = WebUtils.getString(request, "lg_id");
+			Language lang = LanguageDAO.findByPk(lgId);
 
 			for (Translation translation : translationsBase) {
 				String text = request.getParameter(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey());
@@ -328,18 +335,22 @@ public class LanguageServlet extends BaseServlet {
 			ServletContext sc = getServletContext();
 			String lgId = WebUtils.getString(request, "lg_id");
 			String filter = WebUtils.getString(request, "filter");
+			String module = WebUtils.getString(request, "module");
 			Language langToTranslate = LanguageDAO.findByPk(lgId);
 			Map<String, String> translations = new HashMap<String, String>();
 
-			if (filter.isEmpty()) {
+			if (filter.isEmpty() && module.isEmpty()) {
 				for (Translation translation : langToTranslate.getTranslations()) {
 					translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
 				}
 			} else {
 				// Filter translationsBase
-				Set<Translation> translationsToRemove = new HashSet<Translation>();
+				Set<Translation> translationsToRemove = new HashSet<>();
 				for (Translation translation : translationsBase) {
-					if (!translation.getTranslationId().getKey().contains(filter)) {
+					if (module.isEmpty() && !translation.getTranslationId().getKey().contains(filter) ||
+							filter.isEmpty() && !translation.getTranslationId().getModule().contains(module) ||
+							(!translation.getTranslationId().getKey().contains(filter) ||
+									!translation.getTranslationId().getModule().contains(module))) {
 						translationsToRemove.add(translation);
 					}
 				}
@@ -347,20 +358,24 @@ public class LanguageServlet extends BaseServlet {
 
 				// Filter others translations
 				for (Translation translation : langToTranslate.getTranslations()) {
-					if (translation.getTranslationId().getKey().contains(filter)) {
+					if (module.isEmpty() && translation.getTranslationId().getKey().contains(filter) ||
+							filter.isEmpty() && translation.getTranslationId().getModule().contains(module) ||
+							(translation.getTranslationId().getKey().contains(filter) &&
+									translation.getTranslationId().getModule().contains(module))) {
 						translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
 					}
 				}
 			}
 
+			sc.setAttribute("module", module);
+			sc.setAttribute("tr_modules", modules);
 			sc.setAttribute("filter", filter);
 			sc.setAttribute("action", WebUtils.getString(request, "action"));
-			sc.setAttribute("persist", true);
 			sc.setAttribute("lg_id", lgId);
 			sc.setAttribute("langToTranslateName", langToTranslate.getName());
 			sc.setAttribute("langBaseName", langBase.getName());
 			sc.setAttribute("translations", translations);
-			sc.setAttribute("translationsBase", translationsBase);
+			sc.setAttribute("translationsBase", asSortedList(translationsBase));
 			sc.getRequestDispatcher("/admin/translation_edit.jsp").forward(request, response);
 		}
 
@@ -487,5 +502,19 @@ public class LanguageServlet extends BaseServlet {
 		// Go to list
 		response.sendRedirect(request.getContextPath() + request.getServletPath());
 		log.debug("normalize: void");
+	}
+	
+	/**
+	 * Sort set
+	 */
+	private List<Translation> asSortedList(Set<Translation> c) {
+		List<Translation> list = new ArrayList<>(c);
+		java.util.Collections.sort(list, new Comparator<Translation>() {
+			@Override
+			public int compare(Translation o1, Translation o2) {
+				return o1.getTranslationId().getKey().compareTo(o2.getTranslationId().getKey());
+			}
+		});
+		return list;
 	}
 }

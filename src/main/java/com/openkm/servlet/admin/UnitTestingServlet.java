@@ -100,8 +100,8 @@ public class UnitTestingServlet extends BaseServlet {
 	 */
 	private void header(PrintStream out, String title, String[][] breadcrumb) {
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-		out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
-		out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+		out.println("<!DOCTYPE html");
+		out.println("<html");
 		out.println("<head>");
 		out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
 		out.println("<link rel=\"Shortcut icon\" href=\"favicon.ico\" />");

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <%@ page import="com.openkm.core.Config" %>
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="author" content="OpenKM">

@@ -5,6 +5,7 @@ import com.openkm.core.Config;
 import com.openkm.core.HttpSessionManager;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
+import com.openkm.util.tags.UtilFunctions;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -51,32 +52,13 @@ public class BaseServlet extends HttpServlet {
 	public boolean isPost(HttpServletRequest request) {
 		return WebUtils.METHOD_POST.equals(request.getMethod());
 	}
-	
-	/**
-	 * Test if an user can access to administration
-	 */
-	public static boolean isAdmin(HttpServletRequest request) {
-		return request.isUserInRole(Config.DEFAULT_ADMIN_ROLE);
-	}
-
-	/**
-	 * Test if an user can access to administration when configured as SaaS: An user can
-	 * access if:
-	 * <p>
-	 * - Multiple Instances is active AND user id okmAdmin
-	 * - Multiple Instances is inactive AND user has AdminRole role
-	 */
-	public static boolean isMultipleInstancesAdmin(HttpServletRequest request) {
-		return (Config.SYSTEM_MULTIPLE_INSTANCES || Config.CLOUD_MODE) && request.getRemoteUser().equals(Config.ADMIN_USER) ||
-				!(Config.SYSTEM_MULTIPLE_INSTANCES || Config.CLOUD_MODE) && request.isUserInRole(Config.DEFAULT_ADMIN_ROLE);
-	}
 
 	/**
 	 * Check for forbidden access
 	 */
 	public boolean checkMultipleInstancesAccess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (!isMultipleInstancesAdmin(request)) {
+		if (!UtilFunctions.isMultipleInstancesAdmin()) {
 			// Activity log
 			UserActivity.log(request.getRemoteUser(), "ADMIN_ACCESS_DENIED", request.getRequestURI(), null, request.getQueryString());
 
@@ -93,13 +75,13 @@ public class BaseServlet extends HttpServlet {
 	 */
 	public void header(PrintWriter out, String title, String[][] breadcrumb) {
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-		out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
-		out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+		out.println("<!DOCTYPE html");
+		out.println("<html");
 		out.println("<head>");
 		out.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
 		out.println("<link rel=\"Shortcut icon\" href=\"favicon.ico\" />");
 		out.println("<link rel=\"stylesheet\" href=\"css/style.css\" type=\"text/css\" />");
-		out.println("<script src=\"js/biblioteca.js\" type=\"text/javascript\"></script>");
+		out.println("<script type=\"text/javascript\" src=\"../js/utils.js\"></script>");
 		out.println("<script type=\"text/javascript\">scrollToBottom();</script>");
 		out.println("<script type=\"text/javascript\" src=\"../js/jquery-1.11.3.min.js\"></script>");
 		out.println("<script type=\"text/javascript\" src=\"js/jquery.DOMWindow.js\"></script>");

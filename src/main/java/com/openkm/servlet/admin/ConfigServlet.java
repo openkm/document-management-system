@@ -58,9 +58,7 @@ public class ConfigServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(ConfigServlet.class);
 	private static Map<String, String> types = new LinkedHashMap<String, String>();
-	private static final String[][] breadcrumb = new String[][]{
-			new String[]{"Config", "Configuration"},
-	};
+	private static final String[][] breadcrumb = new String[][] { new String[] { "Config", "Configuration" }, };
 
 	static {
 		types.put(Config.STRING, "String");
@@ -71,11 +69,11 @@ public class ConfigServlet extends BaseServlet {
 		types.put(Config.FILE, "File");
 		types.put(Config.SELECT, "Select");
 		types.put(Config.LIST, "List");
+		types.put(Config.HTML, "HTML");
 	}
 
 	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String method = request.getMethod();
 
 		if (checkMultipleInstancesAccess(request, response)) {
@@ -88,30 +86,28 @@ public class ConfigServlet extends BaseServlet {
 	}
 
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doGet({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		String action = WebUtils.getString(request, "action");
 		String filter = WebUtils.getString(request, "filter");
-		String userId = request.getRemoteUser();
 		updateSessionManager(request);
 
 		try {
 			if (action.equals("create")) {
-				create(userId, types, request, response);
+				create(request, response);
 			} else if (action.equals("edit")) {
-				edit(userId, types, request, response);
+				edit(request, response);
 			} else if (action.equals("delete")) {
-				delete(userId, types, request, response);
+				delete(request, response);
 			} else if (action.equals("view")) {
-				view(userId, request, response);
+				view(request, response);
 			} else if (action.equals("check")) {
-				check(userId, request, response);
+				check(request, response);
 			} else if (action.equals("export")) {
-				export(userId, request, response);
+				export(request, response);
 			} else {
-				list(userId, filter, request, response);
+				list(filter, request, response);
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
@@ -121,8 +117,7 @@ public class ConfigServlet extends BaseServlet {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doPost({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		ServletContext sc = getServletContext();
@@ -142,7 +137,7 @@ public class ConfigServlet extends BaseServlet {
 				Config cfg = new Config();
 				byte data[] = null;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
+				for (Iterator<FileItem> it = items.iterator(); it.hasNext();) {
 					FileItem item = it.next();
 
 					if (item.isFormField()) {
@@ -221,11 +216,10 @@ public class ConfigServlet extends BaseServlet {
 					}
 
 					ConfigDAO.create(cfg);
-					com.openkm.core.Config.reload(sc, new Properties());
+					com.openkm.core.Config.loadFromDatabase(new Properties());
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());
-					list(userId, filter, request, response);
+					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());					
 				} else if (action.equals("edit")) {
 					if (Config.FILE.equals(cfg.getType())) {
 						cfg.setValue(new Gson().toJson(stFile));
@@ -247,27 +241,42 @@ public class ConfigServlet extends BaseServlet {
 						cfg.setValue(new Gson().toJson(stSelect));
 					}
 
-					ConfigDAO.update(cfg);
-					com.openkm.core.Config.reload(sc, new Properties());
+					if (Config.FILE.equals(cfg.getType())) {
+						// When is FILE type, only update if the file is not empty
+						if (stFile.getContent() != null && !stFile.getContent().isEmpty()) {
+							ConfigDAO.update(cfg);
+							com.openkm.core.Config.loadFromDatabase(new Properties());
+						}
+					} else {
+						if (Config.HTML.equals(cfg.getType())) {
+							cfg.setValue(cfg.getValue().replaceAll("&lt;#list ([^.]*)&gt;", "<#list $1>"));
+							cfg.setValue(cfg.getValue().replaceAll("&lt;\\/#list&gt;", "</#list>"));
+						}
+
+						ConfigDAO.update(cfg);
+						com.openkm.core.Config.loadFromDatabase(new Properties());
+					}
 
 					// Activity log
 					UserActivity.log(userId, "ADMIN_CONFIG_EDIT", cfg.getKey(), null, cfg.toString());
-					list(userId, filter, request, response);
 				} else if (action.equals("delete")) {
 					ConfigDAO.delete(cfg.getKey());
-					com.openkm.core.Config.reload(sc, new Properties());
+					com.openkm.core.Config.loadFromDatabase(new Properties());
 
 					// Activity log
 					UserActivity.log(userId, "ADMIN_CONFIG_DELETE", cfg.getKey(), null, null);
-					list(userId, filter, request, response);
 				} else if (action.equals("import")) {
-					dbSession = HibernateUtil.getSessionFactory().openSession();
-					importConfig(userId, request, response, data, dbSession);
+					if (data != null) {
+						dbSession = HibernateUtil.getSessionFactory().openSession();
+						importConfig(request, response, data, dbSession);
 
-					// Activity log
-					UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);
-					list(userId, filter, request, response);
+						// Activity log
+						UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);
+					}
 				}
+
+				// Go to list
+				response.sendRedirect(request.getContextPath() + request.getServletPath() + "?filter=" + filter);
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
@@ -286,13 +295,12 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Create config
 	 */
-	private void create(String userId, Map<String, String> types, HttpServletRequest request,
-	                    HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void create(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, DatabaseException {
 		ServletContext sc = getServletContext();
 		Config cfg = new Config();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
-		sc.setAttribute("filter", WebUtils.getString(request, "filter"));
-		sc.setAttribute("persist", true);
+		sc.setAttribute("filter", WebUtils.getString(request, "filter"));		
 		sc.setAttribute("types", types);
 		sc.setAttribute("cfg", cfg);
 		sc.getRequestDispatcher("/admin/config_edit.jsp").forward(request, response);
@@ -301,14 +309,13 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Edit config
 	 */
-	private void edit(String userId, Map<String, String> types, HttpServletRequest request,
-	                  HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void edit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, DatabaseException {
 		ServletContext sc = getServletContext();
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
-		sc.setAttribute("filter", WebUtils.getString(request, "filter"));
-		sc.setAttribute("persist", true);
+		sc.setAttribute("filter", WebUtils.getString(request, "filter"));		
 		sc.setAttribute("types", types);
 		sc.setAttribute("cfg", cfg);
 		sc.getRequestDispatcher("/admin/config_edit.jsp").forward(request, response);
@@ -317,14 +324,13 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Delete config
 	 */
-	private void delete(String userId, Map<String, String> types, HttpServletRequest request,
-	                    HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, DatabaseException {
 		ServletContext sc = getServletContext();
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
-		sc.setAttribute("filter", WebUtils.getString(request, "filter"));
-		sc.setAttribute("persist", true);
+		sc.setAttribute("filter", WebUtils.getString(request, "filter"));		
 		sc.setAttribute("types", types);
 		sc.setAttribute("cfg", cfg);
 		sc.getRequestDispatcher("/admin/config_edit.jsp").forward(request, response);
@@ -333,13 +339,13 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * List config
 	 */
-	private void list(String userId, String filter, HttpServletRequest request, HttpServletResponse response)
+	private void list(String filter, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {}, {}, {})", new Object[]{userId, filter, request, response});
+		log.debug("list({}, {}, {})", new Object[] { filter, request, response });
 		ServletContext sc = getServletContext();
 		List<Config> list = ConfigDAO.findAll();
 
-		for (Iterator<Config> it = list.iterator(); it.hasNext(); ) {
+		for (Iterator<Config> it = list.iterator(); it.hasNext();) {
 			Config cfg = it.next();
 
 			if (Config.STRING.equals(cfg.getType())) {
@@ -383,9 +389,9 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Download file
 	 */
-	private void view(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			ServletException, IOException, DatabaseException {
-		log.debug("view({}, {}, {})", new Object[]{userId, request, response});
+	private void view(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, DatabaseException {
+		log.debug("view({}, {})", new Object[] { request, response });
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
 
@@ -402,9 +408,9 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Check configuration
 	 */
-	private void check(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			ServletException, IOException, DatabaseException {
-		log.debug("check({}, {}, {})", new Object[]{userId, request, response});
+	private void check(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, DatabaseException {
+		log.debug("check({}, {})", new Object[] { request, response });
 		PrintWriter out = response.getWriter();
 		response.setContentType(MimeTypeConfig.MIME_HTML);
 		header(out, "Configuration check", breadcrumb);
@@ -499,9 +505,9 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Export configuration
 	 */
-	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			DatabaseException, IOException {
-		log.debug("export({}, {}, {})", new Object[]{userId, request, response});
+	private void export(HttpServletRequest request, HttpServletResponse response)
+			throws DatabaseException, IOException {
+		log.debug("export({}, {})", new Object[] { request, response });
 
 		// Disable browser cache
 		response.setHeader("Expires", "Sat, 6 May 1971 12:00:00 GMT");
@@ -521,7 +527,8 @@ public class ConfigServlet extends BaseServlet {
 
 		for (Config cfg : ConfigDAO.findAll()) {
 			if (!Config.HIDDEN.equals(cfg.getType())) {
-				StringBuffer insertCfg = new StringBuffer("INSERT INTO OKM_CONFIG (CFG_KEY, CFG_TYPE, CFG_VALUE) VALUES ('");
+				StringBuffer insertCfg = new StringBuffer(
+						"INSERT INTO OKM_CONFIG (CFG_KEY, CFG_TYPE, CFG_VALUE) VALUES ('");
 				insertCfg.append(cfg.getKey()).append("', '");
 				insertCfg.append(cfg.getType()).append("', '");
 
@@ -542,10 +549,9 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Import configuration into database
 	 */
-	private void importConfig(String userId, HttpServletRequest request, HttpServletResponse response,
-	                          final byte[] data, Session dbSession) throws DatabaseException,
-			IOException, SQLException {
-		log.debug("importConfig({}, {}, {}, {}, {})", new Object[]{userId, request, response, data, dbSession});
+	private void importConfig(HttpServletRequest request, HttpServletResponse response, final byte[] data,
+			Session dbSession) throws DatabaseException, IOException, SQLException {
+		log.debug("importConfig({}, {}, {}, {})", new Object[] { request, response, data, dbSession });
 		WorkerUpdate worker = new DatabaseQueryServlet().new WorkerUpdate();
 		worker.setData(data);
 		dbSession.doWork(worker);

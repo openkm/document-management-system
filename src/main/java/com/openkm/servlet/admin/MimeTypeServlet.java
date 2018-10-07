@@ -21,16 +21,24 @@
 
 package com.openkm.servlet.admin;
 
-import com.openkm.core.DatabaseException;
-import com.openkm.core.MimeTypeConfig;
-import com.openkm.dao.HibernateUtil;
-import com.openkm.dao.LegacyDAO;
-import com.openkm.dao.MimeTypeDAO;
-import com.openkm.dao.bean.MimeType;
-import com.openkm.util.SecureStore;
-import com.openkm.util.UserActivity;
-import com.openkm.util.WarUtils;
-import com.openkm.util.WebUtils;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -42,16 +50,16 @@ import org.hibernate.jdbc.Work;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Iterator;
-import java.util.List;
+import com.openkm.core.DatabaseException;
+import com.openkm.core.MimeTypeConfig;
+import com.openkm.dao.HibernateUtil;
+import com.openkm.dao.LegacyDAO;
+import com.openkm.dao.MimeTypeDAO;
+import com.openkm.dao.bean.MimeType;
+import com.openkm.util.SecureStore;
+import com.openkm.util.UserActivity;
+import com.openkm.util.WarUtils;
+import com.openkm.util.WebUtils;
 
 /**
  * Mime type management servlet
@@ -60,7 +68,8 @@ public class MimeTypeServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(MimeTypeServlet.class);
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
+	@Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
 			ServletException {
 		log.debug("doGet({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
@@ -86,7 +95,8 @@ public class MimeTypeServlet extends BaseServlet {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,
 			ServletException {
 		log.debug("doPost({}, {})", request, response);
@@ -116,7 +126,7 @@ public class MimeTypeServlet extends BaseServlet {
 						} else if (item.getFieldName().equals("mt_name")) {
 							mt.setName(item.getString("UTF-8").toLowerCase());
 						} else if (item.getFieldName().equals("mt_description")) {
-							mt.setDescription(item.getString("UTF-8").toLowerCase());
+							mt.setDescription(item.getString("UTF-8"));
 						} else if (item.getFieldName().equals("mt_search")) {
 							mt.setSearch(true);
 						} else if (item.getFieldName().equals("mt_extensions")) {
@@ -267,23 +277,23 @@ public class MimeTypeServlet extends BaseServlet {
 		response.setHeader("Content-disposition", "inline; filename=\"" + fileName + "\"");
 		response.setContentType("text/x-sql; charset=UTF-8");
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "UTF8"), true);
-		out.println("DELETE FROM OKM_MIME_TYPE;");
 		out.println("DELETE FROM OKM_MIME_TYPE_EXTENSION;");
+		out.println("DELETE FROM OKM_MIME_TYPE;");
 
 		for (MimeType mimeType : MimeTypeDAO.findAll("mt.id")) {
-			StringBuffer insertMime = new StringBuffer("INSERT INTO OKM_MIME_TYPE (MT_ID, MT_NAME, MT_IMAGE_CONTENT, MT_IMAGE_MIME) VALUES (");
+			StringBuffer insertMime = new StringBuffer("INSERT INTO OKM_MIME_TYPE (MT_ID, MT_NAME, MT_IMAGE_CONTENT, MT_IMAGE_MIME, MT_SEARCH) VALUES (");
 			insertMime.append(mimeType.getId()).append(", '");
 			insertMime.append(mimeType.getName()).append("', '");
 			insertMime.append(mimeType.getImageContent()).append("', '");
-			insertMime.append(mimeType.getImageMime()).append("');");
+			insertMime.append(mimeType.getImageMime()).append("', '");
+			insertMime.append(mimeType.isSearch()?'T':'F').append("');");
 			out.println(insertMime);
-
 			for (String ext : mimeType.getExtensions()) {
-				StringBuffer insertExtension = new StringBuffer("INSERT INTO OKM_MIME_TYPE_EXTENSION (MTE_ID, MTE_NAME) VALUES (");
-				insertExtension.append(mimeType.getId()).append(", '");
-				insertExtension.append(ext).append("');");
-				out.println(insertExtension);
-			}
+                StringBuffer insertExtension = new StringBuffer("INSERT INTO OKM_MIME_TYPE_EXTENSION (MTE_ID, MTE_NAME) VALUES (");
+                insertExtension.append(mimeType.getId()).append(", '");
+                insertExtension.append(ext).append("');");
+                out.println(insertExtension);
+            }
 		}
 		out.flush();
 		log.debug("export: sql-file");

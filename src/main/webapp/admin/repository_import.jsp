@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.openkm.bean.Repository" %>
 <%@ page import="com.openkm.core.Config" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ page import="com.openkm.util.FileUtils" %>
 <%@ page import="com.openkm.util.FormatUtil" %>
 <%@ page import="com.openkm.util.WebUtils" %>
 <%@ page import="com.openkm.util.impexp.HTMLInfoDecorator" %>
 <%@ page import="com.openkm.util.impexp.ImpExpStats" %>
 <%@ page import="com.openkm.util.impexp.RepositoryImporter" %>
+<%@ page import="com.openkm.util.tags.UtilFunctions" %>
 <%@ page import="org.slf4j.Logger" %>
 <%@ page import="org.slf4j.LoggerFactory" %>
 <%@ page import="java.io.File" %>
@@ -15,8 +15,8 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.util.concurrent.TimeUnit" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
@@ -48,7 +48,7 @@
 <body>
 <%! private static Logger log = LoggerFactory.getLogger("repository_import.jsp"); %>
 <%
-	if (BaseServlet.isMultipleInstancesAdmin(request)) {
+	if (UtilFunctions.isMultipleInstancesAdmin()) {
 		request.setCharacterEncoding("UTF-8");
 		String repoPath = WebUtils.getString(request, "repoPath", "/" + Repository.ROOT);
 		String fsPath = WebUtils.getString(request, "fsPath");

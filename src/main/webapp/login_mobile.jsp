@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
-  <link rel="Shortcut icon" href="<%=request.getContextPath() %>/favicon.ico" />
+  <link rel="Shortcut icon" href="logo/favicon" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />
@@ -22,7 +22,7 @@
       <strong>Community Version</strong>
     </div>
             <div class="login-title">
-                <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">
+                <img id="login-image" class="img-responsive center-block" src="logo/login">
             </div>            
             <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">              
               <form name="loginform" method="post" action="<%=request.getContextPath() %>/j_spring_security_check" class="form-horizontal form-bordered form-control-borderless" id="form-login">

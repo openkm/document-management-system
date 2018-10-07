@@ -2,21 +2,42 @@
 <%@ page import="com.openkm.bean.Repository" %>
 <%@ page import="com.openkm.core.Config" %>
 <%@ page import="com.openkm.kea.tree.KEATree" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
+<%@ page import="com.openkm.util.tags.UtilFunctions" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="java.util.Vector" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="Shortcut icon" href="favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <title>Generate thesaurus</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="Shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.3/jquery-ui-1.10.3.css" />  
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+  <script type="text/javascript" src="../js/utils.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/jquery-ui-1.10.3/jquery-ui-1.10.3.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
+  <script src="../js/chosen.jquery.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+	  $('select#level').chosen({disable_search_threshold: 10});
+	  $('#results').dataTable({
+	    "bStateSave": true,
+	    "iDisplayLength": 15,
+	    "lengthMenu": [[10, 15, 20], [10, 15, 20]],
+	    "fnDrawCallback": function (oSettings) {
+	      dataTableAddRows(this, oSettings);
+	    }
+      });
+    });
+  </script>
+  <title>Generate thesaurus</title>
 </head>
 <body>
 <%
-	if (BaseServlet.isMultipleInstancesAdmin(request)) {
+if (UtilFunctions.isMultipleInstancesAdmin()) {
 		request.setCharacterEncoding("UTF-8");
 		String strLevel = request.getParameter("level");
 		
@@ -24,24 +45,21 @@
 		out.println("  <li class=\"path\"><a href=\"generate_thesaurus.jsp\">Generate thesaurus</a></li>");
 		out.println("</ul>");
 		out.println("<br/>");
-		out.println("<form action=\"generate_thesaurus.jsp\">");
-		out.println("<table class=\"form\" width=\"125px\">");
-		out.println("<tr><td>");
-		out.println("Show level <select name=\"level\">");
 		
+        out.println("<div style=\"width:90%; margin-left:auto; margin-right:auto;\">");
+        out.println("<table id=\"results\" class=\"results\">");
+        out.println("<tr class=\"header\">");
+		out.println("<td align=\"right\" colspan=\"2\">");
+		out.println("<form action=\"generate_thesaurus.jsp\">");
+		out.println("Show level <select name=\"level\" id=\"level\" style=\"width: 50px\" data-placeholder=\"&nbsp;\">");
 		for (int i=1; i<6; i++) {
 			out.println("<option value=\"" + i + "\" " + (String.valueOf(i).equals(strLevel) ? "selected" : "") + ">" + i + "</option>");
 		}
-		
 		out.println("</select>");
-		out.println("</td></tr>");
-		out.println("<tr><td align=\"right\">");
-		out.println("<input type=\"submit\" value=\"Generate\" class=\"executeButton\">");
-		out.println("</td></tr>");
-		out.println("</table>");
-		out.println("</form>");
-		out.println("<br/>");
-		out.println("<table class=\"results\" width=\"90%\">");
+        out.println("<input type=\"submit\" value=\"Generate\" class=\"executeButton\">");
+        out.println("</form>");
+		out.println("</td>");
+		out.println("</tr>");
 		out.println("<tr><th>Parameter</th><th>Value</th></tr>");
 		
 		out.println("<tr class=\"even\">");
@@ -75,7 +93,8 @@
 		out.println("</tr>");
 		
 		out.println("</table>");
-
+		out.println("</div>");
+		
 		try {
 			if (!Config.KEA_THESAURUS_OWL_FILE.equals("")) {
 				if (strLevel != null && !strLevel.equals("")) {

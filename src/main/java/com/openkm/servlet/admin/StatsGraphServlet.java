@@ -59,12 +59,12 @@ import java.io.OutputStream;
 public class StatsGraphServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(StatsGraphServlet.class);
-	private static final String DOCUMENTS = "0";
-	private static final String DOCUMENTS_SIZE = "1";
-	private static final String FOLDERS = "2";
-	private static final String JVM_MEMORY = "3";
-	private static final String DISK = "4";
-	private static final String OS_MEMORY = "5";
+	public static final String DOCUMENTS = "0";
+	public static final String DOCUMENTS_SIZE = "1";
+	public static final String FOLDERS = "2";
+	public static final String JVM_MEMORY = "3";
+	public static final String DISK = "4";
+	public static final String OS_MEMORY = "5";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
 			ServletException {

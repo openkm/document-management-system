@@ -6,7 +6,7 @@
     <tr>
       <td>Metadata groups</td>
       <td>
-        <select multiple="multiple" name="prf_wizard_property_groups" size="4">
+        <select name="prf_wizard_property_groups" id="prf_wizard_property_groups" data-placeholder="Select metadata group" multiple="multiple" style="width: 250px">
           <c:forEach var="pg" items="${pgroups}">
             <c:choose>
               <c:when test="${u:contains(prf.prfWizard.propertyGroups, pg.name)}">
@@ -23,7 +23,7 @@
     <tr>
       <td>Workflows</td>
       <td>
-        <select multiple="multiple" name="prf_wizard_workflows" size="4">
+        <select name="prf_wizard_workflows" id="prf_wizard_workflows" data-placeholder="Select workflow" multiple="multiple" style="width: 250px">
           <c:forEach var="wf" items="${wflows}">
             <c:choose>
               <c:when test="${u:contains(prf.prfWizard.workflows, wf.name)}">
