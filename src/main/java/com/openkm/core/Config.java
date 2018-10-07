@@ -794,7 +794,7 @@ public class Config {
     /**
      * Reload OpenKM configuration from database
      */
-    public static void reload(ServletContext sc, Properties cfg) {
+    public static void loadFromDatabase(Properties cfg) {
         try {
             // Experimental features
             MOBILE_THEME = ConfigDAO.getSelectedOption(PROPERTY_MOBILE_THEME, "a|*b|c|d");
