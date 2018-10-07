@@ -386,10 +386,6 @@
     <servlet-class>com.openkm.servlet.admin.TailServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>DbRepositoryViewServlet</servlet-name>
-    <servlet-class>com.openkm.servlet.admin.DbRepositoryViewServlet</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>DatabaseQueryServlet</servlet-name>
     <servlet-class>com.openkm.servlet.admin.DatabaseQueryServlet</servlet-class>
   </servlet>
@@ -830,10 +826,6 @@
   <servlet-mapping>
     <servlet-name>TailServlet</servlet-name>
     <url-pattern>/admin/Tail</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>DbRepositoryViewServlet</servlet-name>
-    <url-pattern>/admin/DbRepositoryView</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DatabaseQueryServlet</servlet-name>

@@ -110,7 +110,7 @@ public class RepositoryStartupServlet extends HttpServlet {
 		}
 
 		// Load database configuration
-		Config.reload(sc, config);
+		Config.loadFromDatabase(config);
 
 		// Invoke start
 		start();

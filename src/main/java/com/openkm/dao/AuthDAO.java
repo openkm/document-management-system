@@ -292,6 +292,55 @@ public class AuthDAO {
 	}
 
 	/**
+	 * Get all users within a filter
+	 *
+	 * @param rolId          Role id to filter.
+	 * @param usrId          User id to filter.
+	 * @param usrName        User name to filter.
+	 * @param filterByActive If should filter by active users.
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<User> findUsersByFilter(String rolId, String usrId, String usrName, boolean filterByActive) throws DatabaseException {
+		log.debug("findUsersByFilter({}, {})", rolId, filterByActive);
+		String qs = "from User u where 1=1"
+				+ (rolId != null && !rolId.isEmpty() ? " and :rolId in elements(u.roles)" : "")
+				+ (usrId != null && !usrId.isEmpty() ? " and lower(u.id) like :usrId" : "")
+				+ (usrName != null && !usrName.isEmpty() ? " and lower(u.name) like :usrName" : "")
+				+ (filterByActive ? " and u.active=:active" : "")
+				+ " order by u.id";
+		Session session = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			Query q = session.createQuery(qs);
+
+			if (rolId != null && !rolId.isEmpty()) {
+				q.setString("rolId", rolId);
+			}
+
+			if (usrId != null && !usrId.isEmpty()) {
+				q.setString("usrId", "%" + usrId + "%");
+			}
+
+			if (usrName != null && !usrName.isEmpty()) {
+				q.setString("usrName", "%" + usrName + "%");
+			}
+
+			if (filterByActive) {
+				q.setBoolean("active", true);
+			}
+
+			List<User> ret = q.list();
+			log.debug("findUsersByFilter: {}", ret);
+			return ret;
+		} catch (HibernateException e) {
+			throw new DatabaseException(e.getMessage(), e);
+		} finally {
+			HibernateUtil.close(session);
+		}
+	}
+	
+	/**
 	 * Get all users within a role
 	 */
 	@SuppressWarnings("unchecked")

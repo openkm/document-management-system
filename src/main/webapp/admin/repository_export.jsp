@@ -3,12 +3,12 @@
 <%@ page import="com.openkm.bean.ContentInfo" %>
 <%@ page import="com.openkm.bean.Repository" %>
 <%@ page import="com.openkm.core.Config" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ page import="com.openkm.util.FormatUtil" %>
 <%@ page import="com.openkm.util.WebUtils" %>
 <%@ page import="com.openkm.util.impexp.HTMLInfoDecorator" %>
 <%@ page import="com.openkm.util.impexp.ImpExpStats" %>
 <%@ page import="com.openkm.util.impexp.RepositoryExporter" %>
+<%@ page import="com.openkm.util.tags.UtilFunctions" %>
 <%@ page import="org.slf4j.Logger" %>
 <%@ page import="org.slf4j.LoggerFactory" %>
 <%@ page import="java.io.File" %>
@@ -16,40 +16,40 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.util.concurrent.TimeUnit" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="Shortcut icon" href="favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
   <script type="text/javascript" src="js/jquery.DOMWindow.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-		$dm = $('.ds').openDOMWindow({
-			height:300, width:400,
-			eventType:'click',
-			overlayOpacity:'57',
-			windowSource:'iframe', windowPadding:0
-		});
-	});
-    
+    $(document).ready(function () {
+      $dm = $('.ds').openDOMWindow({
+        height: 300, width: 400,
+        eventType: 'click',
+        overlayOpacity: '57',
+        windowSource: 'iframe', windowPadding: 0
+      });
+    });
+
     function dialogClose() {
-		$dm.closeDOMWindow();
+      $dm.closeDOMWindow();
     }
-    
+
     function keepSessionAlive() {
-    	$.ajax({ type:'GET', url:'../SessionKeepAlive', cache:false, async:false });
+      $.ajax({type: 'GET', url: '../SessionKeepAlive', cache: false, async: false});
     }
-    
-	window.setInterval('keepSessionAlive()', <%=TimeUnit.MINUTES.toMillis(Config.KEEP_SESSION_ALIVE_INTERVAL)%>);
+
+    window.setInterval('keepSessionAlive()', <%=TimeUnit.MINUTES.toMillis(Config.KEEP_SESSION_ALIVE_INTERVAL)%>);
   </script>
   <title>Repository Export</title>
 </head>
 <body>
 <%! private static Logger log = LoggerFactory.getLogger("repository_export.jsp"); %>
 <%
-	if (BaseServlet.isAdmin(request)) {
+	if (UtilFunctions.isAdmin()) {
 		request.setCharacterEncoding("UTF-8");
 		String repoPath = WebUtils.getString(request, "repoPath", "/" + Repository.ROOT);
 		String fsPath = WebUtils.getString(request, "fsPath");
@@ -60,6 +60,7 @@
 		out.println("  <li class=\"path\"><a href=\"repository_export.jsp\">Repository export</a></li>");
 		out.println("</ul>");
 		out.println("<br/>");
+		
 		out.println("<form action=\"repository_export.jsp\">");
 		out.println("<table class=\"form\" align=\"center\">");
 		out.println("<tr>");

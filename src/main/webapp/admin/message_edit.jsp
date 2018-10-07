@@ -1,28 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u"%>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.3/jquery-ui-1.10.3.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="../js/cleditor/jquery.cleditor.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/jquery-ui-1.10.3/jquery-ui-1.10.3.js" type="text/javascript"></script>
   <script src="../js/vanadium-min.js" type="text/javascript"></script>
-  <script src="../js/cleditor/jquery.cleditor.js" type="text/javascript"></script>
+  <script src="../js/chosen.jquery.js" type="text/javascript"></script>
+  <!-- Load TinyMCE -->
+  <script type="text/javascript" src="../js/tinymce4/tinymce.min.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/jquery.tinymce.min.js"></script>
   <script type="text/javascript">
   	$(document).ready(function() {
-  	  // http://premiumsoftware.net/cleditor/docs/GettingStarted.html
-  	  $("#me_message").cleditor({
-  	    width: 500,
-	    height: 250,
-	    controls: "bold italic underline strikethrough | font size style | " +
-	      "color highlight removeformat | bullets numbering | " +
-	      "rule link unlink | undo redo | source"
-	  });
+      $('select#me_action').chosen({disable_search_threshold: 10});
+      $('select#me_type').chosen({disable_search_threshold: 10});
+      
+      $("#form").submit(function () {
+          <c:if test="${action == 'messageCreate' || action == 'messageEdit'}">                      
+            var message = tinymce.get('mq_message').getContent();
+
+            if (message != null && message != "") {
+              return true;
+            } else {
+              $("#mq_message_error").fadeIn(1000);
+              return false;
+            }
+          </c:if>
+        });
+
+      $("#mq_message_error").hide();
+      
   	  <c:choose>
         <c:when test="${action == 'messageDelete'}">
           $("#me_action").attr('disabled', 'disabled');
@@ -31,15 +45,27 @@
           $("#me_message").attr('readonly', true);
         </c:when>
       </c:choose>
+      
+      tinymce.init({
+          selector: "textarea",
+          theme: "modern",
+          language: "en",
+          menubar: false,
+          <c:if test="${action == 'messageDelete'}" >
+          readonly : true,
+          </c:if>
+          plugins: [ "link" ],
+          toolbar1: "bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+          toolbar2: false
+        });
   	});
   </script>
   <title>Message edit</title>
 </head>
-<body>
-  <c:set var="isAdmin"><%=BaseServlet.isAdmin(request)%></c:set>
+<body>  
   <u:constantsMap className="com.openkm.frontend.client.bean.GWTUINotification" var="GWTUINotification"/>
   <c:choose>
-    <c:when test="${isAdmin}">
+    <c:when test="${u:isAdmin()}">
       <c:url var="messageList" value="LoggedUsers">
       	<c:param name="action" value="messageList"></c:param>
       </c:url>
@@ -63,11 +89,11 @@
       	<input type="hidden" name="action" value="${action}"/>
         <input type="hidden" name="persist" value="${persist}"/>
         <input type="hidden" name="me_id" value="${me.id}"/>
-        <table class="form" width="372px">
+        <table class="form" width="472px">
         <tr>
             <td>Action</td>
             <td width="100%">
-              <select name="me_action" id="me_action">
+              <select name="me_action" id="me_action" style="width: 150px">
                 <option value="">-</option>
                   <c:choose>
                     <c:when test="${me.action == GWTUINotification.ACTION_LOGOUT}">
@@ -122,9 +148,12 @@
         </tr>
         <tr>	
           <td colspan="2">
-            <textarea class=":required :only_on_blur" name="me_message" id="me_message" rows="10" cols="60">${me.message}</textarea>
+            <textarea name="me_message" id="me_message" rows="10" cols="60">${me.message}</textarea>
           </td>
         </tr>
+        <tr>
+            <td colspan="2"><span id="mq_message_error" style="color: red;">This is a required field.</span></td>
+          </tr>
         <tr>
           <td colspan="2" align="right">
             <input type="button" onclick="javascript:window.history.back()" value="Cancel" class="noButton"/>

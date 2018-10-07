@@ -5,7 +5,7 @@
   <tr>
       <td>Default tab</td>
       <td>
-        <select name="prf_tab_default">
+        <select name="prf_tab_default" id="prf_tab_default" data-placeholder="Select tab" style="width: 100px">
           <c:choose>
             <c:when test="${prf.prfTab.defaultTab == 'desktop'}">
               <option value="desktop" selected="selected">Desktop</option>

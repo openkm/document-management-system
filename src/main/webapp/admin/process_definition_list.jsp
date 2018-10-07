@@ -1,32 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
   <link rel="stylesheet" href="css/style.css" type="text/css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <title>Workflow Process Definition Browser</title>
+  <script type="text/javascript" src="../js/utils.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-    	$('a.confirm').click(function(e) {
-    		e.preventDefault();
-    		
-    		if (confirm('Are you sure?')) {
-    			window.location.href = $(this).attr('href');
-    		}
-    	});
+    $(document).ready(function () {
+      $('a.confirm').click(function (e) {
+        e.preventDefault();
+
+        if (confirm('Are you sure?')) {
+          window.location.href = $(this).attr('href');
+        }
+      });
+      $('#results').dataTable({
+        "bStateSave": true,
+        "iDisplayLength": 15,
+        "lengthMenu": [[10, 15, 20], [10, 15, 20]],
+        "fnDrawCallback": function (oSettings) {
+          dataTableAddRows(this, oSettings);
+        }
+      });
     });
   </script>
+  <title>Workflow Process Definition Browser</title>
 </head>
-  <c:set var="isAdmin"><%=BaseServlet.isAdmin(request)%></c:set>
+<body>  
   <u:constantsMap className="com.openkm.core.Config" var="Config"/>
   <c:choose>
-    <c:when test="${isAdmin}">
+    <c:when test="${u:isAdmin()}">
       <ul id="breadcrumb">
         <li class="path">
           <a href="Workflow?action=processDefinitionList">Process definitions</a>
@@ -48,41 +58,46 @@
           </table>
         </c:when>
         <c:otherwise>
-          <table class="results" width="90%">
-            <tr><th>Process ID</th><th>Process Name</th><th>Version</th><th width="50px">Actions</th></tr>
-            <c:forEach var="pd" items="${processDefinitions}" varStatus="row">
-              <c:url value="Workflow" var="urlProcessDefinitionView">
-                <c:param name="action" value="processDefinitionView"/>
-                <c:param name="pdid" value="${pd.id}"/>
-              </c:url>
-              <c:url value="Workflow" var="urlProcessDefinitionDelete">
-                <c:param name="action" value="processDefinitionDelete"/>
-                <c:param name="pdid" value="${pd.id}"/>
-              </c:url>
-              <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
-                <td>${pd.id}</td>
-                <td>${pd.name}</td>
-                <td>${pd.version}</td>
-                <td>
-                  <a href="${urlProcessDefinitionView}"><img src="img/action/examine.png" alt="Examine" title="Examine"/></a>
-                  &nbsp;
-                  <a class="confirm" href="${urlProcessDefinitionDelete}"><img src="img/action/delete.png" alt="Delete" title="Delete"/></a>
-                </td>
-              </tr>
-            </c:forEach>
-            <tr class="fuzzy">
-              <td colspan="5" align="right">
-                <form action="RegisterWorkflow" method="post" enctype="multipart/form-data">
-                  <table>
-                    <tr>
-                      <td><input class=":required :only_on_blur" type="file" name="definition"/></td>
-                      <td><input type="submit" value="Register process definition" class="loadButton"/></td>
-                    </tr>
-                  </table>
-                </form>
-              </td>
-            </tr>
+        <div style="width:90%; margin-left:auto; margin-right:auto;">
+        	<table id="results" class="results">
+        	<thead>        		
+        		<tr><th>Process ID</th><th>Process Name</th><th>Process Description</th><th>Version</th><th width="50px">Actions</th></tr>
+        	</thead>    
+        	<tbody>
+	        	<c:forEach var="pd" items="${processDefinitions}" varStatus="row">
+	              <c:url value="Workflow" var="urlProcessDefinitionView">
+	                <c:param name="action" value="processDefinitionView"/>
+	                <c:param name="pdid" value="${pd.id}"/>
+	              </c:url>
+	              <c:url value="Workflow" var="urlProcessDefinitionDelete">
+	                <c:param name="action" value="processDefinitionDelete"/>
+	                <c:param name="pdid" value="${pd.id}"/>
+	              </c:url>
+	              <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
+	                <td>${pd.id}</td>
+	                <td>${pd.name}</td>
+	                <td>${pd.description}</td>
+	                <td>${pd.version}</td>
+	                <td width="50px" align="center">
+	                  <a href="${urlProcessDefinitionView}"><img src="img/action/examine.png" alt="Examine" title="Examine"/></a>
+	                  &nbsp;
+	                  <a class="confirm" href="${urlProcessDefinitionDelete}"><img src="img/action/delete.png" alt="Delete" title="Delete"/></a>
+	                </td>
+	              </tr>
+	            </c:forEach>	
+        	</tbody>        
+            <tfoot>
+	            <tr>
+	              <td align="right" colspan="5">
+	                <form action="RegisterWorkflow" method="post" enctype="multipart/form-data">
+	                	<input class=":required :only_on_blur" type="file" name="definition"/>
+	                	<input type="submit" value="Register process definition" class="loadButton"/>	                    
+	                </form>
+	              </td>
+	            </tr>
+            </tfoot>            
           </table>
+        </div>          
         </c:otherwise>
       </c:choose>
     </c:when>

@@ -1,8 +1,7 @@
 <%@ page import="com.openkm.core.Config" %>
 <%@ page import="com.openkm.extension.servlet.admin.DocumentExpirationServlet" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="isMultipleInstancesAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
+<%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <c:set var="isRepositoryNative"><%=Config.REPOSITORY_NATIVE%></c:set>
 <c:set var="isDocumentExpiration"><%=DocumentExpirationServlet.isDocumentExpiration()%></c:set>
 <!-- http://stackoverflow.com/questions/1708054/center-ul-li-into-div -->
@@ -13,7 +12,7 @@
         <img src="img/toolbar/home.png">
       </a>
     </li>
-    <c:if test="${isMultipleInstancesAdmin}">
+    <c:if test="${u:isMultipleInstancesAdmin()}">
       <li>
         <a target="frame" href="Config" title="Configuration">
           <img src="img/toolbar/config.png">
@@ -30,7 +29,7 @@
         <img src="img/toolbar/stats.png">
       </a>
     </li>
-    <c:if test="${isMultipleInstancesAdmin}">
+    <c:if test="${u:isMultipleInstancesAdmin()}">
       <li>
         <a target="frame" href="scripting.jsp" title="Scripting">
           <img src="img/toolbar/scripting.png">
@@ -59,7 +58,7 @@
         <img src="img/toolbar/profile.png">
       </a>
     </li>
-    <c:if test="${isMultipleInstancesAdmin}">
+    <c:if test="${u:isMultipleInstancesAdmin()}">
       <li>
         <a target="frame" href="DatabaseQuery" title="Database query">
           <img src="img/toolbar/database.png">
@@ -93,7 +92,7 @@
         </a>
       </li>
     </c:if>
-    <c:if test="${isMultipleInstancesAdmin}">
+    <c:if test="${u:isMultipleInstancesAdmin()}">
       <li>
         <a target="frame" href="CronTab" title="Crontab">
           <img src="img/toolbar/crontab.png">
@@ -138,7 +137,7 @@
          document.write('</li>\n');
       }
     </script>
-    <c:if test="${isMultipleInstancesAdmin}">
+    <c:if test="${u:isMultipleInstancesAdmin()}">
       <li>
         <a target="frame" href="experimental.jsp">&nbsp;</a>
       </li>

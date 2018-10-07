@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Load jQuery -->
+<script type="text/javascript" src="../../js/jquery-1.11.3.min.js"></script>
+
+<!-- Load jQuery build -->
+<script type="text/javascript" src="tinymce.min.js"></script>
+<script type="text/javascript" src="jquery.tinymce.min.js"></script>
+<script type="text/javascript">
+var t_language = 'es';
+var t_theme = 'modern';
+var t_plugins = 'advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars fullscreen insertdatetime media nonbreaking save table contextmenu directionality emoticons template paste textcolor code';
+var t_toolbar1 = 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+var t_toolbar2 = 'print preview media | forecolor backcolor emoticons';
+var t_image_advtab = 'true';
+
+var params = '{';
+params = params + '"language":"' + t_language + '"';
+params = params + ',"theme":"' + t_theme + '"';
+params = params + ',"plugins":"' + t_plugins + '"';
+params = params + ',"toolbar1":"' + t_toolbar1 + '"';
+params = params + ',"toolbar2":"' + t_toolbar2 + '"';
+params = params + ',"t_image_advtab":"true"';
+params = params + ',"template_replace_values" : {"username" : "Some User","staffid" : "991234"}';
+params = params +'}'; 
+var json = $.parseJSON(params); // create json object from string value
+$(document).ready(function() {
+    // Esto funciona en dos posiciones o despues del objeto que se quiere pintar o con el document ready 
+    //$('textarea').html('writting content');
+    //$('textarea').tinymce(json); 
+});
+</script>
+
+</head>
+<body>
+        <textarea id="editor" class="tinyEditor"></textarea>
+        
+        <script type="text/javascript">
+          // Diversas variantes para inicializar el objeto
+          //$('textarea').html('writting content');
+          //$('textarea').tinymce(json);
+          
+          //$('textarea.tinyEditor').html('writting content');
+          //$('textarea.tinyEditor').tinymce(json);
+          
+          $('#editor').html('writting content');
+          $('#editor').tinymce(json);
+        </script>
+</body>
+</html>
+
+
+

@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.openkm.bean.Repository" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
@@ -28,9 +27,9 @@
   <title>Repository Checker</title>
 </head>
 <body>
-  <c:set var="isAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
+  <u:constantsMap className="com.openkm.bean.Repository" var="Repository"/>
   <c:choose>
-    <c:when test="${isAdmin}">
+    <c:when test="${u:isMultipleInstancesAdmin()}">
       <ul id="breadcrumb">
         <li class="path">
           <a href="utilities.jsp">Utilities</a>
@@ -42,8 +41,8 @@
         <table class="form" align="center">
           <tr>
             <td>Path</td>
-            <td><input name="repoPath" id="repoPath" size="50" value="/<%=Repository.ROOT%>"/></td>
-            <td><a class="ds" href="../extension/DataBrowser?action=repo&sel=fld&dst=repoPath&path=/<%=Repository.ROOT%>"><img src="img/action/browse_repo.png"/></a></td>
+            <td><input name="repoPath" id="repoPath" size="50" value="/${Repository.ROOT}"/></td>
+            <td><a class="ds" href="../extension/DataBrowser?action=repo&sel=fld&dst=repoPath&path=/${Repository.ROOT}"><img src="img/action/browse_repo.png"/></a></td>
           </tr>
           <tr><td>Fast</td><td colspan="2"><input name="fast" type="checkbox"/></td></tr>
           <tr><td>Versions</td><td colspan="2"><input name="versions" type="checkbox"/></td></tr>

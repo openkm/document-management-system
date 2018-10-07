@@ -1,22 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css"/>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js" ></script>
+  <script type="text/javascript" src="../js/chosen.jquery.js" ></script>
+  <!-- Load TinyMCE -->
+  <script type="text/javascript" src="../js/tinymce4/tinymce.min.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/jquery.tinymce.min.js"></script>
   <title>Configuration</title>
+  <u:constantsMap className="com.openkm.dao.bean.Config" var="Config"/>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('select#cfg_type').chosen({disable_search_threshold: 10});
+      $('select#cfg_type').prop('disabled', true).trigger("chosen:updated");
+      $('form').submit(function() {
+        $('select#cfg_type').prop('disabled', false).trigger("chosen:updated");
+      });
+
+      <c:if test="${cfg.type == Config.HTML}">
+        tinymce.init({
+          selector: "textarea",
+          theme : "modern",
+          language : "en",
+          menubar: false,
+          convert_urls: false,
+          height : 300,
+          plugins: "link image code",
+          toolbar1: "bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+          toolbar2: false
+        });
+      </c:if>
+    });
+  </script>
 </head>
-<body>
-  <c:set var="isAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
+<body>  
   <c:choose>
-    <c:when test="${isAdmin}">
+    <c:when test="${u:isMultipleInstancesAdmin()}">
       <ul id="breadcrumb">
         <li class="path"><a href="Config">Configuration</a></li>
         <li class="path">
@@ -30,9 +57,19 @@
       <br/>
       <form action="Config" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="${action}"/>
-        <input type="hidden" name="filter" value="${filter}"/>
-        <input type="hidden" name="persist" value="${persist}"/>
-        <table class="form" width="425px">
+        <input type="hidden" name="filter" value="${filter}"/>   
+        <c:choose>
+          <c:when test="${cfg.type == Config.TEXT || cfg.type == Config.LIST}">
+            <c:set var="tableWidth" value="500px"></c:set>
+          </c:when>
+          <c:when test="${cfg.type == Config.HTML}">
+            <c:set var="tableWidth" value="700px"></c:set>
+          </c:when>
+          <c:otherwise>
+            <c:set var="tableWidth" value="400px"></c:set>
+          </c:otherwise>
+        </c:choose>             
+        <table class="form" width="${tableWidth}">
           <tr>
             <td nowrap="nowrap">Key</td>
             <td>
@@ -50,7 +87,7 @@
             <td>Type</td>
             <td>
               <!-- http://stackoverflow.com/questions/368813/readonly-select-tag -->
-              <select name="cfg_type" onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;">
+              <select name="cfg_type" id="cfg_type" style="width: 100px">
                 <c:forEach var="type" items="${types}">
                   <c:choose>
                     <c:when test="${cfg.type == type.key}">
@@ -68,10 +105,10 @@
             <td>Value</td>
             <td>
               <c:choose>
-                <c:when test="${cfg.type == 'string' || cfg.type == 'integer' || cfg.type == 'long'}">
+                <c:when test="${cfg.type == Config.STRING || cfg.type == Config.INTEGER || cfg.type == Config.LONG}">
                   <input size="50" name="cfg_value" value="${cfg.value}"/>
                 </c:when>
-                <c:when test="${cfg.type == 'boolean'}">
+                <c:when test="${cfg.type == Config.BOOLEAN}">
                   <c:choose>
                     <c:when test="${cfg.value == 'true'}">
                       <input name="cfg_value" type="checkbox" checked="checked"/>
@@ -81,7 +118,7 @@
                     </c:otherwise>
                   </c:choose>
                 </c:when>
-                <c:when test="${cfg.type == 'file'}">
+                <c:when test="${cfg.type == Config.FILE}">
                   <c:choose>
                     <c:when test="${action == 'create'}">
                       <input class=":required :only_on_blur" type="file" name="file"/>
@@ -95,18 +132,21 @@
                     </c:otherwise>
                   </c:choose>
                 </c:when>
-                <c:when test="${cfg.type == 'select'}">
+                <c:when test="${cfg.type == Config.SELECT}">
                   <u:configStoredSelect key="${cfg.key}" value="${cfg.value}"/>
                 </c:when>
                 <c:otherwise>
-                  <textarea rows="5" cols="50" name="cfg_value">${cfg.value}</textarea>
+                  <textarea rows="15" cols="78" name="cfg_value">${u:replace(cfg.value, "</#list>", "&amp;lt;/#list&amp;gt;")}</textarea>
                 </c:otherwise>
               </c:choose>
             </td>
           </tr>
           <tr>
             <td colspan="2" align="right">
-              <input type="button" onclick="javascript:window.history.back()" value="Cancel" class="noButton"/>
+              <c:url value="Config" var="urlCancel">
+                <c:param name="filter" value="${filter}"/>
+              </c:url>
+              <input type="button" onclick="javascript:window.location.href='${urlCancel}'" value="Cancel" class="noButton"/>
               <c:choose>
                 <c:when test="${action == 'create'}"><input type="submit" value="Create" class="yesButton"/></c:when>
                 <c:when test="${action == 'edit'}"><input type="submit" value="Edit" class="yesButton"/></c:when>

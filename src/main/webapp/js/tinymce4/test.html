@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Load jQuery build -->
+<script type="text/javascript" src="../../js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="tinymce.min.js"></script>
+<script type="text/javascript">
+tinyMCE.init({
+        // General options
+        mode : "textareas",
+        theme : "modern",
+        language : "es",
+        plugins : "advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars fullscreen insertdatetime media nonbreaking save table contextmenu directionality emoticons template paste textcolor code",
+        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons",
+        image_advtab: true,
+        // Replace values for the template plugin
+        template_replace_values : {
+                username : "Some User",
+                staffid : "991234"
+        }
+});
+</script>
+
+
+</head>
+<body>
+        <textarea>Your content here.</textarea>
+</body>
+</html>
+
+
+

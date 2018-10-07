@@ -21,23 +21,6 @@
 
 package com.openkm.core;
 
-import com.openkm.bean.ConfigStoredFile;
-import com.openkm.dao.ConfigDAO;
-import com.openkm.dao.SearchDAO;
-import com.openkm.extractor.RegisteredExtractors;
-import com.openkm.module.db.stuff.DbSimpleAccessManager;
-import com.openkm.module.db.stuff.FsDataStore;
-import com.openkm.principal.DatabasePrincipalAdapter;
-import com.openkm.util.EnvironmentDetector;
-import com.openkm.util.FormatUtil;
-import com.openkm.validator.password.NoPasswordValidator;
-import com.openkm.vernum.MajorMinorVersionNumerationAdapter;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.util.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,6 +32,25 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
+
+import javax.servlet.ServletContext;
+
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.openkm.bean.ConfigStoredFile;
+import com.openkm.dao.ConfigDAO;
+import com.openkm.dao.SearchDAO;
+import com.openkm.extractor.RegisteredExtractors;
+import com.openkm.module.db.stuff.DbSimpleAccessManager;
+import com.openkm.module.db.stuff.FsDataStore;
+import com.openkm.principal.DatabasePrincipalAdapter;
+import com.openkm.util.EnvironmentDetector;
+import com.openkm.util.FormatUtil;
+import com.openkm.validator.password.NoPasswordValidator;
+import com.openkm.vernum.MajorMinorVersionNumerationAdapter;
 
 public class Config {
 	private static Logger log = LoggerFactory.getLogger(Config.class);

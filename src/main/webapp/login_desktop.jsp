@@ -7,12 +7,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <!DOCTYPE html>
+<<html>
 <head>
   <meta charset="utf-8">  
   <meta name="author" content="OpenKM">
   <meta content="OpenKM is an EDRMS EDRMS, Document Management System and Record Management, easily to manage digital content, simplify your workload and yield high efficiency." name="description">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
-  <link rel="Shortcut icon" href="<%=request.getContextPath() %>/logo/favicon" />
+  <link rel="Shortcut icon" href="logo/favicon" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome/font-awesome.min.css" type="text/css" />
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />
@@ -163,7 +164,7 @@
   <u:constantsMap className="com.openkm.core.Config" var="Config"/>
   <div id="login-container">
     <div class="login-title">
-      <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">
+      <img id="login-image" class="img-responsive center-block" src="logo/login">
     </div>
     <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
       <form name="loginform" method="post" action="j_spring_security_check" onsubmit="setCookie()"

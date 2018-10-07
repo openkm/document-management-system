@@ -176,13 +176,33 @@
     <function-signature>boolean contains(java.util.Collection, java.lang.Object)</function-signature>
   </function>
   <function>
+    <name>replace</name>
+    <function-class>com.openkm.util.tags.UtilFunctions</function-class>
+    <function-signature>java.lang.String replace(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+  </function>
+  <function>
+    <name>hasRole</name>
+    <function-class>com.openkm.util.tags.UtilFunctions</function-class>
+    <function-signature>boolean hasRole(java.lang.String)</function-signature>
+  </function>
+  <function>
     <name>isAdmin</name>
     <function-class>com.openkm.util.tags.UtilFunctions</function-class>
     <function-signature>boolean isAdmin()</function-signature>
   </function>
   <function>
+    <name>isMultipleInstancesAdmin</name>
+    <function-class>com.openkm.util.tags.UtilFunctions</function-class>
+    <function-signature>boolean isMultipleInstancesAdmin()</function-signature>
+  </function>
+  <function>
     <name>bitwiseAnd</name>
     <function-class>com.openkm.util.tags.UtilFunctions</function-class>
     <function-signature>int bitwiseAnd(int, int)</function-signature>
+  </function>
+  <function>
+    <name>dateHasHours</name>
+    <function-class>com.openkm.util.tags.UtilFunctions</function-class>
+    <function-signature>boolean dateHasHours(java.util.Calendar)</function-signature>
   </function>
 </taglib>

@@ -1,20 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('#scroll').height($(window).height() - 21);
+    });
+  </script>
   <title>Workflow Tokens</title>
 </head>
-<body>
-   <c:set var="isAdmin"><%=BaseServlet.isAdmin(request)%></c:set>
+<body>   
   <c:choose>
-    <c:when test="${isAdmin}">
+    <c:when test="${u:isAdmin()}">
       <c:url value="Workflow" var="urlProcessDefinitionView">
         <c:param name="action" value="processDefinitionView"/>
         <c:param name="pdid" value="${token.processInstance.processDefinition.id}"/>
@@ -43,80 +47,82 @@
           <a href="${urlTokenView}">Refresh</a>
         </li>
       </ul>
-      <br/>
-      <table class="results" width="90%">
-        <tr><th>Token ID</th><th>Current Node</th><th>Process Instance</th><th>Process Definition</th><th>Status</th><th>Start Date</th><th>End Date</th></tr>
-        <tr class="even">
-          <td>${token.id}</td><td>${token.node}</td>
-          <td><a href="${urlProcessInstanceView}">${token.processInstance.id}</a></td>
-          <td>
-            <a href="${urlProcessDefinitionView}">
-              ${token.processInstance.processDefinition.name} v${token.processInstance.processDefinition.version}
-            </a>
-          </td>
-          <td>
-            <b>
-              <c:choose>
-                <c:when test="${token.end != null && token.suspended}">Ended (suspended)</c:when>
-                <c:when test="${token.end != null && !token.suspended}">Ended</c:when>
-                <c:when test="${token.end == null && token.suspended}">Suspended</c:when>
-                <c:when test="${token.end == null && !token.suspended}">Running</c:when>
-              </c:choose>
-            </b>
-          </td>
-          <td><u:formatDate calendar="${token.start}"/></td>
-          <td><u:formatDate calendar="${token.end}"/></td>
-        </tr>
-      </table>
-      <h2>Transitions</h2>
-      <table class="results" width="90%">
-        <tr><th>ID</th><th>Name</th><th>Target Node</th><th width="25px">Actions</th></tr>
-        <c:forEach var="tr" items="${token.availableTransitions}" varStatus="row">
-          <c:url value="Workflow" var="urlTokenSignal">
-            <c:param name="action" value="tokenSignal"/>
-            <c:param name="tid" value="${token.id}"/>
-            <c:param name="transition" value="${tr.name}"/>
-          </c:url>
-          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
-            <td>${tr.id}</td><td>${tr.name}</td><td>${tr.to}</td>
-            <td>
-              <c:if test="${!token.suspended}">
-                <a href="${urlTokenSignal}"><img src="img/action/signal.png" alt="Signal" title="Signal"/></a>
-              </c:if>
-            </td>
-          </tr>
-        </c:forEach>
-      </table>
-      <h2>Nodes</h2>
-      <table class="results" width="90%">
-        <tr><th>Name</th><th width="25px">Actions</th></tr>
-        <c:forEach var="node" items="${token.processInstance.processDefinition.nodes}" varStatus="row">
-          <c:url value="Workflow" var="urlTokenSetNode">
-            <c:param name="action" value="tokenSetNode"/>
-            <c:param name="tid" value="${token.id}"/>
-            <c:param name="node" value="${node}"/>
-          </c:url>
-          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
-            <td>
-              <c:choose>
-                <c:when test="${token.node == node}"><b>${node}</b></c:when>
-                <c:otherwise>${node}</c:otherwise>
-              </c:choose>
-            </td>
-            <td>
-              <c:if test="${!token.suspended && token.node != node}">
-                <a href="${urlTokenSetNode}"><img src="img/action/move.png" alt="Move to this node" title="Move to this node"/></a>
-              </c:if>
-            </td>
-          </tr>
-        </c:forEach>
-      </table>
-      <h2>Process Image</h2>
-      <c:url value="WorkflowGraph" var="urlWorkflowGraph">
-        <c:param name="id" value="${token.processInstance.processDefinition.id}"/>
-        <c:param name="node" value="${token.node}"/>
-      </c:url>
-      <center><img src="${urlWorkflowGraph}"/></center>
+      <div id="scroll" style="width: 100%; height: 100%; overflow: auto;">
+	      <br/>
+	      <table class="results-old" width="90%">
+	        <tr><th>Token ID</th><th>Current Node</th><th>Process Instance</th><th>Process Definition</th><th>Status</th><th>Start Date</th><th>End Date</th></tr>
+	        <tr class="even">
+	          <td>${token.id}</td><td>${token.node}</td>
+	          <td><a href="${urlProcessInstanceView}">${token.processInstance.id}</a></td>
+	          <td>
+	            <a href="${urlProcessDefinitionView}">
+	              ${token.processInstance.processDefinition.name} v${token.processInstance.processDefinition.version}
+	            </a>
+	          </td>
+	          <td>
+	            <b>
+	              <c:choose>
+	                <c:when test="${token.end != null && token.suspended}">Ended (suspended)</c:when>
+	                <c:when test="${token.end != null && !token.suspended}">Ended</c:when>
+	                <c:when test="${token.end == null && token.suspended}">Suspended</c:when>
+	                <c:when test="${token.end == null && !token.suspended}">Running</c:when>
+	              </c:choose>
+	            </b>
+	          </td>
+	          <td><u:formatDate calendar="${token.start}"/></td>
+	          <td><u:formatDate calendar="${token.end}"/></td>
+	        </tr>
+	      </table>
+	      <h2>Transitions</h2>
+	      <table class="results-old" width="90%">
+	        <tr><th>ID</th><th>Name</th><th>Target Node</th><th width="25px">Actions</th></tr>
+	        <c:forEach var="tr" items="${token.availableTransitions}" varStatus="row">
+	          <c:url value="Workflow" var="urlTokenSignal">
+	            <c:param name="action" value="tokenSignal"/>
+	            <c:param name="tid" value="${token.id}"/>
+	            <c:param name="transition" value="${tr.name}"/>
+	          </c:url>
+	          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
+	            <td>${tr.id}</td><td>${tr.name}</td><td>${tr.to}</td>
+	            <td>
+	              <c:if test="${!token.suspended}">
+	                <a href="${urlTokenSignal}"><img src="img/action/signal.png" alt="Signal" title="Signal"/></a>
+	              </c:if>
+	            </td>
+	          </tr>
+	        </c:forEach>
+	      </table>
+	      <h2>Nodes</h2>
+	      <table class="results-old" width="90%">
+	        <tr><th>Name</th><th width="25px">Actions</th></tr>
+	        <c:forEach var="node" items="${token.processInstance.processDefinition.nodes}" varStatus="row">
+	          <c:url value="Workflow" var="urlTokenSetNode">
+	            <c:param name="action" value="tokenSetNode"/>
+	            <c:param name="tid" value="${token.id}"/>
+	            <c:param name="node" value="${node}"/>
+	          </c:url>
+	          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
+	            <td>
+	              <c:choose>
+	                <c:when test="${token.node == node}"><b>${node}</b></c:when>
+	                <c:otherwise>${node}</c:otherwise>
+	              </c:choose>
+	            </td>
+	            <td>
+	              <c:if test="${!token.suspended && token.node != node}">
+	                <a href="${urlTokenSetNode}"><img src="img/action/move.png" alt="Move to this node" title="Move to this node"/></a>
+	              </c:if>
+	            </td>
+	          </tr>
+	        </c:forEach>
+	      </table>
+	      <h2>Process Image</h2>
+	      <c:url value="WorkflowGraph" var="urlWorkflowGraph">
+	        <c:param name="id" value="${token.processInstance.processDefinition.id}"/>
+	        <c:param name="node" value="${token.node}"/>
+	      </c:url>
+	      <center><img src="${urlWorkflowGraph}"/></center>
+      </div>      
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>

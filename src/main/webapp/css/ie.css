@@ -1,0 +1,6 @@
+/* Explorer fix for button images */
+.noButton, .yesButton, .addButton, .deleteButton, .searchButton, .saveButton, .loadButton, .executeButton, .loginButton,
+.okm-NoButton, .okm-YesButton, .okm-AddButton, .okm-DeleteButton, .okm-DownloadZipButton, .okm-HomeButton, .okm-DownloadButton,
+.okm-ViewButton, .okm-ChangeButton, .okm-CompactButton, .okm-CleanButton, .okm-SearchButton, .okm-SaveButton, .okm-CommentButton {
+    padding-left: 20px;
+}
