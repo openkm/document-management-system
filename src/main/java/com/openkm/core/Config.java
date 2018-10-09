@@ -957,17 +957,17 @@ public class Config {
 
 			NOTIFICATION_MESSAGE_SUBJECT = ConfigDAO.getText(PROPERTY_NOTIFICATION_MESSAGE_SUBJECT, "OpenKM - NOTIFICATION");
 			values.put(PROPERTY_NOTIFICATION_MESSAGE_SUBJECT, NOTIFICATION_MESSAGE_SUBJECT);
-			NOTIFICATION_MESSAGE_BODY = ConfigDAO.getText(PROPERTY_NOTIFICATION_MESSAGE_BODY, "<b>Message: </b>${notificationMessage}<br/><b>User: </b>${userId}<br/><#list documentList as doc><b>Document: </b><a href=\"${doc.url}\">${doc.path}</a><br/></#list>");
+			NOTIFICATION_MESSAGE_BODY = ConfigDAO.getHtml(PROPERTY_NOTIFICATION_MESSAGE_BODY, "<b>Message: </b>${notificationMessage}<br/><b>User: </b>${userId}<br/><#list documentList as doc><b>Document: </b><a href=\"${doc.url}\">${doc.path}</a><br/></#list>");
 			values.put(PROPERTY_NOTIFICATION_MESSAGE_BODY, NOTIFICATION_MESSAGE_BODY);
 
 			SUBSCRIPTION_MESSAGE_SUBJECT = ConfigDAO.getText(PROPERTY_SUBSCRIPTION_MESSAGE_SUBJECT, "OpenKM - ${eventType} - ${documentPath}");
 			values.put(PROPERTY_SUBSCRIPTION_MESSAGE_SUBJECT, SUBSCRIPTION_MESSAGE_SUBJECT);
-			SUBSCRIPTION_MESSAGE_BODY = ConfigDAO.getText(PROPERTY_SUBSCRIPTION_MESSAGE_BODY, "<b>Document: </b><a href=\"${documentUrl}\">${documentPath}</a><br/><b>User: </b>${userId}<br/><b>Event: </b>${eventType}<br/><b>Comment: </b>${subscriptionComment}<br/>");
+			SUBSCRIPTION_MESSAGE_BODY = ConfigDAO.getHtml(PROPERTY_SUBSCRIPTION_MESSAGE_BODY, "<b>Document: </b><a href=\"${documentUrl}\">${documentPath}</a><br/><b>User: </b>${userId}<br/><b>Event: </b>${eventType}<br/><b>Comment: </b>${subscriptionComment}<br/>");
 			values.put(PROPERTY_SUBSCRIPTION_MESSAGE_BODY, SUBSCRIPTION_MESSAGE_BODY);
 
 			PROPOSED_SUBSCRIPTION_MESSAGE_SUBJECT = ConfigDAO.getText(PROPERTY_PROPOSED_SUBSCRIPTION_MESSAGE_SUBJECT, "OpenKM - PROPOSED SUBSCRIPTION");
 			values.put(PROPERTY_PROPOSED_SUBSCRIPTION_MESSAGE_SUBJECT, PROPOSED_SUBSCRIPTION_MESSAGE_SUBJECT);
-			PROPOSED_SUBSCRIPTION_MESSAGE_BODY = ConfigDAO.getText(PROPERTY_PROPOSED_SUBSCRIPTION_MESSAGE_BODY, "<b>Comment: </b>${proposedSubscriptionComment}<br/><b>User: </b>${userId}<br/><#list documentList as doc><b>Document: </b><a href=\"${doc.url}\">${doc.path}</a><br/></#list>");
+			PROPOSED_SUBSCRIPTION_MESSAGE_BODY = ConfigDAO.getHtml(PROPERTY_PROPOSED_SUBSCRIPTION_MESSAGE_BODY, "<b>Comment: </b>${proposedSubscriptionComment}<br/><b>User: </b>${userId}<br/><#list documentList as doc><b>Document: </b><a href=\"${doc.url}\">${doc.path}</a><br/></#list>");
 			values.put(PROPERTY_PROPOSED_SUBSCRIPTION_MESSAGE_BODY, PROPOSED_SUBSCRIPTION_MESSAGE_BODY);
 
 			SUBSCRIPTION_TWITTER_USER = ConfigDAO.getString(PROPERTY_SUBSCRIPTION_TWITTER_USER, "");

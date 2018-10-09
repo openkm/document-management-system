@@ -215,6 +215,13 @@ public class ConfigDAO {
 	public static long getLong(String key, long defaultValue) throws DatabaseException {
 		return Long.parseLong(getProperty(key, Long.toString(defaultValue), Config.LONG));
 	}
+	
+	/**
+	 * Find by pk with a default value
+	 */
+	public static String getHtml(String key, String defaultValue) throws DatabaseException {
+		return getProperty(key, defaultValue, Config.HTML);
+	}
 
 	/**
 	 * Find by pk with a default value
