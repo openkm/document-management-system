@@ -71,6 +71,7 @@ public class ConfigServlet extends BaseServlet {
 		types.put(Config.FILE, "File");
 		types.put(Config.SELECT, "Select");
 		types.put(Config.LIST, "List");
+		types.put(Config.HTML, "HTML");
 	}
 
 	@Override
@@ -224,8 +225,7 @@ public class ConfigServlet extends BaseServlet {
 					com.openkm.core.Config.reload(sc, new Properties());
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());
-					list(userId, filter, request, response);
+					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());					
 				} else if (action.equals("edit")) {
 					if (Config.FILE.equals(cfg.getType())) {
 						cfg.setValue(new Gson().toJson(stFile));
@@ -242,32 +242,45 @@ public class ConfigServlet extends BaseServlet {
 									stOption.setSelected(false);
 								}
 							}
-						}
+						}											
 
 						cfg.setValue(new Gson().toJson(stSelect));
 					}
+					
+					if (Config.FILE.equals(cfg.getType())) {
+						// When is FILE type, only update if the file is not empty
+						if (stFile.getContent() != null && !stFile.getContent().isEmpty()) {
+							ConfigDAO.update(cfg);
+							com.openkm.core.Config.reload(sc,new Properties());
+						}
+					} else {
+						if (Config.HTML.equals(cfg.getType())) {
+							cfg.setValue(cfg.getValue().replaceAll("&lt;#list ([^.]*)&gt;", "<#list $1>"));
+							cfg.setValue(cfg.getValue().replaceAll("&lt;\\/#list&gt;", "</#list>"));
+						}
 
-					ConfigDAO.update(cfg);
-					com.openkm.core.Config.reload(sc, new Properties());
+						ConfigDAO.update(cfg);
+						com.openkm.core.Config.reload(sc, new Properties());
+					}
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_EDIT", cfg.getKey(), null, cfg.toString());
-					list(userId, filter, request, response);
+					UserActivity.log(userId, "ADMIN_CONFIG_EDIT", cfg.getKey(), null, cfg.toString());					
 				} else if (action.equals("delete")) {
 					ConfigDAO.delete(cfg.getKey());
 					com.openkm.core.Config.reload(sc, new Properties());
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_DELETE", cfg.getKey(), null, null);
-					list(userId, filter, request, response);
+					UserActivity.log(userId, "ADMIN_CONFIG_DELETE", cfg.getKey(), null, null);					
 				} else if (action.equals("import")) {
 					dbSession = HibernateUtil.getSessionFactory().openSession();
 					importConfig(userId, request, response, data, dbSession);
 
 					// Activity log
-					UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);
-					list(userId, filter, request, response);
+					UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);					
 				}
+				
+				// Go to list
+				response.sendRedirect(request.getContextPath() + request.getServletPath() + "?filter=" + filter);
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);

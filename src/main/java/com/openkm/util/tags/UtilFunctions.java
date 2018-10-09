@@ -51,6 +51,17 @@ public class UtilFunctions {
 	}
 	
 	/**
+	 * Replace string
+	 */
+	public static String replace(String input, String regex, String replacement) {
+		if (input != null && !input.isEmpty()) {
+			return input.replaceAll(regex, replacement);
+		} else {
+			return null;
+		}
+	}
+	
+	/**
 	 * Check for user with ROLE_ADMIN role.
 	 */
 	public static boolean isAdmin() {
