@@ -129,6 +129,7 @@ public class ActivityLogServlet extends BaseServlet {
 		String dend = WebUtils.getString(request, "dend");
 		String user = WebUtils.getString(request, "user");
 		String action = WebUtils.getString(request, "action");
+		String item = WebUtils.getString(request, "item");
 
 		try {
 			if (!dbegin.equals("") && !dend.equals("")) {
@@ -151,6 +152,7 @@ public class ActivityLogServlet extends BaseServlet {
 				filter.setEnd(end);
 				filter.setUser(user);
 				filter.setAction(action);
+				filter.setItem(item);
 				sc.setAttribute("results", ActivityDAO.findByFilter(filter));
 
 				// Activity log
@@ -163,6 +165,7 @@ public class ActivityLogServlet extends BaseServlet {
 			sc.setAttribute("dendFilter", dend);
 			sc.setAttribute("userFilter", user);
 			sc.setAttribute("actionFilter", action);
+			sc.setAttribute("itemFilter", item);
 			sc.setAttribute("actions", actions);
 			sc.setAttribute("users", OKMAuth.getInstance().getUsers(null));
 			sc.getRequestDispatcher("/admin/activity_log.jsp").forward(request, response);
