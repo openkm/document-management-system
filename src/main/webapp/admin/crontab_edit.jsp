@@ -2,14 +2,14 @@
 <%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
   <title>Crontab</title>
 </head>
 <body>
@@ -35,11 +35,11 @@
         <table class="form" width="425px">
           <tr>
             <td nowrap="nowrap">Name</td>
-            <td><input size="30" class=":required :only_on_blur" name="ct_name" value="${ct.name}"/></td>
+            <td><input size="35" class=":required :only_on_blur" name="ct_name" value="${ct.name}"/></td>
           </tr>
           <tr>
             <td nowrap="nowrap">Mail</td>
-            <td><input size="30" class=":email :only_on_blur" name="ct_mail" value="${ct.mail}"/></td>
+            <td><input size="35" class=":email :only_on_blur" name="ct_mail" value="${ct.mail}"/></td>
           </tr>
           <tr>
             <td nowrap="nowrap">Expression</td>
