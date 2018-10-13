@@ -3,19 +3,44 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="css/jqTabs.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
-  <script src="js/jqTabs.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
+  <script type="text/javascript" src="js/jqTabs.js" ></script>
+  <script type="text/javascript" src="../js/chosen.jquery.js" ></script>
   <script type="text/javascript">
     $(document).ready(function() {
-    	TABS.init('ul.tabs');
+      $('#scroll').height($(window).height() - 21);
+      $('select#prf_misc_web_skin').chosen({disable_search_threshold: 10});
+      $('select#prf_misc_extensions').chosen();
+      $('select#prf_misc_reports').chosen();
+      $('select#prf_misc_workflows').chosen();      
+      
+      $('select#prf_wizard_property_groups').chosen();
+      $('select#prf_wizard_workflows').chosen();
+      
+      $('select#prf_tab_default').chosen({disable_search_threshold: 10});      
+      
+      $('select#prf_filebrowser_column0').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column1').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column2').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column3').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column4').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column5').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column6').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column7').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column8').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+      $('select#prf_filebrowser_column9').chosen({disable_search_threshold: 10, allow_single_deselect: true});
+
+      // Needed at end because of the chosen plugin
+      TABS.init('ul.tabs');
 	});
   </script>
   <title>User Profile</title>
@@ -36,8 +61,9 @@
             <c:when test="${action == 'clone'}">Clone profile</c:when>
           </c:choose>
         </li>
-      </ul>
+      </ul>      
       <br/>
+      <div id="scroll" style="width: 100%; height: 100%; overflow: auto;">
       <form action="Profile">
         <input type="hidden" name="action" value="${action}"/>
         <input type="hidden" name="persist" value="${persist}"/>
@@ -185,6 +211,7 @@
           </table>
         </div>
       </form>
+      </div>	
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>

@@ -23,7 +23,7 @@
     <tr>
       <td>Web skin</td>
       <td>
-        <select name="prf_misc_web_skin">
+        <select name="prf_misc_web_skin" id="prf_misc_web_skin" data-placeholder="Select skin" style="width: 200px">
           <c:choose>
             <c:when test="${prf.prfMisc.webSkin == 'default'}">
               <option value="default" selected="selected">Default</option>
@@ -126,7 +126,7 @@
     <tr>
       <td>Extensions</td>
       <td>
-        <select multiple="multiple" name="prf_misc_extensions" size="4">
+        <select name="prf_misc_extensions" id="prf_misc_extensions" data-placeholder="Select extension" multiple="multiple" style="width: 230px">
           <c:forEach var="ext" items="${exts}">
             <c:choose>
               <c:when test="${u:contains(prf.prfMisc.extensions, ext.uuid)}">
@@ -143,7 +143,7 @@
     <tr>
       <td>Reports</td>
       <td>
-        <select multiple="multiple" name="prf_misc_reports" size="4">
+        <select name="prf_misc_reports" id="prf_misc_reports" data-placeholder="Select report" multiple="multiple" style="width: 230px">
           <c:forEach var="rep" items="${reps}">
             <c:choose>
               <c:when test="${u:contains(prf.prfMisc.reports, rep.id)}">
@@ -160,7 +160,7 @@
     <tr>
       <td>Workflows</td>
       <td>
-        <select multiple="multiple" name="prf_misc_workflows" size="4">
+        <select name="prf_misc_workflows" id="prf_misc_workflows" data-placeholder="Select workflow" multiple="multiple" style="width: 230px">
           <c:forEach var="wf" items="${wflows}">
             <c:choose>
               <c:when test="${u:contains(prf.prfMisc.workflows, wf.name)}">

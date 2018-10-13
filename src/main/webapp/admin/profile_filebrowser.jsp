@@ -155,7 +155,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column0_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column0Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column0">
+        <select name="prf_filebrowser_column0" id="prf_filebrowser_column0" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -179,7 +179,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column1_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column1Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column1">
+        <select name="prf_filebrowser_column1" id="prf_filebrowser_column1" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -203,7 +203,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column2_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column2Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column2">
+        <select name="prf_filebrowser_column2" id="prf_filebrowser_column2" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -227,7 +227,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column3_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column3Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column3">
+        <select name="prf_filebrowser_column3" id="prf_filebrowser_column3" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -251,7 +251,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column4_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column4Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column4">
+        <select name="prf_filebrowser_column4" id="prf_filebrowser_column4" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -275,7 +275,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column5_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column5Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column5">
+        <select name="prf_filebrowser_column5" id="prf_filebrowser_column5" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -299,7 +299,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column6_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column6Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column6">
+        <select name="prf_filebrowser_column6" id="prf_filebrowser_column6" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -323,7 +323,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column7_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column7Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column7">
+        <select name="prf_filebrowser_column7" id="prf_filebrowser_column7" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -347,7 +347,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column8_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column8Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column8">
+        <select name="prf_filebrowser_column8" id="prf_filebrowser_column8" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
@@ -371,7 +371,7 @@
       	<input class=":required;; :integer;;error_integer :only_on_blur" name="prf_filebrowser_column9_width" size="3" maxlength="3" type="text" value="${prf.prfFileBrowser.column9Width}"/>
       </td>
       <td colspan="2">
-        <select name="prf_filebrowser_column9">
+        <select name="prf_filebrowser_column9" id="prf_filebrowser_column9" data-placeholder="Select property" style="width: 200px">
           <option/>
           <c:forEach var="prop" items="${pgprops}">
             <c:choose>
