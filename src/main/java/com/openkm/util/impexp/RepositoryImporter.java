@@ -61,9 +61,9 @@ public class RepositoryImporter {
 	/**
 	 * Import documents from filesystem into document repository.
 	 */
-	public static ImpExpStats importDocuments(String token, File fs, String fldPath, boolean metadata, boolean history, boolean uuid,
-	                                          Writer out, InfoDecorator deco) throws PathNotFoundException, ItemExistsException, AccessDeniedException, RepositoryException,
-			IOException, DatabaseException, ExtensionException, AutomationException {
+	public static ImpExpStats importDocuments(String token, File fs, String fldPath, boolean metadata, boolean history,
+			boolean uuid, Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException,
+			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("importDocuments({}, {}, {}, {}, {}, {}, {}, {})",
 				new Object[]{token, fs, fldPath, metadata, history, uuid, out, deco});
 		ImpExpStats stats;
@@ -112,7 +112,7 @@ public class RepositoryImporter {
 	 * Import documents from filesystem into document repository (recursive).
 	 */
 	private static ImpExpStats importDocumentsHelper(String token, File fs, String fldPath, boolean metadata, boolean history,
-	                                                 boolean uuid, Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			boolean uuid, Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException,
 			IOException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("importDocumentsHelper({}, {}, {}, {}, {}, {}, {}, {})", new Object[]{token, fs, fldPath, metadata, history, uuid, out, deco});
 		long begin = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class RepositoryImporter {
 		Gson gson = new Gson();
 
 		for (int i = 0; i < files.length; i++) {
-			String fileName = files[i].getName();
+			String fileName = PathUtils.escape(files[i].getName());
 
 			if (!fileName.endsWith(Config.EXPORT_METADATA_EXT)) {
 				if (files[i].isDirectory()) {
@@ -144,8 +144,9 @@ public class RepositoryImporter {
 								FolderMetadata fmd = gson.fromJson(fr, FolderMetadata.class);
 								fr.close();
 
-								// Apply metadata
-								fld.setPath(fldPath + "/" + fileName);
+								// Apply metadata - folder name in disk may be different from folder name in metadata
+								// because some characters are stripped to prevent problems with filesystem.
+								fld.setPath(fldPath + "/" + PathUtils.getName(fmd.getPath()));
 								fmd.setPath(fld.getPath());
 								ma.importWithMetadata(fmd);
 
@@ -236,9 +237,10 @@ public class RepositoryImporter {
 	/**
 	 * Import document.
 	 */
-	private static ImpExpStats importDocument(String token, File fs, String fldPath, String fileName, File fDoc, boolean metadata,
-	                                          boolean history, boolean uuid, Writer out, InfoDecorator deco) throws IOException, RepositoryException, DatabaseException,
-			PathNotFoundException, AccessDeniedException, ExtensionException, AutomationException {
+	private static ImpExpStats importDocument(String token, File fs, String fldPath, String fileName, File fDoc,
+			boolean metadata, boolean history, boolean uuid, Writer out, InfoDecorator deco) throws IOException,
+			RepositoryException, DatabaseException, PathNotFoundException, AccessDeniedException, ExtensionException,
+			AutomationException {
 		FileInputStream fisContent = new FileInputStream(fDoc);
 		MetadataAdapter ma = MetadataAdapter.getInstance(token);
 		DocumentModule dm = ModuleManager.getDocumentModule();
@@ -449,8 +451,7 @@ public class RepositoryImporter {
 	 * Import mail.
 	 */
 	private static ImpExpStats importMail(String token, String fldPath, String fileName, File fDoc, boolean metadata,
-	                                      Writer out, InfoDecorator deco) throws IOException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, ExtensionException, AutomationException {
+			Writer out, InfoDecorator deco) throws IOException {
 		FileInputStream fisContent = new FileInputStream(fDoc);
 		MetadataAdapter ma = MetadataAdapter.getInstance(token);
 		MailModule mm = ModuleManager.getMailModule();
@@ -628,7 +629,7 @@ public class RepositoryImporter {
 	 * Filter filename matching document versions.
 	 */
 	public static class VersionFilenameFilter implements FilenameFilter {
-		private String fileName = null;
+		private String fileName;
 
 		public VersionFilenameFilter(String fileName) {
 			this.fileName = fileName;
