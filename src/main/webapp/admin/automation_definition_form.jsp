@@ -5,7 +5,7 @@
 <c:choose>
   <c:when test="${u:isAdmin()}">
     <br>
-    <script src="../js/vanadium-min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/vanadium-min.js"></script>
     <script type="text/javascript" src="js/jquery.DOMWindow.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
