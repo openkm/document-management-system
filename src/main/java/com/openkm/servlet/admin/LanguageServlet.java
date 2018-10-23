@@ -296,76 +296,92 @@ public class LanguageServlet extends BaseServlet {
 		log.debug("addTranslation: void");
 	}
 
-	/**
-	 * Translate language
-	 */
-	private void translate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException, DatabaseException {
-		log.debug("translate({}, {}, {})", new Object[]{userId, request, response});
-		Language langBase = LanguageDAO.findByPk(Language.DEFAULT); // English always it'll be used as a translations base
-		Set<Translation> translationsBase = langBase.getTranslations();
+    /**
+     * Translate language
+     */
+    private void translate(String userId, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, DatabaseException {
+        log.debug("translate({}, {}, {})", new Object[] { userId, request, response });
+        Language langBase = LanguageDAO.findByPk(Language.DEFAULT); // English always it'll be used as a translations base
+        Set<Translation> translationsBase = langBase.getTranslations();
 
-		if (WebUtils.getBoolean(request, "persist")) {
-			Set<Translation> newTranslations = new HashSet<Translation>();
-			Language lang = LanguageDAO.findByPk(request.getParameter("lg_id"));
+        List<String> modules = new ArrayList<>();
+        modules.add("");
+        modules.add(Translation.MODULE_FRONTEND);
+        modules.add(Translation.MODULE_EXTENSION);
+        modules.add(Translation.MODULE_MOBILE);
 
-			for (Translation translation : translationsBase) {
-				String text = request.getParameter(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey());
+        if (WebUtils.getBoolean(request, "persist")) {
+            Set<Translation> newTranslations = new HashSet<Translation>();
+            String lgId = WebUtils.getString(request, "lg_id");
+            Language lang = LanguageDAO.findByPk(lgId);
 
-				if (text != null && !text.equals("")) {
-					Translation newTranslation = new Translation();
-					newTranslation.getTranslationId().setModule(translation.getTranslationId().getModule());
-					newTranslation.getTranslationId().setKey(translation.getTranslationId().getKey());
-					newTranslation.getTranslationId().setLanguage(lang.getId());
-					newTranslation.setText(text);
-					newTranslations.add(newTranslation);
-				}
-			}
+            for (Translation translation : translationsBase) {
+                String text = request.getParameter(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey());
 
-			lang.setTranslations(newTranslations);
-			LanguageDAO.update(lang);
-		} else {
-			ServletContext sc = getServletContext();
-			String lgId = WebUtils.getString(request, "lg_id");
-			String filter = WebUtils.getString(request, "filter");
-			Language langToTranslate = LanguageDAO.findByPk(lgId);
-			Map<String, String> translations = new HashMap<String, String>();
+                if (text != null && !text.equals("")) {
+                    Translation newTranslation = new Translation();
+                    newTranslation.getTranslationId().setModule(translation.getTranslationId().getModule());
+                    newTranslation.getTranslationId().setKey(translation.getTranslationId().getKey());
+                    newTranslation.getTranslationId().setLanguage(lang.getId());
+                    newTranslation.setText(text);
+                    newTranslations.add(newTranslation);
+                }
+            }
 
-			if (filter.isEmpty()) {
-				for (Translation translation : langToTranslate.getTranslations()) {
-					translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
-				}
-			} else {
-				// Filter translationsBase
-				Set<Translation> translationsToRemove = new HashSet<Translation>();
-				for (Translation translation : translationsBase) {
-					if (!translation.getTranslationId().getKey().contains(filter)) {
-						translationsToRemove.add(translation);
-					}
-				}
-				translationsBase.removeAll(translationsToRemove);
+            lang.setTranslations(newTranslations);
+            LanguageDAO.update(lang);
+        } else {
+            ServletContext sc = getServletContext();
+            String lgId = WebUtils.getString(request, "lg_id");
+            String filter = WebUtils.getString(request, "filter");
+            String module = WebUtils.getString(request, "module");
+            Language langToTranslate = LanguageDAO.findByPk(lgId);
+            Map<String, String> translations = new HashMap<String, String>();
 
-				// Filter others translations
-				for (Translation translation : langToTranslate.getTranslations()) {
-					if (translation.getTranslationId().getKey().contains(filter)) {
-						translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
-					}
-				}
-			}
+            if (filter.isEmpty() && module.isEmpty()) {
+                for (Translation translation : langToTranslate.getTranslations()) {
+                    translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
+                }
+            } else {
+                // Filter translationsBase
+                Set<Translation> translationsToRemove = new HashSet<>();
+                for (Translation translation : translationsBase) {
+                    if (module.isEmpty() && !translation.getTranslationId().getKey().contains(filter)
+                            || filter.isEmpty() && !translation.getTranslationId().getModule().contains(module)
+                            || (!translation.getTranslationId().getKey().contains(filter)
+                                    || !translation.getTranslationId().getModule().contains(module))) {
+                        translationsToRemove.add(translation);
+                    }
+                }
+                translationsBase.removeAll(translationsToRemove);
 
-			sc.setAttribute("filter", filter);
-			sc.setAttribute("action", WebUtils.getString(request, "action"));
-			sc.setAttribute("persist", true);
-			sc.setAttribute("lg_id", lgId);
-			sc.setAttribute("langToTranslateName", langToTranslate.getName());
-			sc.setAttribute("langBaseName", langBase.getName());
-			sc.setAttribute("translations", translations);
-			sc.setAttribute("translationsBase", translationsBase);
-			sc.getRequestDispatcher("/admin/translation_edit.jsp").forward(request, response);
-		}
+                // Filter others translations
+                for (Translation translation : langToTranslate.getTranslations()) {
+                    if (module.isEmpty() && translation.getTranslationId().getKey().contains(filter)
+                            || filter.isEmpty() && translation.getTranslationId().getModule().contains(module)
+                            || (translation.getTranslationId().getKey().contains(filter)
+                                    && translation.getTranslationId().getModule().contains(module))) {
+                        translations.put(translation.getTranslationId().getModule() + "-" + translation.getTranslationId().getKey(), translation.getText());
+                    }
+                }
+            }
 
-		log.debug("translate: void");
-	}
+            sc.setAttribute("module", module);
+            sc.setAttribute("tr_modules", modules);
+            sc.setAttribute("filter", filter);
+            sc.setAttribute("action", WebUtils.getString(request, "action"));
+            sc.setAttribute("persist", true);
+            sc.setAttribute("lg_id", lgId);
+            sc.setAttribute("langToTranslateName", langToTranslate.getName());
+            sc.setAttribute("langBaseName", langBase.getName());
+            sc.setAttribute("translations", translations);
+            sc.setAttribute("translationsBase", asSortedList(translationsBase));
+            sc.getRequestDispatcher("/admin/translation_edit.jsp").forward(request, response);
+        }
+
+        log.debug("translate: void");
+    }
 
 	/**
 	 * Show language flag icon
@@ -488,4 +504,18 @@ public class LanguageServlet extends BaseServlet {
 		response.sendRedirect(request.getContextPath() + request.getServletPath());
 		log.debug("normalize: void");
 	}
+		   
+    /**
+     * Sort set
+     */
+    private List<Translation> asSortedList(Set<Translation> c) {
+        List<Translation> list = new ArrayList<>(c);
+        java.util.Collections.sort(list, new Comparator<Translation>() {
+            @Override
+            public int compare(Translation o1, Translation o2) {
+                return o1.getTranslationId().getKey().compareTo(o2.getTranslationId().getKey());
+            }
+        });
+        return list;
+    }
 }
