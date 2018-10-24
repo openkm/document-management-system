@@ -77,7 +77,12 @@ table.results th {
 	font-weight: bold;
 	font-size: 10px;
 	height: 16px;
-	background-image: url('../img/table_title.gif');
+	background: #F6F6EE;
+	background: -webkit-linear-gradient(top, #F6F6EE 0%, #D5D5CF 100%);
+	background: -moz-linear-gradient(top, #F6F6EE 0%, #D5D5CF 100%);
+	background: -ms-linear-gradient(top, #F6F6EE 0%, #D5D5CF 100%);
+	background: -o-linear-gradient(top, #F6F6EE 0%, #D5D5CF 100%);
+	background: linear-gradient(to bottom, #F6F6EE 0%, #D5D5CF 100%);
 	border: 1px solid #A5A596;
 }
 
