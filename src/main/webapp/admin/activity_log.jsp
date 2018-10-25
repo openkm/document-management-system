@@ -99,7 +99,7 @@
 	              <b>To</b> <input type="text" name="dend" id="dend" value="${dendFilter}" size="15" readonly="readonly" />
 	              <b>User</b>
 	              <select name="user" id="user" style="width: 125px" data-placeholder="&nbsp;">
-	                <option value=""></option>
+	                <option value="">All</option>
 	                <c:forEach var="user" items="${users}" varStatus="row">
 	                  <c:choose>
 	                    <c:when test="${user == userFilter}">
@@ -113,7 +113,7 @@
 	              </select>
 	              <b>Action</b>
 	              <select name="action" id="action" style="width: 350px" data-placeholder="&nbsp;">
-	                <option value=""></option>
+	                <option value="">All</option>
 	                <c:forEach var="act" items="${actions}">
 	                  <c:choose>
 	                    <c:when test="${act == 'Auth' || act == 'Document' || act == 'Folder' || act == 'Mail' || act == 'Repository' || act == 'Admin'
