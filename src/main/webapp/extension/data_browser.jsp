@@ -2,16 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="css/fixedTableHeader.css" />
+  <link rel="stylesheet" type="text/css" href="../css/fixedTableHeader.css" />
   <style type="text/css">body, html { padding:0; margin:0; }</style>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="js/fixedTableHeader.js"></script>
+  <script type="text/javascript" src="../js/fixedTableHeader.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
     	TABLE.fixHeader('table');

@@ -7,7 +7,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="Shortcut icon" href="favicon.ico"/>
-  <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css"/>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
   <title>Automation registered list</title>
 </head>
