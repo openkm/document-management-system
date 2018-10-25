@@ -102,8 +102,8 @@ public class LogCatServlet extends BaseServlet {
 	 */
 	private void view(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("view({}, {})", request, response);
-		int begin = WebUtils.getInt(request, "begin");
-		int end = WebUtils.getInt(request, "end");
+		int begin = WebUtils.getInt(request, "begin", 0);
+        int end = WebUtils.getInt(request, "end", -1);
 		String str = WebUtils.getString(request, "str");
 		String file = WebUtils.getString(request, "file");
 		ServletContext sc = getServletContext();

@@ -243,18 +243,18 @@ public class FormatUtil {
 
 		for (LineIterator lit = FileUtils.lineIterator(flog); lit.hasNext(); ) {
 			String line = lit.nextLine();
-			int idx = line.indexOf(str);
+			int idx = (line != null) ? line.indexOf(str) : -1;
 			i++;
 
-			if ((str == null || idx > -1) && i >= begin && i <= end) {
-				if (idx > -1) {
+			if (idx > -1 && i >= begin && i <= end) {
+			    if (idx > -1 && !str.isEmpty()) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(line.substring(0, idx));
-					sb.append("<span class=\"highlight\">");
+					sb.append("<span class=\"highlight\" style=\"font-weight: bold\">");
 					sb.append(line.substring(idx, idx + str.length()));
 					sb.append("</span>");
 					sb.append(line.substring(idx + str.length()));
-					line = sb.toString();
+                    line = sb.toString().replace(",", ", ");
 				}
 
 				LogMessage lm = new LogMessage();

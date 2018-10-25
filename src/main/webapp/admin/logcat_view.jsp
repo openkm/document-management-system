@@ -2,12 +2,26 @@
 <%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/utils.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
+  <script type="text/javascript">
+    $('#results').dataTable({
+      "bStateSave": true,
+      "iDisplayLength": 15,
+      "lengthMenu": [[10, 15, 20], [10, 15, 20]],
+      "fnDrawCallback": function (oSettings) {
+        dataTableAddRows(this, oSettings);
+      }
+    });
+  </script>
   <title>LogCat</title>
 </head>
 <body>
@@ -36,15 +50,24 @@
         </table>
       </form>
       <br/>
-      <table class="results" width="95%">
-        <tr><th>Line</th><th>Message</th></tr>
-        <c:forEach var="msg" items="${messages}" varStatus="row">
-          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
-            <td>${msg.line}</td>
-            <td>${msg.message}</td>
-          </tr>
-        </c:forEach>
-      </table>
+      <div style="width: 95%; margin-left: auto; margin-right: auto;">
+        <table id="results" class="results">
+          <thead>            
+            <tr>
+              <th width="2%">Line</th>
+              <th width="98%">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="msg" items="${messages}" varStatus="row">
+              <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
+                <td>${msg.line}</td>
+                <td>${msg.message}</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>

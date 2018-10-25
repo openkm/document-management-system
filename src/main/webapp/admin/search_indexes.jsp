@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
   <title>Search indexes</title>
 </head>
@@ -29,7 +29,7 @@
         </li>
       </ul>
       <br/>
-      <table class="results" width="60%">
+      <table class="results-old" width="60%">
         <thead>
           <tr class="fuzzy">
             <td colspan="5" align="right">
