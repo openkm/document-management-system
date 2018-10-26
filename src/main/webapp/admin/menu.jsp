@@ -32,7 +32,7 @@
     </li>
     <c:if test="${isMultipleInstancesAdmin}">
       <li>
-        <a target="frame" href="scripting.jsp" title="Scripting">
+        <a target="frame" href="Scripting" title="Scripting">
           <img src="img/toolbar/scripting.png">
         </a>
       </li>
