@@ -3,12 +3,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/utils.js"></script>
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#results').dataTable({
+        "bStateSave": true,
+        "iDisplayLength": 15,
+        "lengthMenu": [[10, 15, 20], [10, 15, 20]],
+        "fnDrawCallback": function (oSettings) {
+          dataTableAddRows(this, oSettings);
+        }
+      });
+    });
+  </script>
   <title>Cache Stats</title>
 </head>
 <body>
@@ -70,44 +86,48 @@
         </li>
       </ul>
       <br/>
-      <table class="results" width="98%">
-        <tr>
-          <th nowrap="nowrap">Cache name</th>
-          <th nowrap="nowrap">Hits</th>
-          <th nowrap="nowrap">Misses</th>
-          <th nowrap="nowrap">Objects</th>
-          <th nowrap="nowrap">Memory hits</th>
-          <th nowrap="nowrap">Memory missed</th>
-          <th nowrap="nowrap">Memory objects</th>
-          <th nowrap="nowrap">Disc hits</th>
-          <th nowrap="nowrap">Disc missed</th>
-          <th nowrap="nowrap">Disc objects</th>
-          <th nowrap="nowrap">Action</th>
-        </tr>
-        <c:forEach var="cst" items="${cacheStats}" varStatus="row">
-          <c:url value="CacheStats" var="urlReset">
-            <c:param name="action" value="reset"/>
-            <c:param name="name" value="${cst.cache}"/>
-          </c:url>
-          <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
-            <td>${cst.cache}</td>
-            <td>${cst.cacheHits}</td>
-            <td>${cst.cacheMisses}</td>
-            <td>${cst.objectCount}</td>
-            <td>${cst.inMemoryHits}</td>
-            <td>${cst.inMemoryMisses}</td>
-            <td>${cst.memoryStoreObjectCount}</td>
-            <td>${cst.onDiskHits}</td>
-            <td>${cst.onDiskMisses}</td>
-            <td>${cst.diskStoreObjectCount}</td>
-            <td align="center">
-              <a href="${urlReset}">
-                <img src="img/action/delete.png" alt="Reset" title="Reset" style="vertical-align: middle;"/>
-              </a>
-            </td>
-          </tr>
-        </c:forEach>
-      </table>
+      <div style="width: 98%; margin-left: auto; margin-right: auto;">
+        <table id="results" class="results">
+          <thead>
+            <tr>
+              <th nowrap="nowrap">Cache name</th>
+              <th nowrap="nowrap">Hits</th>
+              <th nowrap="nowrap">Misses</th>
+              <th nowrap="nowrap">Objects</th>
+              <th nowrap="nowrap">Memory hits</th>
+              <th nowrap="nowrap">Memory missed</th>
+              <th nowrap="nowrap">Memory objects</th>
+              <th nowrap="nowrap">Disc hits</th>
+              <th nowrap="nowrap">Disc missed</th>
+              <th nowrap="nowrap">Disc objects</th>
+              <th nowrap="nowrap">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="cst" items="${cacheStats}" varStatus="row">
+              <c:url value="CacheStats" var="urlReset">
+                <c:param name="action" value="reset" />
+                <c:param name="name" value="${cst.cache}" />
+              </c:url>
+              <tr class="${row.index % 2 == 0 ? 'even' : 'odd'}">
+                <td>${cst.cache}</td>
+                <td>${cst.cacheHits}</td>
+                <td>${cst.cacheMisses}</td>
+                <td>${cst.objectCount}</td>
+                <td>${cst.inMemoryHits}</td>
+                <td>${cst.inMemoryMisses}</td>
+                <td>${cst.memoryStoreObjectCount}</td>
+                <td>${cst.onDiskHits}</td>
+                <td>${cst.onDiskMisses}</td>
+                <td>${cst.diskStoreObjectCount}</td>
+                <td align="center">
+                  <a href="${urlReset}"> <img src="img/action/delete.png" alt="Reset" title="Reset" style="vertical-align: middle;" /></a>
+                </td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>
+      </div>
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>

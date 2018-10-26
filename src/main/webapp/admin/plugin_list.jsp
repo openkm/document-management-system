@@ -2,17 +2,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
   <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.3/jquery-ui-1.10.3.css" /> 
   <link rel="stylesheet" type="text/css" href="../css/chosen.css"/>
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
   <script type="text/javascript" src="../js/utils.js"></script>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/jquery-ui-1.10.3/jquery-ui-1.10.3.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/jquery-ui-1.10.3/jquery-ui-1.10.3.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
   <script type="text/javascript" src="../js/chosen.jquery.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
@@ -21,7 +23,15 @@
       $('#pluginToSelect').change(function () {
           $('#pluginForm').submit();
       });
-    
+
+      $('#results').dataTable({
+        "bStateSave": true,
+        "iDisplayLength": 15,
+        "lengthMenu": [[10, 15, 20], [10, 15, 20]],
+        "fnDrawCallback": function (oSettings) {
+          dataTableAddRows(this, oSettings);
+        }
+      });      
     });
   </script>
   <title>Plugin list</title>
@@ -35,8 +45,9 @@
         </li>
         <li class="path">Plugin list</li>
       </ul>
-      <br/>
-        <table class="results" width="70%">
+      <br />
+      <div style="width:80%; margin-left:auto; margin-right:auto;">
+        <table id="results" class="results">
           <thead>
             <tr class="header">
               <td align="right" colspan="3">
@@ -102,7 +113,7 @@
             </c:forEach>
           </tbody>
         </table>
-
+      </div>
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>

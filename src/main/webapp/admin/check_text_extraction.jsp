@@ -8,21 +8,38 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/jquery-ui-1.10.3/jquery-ui-1.10.3.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/utils.js"></script>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-ui-1.10.3/jquery-ui-1.10.3.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
   <script type="text/javascript" src="js/jquery.DOMWindow.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-		$dm = $('.ds').openDOMWindow({
-			height:300, width:400,
-			eventType:'click',
-			overlayOpacity:'57',
-			windowSource:'iframe', windowPadding:0
-		});
-	});
-    
+  
+      $('#results').dataTable({
+        "bStateSave" : true,
+        "iDisplayLength" : 20,
+        "lengthMenu" : [ [ 10, 15, 20 ], [ 10, 15, 20 ] ],
+        "fnDrawCallback" : function(oSettings) {
+          dataTableAddRows(this, oSettings);
+        }
+      });
+  
+      $dm = $('.ds').openDOMWindow({
+        height : 300,
+        width : 400,
+        eventType : 'click',
+        overlayOpacity : '57',
+        windowSource : 'iframe',
+        windowPadding : 0
+      });
+    });
+  
     function dialogClose() {
-		$dm.closeDOMWindow();
+      $dm.closeDOMWindow();
     }
   </script>
   <title>Check Text Extraction</title>
@@ -69,17 +86,30 @@
           </center>
         </div>
         <br/>
-        <table class="results" width="80%">
-          <tr><th width="50%">${mimeType}</th><th width="50%">${extractor}</th></tr>
-          <c:choose>
-            <c:when test="${empty error}">
-              <tr class="even"><td colspan="2">${text}</td></tr>
-            </c:when>
-            <c:otherwise>
-              <tr class="warn"><td colspan="2">${error}</td></tr>  
-            </c:otherwise>
-          </c:choose>
-        </table>
+        <div style="width: 80%; margin-left: auto; margin-right: auto;">
+          <table id="results" class="results">
+            <thead>
+              <tr>
+                <th width="50%">${mimeType}</th>
+                <th width="50%">${extractor}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:choose>
+                <c:when test="${empty error}">
+                  <tr class="even">
+                    <td colspan="2">${text}</td>
+                  </tr>
+                </c:when>
+                <c:otherwise>
+                  <tr class="warn">
+                    <td colspan="2">${error}</td>
+                  </tr>
+                </c:otherwise>
+              </c:choose>
+            </tbody>
+          </table>
+        </div>
       </c:if>
     </c:when>
     <c:otherwise>
