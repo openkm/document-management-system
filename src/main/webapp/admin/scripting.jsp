@@ -8,7 +8,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
   <link rel="stylesheet" type="text/css" href="js/codemirror/lib/codemirror.css" />
   <style type="text/css">
     .CodeMirror { width: 700px; height: 300px; background-color: #f8f6c2; }
