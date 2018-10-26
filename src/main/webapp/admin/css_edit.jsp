@@ -4,45 +4,50 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="stylesheet" type="text/css" href="js/codemirror/lib/codemirror.css" />
-  <link rel="stylesheet" type="text/css" href="js/codemirror/mode/css/css.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
   <style type="text/css">
-    .CodeMirror { width: 700px; height: 300px; background-color: #f8f6c2; } 
-    .activeline { background: #f0fcff !important; }
+  .CodeMirror { width: 700px; height: 350px; background-color: #f8f6c2; }
+  .activeline { background: #f0fcff !important; }
   </style>
-    <script type="text/javascript" src="js/codemirror/lib/codemirror.js"></script>
+  <script type="text/javascript" src="js/codemirror/lib/codemirror.js"></script>
+  <script type="text/javascript" src="js/codemirror/addon/selection/active-line.js"></script>
   <script type="text/javascript" src="js/codemirror/mode/css/css.js"></script>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
+  <script type="text/javascript" src="../js/chosen.jquery.js"></script>
   <script type="text/javascript">
-	  $(document).ready(function() {
-	      var cm = CodeMirror.fromTextArea(document.getElementById('css_content'), {
-	          lineNumbers: true,
-	      	  matchBrackets: true,
-	          indentUnit: 4,
-	          mode: "text/css",
-	          onCursorActivity: function() {
-	        	cm.setLineClass(hlLine, null);
-	            hlLine = cm.setLineClass(cm.getCursor().line, "activeline");
-	          }
-	        }
-	      );
-	      var hlLine = cm.setLineClass(0, "activeline");
-	      var width = $(this).width() - 60;
-	      var height = $(this).height() - 230;
-	      $('.CodeMirror').css({"width": width});
-	      $('.CodeMirror').css({"height": height});
-	  });
+    $(document).ready(function() {
+      var cm = CodeMirror.fromTextArea(document.getElementById('css_content'), {
+        lineNumbers : true,
+        matchBrackets : true,
+        indentUnit : 4,
+        mode : "text/css",
+        onCursorActivity : function() {
+          cm.setLineClass(hlLine, null);
+          hlLine = cm.setLineClass(cm.getCursor().line, "activeline");
+        }
+      });
+  
+      var width = $(window).width() - 60;
+      var height = $(window).height() - 300;
+      cm.setSize(width, height);
+  
+      $('select#css_context').chosen({
+        disable_search_threshold : 10
+      });
+    });
   </script>
   <title>Edit css</title>
 </head>
 <body>
+  <u:constantsMap className="com.openkm.dao.bean.Css" var="Css"/>
   <c:set var="isAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
   <c:choose>
     <c:when test="${isAdmin}">
@@ -74,16 +79,16 @@
             <tr>
               <td>Context</td>
               <td width="95%">
-                <c:set var="frontend"><%=Css.CONTEXT_FRONTEND%></c:set>
-                <c:set var="administration"><%=Css.CONTEXT_ADMINISTRATION%></c:set>
-                <c:set var="extension"><%=Css.CONTEXT_EXTENSION%></c:set>
-                <select name="css_context">
+                <c:set var="frontend">${Css.CONTEXT_FRONTEND}</c:set>
+                <c:set var="administration">${Css.CONTEXT_ADMINISTRATION}</c:set>
+                <c:set var="extension">${Css.CONTEXT_EXTENSION}</c:set>
+                <select name="css_context" id="css_context" style="width: 100px">
                   <c:choose>
                     <c:when test="${css.context == frontend}">
-                      <option value="<%=Css.CONTEXT_FRONTEND%>" selected="selected"><%=Css.CONTEXT_FRONTEND%></option>
+                      <option value="${Css.CONTEXT_FRONTEND}" selected="selected">${Css.CONTEXT_FRONTEND}</option>
                     </c:when>
                     <c:otherwise>
-                      <option value="<%=Css.CONTEXT_FRONTEND%>"><%=Css.CONTEXT_FRONTEND%></option>
+                      <option value="${Css.CONTEXT_FRONTEND}">${Css.CONTEXT_FRONTEND}</option>
                     </c:otherwise>
                   </c:choose>
                   <%--
@@ -98,10 +103,10 @@
                   --%>
                   <c:choose>
                     <c:when test="${css.context == extension}">
-                      <option value="<%=Css.CONTEXT_EXTENSION%>" selected="selected"><%=Css.CONTEXT_EXTENSION%></option>
+                      <option value="${Css.CONTEXT_EXTENSION}" selected="selected">${Css.CONTEXT_EXTENSION}</option>
                     </c:when>
                     <c:otherwise>
-                      <option value="<%=Css.CONTEXT_EXTENSION%>"><%=Css.CONTEXT_EXTENSION%></option>
+                      <option value="${Css.CONTEXT_EXTENSION}">${Css.CONTEXT_EXTENSION}</option>
                     </c:otherwise>
                   </c:choose>
                 </select>

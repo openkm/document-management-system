@@ -7,20 +7,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="css/fixedTableHeader.css" />
+  <link rel="stylesheet" type="text/css" href="../css/dataTables-1.10.10/jquery.dataTables-1.10.10.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/utils.js"></script>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="js/fixedTableHeader.js"></script>
+  <script type="text/javascript" src="../js/jquery.dataTables-1.10.10.min.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-    	TABLE.fixHeader('table');
-	});
+  $(document).ready(function () {
+      $('#results').dataTable({
+        "bStateSave": true,
+        "scrollY": document.documentElement.clientHeight - 140,
+        "scrollCollapse": true,
+        "deferRender": true,
+        "paging": false
+      });
+    });
   </script>
+  <style type="text/css">
+    #results_filter {
+      margin-bottom: 5px;
+    }
+  </style>
   <title>Configuration</title>
 </head>
 <body>
@@ -34,33 +46,35 @@
         <li class="path">System properties</li>
       </ul>
       <br/>
-      <table class="results" width="80%">
-        <thead>
-          <tr>
-            <th>Key</th><th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% int i=0; %>
-          <% SortedMap<Object, Object> sortProps = new TreeMap<Object, Object>(System.getProperties()); %>
-          <% for (Entry<Object, Object> entry : sortProps.entrySet()) { %>
-            <tr class="<%=i++ % 2 == 0 ? "even" : "odd" %>">
-              <td><b><%=entry.getKey()%></b></td>
-              <td>
-              <%
-                if ("tomcat.util.scan.DefaultJarScanner.jarsToSkip".equals(entry.getKey())) {
-                	out.println(FormatUtil.splitBySeparator(String.valueOf(entry.getValue())));
-                } else if (String.valueOf(entry.getKey()).endsWith(".class.path")) {
-                	out.println(FormatUtil.splitBySeparator(String.valueOf(entry.getValue())));
-                } else {
-                	out.println(String.valueOf(entry.getValue()));
-                }
-              %>
-              </td>
+      <div style="width:80%; margin-left:auto; margin-right:auto;">
+        <table id="results" class="results">
+          <thead>
+            <tr>
+              <th>Key</th><th>Value</th>
             </tr>
-          <% } %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% int i=0; %>
+            <% SortedMap<Object, Object> sortProps = new TreeMap<Object, Object>(System.getProperties()); %>
+            <% for (Entry<Object, Object> entry : sortProps.entrySet()) { %>
+              <tr class="<%=i++ % 2 == 0 ? "even" : "odd" %>">
+                <td><b><%=entry.getKey()%></b></td>
+                <td>
+                <%
+                  if ("tomcat.util.scan.DefaultJarScanner.jarsToSkip".equals(entry.getKey())) {
+                  	out.println(FormatUtil.splitBySeparator(String.valueOf(entry.getValue())));
+                  } else if (String.valueOf(entry.getKey()).endsWith(".class.path")) {
+                  	out.println(FormatUtil.splitBySeparator(String.valueOf(entry.getValue())));
+                  } else {
+                  	out.println(String.valueOf(entry.getValue()));
+                  }
+                %>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>  
     </c:when>
     <c:otherwise>
       <div class="error"><h3>Only admin users allowed</h3></div>
