@@ -2,28 +2,38 @@
 <%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
+  <script type="text/javascript" src="../js/chosen.jquery.js"></script>
   <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
+      $('select#ma_mprotocol').chosen({
+        disable_search_threshold : 10
+      });
+  
       $("#check").click(function(event) {
-        $("#dest").removeClass('ok').removeClass('error').html('Updating....');
-        $("#dest").load('MailAccount', { action: "check", ma_mprotocol: $('[name=ma_mprotocol]').val(),
-        	ma_mhost: $('[name=ma_mhost]').val(), ma_muser: $('[name=ma_muser]').val(),
-        	ma_mpassword: $('[name=ma_mpassword]').val(), ma_mfolder: $('[name=ma_mfolder]').val() },
-        	function(response, status, xhr) {
-        		if (response == 'Success!') {
-        			$(this).removeClass('error').addClass('ok');
-        		} else {
-        			$(this).removeClass('ok').addClass('error');
-        		}
-        	});
+        $("#dest").removeClass('ok').removeClass('error').html('Checking....');
+        $("#dest").load('MailAccount', {
+          action : "check",
+          ma_mprotocol : $('[name=ma_mprotocol]').val(),
+          ma_mhost : $('[name=ma_mhost]').val(),
+          ma_muser : $('[name=ma_muser]').val(),
+          ma_mpassword : $('[name=ma_mpassword]').val(),
+          ma_mfolder : $('[name=ma_mfolder]').val()
+        }, function(response, status, xhr) {
+          if (response == 'Success!') {
+            $(this).removeClass('error').addClass('ok');
+          } else {
+            $(this).removeClass('ok').addClass('error');
+          }
+        });
       });
     });
   </script>
@@ -52,7 +62,7 @@
         </li>
       </ul>
       <br/>
-      <form action="MailAccount" id="form">
+      <form action="MailAccount" id="form" autocomplete="off">
         <input type="hidden" name="action" id="action" value="${action}"/>
         <input type="hidden" name="persist" value="${persist}"/>
         <input type="hidden" name="ma_id" value="${ma.id}"/>
@@ -61,7 +71,7 @@
           <tr>
             <td nowrap="nowrap">Mail protocol</td>
             <td>
-              <select name="ma_mprotocol">
+              <select name="ma_mprotocol" id="ma_mprotocol" style="width: 85px">
                 <c:forEach var="proto" items="${protocols}">
                   <c:choose>
                     <c:when test="${proto == ma.mailProtocol}">

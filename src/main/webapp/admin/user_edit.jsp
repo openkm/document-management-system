@@ -3,37 +3,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="../css/chosen.css" />
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
+  <script type="text/javascript" src="../js/chosen.jquery.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-    	$('form').bind('submit', function(event) {
-        	var error = $('input[name="usr_id"] + span.vanadium-invalid');
-    		
-    		if (error == null || error.text() == '') {
-        		return true;
-        	} else {
-        		return false;
-            }
-	   	});
-	});
-    
-    $(window).load(function() {
-        if ($.browser.webkit) {
-            setTimeout(function() {
-                $('input:-webkit-autofill').each(function() {
-                    var name = $(this).attr('name');
-                    $(this).after(this.outerHTML).remove();
-                    $('input[name=' + name + ']').val('');
-                });
-            }, 100);
+      $('select#usr_roles').chosen();
+  
+      $('form').bind('submit', function(event) {
+        var error = $('input[name="usr_id"] + span.vanadium-invalid');
+  
+        if (error == null || error.text() == '') {
+          return true;
+        } else {
+          return false;
         }
+      });
+    });
+  
+    $(window).load(function() {
+      if ($.browser.webkit) {
+        setTimeout(function() {
+          $('input:-webkit-autofill').each(function() {
+            var name = $(this).attr('name');
+            $(this).after(this.outerHTML).remove();
+            $('input[name=' + name + ']').val('');
+          });
+        }, 100);
+      }
     });
   </script>
   <title>User edit</title>
@@ -55,7 +59,7 @@
         </li>
       </ul>
       <br/>
-      <form action="Auth">
+      <form action="Auth" method="post">
         <input type="hidden" name="action" value="${action}"/>
         <input type="hidden" name="persist" value="${persist}"/>
         <input type="hidden" name="csrft" value="${csrft}"/>
@@ -114,7 +118,7 @@
           <tr>
             <td>Roles</td>
             <td>
-              <select multiple="multiple" name="usr_roles" size="10">
+              <select name="usr_roles" id="usr_roles" data-placeholder="Select role" multiple="multiple" style="width: 250px">
                 <c:forEach var="role" items="${roles}">
                   <c:choose>
                     <c:when test="${u:contains(usr.roles, role)}">
