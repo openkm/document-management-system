@@ -272,6 +272,9 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				ctx = new InitialDirContext(env);
 				SearchControls searchCtls = new SearchControls();
 				searchCtls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+				if (!attribute.equals("")) {
+					searchCtls.setReturningAttributes(new String[] {attribute});
+				}
 
 				for (String searchBase : searchBases) {
 					NamingEnumeration<SearchResult> results = ctx.search(searchBase, searchFilter, searchCtls);
