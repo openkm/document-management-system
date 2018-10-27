@@ -189,6 +189,23 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
+	private String getUserByDN(String dn) throws PrincipalAdapterException {
+		log.debug("getUserByDN({})", dn);
+		String user = null;
+
+		List<String> ldap = ldapSearch(CACHE_LDAP_GENERAL, "getUserByDN:" + dn,
+				dn,
+				Config.PRINCIPAL_LDAP_USER_SEARCH_FILTER,
+				Config.PRINCIPAL_LDAP_USER_ATTRIBUTE);
+
+		if (!ldap.isEmpty()) {
+		        user = ldap.get(0);
+		}
+
+		log.debug("getUserByDN: {}", user);
+		return user;
+	}
+
 	@Override
 	public List<String> getUsersByRole(String role) throws PrincipalAdapterException {
 		log.debug("getUsersByRole({})", role);
@@ -203,7 +220,16 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 		// @formatter:on
 
 		for (Iterator<String> it = ldap.iterator(); it.hasNext(); ) {
-			String user = it.next();
+			String user = null;
+			if (Config.PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN) {
+				String dn = it.next();
+				user = getUserByDN(dn);
+			} else {
+				user = it.next();
+			}
+			if (user == null) {
+				continue;
+			}
 
 			if (!Config.SYSTEM_USER.equals(user)) {
 				if (Config.SYSTEM_LOGIN_LOWERCASE) {

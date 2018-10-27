@@ -190,6 +190,7 @@ public class Config {
 	public static final String PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_SEARCH_BASE = "principal.ldap.users.by.role.search.base";
 	public static final String PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_SEARCH_FILTER = "principal.ldap.users.by.role.search.filter";
 	public static final String PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE = "principal.ldap.users.by.role.attribute";
+	public static final String PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN = "principal.ldap.users.by.role.attribute.contains.dn";
 
 	public static final String PROPERTY_PRINCIPAL_LDAP_ROLES_BY_USER_SEARCH_BASE = "principal.ldap.roles.by.user.search.base";
 	public static final String PROPERTY_PRINCIPAL_LDAP_ROLES_BY_USER_SEARCH_FILTER = "principal.ldap.roles.by.user.search.filter";
@@ -467,6 +468,7 @@ public class Config {
 	public static String PRINCIPAL_LDAP_USERNAME_SEARCH_BASE; // ou=people,dc=openkm,dc=com
 	public static String PRINCIPAL_LDAP_USERNAME_SEARCH_FILTER; // (&(objectClass=posixAccount)(!(objectClass=gosaUserTemplate)))
 	public static String PRINCIPAL_LDAP_USERNAME_ATTRIBUTE; // displayName
+	public static boolean PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN;
 
 	public static String PRINCIPAL_LDAP_MAIL_SEARCH_BASE; // uid={0},ou=people,dc=openkm,dc=com
 	public static String PRINCIPAL_LDAP_MAIL_SEARCH_FILTER; // (&(objectClass=inetOrgPerson)(mail=*))
@@ -928,6 +930,8 @@ public class Config {
 			values.put(PROPERTY_PRINCIPAL_LDAP_USERNAME_SEARCH_FILTER, PRINCIPAL_LDAP_USERNAME_SEARCH_FILTER);
 			PRINCIPAL_LDAP_USERNAME_ATTRIBUTE = ConfigDAO.getString(PROPERTY_PRINCIPAL_LDAP_USERNAME_ATTRIBUTE, "");
 			values.put(PROPERTY_PRINCIPAL_LDAP_USERNAME_ATTRIBUTE, PRINCIPAL_LDAP_USERNAME_ATTRIBUTE);
+			PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN = ConfigDAO.getBoolean(PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN, false);
+			values.put(PROPERTY_PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN, Boolean.toString(PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE_CONTAINS_DN));
 
 			PRINCIPAL_LDAP_MAIL_SEARCH_BASE = ConfigDAO.getString(PROPERTY_PRINCIPAL_LDAP_MAIL_SEARCH_BASE, "");
 			values.put(PROPERTY_PRINCIPAL_LDAP_MAIL_SEARCH_BASE, PRINCIPAL_LDAP_MAIL_SEARCH_BASE);
