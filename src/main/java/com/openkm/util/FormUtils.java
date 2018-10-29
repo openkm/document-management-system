@@ -278,7 +278,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * Retrieve the form element from a PropertyGroups definition. 
+	 * Retrieve the form element from a PropertyGroups definition.
 	 */
 	public static FormElement getFormElement(Map<PropertyGroup, List<FormElement>> formsElements, String propertyName) {
 		for (Iterator<Entry<PropertyGroup, List<FormElement>>> it1 = formsElements.entrySet().iterator(); it1.hasNext(); ) {
@@ -317,7 +317,7 @@ public class FormUtils {
 	}
 
 	/**
-	 * Parse individual form fields 
+	 * Parse individual form fields
 	 */
 	private static List<FormElement> parseField(NodeList nlField) {
 		List<FormElement> fe = new ArrayList<FormElement>();
@@ -619,16 +619,19 @@ public class FormUtils {
 	 *
 	 */
 	private static final class ErrorHandler extends DefaultHandler {
+		@Override
 		public void error(SAXParseException exception) throws SAXException {
 			log.error(exception.getMessage());
 			throw exception;
 		}
 
+		@Override
 		public void fatalError(SAXParseException exception) throws SAXException {
 			log.error(exception.getMessage());
 			throw exception;
 		}
 
+		@Override
 		public void warning(SAXParseException exception) throws SAXException {
 			log.warn(exception.getMessage());
 			throw exception;
@@ -883,6 +886,7 @@ public class FormUtils {
 		 * @param systemId - the file name of DTD
 		 * @return InputSource of DTD
 		 */
+		@Override
 		public InputSource resolveEntity(String publicId, String systemId) {
 			hasDTD = false;
 			InputSource aInputSource = null;
@@ -928,6 +932,31 @@ public class FormUtils {
 		 */
 		public boolean hasDTD() {
 			return hasDTD;
+		}
+	}
+
+	/**
+	 * Get map from form elements
+	 */
+	public static void fillMap(List<FormElement> formElements, Map<String, String> properties) {
+		for (FormElement fe : formElements) {
+			String value = null;
+
+			if (fe instanceof Input) {
+				value = ((Input) fe).getValue();
+			} else if (fe instanceof SuggestBox) {
+				value = ((SuggestBox) fe).getValue();
+			} else if (fe instanceof TextArea) {
+				value = ((TextArea) fe).getValue();
+			} else if (fe instanceof CheckBox) {
+				value = Boolean.toString(((CheckBox) fe).getValue());
+			} else if (fe instanceof Select) {
+				value = ((Select) fe).getValue();
+			} else {
+				// throw new ParseException("Unknown property definition: " + fe.getName());
+			}
+
+			properties.put(fe.getName(), value);
 		}
 	}
 }
