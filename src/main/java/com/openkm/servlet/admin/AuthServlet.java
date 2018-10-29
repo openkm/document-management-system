@@ -44,6 +44,8 @@ import com.openkm.servlet.frontend.ChatServlet;
 import com.openkm.util.SecureStore;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,45 +93,25 @@ public class AuthServlet extends BaseServlet {
 					roleDelete(userId, request, response);
 				} else if (action.equals("userActive")) {
 					userActive(userId, request, response);
+					userList(userId, request, response);
 				} else if (action.equals("roleActive")) {
 					roleActive(userId, request, response);
+					roleList(userId, request, response);
 				} else if (action.equals("userChatDisconnect")) {
 					userChatDisconnect(request, response);
+					userList(userId, request, response);
 				} else if (action.equals("validateUser")) {
 					validateUser(request, response);
 				} else if (action.equals("validateRole")) {
 					validateRole(request, response);
-				}
-
-				if (action.equals("") || action.equals("userActive") || action.equals("userChatDisconnect")
-						|| (action.startsWith("user") && WebUtils.getBoolean(request, "persist"))) {
-					userList(userId, request, response);
-				} else if (action.equals("roleList") || action.equals("roleActive")
-						|| (action.startsWith("role") && WebUtils.getBoolean(request, "persist"))) {
-					roleList(userId, request, response);
 				} else if (action.endsWith("Export")) {
-					String fileName = "";
-					List<String[]> csvValues = new ArrayList<String[]>();
-
-					if (action.equals("userListExport")) {
-						fileName = userListExport(csvValues);
-					} else if (action.equals("roleListExport")) {
-						fileName = roleListExport(csvValues);
-					}
-
-					// Prepare file headers
-					WebUtils.prepareSendFile(request, response, fileName, MimeTypeConfig.MIME_CSV, false);
-
-					// CSVWriter
-					CSVStrategy strategyFormat = new CSVStrategy(Config.CSV_FORMAT_DELIMITER.toCharArray()[0],
-							Config.CSV_FORMAT_QUOTE_CHARACTER.toCharArray()[0], Config.CSV_FORMAT_COMMENT_INDICATOR.toCharArray()[0],
-							Config.CSV_FORMAT_SKIP_HEADER, Config.CSV_FORMAT_IGNORE_EMPTY_LINES);
-					Writer out = new OutputStreamWriter(response.getOutputStream());
-					CSVWriter<String[]> csvWriter = new CSVWriterBuilder<String[]>(out).strategy(strategyFormat)
-							.entryConverter(new DefaultCSVEntryConverter()).build();
-					csvWriter.writeAll(csvValues);
-					csvWriter.flush();
-				}
+                    export(request, response, action);
+                } else if (action.equals("roleList")) {
+                    roleList(userId, request, response);
+                } else {
+                    userList(userId, request, response);
+                }
+				
 			} catch (DatabaseException e) {
 				log.error(e.getMessage(), e);
 				sendErrorRedirect(request, response, e);
@@ -151,6 +133,50 @@ public class AuthServlet extends BaseServlet {
 			sendErrorRedirect(request, response, ade);
 		}
 	}
+	
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        log.debug("doPost({}, {})", request, response);
+        String action = WebUtils.getString(request, "action");
+        String userId = request.getRemoteUser();
+        updateSessionManager(request);
+
+        if (isMultipleInstancesAdmin(request) || request.isUserInRole(Config.DEFAULT_ADMIN_ROLE)) {
+            try {
+
+                if (action.equals("userCreate")) {
+                    userCreate(userId, request, response);
+                } else if (action.equals("roleCreate")) {
+                    roleCreate(userId, request, response);
+                } else if (action.equals("userEdit")) {
+                    userEdit(userId, request, response);
+                } else if (action.equals("roleEdit")) {
+                    roleEdit(userId, request, response);
+                } else if (action.equals("userDelete")) {
+                    userDelete(userId, request, response);
+                } else if (action.equals("roleDelete")) {
+                    roleDelete(userId, request, response);
+                }
+
+                // Go to list
+                if (action.startsWith("user")) {
+                    response.sendRedirect(request.getContextPath() + request.getServletPath() + "?action=userList");
+                } else {
+                    response.sendRedirect(request.getContextPath() + request.getServletPath() + "?action=roleList");
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                sendErrorRedirect(request, response, e);
+            }
+        } else {
+            // Activity log
+            UserActivity.log(request.getRemoteUser(), "ADMIN_ACCESS_DENIED", request.getRequestURI(), null,
+                    request.getQueryString());
+
+            AccessDeniedException ade = new AccessDeniedException("You should not access this resource");
+            sendErrorRedirect(request, response, ade);
+        }
+    }
 
 	/**
 	 * Validate user name
@@ -197,6 +223,37 @@ public class AuthServlet extends BaseServlet {
 		out.flush();
 		out.close();
 	}
+	
+	/**
+     * Export users and roles
+     */
+    private void export(HttpServletRequest request, HttpServletResponse response, String action) throws PrincipalAdapterException, DatabaseException, IOException {
+        List<String[]> csvValues = new ArrayList<>();
+        String fileName = "";
+
+        if (action.equals("userListExport")) {
+            fileName = userListExport(csvValues);
+        } else if (action.equals("roleListExport")) {
+            fileName = roleListExport(csvValues);
+        }
+
+        // Prepare file headers
+        WebUtils.prepareSendFile(request, response, fileName, MimeTypeConfig.MIME_CSV, false);
+
+        // CSVWriter
+        CSVStrategy strategyFormat = new CSVStrategy(Config.CSV_FORMAT_DELIMITER.toCharArray()[0],
+                Config.CSV_FORMAT_QUOTE_CHARACTER.toCharArray()[0], Config.CSV_FORMAT_COMMENT_INDICATOR.toCharArray()[0],
+                Config.CSV_FORMAT_SKIP_HEADER, Config.CSV_FORMAT_IGNORE_EMPTY_LINES);
+        Writer out = new OutputStreamWriter(response.getOutputStream());
+
+        try {
+            CSVWriter<String[]> csvWriter = new CSVWriterBuilder<String[]>(out).strategy(strategyFormat).entryConverter(new DefaultCSVEntryConverter()).build();
+            csvWriter.writeAll(csvValues);
+            csvWriter.flush();
+        } finally {
+            IOUtils.closeQuietly(out);
+        }
+    }
 
 	/**
 	 * New user

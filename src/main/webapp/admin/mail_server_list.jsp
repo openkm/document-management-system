@@ -3,42 +3,45 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="css/fixedTableHeader.css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="Shortcut icon" href="favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="../css/fixedTableHeader.css"/>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css"/>
   <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="js/fixedTableHeader.js"></script>
+  <script type="text/javascript" src="../js/fixedTableHeader.js"></script>
   <script type="text/javascript">
-    $(document).ready(function() {
-        var checkboxes = $("input[type='checkbox']");
-        checkboxes.click(function() {
-            $('.addButton').attr("disabled", !checkboxes.is(":checked"));
-        });
-        
-    	$('.addButton').click(function(event) {
-    	    $(this).attr("disabled", true);
-    		$("#dest").removeClass('ok').removeClass('error').empty();
-    		$("input[name=msg_uid]:checked").map(function() {
-    			$("#dest").append($('<div>').load('MailAccount', { action: "serverImport", ma_id: ${ma_id}, msg_id: $(this).attr('value') },
-    	            function(response, status, xhr) {
-    	            	if (response.indexOf('Success') === 0) {
-    	            		$(this).removeClass('error').addClass('ok').css("text-align", "center");
-    	            	} else {
-    	            		$(this).removeClass('ok').addClass('error').css("text-align", "center");
-    	            	}
-    	            	
-    	            	$('.addButton').attr("disabled", false);
-    	            }
-    			));
-    		});
-	   	});
+    $(document).ready(function () {
+      var checkboxes = $("input[type='checkbox']");
+      checkboxes.click(function () {
+        $('.addButton').attr("disabled", !checkboxes.is(":checked"));
+      });
 
-    	TABLE.fixHeader('table.results');
-	});
+      $('.addButton').click(function (event) {
+        $(this).attr("disabled", true);
+        $("#dest").removeClass('ok').removeClass('error').empty();
+        $("input[name=msg_uid]:checked").map(function () {
+          $("#dest").append($('<div>').load('MailAccount', {
+            action: "serverImport",
+            ma_id: ${ma_id},
+            msg_id: $(this).attr('value'),
+            currentFolder: "${currentFolder}"
+          }, function (response, status, xhr) {
+            if (response.indexOf('Success') === 0) {
+              $(this).removeClass('error').addClass('ok').css("text-align", "center");
+            } else {
+              $(this).removeClass('ok').addClass('error').css("text-align", "center");
+            }
+
+            $('.addButton').attr("disabled", false);
+          }));
+        });
+      });
+
+      TABLE.fixHeader('table.results');
+    });
   </script>
   <title>Mail filters</title>
 </head>
@@ -70,11 +73,11 @@
         </li>
       </ul>
       <br/>
-      <table class="results" width="80%">
+      <table class="results-old" width="80%">
         <thead>
           <tr class="fuzzy">
             <td colspan="5" align="right">
-              Max: ${max}
+              Showing ${start} to ${end} of ${max}
               &nbsp;
               <c:choose>
                 <c:when test="${start > 1}">

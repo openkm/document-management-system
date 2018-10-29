@@ -2,28 +2,28 @@
 <%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-    	$('form').bind('submit', function(event) {
-        	var error = $('input[name="rol_id"] + span.vanadium-invalid');
-    		
-    		if (error == null || error.text() == '') {
-        		return true;
-        	} else {
-        		return false;
-            }
-	   	});
-	});
+      $('form').bind('submit', function(event) {
+        var error = $('input[name="rol_id"] + span.vanadium-invalid');
+  
+        if (error == null || error.text() == '') {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    });
   </script>
-  <title>Role edit</title>
+<title>Role edit</title>
 </head>
 <body>
   <c:set var="isAdmin"><%=BaseServlet.isAdmin(request)%></c:set>
@@ -42,7 +42,7 @@
         </li>
       </ul>
       <br/>
-      <form action="Auth">
+      <form action="Auth" method="post">
         <input type="hidden" name="action" value="${action}"/>
         <input type="hidden" name="persist" value="${persist}"/>
         <input type="hidden" name="csrft" value="${csrft}"/>
@@ -52,10 +52,10 @@
             <td width="100%">
               <c:choose>
                 <c:when test="${action != 'roleCreate'}">
-                  <input class=":required :only_on_blur" name="rol_id" size="25" value="${rol.id}" readonly="readonly"/>
+                  <input class=":required :only_on_blur" name="rol_id" size="45" value="${rol.id}" readonly="readonly"/>
                 </c:when>
                 <c:otherwise>
-                  <input class=":required :only_on_blur :ajax;Auth?action=validateRole" name="rol_id" value=""/>
+                  <input class=":required :only_on_blur :ajax;Auth?action=validateRole" name="rol_id" size="45" value=""/>
                 </c:otherwise>
               </c:choose>
             </td>

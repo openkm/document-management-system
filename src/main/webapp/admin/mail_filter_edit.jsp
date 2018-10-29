@@ -7,22 +7,24 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="../js/jquery-1.11.3.min.js" type="text/javascript"></script>
-  <script src="../js/vanadium-min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/admin-style.css" />
+  <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="../js/vanadium-min.js"></script>
   <script type="text/javascript" src="js/jquery.DOMWindow.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-		$dm = $('.ds').openDOMWindow({
-			height:300, width:400,
-			eventType:'click',
-			overlayOpacity:'57',
-			windowSource:'iframe', windowPadding:0
-		});
-	});
-    
+      $dm = $('.ds').openDOMWindow({
+        height : 300,
+        width : 400,
+        eventType : 'click',
+        overlayOpacity : '57',
+        windowSource : 'iframe',
+        windowPadding : 0
+      });
+    });
+  
     function dialogClose() {
-		$dm.closeDOMWindow();
+      $dm.closeDOMWindow();
     }
   </script>
   <title>Mail filter</title>

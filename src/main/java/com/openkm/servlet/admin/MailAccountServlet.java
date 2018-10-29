@@ -646,9 +646,10 @@ public class MailAccountServlet extends BaseServlet {
 		ServletContext sc = getServletContext();
 		sc.setAttribute("ma_id", maId);
 		sc.setAttribute("ma_user", ma_user);
-		sc.setAttribute("max", max);
-		sc.setAttribute("start", start);
-		sc.setAttribute("limit", PAGINATION_LIMIT);
+        sc.setAttribute("max", max);
+        sc.setAttribute("start", start);
+        sc.setAttribute("end", end < max ? end : max);
+        sc.setAttribute("limit", PAGINATION_LIMIT);
 		sc.setAttribute("serverMails", serverMails);
 		sc.getRequestDispatcher("/admin/mail_server_list.jsp").forward(request, response);
 		log.debug("serverList: void");
