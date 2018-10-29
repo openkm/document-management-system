@@ -274,7 +274,7 @@ public class OmrServlet extends BaseServlet {
 		Omr om = new Omr();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
 		sc.setAttribute("om", om);
-		sc.setAttribute("properties", PropertyGroupUtils.getAllGroupsProperties());
+		sc.setAttribute("pgprops", PropertyGroupUtils.getAllGroupsProperties());
 		sc.getRequestDispatcher("/admin/omr_edit.jsp").forward(request, response);
 		log.debug("create: void");
 	}
@@ -289,7 +289,7 @@ public class OmrServlet extends BaseServlet {
 		long omId = WebUtils.getLong(request, "om_id");
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
 		sc.setAttribute("om", OmrDAO.getInstance().findByPk(omId));
-		sc.setAttribute("properties", PropertyGroupUtils.getAllGroupsProperties());
+		sc.setAttribute("pgprops", PropertyGroupUtils.getAllGroupsProperties());
 		sc.getRequestDispatcher("/admin/omr_edit.jsp").forward(request, response);
 		log.debug("edit: void");
 	}
