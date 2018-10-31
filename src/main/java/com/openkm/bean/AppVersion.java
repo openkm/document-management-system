@@ -25,14 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "appVersion")
 public class AppVersion {
-	public static final String EXTENSION_PRO = "Professional";
 	public static final String EXTENSION_COM = "Community";
 
 	private String major = "0";
 	private String minor = "0";
 	private String maintenance = "0";
 	private String build = "0";
-	private String extension = EXTENSION_PRO;
+	private String extension = EXTENSION_COM;
 
 	public static AppVersion parse(String str) {
 		AppVersion appVer = new AppVersion();
@@ -100,7 +99,8 @@ public class AppVersion {
 		return major + "." + minor + "." + maintenance;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return major + "." + minor + "." + maintenance + " (build: " + build + ")";
 	}
 }
