@@ -62,54 +62,44 @@
       </ul>
       <br />
       <form action="Scripting" method="post">
-        <input type="hidden" name="csrft" value="${csrft}">
-          <table class="form" align="center">
-            <tr>
-              <td colspan="4"><textarea cols="80" rows="25" name="script" id="script">${script}</textarea></td>
-            </tr>
-            <tr>
-              <td align="left" width="125px">
-                <input type="text" size="50" name="fsPath" id="fsPath" value="${fsPath}">
-              </td>
-              <td align="left">
-                <a class="ds" href="../extension/DataBrowser?action=fs&dst=fsPath">
-                  <img src="img/action/browse_fs.png" />
-                </a>
-              </td>
-              <td align="left">
-                <input type="submit" name="action" value="Load" class="loadButton"> 
-                <input type="submit" name="action" value="Save" class="saveButton">
-              </td>
-              <td align="right">
-                <input type="submit" name="action" value="Evaluate" class="executeButton">
-              </td>
-            </tr>
-          </table> 
-          <br />
-          <div class="ok" style="text-align: center">
-            <c:if test="${!empty time}">Time: ${time}</c:if>
-          </div> 
-          <br />
-          <table class="results-old" width="95%">
-            <tr>
-              <th>Script error</th>
-            </tr>
-            <tr class="even">
-              <td>${scriptError}</td>
-            </tr>
-            <tr>
-              <th>Script result</th>
-            </tr>
-            <tr class="even">
-              <td>${scriptResult}</td>
-            </tr>
-            <tr>
-              <th>Script output</th>
-            </tr>
-            <tr class="even">
-              <td>${scriptOutput}</td>
-            </tr>
-          </table>
+        <input type="hidden" name="csrft" value="${csrft}" />
+        <table class="form" align="center">
+          <tr>
+            <td colspan="4">
+              <textarea cols="80" rows="25" name="script" id="script">${script}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" width="125px">
+              <input type="text" size="50" name="fsPath" id="fsPath" value="${fsPath}" />
+            </td>
+            <td align="left" width="25px">
+              <a class="ds" href="../extension/DataBrowser?action=fs&dst=fsPath"> 
+              <img src="img/action/browse_fs.png" />
+              </a>
+            </td>
+            <td>
+              <input type="submit" name="action" value="Load" class="loadButton" /> 
+              <input type="submit" name="action" value="Save" class="saveButton" />
+            </td>
+            <td align="right">
+              <input type="submit" name="action" value="Evaluate" class="executeButton" />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <div class="ok" style="text-align: center">
+          <c:if test="${!empty time}">Time: ${time}</c:if>
+        </div>
+        <br />
+        <table class="results-old" width="95%">
+          <tr><th>Script error</th></tr>
+          <tr class="even"><td>${scriptError}</td></tr>
+          <tr><th>Script result</th></tr>
+          <tr class="even"><td>${scriptResult}</td></tr>
+          <tr><th>Script output</th></tr>
+          <tr class="even"><td>${scriptOutput}</td></tr>
+        </table>
       </form>
     </c:when>
     <c:otherwise>
