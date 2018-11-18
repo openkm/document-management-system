@@ -10,9 +10,10 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <title>OpenKM Mobile</title>
   <link rel="apple-touch-icon" href="img/condor.jpg" />
-  <link rel="stylesheet" href="../css/jquery.mobile-1.2.0.min.css" />
-  <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/jquery.mobile-1.2.0.min.js"></script>
+  <link rel="stylesheet" href="../css/jquery.mobile-1.2.1.min.css" />
+  <!-- jQuery mobile requires jquery min 1.8.3 for running, it does not work with upper version -->
+  <script src="../js/jquery-1.8.3.min.js"></script>
+  <script src="../js/jquery.mobile-1.2.1.min.js"></script>
 </head>
 <body>
   <u:constantsMap className="com.openkm.dao.bean.Translation" var="Translation"/>

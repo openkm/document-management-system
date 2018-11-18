@@ -10,9 +10,10 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
   <title>OpenKM Mobile</title>
   <link rel="apple-touch-icon" href="img/condor.jpg" />
-  <link rel="stylesheet" href="../css/jquery.mobile-1.2.0.min.css" />
-  <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/jquery.mobile-1.2.0.min.js"></script>
+  <link rel="stylesheet" href="../css/jquery.mobile-1.2.1.min.css" />
+  <!-- jQuery mobile requires jquery min 1.8.3 for running, it does not work with upper version -->
+  <script src="../js/jquery-1.8.3.min.js"></script>
+  <script src="../js/jquery.mobile-1.2.1.min.js"></script>
   <script type="text/javascript">
     $(function() {
       $('li').bind('taphold', function(e) {
@@ -58,20 +59,13 @@
   	<ul data-role="listview" data-theme="c">
       <c:forEach var="result" items="${resultSet.results}">
         <c:choose>
-          <c:when test="${result.document != null || result.attachment != null}">
+          <c:when test="${result.node != null}">
             <!-- document -->
-            <c:choose>
-              <c:when test="${result.document != null}">
-                <c:set var="doc" value="${result.document}"></c:set>
-              </c:when>
-              <c:otherwise>
-                <c:set var="doc" value="${result.attachment}"></c:set>
-              </c:otherwise>
-            </c:choose>
+            <c:set var="doc" value="${result.node}"></c:set>
             <li id="${doc.uuid}" data-action="searchMenu">
               <c:url value="/frontend/Download" var="urlDownload">
                 <c:if test="${doc.convertibleToPdf}">
-                  <c:param name="toPdf"/>
+                  <c:param name="toPdf" value="true"/>
                 </c:if>
                 <c:param name="uuid" value="${doc.uuid}"/>
               </c:url>
