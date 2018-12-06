@@ -366,6 +366,8 @@ public class Folder extends Composite {
 		tableProperties.setHTML(8, 0, "<b>" + Main.i18n("folder.keywords") + "</b>");
 		tableProperties.setHTML(9, 0, "<b>" + Main.i18n("folder.url") + "</b>");
 		tableProperties.setHTML(10, 0, "<b>" + Main.i18n("folder.webdav") + "</b>");
+		keywordManager.langRefresh();
+        categoryManager.langRefresh();
 
 		if (folder != null) {
 			if (folder.isSubscribed()) {
