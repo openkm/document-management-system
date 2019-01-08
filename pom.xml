@@ -55,8 +55,8 @@
     <gwt.version>2.8.2</gwt.version>
 
     <!-- Using this Spring version -->
-    <spring.version>3.2.9.RELEASE</spring.version>
-    <spring.security.version>3.2.3.RELEASE</spring.security.version>
+    <spring.version>3.2.18.RELEASE</spring.version>
+    <spring.security.version>3.2.10.RELEASE</spring.security.version>
 
     <!-- Apache CXF -->
     <cxf.version>3.2.5</cxf.version>
@@ -160,12 +160,12 @@
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
     </dependency>
-    
+
     <!-- Jackson -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.8.9</version>
+      <version>2.9.7</version>
     </dependency>
 
     <!-- Misc -->
@@ -202,7 +202,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-compress</artifactId>
-      <version>1.0</version>
+      <version>1.18</version>
     </dependency>
     <dependency>
       <groupId>dnsjava</groupId>
@@ -266,6 +266,10 @@
         <exclusion>
           <groupId>org.apache.lucene</groupId>
           <artifactId>lucene-queryparser</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -388,7 +392,7 @@
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
-      <version>1.8.8</version>
+      <version>1.8.16</version>
     </dependency>
     <dependency>
       <!-- http://books.evc-cit.info/odf_utils -->
@@ -536,14 +540,14 @@
       <artifactId>cxf-rt-ws-security</artifactId>
       <version>${cxf.version}</version>
       <exclusions>
-      	<exclusion>
-      		<groupId>net.sf.ehcache</groupId>
-      		<artifactId>ehcache</artifactId>
-      	</exclusion>
-      	<exclusion>
-      		<groupId>org.apache.geronimo.javamail</groupId>
-      		<artifactId>geronimo-javamail_1.4_mail</artifactId>
-      	</exclusion>
+        <exclusion>
+          <groupId>net.sf.ehcache</groupId>
+          <artifactId>ehcache</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.geronimo.javamail</groupId>
+          <artifactId>geronimo-javamail_1.4_mail</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -561,12 +565,18 @@
       <artifactId>wss4j</artifactId>
       <version>1.6.4</version>
     </dependency>
-    
+
     <!-- CXF swagger support -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
       <version>${cxf.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
@@ -578,7 +588,7 @@
       <artifactId>guava</artifactId>
       <version>20.0</version>
     </dependency>
-    
+
     <!-- Spring -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -613,7 +623,13 @@
     <dependency>
       <groupId>org.springframework.ws</groupId>
       <artifactId>spring-ws-core</artifactId>
-      <version>2.0.3.RELEASE</version>
+      <version>2.1.4.RELEASE</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Spring Security -->
@@ -818,7 +834,7 @@
       <artifactId>jiu</artifactId>
       <version>2007.07.01</version>
     </dependency>
-    
+
     <!-- MS Office templates -->
     <dependency>
       <groupId>org.docx4j</groupId>
