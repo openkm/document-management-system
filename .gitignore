@@ -1,13 +1,5 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Java template
-*.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
 # Package Files #
 *.war
-*.ear
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -27,3 +19,6 @@ src/main/resources/version.properties
 gwt-unitCache/
 target/
 war/
+
+# Other
+catalina.home_IS_UNDEFINED/
