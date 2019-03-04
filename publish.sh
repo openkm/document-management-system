@@ -1,7 +1,7 @@
 #!/bin/bash
 BLUE='\e[1;34m'
 RESET='\e[0m'
-VERSION="6.3.7"
+VERSION="6.3.8"
 ARCHIVE="OpenKM-${VERSION}.zip"
 
 # Build package
