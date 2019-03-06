@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +57,15 @@ public class CSVExporterServlet extends OKMHttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		log.debug("service({}, {})", request, response);
-		String fileName = "";
+		
 		List<String[]> csvValues = new ArrayList<String[]>();
+		boolean compact = WebUtils.getBoolean(request, "compact");
 		String action = WebUtils.getString(request, "action");
 		String lang = WebUtils.getString(request, "lang");
-		String json = WebUtils.getString(request, "json");
-		boolean compact = WebUtils.getBoolean(request, "compact");
-
+		String json = WebUtils.getString(request, "json");		
+		json = URLDecoder.decode(json, "UTF-8");
+		String fileName = "";
+		
 		try {
 			if (action.equals("find")) {
 				fileName = CSVUtil.createFind(lang, request.getRemoteUser(), csvValues, json, compact);
