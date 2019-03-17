@@ -23,6 +23,7 @@ package com.openkm.frontend.client.widget.searchin;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.*;
@@ -73,12 +74,12 @@ public class ControlSearchIn extends Composite {
 					compact = true;
 				}
 				if (gwtParams != null) {
-					params += "&json=" + JSONUtil.toJson(gwtParams).toString();
+					params += "&json=" + URL.encodeQueryString(JSONUtil.toJson(gwtParams).toString());
 					params += "&compact=" + String.valueOf(compact);
 				} else {
 					JSONObject json = new JSONObject();
 					json.put("statement", new JSONString(statement));
-					params += "&json=" + json.toString();
+					params += "&json=" + URL.encodeQueryString(json.toString());
 					params += "&compact=" + String.valueOf(compact);
 				}
 
