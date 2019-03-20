@@ -81,12 +81,13 @@ public class ExtendedDockPanel extends Composite {
 
 	int centerWidth = 0;
 	int centerHeight = 0;
-	int usableHeight = 0;
+	int usableHeight = 0;		
 
 	/**
 	 * Extended dock panel
 	 */
-	public ExtendedDockPanel() {
+	public ExtendedDockPanel() {	    
+	    
 		dockPanel = new DockLayoutPanel(Unit.PX);
 		folderSelectPopup = new FolderSelectPopup();
 		enableKeyShorcuts();
@@ -243,6 +244,7 @@ public class ExtendedDockPanel extends Composite {
 							if (actualView == UIDockPanelConstants.DESKTOP
 									&& Main.get().activeFolderTree.isPanelSelected()
 									&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().renameOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isRenameOption()
 									&& (Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_TAXONOMY
 									|| Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_PERSONAL
 									|| Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_TEMPLATES
@@ -252,6 +254,7 @@ public class ExtendedDockPanel extends Composite {
 								Main.get().mainPanel.topPanel.toolBar.executeRename();
 								propagate = false;
 							} else if (Main.get().mainPanel.topPanel.toolBar.getToolBarOption().renameOption
+							        && Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isRenameOption()
 									&& (Main.get().mainPanel.desktop.browser.fileBrowser.isDocumentSelected()
 									|| Main.get().mainPanel.desktop.browser.fileBrowser.isFolderSelected() || Main
 									.get().mainPanel.desktop.browser.fileBrowser.isMailSelected())) {
@@ -263,8 +266,9 @@ public class ExtendedDockPanel extends Composite {
 
 						// case Keyboard.KEY_SUPR:
 						// if (actualView == UIDockPanelConstants.DESKTOP &&
-						// Main.get().activeFolderTree.isPanelSelected() &&
-						// Main.get().mainPanel.topPanel.toolBar.getToolBarOption().deleteOption &&
+						// Main.get().activeFolderTree.isPanelSelected() 
+						// && Main.get().mainPanel.topPanel.toolBar.getToolBarOption().deleteOption 
+						// && Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isDeleteOption() &&
 						// (Main.get().mainPanel.desktop.navigator.getStackIndex()==UIDesktopConstants.NAVIGATOR_TAXONOMY
 						// ||
 						// Main.get().mainPanel.desktop.navigator.getStackIndex()==UIDesktopConstants.NAVIGATOR_CATEGORIES
@@ -277,7 +281,8 @@ public class ExtendedDockPanel extends Composite {
 						//
 						// Main.get().mainPanel.topPanel.toolBar.executeDelete();
 						// propagate = false;
-						// } else if (Main.get().mainPanel.topPanel.toolBar.getToolBarOption().deleteOption && (
+						// } else if (Main.get().mainPanel.topPanel.toolBar.getToolBarOption().deleteOption
+						//	&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isDeleteOption() && (
 						// Main.get().mainPanel.desktop.browser.fileBrowser.isDocumentSelected() ||
 						// Main.get().mainPanel.desktop.browser.fileBrowser.isFolderSelected() ||
 						// Main.get().mainPanel.desktop.browser.fileBrowser.isMailSelected())) {
@@ -294,6 +299,7 @@ public class ExtendedDockPanel extends Composite {
 								if (actualView == UIDockPanelConstants.DESKTOP
 										&& Main.get().activeFolderTree.isPanelSelected()
 										&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().copyOption
+										&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isCopyOption()
 										&& (Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_TAXONOMY
 										|| Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_PERSONAL
 										|| Main.get().mainPanel.desktop.navigator.getStackIndex() == UIDesktopConstants.NAVIGATOR_TEMPLATES || Main
@@ -321,6 +327,7 @@ public class ExtendedDockPanel extends Composite {
 									propagate = false;
 
 								} else if (Main.get().mainPanel.topPanel.toolBar.getToolBarOption().copyOption
+								        && Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isCopyOption()
 										&& (Main.get().mainPanel.desktop.browser.fileBrowser.isDocumentSelected()
 										|| Main.get().mainPanel.desktop.browser.fileBrowser.isFolderSelected() || Main
 										.get().mainPanel.desktop.browser.fileBrowser.isMailSelected())) {
@@ -407,9 +414,10 @@ public class ExtendedDockPanel extends Composite {
 							break;
 
 						case Keyboard.KEY_D:
-							// Case CTRL + D
+							// Case CTRL + D									    
 							if (event.getNativeEvent().getCtrlKey() && actualView == UIDockPanelConstants.DESKTOP
-									&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().downloadOption) {
+							        && Main.get().mainPanel.topPanel.toolBar.getToolBarOption().downloadOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isDownloadOption()) {
 								Main.get().mainPanel.topPanel.toolBar.executeDownload();
 								propagate = false;
 							}
@@ -440,7 +448,8 @@ public class ExtendedDockPanel extends Composite {
 						case Keyboard.KEY_N:
 							// Case CTRL + N
 							if (event.getNativeEvent().getCtrlKey() && actualView == UIDockPanelConstants.DESKTOP
-									&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().createFolderOption) {
+							        && Main.get().mainPanel.topPanel.toolBar.getToolBarOption().createFolderOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isCreateFolderOption()) {
 								Main.get().mainPanel.topPanel.toolBar.executeFolderDirectory();
 								propagate = false;
 							}
@@ -448,7 +457,8 @@ public class ExtendedDockPanel extends Composite {
 
 						case Keyboard.KEY_F5:
 							if (actualView == UIDockPanelConstants.DESKTOP
-									&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().refreshOption) {
+							        && Main.get().mainPanel.topPanel.toolBar.getToolBarOption().refreshOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isRefreshOption()) {
 								Main.get().mainPanel.topPanel.toolBar.executeRefresh();
 								propagate = false;
 							}
@@ -456,7 +466,8 @@ public class ExtendedDockPanel extends Composite {
 
 						case Keyboard.KEY_INSERT:
 							if (actualView == UIDockPanelConstants.DESKTOP
-									&& Main.get().mainPanel.topPanel.toolBar.getToolBarOption().addDocumentOption) {
+							        && Main.get().mainPanel.topPanel.toolBar.getToolBarOption().addDocumentOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getAvailableOption().isAddDocumentOption()) {
 								Main.get().mainPanel.topPanel.toolBar.executeAddDocument();
 								propagate = false;
 							}
@@ -465,7 +476,8 @@ public class ExtendedDockPanel extends Composite {
 						case Keyboard.KEY_B:
 							// Case ALT + B
 							if (event.getNativeEvent().getAltKey()
-									&& Main.get().mainPanel.topPanel.mainMenu.getToolBarOption().homeOption) {
+									&& Main.get().mainPanel.topPanel.mainMenu.getToolBarOption().homeOption
+									&& Main.get().workspaceUserProperties.getWorkspace().getProfileToolbar().isHomeVisible()) {
 								Main.get().mainPanel.topPanel.mainMenu.manageBookmarkPopup.showPopup();
 								propagate = false;
 							}
@@ -580,4 +592,5 @@ public class ExtendedDockPanel extends Composite {
 	public void stylesChanged() {
 		setWidgetsSize();
 	}
+
 }
