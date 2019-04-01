@@ -82,27 +82,30 @@
 
 		try {
 			if (repoPath != null && !repoPath.equals("") && fsPath != null && !fsPath.equals("")) {
-				out.println("<hr/>");
-				
-				if (fsPath.startsWith(Config.INSTANCE_CHROOT_PATH)) {
-					File dir = new File(fsPath);
-					ContentInfo cInfo = OKMFolder.getInstance().getContentInfo(null, repoPath);
-					out.println("<b>Files & directories to export:</b> "+(cInfo.getDocuments() + cInfo.getFolders())+"<br/>");
-					long begin = System.currentTimeMillis();
-					ImpExpStats stats = RepositoryExporter.exportDocuments(null, repoPath, dir, metadata, history, out,
-						 new HTMLInfoDecorator((int) cInfo.getDocuments() + (int) cInfo.getFolders()));
-					long end = System.currentTimeMillis();
-					out.println("<hr/>");
-					out.println("<div class=\"ok\">Folder '"+repoPath+"' exported to '"+new File(fsPath).getAbsolutePath()+"'</div>");
-					out.println("<br/>");
-					out.println("<b>Documents:</b> "+stats.getDocuments()+"<br/>");
-					out.println("<b>Folders:</b> "+stats.getFolders()+"<br/>");
-					out.println("<b>Mails:</b> "+stats.getMails()+"<br/>");
-					out.println("<b>Size:</b> "+FormatUtil.formatSize(stats.getSize())+"<br/>");
-					out.println("<b>Time:</b> "+FormatUtil.formatSeconds(end - begin)+"<br/>");
-				} else {
-					out.println("<div class=\"error\">Path out of root: "+Config.INSTANCE_CHROOT_PATH+"<div>");
-				}
+				out.println("<hr/>");		
+				if(!fsPath.startsWith(Config.WEBAPPS_DIR)){
+					if (fsPath.startsWith(Config.INSTANCE_CHROOT_PATH)) {
+						File dir = new File(fsPath);
+						ContentInfo cInfo = OKMFolder.getInstance().getContentInfo(null, repoPath);
+						out.println("<b>Files & directories to export:</b> "+(cInfo.getDocuments() + cInfo.getFolders())+"<br/>");
+						long begin = System.currentTimeMillis();
+						ImpExpStats stats = RepositoryExporter.exportDocuments(null, repoPath, dir, metadata, history, out,
+							 new HTMLInfoDecorator((int) cInfo.getDocuments() + (int) cInfo.getFolders()));
+						long end = System.currentTimeMillis();
+						out.println("<hr/>");
+						out.println("<div class=\"ok\">Folder '"+repoPath+"' exported to '"+new File(fsPath).getAbsolutePath()+"'</div>");
+						out.println("<br/>");
+						out.println("<b>Documents:</b> "+stats.getDocuments()+"<br/>");
+						out.println("<b>Folders:</b> "+stats.getFolders()+"<br/>");
+						out.println("<b>Mails:</b> "+stats.getMails()+"<br/>");
+						out.println("<b>Size:</b> "+FormatUtil.formatSize(stats.getSize())+"<br/>");
+						out.println("<b>Time:</b> "+FormatUtil.formatSeconds(end - begin)+"<br/>");
+					} else {
+						out.println("<div class=\"error\">Path out of root: "+Config.INSTANCE_CHROOT_PATH+"<div>");
+					}
+                } else {
+                	out.println("<div class=\"error\">The route does not have to be within: "+Config.WEBAPPS_DIR+"<div>");
+                }				
 			}
 		} catch (FileNotFoundException e) {
 			out.println("<div class=\"error\">File Not Found: "+e.getMessage()+"<div>");
