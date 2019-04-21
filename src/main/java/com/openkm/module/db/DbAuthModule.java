@@ -22,6 +22,8 @@
 package com.openkm.module.db;
 
 import com.google.gson.Gson;
+import com.openkm.automation.AutomationManager;
+import com.openkm.automation.AutomationUtils;
 import com.openkm.bean.ChangeSecurityParams;
 import com.openkm.bean.Permission;
 import com.openkm.bean.Repository;
@@ -29,6 +31,7 @@ import com.openkm.core.*;
 import com.openkm.dao.NodeBaseDAO;
 import com.openkm.dao.NodeFolderDAO;
 import com.openkm.dao.PendingTaskDAO;
+import com.openkm.dao.bean.AutomationRule;
 import com.openkm.dao.bean.NodeFolder;
 import com.openkm.dao.bean.PendingTask;
 import com.openkm.module.AuthModule;
@@ -145,6 +148,15 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 			if (auth != null) {
 				if (!Config.SYSTEM_USER.equals(auth.getName())) {
 					DbSessionManager.getInstance().remove(token);
+
+					// AUTOMATION - PRE
+					Map<String, Object> env = new HashMap<>();
+					env.put(AutomationUtils.USER, PrincipalUtils.getUser());
+					try {
+						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_USER_LOGOUT, AutomationRule.AT_PRE, env);
+					} catch (Exception e) {
+						log.info("Automation ERROR: {}", e.getCause());
+					}
 
 					// Activity log
 					UserActivity.log(auth.getName(), "LOGOUT", token, null, null);
