@@ -64,7 +64,8 @@ public class Config {
 	public static final boolean IN_SERVER = EnvironmentDetector.inServer();
 	public static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 	public static final URI PLUGIN_DIR = new File(Config.HOME_DIR + File.separator + "plugins").toURI();
-
+	public static final String WEBAPPS_DIR = Config.HOME_DIR + File.separator + "webapps";
+	
 	// Scripting
 	public static final String START_SCRIPT = "start.bsh";
 	public static final String STOP_SCRIPT = "stop.bsh";
