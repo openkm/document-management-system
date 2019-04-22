@@ -57,6 +57,9 @@ public class AutomationRule implements Serializable {
 	public static final String EVENT_PROPERTY_GROUP_SET = "prop_group_set";
 	public static final String EVENT_PROPERTY_GROUP_REMOVE = "prop_group_remove";
 
+	public static final String EVENT_USER_LOGIN = "user_login";
+	public static final String EVENT_USER_LOGOUT = "user_logout";
+
 	public static final Map<String, String> EVENTS = new LinkedHashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
 
@@ -79,6 +82,9 @@ public class AutomationRule implements Serializable {
 
 			put(AutomationRule.EVENT_CONVERSION_PDF, "Convert to PDF");
 			put(AutomationRule.EVENT_CONVERSION_SWF, "Convert to SWF");
+
+			put(AutomationRule.EVENT_USER_LOGIN, "User login");
+			put(AutomationRule.EVENT_USER_LOGOUT, "User logout");
 		}
 	};
 	

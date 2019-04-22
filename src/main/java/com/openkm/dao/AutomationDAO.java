@@ -426,6 +426,13 @@ public class AutomationDAO {
 	 * findValidationByClassName
 	 */
 	public Validation findValidationByClassName(String className) throws AutomationException {
+		if (validatorsList == null) {
+			try {
+				findValidations(true);
+			} catch (URISyntaxException e) {
+				throw new AutomationException(e);
+			}
+		}
 		for (Validation validation : validatorsList) {
 			if (validation.getClass().getName().equals(className)) {
 				return validation;
@@ -439,6 +446,13 @@ public class AutomationDAO {
 	 * findActionByClassName
 	 */
 	public Action findActionByClassName(String className) throws AutomationException {
+		if (actionsList == null) {
+			try {
+				findActions(true);
+			} catch (URISyntaxException e) {
+				throw new AutomationException(e);
+			}
+		}
 		for (Action action : actionsList) {
 			if (action.getClass().getName().equals(className)) {
 				return action;

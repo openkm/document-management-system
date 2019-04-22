@@ -66,6 +66,7 @@ public class AutomationUtils {
 	public static final String PROPERTY_GROUP_NAME = "propGroupName";
 	public static final String PROPERTY_GROUP_PROPERTIES = "propGroupProperties";
 	public static final String EVENT = "event";
+	public static final String USER = "user";
 	
 	/**
 	 * getPath
@@ -188,6 +189,16 @@ public class AutomationUtils {
 			return PathUtils.getParent((String) env.get(NODE_PATH));
 		}
 		return null;
+	}
+
+	/**
+	 * getUser
+	 */
+	public static String getUser(Map<String, Object> env) {
+		if (env.containsKey(USER)) {
+			return (String) env.get(USER);
+		}
+		return "";
 	}
 
 	/**
