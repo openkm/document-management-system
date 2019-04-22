@@ -8,4 +8,4 @@ ARCHIVE="OpenKM-${VERSION}.zip"
 echo -e ${BLUE} "** Build $ARCHIVE..." ${RESET}
 cd target
 md5sum OpenKM.war > md5sum.txt
-zip $ARCHIVE OpenKM.war md5sum.txt
+zip ${ARCHIVE} OpenKM.war md5sum.txt
