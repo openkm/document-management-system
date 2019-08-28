@@ -100,11 +100,7 @@ public class WorkflowWidget extends Composite implements ValidatorToFire {
 	 */
 	public void runProcessDefinition() {
 		if (drawed) {
-			if (manager.getValidationProcessor().validate()) {
-				runProcessDefinitionWithValues();
-			} else {
-				workflowWidgetToFire.hasPendingProcessDefinitionForms();
-			}
+			manager.getValidationProcessor().validate();
 		} else {
 			getProcessDefinitionForms(name);
 		}
@@ -154,7 +150,7 @@ public class WorkflowWidget extends Composite implements ValidatorToFire {
 		manager.edit();
 		drawed = true;
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		if (result) {
