@@ -8,7 +8,7 @@
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">  
+  <meta charset="utf-8">
   <meta name="author" content="OpenKM">
   <meta content="OpenKM is an EDRMS EDRMS, Document Management System and Record Management, easily to manage digital content, simplify your workload and yield high efficiency." name="description">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css" type="text/css" />
   <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-1.11.3.min.js"></script>
   <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.easy-ticker.min.js"></script>
-  
+
   <% if (Config.RSS_NEWS) { %>
     <script type="text/javascript">
       $(document).ready(function () {
@@ -126,7 +126,7 @@
     Locale locale = request.getLocale();
     Cookie[] cookies = request.getCookies();
     String preset = null;
-    
+
     if (cookies != null) {
       for (int i=0; i<cookies.length; i++) {
         if (cookies[i].getName().equals("lang")) {
@@ -134,7 +134,7 @@
         }
       }
     }
-    
+
     if (preset == null || preset.equals("")) {
       preset = locale.getLanguage() + "-" + locale.getCountry();
     }
@@ -154,7 +154,7 @@
     </div>
     <div style="display:none;" id="feedContainer" class="vticker"></div>
   </div>
-  
+
   <div id="login-background" class="background-zen">
     <div id="col-xs-12" class="hidden-xs hidden-sm hidden-md" style="height:100%;">
       <div class="background-zen" style="height:100%;"></div>
@@ -163,7 +163,7 @@
   <u:constantsMap className="com.openkm.core.Config" var="Config"/>
   <div id="login-container">
     <div class="login-title">
-      <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">
+      <img id="login-image" class="img-responsive center-block" src="logo/login">
     </div>
     <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
       <form name="loginform" method="post" action="j_spring_security_check" onsubmit="setCookie()"
@@ -289,10 +289,10 @@
       </div>
     </div>
   <% } %>
-  
+
   <script type="text/javascript">
     function makeLowercase() {
-      var username = document.getElementById('j_username'); 
+      var username = document.getElementById('j_username');
       username.value = username.value.toLowerCase();
     }
 

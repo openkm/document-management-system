@@ -22,9 +22,9 @@
       <strong>Community Version</strong>
     </div>
             <div class="login-title">
-                <img id="login-image" class="img-responsive center-block" src="img/logo_login.gif">
-            </div>            
-            <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">              
+                <img id="login-image" class="img-responsive center-block" src="logo/mobile">
+            </div>
+            <div class="block remove-margin" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
               <form name="loginform" method="post" action="<%=request.getContextPath() %>/j_spring_security_check" class="form-horizontal form-bordered form-control-borderless" id="form-login">
                 <div class="form-group form-header text-center">
                         <div class="col-xs-12">
@@ -34,57 +34,57 @@
                     </div>
                 <c:if test="${not empty param.error}">
                   <div class="form-group form-error">
-                      <div id="col-xs-12">                                    
+                      <div id="col-xs-12">
                     <p class="text-danger text-center">
                         Authentication error
                       <c:if test="${Config.USER_PASSWORD_RESET && Config.PRINCIPAL_ADAPTER == 'com.openkm.principal.DatabasePrincipalAdapter'}">
                           (<a href="password_reset.jsp">Forgot your password?</a>)
                       </c:if>
                     </p>
-                    
-                </div>  
-              </div>   
-            </c:if>           
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <div class="input-group">                                
-                    <span class="input-group-addon"><i class="fa fa-user"></i></i></span>                       
-                    <input name="j_username" id="j_username" type="text" <%=Config.SYSTEM_LOGIN_LOWERCASE?"onchange=\"makeLowercase();\"":"" %> class="form-control input-lg" placeholder="User"/>
-                            </div>
-                        </div>
+
+                </div>
+              </div>
+            </c:if>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user"></i></i></span>
+            <input name="j_username" id="j_username" type="text" <%=Config.SYSTEM_LOGIN_LOWERCASE?"onchange=\"makeLowercase();\"":"" %> class="form-control input-lg" placeholder="User"/>
                     </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
-                                <input type="password" id="j_password" name="j_password" class="form-control input-lg" placeholder="Password">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group form-actions">
-                        <div class="col-xs-6">
-                          <!-- 
-                            <label class="switch switch-primary" data-toggle="tooltip" title="Recordarme?">
-                                <input type="checkbox" id="_spring_security_remember_me" name="_spring_security_remember_me" >
-                                <span></span>
-                            </label>
-                            -->
-                        </div>                        
-                        <div class="col-xs-12 text-right">
-                            <button name="submit" type="submit" class="btn btn-sm btn-primary btn-block"><i class="fa fa-key"></i> Login</button>                            
-                        </div>
-                    </div>
-                    <div class="form-group form-footer" style="border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important;">
-                      <div class="col-xs-12 text-center">
-                            <p>OpenKM Mobile</p>
-                        </div>                      
-                    </div>
-                </form>
+                </div>
             </div>
-  </div>   
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+                        <input type="password" id="j_password" name="j_password" class="form-control input-lg" placeholder="Password">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-actions">
+                <div class="col-xs-6">
+                  <!--
+                    <label class="switch switch-primary" data-toggle="tooltip" title="Recordarme?">
+                        <input type="checkbox" id="_spring_security_remember_me" name="_spring_security_remember_me" >
+                        <span></span>
+                    </label>
+                    -->
+                </div>
+                <div class="col-xs-12 text-right">
+                    <button name="submit" type="submit" class="btn btn-sm btn-primary btn-block"><i class="fa fa-key"></i> Login</button>
+                </div>
+            </div>
+            <div class="form-group form-footer" style="border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important;">
+              <div class="col-xs-12 text-center">
+                    <p>OpenKM Mobile</p>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
   <script type="text/javascript">
     function makeLowercase() {
-      var username = document.getElementById('j_username'); 
+      var username = document.getElementById('j_username');
       username.value = username.value.toLowerCase();
     }
   </script>
