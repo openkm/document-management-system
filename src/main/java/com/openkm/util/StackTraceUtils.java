@@ -84,6 +84,24 @@ public class StackTraceUtils {
 	}
 
 	/**
+	 * Is this method or package calling me?
+	 */
+	public static boolean isCallingMe(String className) {
+		StackTraceElement[] trace = (new Throwable()).getStackTrace();
+
+		// Once you have the trace you can pick out information you need.
+		if (trace.length >= 2) {
+			for (int i = 2; i < trace.length; i++) {
+				if (trace[i].getClassName().startsWith(className)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Convert stack trace to String
 	 */
 	public static String toString(Throwable t) {
