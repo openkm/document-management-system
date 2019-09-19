@@ -115,12 +115,12 @@
         </a>
       </li>
       <li>
-        <a target="frame" href="repository_import.jsp" title="Import">
+        <a target="frame" href="Repository?action=import" title="Import">
           <img src="img/toolbar/import.png">
         </a>
       </li>
       <li>
-        <a target="frame" href="repository_export.jsp" title="Export">
+        <a target="frame" href="Repository?action=export" title="Export">
           <img src="img/toolbar/export.png">
          </a>
       </li>
