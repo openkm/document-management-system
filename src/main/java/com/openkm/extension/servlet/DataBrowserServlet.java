@@ -56,21 +56,7 @@ public class DataBrowserServlet extends BaseServlet {
 	private static final String SEL_DOCUMENT = "doc";
 
 	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
-		String method = request.getMethod();
-
-		if (method.equals(METHOD_GET)) {
-			doGet(request, response);
-		} else if (method.equals(METHOD_POST)) {
-			doPost(request, response);
-		}
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
-			ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = WebUtils.getString(request, "action");
 		updateSessionManager(request);
 

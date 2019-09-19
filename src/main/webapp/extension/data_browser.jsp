@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.openkm.com/tags/utils" prefix="u" %>
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="Shortcut icon" href="favicon.ico" />
@@ -14,7 +14,14 @@
   <script type="text/javascript" src="../js/fixedTableHeader.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
-    	TABLE.fixHeader('table');
+      TABLE.fixHeader('table');
+
+      $('.btn-select').click(function() {
+        var dst = $(this).data('dst');
+        var path = $(this).data('path');
+        $('#' + dst, window.parent.document).val(path);
+        window.parent.dialogClose();
+      });
 	});
   </script>
   <title>Data Browser</title>
@@ -41,7 +48,7 @@
           <td><a href="${urlBrowse}">${fld.name}</a></td>
           <td align="center">
             <c:if test="${fld.sel == 'true'}">
-              <a href="javascript:void(0)" onclick="$('#${dst}', window.parent.document).val('${fld.path}'); window.parent.dialogClose();"><img src="img/select.png" alt="Select" title="Select"/></a>
+              <a href="javascript:void(0)" class="btn-select" data-dst="${dst}" data-path="${fld.path}"><img src="img/select.png" alt="Select" title="Select"/></a>
             </c:if>
           </td>
         </tr>
@@ -59,7 +66,7 @@
           <td>${doc.name}</td>
           <td align="center">
             <c:if test="${doc.sel == 'true'}">
-              <a href="javascript:void(0)" onclick="$('#${dst}', window.parent.document).val('${doc.path}'); window.parent.dialogClose();"><img src="img/select.png" alt="Select" title="Select"/></a>
+              <a href="javascript:void(0)" class="btn-select" data-dst="${dst}" data-path="${doc.path}"><img src="img/select.png" alt="Select" title="Select"/></a>
             </c:if>
           </td>
         </tr>
