@@ -24,8 +24,21 @@ package com.openkm.util;
 import org.xbill.DNS.*;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class NetworkUtils {
+	/**
+	 * Get hostname
+	 */
+	public static String getHostname() {
+		try {
+			return InetAddress.getLocalHost().getCanonicalHostName();
+		} catch (UnknownHostException e) {
+			return  "unknown";
+		}
+	}
+
 	public static String reverseDns(String hostIp) throws IOException {
 		Resolver res = new ExtendedResolver();
 

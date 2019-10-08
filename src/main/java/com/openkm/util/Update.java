@@ -42,21 +42,24 @@ public class Update {
 		try {
 			URL url = new URL("http://update.openkm.com/");
 			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+			String hostname = NetworkUtils.getHostname();
 			AppVersion av = WarUtils.getAppVersion();
+
 			// @formatter:off
 			String content = "okm_uuid=" + URLEncoder.encode(Repository.getUuid(), "UTF-8") +
-					"&okm_version=" + URLEncoder.encode(av.getVersion(), "UTF-8") +
-					"&okm_build=" + URLEncoder.encode(av.getBuild(), "UTF-8") +
-					"&os_name=" + URLEncoder.encode(System.getProperty("os.name"), "UTF-8") +
-					"&os_version=" + URLEncoder.encode(System.getProperty("os.version"), "UTF-8") +
-					"&java_vendor=" + URLEncoder.encode(System.getProperty("java.vm.vendor"), "UTF-8") +
-					"&java_version=" + URLEncoder.encode(System.getProperty("java.version"), "UTF-8") +
-					"&hbm_dialect=" + URLEncoder.encode(Config.HIBERNATE_DIALECT, "UTF-8") +
-					"&doc_num=" + RepositoryInfo.getDocumentsByContext().getTotal() +
-					"&fld_num=" + RepositoryInfo.getFoldersByContext().getTotal() +
-					"&mail_num=" + RepositoryInfo.getMailsByContext().getTotal() +
-					"&doc_size=" + RepositoryInfo.getDocumentsSizeByContext().getTotal() +
-					"&user_num=" + CommonAuthModule.getPrincipalAdapter().getUsers().size();
+				"&okm_version=" + URLEncoder.encode(av.getVersion(), "UTF-8") +
+				"&okm_build=" + URLEncoder.encode(av.getBuild(), "UTF-8") +
+				"&srv_name=" + URLEncoder.encode(hostname, "UTF-8") +
+				"&os_name=" + URLEncoder.encode(System.getProperty("os.name"), "UTF-8") +
+				"&os_version=" + URLEncoder.encode(System.getProperty("os.version"), "UTF-8") +
+				"&java_vendor=" + URLEncoder.encode(System.getProperty("java.vm.vendor"), "UTF-8") +
+				"&java_version=" + URLEncoder.encode(System.getProperty("java.version"), "UTF-8") +
+				"&hbm_dialect=" + URLEncoder.encode(Config.HIBERNATE_DIALECT, "UTF-8") +
+				"&doc_num=" + RepositoryInfo.getDocumentsByContext().getTotal() +
+				"&fld_num=" + RepositoryInfo.getFoldersByContext().getTotal() +
+				"&mail_num=" + RepositoryInfo.getMailsByContext().getTotal() +
+				"&doc_size=" + RepositoryInfo.getDocumentsSizeByContext().getTotal() +
+				"&user_num=" + CommonAuthModule.getPrincipalAdapter().getUsers().size();
 			// @formatter:on
 
 			urlConn.setDoInput(true);
