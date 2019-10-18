@@ -392,7 +392,7 @@
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
-      <version>1.8.16</version>
+      <version>2.0.13</version>
     </dependency>
     <dependency>
       <!-- http://books.evc-cit.info/odf_utils -->
@@ -944,8 +944,9 @@
               <modules>
                 <module>com.openkm.frontend.Main</module>
               </modules>
-              <localWorkers>4</localWorkers>
+              <localWorkers>3</localWorkers>
               <extraJvmArgs>-Xms256m -Xmx2048m</extraJvmArgs>
+              <gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
             </configuration>
           </plugin>
 
