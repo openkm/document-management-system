@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.export.*;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.export.*;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
@@ -187,58 +188,55 @@ public class ReportUtils {
 		switch (outputType) {
 			case OUTPUT_TEXT:
 				JRTextExporter textExp = new JRTextExporter();
-				textExp.setParameter(JRTextExporterParameter.PAGE_HEIGHT, 300);
-				textExp.setParameter(JRTextExporterParameter.PAGE_WIDTH, 100);
-				textExp.setParameter(JRTextExporterParameter.CHARACTER_WIDTH, 80);
-				textExp.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-				textExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				textExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				SimpleTextReportConfiguration configuration = new SimpleTextReportConfiguration();
+				configuration.setPageHeightInChars(300);
+				configuration.setPageWidthInChars(100);
+				configuration.setCharWidth(80f);
+				textExp.setConfiguration(configuration);
+				textExp.setExporterInput(new SimpleExporterInput(print));
+				textExp.setExporterOutput(new SimpleWriterExporterOutput(out, "UTF-8"));
 				textExp.exportReport();
 				break;
 
 			case OUTPUT_PDF:
 				JRPdfExporter pdfExp = new JRPdfExporter();
-				pdfExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				pdfExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				pdfExp.setExporterInput(new SimpleExporterInput(print));
+				pdfExp.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
 				pdfExp.exportReport();
 				break;
 
 			case OUTPUT_HTML:
-				JRHtmlExporter htmlExp = new JRHtmlExporter();
-				htmlExp.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-				htmlExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				htmlExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
-				htmlExp.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				HtmlExporter htmlExp = new HtmlExporter();
+				htmlExp.setExporterInput(new SimpleExporterInput(print));
+				htmlExp.setExporterOutput(new SimpleHtmlExporterOutput(out, "UTF-8"));
 				htmlExp.exportReport();
 				break;
 
 			case OUTPUT_RTF:
 				JRRtfExporter rtfExp = new JRRtfExporter();
-				rtfExp.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-				rtfExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				rtfExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				rtfExp.setExporterInput(new SimpleExporterInput(print));
+				rtfExp.setExporterOutput(new SimpleWriterExporterOutput(out, "UTF-8"));
 				rtfExp.exportReport();
 				break;
 
 			case OUTPUT_CSV:
 				JRCsvExporter csvExp = new JRCsvExporter();
-				csvExp.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-				csvExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				csvExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				csvExp.setExporterInput(new SimpleExporterInput(print));
+				csvExp.setExporterOutput(new SimpleWriterExporterOutput(out, "UTF-8"));
 				csvExp.exportReport();
 				break;
 
 			case OUTPUT_ODT:
 				JROdtExporter odtExp = new JROdtExporter();
-				odtExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				odtExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				odtExp.setExporterInput(new SimpleExporterInput(print));
+				odtExp.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
 				odtExp.exportReport();
 				break;
 
 			case OUTPUT_DOCX:
 				JRDocxExporter docxExp = new JRDocxExporter();
-				docxExp.setParameter(JRExporterParameter.JASPER_PRINT, print);
-				docxExp.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+				docxExp.setExporterInput(new SimpleExporterInput(print));
+				docxExp.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
 				docxExp.exportReport();
 				break;
 		}

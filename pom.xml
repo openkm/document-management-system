@@ -247,7 +247,7 @@
     <dependency>
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports</artifactId>
-      <version>5.6.1</version>
+      <version>6.4.3</version>
       <exclusions>
         <!-- Avoid java.lang.NoSuchMethodError: org.eclipse.jdt.internal.compiler.Compiler -->
         <!-- See http://groups.google.com/group/google-web-toolkit/browse_thread/thread/49e20fb5185b34ce/75436f95e29dce85?hl=en -->
@@ -442,7 +442,7 @@
       <scope>provided</scope>
     </dependency>
     <!-- Only for development -->
-    <!-- 
+    <!--
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
