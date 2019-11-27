@@ -57,7 +57,7 @@ public interface OKMDocumentServiceAsync {
 
 	public void restoreVersion(String docPath, String versionId, AsyncCallback<?> callback);
 
-	public void get(String docPath, AsyncCallback<GWTDocument> callback);
+	public void getProperties(String docPath, AsyncCallback<GWTDocument> callback);
 
 	public void copy(String docPath, String fldPath, AsyncCallback<?> callback);
 

@@ -356,6 +356,9 @@ public class Config {
 	public static String PROPERTY_RSS_NEWS_MAX_SIZE = "rss.news.max.size";
 	public static String PROPERTY_RSS_NEWS_VISIBLE = "rss.news.visible";
 
+	// Ask for drag and drop updates
+    public static String PROPERTY_ASK_DRAG_AND_DROP_UPDATES = "ask.drag.and.drop.updates";
+    
 	/**
 	 * Default values
 	 */
@@ -655,6 +658,9 @@ public class Config {
 	public static int SESSION_EXPIRATION = 1800; // 30 mins (session.getMaxInactiveInterval())
 	public static String LIST_SEPARATOR = ";";
 
+	// Ask for drag and drop updates
+    public static boolean ASK_DRAG_AND_DROP_UPDATES = false;
+    
 	/**
 	 * Get url base
 	 */
@@ -1207,6 +1213,10 @@ public class Config {
 			RSS_NEWS_MAX_SIZE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_MAX_SIZE, RSS_NEWS_MAX_SIZE);
 			RSS_NEWS_VISIBLE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_VISIBLE, RSS_NEWS_VISIBLE);
 
+	        // Ask for drag and drop updates
+            ASK_DRAG_AND_DROP_UPDATES = ConfigDAO.getBoolean(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, ASK_DRAG_AND_DROP_UPDATES);
+            values.put(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, Boolean.toString(ASK_DRAG_AND_DROP_UPDATES));
+            
 			for (Entry<String, String> entry : values.entrySet()) {
 				log.info("RELOAD - {}={}", entry.getKey(), entry.getValue());
 			}

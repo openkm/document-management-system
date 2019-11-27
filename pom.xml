@@ -865,6 +865,13 @@
       <artifactId>zip4j</artifactId>
       <version>1.3.2</version>
     </dependency>
+
+    <!-- Drag and drop -->
+    <dependency>
+      <groupId>com.github.akjava</groupId>
+      <artifactId>html5gwt</artifactId>
+      <version>140127</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -1014,7 +1021,9 @@
             <artifactId>maven-enforcer-plugin</artifactId>
             <version>3.0.0-M2</version>
             <configuration>
-              <rules><dependencyConvergence/></rules>
+              <rules>
+                <dependencyConvergence/>
+              </rules>
             </configuration>
           </plugin>
         </plugins>

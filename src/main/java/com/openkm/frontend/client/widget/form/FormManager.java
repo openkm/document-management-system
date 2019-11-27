@@ -991,7 +991,7 @@ public class FormManager {
 				repositoryService.getPathByUUID(upload.getDocumentUuid(), new AsyncCallback<String>() {
 					@Override
 					public void onSuccess(String result) {
-						documentService.get(result, new AsyncCallback<GWTDocument>() {
+						documentService.getProperties(result, new AsyncCallback<GWTDocument>() {
 							@Override
 							public void onSuccess(GWTDocument result) {
 								final String docPath = result.getPath();

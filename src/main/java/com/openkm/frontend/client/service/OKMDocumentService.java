@@ -60,7 +60,7 @@ public interface OKMDocumentService extends RemoteService {
 
 	public void restoreVersion(String docPath, String versionId) throws OKMException;
 
-	public GWTDocument get(String docPath) throws OKMException;
+	public GWTDocument getProperties(String docPath) throws OKMException;
 
 	public void copy(String docPath, String fldPath) throws OKMException;
 

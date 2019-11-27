@@ -140,7 +140,8 @@ public class GWTWorkspace implements IsSerializable {
 	private GWTProfileFileBrowser profileFileBrowser = new GWTProfileFileBrowser();
 	private GWTProfilePagination profilePagination = new GWTProfilePagination();
 	private List<GWTMimeType> mimeTypes;
-
+	private boolean askDragAndDropUpdates;
+	
 	/**
 	 * GWTWorkspace
 	 */
@@ -984,4 +985,12 @@ public class GWTWorkspace implements IsSerializable {
 	public void setMimeTypes(List<GWTMimeType> mimeTypes) {
 		this.mimeTypes = mimeTypes;
 	}
+
+	public boolean isAskDragAndDropUpdates() {
+        return askDragAndDropUpdates;
+    }
+
+    public void setAskDragAndDropUpdates(boolean askDragAndDropUpdates) {
+        this.askDragAndDropUpdates = askDragAndDropUpdates;
+    }	
 }

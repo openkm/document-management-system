@@ -154,4 +154,25 @@ public class PathUtils {
 			return true;
 		}
 	}
+
+	/**
+	 * Valid path name. Delete special characters.
+	 */
+	public static String toValidPathName(String path) {
+		String finalPath = "";
+		int count = 0;
+		for (String fldName : path.split("/")) {
+			// Path start with /okm:root/xxx, xxx has count == 2 when exists
+			if (count > 1) {
+				fldName = cleanup(fldName);
+				fldName = FileUtils.toValidFilename(fldName);
+			}
+			// At the begining the initial name is empty
+			if (!fldName.isEmpty()) {
+				finalPath += "/" + fldName;
+			}
+			count++;
+		}
+		return finalPath;
+	}
 }

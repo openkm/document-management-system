@@ -816,6 +816,10 @@ button:hover {
     height: 20px;
 }
 
+.okm-Input-drag {
+	border: 1px solid black !important;
+}
+
 input.okm-Input {
 	height: 18px !important;
 } 
@@ -1515,8 +1519,16 @@ input.okm-Input {
   	width: 50%;
 }
 
-.gwt-ProgressBar-shell .gwt-ProgressBar-bar {
-  	background-color: #67A7E3;
+.gwt-ProgressBar-bar {
+	background-color: #67A7E3;
+}
+
+.gwt-ProgressBar-bar-update {
+	background-color: #068606 !important;
+}
+
+.gwt-ProgressBar-bar-legend {
+	border: 1px solid black;
 }
 
 .gwt-ProgressBar-shell .gwt-ProgressBar-text {
@@ -1524,6 +1536,10 @@ input.okm-Input {
   	margin: 0px;
   	color: white;
   	top: 3px;
+}
+
+.okm-progressBarError {
+	background-color: #F00 !important;
 }
 
 /* Tag cloud */
@@ -1709,6 +1725,21 @@ input.okm-Input {
 	top: 0;
 	width: 100%;
 	z-index: 1000;
+}
+
+/* drag and drop box */
+.okm-DragAndDropBackground {
+	outline: 2px dashed black !important;
+	outline-offset: -10px !important;
+	background: none repeat scroll 0 0 #C3D9FF;
+	opacity: 0.5;
+	position: fixed;
+	z-index: 1000;
+}
+
+.okm-DragAndDropBackground-Content {
+	position: absolute;
+	font-size: 30px;
 }
 
 /* Chrome fix for button images */
