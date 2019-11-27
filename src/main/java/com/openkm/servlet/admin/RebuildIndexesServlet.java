@@ -30,6 +30,7 @@ import com.openkm.dao.bean.NodeFolder;
 import com.openkm.dao.bean.NodeMail;
 import com.openkm.extractor.TextExtractorWorker;
 import com.openkm.util.FileLogger;
+import com.openkm.util.StackTraceUtils;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
 import org.hibernate.*;
@@ -135,17 +136,20 @@ public class RebuildIndexesServlet extends BaseServlet {
 			out.flush();
 
 			// Finalized
-			FileLogger.info(BASE_NAME, "END - Rebuild text extraction");
 			out.println("<li>Index rebuilding completed!</li>");
 			out.println("</ul>");
 			out.flush();
 		} catch (Exception e) {
+			FileLogger.error(BASE_NAME, StackTraceUtils.toString(e));
 			out.println("<div class=\"warn\">Exception: " + e.getMessage() + "</div>");
 			out.flush();
 		} finally {
 			Config.SYSTEM_READONLY = false;
 			Config.SYSTEM_MAINTENANCE = false;
 		}
+
+		// Finalized
+		FileLogger.info(BASE_NAME, "END - Rebuild text extraction");
 
 		// End page
 		footer(out);
@@ -246,12 +250,12 @@ public class RebuildIndexesServlet extends BaseServlet {
 			out.flush();
 
 			// Finalized
-			FileLogger.info(BASE_NAME, "END - Rebuild Lucene indexes");
 			out.println("<li>Index rebuilding completed!</li>");
 			out.println("</ul>");
 			out.flush();
 		} catch (Exception e) {
 			tx.rollback();
+			FileLogger.error(BASE_NAME, StackTraceUtils.toString(e));
 			out.println("<div class=\"warn\">Exception: " + e.getMessage() + "</div>");
 			out.flush();
 		} finally {
@@ -260,6 +264,9 @@ public class RebuildIndexesServlet extends BaseServlet {
 			HibernateUtil.close(ftSession);
 			HibernateUtil.close(session);
 		}
+
+		// Finalized
+		FileLogger.info(BASE_NAME, "END - Rebuild Lucene indexes");
 
 		// End page
 		footer(out);
@@ -327,11 +334,11 @@ public class RebuildIndexesServlet extends BaseServlet {
 			out.flush();
 
 			// Finalized
-			FileLogger.info(BASE_NAME, "END - Rebuild Lucene indexes");
 			out.println("<li>Index rebuilding completed!</li>");
 			out.println("</ul>");
 			out.flush();
 		} catch (Exception e) {
+			FileLogger.error(BASE_NAME, StackTraceUtils.toString(e));
 			out.println("<div class=\"warn\">Exception: " + e.getMessage() + "</div>");
 			out.flush();
 		} finally {
@@ -340,6 +347,9 @@ public class RebuildIndexesServlet extends BaseServlet {
 			HibernateUtil.close(ftSession);
 			HibernateUtil.close(session);
 		}
+
+		// Finalized
+		FileLogger.info(BASE_NAME, "END - Rebuild Lucene indexes");
 
 		// End page
 		footer(out);
@@ -379,17 +389,20 @@ public class RebuildIndexesServlet extends BaseServlet {
 			out.flush();
 
 			// Finalized
-			FileLogger.info(BASE_NAME, "END - Indexes optimization");
 			out.println("<li>Index optimization completed!</li>");
 			out.println("</ul>");
 			out.flush();
 		} catch (Exception e) {
+			FileLogger.error(BASE_NAME, StackTraceUtils.toString(e));
 			out.println("<div class=\"warn\">Exception: " + e.getMessage() + "</div>");
 			out.flush();
 		} finally {
 			Config.SYSTEM_READONLY = false;
 			Config.SYSTEM_MAINTENANCE = false;
 		}
+
+		// Finalized
+		FileLogger.info(BASE_NAME, "END - Indexes optimization");
 
 		// End page
 		footer(out);
@@ -470,6 +483,11 @@ public class RebuildIndexesServlet extends BaseServlet {
 					oldPerMile = perMile;
 				}
 			} catch (IOException e) {
+				try {
+					FileLogger.warn(BASE_NAME, StackTraceUtils.toString(e));
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
 				log.warn("IOException at FileLogger: " + e.getMessage());
 			}
 		}
