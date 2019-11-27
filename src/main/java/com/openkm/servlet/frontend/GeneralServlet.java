@@ -33,6 +33,7 @@ import com.openkm.frontend.client.bean.GWTConfig;
 import com.openkm.frontend.client.bean.GWTConverterStatus;
 import com.openkm.frontend.client.bean.GWTFileUploadingStatus;
 import com.openkm.frontend.client.bean.GWTTestMail;
+import com.openkm.frontend.client.constants.UploadConstants;
 import com.openkm.frontend.client.constants.service.ErrorCode;
 import com.openkm.frontend.client.service.OKMGeneralService;
 import com.openkm.util.GWTUtil;
@@ -59,16 +60,16 @@ public class GeneralServlet extends OKMRemoteServiceServlet implements OKMGenera
 		GWTFileUploadingStatus fus = new GWTFileUploadingStatus();
 		updateSessionManager();
 
-		if (getThreadLocalRequest().getSession().getAttribute(FileUploadServlet.FILE_UPLOAD_STATUS) != null) {
-			FileUploadListener listener = (FileUploadListener) getThreadLocalRequest().getSession().getAttribute(
-					FileUploadServlet.FILE_UPLOAD_STATUS);
+		if (getThreadLocalRequest().getSession().getAttribute(UploadConstants.FILE_UPLOAD_STATUS) != null) {
+			FileUploadListener listener = (FileUploadListener) getThreadLocalRequest().getSession()
+				.getAttribute(UploadConstants.FILE_UPLOAD_STATUS);
 			fus.setStarted(true);
 			fus.setBytesRead(listener.getBytesRead());
 			fus.setContentLength(listener.getContentLength());
 			fus.setUploadFinish(listener.isUploadFinish());
 
 			if (listener.getBytesRead() == listener.getContentLength() || listener.isUploadFinish()) {
-				getThreadLocalRequest().getSession().removeAttribute(FileUploadServlet.FILE_UPLOAD_STATUS);
+				getThreadLocalRequest().getSession().removeAttribute(UploadConstants.FILE_UPLOAD_STATUS);
 			}
 		}
 

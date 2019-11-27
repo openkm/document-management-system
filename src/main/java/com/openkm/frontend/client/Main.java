@@ -45,6 +45,7 @@ import com.openkm.frontend.client.service.*;
 import com.openkm.frontend.client.util.*;
 import com.openkm.frontend.client.widget.*;
 import com.openkm.frontend.client.widget.chat.OnlineUsersPopup;
+import com.openkm.frontend.client.widget.filebrowser.uploader.DragAndDropUploadFilesPopup;
 import com.openkm.frontend.client.widget.finddocument.FindDocumentSelectPopup;
 import com.openkm.frontend.client.widget.findfolder.FindFolderSelectPopup;
 import com.openkm.frontend.client.widget.findsimilar.FindSimilarDocumentSelectPopup;
@@ -92,6 +93,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	// Other panel declaration
 	public StartUpPopup startUpPopup;
 	public FileUploadPopup fileUpload;
+	public DragAndDropUploadFilesPopup dragAndDropPopup;
 	public ErrorPopup errorPopup;
 	public ErrorPopup errorPopupLogout;
 	public MsgPopup msgPopup;
@@ -344,6 +346,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		// Initialize general panels
 		fileUpload = new FileUploadPopup();
 		fileUpload.setStyleName("okm-Popup");
+		dragAndDropPopup = new DragAndDropUploadFilesPopup();
 		errorPopup = new ErrorPopup(false);
 		errorPopup.setStyleName("okm-Popup-Error");
 		errorPopup.setWidth("380px");

@@ -377,6 +377,31 @@ public class Util {
 	}
 
 	/**
+	 * Shorten path
+	 *
+	 * @see com.openkm.util.PathUtils#shortenPath(String, int)
+	 */
+	public static String shortenPath(String path, int maxLength) {
+		if (path.length() > maxLength) {
+			String fileName = Util.getName(path);
+			String parentPath = Util.getParent(path);
+			int remLen = maxLength - fileName.length() - 5;
+
+			if (remLen > 0) {
+				int lenA = (int) Math.ceil(remLen / 2);
+				int lenB = (int) Math.ceil(remLen / 2);
+				String pathA = parentPath.substring(0, lenA);
+				String pathB = parentPath.substring(parentPath.length() - lenB);
+				return pathA + "..." + pathB + "/" + fileName;
+			} else {
+				return path;
+			}
+		} else {
+			return path;
+		}
+	}
+
+	/**
 	 * Generate selectable widget text
 	 */
 	public static HTML createSelectable(String html) {

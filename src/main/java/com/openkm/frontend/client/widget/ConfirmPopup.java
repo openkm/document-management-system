@@ -30,7 +30,9 @@ import com.openkm.frontend.client.bean.GWTTaskInstance;
 import com.openkm.frontend.client.bean.form.GWTButton;
 import com.openkm.frontend.client.constants.ui.UIDesktopConstants;
 import com.openkm.frontend.client.constants.ui.UIDockPanelConstants;
+import com.openkm.frontend.client.util.Util;
 import com.openkm.frontend.client.widget.Draggable.ObjectToMove;
+import com.openkm.frontend.client.widget.filebrowser.uploader.DragAndDropUploader.DragAndDropWrapper;
 import com.openkm.frontend.client.widget.form.FormManager.ValidationButton;
 import com.openkm.frontend.client.widget.form.HasWorkflow;
 import com.openkm.frontend.client.widget.properties.CategoryManager.CategoryToRemove;
@@ -81,10 +83,12 @@ public class ConfirmPopup extends DialogBox {
 	public static final int CONFIRM_FORCE_CHAT_LOGIN = 39;
 	public static final int CONFIRM_LOCK_MASSIVE = 41;
 	public static final int CONFIRM_UNLOCK_MASSIVE = 42;
+	public static final int CONFIRM_DRAG_AND_DROP_UPDATE = 71;
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private HTML text;
+	private CheckBox checkbox;
 	private Button cancelButton;
 	private Button acceptButton;
 	private int action = 0;
@@ -102,10 +106,12 @@ public class ConfirmPopup extends DialogBox {
 		text = new HTML();
 		text.setStyleName("okm-NoWrap");
 		text.addStyleName("okm-Padding");
+		checkbox = new CheckBox("");
 
 		cancelButton = new Button(Main.i18n("button.cancel"), new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				executeCancel();
 				hide();
 			}
 		});
@@ -132,10 +138,13 @@ public class ConfirmPopup extends DialogBox {
 		vPanel.add(new HTML("<br>"));
 		vPanel.add(text);
 		vPanel.add(new HTML("<br>"));
+		vPanel.add(checkbox);
+		vPanel.add(Util.vSpace("10px"));
 		vPanel.add(hPanel);
 		vPanel.add(new HTML("<br>"));
 
 		vPanel.setCellHorizontalAlignment(text, VerticalPanel.ALIGN_CENTER);
+		vPanel.setCellHorizontalAlignment(checkbox, VerticalPanel.ALIGN_CENTER);
 		vPanel.setCellHorizontalAlignment(hPanel, VerticalPanel.ALIGN_CENTER);
 
 		super.hide();
@@ -359,6 +368,37 @@ public class ConfirmPopup extends DialogBox {
 			case CONFIRM_UNLOCK_MASSIVE:
 				Main.get().mainPanel.desktop.browser.fileBrowser.unlockMasive();
 				break;
+
+			case CONFIRM_DRAG_AND_DROP_UPDATE:
+				if (object != null && object instanceof DragAndDropWrapper) {
+					DragAndDropWrapper wrapper = (DragAndDropWrapper) object;
+					if (checkbox.getValue()) {
+						wrapper.getUploader().setOverwriteValue(true);
+					}
+					wrapper.getUploader().executeUpload(true, wrapper.getDocPath(), wrapper.getFile(), wrapper.getName(),
+						wrapper.getPath());
+				}
+				break;
+		}
+
+		action = NO_ACTION; // Resets action value
+	}
+
+	/**
+	 * Execute the canceled action
+	 */
+	private void executeCancel() {
+		switch (action) {
+			case CONFIRM_DRAG_AND_DROP_UPDATE:
+				if (object != null && object instanceof DragAndDropWrapper) {
+					DragAndDropWrapper wrapper = (DragAndDropWrapper) object;
+					if (checkbox.getValue()) {
+						wrapper.getUploader().setOverwriteValue(false);
+					}
+					wrapper.getUploader().executeUpload(false, wrapper.getDocPath(), wrapper.getFile(), wrapper.getName(),
+						wrapper.getPath());
+				}
+				break;
 		}
 
 		action = NO_ACTION; // Resets action value
@@ -371,6 +411,10 @@ public class ConfirmPopup extends DialogBox {
 	 */
 	public void setConfirm(int action) {
 		this.action = action;
+
+		// Only visible in drag and drop confirmation
+		checkbox.setVisible(false);
+
 		switch (action) {
 
 			case CONFIRM_DELETE_FOLDER:
@@ -492,13 +536,22 @@ public class ConfirmPopup extends DialogBox {
 			case CONFIRM_UNLOCK_MASSIVE:
 				text.setHTML(Main.i18n("confirm.massive.unlock"));
 				break;
+
+			case CONFIRM_DRAG_AND_DROP_UPDATE:
+				acceptButton.setHTML(Main.i18n("button.yes"));
+				cancelButton.setHTML(Main.i18n("button.no"));
+				checkbox.setHTML(Main.i18n("dragdrop.same.action"));
+				checkbox.setVisible(true);
+				if (object != null && object instanceof DragAndDropWrapper) {
+					DragAndDropWrapper wrapper = (DragAndDropWrapper) object;
+					text.setHTML(Main.i18n("confirm.dragdrop.update") + " <b>" + wrapper.getDocPath() + "</b> ?");
+				}
+				break;
 		}
 	}
 
 	/**
 	 * setConfirmationText
-	 *
-	 * @param text
 	 */
 	public void setConfirmationText(String text) {
 		this.text.setHTML(text);
@@ -540,5 +593,12 @@ public class ConfirmPopup extends DialogBox {
 		int top = (Window.getClientHeight() - 125) / 2;
 		setPopupPosition(left, top);
 		super.show();
+	}
+
+	/**
+	 * Set checkbox value
+	 */
+	public void setCheckboxValue(boolean value) {
+		this.checkbox.setValue(value);
 	}
 }

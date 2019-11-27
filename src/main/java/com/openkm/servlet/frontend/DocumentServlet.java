@@ -427,8 +427,8 @@ public class DocumentServlet extends OKMRemoteServiceServlet implements OKMDocum
 	}
 
 	@Override
-	public GWTDocument get(String docPath) throws OKMException {
-		log.debug("get({})", docPath);
+	public GWTDocument getProperties(String docPath) throws OKMException {
+		log.debug("getProperties({})", docPath);
 		GWTDocument gWTDocument = new GWTDocument();
 		updateSessionManager();
 
@@ -445,7 +445,7 @@ public class DocumentServlet extends OKMRemoteServiceServlet implements OKMDocum
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMDocumentService, ErrorCode.CAUSE_General), e.getMessage());
 		}
 
-		log.debug("get: {}", gWTDocument);
+		log.debug("getProperties: {}", gWTDocument);
 		return gWTDocument;
 	}
 
@@ -983,7 +983,7 @@ public class DocumentServlet extends OKMRemoteServiceServlet implements OKMDocum
 		log.debug("convertToPdf: {}", destinationPath);
 		return destinationPath;
 	}
-	
+
 	/*
 	 * ========================
 	 * LiveEdit methods
@@ -1111,7 +1111,7 @@ public class DocumentServlet extends OKMRemoteServiceServlet implements OKMDocum
 			}
 		}
 	}
-	
+
 	/*
 	 * ========================
 	 * LiveEdit methods ends

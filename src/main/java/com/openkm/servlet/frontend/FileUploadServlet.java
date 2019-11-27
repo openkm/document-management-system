@@ -9,6 +9,7 @@ import com.openkm.bean.Folder;
 import com.openkm.bean.Mail;
 import com.openkm.core.*;
 import com.openkm.extension.core.ExtensionException;
+import com.openkm.frontend.client.constants.UploadConstants;
 import com.openkm.frontend.client.constants.service.ErrorCode;
 import com.openkm.frontend.client.constants.ui.UIFileUploadConstants;
 import com.openkm.module.db.DbDocumentModule;
@@ -48,8 +49,8 @@ public class FileUploadServlet extends OKMHttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final int INSERT = 0;
 	public static final int UPDATE = 1;
-	public static final String FILE_UPLOAD_STATUS = "file_upload_status";
 
+	@Override
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("doPost({}, {})", request, response);
@@ -95,7 +96,7 @@ public class FileUploadServlet extends OKMHttpServlet {
 				FileUploadListener listener = new FileUploadListener(Long.parseLong(contentLength));
 
 				// Saving listener to session
-				request.getSession().setAttribute(FILE_UPLOAD_STATUS, listener);
+				request.getSession().setAttribute(UploadConstants.FILE_UPLOAD_STATUS, listener);
 				upload.setHeaderEncoding("UTF-8");
 
 				// upload servlet allows to set upload listener
@@ -110,6 +111,7 @@ public class FileUploadServlet extends OKMHttpServlet {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("path")) {
 							path = item.getString("UTF-8");
+							path = PathUtils.toValidPathName(path);
 						} else if (item.getFieldName().equals("action")) {
 							action = Integer.parseInt(item.getString("UTF-8"));
 						} else if (item.getFieldName().equals("users")) {

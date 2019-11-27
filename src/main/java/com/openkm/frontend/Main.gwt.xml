@@ -22,6 +22,9 @@
   <!-- Inherit the extension stuff -->
   <inherits name="com.openkm.extension.frontend.Customization"/>
 
+  <!-- HTML5 drag and drop support -->
+  <inherits name="com.akjava.gwt.html5.Html5widget" />
+
   <!-- Specify the app entry point class -->
   <entry-point class="com.openkm.frontend.client.Main"/>
 

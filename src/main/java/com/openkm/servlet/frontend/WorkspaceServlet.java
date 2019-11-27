@@ -474,6 +474,8 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 				workspace.setChangePassword(false);
 			}
 
+			workspace.setAskDragAndDropUpdates(Config.ASK_DRAG_AND_DROP_UPDATES);
+			
 			// Saving workspace to session ( will be used to get extracolumn data )
 			saveUserWorkspaceSession(workspace);
 		} catch (DatabaseException e) {

@@ -101,6 +101,10 @@ public class FileUploadResponse implements Serializable {
 	public void setError(String error) {
 		this.error = error;
 	}
+	
+    public void setError(String errorCode, String errorMessage) {
+        this.error = errorCode + "|" + errorMessage;
+    }	
 
 	public boolean isDigitalSignature() {
 		return digitalSignature;
