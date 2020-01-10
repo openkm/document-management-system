@@ -42,6 +42,9 @@
           <c:param name="sel" value="${sel}"/>
           <c:param name="root" value="${root}"/>
           <c:param name="path" value="${fld.path}"/>
+          <c:if test="${fld.uuid != null}">
+            <c:param name="uuid" value="${fld.uuid}"/>
+          </c:if>            
         </c:url>
         <c:set var="row">${row + 1}</c:set>
         <tr class="${row % 2 == 0 ? 'even' : 'odd'}">
@@ -60,6 +63,9 @@
           <c:param name="sel" value="${sel}"/>
           <c:param name="root" value="${root}"/>
           <c:param name="path" value="${doc.path}"/>
+          <c:if test="${doc.uuid != null}">
+            <c:param name="uuid" value="${doc.uuid}"/>
+          </c:if>           
         </c:url>
         <c:set var="row">${row + 1}</c:set>
         <tr class="${row % 2 == 0 ? 'even' : 'odd'}">
