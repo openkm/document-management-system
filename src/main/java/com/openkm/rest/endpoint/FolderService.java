@@ -27,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openkm.api.OKMFolder;
 import com.openkm.bean.Folder;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.FolderModule;
@@ -172,4 +173,17 @@ public class FolderService {
 			throw new GenericException(e);
 		}
 	}
+	
+    @PUT
+    @Path("/createMissingFolders")
+    public void createMissingFolders(@QueryParam("fldPath") String fldPath) throws GenericException {
+        try {
+            log.debug("createMissingFolders({})", fldPath);
+            OKMFolder.getInstance().createMissingFolders(null, fldPath);
+            log.debug("createMissingFolders: void");
+        } catch (Exception e) {
+            throw new GenericException(e);
+        }
+    }
 }
+
