@@ -21,10 +21,21 @@
 
 package com.openkm.rest.endpoint;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
@@ -34,7 +45,15 @@ import com.openkm.module.AuthModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.rest.GenericException;
-import com.openkm.rest.util.*;
+import com.openkm.rest.util.ChangeSecurity;
+import com.openkm.rest.util.GrantedRole;
+import com.openkm.rest.util.GrantedRoleList;
+import com.openkm.rest.util.GrantedUser;
+import com.openkm.rest.util.GrantedUserList;
+import com.openkm.rest.util.RevokedRole;
+import com.openkm.rest.util.RevokedUser;
+import com.openkm.rest.util.RoleList;
+import com.openkm.rest.util.UserList;
 
 import io.swagger.annotations.Api;
 
@@ -254,6 +273,38 @@ public class AuthService {
 		}
 	}
 
+	   @PUT
+	    @Path("/changeSecurity")
+	    public void changeSecurity(ChangeSecurity changeSecurity) throws GenericException {
+	        try {
+	            log.debug("changeSecurity({})", changeSecurity);
+	            AuthModule am = ModuleManager.getAuthModule();
+	            Map<String, Integer> grantedUsers = new HashMap<>();
+	            Map<String, Integer> revokedUsers = new HashMap<>();
+	            Map<String, Integer> grantedRoles = new HashMap<>();
+	            Map<String, Integer> revokedRoles = new HashMap<>();
+
+	            // Unmarshall HashMap
+	            for (GrantedUser grantedUser : changeSecurity.getGrantedUsersList().getList()) {
+	                grantedUsers.put(grantedUser.getUser(), grantedUser.getPermissions());
+	            }
+	            for (RevokedUser revokeUser : changeSecurity.getRevokedUsersList().getList()) {
+	                revokedUsers.put(revokeUser.getUser(), revokeUser.getPermissions());
+	            }
+	            for (GrantedRole grantedRole : changeSecurity.getGrantedRolesList().getList()) {
+	                grantedRoles.put(grantedRole.getRole(), grantedRole.getPermissions());
+	            }
+	            for (RevokedRole revokedRole : changeSecurity.getRevokedRolesList().getList()) {
+	                revokedRoles.put(revokedRole.getRole(), revokedRole.getPermissions());
+	            }
+
+	            am.changeSecurity(null, changeSecurity.getNodeId(), grantedUsers, revokedUsers, grantedRoles, revokedRoles, changeSecurity.isRecursive());
+	            log.debug("changeSecurity: void");
+	        } catch (Exception e) {
+	            throw new GenericException(e);
+	        }
+	    }
+	   
 	@POST
 	@Path("/createUser")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
