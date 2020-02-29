@@ -29,8 +29,8 @@ import com.openkm.automation.AutomationUtils;
 import com.openkm.bean.Document;
 import com.openkm.bean.Permission;
 import com.openkm.cache.UserItemsManager;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.bean.*;
 import com.openkm.extension.dao.ForumDAO;
 import com.openkm.extension.dao.StapleGroupDAO;
@@ -1106,7 +1106,7 @@ public class NodeDocumentDAO {
 			HibernateUtil.close(session);
 		}
 	}
-	
+
 	/**
 	 * Lock node
 	 */
@@ -1396,7 +1396,7 @@ public class NodeDocumentDAO {
 
 	/**
 	 * Clear pending extraction queue
-	 *
+	 * <p>
 	 * Note: the HQL query fails due to https://hibernate.atlassian.net/browse/HHH-1657
 	 */
 	public int resetPendingExtractionFlag(String docUuid) throws DatabaseException {
@@ -1729,7 +1729,7 @@ public class NodeDocumentDAO {
 	 */
 	private void initialize(List<NodeDocument> nDocumentList) {
 		for (NodeDocument nDocument : nDocumentList) {
-			initialize(nDocument, false);
+			initialize(nDocument, true);
 		}
 	}
 

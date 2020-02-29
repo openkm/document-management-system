@@ -783,6 +783,13 @@ public class NodeFolderDAO {
 	 * Force initialization of a proxy
 	 */
 	public void initialize(NodeFolder nFolder) {
+		initialize(nFolder, true);
+	}
+
+	/**
+	 * Force initialization of a proxy
+	 */
+	public void initialize(NodeFolder nFolder, boolean initPropGroups) {
 		if (nFolder != null) {
 			Hibernate.initialize(nFolder);
 			Hibernate.initialize(nFolder.getKeywords());
@@ -790,6 +797,10 @@ public class NodeFolderDAO {
 			Hibernate.initialize(nFolder.getSubscriptors());
 			Hibernate.initialize(nFolder.getUserPermissions());
 			Hibernate.initialize(nFolder.getRolePermissions());
+
+			if (initPropGroups) {
+				Hibernate.initialize(nFolder.getProperties());
+			}
 		}
 	}
 

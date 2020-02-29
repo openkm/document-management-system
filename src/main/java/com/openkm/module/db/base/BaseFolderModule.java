@@ -26,8 +26,8 @@ import com.openkm.bean.*;
 import com.openkm.bean.workflow.ProcessDefinition;
 import com.openkm.bean.workflow.ProcessInstance;
 import com.openkm.cache.UserItemsManager;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.extension.dao.WikiPageDAO;
@@ -52,7 +52,7 @@ public class BaseFolderModule {
 	 * Create a new folder
 	 */
 	public static NodeFolder create(String user, NodeFolder parentFolder, String name, Calendar created, Set<String> keywords,
-	                                Set<String> categories, Set<NodeProperty> propertyGroups, List<NodeNote> notes, WikiPage wiki) throws PathNotFoundException,
+			Set<String> categories, Set<NodeProperty> propertyGroups, List<NodeNote> notes, WikiPage wiki) throws PathNotFoundException,
 			AccessDeniedException, ItemExistsException, DatabaseException {
 
 		// Create and add a new folder node
@@ -72,9 +72,13 @@ public class BaseFolderModule {
 		folderNode.setKeywords(CloneUtils.clone(keywords));
 		folderNode.setCategories(CloneUtils.clone(categories));
 
-		for (NodeProperty nProp : CloneUtils.clone(propertyGroups)) {
-			nProp.setNode(folderNode);
-			folderNode.getProperties().add(nProp);
+		for (NodeProperty nProp : propertyGroups) {
+			NodeProperty nPropClone = new NodeProperty();
+			nPropClone.setNode(folderNode);
+			nPropClone.setName(nProp.getName());
+			nPropClone.setGroup(nProp.getGroup());
+			nPropClone.setValue(nProp.getValue());
+			folderNode.getProperties().add(nPropClone);
 		}
 
 		// Get parent node auth info
@@ -268,7 +272,7 @@ public class BaseFolderModule {
 
 	/**
 	 * Check if a node has removable childs
-	 *
+	 * <p>
 	 * TODO: Is this necessary? The access manager should prevent this and make the core thrown an exception.
 	 */
 	public static boolean hasWriteAccess(String fldUuid) throws PathNotFoundException, DatabaseException, RepositoryException {

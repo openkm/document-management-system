@@ -215,8 +215,8 @@ public class SearchDAO {
 	/**
 	 * Parses a query string, returning a {@link org.apache.lucene.search.Query}.
 	 *
-	 * @param expression  the query string to be parsed.
-	 * @param field the default field for query terms.
+	 * @param expression the query string to be parsed.
+	 * @param field      the default field for query terms.
 	 */
 	public Query parseQuery(String expression, String field) throws ParseException, DatabaseException {
 		log.debug("parseQuery({})", new Object[]{expression});
@@ -279,7 +279,7 @@ public class SearchDAO {
 	 * matched documents and this list need further prune by checking the READ permission in the AccessManager.
 	 * If the returned document list is very big, maybe lots of documents will be pruned because the user has
 	 * no read access and this would be a time consuming task.
-	 *
+	 * <p>
 	 * This method will read and check document from the Lucene query result until reach a given offset. After
 	 * that will add all the given document which the user have read access until the limit is reached. After
 	 * that will check if there is another document more who the user can read.
@@ -350,7 +350,7 @@ public class SearchDAO {
 	 * matched documents and this list need further prune by checking the READ permission in the AccessManager.
 	 * If the returned document list is very big, maybe lots of documents will be pruned because the user has
 	 * no read access and this would be a time consuming task.
-	 *
+	 * <p>
 	 * This method will read and check document from the Lucene query result until reach a given offset. After
 	 * that will add all the given document which the user have read access until the limit is reached. After
 	 * that will check if there are more documents (2 * limit) the user can read.
@@ -421,7 +421,7 @@ public class SearchDAO {
 	 * matched documents and this list need further prune by checking the READ permission in the AccessManager.
 	 * If the returned document list is very big, maybe lots of documents will be pruned because the user has
 	 * no read access and this would be a time consuming task.
-	 *
+	 * <p>
 	 * This method will read and check document from the Lucene query result until reach a given offset. After
 	 * that will add all the given document which the user have read access until the limit is reached. After
 	 * that will check if there are more documents (MAX_SEARCH_RESULTS) the user can read.
@@ -429,7 +429,7 @@ public class SearchDAO {
 	@SuppressWarnings("unchecked")
 	private NodeResultSet runQueryAccessManagerLimited(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
-		log.debug("runQueryAccessManagerLimited({}, {}, {}, {})", new Object[]{ftSession, query, offset, limit});
+		log.debug("runQueryAccessManagerLimited({}, {}, {}, {})", ftSession, query, offset, limit);
 		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
@@ -491,9 +491,8 @@ public class SearchDAO {
 	/**
 	 * Add result
 	 */
-	private void addResult(FullTextSession ftSession, List<NodeQueryResult> results,
-	                       Highlighter highlighter, Float score, NodeBase nBase)
-			throws IOException, InvalidTokenOffsetsException {
+	private void addResult(FullTextSession ftSession, List<NodeQueryResult> results, Highlighter highlighter, Float score,
+			NodeBase nBase)	throws IOException, InvalidTokenOffsetsException {
 		NodeQueryResult qr = new NodeQueryResult();
 		NodeDocument nDocument = null;
 		NodeMail nMail = null;
@@ -538,7 +537,7 @@ public class SearchDAO {
 			NodeFolderDAO.getInstance().initialize(qr.getFolder());
 			results.add(qr);
 		} else if (qr.getMail() != null) {
-			NodeMailDAO.getInstance().initialize(qr.getMail());
+			NodeMailDAO.getInstance().initialize(qr.getMail(), false);
 			results.add(qr);
 		} else if (qr.getAttachment() != null) {
 			NodeDocumentDAO.getInstance().initialize(qr.getAttachment(), false);
@@ -548,7 +547,7 @@ public class SearchDAO {
 
 	/**
 	 * Find by parent in depth
-	 *
+	 * <p>
 	 * TODO This cache should be for every user (no pass through access manager) and cleaned
 	 * after a create, move or copy folder operation.
 	 */

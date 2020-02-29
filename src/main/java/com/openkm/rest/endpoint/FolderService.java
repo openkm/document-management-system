@@ -21,25 +21,25 @@
 
 package com.openkm.rest.endpoint;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.api.OKMFolder;
+import com.openkm.bean.ContentInfo;
+import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.Folder;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.FolderModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.FolderList;
-
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="folder-service", value="folder-service")
+@Api(description = "folder-service", value = "folder-service")
 @Path("/folder")
 public class FolderService {
 	private static Logger log = LoggerFactory.getLogger(FolderService.class);
@@ -104,6 +104,19 @@ public class FolderService {
 	}
 
 	@PUT
+	@Path("/purge")
+	public void purge(@QueryParam("fldId") String fldId) throws GenericException {
+		try {
+			log.debug("purge({})", fldId);
+			FolderModule fm = ModuleManager.getFolderModule();
+			fm.purge(null, fldId);
+			log.debug("purge: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
 	@Path("/rename")
 	public Folder rename(@QueryParam("fldId") String fldId, @QueryParam("newName") String newName) throws GenericException {
 		try {
@@ -130,6 +143,42 @@ public class FolderService {
 		}
 	}
 
+	@PUT
+	@Path("/copy")
+	public void copy(@QueryParam("fldId") String fldId, @QueryParam("dstId") String dstId) throws GenericException {
+		try {
+			log.debug("copy({},{})", fldId, dstId);
+			FolderModule fm = ModuleManager.getFolderModule();
+			fm.copy(null, fldId, dstId);
+			log.debug("copy: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/extendedCopy")
+	public void extendedCopy(@QueryParam("fldId") String fldId, @QueryParam("dstId") String dstId,
+			@QueryParam("categories") boolean categories, @QueryParam("keywords") boolean keywords,
+			@QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
+			@QueryParam("wiki") boolean wiki) throws GenericException {
+		try {
+			log.debug("extendedCopy({}, {}, {}, {}, {}, {}, {})",
+					new Object[]{fldId, dstId, categories, keywords, propertyGroups, notes, wiki});
+			FolderModule dm = ModuleManager.getFolderModule();
+			ExtendedAttributes extAttr = new ExtendedAttributes();
+			extAttr.setCategories(categories);
+			extAttr.setKeywords(keywords);
+			extAttr.setNotes(notes);
+			extAttr.setPropertyGroups(propertyGroups);
+			extAttr.setWiki(wiki);
+			dm.extendedCopy(null, fldId, dstId, extAttr);
+			log.debug("extendedCopy: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
 	@GET
 	@Path("/getChildren")
 	public FolderList getChildren(@QueryParam("fldId") String fldId) throws GenericException {
@@ -146,6 +195,20 @@ public class FolderService {
 	}
 
 	@GET
+	@Path("/getContentInfo")
+	public ContentInfo getContentInfo(@QueryParam("fldId") String fldId) throws GenericException {
+		try {
+			log.debug("getContentInfo({})", fldId);
+			FolderModule fm = ModuleManager.getFolderModule();
+			ContentInfo contentInfo = fm.getContentInfo(null, fldId);
+			log.debug("getContentInfo: {}", contentInfo);
+			return contentInfo;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
 	@Path("/isValid")
 	@Produces(MimeTypeConfig.MIME_TEXT)
 	public Boolean isValid(@QueryParam("fldId") String fldId) throws GenericException {
@@ -154,7 +217,7 @@ public class FolderService {
 			FolderModule fm = ModuleManager.getFolderModule();
 			boolean valid = fm.isValid(null, fldId);
 			log.debug("isValid: {}", valid);
-			return new Boolean(valid);
+			return valid;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -173,17 +236,17 @@ public class FolderService {
 			throw new GenericException(e);
 		}
 	}
-	
-    @PUT
-    @Path("/createMissingFolders")
-    public void createMissingFolders(@QueryParam("fldPath") String fldPath) throws GenericException {
-        try {
-            log.debug("createMissingFolders({})", fldPath);
-            OKMFolder.getInstance().createMissingFolders(null, fldPath);
-            log.debug("createMissingFolders: void");
-        } catch (Exception e) {
-            throw new GenericException(e);
-        }
-    }
+
+	@PUT
+	@Path("/createMissingFolders")
+	public void createMissingFolders(@QueryParam("fldPath") String fldPath) throws GenericException {
+		try {
+			log.debug("createMissingFolders({})", fldPath);
+			OKMFolder.getInstance().createMissingFolders(null, fldPath);
+			log.debug("createMissingFolders: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
 }
 
