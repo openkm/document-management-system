@@ -40,7 +40,7 @@ import java.util.Map.Entry;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="search-service", value="search-service")
+@Api(description = "search-service", value = "search-service")
 @Path("/search")
 public class SearchService {
 	private static Logger log = LoggerFactory.getLogger(SearchService.class);
@@ -95,12 +95,12 @@ public class SearchService {
 	@Path("/find")
 	// Default "domain" is "1" for documents.
 	public QueryResultList find(@QueryParam("content") String content, @QueryParam("name") String name,
-	                            @DefaultValue("1") @QueryParam("domain") int domain, @QueryParam("keyword") List<String> keywords,
-	                            @QueryParam("category") List<String> categories, @QueryParam("property") List<String> properties,
-	                            @QueryParam("author") String author, @QueryParam("mimeType") String mimeType,
-	                            @QueryParam("lastModifiedFrom") String lastModifiedFrom, @QueryParam("lastModifiedTo") String lastModifiedTo,
-	                            @QueryParam("mailSubject") String mailSubject, @QueryParam("mailFrom") String mailFrom, @QueryParam("mailTo") String mailTo,
-	                            @QueryParam("path") String path) throws GenericException {
+								@DefaultValue("1") @QueryParam("domain") int domain, @QueryParam("keyword") List<String> keywords,
+								@QueryParam("category") List<String> categories, @QueryParam("property") List<String> properties,
+								@QueryParam("author") String author, @QueryParam("mimeType") String mimeType,
+								@QueryParam("lastModifiedFrom") String lastModifiedFrom, @QueryParam("lastModifiedTo") String lastModifiedTo,
+								@QueryParam("mailSubject") String mailSubject, @QueryParam("mailFrom") String mailFrom, @QueryParam("mailTo") String mailTo,
+								@QueryParam("path") String path) throws GenericException {
 		try {
 			QueryParams params = copyToQueryParams(content, name, domain, keywords, categories, properties, author, mimeType,
 					lastModifiedFrom, lastModifiedTo, mailSubject, mailFrom, mailTo, path);
@@ -119,12 +119,12 @@ public class SearchService {
 	@Path("/findPaginated")
 	// Default "domain" is "1" for documents.
 	public ResultSet findPaginated(@DefaultValue("0") @QueryParam("offset") int offset, @DefaultValue("10") @QueryParam("limit") int limit,
-	                               @QueryParam("content") String content, @QueryParam("name") String name, @DefaultValue("1") @QueryParam("domain") int domain,
-	                               @QueryParam("keyword") List<String> keywords, @QueryParam("category") List<String> categories,
-	                               @QueryParam("property") List<String> properties, @QueryParam("author") String author, @QueryParam("mimeType") String mimeType,
-	                               @QueryParam("lastModifiedFrom") String lastModifiedFrom, @QueryParam("lastModifiedTo") String lastModifiedTo,
-	                               @QueryParam("mailSubject") String mailSubject, @QueryParam("mailFrom") String mailFrom, @QueryParam("mailTo") String mailTo,
-	                               @QueryParam("path") String path) throws GenericException {
+								   @QueryParam("content") String content, @QueryParam("name") String name, @DefaultValue("1") @QueryParam("domain") int domain,
+								   @QueryParam("keyword") List<String> keywords, @QueryParam("category") List<String> categories,
+								   @QueryParam("property") List<String> properties, @QueryParam("author") String author, @QueryParam("mimeType") String mimeType,
+								   @QueryParam("lastModifiedFrom") String lastModifiedFrom, @QueryParam("lastModifiedTo") String lastModifiedTo,
+								   @QueryParam("mailSubject") String mailSubject, @QueryParam("mailFrom") String mailFrom, @QueryParam("mailTo") String mailTo,
+								   @QueryParam("path") String path) throws GenericException {
 		try {
 			QueryParams params = copyToQueryParams(content, name, domain, keywords, categories, properties, author, mimeType,
 					lastModifiedFrom, lastModifiedTo, mailSubject, mailFrom, mailTo, path);
@@ -139,10 +139,40 @@ public class SearchService {
 	}
 
 	@GET
+	@Path("/findByQuery")
+	public QueryResultList findByQuery(@QueryParam("query") String query) throws GenericException {
+		try {
+			log.debug("findByQuery({})", query);
+			SearchModule sm = ModuleManager.getSearchModule();
+			QueryResultList qrl = new QueryResultList();
+			qrl.getList().addAll(sm.findByQuery(null, query));
+			log.debug("findByQuery: {}", qrl);
+			return qrl;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
+	@Path("/findByQueryPaginated")
+	public ResultSet findByQueryPaginated(@DefaultValue("0") @QueryParam("offset") int offset,
+										  @DefaultValue("10") @QueryParam("limit") int limit, @QueryParam("query") String query) throws GenericException {
+		try {
+			log.debug("findByQueryPaginated({})", query);
+			SearchModule sm = ModuleManager.getSearchModule();
+			ResultSet rs = sm.findByQueryPaginated(null, query, offset, limit);
+			log.debug("findByQueryPaginated: {}", rs);
+			return rs;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
 	@Path("/findSimpleQueryPaginated")
 	// Default "domain" is "1" for documents.
 	public ResultSet findSimpleQueryPaginated(@DefaultValue("0") @QueryParam("offset") int offset,
-	                                          @DefaultValue("10") @QueryParam("limit") int limit, @QueryParam("statement") String statement) throws GenericException {
+											  @DefaultValue("10") @QueryParam("limit") int limit, @QueryParam("statement") String statement) throws GenericException {
 		try {
 			log.debug("findSimpleQueryPaginated({},{},{})", new Object[]{offset, limit, statement});
 			SearchModule sm = ModuleManager.getSearchModule();
@@ -285,8 +315,8 @@ public class SearchService {
 	 * copyToQueryParams
 	 */
 	private QueryParams copyToQueryParams(String content, String name, int domain, List<String> keywords, List<String> categories,
-	                                      List<String> properties, String author, String mimeType, String lastModifiedFrom, String lastModifiedTo, String mailSubject,
-	                                      String mailFrom, String mailTo, String path) {
+										  List<String> properties, String author, String mimeType, String lastModifiedFrom, String lastModifiedTo, String mailSubject,
+										  String mailFrom, String mailTo, String path) {
 		QueryParams params = new QueryParams();
 		Map<String, String> propMap = new HashMap<String, String>();
 
