@@ -21,12 +21,13 @@
 
 package com.openkm.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * @author pavila
- *
  */
+@XmlRootElement(name = "contentInfo")
 public class ContentInfo implements Serializable {
 	private static final long serialVersionUID = -6946496467746910033L;
 
