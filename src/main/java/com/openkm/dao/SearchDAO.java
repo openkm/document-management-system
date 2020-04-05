@@ -241,7 +241,7 @@ public class SearchDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	private NodeResultSet runQueryLucene(FullTextSession ftSession, Query query, int offset, int limit)
-			throws IOException, InvalidTokenOffsetsException, HibernateException {
+			throws IOException, InvalidTokenOffsetsException, HibernateException, DatabaseException {
 		log.debug("runQueryLucene({}, {}, {}, {})", new Object[]{ftSession, query, offset, limit});
 		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
 		NodeResultSet result = new NodeResultSet();
@@ -492,7 +492,7 @@ public class SearchDAO {
 	 * Add result
 	 */
 	private void addResult(FullTextSession ftSession, List<NodeQueryResult> results, Highlighter highlighter, Float score,
-			NodeBase nBase)	throws IOException, InvalidTokenOffsetsException {
+			NodeBase nBase)	throws IOException, InvalidTokenOffsetsException, DatabaseException {
 		NodeQueryResult qr = new NodeQueryResult();
 		NodeDocument nDocument = null;
 		NodeMail nMail = null;
@@ -501,7 +501,7 @@ public class SearchDAO {
 		if (nBase instanceof NodeDocument) {
 			nDocument = (NodeDocument) nBase;
 
-			if (NodeMailDAO.getInstance().isMail(ftSession, nDocument.getParent())) {
+			if (NodeMailDAO.getInstance().itemExists(nDocument.getParent())) {
 				log.debug("NODE DOCUMENT - ATTACHMENT");
 				qr.setAttachment(nDocument);
 			} else {
