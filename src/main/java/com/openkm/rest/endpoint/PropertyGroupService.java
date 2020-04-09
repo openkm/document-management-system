@@ -31,19 +31,25 @@ import com.openkm.rest.util.FormElementComplexList;
 import com.openkm.rest.util.PropertyGroupList;
 import com.openkm.rest.util.SimplePropertyGroup;
 import com.openkm.rest.util.SimplePropertyGroupList;
+import com.openkm.rest.util.SuggestionList;
 import com.openkm.util.FormUtils;
 import com.openkm.ws.util.FormElementComplex;
 import io.swagger.annotations.Api;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
+import java.io.InputStream;
 import java.util.*;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="gropertyGroup-service", value="gropertyGroup-service")
+@Api(description = "gropertyGroup-service", value = "gropertyGroup-service")
 @Path("/propertyGroup")
 public class PropertyGroupService {
 	private static Logger log = LoggerFactory.getLogger(PropertyGroupService.class);
@@ -107,7 +113,7 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getProperties")
 	public FormElementComplexList getProperties(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName)
-			throws GenericException {
+		throws GenericException {
 		try {
 			log.debug("getProperties({}, {})", new Object[]{nodeId, grpName});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
@@ -128,7 +134,7 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getPropertyGroupForm")
 	public FormElementComplexList getPropertyGroupForm(@QueryParam("grpName") String grpName)
-			throws GenericException {
+		throws GenericException {
 		try {
 			log.debug("getPropertyGroupForm({})", new Object[]{grpName});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
@@ -150,7 +156,7 @@ public class PropertyGroupService {
 	@Path("/setProperties")
 	// The "properties" parameter comes in the POST request body (encoded as XML or JSON).
 	public void setProperties(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName, FormElementComplexList properties)
-			throws GenericException {
+		throws GenericException {
 		try {
 			log.debug("setProperties({}, {}, {})", new Object[]{nodeId, grpName, properties});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
@@ -171,7 +177,7 @@ public class PropertyGroupService {
 	@Path("/setPropertiesSimple")
 	// The "properties" parameter comes in the POST request body (encoded as XML or JSON).
 	public void setPropertiesSimple(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName,
-	                                SimplePropertyGroupList properties) throws GenericException {
+									SimplePropertyGroupList properties) throws GenericException {
 		try {
 			log.debug("setPropertiesSimple({}, {}, {})", new Object[]{nodeId, grpName, properties});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
@@ -242,7 +248,7 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getPropertiesSimple")
 	public SimplePropertyGroupList getPropertiesSimple(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName)
-			throws GenericException {
+		throws GenericException {
 		try {
 			log.debug("getPropertiesSimple({}, {})", new Object[]{nodeId, grpName});
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
@@ -263,6 +269,47 @@ public class PropertyGroupService {
 			return propGroupList;
 		} catch (Exception e) {
 			throw new GenericException(e);
+		}
+	}
+
+	@GET
+	@Path("/getSuggestions")
+	public SuggestionList getSuggestions(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName,
+										 @QueryParam("propName") String propName) throws GenericException {
+		try {
+			log.debug("getSuggestions()");
+			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
+			SuggestionList sl = new SuggestionList();
+			sl.getList().addAll(cm.getSuggestions(null, nodeId, grpName, propName));
+			log.debug("getSuggestions: {}", sl);
+			return sl;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@POST
+	@Path("/registerDefinition")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public void registerDefinition(List<Attachment> atts) throws GenericException {
+		log.debug("registerDefinition({})", atts);
+		InputStream is = null;
+
+		try {
+			for (Attachment att : atts) {
+				if ("pgDef".equals(att.getContentDisposition().getParameter("name"))) {
+					is = att.getDataHandler().getInputStream();
+				}
+			}
+
+			String pgDef = IOUtils.toString(is);
+			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
+			cm.registerDefinition(null, pgDef);
+			log.debug("registerDefinition: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		} finally {
+			IOUtils.closeQuietly(is);
 		}
 	}
 }
