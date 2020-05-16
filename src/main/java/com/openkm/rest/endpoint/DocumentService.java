@@ -21,22 +21,8 @@
 
 package com.openkm.rest.endpoint;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.bean.Document;
+import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.LockInfo;
 import com.openkm.bean.Version;
 import com.openkm.core.MimeTypeConfig;
@@ -45,12 +31,24 @@ import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.DocumentList;
 import com.openkm.rest.util.VersionList;
-
 import io.swagger.annotations.Api;
+import org.apache.commons.io.IOUtils;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="document-service", value="document-service")
+@Api(description = "document-service", value = "document-service")
 @Path("/document")
 public class DocumentService {
 	private static Logger log = LoggerFactory.getLogger(DocumentService.class);
@@ -503,6 +501,28 @@ public class DocumentService {
 			String path = dm.getPath(null, uuid);
 			log.debug("getPath: {}", path);
 			return path;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/extendedCopy")
+	public void extendedCopy(@QueryParam("docId") String docId, @QueryParam("dstId") String dstId, @QueryParam("name") String name,
+							 @QueryParam("categories") boolean categories, @QueryParam("keywords") boolean keywords,
+							 @QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
+							 @QueryParam("wiki") boolean wiki) throws GenericException {
+		try {
+			log.debug("extendedCopy({}, {}, {}, {}, {}, {}, {}, {})", new Object[]{docId, dstId, name, categories, keywords, propertyGroups, notes, wiki});
+			DocumentModule dm = ModuleManager.getDocumentModule();
+			ExtendedAttributes extAttr = new ExtendedAttributes();
+			extAttr.setCategories(categories);
+			extAttr.setKeywords(keywords);
+			extAttr.setNotes(notes);
+			extAttr.setPropertyGroups(propertyGroups);
+			extAttr.setWiki(wiki);
+			dm.extendedCopy(null, docId, dstId, name, extAttr);
+			log.debug("extendedCopy: void");
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
