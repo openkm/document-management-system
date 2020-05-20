@@ -44,7 +44,7 @@ $ mvn clean package
 ```
 
 ## Documentation
- * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
+ * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/)
  * [Hardware and software requirements](https://docs.openkm.com/kcenter/view/okm-6.3-com/hardware-and-software-requirements.html)
  * [Installation](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
  * [Using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html)
