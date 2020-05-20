@@ -10,7 +10,7 @@ With OpenKM Open Source Community Edition you can:
  * Collaborate with colleagues on documents and projects.
  * Empower organizations to capitalize on accumulated knowledge by locating documents, experts, and information sources.
  * Embedded workflow engine to take control of your business case.
- * Automate task.
+ * Automate tasks.
 
 ## Installing binaries
 You can install OpenKM binaries from [SourceForge](https://sourceforge.net/projects/openkm/):
