@@ -44,7 +44,7 @@ import java.util.List;
 
 @WebService(name = "OKMWorkflow", serviceName = "OKMWorkflow", targetNamespace = "http://ws.openkm.com")
 public class WorkflowService {
-	private static Logger log = LoggerFactory.getLogger(WorkflowService.class);
+	private static final Logger log = LoggerFactory.getLogger(WorkflowService.class);
 
 	@WebMethod
 	public void registerProcessDefinition(@WebParam(name = "token") String token, @WebParam(name = "pda") byte[] pda)
@@ -78,36 +78,25 @@ public class WorkflowService {
 
 	@WebMethod
 	public byte[] getProcessDefinitionImage(@WebParam(name = "token") String token, @WebParam(name = "pdId") long pdId,
-	                                        @WebParam(name = "node") String node) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("getProcessDefinitionImage({}, {}, {})", new Object[]{token, pdId, node});
+			@WebParam(name = "node") String node) throws AccessDeniedException, RepositoryException, DatabaseException,
+			WorkflowException {
+		log.debug("getProcessDefinitionImage({}, {}, {})", token, pdId, node);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		byte[] result = wm.getProcessDefinitionImage(token, pdId, node);
 		log.debug("getProcessDefinitionImage: {}", result);
 		return result;
 	}
-	
-	/*
-	 * public Map<String, List<FormElement>> getProcessDefinitionForms(@WebParam(name = "token") String token,
-	 * @WebParam(name = "pdId") long pdId) throws ParseException, RepositoryException,
-	 * DatabaseException, WorkflowException {
-	 * log.debug("getProcessDefinitionForms({})", pdId);
-	 * WorkflowModule wm = ModuleManager.getWorkflowModule();
-	 * Map<String, List<FormElement>> result = wm.getProcessDefinitionForms(pdId);
-	 * log.debug("getProcessDefinitionForms: "+result);
-	 * return result;
-	 * }
-	 */
 
 	@WebMethod
 	public ProcessInstance runProcessDefinition(@WebParam(name = "token") String token, @WebParam(name = "pdId") long pdId,
-	                                            @WebParam(name = "uuid") String uuid, @WebParam(name = "values") FormElementComplex[] values)
+	        @WebParam(name = "uuid") String uuid, @WebParam(name = "values") FormElementComplex[] values)
 			throws WorkflowException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("runProcessDefinition({}, {}, {}, {})", new Object[]{token, pdId, uuid, values});
+		log.debug("runProcessDefinition({}, {}, {}, {})", token, pdId, uuid, values);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
-		List<FormElement> al = new ArrayList<FormElement>();
+		List<FormElement> al = new ArrayList<>();
 
-		for (int i = 0; i < values.length; i++) {
-			al.add(FormElementComplex.toFormElement(values[i]));
+		for (FormElementComplex value : values) {
+			al.add(FormElementComplex.toFormElement(value));
 		}
 
 		ProcessInstance result = wm.runProcessDefinition(token, pdId, uuid, al);
@@ -117,9 +106,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public ProcessInstance sendProcessInstanceSignal(@WebParam(name = "token") String token,
-	                                                 @WebParam(name = "piId") long piId, @WebParam(name = "transName") String transName) throws AccessDeniedException,
+			@WebParam(name = "piId") long piId, @WebParam(name = "transName") String transName) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("sendProcessInstanceSignal({}, {}, {})", new Object[]{token, piId, transName});
+		log.debug("sendProcessInstanceSignal({}, {}, {})", token, piId, transName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		ProcessInstance result = wm.sendProcessInstanceSignal(token, piId, transName);
 		log.debug("sendProcessInstanceSignal: {}", result);
@@ -179,7 +168,8 @@ public class WorkflowService {
 
 	@WebMethod
 	public ProcessDefinition[] findAllProcessDefinitionVersions(@WebParam(name = "token") String token,
-	                                                            @WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
+			@WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException,
+			WorkflowException {
 		log.debug("findAllProcessDefinitionVersions({}, {})", token, name);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		List<ProcessDefinition> col = wm.findAllProcessDefinitionVersions(token, name);
@@ -236,9 +226,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void addProcessInstanceVariable(@WebParam(name = "token") String token, @WebParam(name = "piId") long piId,
-	                                       @WebParam(name = "name") String name, @WebParam(name = "value") Object value) throws AccessDeniedException,
+			@WebParam(name = "name") String name, @WebParam(name = "value") Object value) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("addProcessInstanceVariable({}, {}, {}, {})", new Object[]{token, piId, name, value});
+		log.debug("addProcessInstanceVariable({}, {}, {}, {})", token, piId, name, value);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addProcessInstanceVariable(token, piId, name, value);
 		log.debug("addProcessInstanceVariable: void");
@@ -246,9 +236,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void deleteProcessInstanceVariable(@WebParam(name = "token") String token, @WebParam(name = "piId") long piId,
-	                                          @WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("deleteProcessInstanceVariable({}, {}, {})", new Object[]{token, piId, name});
+		log.debug("deleteProcessInstanceVariable({}, {}, {})", token, piId, name);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.deleteProcessInstanceVariable(token, piId, name);
 		log.debug("deleteProcessInstanceVariable: void");
@@ -289,14 +279,14 @@ public class WorkflowService {
 
 	@WebMethod
 	public void setTaskInstanceValues(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                                  @WebParam(name = "transName") String transName, @WebParam(name = "values") FormElementComplex[] values)
+			@WebParam(name = "transName") String transName, @WebParam(name = "values") FormElementComplex[] values)
 			throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("setTaskInstanceValues({}, {}, {}, {})", new Object[]{token, tiId, transName, values});
+		log.debug("setTaskInstanceValues({}, {}, {}, {})", token, tiId, transName, values);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
-		List<FormElement> al = new ArrayList<FormElement>();
+		List<FormElement> al = new ArrayList<>();
 
-		for (int i = 0; i < values.length; i++) {
-			al.add(FormElementComplex.toFormElement(values[i]));
+		for (FormElementComplex value : values) {
+			al.add(FormElementComplex.toFormElement(value));
 		}
 
 		wm.setTaskInstanceValues(token, tiId, transName, al);
@@ -305,9 +295,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void addTaskInstanceComment(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                                   @WebParam(name = "message") String message) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "message") String message) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("addTaskInstanceComment({}, {}, {})", new Object[]{token, tiId, message});
+		log.debug("addTaskInstanceComment({}, {}, {})", token, tiId, message);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTaskInstanceComment(token, tiId, message);
 		log.debug("addTaskInstanceComment: void");
@@ -325,9 +315,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void setTaskInstanceActorId(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                                   @WebParam(name = "actorId") String actorId) throws AccessDeniedException, RepositoryException, DatabaseException,
-			WorkflowException {
-		log.debug("setTaskInstanceActorId({}, {}, {})", new Object[]{token, tiId, actorId});
+			@WebParam(name = "actorId") String actorId) throws AccessDeniedException, RepositoryException,
+			DatabaseException, WorkflowException {
+		log.debug("setTaskInstanceActorId({}, {}, {})", token, tiId, actorId);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.setTaskInstanceActorId(token, tiId, actorId);
 		log.debug("setTaskInstanceActorId: void");
@@ -335,9 +325,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void addTaskInstanceVariable(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                                    @WebParam(name = "name") String name, @WebParam(name = "value") Object value) throws AccessDeniedException,
+			@WebParam(name = "name") String name, @WebParam(name = "value") Object value) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("addTaskInstanceVariable({}, {}, {}, {})", new Object[]{token, tiId, name, value});
+		log.debug("addTaskInstanceVariable({}, {}, {}, {})", token, tiId, name, value);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTaskInstanceVariable(token, tiId, name, value);
 		log.debug("addTaskInstanceVariable: void");
@@ -345,9 +335,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void deleteTaskInstanceVariable(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                                       @WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "name") String name) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("deleteTaskInstanceVariable({}, {}, {})", new Object[]{token, tiId, name});
+		log.debug("deleteTaskInstanceVariable({}, {}, {})", token, tiId, name);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.deleteTaskInstanceVariable(token, tiId, name);
 		log.debug("deleteTaskInstanceVariable: void");
@@ -364,9 +354,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void endTaskInstance(@WebParam(name = "token") String token, @WebParam(name = "tiId") long tiId,
-	                            @WebParam(name = "transName") String transName) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "transName") String transName) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("endTaskInstance({}, {}, {})", new Object[]{token, tiId, transName});
+		log.debug("endTaskInstance({}, {}, {})", token, tiId, transName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.endTaskInstance(token, tiId, transName);
 		log.debug("endTaskInstance: void");
@@ -402,9 +392,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void addTokenComment(@WebParam(name = "token") String token, @WebParam(name = "tkId") long tkId,
-	                            @WebParam(name = "message") String message) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "message") String message) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("addTokenComment({}, {}, {})", new Object[]{token, tkId, message});
+		log.debug("addTokenComment({}, {}, {})", token, tkId, message);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTokenComment(token, tkId, message);
 		log.debug("addTokenComment: void");
@@ -430,9 +420,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public Token sendTokenSignal(@WebParam(name = "token") String token, @WebParam(name = "tkId") long tkId,
-	                             @WebParam(name = "transName") String transName) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "transName") String transName) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("sendTokenSignal({}, {}, {})", new Object[]{token, tkId, transName});
+		log.debug("sendTokenSignal({}, {}, {})", token, tkId, transName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		Token result = wm.sendTokenSignal(token, tkId, transName);
 		log.debug("sendTokenSignal: {}", result);
@@ -441,9 +431,9 @@ public class WorkflowService {
 
 	@WebMethod
 	public void setTokenNode(@WebParam(name = "token") String token, @WebParam(name = "tkId") long tkId,
-	                         @WebParam(name = "nodeName") String nodeName) throws AccessDeniedException, RepositoryException, DatabaseException,
+			@WebParam(name = "nodeName") String nodeName) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException {
-		log.debug("setTokenNode({}, {}, {})", new Object[]{token, tkId, nodeName});
+		log.debug("setTokenNode({}, {}, {})", token, tkId, nodeName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.setTokenNode(token, tkId, nodeName);
 		log.debug("setTokenNode: void");

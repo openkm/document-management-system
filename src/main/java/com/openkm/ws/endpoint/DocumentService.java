@@ -47,7 +47,7 @@ import java.util.List;
 @WebService(name = "OKMDocument", serviceName = "OKMDocument", targetNamespace = "http://ws.openkm.com")
 // @BindingType(javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class DocumentService {
-	private static Logger log = LoggerFactory.getLogger(DocumentService.class);
+	private static final Logger log = LoggerFactory.getLogger(DocumentService.class);
 
 	class DhDatasource implements DataSource {
 		private InputStream is;
@@ -96,7 +96,7 @@ public class DocumentService {
 
 	@WebMethod
 	public Document createSimple(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                             @WebParam(name = "content") @XmlMimeType("application/octet-stream") DataHandler content) throws IOException,
+			@WebParam(name = "content") @XmlMimeType("application/octet-stream") DataHandler content) throws IOException,
 			UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
 			ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, ExtensionException,
 			AutomationException {
@@ -134,9 +134,9 @@ public class DocumentService {
 	public
 	@XmlMimeType("application/octet-stream")
 	DataHandler getContent(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                       @WebParam(name = "checkout") boolean checkout) throws RepositoryException, IOException, PathNotFoundException,
+			@WebParam(name = "checkout") boolean checkout) throws RepositoryException, IOException, PathNotFoundException,
 			AccessDeniedException, DatabaseException {
-		log.debug("getContent({}, {}, {})", new Object[]{token, docPath, checkout});
+		log.debug("getContent({}, {}, {})", token, docPath, checkout);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContent(token, docPath, checkout);
 		DataHandler data = new DataHandler(new DhDatasource(is, null, docPath));
@@ -148,9 +148,9 @@ public class DocumentService {
 	public
 	@XmlMimeType("application/octet-stream")
 	DataHandler getContentByVersion(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                                @WebParam(name = "versionId") String versionId) throws RepositoryException, IOException, AccessDeniedException,
+			@WebParam(name = "versionId") String versionId) throws RepositoryException, IOException, AccessDeniedException,
 			PathNotFoundException, DatabaseException {
-		log.debug("getContentByVersion({}, {}, {})", new Object[]{token, docPath, versionId});
+		log.debug("getContentByVersion({}, {}, {})", token, docPath, versionId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContentByVersion(token, docPath, versionId);
 		DataHandler data = new DataHandler(new DhDatasource(is, null, docPath));
@@ -183,9 +183,9 @@ public class DocumentService {
 
 	@WebMethod
 	public Document rename(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                       @WebParam(name = "newName") String newName) throws AccessDeniedException, RepositoryException, PathNotFoundException,
+			@WebParam(name = "newName") String newName) throws AccessDeniedException, RepositoryException, PathNotFoundException,
 			ItemExistsException, LockException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("rename({}, {}, {})", new Object[]{token, docPath, newName});
+		log.debug("rename({}, {}, {})", token, docPath, newName);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Document renamedDocument = dm.rename(token, docPath, newName);
 		log.debug("rename: {}", renamedDocument);
@@ -235,7 +235,7 @@ public class DocumentService {
 	                       @WebParam(name = "comment") String comment) throws FileSizeExceededException, UserQuotaExceededException,
 			VirusDetectedException, LockException, VersionException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("checkin({}, {} ,{})", new Object[]{token, docPath, comment});
+		log.debug("checkin({}, {} ,{})", token, docPath, comment);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream bais = content.getInputStream();
 		Version version = dm.checkin(token, docPath, bais, comment);
@@ -293,9 +293,9 @@ public class DocumentService {
 
 	@WebMethod
 	public void move(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                 @WebParam(name = "fldPath") String fldPath) throws LockException, PathNotFoundException, ItemExistsException,
+			@WebParam(name = "fldPath") String fldPath) throws LockException, PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("move({}, {}, {})", new Object[]{token, docPath, fldPath});
+		log.debug("move({}, {}, {})", token, docPath, fldPath);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.move(token, docPath, fldPath);
 		log.debug("move: void");
@@ -303,9 +303,9 @@ public class DocumentService {
 
 	@WebMethod
 	public void restoreVersion(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
-	                           @WebParam(name = "versionId") String versionId) throws AccessDeniedException, PathNotFoundException, LockException,
+			@WebParam(name = "versionId") String versionId) throws AccessDeniedException, PathNotFoundException, LockException,
 			RepositoryException, DatabaseException, ExtensionException {
-		log.debug("restoreVersion({}, {}, {})", new Object[]{token, docPath, versionId});
+		log.debug("restoreVersion({}, {}, {})", token, docPath, versionId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.restoreVersion(token, docPath, versionId);
 		log.debug("restoreVersion: void");

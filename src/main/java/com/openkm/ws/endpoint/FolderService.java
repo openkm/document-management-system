@@ -37,7 +37,7 @@ import java.util.List;
 
 @WebService(name = "OKMFolder", serviceName = "OKMFolder", targetNamespace = "http://ws.openkm.com")
 public class FolderService {
-	private static Logger log = LoggerFactory.getLogger(FolderService.class);
+	private static final Logger log = LoggerFactory.getLogger(FolderService.class);
 
 	@WebMethod
 	public Folder create(@WebParam(name = "token") String token, @WebParam(name = "fld") Folder fld)
@@ -86,7 +86,7 @@ public class FolderService {
 	public Folder rename(@WebParam(name = "token") String token, @WebParam(name = "fldPath") String fldPath,
 	                     @WebParam(name = "newName") String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, fldPath, newName});
+		log.debug("rename({}, {}, {})", token, fldPath, newName);
 		FolderModule fm = ModuleManager.getFolderModule();
 		Folder renamedFolder = fm.rename(token, fldPath, newName);
 		log.debug("rename: {}", renamedFolder);
@@ -97,7 +97,7 @@ public class FolderService {
 	public void move(@WebParam(name = "token") String token, @WebParam(name = "fldPath") String fldPath,
 	                 @WebParam(name = "dstPath") String dstPath) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("move({}, {}, {})", new Object[]{token, fldPath, dstPath});
+		log.debug("move({}, {}, {})", token, fldPath, dstPath);
 		FolderModule fm = ModuleManager.getFolderModule();
 		fm.move(token, fldPath, dstPath);
 		log.debug("move: void");

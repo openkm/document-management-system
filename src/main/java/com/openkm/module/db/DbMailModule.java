@@ -53,13 +53,13 @@ import java.util.HashSet;
 import java.util.List;
 
 public class DbMailModule implements MailModule {
-	private static Logger log = LoggerFactory.getLogger(DbMailModule.class);
+	private static final Logger log = LoggerFactory.getLogger(DbMailModule.class);
 
 	@Override
 	public Mail create(String token, Mail mail) throws PathNotFoundException, ItemExistsException, VirusDetectedException,
 			AccessDeniedException, RepositoryException, DatabaseException, UserQuotaExceededException, AutomationException {
 		log.debug("create({}, {})", token, mail);
-		return create(token, mail, null, new Ref<FileUploadResponse>(null));
+		return create(token, mail, null, new Ref<>(null));
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class DbMailModule implements MailModule {
 	public Mail create(String token, Mail mail, String userId, Ref<FileUploadResponse> fuResponse) throws AccessDeniedException,
 			RepositoryException, PathNotFoundException, ItemExistsException, VirusDetectedException, DatabaseException,
 			UserQuotaExceededException, AutomationException {
-		log.debug("create({}, {}, {})", new Object[]{token, mail, userId});
+		log.debug("create({}, {}, {})", token, mail, userId);
 		Mail newMail = null;
 		Authentication auth = null, oldAuth = null;
 
@@ -110,7 +110,8 @@ public class DbMailModule implements MailModule {
 				// Create node
 				NodeMail mailNode = BaseMailModule.create(userId, parentPath, parentFolder, name, mail.getSize(), mail.getFrom(),
 						mail.getReply(), mail.getTo(), mail.getCc(), mail.getBcc(), mail.getSentDate(), mail.getReceivedDate(),
-						mail.getSubject(), mail.getContent(), mail.getMimeType(), new HashSet<String>(), new HashSet<String>(), fuResponse);
+						mail.getSubject(), mail.getContent(), mail.getMimeType(), new HashSet<>(), new HashSet<>(), new HashSet<>(),
+						new ArrayList<>(), null, fuResponse);
 
 				// AUTOMATION - POST
 				// INSIDE BaseMailModule.create
@@ -181,7 +182,7 @@ public class DbMailModule implements MailModule {
 	@Override
 	public void delete(String token, String mailId) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("delete({}, {})", new Object[]{token, mailId});
+		log.debug("delete({}, {})", token, mailId);
 		Authentication auth = null, oldAuth = null;
 		String mailPath = null;
 		String mailUuid = null;
@@ -302,7 +303,7 @@ public class DbMailModule implements MailModule {
 	@Override
 	public Mail rename(String token, String mailId, String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, mailId, newName});
+		log.debug("rename({}, {}, {})", token, mailId, newName);
 		Mail renamedMail = null;
 		Authentication auth = null, oldAuth = null;
 		String mailPath = null;
@@ -359,7 +360,7 @@ public class DbMailModule implements MailModule {
 	@Override
 	public void move(String token, String mailId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("move({}, {}, {})", new Object[]{token, mailId, dstId});
+		log.debug("move({}, {}, {})", token, mailId, dstId);
 		Authentication auth = null, oldAuth = null;
 		String mailPath = null;
 		String mailUuid = null;
@@ -420,7 +421,7 @@ public class DbMailModule implements MailModule {
 	@Override
 	public void copy(String token, String mailId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
 			RepositoryException, IOException, AutomationException, DatabaseException, UserQuotaExceededException {
-		log.debug("copy({}, {}, {})", new Object[]{token, mailId, dstId});
+		log.debug("copy({}, {}, {})", token, mailId, dstId);
 		extendedCopy(token, mailId, dstId, new ExtendedAttributes());
 	}
 
@@ -428,7 +429,7 @@ public class DbMailModule implements MailModule {
 	public void extendedCopy(String token, String mailId, String dstId, ExtendedAttributes extAttr) throws PathNotFoundException,
 			ItemExistsException, AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException,
 			UserQuotaExceededException {
-		log.debug("extendedCopy({}, {}, {}, {})", new Object[]{token, mailId, dstId, extAttr});
+		log.debug("extendedCopy({}, {}, {}, {})", token, mailId, dstId, extAttr);
 		Authentication auth = null, oldAuth = null;
 		String mailPath = null;
 		String mailUuid = null;
@@ -463,7 +464,7 @@ public class DbMailModule implements MailModule {
 				dstUuid = dstId;
 			}
 
-			NodeMail srcMailNode = NodeMailDAO.getInstance().findByPk(mailUuid);
+			NodeMail srcMailNode = NodeMailDAO.getInstance().findByPk(mailUuid, true);
 			NodeFolder dstFldNode = NodeFolderDAO.getInstance().findByPk(dstUuid);
 			NodeMail newMailNode = BaseMailModule.copy(auth.getName(), srcMailNode, dstPath, dstFldNode, extAttr);
 
@@ -485,16 +486,17 @@ public class DbMailModule implements MailModule {
 
 	@Override
 	@Deprecated
-	public List<Mail> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
+	public List<Mail> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException,
+			RepositoryException, DatabaseException {
 		return getChildren(token, fldId);
 	}
 
 	@Override
-	public List<Mail> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	public List<Mail> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("getChildren({}, {})", token, fldId);
 		long begin = System.currentTimeMillis();
-		List<Mail> children = new ArrayList<Mail>();
+		List<Mail> children = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 		String fldPath = null;
 		String fldUuid = null;

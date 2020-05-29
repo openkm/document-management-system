@@ -40,7 +40,7 @@ import java.util.*;
 
 @WebService(name = "OKMSearch", serviceName = "OKMSearch", targetNamespace = "http://ws.openkm.com")
 public class SearchService {
-	private static Logger log = LoggerFactory.getLogger(SearchService.class);
+	private static final Logger log = LoggerFactory.getLogger(SearchService.class);
 
 	@WebMethod
 	public QueryResult[] findByContent(@WebParam(name = "token") String token, @WebParam(name = "content") String content)
@@ -89,9 +89,9 @@ public class SearchService {
 
 	@WebMethod
 	public ResultSet findPaginated(@WebParam(name = "token") String token, @WebParam(name = "params") QueryParams params,
-	                               @WebParam(name = "offset") int offset, @WebParam(name = "limit") int limit) throws IOException, ParseException,
+	        @WebParam(name = "offset") int offset, @WebParam(name = "limit") int limit) throws IOException, ParseException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findPaginated({}, {}, {}, {})", new Object[]{token, params, offset, limit});
+		log.debug("findPaginated({}, {}, {}, {})", token, params, offset, limit);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet rs = sm.findPaginated(token, params, offset, limit);
 		log.debug("findPaginated: {}", rs);
@@ -100,9 +100,9 @@ public class SearchService {
 
 	@WebMethod
 	public ResultSet findSimpleQueryPaginated(@WebParam(name = "token") String token, @WebParam(name = "statement") String statement,
-	                                          @WebParam(name = "offset") int offset, @WebParam(name = "limit") int limit) throws IOException, ParseException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findSimpleQueryPaginated({}, {}, {}, {})", new Object[]{token, statement, offset, limit});
+			@WebParam(name = "offset") int offset, @WebParam(name = "limit") int limit) throws AccessDeniedException,
+			RepositoryException, DatabaseException {
+		log.debug("findSimpleQueryPaginated({}, {}, {}, {})", token, statement, offset, limit);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet rs = sm.findSimpleQueryPaginated(token, statement, offset, limit);
 		log.debug("findSimpleQueryPaginated: {}", rs);
@@ -111,9 +111,8 @@ public class SearchService {
 
 	@WebMethod
 	public ResultSet findMoreLikeThis(@WebParam(name = "token") String token, @WebParam(name = "uuid") String uuid,
-	                                  @WebParam(name = "max") int max) throws IOException, ParseException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findMoreLikeThis({}, {}, {})", new Object[]{token, uuid, max});
+			@WebParam(name = "max") int max) throws AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("findMoreLikeThis({}, {}, {})", token, uuid, max);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet rs = sm.findMoreLikeThis(token, uuid, max);
 		log.debug("findMoreLikeThis: {}", rs);
@@ -132,8 +131,7 @@ public class SearchService {
 		int i = 0;
 
 		// Marshall HashMap
-		for (Iterator<String> it = keys.iterator(); it.hasNext(); ) {
-			String key = it.next();
+		for (String key : keys) {
 			IntegerPair p = new IntegerPair();
 			p.setKey(key);
 			p.setValue(map.get(key));

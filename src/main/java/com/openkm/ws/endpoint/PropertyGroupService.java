@@ -44,13 +44,13 @@ import java.util.StringTokenizer;
 
 @WebService(name = "OKMPropertyGroup", serviceName = "OKMPropertyGroup", targetNamespace = "http://ws.openkm.com")
 public class PropertyGroupService {
-	private static Logger log = LoggerFactory.getLogger(PropertyGroupService.class);
+	private static final Logger log = LoggerFactory.getLogger(PropertyGroupService.class);
 
 	@WebMethod
 	public void addGroup(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                     @WebParam(name = "grpName") String grpName) throws NoSuchGroupException, LockException, PathNotFoundException,
+			@WebParam(name = "grpName") String grpName) throws NoSuchGroupException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("addGroup({}, {}, {})", new Object[]{token, nodePath, grpName});
+		log.debug("addGroup({}, {}, {})", token, nodePath, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 		cm.addGroup(token, nodePath, grpName);
 		log.debug("addGroup: void");
@@ -58,9 +58,9 @@ public class PropertyGroupService {
 
 	@WebMethod
 	public void removeGroup(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                        @WebParam(name = "grpName") String grpName) throws AccessDeniedException, NoSuchGroupException, LockException,
+	 		@WebParam(name = "grpName") String grpName) throws AccessDeniedException, NoSuchGroupException, LockException,
 			PathNotFoundException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("removeGroup({}, {}, {})", new Object[]{token, nodePath, grpName});
+		log.debug("removeGroup({}, {}, {})", token, nodePath, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 		cm.removeGroup(token, nodePath, grpName);
 		log.debug("removeGroup: void");
@@ -89,10 +89,10 @@ public class PropertyGroupService {
 	}
 
 	@WebMethod
-	public FormElementComplex[] getProperties(@WebParam(name = "token") String token,
-	                                          @WebParam(name = "nodePath") String nodePath, @WebParam(name = "grpName") String grpName) throws IOException,
-			ParseException, NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
-		log.debug("getProperties({}, {}, {})", new Object[]{token, nodePath, grpName});
+	public FormElementComplex[] getProperties(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
+			@WebParam(name = "grpName") String grpName) throws IOException, ParseException, NoSuchGroupException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
+		log.debug("getProperties({}, {}, {})", token, nodePath, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 		List<FormElement> col = cm.getProperties(token, nodePath, grpName);
 		FormElementComplex[] result = new FormElementComplex[col.size()];
@@ -106,10 +106,10 @@ public class PropertyGroupService {
 	}
 
 	@WebMethod
-	public FormElementComplex[] getPropertyGroupForm(@WebParam(name = "token") String token, @WebParam(name = "grpName") String grpName)
-			throws IOException, ParseException, NoSuchGroupException, AccessDeniedException, PathNotFoundException,
+	public FormElementComplex[] getPropertyGroupForm(@WebParam(name = "token") String token,
+			@WebParam(name = "grpName") String grpName) throws IOException, ParseException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("getPropertyGroupForm({}, {})", new Object[]{token, grpName});
+		log.debug("getPropertyGroupForm({}, {})", token, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 		List<FormElement> col = cm.getPropertyGroupForm(token, grpName);
 		FormElementComplex[] result = new FormElementComplex[col.size()];
@@ -124,16 +124,16 @@ public class PropertyGroupService {
 
 	@WebMethod
 	public void setProperties(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                          @WebParam(name = "grpName") String grpName, @WebParam(name = "properties") FormElementComplex[] properties)
+			@WebParam(name = "grpName") String grpName, @WebParam(name = "properties") FormElementComplex[] properties)
 			throws IOException, ParseException, NoSuchPropertyException, NoSuchGroupException, LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, ExtensionException,
 			AutomationException {
-		log.debug("setProperties({}, {}, {}, {})", new Object[]{token, nodePath, grpName, properties});
+		log.debug("setProperties({}, {}, {}, {})", token, nodePath, grpName, properties);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
-		List<FormElement> al = new ArrayList<FormElement>();
+		List<FormElement> al = new ArrayList<>();
 
-		for (int i = 0; i < properties.length; i++) {
-			al.add(FormElementComplex.toFormElement(properties[i]));
+		for (FormElementComplex property : properties) {
+			al.add(FormElementComplex.toFormElement(property));
 		}
 
 		cm.setProperties(token, nodePath, grpName, al);
@@ -142,14 +142,14 @@ public class PropertyGroupService {
 
 	@WebMethod
 	public void setPropertiesSimple(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                                @WebParam(name = "grpName") String grpName, @WebParam(name = "properties") StringPair[] properties)
+			@WebParam(name = "grpName") String grpName, @WebParam(name = "properties") StringPair[] properties)
 			throws IOException, ParseException, NoSuchPropertyException, NoSuchGroupException, LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, ExtensionException,
 			AutomationException {
-		log.debug("setPropertiesSimple({}, {}, {}, {})", new Object[]{token, nodePath, grpName, properties});
+		log.debug("setPropertiesSimple({}, {}, {}, {})", token, nodePath, grpName, properties);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
-		List<FormElement> al = new ArrayList<FormElement>();
-		HashMap<String, String> mapProps = new HashMap<String, String>();
+		List<FormElement> al = new ArrayList<>();
+		HashMap<String, String> mapProps = new HashMap<>();
 
 		// Unmarshall HashMap
 		for (StringPair sp : properties) {
@@ -167,7 +167,7 @@ public class PropertyGroupService {
 				} else if (fe instanceof TextArea) {
 					((TextArea) fe).setValue(value);
 				} else if (fe instanceof CheckBox) {
-					((CheckBox) fe).setValue(Boolean.valueOf(value));
+					((CheckBox) fe).setValue(Boolean.parseBoolean(value));
 				} else if (fe instanceof Select) {
 					Select sel = (Select) fe;
 
@@ -196,9 +196,9 @@ public class PropertyGroupService {
 
 	@WebMethod
 	public boolean hasGroup(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                        @WebParam(name = "grpName") String grpName) throws IOException, ParseException, AccessDeniedException, PathNotFoundException,
-			RepositoryException, DatabaseException {
-		log.debug("hasGroup({}, {}, {})", new Object[]{token, nodePath, grpName});
+			@WebParam(name = "grpName") String grpName) throws IOException, ParseException, AccessDeniedException,
+			PathNotFoundException, RepositoryException, DatabaseException {
+		log.debug("hasGroup({}, {}, {})", token, nodePath, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 		boolean ret = cm.hasGroup(token, nodePath, grpName);
 		log.debug("hasGroup: {}", ret);

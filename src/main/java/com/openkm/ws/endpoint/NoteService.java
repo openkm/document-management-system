@@ -35,13 +35,13 @@ import java.util.List;
 
 @WebService(name = "OKMNote", serviceName = "OKMNote", targetNamespace = "http://ws.openkm.com")
 public class NoteService {
-	private static Logger log = LoggerFactory.getLogger(NoteService.class);
+	private static final Logger log = LoggerFactory.getLogger(NoteService.class);
 
 	@WebMethod
 	public Note add(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
 	                @WebParam(name = "text") String text) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("add({}, {}, {})", new Object[]{token, nodePath, text});
+		log.debug("add({}, {}, {})", token, nodePath, text);
 		NoteModule nm = ModuleManager.getNoteModule();
 		Note ret = nm.add(token, nodePath, text);
 		log.debug("addNote: {}", ret);
@@ -71,7 +71,7 @@ public class NoteService {
 	public void set(@WebParam(name = "token") String token, @WebParam(name = "notePath") String notePath,
 	                @WebParam(name = "text") String text) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("set({}, {}, {})", new Object[]{token, notePath, text});
+		log.debug("set({}, {}, {})", token, notePath, text);
 		NoteModule nm = ModuleManager.getNoteModule();
 		nm.set(token, notePath, text);
 		log.debug("set: void");
@@ -83,7 +83,7 @@ public class NoteService {
 		log.debug("list({}, {})", token, nodePath);
 		NoteModule nm = ModuleManager.getNoteModule();
 		List<Note> col = nm.list(token, nodePath);
-		Note[] result = (Note[]) col.toArray(new Note[col.size()]);
+		Note[] result = col.toArray(new Note[col.size()]);
 		log.debug("list: {}", result);
 		return result;
 	}

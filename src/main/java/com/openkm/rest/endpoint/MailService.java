@@ -23,6 +23,7 @@ package com.openkm.rest.endpoint;
 
 import com.openkm.api.OKMMail;
 import com.openkm.automation.AutomationException;
+import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.Mail;
 import com.openkm.core.*;
 import com.openkm.extension.core.ExtensionException;
@@ -46,10 +47,10 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="mail-service", value="mail-service")
+@Api(description = "mail-service", value = "mail-service")
 @Path("/mail")
 public class MailService {
-	private static Logger log = LoggerFactory.getLogger(MailService.class);
+	private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
 	@POST
 	@Path("/create")
@@ -97,7 +98,7 @@ public class MailService {
 	@Path("/rename")
 	public Mail rename(@QueryParam("mailId") String mailId, @QueryParam("newName") String newName) throws GenericException {
 		try {
-			log.debug("rename({}, {})", new Object[]{mailId, newName});
+			log.debug("rename({}, {})", mailId, newName);
 			MailModule mm = ModuleManager.getMailModule();
 			Mail renamedMail = mm.rename(null, mailId, newName);
 			log.debug("rename: {}", renamedMail);
@@ -111,7 +112,7 @@ public class MailService {
 	@Path("/move")
 	public void move(@QueryParam("mailId") String mailId, @QueryParam("dstId") String dstId) throws GenericException {
 		try {
-			log.debug("move({}, {}, {})", new Object[]{mailId, dstId});
+			log.debug("move({}, {})", mailId, dstId);
 			MailModule mm = ModuleManager.getMailModule();
 			mm.move(null, mailId, dstId);
 			log.debug("move: void");
@@ -122,12 +123,12 @@ public class MailService {
 
 	@GET
 	@Path("/getChildren")
-	public MailList getChildren(@QueryParam("mailId") String mailId) throws GenericException {
+	public MailList getChildren(@QueryParam("fldId") String fldId) throws GenericException {
 		try {
-			log.debug("getChildren({})", mailId);
+			log.debug("getChildren({})", fldId);
 			MailModule mm = ModuleManager.getMailModule();
 			MailList ml = new MailList();
-			ml.getList().addAll(mm.getChildren(null, mailId));
+			ml.getList().addAll(mm.getChildren(null, fldId));
 			log.debug("getChildren: {}", ml);
 			return ml;
 		} catch (Exception e) {
@@ -144,7 +145,7 @@ public class MailService {
 			MailModule mm = ModuleManager.getMailModule();
 			boolean valid = mm.isValid(null, mailId);
 			log.debug("isValid: {}", valid);
-			return new Boolean(valid);
+			return valid;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -159,6 +160,55 @@ public class MailService {
 			String path = mm.getPath(null, uuid);
 			log.debug("getPath: {}", path);
 			return path;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/purge")
+	public void purge(@QueryParam("mailId") String mailId) throws GenericException {
+		try {
+			log.debug("purge({})", mailId);
+			MailModule mm = ModuleManager.getMailModule();
+			mm.purge(null, mailId);
+			log.debug("purge: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/copy")
+	public void copy(@QueryParam("mailId") String mailId, @QueryParam("dstId") String dstId) throws GenericException {
+		try {
+			log.debug("copy({},{})", mailId, dstId);
+			MailModule nm = ModuleManager.getMailModule();
+			nm.copy(null, mailId, dstId);
+			log.debug("copy: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/extendedCopy")
+	public void extendedCopy(@QueryParam("mailId") String mailId, @QueryParam("dstId") String dstId,
+							 @QueryParam("categories") boolean categories, @QueryParam("keywords") boolean keywords,
+							 @QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
+							 @QueryParam("wiki") boolean wiki) throws GenericException {
+		try {
+			log.debug("extendedCopy({}, {}, {}, {}, {}, {}, {})", mailId, dstId, categories, keywords, propertyGroups,
+					notes, wiki);
+			MailModule mm = ModuleManager.getMailModule();
+			ExtendedAttributes extAttr = new ExtendedAttributes();
+			extAttr.setCategories(categories);
+			extAttr.setKeywords(keywords);
+			extAttr.setNotes(notes);
+			extAttr.setPropertyGroups(propertyGroups);
+			extAttr.setWiki(wiki);
+			mm.extendedCopy(null, mailId, dstId, extAttr);
+			log.debug("extendedCopy: void");
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
