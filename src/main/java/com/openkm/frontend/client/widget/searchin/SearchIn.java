@@ -34,7 +34,10 @@ import com.openkm.frontend.client.util.Util;
 import com.openkm.frontend.client.widget.eastereggs.FuturamaWalking;
 import com.openkm.frontend.client.widget.searchsaved.Status;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SearchIn
@@ -43,7 +46,7 @@ import java.util.*;
  */
 public class SearchIn extends Composite implements HasPropertyHandler {
 	private static final int TAB_HEIGHT = 20;
-	private static final int CONTROLER_WIDTH = 380;
+	private static final int CONTROLLER_WIDTH = 380;
 	private static final int MINIMUM_TAB_WIDTH = 400;
 
 	private HorizontalPanel hPanel;
@@ -55,11 +58,6 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	public SearchControl searchControl;
 	public FuturamaWalking futuramaWalking;
 	public Status status;
-	public int posTaxonomy = 0;
-	private int posTemplates = 0;
-	private int posPersonal = 0;
-	private int posMail = 0;
-	private int posTrash = 0;
 	private int searchMode = SearchControl.SEARCH_MODE_SIMPLE;
 	private int height = 0;
 	private int tabWidth = 0;
@@ -102,7 +100,7 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 
 		hPanel.setCellWidth(verticalLine, "2px");
 		hPanel.setCellHeight(verticalLine, "100%");
-		hPanel.setCellWidth(searchControl, "" + CONTROLER_WIDTH + "px");
+		hPanel.setCellWidth(searchControl, "" + CONTROLLER_WIDTH + "px");
 		hPanel.setCellVerticalAlignment(tabPanel, HasAlignment.ALIGN_TOP);
 		hPanel.setCellVerticalAlignment(searchControl, HasAlignment.ALIGN_TOP);
 
@@ -119,10 +117,10 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 		super.setPixelSize(width, height);
 		this.height = height;
 		tabWidth = MINIMUM_TAB_WIDTH;
-		controlWidth = CONTROLER_WIDTH;
+		controlWidth = CONTROLLER_WIDTH;
 
 		// Case width is too small the decision is distribute at 50%
-		if (MINIMUM_TAB_WIDTH + CONTROLER_WIDTH > width) {
+		if (MINIMUM_TAB_WIDTH + CONTROLLER_WIDTH > width) {
 			if (width > 10) {
 				tabWidth = width / 2;
 				controlWidth = width - tabWidth;
@@ -131,8 +129,8 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 				tabWidth = 10;
 				controlWidth = 10;
 			}
-		} else if ((width - CONTROLER_WIDTH) > tabWidth) {
-			tabWidth = width - CONTROLER_WIDTH; // Always trying expand tab panel
+		} else if ((width - CONTROLLER_WIDTH) > tabWidth) {
+			tabWidth = width - CONTROLLER_WIDTH; // Always trying expand tab panel
 		}
 
 		tabPanel.setWidth("" + (tabWidth - 2) + "px");
@@ -158,7 +156,7 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	}
 
 	/**
-	 * Gets the properties 
+	 * Gets the properties
 	 *
 	 * @return The properties
 	 */
@@ -209,17 +207,17 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	public void setSavedSearch(GWTQueryParams gWTParams) {
 		searchControl.switchSearchMode(SearchControl.SEARCH_MODE_ADVANCED);
 		if (gWTParams.getPath().startsWith(Main.get().repositoryContext.getContextTaxonomy())) {
-			searchNormal.context.setSelectedIndex(posTaxonomy);
+			searchNormal.context.setSelectedIndex(searchNormal.posTaxonomy);
 		} else if (gWTParams.getPath().startsWith(Main.get().repositoryContext.getContextPersonal())) {
-			searchNormal.context.setSelectedIndex(posTemplates);
+			searchNormal.context.setSelectedIndex(searchNormal.posTemplates);
 		} else if (gWTParams.getPath().startsWith(Main.get().repositoryContext.getContextTemplates())) {
-			searchNormal.context.setSelectedIndex(posPersonal);
+			searchNormal.context.setSelectedIndex(searchNormal.posPersonal);
 		} else if (gWTParams.getPath().startsWith(Main.get().repositoryContext.getContextMail())) {
-			searchNormal.context.setSelectedIndex(posMail);
+			searchNormal.context.setSelectedIndex(searchNormal.posMail);
 		} else if (gWTParams.getPath().startsWith(Main.get().repositoryContext.getContextTrash())) {
-			searchNormal.context.setSelectedIndex(posTrash);
+			searchNormal.context.setSelectedIndex(searchNormal.posTrash);
 		} else {
-			searchNormal.context.setSelectedIndex(posTaxonomy);
+			searchNormal.context.setSelectedIndex(searchNormal.posTaxonomy);
 		}
 
 		if (!gWTParams.getCategoryUuid().equals("")) {
@@ -333,11 +331,11 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	/**
 	 * Add property params
 	 *
-	 * @param hproperties The table properties map
+	 * @param gwtProps The table properties map
 	 */
-	private void addPropertyParams(Map<String, GWTPropertyParams> hproperties) {
-		for (Iterator<String> it = hproperties.keySet().iterator(); it.hasNext(); ) {
-			searchMetadata.addProperty((GWTPropertyParams) hproperties.get(it.next()));
+	private void addPropertyParams(Map<String, GWTPropertyParams> gwtProps) {
+		for (String s : gwtProps.keySet()) {
+			searchMetadata.addProperty(gwtProps.get(s));
 		}
 	}
 
@@ -345,7 +343,7 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	 * Sets the context values
 	 *
 	 * @param contextValue The context value
-	 * @param stackView The stack view
+	 * @param stackView    The stack view
 	 */
 	public void setContextValue(String contextValue, int stackView) {
 		searchNormal.setContextValue(contextValue, stackView);
@@ -381,28 +379,24 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 
 	/**
 	 * getSelectedView
-	 *
-	 * @return
 	 */
 	public int getSelectedView() {
 		int index = searchNormal.context.getSelectedIndex();
-		if (index == posTaxonomy) {
+		if (index == searchNormal.posTaxonomy) {
 			return UIDesktopConstants.NAVIGATOR_TAXONOMY;
-		} else if (index == posTemplates) {
+		} else if (index == searchNormal.posTemplates) {
 			return UIDesktopConstants.NAVIGATOR_TEMPLATES;
-		} else if (index == posPersonal) {
+		} else if (index == searchNormal.posPersonal) {
 			return UIDesktopConstants.NAVIGATOR_PERSONAL;
-		} else if (index == posMail) {
+		} else if (index == searchNormal.posMail) {
 			return UIDesktopConstants.NAVIGATOR_MAIL;
 		} else {
-			return UIDesktopConstants.NAVIGATOR_TRASH;
+			return UIDesktopConstants.NAVIGATOR_PERSONAL;
 		}
 	}
 
 	/**
 	 * switchSearchMode
-	 *
-	 * @param mode
 	 */
 	public void switchSearchMode(int mode) {
 		this.searchMode = mode;

@@ -44,10 +44,9 @@ import java.util.List;
  * SearchNormal
  *
  * @author jllort
- *
  */
 public class SearchNormal extends Composite {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
 	private static final int CALENDAR_FIRED_NONE = -1;
 	private static final int CALENDAR_FIRED_START = 0;
@@ -72,11 +71,11 @@ public class SearchNormal extends Composite {
 	public int calendarFired = CALENDAR_FIRED_NONE;
 	public Date modifyDateFrom;
 	public Date modifyDateTo;
-	private int posTaxonomy = 0;
-	private int posTemplates = 0;
-	private int posPersonal = 0;
-	private int posMail = 0;
-	private int posTrash = 0;
+	public int posTaxonomy = 0;
+	public int posTemplates = 0;
+	public int posPersonal = 0;
+	public int posMail = 0;
+	public int posTrash = 0;
 	private boolean templatesVisible = false;
 	private boolean personalVisible = false;
 	private boolean mailVisible = false;
@@ -284,9 +283,8 @@ public class SearchNormal extends Composite {
 	/**
 	 * Set the WordWarp for all the row cells
 	 *
-	 * @param row The row cell
+	 * @param row     The row cell
 	 * @param columns Number of row columns
-	 * @param warp
 	 */
 	private void setRowWordWarp(FlexTable table, int row, int columns, boolean wrap) {
 		CellFormatter cellFormatter = table.getCellFormatter();
@@ -350,7 +348,7 @@ public class SearchNormal extends Composite {
 	 * Sets the context values
 	 *
 	 * @param contextValue The context value
-	 * @param stackView The stack view
+	 * @param stackView    The stack view
 	 */
 	public void setContextValue(String contextValue, int stackView) {
 		switch (stackView) {
