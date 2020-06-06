@@ -10,8 +10,8 @@ With OpenKM Open Source Community Edition you can:
  * Collaborate with colleagues on documents and projects.
  * Empower organizations to capitalize on accumulated knowledge by locating documents, experts, and information sources.
  * Embedded workflow engine to take control of your business case.
- * Automate task.
- 
+ * Automate tasks.
+
 ## Installing binaries
 You can install OpenKM binaries from [SourceForge](https://sourceforge.net/projects/openkm/):
  * **OKMInstaller.jar**: The OpenKM installer assistant. Usage information at [using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html).
@@ -33,6 +33,9 @@ This video shows step by step the installation process of OpenKM Community versi
 
 [Spanish version](https://www.youtube.com/watch?v=6F7Hany7BMc)
 
+## Docker
+[OpenKM oficial release of docker](https://hub.docker.com/r/openkm/openkm-ce)
+
 ## Building from Source
 ```sh
 $ git clone [git-repo-url] openkm-community
@@ -41,7 +44,7 @@ $ mvn clean package
 ```
 
 ## Documentation
- * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
+ * [OpenKM Knowledge Center](https://docs.openkm.com/kcenter/view/okm-6.3-com/)
  * [Hardware and software requirements](https://docs.openkm.com/kcenter/view/okm-6.3-com/hardware-and-software-requirements.html)
  * [Installation](https://docs.openkm.com/kcenter/view/okm-6.3-com/installation.html)
  * [Using the installer](https://docs.openkm.com/kcenter/view/okm-6.3-com/using-the-installer.html)
@@ -54,7 +57,7 @@ $ mvn clean package
 ## Reporting issues
 OpenKM Open Source Community Edition is supported by developers and technical enthusiasts via [the forum](http://forum.openkm.com) of the user community. If you want to raise an issue, please follow the below recommendations:
  * Before you post a question, please search the question to see if someone has already reported it / asked for it.
- * If the question does not already exist, create a new post. 
+ * If the question does not already exist, create a new post.
  * Please provide as much detailed information as possible with the issue report. We need to know the version of OpenKM, Operating System, browser and whatever you think might help us to understand the problem or question.
 
 ## License

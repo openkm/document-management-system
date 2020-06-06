@@ -21,23 +21,22 @@
 
 package com.openkm.rest.util;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 @XmlRootElement(name = "hqlQueryResultColumns")
 public class HqlQueryResultColumns {
-    @XmlElement(name = "hqlQueryResultColumn", required = true)
-    List<String> hqlQueryResultColumns = new ArrayList<>();
+	@XmlElement(name = "hqlQueryResultColumn", required = true)
+	List<String> hqlQueryResultColumns = new ArrayList<>();
 
-    public List<String> getColumns() {
-        return hqlQueryResultColumns;
-    }
+	public List<String> getColumns() {
+		return hqlQueryResultColumns;
+	}
 
-    @Override
-    public String toString() {
-        return String.valueOf(hqlQueryResultColumns);
-    }
+	@Override
+	public String toString() {
+		return String.valueOf(hqlQueryResultColumns);
+	}
 }
