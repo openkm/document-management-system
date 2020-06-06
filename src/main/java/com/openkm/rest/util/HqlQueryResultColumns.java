@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017 Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -26,17 +26,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "hqlQueryResults")
-public class HqlQueryResults {
-	@XmlElement(name = "hqlQueryResult", required = true)
-	List<HqlQueryResultColumns> hqlQueryResults = new ArrayList<>();
+@XmlRootElement(name = "hqlQueryResultColumns")
+public class HqlQueryResultColumns {
+	@XmlElement(name = "hqlQueryResultColumn", required = true)
+	List<String> hqlQueryResultColumns = new ArrayList<>();
 
-	public List<HqlQueryResultColumns> getResults() {
-		return hqlQueryResults;
+	public List<String> getColumns() {
+		return hqlQueryResultColumns;
 	}
 
 	@Override
 	public String toString() {
-		return String.valueOf(hqlQueryResults);
+		return String.valueOf(hqlQueryResultColumns);
 	}
 }

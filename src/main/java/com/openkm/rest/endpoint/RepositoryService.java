@@ -23,6 +23,7 @@ package com.openkm.rest.endpoint;
 
 import bsh.Interpreter;
 import com.openkm.bean.AppVersion;
+import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.Folder;
 import com.openkm.bean.ScriptExecutionResult;
 import com.openkm.core.AccessDeniedException;
@@ -34,10 +35,7 @@ import com.openkm.dao.LegacyDAO;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.RepositoryModule;
 import com.openkm.rest.GenericException;
-import com.openkm.rest.util.Configuration;
-import com.openkm.rest.util.HqlQueryResults;
-import com.openkm.rest.util.SqlQueryResultColumns;
-import com.openkm.rest.util.SqlQueryResults;
+import com.openkm.rest.util.*;
 import com.openkm.spring.PrincipalUtils;
 import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
@@ -57,7 +55,7 @@ import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-@Api(description="repository-service", value="repository-service")
+@Api(description = "repository-service", value = "repository-service")
 @Path("/repository")
 public class RepositoryService {
 	private static Logger log = LoggerFactory.getLogger(RepositoryService.class);
@@ -84,6 +82,20 @@ public class RepositoryService {
 			RepositoryModule rm = ModuleManager.getRepositoryModule();
 			Folder fld = rm.getTrashFolder(null);
 			log.debug("getTrashFolder: {}", fld);
+			return fld;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
+	@Path("/getTrashFolderBase")
+	public Folder getTrashFolderBase() throws GenericException {
+		try {
+			log.debug("getTrashFolderBase()");
+			RepositoryModule rm = ModuleManager.getRepositoryModule();
+			Folder fld = rm.getTrashFolderBase(null);
+			log.debug("getTrashFolderBase: {}", fld);
 			return fld;
 		} catch (Exception e) {
 			throw new GenericException(e);
@@ -119,6 +131,20 @@ public class RepositoryService {
 	}
 
 	@GET
+	@Path("/getPersonalFolderBase")
+	public Folder getPersonalFolderBase() throws GenericException {
+		try {
+			log.debug("getPersonalFolder()");
+			RepositoryModule rm = ModuleManager.getRepositoryModule();
+			Folder fld = rm.getPersonalFolderBase(null);
+			log.debug("getPersonalFolder: {}", fld);
+			return fld;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
 	@Path("/getMailFolder")
 	public Folder getMailFolder() throws GenericException {
 		try {
@@ -126,6 +152,20 @@ public class RepositoryService {
 			RepositoryModule rm = ModuleManager.getRepositoryModule();
 			Folder fld = rm.getMailFolder(null);
 			log.debug("getMailFolder: {}", fld);
+			return fld;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
+	@Path("/getMailFolderBase")
+	public Folder getMailFolderBase() throws GenericException {
+		try {
+			log.debug("getMailFolderBase()");
+			RepositoryModule rm = ModuleManager.getRepositoryModule();
+			Folder fld = rm.getMailFolderBase(null);
+			log.debug("getMailFolderBase: {}", fld);
 			return fld;
 		} catch (Exception e) {
 			throw new GenericException(e);
@@ -258,6 +298,29 @@ public class RepositoryService {
 		}
 	}
 
+	@PUT
+	@Path("/copyAttributes")
+	public void copyAttributes(@QueryParam("nodeId") String nodeId, @QueryParam("dstId") String dstId,
+							   @QueryParam("categories") boolean categories, @QueryParam("keywords") boolean keywords,
+							   @QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
+							   @QueryParam("wiki") boolean wiki) throws GenericException {
+		try {
+			log.debug("copyAttributes({}, {}, {}, {}, {}, {}, {})",
+					new Object[]{nodeId, dstId, categories, keywords, propertyGroups, notes, wiki});
+			RepositoryModule rm = ModuleManager.getRepositoryModule();
+			ExtendedAttributes extAttr = new ExtendedAttributes();
+			extAttr.setCategories(categories);
+			extAttr.setKeywords(keywords);
+			extAttr.setNotes(notes);
+			extAttr.setPropertyGroups(propertyGroups);
+			extAttr.setWiki(wiki);
+			rm.copyAttributes(null, nodeId, dstId, extAttr);
+			log.debug("copyAttributes: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
 	@POST
 	@Path("/executeScript")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -384,21 +447,29 @@ public class RepositoryService {
 				}
 
 				if (is != null) {
-					String query = IOUtils.toString(is);
+					String query = IOUtils.toString(is).trim();
 
 					if (query.toUpperCase().startsWith("--") || query.equals("") || query.equals("\r")) {
 						// Is a comment, so ignore it
 					} else {
+						if (query.endsWith(";")) {
+							query = query.substring(0, query.length() - 1);
+						}
+
 						for (Object obj : LegacyDAO.executeHQL(query)) {
+							HqlQueryResultColumns cols = new HqlQueryResultColumns();
+
 							if (obj instanceof Object[]) {
 								Object[] ao = (Object[]) obj;
 
 								for (int j = 0; j < ao.length; j++) {
-									results.getResults().add(String.valueOf(ao[j]));
+									cols.getColumns().add(String.valueOf(ao[j]));
 								}
 							} else {
-								results.getResults().add(String.valueOf(obj));
+								cols.getColumns().add(String.valueOf(obj));
 							}
+
+							results.getResults().add(cols);
 						}
 					}
 
