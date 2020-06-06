@@ -572,7 +572,7 @@ public class SearchControl extends Composite {
 		SearchAdvanced searchAdvanced = Main.get().mainPanel.search.searchBrowser.searchIn.searchAdvanced;
 		final SearchMetadata searchMetada = Main.get().mainPanel.search.searchBrowser.searchIn.searchMetadata;
 		searchSimple.fullText.setText("");
-		searchNormal.context.setSelectedIndex(Main.get().mainPanel.search.searchBrowser.searchIn.posTaxonomy);
+		searchNormal.context.setSelectedIndex(Main.get().mainPanel.search.searchBrowser.searchIn.searchNormal.posTaxonomy);
 		searchNormal.content.setText("");
 		searchAdvanced.path.setText("");
 		searchAdvanced.categoryPath.setText("");
