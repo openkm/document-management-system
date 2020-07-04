@@ -75,7 +75,6 @@ public class HTMLParser extends AbstractSAXParser {
 	 * @return String Parsed content
 	 */
 	public String getContents() {
-		String text = filterAndJoin(buffer.toString());
-		return text;
+		return filterAndJoin(buffer.toString());
 	}
 }

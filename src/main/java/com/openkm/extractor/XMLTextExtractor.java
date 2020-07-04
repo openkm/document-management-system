@@ -105,10 +105,7 @@ public class XMLTextExtractor extends AbstractTextExtractor {
 
 			reader.parse(source);
 			return writer.toString();
-		} catch (ParserConfigurationException e) {
-			logger.warn("Failed to extract XML text content", e);
-			throw new IOException(e.getMessage(), e);
-		} catch (SAXException e) {
+		} catch (ParserConfigurationException | SAXException e) {
 			logger.warn("Failed to extract XML text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {

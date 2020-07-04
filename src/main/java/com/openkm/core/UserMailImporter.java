@@ -33,9 +33,9 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class UserMailImporter extends TimerTask {
-	private static Logger log = LoggerFactory.getLogger(UserMailImporter.class);
+	private static final Logger log = LoggerFactory.getLogger(UserMailImporter.class);
 	private static volatile boolean running = false;
-	private List<String> exceptionMessages = new ArrayList<String>();
+	private List<String> exceptionMessages = new ArrayList<>();
 
 	public boolean isRunning() {
 		return running;
@@ -47,14 +47,7 @@ public class UserMailImporter extends TimerTask {
 
 	@Override
 	public void run() {
-		String systemToken = null;
-
-		if (Config.REPOSITORY_NATIVE) {
-			systemToken = DbSessionManager.getInstance().getSystemToken();
-		} else {
-			// Other implementation
-		}
-
+		String systemToken = DbSessionManager.getInstance().getSystemToken();
 		runAs(systemToken);
 	}
 

@@ -21,30 +21,23 @@
 
 package com.openkm.extractor;
 
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xslf.extractor.XSLFPowerPointExtractor;
+import org.apache.poi.xssf.extractor.XSSFExcelExtractor;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.xmlbeans.XmlException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * Text extractor for MS Office 2007 documents.
  */
 public class MsOffice2007TextExtractor extends AbstractTextExtractor {
-
-	/**
-	 * Logger instance.
-	 */
 	private static final Logger log = LoggerFactory.getLogger(MsOffice2007TextExtractor.class);
 
 	/**
@@ -60,69 +53,51 @@ public class MsOffice2007TextExtractor extends AbstractTextExtractor {
 				"application/vnd.openxmlformats-officedocument.spreadsheetml.template"});
 	}
 
-	//-------------------------------------------------------< TextExtractor >
+	// -------------------------------------------------------< TextExtractor >
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public String extractText(InputStream stream, String type, String encoding) throws IOException {
-		ZipInputStream zis = null;
+		log.debug("extractText({}, {}, {})", stream, type, encoding);
 
 		try {
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-			saxParserFactory.setValidating(false);
-			SAXParser saxParser = saxParserFactory.newSAXParser();
-			XMLReader xmlReader = saxParser.getXMLReader();
-			xmlReader.setFeature("http://xml.org/sax/features/validation", false);
-			xmlReader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-			MsOffice2007ContentHandler contentHandler = null;
+			switch (type) {
+				case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+				case "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
+					try (OPCPackage opcPackage = OPCPackage.open(stream)) {
+						XWPFWordExtractor extractor = new XWPFWordExtractor(opcPackage);
+						String text = extractor.getText();
+						log.debug("TEXT: " + text);
+						return text;
+					}
 
-			if (type.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") ||
-					type.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.template")) {
-				contentHandler = new WordprocessingMLContentHandler();
-			} else if (type.equals("application/vnd.openxmlformats-officedocument.presentationml.template") ||
-					type.equals("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
-					type.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
-				contentHandler = new PresentationMLContentHandler();
-			} else if (type.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") ||
-					type.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.template")) {
-				contentHandler = new SpreadsheetMLContentHandler();
+				case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+				case "application/vnd.openxmlformats-officedocument.spreadsheetml.template":
+					try (OPCPackage opcPackage = OPCPackage.open(stream)) {
+						XSSFExcelExtractor extractor = new XSSFExcelExtractor(opcPackage);
+						String text = extractor.getText();
+						log.debug("TEXT: " + text);
+						return text;
+					}
+
+				case "application/vnd.openxmlformats-officedocument.presentationml.template":
+				case "application/vnd.openxmlformats-officedocument.presentationml.slideshow":
+				case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+					try (OPCPackage opcPackage = OPCPackage.open(stream)) {
+						XSLFPowerPointExtractor extractor = new XSLFPowerPointExtractor(opcPackage);
+						String text = extractor.getText();
+						log.debug("TEXT: " + text);
+						return text;
+					}
+
+				default:
+					return "";
 			}
-
-			xmlReader.setContentHandler(contentHandler);
-			zis = new ZipInputStream(stream);
-			ZipEntry ze;
-			StringBuffer sb = new StringBuffer();
-
-			while ((ze = zis.getNextEntry()) != null) {
-				if (ze.getName().startsWith(contentHandler.getFilePattern())) {
-					// It is unspecified whether the XML parser closes the stream when
-					// done parsing. To ensure that the stream gets closed just once,
-					// we prevent the parser from closing it by catching the close()
-					// call and explicitly close the stream in a finally block.
-					InputSource is = new InputSource(new FilterInputStream(zis) {
-						public void close() {
-						}
-					});
-
-					log.debug("Parsing " + ze);
-					xmlReader.parse(is);
-					sb.append(contentHandler.getContent());
-				} else {
-					log.debug("- " + ze);
-				}
-			}
-
-			log.debug("TEXT: " + sb.toString());
-			return sb.toString();
-		} catch (ParserConfigurationException e) {
+		} catch (OpenXML4JException | XmlException e) {
 			log.warn("Failed to extract Microsoft Office 2007 text content", e);
-			return "";
-		} catch (SAXException e) {
-			log.warn("Failed to extract Microsoft Office 2007 text content", e);
-			return "";
+			throw new IOException(e.getMessage(), e);
 		} finally {
-			IOUtils.closeQuietly(zis);
 			IOUtils.closeQuietly(stream);
 		}
 	}
