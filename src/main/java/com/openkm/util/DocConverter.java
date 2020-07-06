@@ -218,7 +218,7 @@ public class DocConverter {
 	 * Convert a document format to another one.
 	 */
 	public void convert(File inputFile, String mimeType, File outputFile) throws ConversionException {
-		log.debug("convert({}, {}, {})", new Object[]{inputFile, mimeType, outputFile});
+		log.debug("convert({}, {}, {})", inputFile, mimeType, outputFile);
 
 		if (Config.SYSTEM_OPENOFFICE_PATH.equals("") && Config.SYSTEM_OPENOFFICE_SERVER.equals("")) {
 			throw new ConversionException(Config.PROPERTY_SYSTEM_OPENOFFICE_PATH + " or " + Config.PROPERTY_SYSTEM_OPENOFFICE_SERVER

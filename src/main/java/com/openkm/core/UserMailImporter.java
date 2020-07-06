@@ -22,10 +22,8 @@
 package com.openkm.core;
 
 import com.openkm.api.OKMAuth;
-import com.openkm.automation.AutomationException;
 import com.openkm.dao.MailAccountDAO;
 import com.openkm.dao.bean.MailAccount;
-import com.openkm.extension.core.ExtensionException;
 import com.openkm.module.db.stuff.DbSessionManager;
 import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.util.MailUtils;
@@ -96,34 +94,7 @@ public class UserMailImporter extends TimerTask {
 						}
 					}
 				}
-			} catch (RepositoryException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (DatabaseException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (PathNotFoundException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (ItemExistsException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (VirusDetectedException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (AccessDeniedException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (PrincipalAdapterException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (UserQuotaExceededException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (ExtensionException e) {
-				log.error(e.getMessage(), e);
-				exceptionMessages.add(e.getMessage());
-			} catch (AutomationException e) {
+			} catch (DatabaseException | PrincipalAdapterException e) {
 				log.error(e.getMessage(), e);
 				exceptionMessages.add(e.getMessage());
 			} finally {

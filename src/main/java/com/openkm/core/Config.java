@@ -65,7 +65,7 @@ public class Config {
 	public static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 	public static final URI PLUGIN_DIR = new File(Config.HOME_DIR + File.separator + "plugins").toURI();
 	public static final String WEBAPPS_DIR = Config.HOME_DIR + File.separator + "webapps";
-	
+
 	// Scripting
 	public static final String START_SCRIPT = "start.bsh";
 	public static final String STOP_SCRIPT = "stop.bsh";
@@ -358,7 +358,7 @@ public class Config {
 
 	// Ask for drag and drop updates
     public static String PROPERTY_ASK_DRAG_AND_DROP_UPDATES = "ask.drag.and.drop.updates";
-    
+
 	/**
 	 * Default values
 	 */
@@ -381,7 +381,7 @@ public class Config {
 	public static boolean NATIVE_SQL_OPTIMIZATIONS = false;
 	public static boolean USER_PASSWORD_RESET = true;
 	public static int KEEP_SESSION_ALIVE_INTERVAL = 5; // 5 minutes
-	public static List<String> ACTIVITY_LOG_ACTIONS = new ArrayList<String>();
+	public static List<String> ACTIVITY_LOG_ACTIONS = new ArrayList<>();
 	private static final String DEFAULT_ACTIVITY_LOG_ACTIONS =
 			"LOGIN\n" +
 					"LOGOUT\n" +
@@ -660,7 +660,7 @@ public class Config {
 
 	// Ask for drag and drop updates
     public static boolean ASK_DRAG_AND_DROP_UPDATES = false;
-    
+
 	/**
 	 * Get url base
 	 */
@@ -1216,7 +1216,7 @@ public class Config {
 	        // Ask for drag and drop updates
             ASK_DRAG_AND_DROP_UPDATES = ConfigDAO.getBoolean(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, ASK_DRAG_AND_DROP_UPDATES);
             values.put(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, Boolean.toString(ASK_DRAG_AND_DROP_UPDATES));
-            
+
 			for (Entry<String, String> entry : values.entrySet()) {
 				log.info("RELOAD - {}={}", entry.getKey(), entry.getValue());
 			}
