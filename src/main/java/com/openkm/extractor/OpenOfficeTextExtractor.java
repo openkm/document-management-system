@@ -89,10 +89,7 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 			}
 
 			return contentHandler.getContent();
-		} catch (ParserConfigurationException e) {
-			logger.warn("Failed to extract OpenOffice text content", e);
-			throw new IOException(e.getMessage(), e);
-		} catch (SAXException e) {
+		} catch (ParserConfigurationException | SAXException e) {
 			logger.warn("Failed to extract OpenOffice text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
@@ -102,7 +99,7 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 
 	// --------------------------------------------< OpenOfficeContentHandler >
 
-	private class OpenOfficeContentHandler extends DefaultHandler {
+	private static class OpenOfficeContentHandler extends DefaultHandler {
 		private StringBuffer content;
 		private boolean appendChar;
 

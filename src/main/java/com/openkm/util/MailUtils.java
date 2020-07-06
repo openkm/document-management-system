@@ -48,14 +48,11 @@ import com.sun.mail.pop3.POP3Folder;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hsmf.MAPIMessage;
-import org.apache.poi.hsmf.datatypes.AttachmentChunks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,11 +66,12 @@ import javax.mail.util.ByteArrayDataSource;
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
  * Java Mail configuration properties
- *
+ * <p>
  * http://docs.oracle.com/javaee/7/api/javax/mail/internet/package-summary.html
  */
 public class MailUtils {
@@ -96,8 +94,8 @@ public class MailUtils {
 	 * Send mail without FROM addresses.
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param content The mail body.
+	 * @param subject   The mail subject.
+	 * @param content   The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendMessage(Collection<String> toAddress, String subject, String content) throws MessagingException {
@@ -112,8 +110,8 @@ public class MailUtils {
 	 * Send mail without FROM addresses.
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param content The mail body.
+	 * @param subject   The mail subject.
+	 * @param content   The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendMessage(String toAddress, String subject, String content) throws MessagingException {
@@ -130,8 +128,8 @@ public class MailUtils {
 	 * Send mail without FROM addresses.
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param content The mail body.
+	 * @param subject   The mail subject.
+	 * @param content   The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendMessage(String fromAddress, List<String> toAddress, String subject, String content) throws MessagingException {
@@ -146,8 +144,8 @@ public class MailUtils {
 	 * Send mail without FROM addresses.
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param content The mail body.
+	 * @param subject   The mail subject.
+	 * @param content   The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendMessage(String fromAddress, String toAddress, String subject, String content) throws MessagingException {
@@ -164,8 +162,8 @@ public class MailUtils {
 	 * Send document to non-registered OpenKM users
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param text The mail body.
+	 * @param subject   The mail subject.
+	 * @param text      The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendDocument(String fromAddress, List<String> toAddress, String subject, String text, String docPath)
@@ -177,8 +175,8 @@ public class MailUtils {
 	 * Send document to non-registered OpenKM users
 	 *
 	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param text The mail body.
+	 * @param subject   The mail subject.
+	 * @param text      The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void sendDocuments(String fromAddress, List<String> toAddress, String subject, String text, List<String> docsPath)
@@ -190,9 +188,9 @@ public class MailUtils {
 	 * Send mail with FROM addresses.
 	 *
 	 * @param fromAddress Origin address.
-	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param text The mail body.
+	 * @param toAddress   Destination addresses.
+	 * @param subject     The mail subject.
+	 * @param text        The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	private static void send(String fromAddress, Collection<String> toAddress, String subject, String text, Collection<String> docsPath)
@@ -220,10 +218,10 @@ public class MailUtils {
 	/**
 	 * Forward a mail in the repository.
 	 *
-	 * @param token Authentication token.
+	 * @param token       Authentication token.
 	 * @param fromAddress Origin address.
-	 * @param toAddress Destination addresses.
-	 * @param mailPath Path of the mail to be forwarded.
+	 * @param toAddress   Destination addresses.
+	 * @param mailPath    Path of the mail to be forwarded.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void forwardMail(String token, String fromAddress, String toAddress, String message, String mailPath)
@@ -237,10 +235,10 @@ public class MailUtils {
 	/**
 	 * Forward a mail in the repository.
 	 *
-	 * @param token Authentication token.
+	 * @param token       Authentication token.
 	 * @param fromAddress Origin address.
-	 * @param toAddress Destination addresses.
-	 * @param mailId Path of the mail to be forwarded or its UUID.
+	 * @param toAddress   Destination addresses.
+	 * @param mailId      Path of the mail to be forwarded or its UUID.
 	 * @throws MessagingException If there is any error.
 	 */
 	public static void forwardMail(String token, String fromAddress, Collection<String> toAddress, String message, String mailId)
@@ -275,9 +273,9 @@ public class MailUtils {
 	 * Create a mail.
 	 *
 	 * @param fromAddress Origin address.
-	 * @param toAddress Destination addresses.
-	 * @param subject The mail subject.
-	 * @param text The mail body.
+	 * @param toAddress   Destination addresses.
+	 * @param subject     The mail subject.
+	 * @param text        The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
 	private static MimeMessage create(String fromAddress, Collection<String> toAddress, String subject, String text,
@@ -477,20 +475,20 @@ public class MailUtils {
 	/**
 	 * Import messages
 	 * http://www.jguru.com/faq/view.jsp?EID=26898
-	 *
+	 * <p>
 	 * == Using Unique Identifier (UIDL) ==
 	 * Mail server assigns an unique identifier for every email in the same account. You can get as UIDL
 	 * for every email by MailInfo.UIDL property. To avoid receiving the same email twice, the best way is
 	 * storing the UIDL of email retrieved to a text file or database. Next time before you retrieve email,
 	 * compare your local uidl list with remote uidl. If this uidl exists in your local uidl list, don't
 	 * receive it; otherwise receive it.
-	 *
+	 * <p>
 	 * == Different property of UIDL in POP3 and IMAP4 ==
 	 * UIDL is always unique in IMAP4 and it is always an incremental integer. UIDL in POP3 can be any valid
 	 * asc-ii characters, and an UIDL may be reused by POP3 server if email with this UIDL has been deleted
 	 * from the server. Hence you are advised to remove the uidl from your local uidl list if that uidl is
 	 * no longer exist on the POP3 server.
-	 *
+	 * <p>
 	 * == Remarks ==
 	 * You should create different local uidl list for different email account, because the uidl is only
 	 * unique for the same account.
@@ -832,7 +830,7 @@ public class MailUtils {
 	 * Import mail into OpenKM repository
 	 */
 	public static void importMail(String token, String mailPath, boolean grouping, Folder folder, Message msg, MailAccount ma,
-	        com.openkm.bean.Mail mail) throws DatabaseException, RepositoryException, AccessDeniedException,
+			com.openkm.bean.Mail mail) throws DatabaseException, RepositoryException, AccessDeniedException,
 			ItemExistsException, PathNotFoundException, MessagingException, VirusDetectedException, UserQuotaExceededException,
 			IOException, ExtensionException, AutomationException {
 		OKMRepository okmRepository = OKMRepository.getInstance();
@@ -850,11 +848,7 @@ public class MailUtils {
 		log.debug("newMailPath: {}", newMailPath);
 
 		if (!okmRepository.hasNode(token, newMailPath)) {
-			if (Config.REPOSITORY_NATIVE) {
-				new DbMailModule().create(token, mail, ma.getUser(), new Ref<>(null));
-			} else {
-				// Other implementation
-			}
+			new DbMailModule().create(token, mail, ma.getUser(), new Ref<>(null));
 
 			try {
 				addAttachments(token, mail, msg, ma.getUser());
@@ -1065,57 +1059,11 @@ public class MailUtils {
 					String mimeType = MimeTypeConfig.mimeTypes.getContentType(bp.getFileName().toLowerCase());
 					attachment.setMimeType(mimeType);
 					attachment.setPath(mail.getPath() + "/" + testName);
-					InputStream is = bp.getInputStream();
 
-					if (Config.REPOSITORY_NATIVE) {
+					try (InputStream is = bp.getInputStream()) {
 						new DbDocumentModule().create(token, attachment, is, bp.getSize(), userId);
-					} else {
-						// Other implementation
 					}
-
-					is.close();
 				}
-			}
-		}
-	}
-
-	/**
-	 * Add attachments to an imported mail.
-	 */
-	public static void addAttachments(String token, com.openkm.bean.Mail mail, MAPIMessage msg, String userId) throws DatabaseException,
-			RepositoryException, PathNotFoundException, ItemExistsException, VirusDetectedException, UserQuotaExceededException,
-			UnsupportedMimeTypeException, ExtensionException, AccessDeniedException, IOException, AutomationException, FileSizeExceededException {
-		for (AttachmentChunks att : msg.getAttachmentFiles()) {
-			if (!att.isEmbeddedMessage()) {
-				String attFileName = att.attachFileName.toString();
-				if (att.attachLongFileName != null) {
-					attFileName = att.attachLongFileName.toString();
-				}
-
-				log.debug("Importing attachment: {}", attFileName);
-				String fileName = FileUtils.getFileName(attFileName);
-				String fileExtension = FileUtils.getFileExtension(attFileName);
-				String testName = fileName + "." + fileExtension;
-
-				// Test if already exists a document with the same name in the mail
-				for (int j = 1; OKMRepository.getInstance().hasNode(token, mail.getPath() + "/" + testName); j++) {
-					// log.debug("Trying with: {}", testName);
-					testName = fileName + " (" + j + ")." + fileExtension;
-				}
-
-				Document attachment = new Document();
-				String mimeType = MimeTypeConfig.mimeTypes.getContentType(testName.toLowerCase());
-				attachment.setMimeType(mimeType);
-				attachment.setPath(mail.getPath() + "/" + testName);
-				ByteArrayInputStream bais = new ByteArrayInputStream(att.attachData.getValue());
-
-				if (Config.REPOSITORY_NATIVE) {
-					new DbDocumentModule().create(token, attachment, bais, att.attachData.getValue().length, userId);
-				} else {
-					// Other implementation
-				}
-
-				IOUtils.closeQuietly(bais);
 			}
 		}
 	}
@@ -1147,15 +1095,10 @@ public class MailUtils {
 				String mimeType = MimeTypeConfig.mimeTypes.getContentType(testName.toLowerCase());
 				attachment.setMimeType(mimeType);
 				attachment.setPath(mail.getPath() + "/" + testName);
-				ByteArrayInputStream bais = new ByteArrayInputStream(fileAtt.getData());
 
-				if (Config.REPOSITORY_NATIVE) {
+				try (ByteArrayInputStream bais = new ByteArrayInputStream(fileAtt.getData())) {
 					new DbDocumentModule().create(token, attachment, bais, fileAtt.getSize(), userId);
-				} else {
-					// Other implementation
 				}
-
-				IOUtils.closeQuietly(bais);
 			}
 		}
 	}
@@ -1164,15 +1107,15 @@ public class MailUtils {
 	 * Conversion from array of Addresses to array of Strings.
 	 */
 	private static String[] addressToString(Address[] addresses) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		if (addresses != null) {
-			for (int i = 0; i < addresses.length; i++) {
-				list.add(addressToString(addresses[i]));
+			for (Address address : addresses) {
+				list.add(addressToString(address));
 			}
 		}
 
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	/**
@@ -1232,7 +1175,7 @@ public class MailUtils {
 	 * Conversion from array of Recipient to array of Strings.
 	 */
 	private static String[] recipientToString(List<RecipientEntry> recipEntries) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		if (recipEntries != null) {
 			for (RecipientEntry re : recipEntries) {
@@ -1240,30 +1183,14 @@ public class MailUtils {
 			}
 		}
 
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
-
-	/**
-	 * Conversion from array of Recipient to array of Strings.
-	 */
-	private static String[] recipientToString(String recipEntries) {
-		ArrayList<String> list = new ArrayList<>();
-
-		if (recipEntries != null) {
-			for (String re : recipEntries.split(";")) {
-				list.add(re);
-			}
-		}
-
-		return list.toArray(new String[list.size()]);
-	}
-
 
 	/**
 	 * Conversion from array of Recipient to array of Strings (Quite weird!)
 	 */
 	private static String[] recipientToString(String displayText, List<RecipientEntry> recipients) {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		for (String name : displayText.split(";\\s*")) {
 			if (name.endsWith("\u0000")) name = name.substring(0, name.length() - 1);
@@ -1275,7 +1202,7 @@ public class MailUtils {
 			}
 		}
 
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	/**
@@ -1289,14 +1216,14 @@ public class MailUtils {
 	 * User tinyurl service as url shorter Depends on commons-httpclient:commons-httpclient:jar:3.0 because of
 	 * org.apache.jackrabbit:jackrabbit-webdav:jar:1.6.4
 	 */
-	public static String getTinyUrl(String fullUrl) throws HttpException, IOException {
+	public static String getTinyUrl(String fullUrl) throws IOException {
 		HttpClient httpclient = new HttpClient();
 
 		// Prepare a request object
 		HttpMethod method = new GetMethod("http://tinyurl.com/api-create.php");
 		method.setQueryString(new NameValuePair[]{new NameValuePair("url", fullUrl)});
 		httpclient.executeMethod(method);
-		InputStreamReader isr = new InputStreamReader(method.getResponseBodyAsStream(), "UTF-8");
+		InputStreamReader isr = new InputStreamReader(method.getResponseBodyAsStream(), StandardCharsets.UTF_8);
 		StringWriter sw = new StringWriter();
 		int c;
 		while ((c = isr.read()) != -1)
@@ -1322,8 +1249,6 @@ public class MailUtils {
 			folder = store.getFolder(ma.getMailFolder());
 			folder.open(Folder.READ_WRITE);
 			folder.close(false);
-		} catch (NoSuchProviderException e) {
-			throw new IOException(e.getMessage());
 		} catch (MessagingException e) {
 			throw new IOException(e.getMessage());
 		} finally {
@@ -1353,7 +1278,7 @@ public class MailUtils {
 	 * Generate HTML with mail object data and contents
 	 */
 	public static String mail2html(Mail mail) throws ConversionException {
-		HashMap<String, String> hm = new HashMap<String, String>();
+		HashMap<String, String> hm = new HashMap<>();
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < mail.getTo().length - 1; i++) {
@@ -1388,7 +1313,7 @@ public class MailUtils {
 	 * Convert string with mails to list.
 	 */
 	public static List<String> parseMailList(String mails) {
-		List<String> mailList = new ArrayList<String>();
+		List<String> mailList = new ArrayList<>();
 
 		if (mails != null && !mails.isEmpty()) {
 			for (StringTokenizer st = new StringTokenizer(mails, ","); st.hasMoreTokens(); ) {
