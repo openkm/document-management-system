@@ -466,7 +466,7 @@ public class MailUtils {
 			Object obj = initialContext.lookup(Config.JNDI_BASE + "mail/OpenKM");
 			mailSession = (Session) PortableRemoteObject.narrow(obj, Session.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 
 		return mailSession;
@@ -1061,7 +1061,11 @@ public class MailUtils {
 					attachment.setPath(mail.getPath() + "/" + testName);
 
 					try (InputStream is = bp.getInputStream()) {
-						new DbDocumentModule().create(token, attachment, is, bp.getSize(), userId);
+						byte[] data = IOUtils.toByteArray(is);
+
+						try (ByteArrayInputStream bais = new ByteArrayInputStream(data)) {
+							new DbDocumentModule().create(token, attachment, bais, data.length, userId);
+						}
 					}
 				}
 			}
