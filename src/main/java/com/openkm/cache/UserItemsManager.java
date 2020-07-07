@@ -2,7 +2,10 @@ package com.openkm.cache;
 
 import com.openkm.bean.ContentInfo;
 import com.openkm.bean.Repository;
-import com.openkm.core.*;
+import com.openkm.core.AccessDeniedException;
+import com.openkm.core.DatabaseException;
+import com.openkm.core.PathNotFoundException;
+import com.openkm.core.RepositoryException;
 import com.openkm.dao.NodeBaseDAO;
 import com.openkm.dao.UserItemsDAO;
 import com.openkm.dao.bean.cache.UserItems;
@@ -17,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserItemsManager {
-	private static Logger log = LoggerFactory.getLogger(UserItemsManager.class);
-	private static Map<String, UserItems> userItemsMgr = new HashMap<String, UserItems>();
+	private static final Logger log = LoggerFactory.getLogger(UserItemsManager.class);
+	private static final Map<String, UserItems> userItemsMgr = new HashMap<>();
 	private static volatile boolean running = false;
 
 	/**
@@ -94,14 +97,7 @@ public class UserItemsManager {
 	 * Refresh user item cache from database.
 	 */
 	public static synchronized void refreshDbUserItems() throws AccessDeniedException, RepositoryException {
-		String systemToken = null;
-
-		if (Config.REPOSITORY_NATIVE) {
-			systemToken = DbSessionManager.getInstance().getSystemToken();
-		} else {
-			// Other implementation
-		}
-
+		String systemToken = DbSessionManager.getInstance().getSystemToken();
 		refreshDbUserItemsAs(systemToken);
 	}
 

@@ -30,7 +30,7 @@ import java.util.Calendar;
 import java.util.TimerTask;
 
 public class Watchdog extends TimerTask {
-	private static Logger log = LoggerFactory.getLogger(Watchdog.class);
+	private static final Logger log = LoggerFactory.getLogger(Watchdog.class);
 	private static volatile boolean running = false;
 
 	public void run() {
@@ -41,32 +41,27 @@ public class Watchdog extends TimerTask {
 			log.debug("*** Watchdog activated ***");
 
 			try {
-				if (Config.REPOSITORY_NATIVE) {
-					DbSessionManager sm = DbSessionManager.getInstance();
+				DbSessionManager sm = DbSessionManager.getInstance();
 
-					for (String token : sm.getTokens()) {
-						DbSessionInfo si = sm.getInfo(token);
+				for (String token : sm.getTokens()) {
+					DbSessionInfo si = sm.getInfo(token);
 
-						if (!Config.SYSTEM_USER.equals(si.getAuth().getName())) {
-							Calendar expiration = (Calendar) si.getLastAccess().clone();
-							expiration.add(Calendar.SECOND, Config.SESSION_EXPIRATION);
-							log.debug(si.getAuth().getName() + ", Expiration: " + expiration.getTime());
+					if (!Config.SYSTEM_USER.equals(si.getAuth().getName())) {
+						Calendar expiration = (Calendar) si.getLastAccess().clone();
+						expiration.add(Calendar.SECOND, Config.SESSION_EXPIRATION);
+						log.debug(si.getAuth().getName() + ", Expiration: " + expiration.getTime());
 
-							if (Calendar.getInstance().after(expiration)) {
-								try {
-									// Activity log
-									UserActivity.log("system", "SESSION_EXPIRATION", si.getAuth().getName(), null, token + ", IDLE FROM: " + si.getLastAccess().getTime());
-									OKMAuth.getInstance().logout(token);
-								} catch (RepositoryException e) {
-									log.error(e.getMessage(), e);
-								} catch (DatabaseException e) {
-									log.error(e.getMessage(), e);
-								}
+						if (Calendar.getInstance().after(expiration)) {
+							try {
+								// Activity log
+								UserActivity.log("system", "SESSION_EXPIRATION", si.getAuth().getName(), null,
+										token + ", IDLE FROM: " + si.getLastAccess().getTime());
+								OKMAuth.getInstance().logout(token);
+							} catch (RepositoryException | DatabaseException e) {
+								log.error(e.getMessage(), e);
 							}
 						}
 					}
-				} else {
-					// Other implementation
 				}
 			} finally {
 				running = false;

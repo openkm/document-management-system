@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
  * Servlet Startup Class
  */
 public class RepositoryStartupServlet extends HttpServlet {
-	private static Logger log = LoggerFactory.getLogger(RepositoryStartupServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(RepositoryStartupServlet.class);
 	private static final long serialVersionUID = 1L;
 	private static Timer uiTimer; // Update Info (OpenKM Update Information)
 	private static Timer cronTimer; // CRON Manager
@@ -63,7 +63,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 	private static Cron cron;
 	private static UINotification uin;
 	private static UpdateInfo ui;
-	private static boolean hasConfiguredDataStore = false;
 	private static boolean running = false;
 
 	@Override
@@ -157,15 +156,9 @@ public class RepositoryStartupServlet extends HttpServlet {
 
 		try {
 			log.info("*** Repository initializing... ***");
-
-			if (Config.REPOSITORY_NATIVE) {
-				systemAuth.enable();
-				DbRepositoryModule.initialize();
-				systemAuth.disable();
-			} else {
-				// Other implementation
-			}
-
+			systemAuth.enable();
+			DbRepositoryModule.initialize();
+			systemAuth.disable();
 			log.info("*** Repository initialized ***");
 		} catch (Exception e) {
 			throw new ServletException(e.getMessage(), e);
@@ -246,12 +239,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 
 			String pptContent = "new com.openkm.util.pendtask.PendingTaskExecutor().run();";
 			CronTabUtils.createOrUpdate("Process Pending Tasks", "*/5 * * * *", pptContent);
-			
-			// Datastore garbage collection
-			if (!Config.REPOSITORY_NATIVE && hasConfiguredDataStore) {
-				String dgcContent = "new com.openkm.module.jcr.stuff.DataStoreGarbageCollector().run();";
-				CronTabUtils.createOrUpdate("Datastore Garbage Collector", "@daily", dgcContent);
-			}
 		} catch (Exception e) {
 			log.warn(e.getMessage(), e);
 		}

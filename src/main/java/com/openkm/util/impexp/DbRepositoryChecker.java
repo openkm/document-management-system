@@ -44,7 +44,7 @@ import org.springframework.security.core.Authentication;
 import java.io.*;
 
 public class DbRepositoryChecker {
-	private static Logger log = LoggerFactory.getLogger(DbRepositoryChecker.class);
+	private static final Logger log = LoggerFactory.getLogger(DbRepositoryChecker.class);
 	private static final String BASE_NAME = DbRepositoryChecker.class.getSimpleName();
 
 	private DbRepositoryChecker() {
@@ -54,8 +54,8 @@ public class DbRepositoryChecker {
 	 * Performs a recursive repository document check
 	 */
 	public static ImpExpStats checkDocuments(String token, String fldPath, boolean fast, boolean versions, boolean checksum, Writer out,
-	                                         InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
-		log.debug("checkDocuments({}, {}, {}, {}, {}, {}, {})", new Object[]{token, fldPath, fast, versions, checksum, out, deco});
+			InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
+		log.debug("checkDocuments({}, {}, {}, {}, {}, {}, {})", token, fldPath, fast, versions, checksum, out, deco);
 		long begin = System.currentTimeMillis();
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
@@ -119,9 +119,9 @@ public class DbRepositoryChecker {
 	 * Performs a recursive repository document check
 	 */
 	private static ImpExpStats checkDocumentsHelper(String token, String uuid, boolean fast, boolean versions, boolean checksum,
-	                                                Writer out, InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException,
+			Writer out, InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, IOException, DatabaseException {
-		log.debug("checkDocumentsHelper({}, {}, {}, {}, {}, {}, {})", new Object[]{token, uuid, fast, versions, checksum, out, deco});
+		log.debug("checkDocumentsHelper({}, {}, {}, {}, {}, {}, {})", token, uuid, fast, versions, checksum, out, deco);
 		long begin = System.currentTimeMillis();
 		ImpExpStats stats = new ImpExpStats();
 
@@ -164,8 +164,8 @@ public class DbRepositoryChecker {
 	 */
 	@SuppressWarnings("resource")
 	private static ImpExpStats readDocument(String token, String docPath, boolean fast, boolean versions, boolean checksum, Writer out,
-	                                        InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, IOException {
-		log.debug("readDocument({}, {}, {}, {})", new Object[]{docPath, fast, versions, checksum});
+			InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, IOException {
+		log.debug("readDocument({}, {}, {}, {})", docPath, fast, versions, checksum);
 		long begin = System.currentTimeMillis();
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		File fsTmp = FileUtils.createTempFile();
@@ -178,7 +178,7 @@ public class DbRepositoryChecker {
 		try {
 			String docUuid = NodeBaseDAO.getInstance().getUuidFromPath(docPath);
 
-			if (Config.REPOSITORY_NATIVE && FsDataStore.DATASTORE_BACKEND_FS.equals(Config.REPOSITORY_DATASTORE_BACKEND) && fast) {
+			if (FsDataStore.DATASTORE_BACKEND_FS.equals(Config.REPOSITORY_DATASTORE_BACKEND) && fast) {
 				NodeDocumentVersion nDocVer = NodeDocumentVersionDAO.getInstance().findCurrentVersion(docUuid);
 				File dsDocVerFile = FsDataStore.resolveFile(nDocVer.getUuid());
 
@@ -195,7 +195,7 @@ public class DbRepositoryChecker {
 				IOUtils.closeQuietly(fosTmp);
 			}
 
-			if (Config.REPOSITORY_NATIVE && Config.REPOSITORY_CONTENT_CHECKSUM && checksum) {
+			if (Config.REPOSITORY_CONTENT_CHECKSUM && checksum) {
 				curVerName = NodeDocumentVersionDAO.getInstance().findCurrentVersionName(docUuid);
 				FsDataStore.verifyChecksum(docUuid, curVerName, fsTmp);
 			}
@@ -207,8 +207,7 @@ public class DbRepositoryChecker {
 
 				for (Version ver : dm.getVersionHistory(token, docPath)) {
 					if (!curVerName.equals(ver.getName())) {
-						if (Config.REPOSITORY_NATIVE && FsDataStore.DATASTORE_BACKEND_FS.equals(Config.REPOSITORY_DATASTORE_BACKEND)
-								&& fast) {
+						if (FsDataStore.DATASTORE_BACKEND_FS.equals(Config.REPOSITORY_DATASTORE_BACKEND) && fast) {
 							NodeDocumentVersion nDocVer = NodeDocumentVersionDAO.getInstance().findVersion(docUuid, ver.getName());
 							File dsDocVerFile = FsDataStore.resolveFile(nDocVer.getUuid());
 
@@ -224,7 +223,7 @@ public class DbRepositoryChecker {
 							IOUtils.closeQuietly(is);
 							IOUtils.closeQuietly(fosTmp);
 
-							if (Config.REPOSITORY_NATIVE && Config.REPOSITORY_CONTENT_CHECKSUM && checksum) {
+							if (Config.REPOSITORY_CONTENT_CHECKSUM && checksum) {
 								FsDataStore.verifyChecksum(docUuid, ver.getName(), fsTmp);
 							}
 						}
@@ -275,7 +274,7 @@ public class DbRepositoryChecker {
 	 * Read folder contents.
 	 */
 	private static ImpExpStats readFolder(String token, NodeFolder nFld, boolean fast, boolean versions, boolean checksum, Writer out,
-	                                      InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException, RepositoryException,
+			InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			IOException, DatabaseException {
 		String fldPath = NodeBaseDAO.getInstance().getPathFromUuid(nFld.getUuid());
 		log.debug("readFolder({})", fldPath);
@@ -292,7 +291,7 @@ public class DbRepositoryChecker {
 	 * Read mail contents.
 	 */
 	private static ImpExpStats readMail(String token, NodeMail nMail, boolean fast, boolean versions, boolean checksum, Writer out,
-	                                    InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException, RepositoryException,
+			InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			IOException, DatabaseException {
 		String mailPath = NodeBaseDAO.getInstance().getPathFromUuid(nMail.getUuid());
 		log.debug("readMail({})", mailPath);

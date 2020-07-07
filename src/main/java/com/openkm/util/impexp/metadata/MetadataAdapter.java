@@ -33,10 +33,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class MetadataAdapter {
-	private static Logger log = LoggerFactory.getLogger(MetadataAdapter.class);
+	private static final Logger log = LoggerFactory.getLogger(MetadataAdapter.class);
 	protected String token = null;
 	protected boolean uuid = false;
 
@@ -44,12 +45,7 @@ public abstract class MetadataAdapter {
 	}
 
 	public static MetadataAdapter getInstance(String token) {
-		if (Config.REPOSITORY_NATIVE) {
-			return new DbMetadataAdapter(token);
-		} else {
-			// Other implementation
-			return null;
-		}
+		return new DbMetadataAdapter(token);
 	}
 
 	/**
@@ -62,8 +58,8 @@ public abstract class MetadataAdapter {
 	/**
 	 * Performs metadata conversion.
 	 */
-	public DocumentMetadata getMetadata(Document doc) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, IOException, ParseException, NoSuchGroupException {
+	public DocumentMetadata getMetadata(Document doc) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			DatabaseException, IOException, ParseException, NoSuchGroupException {
 		log.debug("getMetadata({})", new Object[]{doc});
 		DocumentMetadata dmd = new DocumentMetadata();
 		dmd.setUuid(doc.getUuid());
@@ -106,8 +102,8 @@ public abstract class MetadataAdapter {
 	/**
 	 * Performs metadata conversion.
 	 */
-	public FolderMetadata getMetadata(Folder fld) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, IOException, ParseException, NoSuchGroupException {
+	public FolderMetadata getMetadata(Folder fld) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			DatabaseException, IOException, ParseException, NoSuchGroupException {
 		log.debug("getMetadata({})", new Object[]{fld});
 		FolderMetadata fmd = new FolderMetadata();
 		fmd.setUuid(fld.getUuid());
@@ -146,8 +142,8 @@ public abstract class MetadataAdapter {
 	/**
 	 * Performs metadata conversion.
 	 */
-	public MailMetadata getMetadata(Mail mail) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, IOException, ParseException, NoSuchGroupException {
+	public MailMetadata getMetadata(Mail mail) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			DatabaseException, IOException, ParseException, NoSuchGroupException {
 		log.debug("getMetadata({})", new Object[]{mail});
 		MailMetadata mmd = new MailMetadata();
 		mmd.setUuid(mail.getUuid());
@@ -225,12 +221,8 @@ public abstract class MetadataAdapter {
 	 * Convert between value formats.
 	 */
 	private List<String> getValues(String[] values) {
-		List<String> ret = new ArrayList<String>();
-
-		for (String val : values) {
-			ret.add(val);
-		}
-
+		List<String> ret = new ArrayList<>();
+		Collections.addAll(ret, values);
 		return ret;
 	}
 
@@ -239,12 +231,12 @@ public abstract class MetadataAdapter {
 	 */
 	private List<PropertyGroupMetadata> getPropertyGroupsMetada(String path) throws IOException, ParseException,
 			AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException, NoSuchGroupException {
-		List<PropertyGroupMetadata> propGrpMeta = new ArrayList<PropertyGroupMetadata>();
+		List<PropertyGroupMetadata> propGrpMeta = new ArrayList<>();
 		OKMPropertyGroup okmPropGrp = OKMPropertyGroup.getInstance();
 
 		for (PropertyGroup propGrp : okmPropGrp.getGroups(token, path)) {
 			PropertyGroupMetadata pgmd = new PropertyGroupMetadata();
-			List<PropertyMetadata> pmds = new ArrayList<PropertyMetadata>();
+			List<PropertyMetadata> pmds = new ArrayList<>();
 
 			for (FormElement fe : okmPropGrp.getProperties(token, path, propGrp.getName())) {
 				PropertyMetadata pmd = new PropertyMetadata();
@@ -263,7 +255,7 @@ public abstract class MetadataAdapter {
 					CheckBox cb = (CheckBox) fe;
 					pmd.setValue(Boolean.toString(cb.getValue()));
 				} else if (fe instanceof Select) {
-					List<String> values = new ArrayList<String>();
+					List<String> values = new ArrayList<>();
 					Select s = (Select) fe;
 
 					for (Option opt : s.getOptions()) {

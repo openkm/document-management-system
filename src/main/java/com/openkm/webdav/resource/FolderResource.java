@@ -35,6 +35,7 @@ import com.openkm.bean.Mail;
 import com.openkm.core.Config;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.module.db.DbDocumentModule;
+import com.openkm.spring.PrincipalUtils;
 import com.openkm.util.ConfigUtils;
 import com.openkm.util.PathUtils;
 import com.openkm.util.SystemProfiling;
@@ -47,8 +48,8 @@ import java.io.OutputStream;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class FolderResource implements MakeCollectionableResource, PutableResource, CopyableResource,
-		DeletableResource, MoveableResource, PropFindableResource, GetableResource, QuotaResource {
+public class FolderResource implements MakeCollectionableResource, PutableResource, CopyableResource, DeletableResource,
+		MoveableResource, PropFindableResource, GetableResource, QuotaResource {
 	private final Logger log = LoggerFactory.getLogger(FolderResource.class);
 	private final List<Document> docChilds;
 	private final List<Folder> fldChilds;
@@ -138,7 +139,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 	public List<? extends Resource> getChildren() {
 		log.debug("getChildren()");
 		long begin = System.currentTimeMillis();
-		List<Resource> resources = new ArrayList<Resource>();
+		List<Resource> resources = new ArrayList<>();
 
 		if (fldChilds != null) {
 			for (Folder fld : fldChilds) {
@@ -164,9 +165,9 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 	}
 
 	@Override
-	public Resource createNew(String newName, InputStream is, Long length, String contentType)
-			throws IOException, ConflictException, NotAuthorizedException, BadRequestException {
-		log.debug("createNew({}, {}, {}, {})", new Object[]{newName, is, length, contentType});
+	public Resource createNew(String newName, InputStream is, Long length, String contentType) throws IOException,
+			ConflictException, NotAuthorizedException, BadRequestException {
+		log.debug("createNew({}, {}, {}, {})", newName, is, length, contentType);
 		Document newDoc = new Document();
 		String fixedDocPath = ResourceUtils.fixRepositoryPath(fld.getPath());
 		newDoc.setPath(fixedDocPath + "/" + newName);
@@ -174,11 +175,19 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 		try {
 			if (OKMRepository.getInstance().hasNode(null, newDoc.getPath())) {
 				// Already exists, so create new version
-				if (Config.REPOSITORY_NATIVE) {
+				String userId = PrincipalUtils.getUser();
+				String comment = "Modified from WebDAV by " + userId;
+
+				if (new DbDocumentModule().isCheckedOut(null, newDoc.getPath())) {
+					new DbDocumentModule().checkin(null, newDoc.getPath(), is, length, comment, userId);
+				} else if (new DbDocumentModule().isLocked(null, newDoc.getPath())) {
+					new DbDocumentModule().unlock(null, newDoc.getPath());
 					new DbDocumentModule().checkout(null, newDoc.getPath());
-					new DbDocumentModule().checkin(null, newDoc.getPath(), is, length, "Modified from WebDAV", null);
+					new DbDocumentModule().checkin(null, newDoc.getPath(), is, length, comment, userId);
+					new DbDocumentModule().lock(null, newDoc.getPath());
 				} else {
-					// Other implementation
+					new DbDocumentModule().checkout(null, newDoc.getPath());
+					new DbDocumentModule().checkin(null, newDoc.getPath(), is, length, comment, userId);
 				}
 			} else {
 				// Restrict for extension
@@ -197,11 +206,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 				}
 
 				// Create a new one
-				if (Config.REPOSITORY_NATIVE) {
-					newDoc = new DbDocumentModule().create(null, newDoc, is, length, null);
-				} else {
-					// Other implementation
-				}
+				newDoc = new DbDocumentModule().create(null, newDoc, is, length, null);
 			}
 
 			return new DocumentResource(newDoc);
@@ -324,7 +329,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 
 	@Override
 	public Long getQuotaUsed() {
-		return new Long(0);
+		return 0L;
 	}
 
 	@Override
