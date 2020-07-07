@@ -51,12 +51,11 @@ import java.util.Map;
  * Document converter service
  */
 public class ConverterServlet extends OKMHttpServlet {
-	private static Logger log = LoggerFactory.getLogger(ConverterServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(ConverterServlet.class);
 	private static final long serialVersionUID = 1L;
 	public static final String FILE_CONVERTER_STATUS = "file_converter_status";
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("service({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		String uuid = WebUtils.getString(request, "uuid");
@@ -90,10 +89,9 @@ public class ConverterServlet extends OKMHttpServlet {
 
 				// Save content to temporary file
 				tmp = File.createTempFile("okm", "." + FileUtils.getFileExtension(fileName));
-				if (Config.REPOSITORY_NATIVE) {
-					// If is used to preview, it should workaround the DOWNLOAD extended permission.
-					is = new DbDocumentModule().getContent(null, path, false, !toSwf);
-				}
+
+				// If is used to preview, it should workaround the DOWNLOAD extended permission.
+				is = new DbDocumentModule().getContent(null, path, false, !toSwf);
 
 				// Text files may need encoding conversion
 				if (doc.getMimeType().startsWith("text/")) {
@@ -191,8 +189,7 @@ public class ConverterServlet extends OKMHttpServlet {
 	/**
 	 * Handles PDF conversion
 	 */
-	private void toPDF(ConversionData cd)
-			throws ConversionException, AutomationException, DatabaseException, IOException {
+	private void toPDF(ConversionData cd) throws ConversionException, AutomationException, DatabaseException, IOException {
 		log.debug("toPDF({})", cd);
 		File pdfCache = new File(Config.REPOSITORY_CACHE_PDF + File.separator + cd.uuid + ".pdf");
 
@@ -246,7 +243,7 @@ public class ConverterServlet extends OKMHttpServlet {
 					}
 
 					// AUTOMATION - POST
-					Map<String, Object> env = new HashMap<String, Object>();
+					Map<String, Object> env = new HashMap<>();
 					env.put(AutomationUtils.DOCUMENT_FILE, pdfCache);
 					env.put(AutomationUtils.DOCUMENT_UUID, cd.uuid);
 					AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_PDF, AutomationRule.AT_POST, env);
@@ -288,11 +285,10 @@ public class ConverterServlet extends OKMHttpServlet {
 								swfCache, MimeTypeConfig.MIME_SWF);
 					} else if (cd.mimeType.equals(MimeTypeConfig.MIME_PDF)) {
 						// AUTOMATION - PRE
-						Map<String, Object> env = new HashMap<String, Object>();
+						Map<String, Object> env = new HashMap<>();
 						env.put(AutomationUtils.DOCUMENT_FILE, cd.file);
 						env.put(AutomationUtils.DOCUMENT_UUID, cd.uuid);
-						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_SWF,
-								AutomationRule.AT_PRE, env);
+						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_SWF, AutomationRule.AT_PRE, env);
 
 						DocConverter.getInstance().pdf2swf(cd.file, swfCache);
 					} else if (DocConverter.getInstance().convertibleToPdf(cd.mimeType)) {
@@ -300,7 +296,7 @@ public class ConverterServlet extends OKMHttpServlet {
 						delTmp = false;
 
 						// AUTOMATION - PRE
-						Map<String, Object> env = new HashMap<String, Object>();
+						Map<String, Object> env = new HashMap<>();
 						env.put(AutomationUtils.DOCUMENT_FILE, cd.file);
 						env.put(AutomationUtils.DOCUMENT_UUID, cd.uuid);
 						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_SWF, AutomationRule.AT_PRE, env);
@@ -334,7 +330,7 @@ public class ConverterServlet extends OKMHttpServlet {
 	/**
 	 * For internal use only.
 	 */
-	private class ConversionData {
+	private static class ConversionData {
 		private String uuid;
 		private String fileName;
 		private String mimeType;

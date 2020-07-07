@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ import java.util.List;
  */
 public class ZohoFileUploadServlet extends OKMHttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory.getLogger(ZohoFileUploadServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(ZohoFileUploadServlet.class);
 
 	@SuppressWarnings("unchecked")
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
@@ -73,8 +72,7 @@ public class ZohoFileUploadServlet extends OKMHttpServlet {
 
 			try {
 				items = upload.parseRequest(request);
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						// if (item.getFieldName().equals("format")) { format =
 						// item.getString("UTF-8"); }
@@ -92,35 +90,13 @@ public class ZohoFileUploadServlet extends OKMHttpServlet {
 				ZohoToken zot = ZohoTokenDAO.findByPk(id);
 
 				// Save document
-				if (Config.REPOSITORY_NATIVE) {
-					String sysToken = DbSessionManager.getInstance().getSystemToken();
-					String path = OKMRepository.getInstance().getNodePath(sysToken, zot.getNode());
-					new DbDocumentModule().checkout(sysToken, path, zot.getUser());
-					new DbDocumentModule().checkin(sysToken, path, is, "Modified from Zoho", zot.getUser());
-				} else {
-					// Other implementation
-				}
-			} catch (FileUploadException e) {
-				log.error(e.getMessage(), e);
-			} catch (PathNotFoundException e) {
-				log.error(e.getMessage(), e);
-			} catch (RepositoryException e) {
-				log.error(e.getMessage(), e);
-			} catch (DatabaseException e) {
-				log.error(e.getMessage(), e);
-			} catch (FileSizeExceededException e) {
-				log.error(e.getMessage(), e);
-			} catch (UserQuotaExceededException e) {
-				log.error(e.getMessage(), e);
-			} catch (VirusDetectedException e) {
-				log.error(e.getMessage(), e);
-			} catch (VersionException e) {
-				log.error(e.getMessage(), e);
-			} catch (LockException e) {
-				log.error(e.getMessage(), e);
-			} catch (AccessDeniedException e) {
-				log.error(e.getMessage(), e);
-			} catch (AutomationException e) {
+				String sysToken = DbSessionManager.getInstance().getSystemToken();
+				String path = OKMRepository.getInstance().getNodePath(sysToken, zot.getNode());
+				new DbDocumentModule().checkout(sysToken, path, zot.getUser());
+				new DbDocumentModule().checkin(sysToken, path, is, "Modified from Zoho", zot.getUser());
+			} catch (FileUploadException | PathNotFoundException | RepositoryException | DatabaseException
+					| FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | VersionException
+					| LockException | AccessDeniedException | AutomationException e) {
 				log.error(e.getMessage(), e);
 			} finally {
 				IOUtils.closeQuietly(is);

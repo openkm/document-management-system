@@ -45,7 +45,7 @@ import java.util.List;
  * @author pavila
  */
 public class FileUploadServlet extends OKMHttpServlet {
-	private static Logger log = LoggerFactory.getLogger(FileUploadServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(FileUploadServlet.class);
 	private static final long serialVersionUID = 1L;
 	public static final int INSERT = 0;
 	public static final int UPDATE = 1;
@@ -244,15 +244,9 @@ public class FileUploadServlet extends OKMHttpServlet {
 								}
 							} else {
 								log.debug("Wizard: {}", fuResponse);
-
-								if (Config.REPOSITORY_NATIVE) {
-									doc = new DbDocumentModule().create(null, doc, is, size, null, fuResponse);
-									fuResponse.get().setPath(doc.getPath());
-									uploadedUuid = doc.getUuid();
-								} else {
-									// Other implementation
-								}
-
+								doc = new DbDocumentModule().create(null, doc, is, size, null, fuResponse);
+								fuResponse.get().setPath(doc.getPath());
+								uploadedUuid = doc.getUuid();
 								log.debug("Wizard: {}", fuResponse);
 							}
 
@@ -278,13 +272,9 @@ public class FileUploadServlet extends OKMHttpServlet {
 							OKMDocument.getInstance().checkout(null, path);
 						}
 
-						if (Config.REPOSITORY_NATIVE) {
-							new DbDocumentModule().checkin(null, path, is, size, comment, null, increaseVersion);
-							fuResponse.get().setPath(path);
-							uploadedUuid = doc.getUuid();
-						} else {
-							// Other implementation
-						}
+						new DbDocumentModule().checkin(null, path, is, size, comment, null, increaseVersion);
+						fuResponse.get().setPath(path);
+						uploadedUuid = doc.getUuid();
 
 						// Case is uploaded a encrypted document
 						if (cipherName != null && !cipherName.equals("")) {
@@ -460,7 +450,7 @@ public class FileUploadServlet extends OKMHttpServlet {
 	 * sendErrorResponse
 	 */
 	private void sendErrorResponse(PrintWriter out, int action, FileUploadResponse fur, HttpServletRequest request,
-	                               HttpServletResponse response, boolean redirect, String redirectURL) {
+								   HttpServletResponse response, boolean redirect, String redirectURL) {
 		if (redirect) {
 			ServletContext sc = getServletContext();
 

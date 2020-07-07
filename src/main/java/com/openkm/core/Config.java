@@ -113,7 +113,6 @@ public class Config {
 	public static final String PROPERTY_MANAGED_TEXT_EXTRACTION_POOL_TIMEOUT = "managed.text.extraction.pool.timeout";
 	public static final String PROPERTY_MANAGED_TEXT_EXTRACTION_CONCURRENT = "managed.text.extraction.concurrent";
 	public static final String PROPERTY_MOBILE_THEME = "mobile.theme";
-	public static final String PROPERTY_REPOSITORY_NATIVE = "repository.native";
 	public static final String PROPERTY_REPOSITORY_CONTENT_CHECKSUM = "repository.content.checksum";
 	public static final String PROPERTY_REPOSITORY_PURGATORY_HOME = "repository.purgatory.home";
 	public static final String PROPERTY_REPOSITORY_STATS_OPTIMIZATION = "repository.stats.optimization";
@@ -136,7 +135,6 @@ public class Config {
 	// Configuration properties
 	public static final String PROPERTY_REPOSITORY_UUID = "repository.uuid";
 	public static final String PROPERTY_REPOSITORY_VERSION = "repository.version";
-	public static final String PROPERTY_REPOSITORY_CONFIG = "repository.config";
 	public static final String PROPERTY_REPOSITORY_HOME = "repository.home";
 	public static final String PROPERTY_REPOSITORY_DATASTORE_BACKEND = "repository.datastore.backend";
 	public static final String PROPERTY_REPOSITORY_DATASTORE_HOME = "repository.datastore.home";
@@ -357,7 +355,7 @@ public class Config {
 	public static String PROPERTY_RSS_NEWS_VISIBLE = "rss.news.visible";
 
 	// Ask for drag and drop updates
-    public static String PROPERTY_ASK_DRAG_AND_DROP_UPDATES = "ask.drag.and.drop.updates";
+	public static String PROPERTY_ASK_DRAG_AND_DROP_UPDATES = "ask.drag.and.drop.updates";
 
 	/**
 	 * Default values
@@ -372,7 +370,6 @@ public class Config {
 	public static int MANAGED_TEXT_EXTRACTION_POOL_THREADS = 5;
 	public static int MANAGED_TEXT_EXTRACTION_POOL_TIMEOUT = 1; // 1 minute
 	public static boolean MANAGED_TEXT_EXTRACTION_CONCURRENT = false;
-	public static boolean REPOSITORY_NATIVE = true;
 	public static boolean REPOSITORY_CONTENT_CHECKSUM = true;
 	public static String REPOSITORY_PURGATORY_HOME = "";
 	public static boolean REPOSITORY_STATS_OPTIMIZATION = true;
@@ -404,7 +401,6 @@ public class Config {
 	public static int SECURITY_LIVE_CHANGE_NODE_LIMIT = 100;
 
 	// Configuration properties
-	public static String REPOSITORY_CONFIG;
 	public static String REPOSITORY_HOME;
 	public static String REPOSITORY_DIRNAME = "repository";
 	public static String REPOSITORY_DATASTORE_BACKEND;
@@ -659,7 +655,7 @@ public class Config {
 	public static String LIST_SEPARATOR = ";";
 
 	// Ask for drag and drop updates
-    public static boolean ASK_DRAG_AND_DROP_UPDATES = false;
+	public static boolean ASK_DRAG_AND_DROP_UPDATES = false;
 
 	/**
 	 * Get url base
@@ -729,12 +725,6 @@ public class Config {
 			SYSTEM_MULTIPLE_INSTANCES = "on".equalsIgnoreCase(config.getProperty(PROPERTY_SYSTEM_MULTIPLE_INSTANCES, "off"));
 			values.put(PROPERTY_SYSTEM_MULTIPLE_INSTANCES, Boolean.toString(SYSTEM_MULTIPLE_INSTANCES));
 
-			if (config.getProperty(PROPERTY_REPOSITORY_NATIVE) != null) {
-				REPOSITORY_NATIVE = "on".equalsIgnoreCase(config.getProperty(PROPERTY_REPOSITORY_NATIVE, "off"));
-			}
-
-			values.put(PROPERTY_REPOSITORY_NATIVE, Boolean.toString(REPOSITORY_NATIVE));
-
 			if (CLOUD_MODE) {
 				log.info("*** CLOUD MODE ***");
 				INSTANCE_HOME = HOME_DIR;
@@ -755,21 +745,11 @@ public class Config {
 			}
 
 			// Preview cache & Repository datastore backend & Hibernate Search indexes
-			if (Config.REPOSITORY_NATIVE) {
-				REPOSITORY_CONFIG = NULL_DEVICE;
-				REPOSITORY_HOME = config.getProperty(PROPERTY_REPOSITORY_HOME, INSTANCE_HOME + File.separator + REPOSITORY_DIRNAME);
-				REPOSITORY_CACHE_HOME = config.getProperty(PROPERTY_REPOSITORY_CACHE_HOME, Config.REPOSITORY_HOME + File.separator + REPOSITORY_CACHE_DIRNAME);
-				REPOSITORY_DATASTORE_BACKEND = config.getProperty(PROPERTY_REPOSITORY_DATASTORE_BACKEND, FsDataStore.DATASTORE_BACKEND_FS);
-				REPOSITORY_DATASTORE_HOME = config.getProperty(PROPERTY_REPOSITORY_DATASTORE_HOME, Config.REPOSITORY_HOME + File.separator + FsDataStore.DATASTORE_DIRNAME);
-				HIBERNATE_SEARCH_INDEX_HOME = config.getProperty(PROPERTY_HIBERNATE_SEARCH_INDEX_HOME, Config.REPOSITORY_HOME + File.separator + HIBERNATE_SEARCH_INDEX_DIRNAME);
-			} else {
-				REPOSITORY_CONFIG = config.getProperty(PROPERTY_REPOSITORY_CONFIG, INSTANCE_HOME + File.separator + "repository.xml");
-				REPOSITORY_HOME = config.getProperty(PROPERTY_REPOSITORY_HOME, INSTANCE_HOME + File.separator + REPOSITORY_DIRNAME);
-				REPOSITORY_CACHE_HOME = config.getProperty(PROPERTY_REPOSITORY_CACHE_HOME, INSTANCE_HOME + File.separator + REPOSITORY_CACHE_DIRNAME);
-				REPOSITORY_DATASTORE_BACKEND = config.getProperty(PROPERTY_REPOSITORY_DATASTORE_BACKEND, "");
-				REPOSITORY_DATASTORE_HOME = Config.REPOSITORY_HOME + File.separator + FsDataStore.DATASTORE_DIRNAME;
-				HIBERNATE_SEARCH_INDEX_HOME = Config.REPOSITORY_HOME + File.separator + HIBERNATE_SEARCH_INDEX_DIRNAME;
-			}
+			REPOSITORY_HOME = config.getProperty(PROPERTY_REPOSITORY_HOME, INSTANCE_HOME + File.separator + REPOSITORY_DIRNAME);
+			REPOSITORY_CACHE_HOME = config.getProperty(PROPERTY_REPOSITORY_CACHE_HOME, Config.REPOSITORY_HOME + File.separator + REPOSITORY_CACHE_DIRNAME);
+			REPOSITORY_DATASTORE_BACKEND = config.getProperty(PROPERTY_REPOSITORY_DATASTORE_BACKEND, FsDataStore.DATASTORE_BACKEND_FS);
+			REPOSITORY_DATASTORE_HOME = config.getProperty(PROPERTY_REPOSITORY_DATASTORE_HOME, Config.REPOSITORY_HOME + File.separator + FsDataStore.DATASTORE_DIRNAME);
+			HIBERNATE_SEARCH_INDEX_HOME = config.getProperty(PROPERTY_HIBERNATE_SEARCH_INDEX_HOME, Config.REPOSITORY_HOME + File.separator + HIBERNATE_SEARCH_INDEX_DIRNAME);
 
 			values.put(PROPERTY_REPOSITORY_CACHE_HOME, REPOSITORY_CACHE_HOME);
 			REPOSITORY_CACHE_DXF = REPOSITORY_CACHE_HOME + File.separator + "dxf";
@@ -781,7 +761,6 @@ public class Config {
 			values.put(PROPERTY_HIBERNATE_SEARCH_INDEX_HOME, HIBERNATE_SEARCH_INDEX_HOME);
 			values.put(PROPERTY_REPOSITORY_DATASTORE_BACKEND, REPOSITORY_DATASTORE_BACKEND);
 			values.put(PROPERTY_REPOSITORY_DATASTORE_HOME, REPOSITORY_DATASTORE_HOME);
-			values.put(PROPERTY_REPOSITORY_CONFIG, REPOSITORY_CONFIG);
 			values.put(PROPERTY_REPOSITORY_HOME, REPOSITORY_HOME);
 
 			JBPM_CONFIG = INSTANCE_HOME + File.separator + "jbpm.xml";
@@ -883,7 +862,7 @@ public class Config {
 			values.put(PROPERTY_DEFAULT_ADMIN_ROLE, DEFAULT_ADMIN_ROLE);
 
 			WEBSERVICES_VISIBLE_PROPERTIES = ConfigDAO.getList(PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES, PROPERTY_RESTRICT_FILE_NAME);
-            values.put(PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES, String.valueOf(WEBSERVICES_VISIBLE_PROPERTIES));
+			values.put(PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES, String.valueOf(WEBSERVICES_VISIBLE_PROPERTIES));
 
 			// Set max search clauses
 			BooleanQuery.setMaxClauseCount(MAX_SEARCH_CLAUSES);
@@ -1213,9 +1192,9 @@ public class Config {
 			RSS_NEWS_MAX_SIZE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_MAX_SIZE, RSS_NEWS_MAX_SIZE);
 			RSS_NEWS_VISIBLE = ConfigDAO.getInteger(PROPERTY_RSS_NEWS_VISIBLE, RSS_NEWS_VISIBLE);
 
-	        // Ask for drag and drop updates
-            ASK_DRAG_AND_DROP_UPDATES = ConfigDAO.getBoolean(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, ASK_DRAG_AND_DROP_UPDATES);
-            values.put(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, Boolean.toString(ASK_DRAG_AND_DROP_UPDATES));
+			// Ask for drag and drop updates
+			ASK_DRAG_AND_DROP_UPDATES = ConfigDAO.getBoolean(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, ASK_DRAG_AND_DROP_UPDATES);
+			values.put(PROPERTY_ASK_DRAG_AND_DROP_UPDATES, Boolean.toString(ASK_DRAG_AND_DROP_UPDATES));
 
 			for (Entry<String, String> entry : values.entrySet()) {
 				log.info("RELOAD - {}={}", entry.getKey(), entry.getValue());

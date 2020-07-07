@@ -46,7 +46,7 @@ import java.io.PrintWriter;
  * Repository checker servlet
  */
 public class RepositoryCheckerServlet extends BaseServlet {
-	private static Logger log = LoggerFactory.getLogger(RepositoryCheckerServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(RepositoryCheckerServlet.class);
 	private static final long serialVersionUID = 1L;
 	private static final String[][] breadcrumb = new String[][]{new String[]{"utilities.jsp", "Utilities"},};
 
@@ -97,15 +97,8 @@ public class RepositoryCheckerServlet extends BaseServlet {
 				log.debug("Checking repository integrity");
 
 				long begin = System.currentTimeMillis();
-				ImpExpStats stats = null;
-
-				if (Config.REPOSITORY_NATIVE) {
-					InfoDecorator id = new HTMLInfoDecorator((int) cInfo.getDocuments());
-					stats = DbRepositoryChecker.checkDocuments(null, repoPath, fast, versions, checksum, out, id);
-				} else {
-					// Other implementation
-				}
-
+				InfoDecorator deco = new HTMLInfoDecorator((int) cInfo.getDocuments());
+				ImpExpStats stats = DbRepositoryChecker.checkDocuments(null, repoPath, fast, versions, checksum, out, deco);
 				long end = System.currentTimeMillis();
 
 				// Finalized
@@ -119,7 +112,7 @@ public class RepositoryCheckerServlet extends BaseServlet {
 				out.println("<div class=\"ok\">Fast: " + fast + "</div>");
 				out.println("<div class=\"ok\">Versions: " + versions + "</div>");
 
-				if (Config.REPOSITORY_NATIVE && Config.REPOSITORY_CONTENT_CHECKSUM) {
+				if (Config.REPOSITORY_CONTENT_CHECKSUM) {
 					out.println("<div class=\"ok\">Checkum: " + checksum + "</div>");
 				} else {
 					out.println("<div class=\"warn\">Checkum: disabled</div>");

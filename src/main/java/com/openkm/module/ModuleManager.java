@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) 2006-2017 Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -11,7 +11,7 @@
  * <p>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along
@@ -20,8 +20,6 @@
  */
 
 package com.openkm.module;
-
-import com.openkm.core.Config;
 
 /**
  * Choose between Native Repository or Jackrabbit implementations.
@@ -51,11 +49,7 @@ public class ModuleManager {
 	 */
 	public static synchronized AuthModule getAuthModule() {
 		if (authModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				authModule = new com.openkm.module.db.DbAuthModule();
-			} else {
-				// Other implementation
-			}
+			authModule = new com.openkm.module.db.DbAuthModule();
 		}
 
 		return authModule;
@@ -66,11 +60,7 @@ public class ModuleManager {
 	 */
 	public static synchronized RepositoryModule getRepositoryModule() {
 		if (repositoryModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				repositoryModule = new com.openkm.module.db.DbRepositoryModule();
-			} else {
-				// Other implementation
-			}
+			repositoryModule = new com.openkm.module.db.DbRepositoryModule();
 		}
 
 		return repositoryModule;
@@ -81,11 +71,7 @@ public class ModuleManager {
 	 */
 	public static synchronized FolderModule getFolderModule() {
 		if (folderModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				folderModule = new com.openkm.module.db.DbFolderModule();
-			} else {
-				// Other implementation
-			}
+			folderModule = new com.openkm.module.db.DbFolderModule();
 		}
 
 		return folderModule;
@@ -96,11 +82,7 @@ public class ModuleManager {
 	 */
 	public static synchronized DocumentModule getDocumentModule() {
 		if (documentModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				documentModule = new com.openkm.module.db.DbDocumentModule();
-			} else {
-				// Other implementation
-			}
+			documentModule = new com.openkm.module.db.DbDocumentModule();
 		}
 
 		return documentModule;
@@ -111,11 +93,7 @@ public class ModuleManager {
 	 */
 	public static synchronized NoteModule getNoteModule() {
 		if (noteModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				noteModule = new com.openkm.module.db.DbNoteModule();
-			} else {
-				// Other implementation
-			}
+			noteModule = new com.openkm.module.db.DbNoteModule();
 		}
 
 		return noteModule;
@@ -126,11 +104,7 @@ public class ModuleManager {
 	 */
 	public static synchronized SearchModule getSearchModule() {
 		if (searchModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				searchModule = new com.openkm.module.db.DbSearchModule();
-			} else {
-				// Other implementation
-			}
+			searchModule = new com.openkm.module.db.DbSearchModule();
 		}
 
 		return searchModule;
@@ -141,11 +115,7 @@ public class ModuleManager {
 	 */
 	public static synchronized PropertyGroupModule getPropertyGroupModule() {
 		if (propertyGroupModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				propertyGroupModule = new com.openkm.module.db.DbPropertyGroupModule();
-			} else {
-				// Other implementation
-			}
+			propertyGroupModule = new com.openkm.module.db.DbPropertyGroupModule();
 		}
 
 		return propertyGroupModule;
@@ -156,11 +126,7 @@ public class ModuleManager {
 	 */
 	public static synchronized NotificationModule getNotificationModule() {
 		if (notificationModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				notificationModule = new com.openkm.module.db.DbNotificationModule();
-			} else {
-				// Other implementation
-			}
+			notificationModule = new com.openkm.module.db.DbNotificationModule();
 		}
 
 		return notificationModule;
@@ -171,11 +137,7 @@ public class ModuleManager {
 	 */
 	public static synchronized BookmarkModule getBookmarkModule() {
 		if (bookmarkModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				bookmarkModule = new com.openkm.module.db.DbBookmarkModule();
-			} else {
-				// Other implementation
-			}
+			bookmarkModule = new com.openkm.module.db.DbBookmarkModule();
 		}
 
 		return bookmarkModule;
@@ -186,11 +148,7 @@ public class ModuleManager {
 	 */
 	public static synchronized DashboardModule getDashboardModule() {
 		if (dashboardModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				dashboardModule = new com.openkm.module.db.DbDashboardModule();
-			} else {
-				// Other implementation
-			}
+			dashboardModule = new com.openkm.module.db.DbDashboardModule();
 		}
 
 		return dashboardModule;
@@ -201,11 +159,7 @@ public class ModuleManager {
 	 */
 	public static synchronized WorkflowModule getWorkflowModule() {
 		if (workflowModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				workflowModule = new com.openkm.module.db.DbWorkflowModule();
-			} else {
-				// Other implementation
-			}
+			workflowModule = new com.openkm.module.db.DbWorkflowModule();
 		}
 
 		return workflowModule;
@@ -216,11 +170,7 @@ public class ModuleManager {
 	 */
 	public static synchronized StatsModule getStatsModule() {
 		if (statsModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				statsModule = new com.openkm.module.db.DbStatsModule();
-			} else {
-				// Other implementation
-			}
+			statsModule = new com.openkm.module.db.DbStatsModule();
 		}
 
 		return statsModule;
@@ -231,11 +181,7 @@ public class ModuleManager {
 	 */
 	public static synchronized MailModule getMailModule() {
 		if (mailModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				mailModule = new com.openkm.module.db.DbMailModule();
-			} else {
-				// Other implementation
-			}
+			mailModule = new com.openkm.module.db.DbMailModule();
 		}
 
 		return mailModule;
@@ -246,11 +192,7 @@ public class ModuleManager {
 	 */
 	public static synchronized PropertyModule getPropertyModule() {
 		if (propertyModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				propertyModule = new com.openkm.module.db.DbPropertyModule();
-			} else {
-				// Other implementation
-			}
+			propertyModule = new com.openkm.module.db.DbPropertyModule();
 		}
 
 		return propertyModule;
@@ -261,11 +203,7 @@ public class ModuleManager {
 	 */
 	public static synchronized UserConfigModule getUserConfigModule() {
 		if (userConfigModule == null) {
-			if (Config.REPOSITORY_NATIVE) {
-				userConfigModule = new com.openkm.module.db.DbUserConfigModule();
-			} else {
-				// Other implementation
-			}
+			userConfigModule = new com.openkm.module.db.DbUserConfigModule();
 		}
 
 		return userConfigModule;

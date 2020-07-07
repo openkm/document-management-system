@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.TimerTask;
 
 public class RepositoryInfo extends TimerTask {
-	private static Logger log = LoggerFactory.getLogger(RepositoryInfo.class);
+	private static final Logger log = LoggerFactory.getLogger(RepositoryInfo.class);
 	private static StatsInfo documentsByContext = new StatsInfo();
 	private static StatsInfo mailsByContext = new StatsInfo();
 	private static StatsInfo foldersByContext = new StatsInfo();
@@ -39,14 +39,7 @@ public class RepositoryInfo extends TimerTask {
 
 	@Override
 	public void run() {
-		String systemToken = null;
-
-		if (Config.REPOSITORY_NATIVE) {
-			systemToken = DbSessionManager.getInstance().getSystemToken();
-		} else {
-			// Other implementation
-		}
-
+		String systemToken = DbSessionManager.getInstance().getSystemToken();
 		runAs(systemToken);
 	}
 

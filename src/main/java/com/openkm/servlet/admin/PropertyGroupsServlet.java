@@ -53,11 +53,10 @@ import java.util.Map;
  */
 public class PropertyGroupsServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory.getLogger(PropertyGroupsServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(PropertyGroupsServlet.class);
 
 	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doGet({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		String action = WebUtils.getString(request, "action");
@@ -69,24 +68,14 @@ public class PropertyGroupsServlet extends BaseServlet {
 			}
 
 			list(request, response);
-		} catch (AccessDeniedException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (AccessDeniedException | RepositoryException | ParseException | DatabaseException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}
 	}
 
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doGet({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		String action = WebUtils.getString(request, "action");
@@ -102,16 +91,7 @@ public class PropertyGroupsServlet extends BaseServlet {
 			if (action.equals("") || action.equals("register")) {
 				list(request, response);
 			}
-		} catch (AccessDeniedException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
+		} catch (AccessDeniedException | RepositoryException | DatabaseException | ParseException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}
@@ -120,19 +100,15 @@ public class PropertyGroupsServlet extends BaseServlet {
 	/**
 	 * Register property group
 	 */
-	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			ParseException, DatabaseException {
-		log.debug("register({}, {})", new Object[]{request, response});
+	private void register(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException,
+			DatabaseException {
+		log.debug("register({}, {})", request, response);
 
 		// If it is ok, register it
 		FileInputStream fis = null;
 
 		try {
-			if (Config.REPOSITORY_NATIVE) {
-				DbRepositoryModule.registerPropertyGroups(Config.PROPERTY_GROUPS_XML);
-			} else {
-				// Other implementation
-			}
+			DbRepositoryModule.registerPropertyGroups(Config.PROPERTY_GROUPS_XML);
 		} finally {
 			IOUtils.closeQuietly(fis);
 		}
@@ -145,18 +121,18 @@ public class PropertyGroupsServlet extends BaseServlet {
 	/**
 	 * List property groups
 	 */
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException, ParseException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("list({}, {})", new Object[]{request, response});
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			ParseException, AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("list({}, {})", request, response);
 		ServletContext sc = getServletContext();
 		FormUtils.resetPropertyGroupsForms();
 		OKMPropertyGroup okmPropGroups = OKMPropertyGroup.getInstance();
 		List<PropertyGroup> groups = okmPropGroups.getAllGroups(null);
-		Map<PropertyGroup, List<Map<String, String>>> pGroups = new LinkedHashMap<PropertyGroup, List<Map<String, String>>>();
+		Map<PropertyGroup, List<Map<String, String>>> pGroups = new LinkedHashMap<>();
 
 		for (PropertyGroup group : groups) {
 			List<FormElement> mData = okmPropGroups.getPropertyGroupForm(null, group.getName());
-			List<Map<String, String>> fMaps = new ArrayList<Map<String, String>>();
+			List<Map<String, String>> fMaps = new ArrayList<>();
 
 			for (FormElement fe : mData) {
 				fMaps.add(FormUtils.toString(fe));
@@ -176,9 +152,8 @@ public class PropertyGroupsServlet extends BaseServlet {
 	/**
 	 * Edit property groups
 	 */
-	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException, DatabaseException {
-		log.debug("edit({}, {})", new Object[]{request, response});
+	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("edit({}, {})", request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			String definition = request.getParameter("definition");

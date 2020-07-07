@@ -1,9 +1,7 @@
-<%@ page import="com.openkm.core.Config" %>
 <%@ page import="com.openkm.extension.servlet.admin.DocumentExpirationServlet" %>
 <%@ page import="com.openkm.servlet.admin.BaseServlet" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="isMultipleInstancesAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
-<c:set var="isRepositoryNative"><%=Config.REPOSITORY_NATIVE%></c:set>
 <c:set var="isDocumentExpiration"><%=DocumentExpirationServlet.isDocumentExpiration()%></c:set>
 <!-- http://stackoverflow.com/questions/1708054/center-ul-li-into-div -->
 <div style="text-align: center">
@@ -36,13 +34,6 @@
           <img src="img/toolbar/scripting.png">
         </a>
       </li>
-      <c:if test="${!isRepositoryNative}">
-        <li>
-          <a target="frame" href="RepositorySearch" title="Repository search">
-            <img src="img/toolbar/search.png" >
-          </a>
-        </li>
-      </c:if>
     </c:if>
     <li>
       <a target="frame" href="PropertyGroups" title="Metadata">
@@ -55,7 +46,7 @@
       </a>
     </li>
     <li>
-      <a target="frame" href="Profile"  title="Profiles">
+      <a target="frame" href="Profile" title="Profiles">
         <img src="img/toolbar/profile.png">
       </a>
     </li>
@@ -122,20 +113,20 @@
       <li>
         <a target="frame" href="Repository?action=export" title="Export">
           <img src="img/toolbar/export.png">
-         </a>
+        </a>
       </li>
       <li>
         <a target="frame" href="utilities.jsp" title="Utilities">
           <img src="img/toolbar/utilities.png">
-         </a>
+        </a>
       </li>
     </c:if>
     <script type="text/javascript">
       // Identify if being loaded inside an iframe
       if (self == top) {
-         document.write('<li>\n');
-         document.write('<a href="logout.jsp" title="Exit"><img src="img/toolbar/exit.png"></a>\n');
-         document.write('</li>\n');
+        document.write('<li>\n');
+        document.write('<a href="logout.jsp" title="Exit"><img src="img/toolbar/exit.png"></a>\n');
+        document.write('</li>\n');
       }
     </script>
     <c:if test="${isMultipleInstancesAdmin}">
