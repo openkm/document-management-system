@@ -21,7 +21,7 @@
 
 package com.openkm.util;
 
-import bsh.EvalError;
+import com.google.common.io.Files;
 import com.lowagie.text.*;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -46,10 +46,6 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.io.IOUtils;
-import org.artofsolving.jodconverter.OfficeDocumentConverter;
-import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
-import org.artofsolving.jodconverter.office.OfficeException;
-import org.artofsolving.jodconverter.office.OfficeManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,13 +56,12 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 public class DocConverter {
-	private static Logger log = LoggerFactory.getLogger(DocConverter.class);
-	public static ArrayList<String> validOpenOffice = new ArrayList<String>();
-	public static ArrayList<String> validImageMagick = new ArrayList<String>();
-	private static ArrayList<String> validGhoscript = new ArrayList<String>();
-	private static ArrayList<String> validInternal = new ArrayList<String>();
+	private static final Logger log = LoggerFactory.getLogger(DocConverter.class);
+	public static ArrayList<String> validOpenOffice = new ArrayList<>();
+	public static ArrayList<String> validImageMagick = new ArrayList<>();
+	private static ArrayList<String> validGhoscript = new ArrayList<>();
+	private static ArrayList<String> validInternal = new ArrayList<>();
 	private static DocConverter instance = null;
-	private static OfficeManager officeManager = null;
 
 	private DocConverter() {
 		// Basic
@@ -120,54 +115,9 @@ public class DocConverter {
 	public static synchronized DocConverter getInstance() {
 		if (instance == null) {
 			instance = new DocConverter();
-
-			if (!Config.SYSTEM_OPENOFFICE_PATH.equals("")) {
-				log.info("*** Build Office Manager ***");
-				log.info("{}={}", Config.PROPERTY_SYSTEM_OPENOFFICE_PATH, Config.SYSTEM_OPENOFFICE_PATH);
-				log.info("{}={}", Config.PROPERTY_SYSTEM_OPENOFFICE_TASKS, Config.SYSTEM_OPENOFFICE_TASKS);
-				log.info("{}={}", Config.PROPERTY_SYSTEM_OPENOFFICE_PORT, Config.SYSTEM_OPENOFFICE_PORT);
-
-				officeManager = new DefaultOfficeManagerConfiguration().setOfficeHome(Config.SYSTEM_OPENOFFICE_PATH)
-						.setMaxTasksPerProcess(Config.SYSTEM_OPENOFFICE_TASKS).setPortNumber(Config.SYSTEM_OPENOFFICE_PORT)
-						.buildOfficeManager();
-			} else {
-				log.warn("{} not configured", Config.PROPERTY_SYSTEM_OPENOFFICE_PATH);
-
-				if (!Config.SYSTEM_OPENOFFICE_SERVER.equals("")) {
-					log.warn("but {} is configured", Config.PROPERTY_SYSTEM_OPENOFFICE_SERVER);
-					log.info("{}={}", Config.PROPERTY_SYSTEM_OPENOFFICE_SERVER, Config.SYSTEM_OPENOFFICE_SERVER);
-				} else {
-					log.warn("and also {} not configured", Config.PROPERTY_SYSTEM_OPENOFFICE_SERVER);
-				}
-			}
 		}
 
 		return instance;
-	}
-
-	/**
-	 * Start OpenOffice instance
-	 */
-	public void start() {
-		if (officeManager != null) {
-			officeManager.start();
-		}
-	}
-
-	/**
-	 * Stop OpenOffice instance
-	 */
-	public void stop() {
-		if (officeManager != null) {
-			officeManager.stop();
-		}
-	}
-
-	/**
-	 * Obtain OpenOffice Manager
-	 */
-	public OfficeManager getOfficeManager() {
-		return officeManager;
 	}
 
 	/**
@@ -177,15 +127,14 @@ public class DocConverter {
 		log.trace("convertibleToPdf({})", from);
 		boolean ret = false;
 
-		if (!Config.REMOTE_CONVERSION_SERVER.equals("")
+		if (!Config.REMOTE_CONVERSION_SERVER.isEmpty()
 				&& (validOpenOffice.contains(from) || validImageMagick.contains(from) || validGhoscript.contains(from))) {
 			ret = true;
-		} else if ((!Config.SYSTEM_OPENOFFICE_PATH.equals("") || !Config.SYSTEM_OPENOFFICE_SERVER.equals(""))
-				&& validOpenOffice.contains(from)) {
+		} else if (!Config.SYSTEM_OPENOFFICE_PROGRAM.isEmpty() && validOpenOffice.contains(from)) {
 			ret = true;
-		} else if (!Config.SYSTEM_IMAGEMAGICK_CONVERT.equals("") && validImageMagick.contains(from)) {
+		} else if (!Config.SYSTEM_IMAGEMAGICK_CONVERT.isEmpty() && validImageMagick.contains(from)) {
 			ret = true;
-		} else if (!Config.SYSTEM_GHOSTSCRIPT.equals("") && validGhoscript.contains(from)) {
+		} else if (!Config.SYSTEM_GHOSTSCRIPT.isEmpty() && validGhoscript.contains(from)) {
 			ret = true;
 		} else if (validInternal.contains(from)) {
 			ret = true;
@@ -212,35 +161,6 @@ public class DocConverter {
 
 		log.trace("convertibleToSwf: {}", ret);
 		return ret;
-	}
-
-	/**
-	 * Convert a document format to another one.
-	 */
-	public void convert(File inputFile, String mimeType, File outputFile) throws ConversionException {
-		log.debug("convert({}, {}, {})", inputFile, mimeType, outputFile);
-
-		if (Config.SYSTEM_OPENOFFICE_PATH.equals("") && Config.SYSTEM_OPENOFFICE_SERVER.equals("")) {
-			throw new ConversionException(Config.PROPERTY_SYSTEM_OPENOFFICE_PATH + " or " + Config.PROPERTY_SYSTEM_OPENOFFICE_SERVER
-					+ " not configured");
-		}
-
-		if (!validOpenOffice.contains(mimeType)) {
-			throw new ConversionException("Invalid document conversion MIME type: " + mimeType);
-		}
-
-		try {
-			if (!Config.SYSTEM_OPENOFFICE_PATH.equals("")) {
-				// Document conversion managed by local OO instance
-				OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
-				converter.convert(inputFile, outputFile);
-			} else if (!Config.SYSTEM_OPENOFFICE_SERVER.equals("")) {
-				// Document conversion managed by remote conversion server
-				remoteConvert(Config.SYSTEM_OPENOFFICE_SERVER, inputFile, mimeType, outputFile, MimeTypeConfig.MIME_PDF);
-			}
-		} catch (OfficeException e) {
-			throw new ConversionException("Error converting document: " + e.getMessage());
-		}
 	}
 
 	/**
@@ -299,14 +219,14 @@ public class DocConverter {
 	/**
 	 * Convert a document from repository and put the result in the repository.
 	 *
-	 * @param token Authentication info.
-	 * @param docId The path that identifies an unique document or its UUID.
+	 * @param token   Authentication info.
+	 * @param docId   The path that identifies an unique document or its UUID.
 	 * @param dstPath The path of the resulting PDF document (with the name).
 	 */
 	public static void doc2pdf(String token, String docId, String dstPath) throws RepositoryException, PathNotFoundException,
 			DatabaseException, AccessDeniedException, IOException, ConversionException, UnsupportedMimeTypeException,
-			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, ExtensionException,
-			AutomationException, DocumentException, EvalError, LockException, VersionException {
+			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ExtensionException,
+			AutomationException, LockException, VersionException {
 		File docIn = null;
 		File docOut = null;
 		InputStream docIs = null;
@@ -469,7 +389,7 @@ public class DocConverter {
 
 	/**
 	 * Convert IMG to PDF (for document preview feature).
-	 *
+	 * <p>
 	 * [0] => http://www.rubblewebs.co.uk/imagemagick/psd.php
 	 */
 	public void img2pdf(File input, String mimeType, File output) throws ConversionException, DatabaseException, IOException {
@@ -856,9 +776,9 @@ public class DocConverter {
 	/**
 	 * Rotate an image.
 	 *
-	 * @param imgIn Image to rotate.
+	 * @param imgIn  Image to rotate.
 	 * @param imgOut Image rotated.
-	 * @param angle Rotation angle.
+	 * @param angle  Rotation angle.
 	 * @throws IOException
 	 */
 	public void rotateImage(File imgIn, File imgOut, double angle) throws ConversionException {
@@ -880,6 +800,40 @@ public class DocConverter {
 			throw new ConversionException("IO exception executing command: " + cmd, e);
 		} catch (TemplateException e) {
 			throw new ConversionException("Template exception", e);
+		}
+	}
+
+	public void convert(File input, String mimeType, File output) throws ConversionException, IOException {
+		File tmp = FileUtils.createTempDir();
+		String cmd = null;
+
+		try {
+			// Performs conversion
+			HashMap<String, Object> hm = new HashMap<>();
+			hm.put("fileIn", input.getPath());
+			hm.put("fileOut", output.getPath());
+			hm.put("tmpDir", tmp.getPath());
+			String tpl = Config.SYSTEM_OPENOFFICE_PROGRAM + " --headless --convert-to pdf --outdir ${tmpDir} ${fileIn}";
+			cmd = TemplateUtils.replace("SYSTEM_UNOCONV", tpl, hm);
+			ExecutionResult er = ExecutionUtils.runCmd(cmd);
+
+			if (er.getExitValue() != 0) {
+				throw new ConversionException(er.getStderr());
+			}
+
+			String filename = FileUtils.getFileName(input.getName()) + ".pdf";
+			File pdfFile = new File(tmp, filename);
+			Files.move(pdfFile, output);
+		} catch (SecurityException e) {
+			throw new ConversionException("Security exception executing command: " + cmd, e);
+		} catch (InterruptedException e) {
+			throw new ConversionException("Interrupted exception executing command: " + cmd, e);
+		} catch (IOException e) {
+			throw new ConversionException("IO exception executing command: " + cmd, e);
+		} catch (TemplateException e) {
+			throw new ConversionException("Template exception", e);
+		} finally {
+			FileUtils.deleteQuietly(tmp);
 		}
 	}
 }

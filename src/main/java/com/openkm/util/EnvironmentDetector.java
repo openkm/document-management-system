@@ -28,12 +28,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class EnvironmentDetector {
-	private static Logger log = LoggerFactory.getLogger(EnvironmentDetector.class);
-
+	private static final Logger log = LoggerFactory.getLogger(EnvironmentDetector.class);
 	private static final String JBOSS_PROPERTY = "jboss.home.dir";
 	private static final String TOMCAT_PROPERTY = "catalina.home";
 	private static final String CUSTOM_HOME_PROPERTY = "openkm.custom.home";
-
 	private static final String OS_LINUX = "linux";
 	private static final String OS_WINDOWS = "windows";
 	private static final String OS_MAC = "mac os";
@@ -94,7 +92,7 @@ public class EnvironmentDetector {
 	}
 
 	/**
-	 * Detect if running in JBoss 
+	 * Detect if running in JBoss
 	 */
 	public static boolean isServerJBoss() {
 		return System.getProperty(JBOSS_PROPERTY) != null;
@@ -206,47 +204,10 @@ public class EnvironmentDetector {
 	}
 
 	/**
-	 * Guess OpenOffice / LibreOffice directory
+	 * Guess OpenOffice / LibreOffice program
 	 */
-	public static String detectOpenOfficePath() {
-		if (isLinux()) {
-			// Try LibreOffice
-			File dir = new File("/usr/lib/libreoffice");
-
-			if (dir.exists() && dir.isDirectory()) {
-				log.info("Using LibreOffice from: " + dir);
-				return dir.getAbsolutePath();
-			}
-
-			// Try LibreOffice (CentOS 64 bits)
-			dir = new File("/usr/lib64/libreoffice");
-
-			if (dir.exists() && dir.isDirectory()) {
-				log.info("Using LibreOffice from: " + dir);
-				return dir.getAbsolutePath();
-			}
-
-			// Try OpenOffice
-			dir = new File("/usr/lib/openoffice");
-
-			if (dir.exists() && dir.isDirectory()) {
-				log.info("Using OpenOffice from: " + dir);
-				return dir.getAbsolutePath();
-			}
-
-			// Try OpenOffice (CentOS 64 bits)
-			dir = new File("/usr/lib64/openoffice");
-
-			if (dir.exists() && dir.isDirectory()) {
-				log.info("Using OpenOffice from: " + dir);
-				return dir.getAbsolutePath();
-			}
-
-			// Otherwise none
-			return "";
-		} else {
-			return "";
-		}
+	public static String detectOpenOfficeProgram() {
+		return detectCommand("/usr/bin/soffice", getServerHomeDir() + "\\bin\\soffice.exe");
 	}
 
 	/**
@@ -352,6 +313,31 @@ public class EnvironmentDetector {
 		}
 		if (isWindows()) {
 			File app = new File(getServerHomeDir() + "\\bin\\gswin32c.exe");
+
+			if (app.exists() && app.isFile()) {
+				return app.getAbsolutePath();
+			} else {
+				return "";
+			}
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Guess command helper
+	 */
+	private static String detectCommand(String cmdLinux, String cmdWindows) {
+		if (isLinux()) {
+			File app = new File(cmdLinux);
+
+			if (app.exists() && app.isFile()) {
+				return app.getAbsolutePath();
+			} else {
+				return "";
+			}
+		} else if (isWindows()) {
+			File app = new File(cmdWindows);
 
 			if (app.exists() && app.isFile()) {
 				return app.getAbsolutePath();

@@ -221,10 +221,7 @@ public class Config {
 	public static final String PROPERTY_SYSTEM_OCR = "system.ocr";
 	public static final String PROPERTY_SYSTEM_OCR_ROTATE = "system.ocr.rotate";
 	public static final String PROPERTY_SYSTEM_PDF_FORCE_OCR = "system.pdf.force.ocr";
-	public static final String PROPERTY_SYSTEM_OPENOFFICE_PATH = "system.openoffice.path";
-	public static final String PROPERTY_SYSTEM_OPENOFFICE_TASKS = "system.openoffice.tasks";
-	public static final String PROPERTY_SYSTEM_OPENOFFICE_PORT = "system.openoffice.port";
-	public static final String PROPERTY_SYSTEM_OPENOFFICE_SERVER = "system.openoffice.server";
+	public static final String PROPERTY_SYSTEM_OPENOFFICE_PROGRAM = "system.openoffice.program";
 	public static final String PROPERTY_SYSTEM_OPENOFFICE_DICTIONARY = "system.openoffice.dictionary";
 	public static final String PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT = "system.imagemagick.convert";
 	public static final String PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF = "system.swftools.pdf2swf";
@@ -509,10 +506,7 @@ public class Config {
 	public static String SYSTEM_OCR = "";
 	public static String SYSTEM_OCR_ROTATE = "";
 	public static boolean SYSTEM_PDF_FORCE_OCR;
-	public static String SYSTEM_OPENOFFICE_PATH = "";
-	public static int SYSTEM_OPENOFFICE_TASKS;
-	public static int SYSTEM_OPENOFFICE_PORT;
-	public static String SYSTEM_OPENOFFICE_SERVER = "";
+	public static String SYSTEM_OPENOFFICE_PROGRAM = "";
 	public static String SYSTEM_OPENOFFICE_DICTIONARY = "";
 	public static String SYSTEM_IMAGEMAGICK_CONVERT = "";
 	public static String SYSTEM_SWFTOOLS_PDF2SWF = "";
@@ -983,14 +977,8 @@ public class Config {
 			SYSTEM_READONLY = ConfigDAO.getBoolean(PROPERTY_SYSTEM_READONLY, false);
 			values.put(PROPERTY_SYSTEM_READONLY, Boolean.toString(SYSTEM_READONLY));
 
-			SYSTEM_OPENOFFICE_PATH = ConfigDAO.getString(PROPERTY_SYSTEM_OPENOFFICE_PATH, cfg.getProperty(PROPERTY_SYSTEM_OPENOFFICE_PATH, EnvironmentDetector.detectOpenOfficePath()));
-			values.put(PROPERTY_SYSTEM_OPENOFFICE_PATH, SYSTEM_OPENOFFICE_PATH);
-			SYSTEM_OPENOFFICE_TASKS = ConfigDAO.getInteger(PROPERTY_SYSTEM_OPENOFFICE_TASKS, 200);
-			values.put(PROPERTY_SYSTEM_OPENOFFICE_TASKS, Integer.toString(SYSTEM_OPENOFFICE_TASKS));
-			SYSTEM_OPENOFFICE_PORT = ConfigDAO.getInteger(PROPERTY_SYSTEM_OPENOFFICE_PORT, 2002);
-			values.put(PROPERTY_SYSTEM_OPENOFFICE_PORT, Integer.toString(SYSTEM_OPENOFFICE_PORT));
-			SYSTEM_OPENOFFICE_SERVER = ConfigDAO.getString(PROPERTY_SYSTEM_OPENOFFICE_SERVER, cfg.getProperty(PROPERTY_SYSTEM_OPENOFFICE_SERVER, ""));
-			values.put(PROPERTY_SYSTEM_OPENOFFICE_SERVER, SYSTEM_OPENOFFICE_SERVER);
+			SYSTEM_OPENOFFICE_PROGRAM = ConfigDAO.getString(PROPERTY_SYSTEM_OPENOFFICE_PROGRAM, cfg.getProperty(PROPERTY_SYSTEM_OPENOFFICE_PROGRAM, EnvironmentDetector.detectOpenOfficeProgram()));
+			values.put(PROPERTY_SYSTEM_OPENOFFICE_PROGRAM, SYSTEM_OPENOFFICE_PROGRAM);
 			SYSTEM_OPENOFFICE_DICTIONARY = ConfigDAO.getString(PROPERTY_SYSTEM_OPENOFFICE_DICTIONARY, "");
 			values.put(PROPERTY_SYSTEM_OPENOFFICE_DICTIONARY, SYSTEM_OPENOFFICE_DICTIONARY);
 
