@@ -250,23 +250,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 			log.warn(e.getMessage(), e);
 		}
 
-		try {
-			if (Config.REMOTE_CONVERSION_SERVER.equals("")) {
-				if (!Config.SYSTEM_OPENOFFICE_PATH.equals("")) {
-					log.info("*** Start OpenOffice manager ***");
-					DocConverter.getInstance().start();
-				} else if (!Config.SYSTEM_OPENOFFICE_SERVER.equals("")) {
-					log.info("*** Using OpenOffice conversion server ***");
-				} else {
-					log.warn("*** No OpenOffice manager nor server configured ***");
-				}
-			} else {
-				log.info("*** Remote conversion configured ***");
-			}
-		} catch (Throwable e) {
-			log.warn(e.getMessage(), e);
-		}
-
 		// Initialize plugin framework
 		ExtensionManager.getInstance();
 
@@ -309,17 +292,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 
 		// Shutdown plugin framework
 		ExtensionManager.getInstance().shutdown();
-
-		try {
-			if (Config.REMOTE_CONVERSION_SERVER.equals("")) {
-				if (!Config.SYSTEM_OPENOFFICE_PATH.equals("")) {
-					log.info("*** Shutting down OpenOffice manager ***");
-					DocConverter.getInstance().stop();
-				}
-			}
-		} catch (Throwable e) {
-			log.warn(e.getMessage(), e);
-		}
 
 		log.info("*** Shutting down UI Notification... ***");
 		uin.cancel();

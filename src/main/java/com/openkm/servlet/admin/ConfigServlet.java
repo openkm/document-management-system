@@ -38,7 +38,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
-import org.artofsolving.jodconverter.office.OfficeUtils;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -56,8 +55,8 @@ import java.util.*;
  */
 public class ConfigServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory.getLogger(ConfigServlet.class);
-	private static Map<String, String> types = new LinkedHashMap<String, String>();
+	private static final Logger log = LoggerFactory.getLogger(ConfigServlet.class);
+	private static final Map<String, String> types = new LinkedHashMap<>();
 	private static final String[][] breadcrumb = new String[][]{
 			new String[]{"Config", "Configuration"},
 	};
@@ -75,8 +74,7 @@ public class ConfigServlet extends BaseServlet {
 	}
 
 	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String method = request.getMethod();
 
 		if (checkMultipleInstancesAccess(request, response)) {
@@ -89,8 +87,7 @@ public class ConfigServlet extends BaseServlet {
 	}
 
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doGet({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		String action = WebUtils.getString(request, "action");
@@ -100,11 +97,11 @@ public class ConfigServlet extends BaseServlet {
 
 		try {
 			if (action.equals("create")) {
-				create(userId, types, request, response);
+				create(types, request, response);
 			} else if (action.equals("edit")) {
-				edit(userId, types, request, response);
+				edit(types, request, response);
 			} else if (action.equals("delete")) {
-				delete(userId, types, request, response);
+				delete(types, request, response);
 			} else if (action.equals("view")) {
 				view(userId, request, response);
 			} else if (action.equals("check")) {
@@ -122,8 +119,7 @@ public class ConfigServlet extends BaseServlet {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doPost({}, {})", request, response);
 		request.setCharacterEncoding("UTF-8");
 		ServletContext sc = getServletContext();
@@ -135,17 +131,15 @@ public class ConfigServlet extends BaseServlet {
 
 		try {
 			if (ServletFileUpload.isMultipartContent(request)) {
-				InputStream is = null;
 				FileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				List<FileItem> items = upload.parseRequest(request);
 				ConfigStoredFile stFile = new ConfigStoredFile();
 				Config cfg = new Config();
-				byte data[] = null;
+				byte[] data = null;
+				InputStream is;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
@@ -225,7 +219,7 @@ public class ConfigServlet extends BaseServlet {
 					com.openkm.core.Config.reload(sc, new Properties());
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());					
+					UserActivity.log(userId, "ADMIN_CONFIG_CREATE", cfg.getKey(), null, cfg.toString());
 				} else if (action.equals("edit")) {
 					if (Config.FILE.equals(cfg.getType())) {
 						cfg.setValue(new Gson().toJson(stFile));
@@ -242,16 +236,16 @@ public class ConfigServlet extends BaseServlet {
 									stOption.setSelected(false);
 								}
 							}
-						}											
+						}
 
 						cfg.setValue(new Gson().toJson(stSelect));
 					}
-					
+
 					if (Config.FILE.equals(cfg.getType())) {
 						// When is FILE type, only update if the file is not empty
 						if (stFile.getContent() != null && !stFile.getContent().isEmpty()) {
 							ConfigDAO.update(cfg);
-							com.openkm.core.Config.reload(sc,new Properties());
+							com.openkm.core.Config.reload(sc, new Properties());
 						}
 					} else {
 						if (Config.HTML.equals(cfg.getType())) {
@@ -264,31 +258,25 @@ public class ConfigServlet extends BaseServlet {
 					}
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_EDIT", cfg.getKey(), null, cfg.toString());					
+					UserActivity.log(userId, "ADMIN_CONFIG_EDIT", cfg.getKey(), null, cfg.toString());
 				} else if (action.equals("delete")) {
 					ConfigDAO.delete(cfg.getKey());
 					com.openkm.core.Config.reload(sc, new Properties());
 
 					// Activity log
-					UserActivity.log(userId, "ADMIN_CONFIG_DELETE", cfg.getKey(), null, null);					
+					UserActivity.log(userId, "ADMIN_CONFIG_DELETE", cfg.getKey(), null, null);
 				} else if (action.equals("import")) {
 					dbSession = HibernateUtil.getSessionFactory().openSession();
 					importConfig(userId, request, response, data, dbSession);
 
 					// Activity log
-					UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);					
+					UserActivity.log(request.getRemoteUser(), "ADMIN_CONFIG_IMPORT", null, null, null);
 				}
-				
+
 				// Go to list
 				response.sendRedirect(request.getContextPath() + request.getServletPath() + "?filter=" + filter);
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (FileUploadException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (SQLException e) {
+		} catch (DatabaseException | FileUploadException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		} finally {
@@ -299,8 +287,8 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Create config
 	 */
-	private void create(String userId, Map<String, String> types, HttpServletRequest request,
-	                    HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void create(Map<String, String> types, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException {
 		ServletContext sc = getServletContext();
 		Config cfg = new Config();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -314,8 +302,8 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Edit config
 	 */
-	private void edit(String userId, Map<String, String> types, HttpServletRequest request,
-	                  HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void edit(Map<String, String> types, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
 		ServletContext sc = getServletContext();
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
@@ -330,8 +318,8 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Delete config
 	 */
-	private void delete(String userId, Map<String, String> types, HttpServletRequest request,
-	                    HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void delete(Map<String, String> types, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
 		ServletContext sc = getServletContext();
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
@@ -348,7 +336,7 @@ public class ConfigServlet extends BaseServlet {
 	 */
 	private void list(String userId, String filter, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {}, {}, {})", new Object[]{userId, filter, request, response});
+		log.debug("list({}, {}, {}, {})", userId, filter, request, response);
 		ServletContext sc = getServletContext();
 		List<Config> list = ConfigDAO.findAll();
 
@@ -396,9 +384,8 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Download file
 	 */
-	private void view(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			ServletException, IOException, DatabaseException {
-		log.debug("view({}, {}, {})", new Object[]{userId, request, response});
+	private void view(String userId, HttpServletRequest request, HttpServletResponse response) throws IOException, DatabaseException {
+		log.debug("view({}, {}, {})", userId, request, response);
 		String cfgKey = WebUtils.getString(request, "cfg_key");
 		Config cfg = ConfigDAO.findByPk(cfgKey);
 
@@ -415,9 +402,8 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Check configuration
 	 */
-	private void check(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			ServletException, IOException, DatabaseException {
-		log.debug("check({}, {}, {})", new Object[]{userId, request, response});
+	private void check(String userId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.debug("check({}, {}, {})", userId, request, response);
 		PrintWriter out = response.getWriter();
 		response.setContentType(MimeTypeConfig.MIME_HTML);
 		header(out, "Configuration check", breadcrumb);
@@ -442,8 +428,8 @@ public class ConfigServlet extends BaseServlet {
 			out.print("</li>");
 
 			out.print("<li>");
-			out.print("<b>" + com.openkm.core.Config.PROPERTY_SYSTEM_OPENOFFICE_PATH + "</b>");
-			checkOpenOffice(out, com.openkm.core.Config.SYSTEM_OPENOFFICE_PATH);
+			out.print("<b>" + com.openkm.core.Config.PROPERTY_SYSTEM_OPENOFFICE_PROGRAM + "</b>");
+			checkExecutable(out, com.openkm.core.Config.PROPERTY_SYSTEM_OPENOFFICE_PROGRAM);
 			out.print("</li>");
 
 			out.println("</ul>");
@@ -487,34 +473,11 @@ public class ConfigServlet extends BaseServlet {
 	}
 
 	/**
-	 * File existence and if can be executed
-	 */
-	private void checkOpenOffice(PrintWriter out, String path) {
-		if (path.equals("")) {
-			warn(out, "Not configured");
-		} else {
-			File prg = new File(path);
-
-			if (prg.exists() && prg.canRead()) {
-				File offExec = OfficeUtils.getOfficeExecutable(prg);
-
-				if (offExec.exists() && offExec.canRead() && offExec.canExecute()) {
-					ok(out, "OK - " + offExec.getPath());
-				} else {
-					warn(out, "Can't read or execute: " + offExec.getPath());
-				}
-			} else {
-				warn(out, "Can't read: " + prg.getPath());
-			}
-		}
-	}
-
-	/**
 	 * Export configuration
 	 */
-	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			DatabaseException, IOException {
-		log.debug("export({}, {}, {})", new Object[]{userId, request, response});
+	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			IOException {
+		log.debug("export({}, {}, {})", userId, request, response);
 
 		// Disable browser cache
 		response.setHeader("Expires", "Sat, 6 May 1971 12:00:00 GMT");
@@ -524,7 +487,7 @@ public class ConfigServlet extends BaseServlet {
 
 		response.setHeader("Content-disposition", "inline; filename=\"" + fileName + "\"");
 		response.setContentType("text/x-sql; charset=UTF-8");
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "UTF8"), true);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 
 		for (Config cfg : ConfigDAO.findAll()) {
 			if (!Config.HIDDEN.equals(cfg.getType())) {
@@ -555,10 +518,9 @@ public class ConfigServlet extends BaseServlet {
 	/**
 	 * Import configuration into database
 	 */
-	private void importConfig(String userId, HttpServletRequest request, HttpServletResponse response,
-	                          final byte[] data, Session dbSession) throws DatabaseException,
-			IOException, SQLException {
-		log.debug("importConfig({}, {}, {}, {}, {})", new Object[]{userId, request, response, data, dbSession});
+	private void importConfig(String userId, HttpServletRequest request, HttpServletResponse response, final byte[] data,
+							  Session dbSession) {
+		log.debug("importConfig({}, {}, {}, {}, {})", userId, request, response, data, dbSession);
 		WorkerUpdate worker = new DatabaseQueryServlet().new WorkerUpdate();
 		worker.setData(data);
 		dbSession.doWork(worker);

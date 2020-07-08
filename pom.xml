@@ -351,13 +351,6 @@
       <version>2.1.8</version>
     </dependency>
 
-    <!-- OpenOffice.org integration -->
-    <dependency>
-      <groupId>org.artofsolving.jodconverter</groupId>
-      <artifactId>jodconverter-core</artifactId>
-      <version>3.0-beta-4</version>
-    </dependency>
-
     <!-- Text extractors -->
     <dependency>
       <groupId>entagged.audioformats</groupId>
