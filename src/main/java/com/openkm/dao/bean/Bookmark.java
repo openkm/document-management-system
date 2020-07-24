@@ -25,11 +25,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "OKM_BOOKMARK")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@XmlRootElement(name = "bookmark")
 public class Bookmark implements Serializable {
 	private static final long serialVersionUID = 1L;
 

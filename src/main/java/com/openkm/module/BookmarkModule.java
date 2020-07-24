@@ -35,16 +35,16 @@ public interface BookmarkModule {
 	 * Add a new bookmark which points to this document.
 	 *
 	 * @param token The session authorization token.
-	 * @param nodePath A node path to be bookmarked.
+	 * @param nodeId A node path to be bookmarked or its UUID.
 	 * @param name The name of the bookmark.
 	 * @return A bookmark object with the new created bookmark properties.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @thows PathNotFoundException If there is no node with this nodePath.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Bookmark add(String token, String nodePath, String name) throws AccessDeniedException,
-			PathNotFoundException, RepositoryException, DatabaseException;
+	Bookmark add(String token, String nodeId, String name) throws AccessDeniedException, PathNotFoundException,
+			RepositoryException, DatabaseException;
 
 	/**
 	 * Get info from a previously created bookmark.
@@ -52,24 +52,22 @@ public interface BookmarkModule {
 	 * @param token The session authorization token.
 	 * @param bmId The unique bookmark id.
 	 * @return The bookmark object.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Bookmark get(String token, int bmId) throws AccessDeniedException, RepositoryException,
-			DatabaseException;
+	Bookmark get(String token, int bmId) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Remove a bookmark.
 	 *
 	 * @param token The session authorization token.
 	 * @param bmId The bookmark id to be deleted.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void remove(String token, int bmId) throws AccessDeniedException, RepositoryException,
-			DatabaseException;
+	void remove(String token, int bmId) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Rename a previous stored bookmark.
@@ -78,12 +76,11 @@ public interface BookmarkModule {
 	 * @param bmId The actual bookmark id.
 	 * @param newName The new bookmark name.
 	 * @return The updated bookmark properties.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Bookmark rename(String token, int bmId, String newName) throws AccessDeniedException,
-			RepositoryException, DatabaseException;
+	Bookmark rename(String token, int bmId, String newName) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Retrive an user bookmark collection.
@@ -92,5 +89,5 @@ public interface BookmarkModule {
 	 * @return All the user bookmarks.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<Bookmark> getAll(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
+	List<Bookmark> getAll(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
 }
