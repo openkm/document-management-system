@@ -34,7 +34,7 @@ This video shows step by step the installation process of OpenKM Community versi
 [Spanish version](https://www.youtube.com/watch?v=6F7Hany7BMc)
 
 ## Docker
-[OpenKM oficial release of docker](https://hub.docker.com/r/openkm/openkm-ce)
+[OpenKM official release of docker](https://hub.docker.com/r/openkm/openkm-ce)
 
 ## Building from Source
 ```sh
