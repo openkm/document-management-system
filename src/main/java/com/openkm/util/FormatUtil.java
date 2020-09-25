@@ -304,6 +304,7 @@ public class FormatUtil {
 	 * Fix UTF-8 NULL
 	 */
 	public static String fixUTF8(String input) {
+		if(input == null) return input;
 		return input.replace('\u0000', '\u0020');
 	}
 
@@ -313,6 +314,7 @@ public class FormatUtil {
 	 * http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters#Surrogates
 	 */
 	public static String trimUnicodeSurrogates(String text) {
+		if(text == null) return text;
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < text.length(); i++) {
