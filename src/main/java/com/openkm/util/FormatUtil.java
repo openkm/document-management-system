@@ -41,7 +41,6 @@ import java.util.*;
 
 /**
  * @author pavila
- *
  */
 public class FormatUtil {
 	@SuppressWarnings("unused")
@@ -247,14 +246,14 @@ public class FormatUtil {
 			i++;
 
 			if (idx > -1 && i >= begin && i <= end) {
-			    if (idx > -1 && !str.isEmpty()) {
+				if (idx > -1 && !str.isEmpty()) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(line.substring(0, idx));
 					sb.append("<span class=\"highlight\" style=\"font-weight: bold\">");
 					sb.append(line.substring(idx, idx + str.length()));
 					sb.append("</span>");
 					sb.append(line.substring(idx + str.length()));
-                    line = sb.toString().replace(",", ", ");
+					line = sb.toString().replace(",", ", ");
 				}
 
 				LogMessage lm = new LogMessage();
@@ -304,26 +303,34 @@ public class FormatUtil {
 	 * Fix UTF-8 NULL
 	 */
 	public static String fixUTF8(String input) {
-		return input.replace('\u0000', '\u0020');
+		if (input != null) {
+			return input.replace('\u0000', '\u0020');
+		} else {
+			return null;
+		}
 	}
 
 	/**
 	 * Trim Unicode surrogate characters
-	 *
+	 * <p>
 	 * http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters#Surrogates
 	 */
 	public static String trimUnicodeSurrogates(String text) {
-		StringBuilder sb = new StringBuilder();
+		if (text != null) {
+			StringBuilder sb = new StringBuilder();
 
-		for (int i = 0; i < text.length(); i++) {
-			char ch = text.charAt(i);
+			for (int i = 0; i < text.length(); i++) {
+				char ch = text.charAt(i);
 
-			if (!Character.isHighSurrogate(ch) && !Character.isLowSurrogate(ch)) {
-				sb.append(ch);
+				if (!Character.isHighSurrogate(ch) && !Character.isLowSurrogate(ch)) {
+					sb.append(ch);
+				}
 			}
-		}
 
-		return sb.toString();
+			return sb.toString();
+		} else {
+			return null;
+		}
 	}
 
 	/**
