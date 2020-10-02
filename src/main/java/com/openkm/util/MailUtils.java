@@ -721,7 +721,7 @@ public class MailUtils {
 		String subject = FormatUtil.trimUnicodeSurrogates(FormatUtil.fixUTF8(msg.getSubject()));
 
 		mail.setContent(body.substring(1));
-		mail.setSubject(subject.isEmpty() ? NO_SUBJECT : subject);
+		mail.setSubject(subject == null || subject.isEmpty() ? NO_SUBJECT : subject);
 		mail.setTo(addressToString(msg.getRecipients(Message.RecipientType.TO)));
 		mail.setCc(addressToString(msg.getRecipients(Message.RecipientType.CC)));
 		mail.setBcc(addressToString(msg.getRecipients(Message.RecipientType.BCC)));
