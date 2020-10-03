@@ -1001,6 +1001,9 @@ public class MailUtils {
 						rd = new InputStreamReader(bin);
 					} else {
 						rd = cm.getReader();
+						if(rd == null) {
+							rd = new InputStreamReader(bin);
+						}
 					}
 					
 					str = IOUtils.toString(rd);
