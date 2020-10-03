@@ -53,6 +53,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -661,7 +662,7 @@ public class MailUtils {
 
 					MailImportError mie = new MailImportError();
 					mie.setImportDate(Calendar.getInstance());
-					mie.setErrorMessage(String.valueOf(e));
+					mie.setErrorMessage(ExceptionUtils.getStackTrace(e));
 					mie.setMailSubject(subject);
 					mie.setMailUid(msgId);
 					ma.getMailImportErrors().add(mie);
@@ -992,11 +993,19 @@ public class MailUtils {
 				if (obj instanceof InputStream) {
 					InputStream is = (InputStream) obj;
 					CharsetDetector detector = new CharsetDetector();
-					detector.setText(new BufferedInputStream(is));
+					BufferedInputStream bin = new BufferedInputStream(is);
+					detector.setText(bin);
 					CharsetMatch cm = detector.detect();
-					Reader rd = cm.getReader();
+					Reader rd = null;
+					if(cm == null) {
+						rd = new InputStreamReader(bin);
+					} else {
+						rd = cm.getReader();
+					}
+					
 					str = IOUtils.toString(rd);
 					IOUtils.closeQuietly(rd);
+					IOUtils.closeQuietly(bin);
 					IOUtils.closeQuietly(is);
 				} else if (obj instanceof String) {
 					str = (String) obj;
