@@ -52,6 +52,7 @@ import java.util.regex.Pattern;
 
 public class DbDocumentModule implements DocumentModule {
 	private static Logger log = LoggerFactory.getLogger(DbDocumentModule.class);
+	
 
 	@Override
 	public Document create(String token, Document doc, InputStream is) throws UnsupportedMimeTypeException, FileSizeExceededException,
@@ -60,6 +61,17 @@ public class DbDocumentModule implements DocumentModule {
 		log.debug("create({}, {}, {})", new Object[]{token, doc, is});
 		return create(token, doc, is, is.available(), null);
 	}
+	
+	/**
+	 * Used when big files and WebDAV and GoogleDocs
+	 */
+	public Document create(String token, Document doc, InputStream is, long size, String userId, String mailSubject) 
+			throws UnsupportedMimeTypeException,FileSizeExceededException, UserQuotaExceededException, 
+			VirusDetectedException, ItemExistsException, PathNotFoundException,	AccessDeniedException, 
+			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
+		log.debug("create({}, {}, {}, {}, {})", new Object[]{token, doc, is, size, userId});
+		return create(token, doc, is, size, userId, new Ref<FileUploadResponse>(null), mailSubject);
+	}
 
 	/**
 	 * Used when big files and WebDAV and GoogleDocs
@@ -67,14 +79,24 @@ public class DbDocumentModule implements DocumentModule {
 	public Document create(String token, Document doc, InputStream is, long size, String userId) throws UnsupportedMimeTypeException,
 			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("create({}, {}, {}, {}, {})", new Object[]{token, doc, is, size, userId});
-		return create(token, doc, is, size, userId, new Ref<FileUploadResponse>(null));
+		return create(token, doc, is, size, userId, (String) null);
 	}
-
+	
 	/**
 	 * Used when big files and FileUpload
 	 */
 	public Document create(String token, Document doc, InputStream is, long size, String userId, Ref<FileUploadResponse> fuResponse)
+			throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
+			ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
+			ExtensionException, AutomationException {
+		return create(token, doc, is, size, userId, fuResponse, (String) null);
+	}
+	
+	/**
+	 * Used when big files and FileUpload
+	 */
+	public Document create(	String token, Document doc, InputStream is, long size, String userId, 
+							Ref<FileUploadResponse> fuResponse, String emailSubject)
 			throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
 			ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
 			ExtensionException, AutomationException {
@@ -90,9 +112,21 @@ public class DbDocumentModule implements DocumentModule {
 		if (!PathUtils.checkPath(doc.getPath())) {
 			throw new RepositoryException("Invalid path: " + doc.getPath());
 		}
-
-		String parentPath = PathUtils.getParent(doc.getPath());
-		String name = PathUtils.getName(doc.getPath());
+		
+		String parentPath = null;
+		String name = null;
+		if(emailSubject != null && !emailSubject.isEmpty()) {
+			String escapedSubject = PathUtils.escape(emailSubject);
+			int idx = doc.getPath().lastIndexOf(escapedSubject);
+			if(idx != -1) {			
+				parentPath = doc.getPath().substring(0, idx+escapedSubject.length());
+				name = doc.getPath().substring(idx+escapedSubject.length()+1);
+			}
+		}
+		if(parentPath == null || name == null) {
+			parentPath = PathUtils.getParent(doc.getPath());
+			name = PathUtils.getName(doc.getPath());
+		}
 
 		// Add to KEA - must have the same extension
 		int idx = name.lastIndexOf('.');
