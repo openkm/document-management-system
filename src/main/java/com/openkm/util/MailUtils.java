@@ -1078,7 +1078,8 @@ public class MailUtils {
 						byte[] data = IOUtils.toByteArray(is);
 
 						try (ByteArrayInputStream bais = new ByteArrayInputStream(data)) {
-							new DbDocumentModule().create(token, attachment, bais, data.length, userId);
+							new DbDocumentModule().create(token, attachment, bais, data.length, userId,
+									bp.getFileName().contains("/")?mail.getSubject():null);
 						}
 					}
 				}
@@ -1115,7 +1116,9 @@ public class MailUtils {
 				attachment.setPath(mail.getPath() + "/" + testName);
 
 				try (ByteArrayInputStream bais = new ByteArrayInputStream(fileAtt.getData())) {
-					new DbDocumentModule().create(token, attachment, bais, fileAtt.getSize(), userId);
+					new DbDocumentModule().create(token, attachment, bais, fileAtt.getSize(), userId,
+							attachedFile.contains("/") ? mail.getSubject() : null
+					);
 				}
 			}
 		}

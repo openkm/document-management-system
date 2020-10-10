@@ -26,8 +26,8 @@ import com.openkm.automation.AutomationManager;
 import com.openkm.automation.AutomationUtils;
 import com.openkm.bean.*;
 import com.openkm.cache.UserItemsManager;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.extension.core.ExtensionException;
@@ -37,7 +37,6 @@ import com.openkm.module.db.base.BaseDocumentModule;
 import com.openkm.module.db.base.BaseModule;
 import com.openkm.module.db.base.BaseNoteModule;
 import com.openkm.module.db.base.BaseNotificationModule;
-import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.spring.PrincipalUtils;
 import com.openkm.util.*;
 import com.openkm.util.impexp.RepositoryExporter;
@@ -51,14 +50,25 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class DbDocumentModule implements DocumentModule {
-	private static Logger log = LoggerFactory.getLogger(DbDocumentModule.class);
+	private static final Logger log = LoggerFactory.getLogger(DbDocumentModule.class);
 
 	@Override
 	public Document create(String token, Document doc, InputStream is) throws UnsupportedMimeTypeException, FileSizeExceededException,
 			UserQuotaExceededException, VirusDetectedException, ItemExistsException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("create({}, {}, {})", new Object[]{token, doc, is});
+		log.debug("create({}, {}, {})", token, doc, is);
 		return create(token, doc, is, is.available(), null);
+	}
+
+	/**
+	 * Used when big files and WebDAV and GoogleDocs
+	 */
+	public Document create(String token, Document doc, InputStream is, long size, String userId, String mailSubject)
+			throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException,
+			VirusDetectedException, ItemExistsException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
+		log.debug("create({}, {}, {}, {}, {})", token, doc, is, size, userId);
+		return create(token, doc, is, size, userId, new Ref<FileUploadResponse>(null), mailSubject);
 	}
 
 	/**
@@ -67,8 +77,7 @@ public class DbDocumentModule implements DocumentModule {
 	public Document create(String token, Document doc, InputStream is, long size, String userId) throws UnsupportedMimeTypeException,
 			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("create({}, {}, {}, {}, {})", new Object[]{token, doc, is, size, userId});
-		return create(token, doc, is, size, userId, new Ref<FileUploadResponse>(null));
+		return create(token, doc, is, size, userId, (String) null);
 	}
 
 	/**
@@ -78,7 +87,17 @@ public class DbDocumentModule implements DocumentModule {
 			throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
 			ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
 			ExtensionException, AutomationException {
-		log.debug("create({}, {}, {}, {}, {}, {})", new Object[]{token, doc, is, size, userId, fuResponse});
+		return create(token, doc, is, size, userId, fuResponse, (String) null);
+	}
+
+	/**
+	 * Used when big files and FileUpload
+	 */
+	public Document create(String token, Document doc, InputStream is, long size, String userId, Ref<FileUploadResponse> fuResponse,
+			String emailSubject) throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException,
+			VirusDetectedException, ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException,
+			IOException, DatabaseException, ExtensionException, AutomationException {
+		log.debug("create({}, {}, {}, {}, {}, {})", token, doc, is, size, userId, fuResponse);
 		long begin = System.currentTimeMillis();
 		Document newDocument = null;
 		Authentication auth = null, oldAuth = null;
@@ -91,8 +110,20 @@ public class DbDocumentModule implements DocumentModule {
 			throw new RepositoryException("Invalid path: " + doc.getPath());
 		}
 
-		String parentPath = PathUtils.getParent(doc.getPath());
-		String name = PathUtils.getName(doc.getPath());
+		String parentPath = null;
+		String name = null;
+		if (emailSubject != null && !emailSubject.isEmpty()) {
+			String escapedSubject = PathUtils.escape(emailSubject);
+			int idx = doc.getPath().lastIndexOf(escapedSubject);
+			if (idx != -1) {
+				parentPath = doc.getPath().substring(0, idx + escapedSubject.length());
+				name = doc.getPath().substring(idx + escapedSubject.length() + 1);
+			}
+		}
+		if (parentPath == null || name == null) {
+			parentPath = PathUtils.getParent(doc.getPath());
+			name = PathUtils.getName(doc.getPath());
+		}
 
 		// Add to KEA - must have the same extension
 		int idx = name.lastIndexOf('.');
@@ -118,8 +149,8 @@ public class DbDocumentModule implements DocumentModule {
 			}
 
 			if (Config.MAX_FILE_SIZE > 0 && size > Config.MAX_FILE_SIZE) {
-				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", new Object[]{FormatUtil.formatSize(size), size,
-						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE});
+				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", FormatUtil.formatSize(size), size,
+						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE);
 				String usr = userId == null ? auth.getName() : userId;
 				UserActivity.log(usr, "ERROR_FILE_SIZE_EXCEEDED", null, doc.getPath(), FormatUtil.formatSize(size));
 				throw new FileSizeExceededException(FormatUtil.formatSize(size));
@@ -188,10 +219,10 @@ public class DbDocumentModule implements DocumentModule {
 				// INSIDE BaseDocumentModule.create
 
 				// Create node
-				Set<String> keywords = doc.getKeywords() != null ? doc.getKeywords() : new HashSet<String>();
+				Set<String> keywords = doc.getKeywords() != null ? doc.getKeywords() : new HashSet<>();
 				NodeDocument docNode = BaseDocumentModule.create(auth.getName(), parentPath, parentNode, name, doc.getTitle(),
-						doc.getCreated(), mimeType, is, size, keywords, new HashSet<String>(), new HashSet<NodeProperty>(),
-						new ArrayList<NodeNote>(), null, fuResponse);
+						doc.getCreated(), mimeType, is, size, keywords, new HashSet<>(), new HashSet<>(), new ArrayList<>(),
+						null, fuResponse);
 
 				// AUTOMATION - POST
 				// INSIDE BaseDocumentModule.create
@@ -240,9 +271,9 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public void delete(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException, AutomationException,
-			RepositoryException, DatabaseException {
-		log.debug("delete({}, {})", new Object[]{token, docId});
+	public void delete(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
+			AutomationException, RepositoryException, DatabaseException {
+		log.debug("delete({}, {})", token, docId);
 		long begin = System.currentTimeMillis();
 		Authentication auth = null, oldAuth = null;
 		NodeDocument docNode;
@@ -305,7 +336,7 @@ public class DbDocumentModule implements DocumentModule {
 	@Override
 	public Document rename(String token, String docId, String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, AutomationException, LockException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, docId, newName});
+		log.debug("rename({}, {}, {})", token, docId, newName);
 		Document renamedDocument = null;
 		Authentication auth = null, oldAuth = null;
 
@@ -407,8 +438,8 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public void setProperties(String token, Document doc) throws VersionException, LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
+	public void setProperties(String token, Document doc) throws LockException, PathNotFoundException, AccessDeniedException,
+			DatabaseException {
 		log.debug("setProperties({}, {})", token, doc);
 		Authentication auth, oldAuth = null;
 		@SuppressWarnings("unused")
@@ -433,7 +464,7 @@ public class DbDocumentModule implements DocumentModule {
 
 			NodeDocument docNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
 			NodeDocumentDAO.getInstance().setProperties(docUuid, doc);
-			
+
 			// Check subscriptions
 			BaseNotificationModule.checkSubscriptions(docNode, auth.getName(), "SET_DOCUMENT_PROPERTIES", null);
 
@@ -453,22 +484,22 @@ public class DbDocumentModule implements DocumentModule {
 	@Override
 	public InputStream getContent(String token, String docId, boolean checkout) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, IOException, DatabaseException {
-		log.debug("getContent({}, {}, {})", new Object[]{token, docId, checkout});
+		log.debug("getContent({}, {}, {})", token, docId, checkout);
 		return getContent(token, docId, checkout, true);
 	}
 
 	/**
 	 * Retrieve the content input stream from a document
 	 *
-	 * @param token Authorization token.
-	 * @param docId Path of the document to get the content or its UUID.
-	 * @param checkout If the content is retrieved due to a checkout or not.
+	 * @param token            Authorization token.
+	 * @param docId            Path of the document to get the content or its UUID.
+	 * @param checkout         If the content is retrieved due to a checkout or not.
 	 * @param extendedSecurity If the extended security DOWNLOAD permission should be evaluated.
-	 *        This is used to enable the document preview.
+	 *                         This is used to enable the document preview.
 	 */
 	public InputStream getContent(String token, String docId, boolean checkout, boolean extendedSecurity) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, DatabaseException {
-		log.debug("getContent({}, {}, {}, {})", new Object[]{token, docId, checkout, extendedSecurity});
+			AccessDeniedException, IOException, DatabaseException {
+		log.debug("getContent({}, {}, {}, {})", token, docId, checkout, extendedSecurity);
 		long begin = System.currentTimeMillis();
 		InputStream is;
 		Authentication auth = null, oldAuth = null;
@@ -507,9 +538,9 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public InputStream getContentByVersion(String token, String docId, String verName) throws RepositoryException, AccessDeniedException,
+	public InputStream getContentByVersion(String token, String docId, String verName) throws AccessDeniedException,
 			PathNotFoundException, IOException, DatabaseException {
-		log.debug("getContentByVersion({}, {}, {})", new Object[]{token, docId, verName});
+		log.debug("getContentByVersion({}, {}, {})", token, docId, verName);
 		Authentication auth, oldAuth = null;
 		InputStream is;
 		String docPath;
@@ -549,13 +580,13 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	@Deprecated
-	public List<Document> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	public List<Document> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		return getChildren(token, fldId);
 	}
 
 	@Override
-	public List<Document> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	public List<Document> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("getChildren({}, {})", token, fldId);
 		long begin = System.currentTimeMillis();
@@ -611,7 +642,7 @@ public class DbDocumentModule implements DocumentModule {
 	 */
 	public void checkout(String token, String docId, String userId) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("checkout({}, {}, {})", new Object[]{token, docId, userId});
+		log.debug("checkout({}, {}, {})", token, docId, userId);
 		long begin = System.currentTimeMillis();
 		Authentication auth, oldAuth = null;
 		String docPath;
@@ -668,7 +699,7 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public void forceCancelCheckout(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, PrincipalAdapterException {
+			RepositoryException, DatabaseException {
 		log.debug("forceCancelCheckout({}, {})", token, docId);
 
 		if (PrincipalUtils.getRoles().contains(Config.DEFAULT_ADMIN_ROLE)) {
@@ -684,8 +715,8 @@ public class DbDocumentModule implements DocumentModule {
 	 * Implement cancelCheckout and forceCancelCheckout features
 	 */
 	private void cancelCheckoutHelper(String token, String docId, boolean force) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("cancelCheckoutHelper({}, {}, {})", new Object[]{token, docId, force});
+			AccessDeniedException, DatabaseException {
+		log.debug("cancelCheckoutHelper({}, {}, {})", token, docId, force);
 		long begin = System.currentTimeMillis();
 		Authentication auth, oldAuth = null;
 		String action = force ? "FORCE_CANCEL_DOCUMENT_CHECKOUT" : "CANCEL_DOCUMENT_CHECKOUT";
@@ -730,7 +761,7 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public boolean isCheckedOut(String token, String docId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	public boolean isCheckedOut(String token, String docId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("isCheckedOut({}, {})", token, docId);
 		boolean checkedOut = false;
@@ -771,15 +802,15 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public Version checkin(String token, String docId, InputStream is, String comment) throws FileSizeExceededException,
-			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException, AutomationException {
+			VirusDetectedException, AccessDeniedException, PathNotFoundException, LockException, IOException,
+			DatabaseException, AutomationException {
 		return checkin(token, docId, is, is.available(), comment, null, 0);
 	}
 
 	@Override
 	public Version checkin(String token, String docId, InputStream is, String comment, int increment) throws FileSizeExceededException,
-			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException, AutomationException {
+			VirusDetectedException, AccessDeniedException, PathNotFoundException, LockException, IOException,
+			DatabaseException, AutomationException {
 		return checkin(token, docId, is, is.available(), comment, null, increment);
 	}
 
@@ -787,8 +818,8 @@ public class DbDocumentModule implements DocumentModule {
 	 * Used in Zoho extension
 	 */
 	public Version checkin(String token, String docId, InputStream is, String comment, String userId) throws FileSizeExceededException,
-			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException, AutomationException {
+			VirusDetectedException, AccessDeniedException,PathNotFoundException, LockException, IOException,
+			DatabaseException, AutomationException {
 		return checkin(token, docId, is, is.available(), comment, userId, 0);
 	}
 
@@ -796,9 +827,8 @@ public class DbDocumentModule implements DocumentModule {
 	 * Used when big files and WebDAV
 	 */
 	public Version checkin(String token, String docId, InputStream is, long size, String comment, String userId)
-			throws FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, AccessDeniedException,
-			RepositoryException, PathNotFoundException, LockException, VersionException, IOException, DatabaseException,
-			AutomationException {
+			throws FileSizeExceededException, VirusDetectedException, AccessDeniedException, PathNotFoundException,
+			LockException, IOException, DatabaseException, AutomationException {
 		return checkin(token, docId, is, size, comment, userId, 0);
 	}
 
@@ -806,10 +836,9 @@ public class DbDocumentModule implements DocumentModule {
 	 * Used when increase document major version
 	 */
 	public Version checkin(String token, String docId, InputStream is, long size, String comment, String userId, int increment)
-			throws FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, AccessDeniedException,
-			RepositoryException, PathNotFoundException, LockException, VersionException, IOException, DatabaseException,
-			AutomationException {
-		log.debug("checkin({}, {}, {}, {}, {}, {})", new Object[]{token, docId, is, size, comment, userId});
+			throws FileSizeExceededException, VirusDetectedException, AccessDeniedException, PathNotFoundException, LockException,
+			IOException, DatabaseException, AutomationException {
+		log.debug("checkin({}, {}, {}, {}, {}, {})", token, docId, is, size, comment, userId);
 		long begin = System.currentTimeMillis();
 		Authentication auth, oldAuth = null;
 		Version version;
@@ -855,8 +884,8 @@ public class DbDocumentModule implements DocumentModule {
 			}
 
 			if (Config.MAX_FILE_SIZE > 0 && size > Config.MAX_FILE_SIZE) {
-				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", new Object[]{FormatUtil.formatSize(size), size,
-						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE});
+				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", FormatUtil.formatSize(size), size,
+						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE);
 				UserActivity.log(userId, "ERROR_FILE_SIZE_EXCEEDED", null, docPath, FormatUtil.formatSize(size));
 				throw new FileSizeExceededException(FormatUtil.formatSize(size));
 			}
@@ -886,7 +915,7 @@ public class DbDocumentModule implements DocumentModule {
 
 			// AUTOMATION - PRE
 			NodeDocument docNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
-			Map<String, Object> env = new HashMap<String, Object>();
+			Map<String, Object> env = new HashMap<>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
 			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_PRE, env);
@@ -934,7 +963,7 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public LockInfo lock(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException {
+			DatabaseException {
 		log.debug("lock({}, {})", token, docId);
 		Authentication auth, oldAuth = null;
 		String docPath;
@@ -988,7 +1017,7 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public void forceUnlock(String token, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, PrincipalAdapterException {
+			RepositoryException, DatabaseException {
 		log.debug("forceUnlock({}, {})", token, docId);
 
 		if (PrincipalUtils.getRoles().contains(Config.DEFAULT_ADMIN_ROLE)) {
@@ -1004,8 +1033,8 @@ public class DbDocumentModule implements DocumentModule {
 	 * Implement unlock and forceUnlock features
 	 */
 	private void unlockHelper(String token, String docId, boolean force) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("unlock({}, {}, {})", new Object[]{token, docId, force});
+			AccessDeniedException, DatabaseException {
+		log.debug("unlock({}, {}, {})", token, docId, force);
 		Authentication auth, oldAuth = null;
 		String action = force ? "FORCE_UNLOCK_DOCUMENT" : "UNLOCK_DOCUMENT";
 		String docPath;
@@ -1047,8 +1076,7 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public boolean isLocked(String token, String docId) throws RepositoryException, AccessDeniedException, PathNotFoundException,
-			DatabaseException {
+	public boolean isLocked(String token, String docId) throws AccessDeniedException, PathNotFoundException, DatabaseException {
 		log.debug("isLocked({}, {})", token, docId);
 		boolean locked;
 		@SuppressWarnings("unused")
@@ -1087,8 +1115,8 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public LockInfo getLockInfo(String token, String docId) throws RepositoryException, AccessDeniedException, PathNotFoundException,
-			LockException, DatabaseException {
+	public LockInfo getLockInfo(String token, String docId) throws AccessDeniedException, PathNotFoundException, LockException,
+			DatabaseException {
 		log.debug("getLock({}, {})", token, docId);
 		Authentication auth, oldAuth = null;
 		String docPath;
@@ -1126,8 +1154,8 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public void purge(String token, String docId) throws LockException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			DatabaseException {
+	public void purge(String token, String docId) throws LockException, AccessDeniedException, RepositoryException,
+			PathNotFoundException, DatabaseException {
 		log.debug("purge({}, {})", token, docId);
 		Authentication auth = null, oldAuth = null;
 		String docPath;
@@ -1183,7 +1211,7 @@ public class DbDocumentModule implements DocumentModule {
 	@Override
 	public void move(String token, String docId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
 			LockException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("move({}, {}, {})", new Object[]{token, docId, dstId});
+		log.debug("move({}, {}, {})", token, docId, dstId);
 		Authentication auth, oldAuth = null;
 		String docPath;
 		String docUuid;
@@ -1226,8 +1254,8 @@ public class DbDocumentModule implements DocumentModule {
 				}
 			}
 
-			NodeDocument docNode = (NodeDocument) BaseModule.resolveNodeById(docUuid);			
-			
+			NodeDocument docNode = (NodeDocument) BaseModule.resolveNodeById(docUuid);
+
 			// AUTOMATION - PRE
 			Map<String, Object> env = new HashMap<>();
 			env.put(AutomationUtils.DOCUMENT_NODE, docNode);
@@ -1256,16 +1284,17 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public void copy(String token, String docPath, String dstPath) throws ItemExistsException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException, UserQuotaExceededException {
-		log.debug("copy({}, {}, {})", new Object[]{token, docPath, dstPath});
+			AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException,
+			UserQuotaExceededException {
+		log.debug("copy({}, {}, {})", token, docPath, dstPath);
 		extendedCopy(token, docPath, dstPath, PathUtils.getName(docPath), new ExtendedAttributes());
 	}
 
 	@Override
 	public void extendedCopy(String token, String docId, String dstId, String docName, ExtendedAttributes extAttr)
-			throws ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
-			AutomationException, DatabaseException, UserQuotaExceededException {
-		log.debug("extendedCopy({}, {}, {}, {}, {})", new Object[]{token, docId, dstId, docName, extAttr});
+			throws ItemExistsException, PathNotFoundException, AccessDeniedException, IOException, AutomationException,
+			DatabaseException, UserQuotaExceededException {
+		log.debug("extendedCopy({}, {}, {}, {}, {})", token, docId, dstId, docName, extAttr);
 		Authentication auth, oldAuth = null;
 		String docPath;
 		String docUuid;
@@ -1327,8 +1356,8 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	public void restoreVersion(String token, String docId, String versionId) throws PathNotFoundException, AccessDeniedException,
-			LockException, RepositoryException, DatabaseException {
-		log.debug("restoreVersion({}, {}, {})", new Object[]{token, docId, versionId});
+			LockException, DatabaseException {
+		log.debug("restoreVersion({}, {}, {})", token, docId, versionId);
 		Authentication auth, oldAuth = null;
 		String docPath;
 		String docUuid;
@@ -1417,10 +1446,10 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public List<Version> getVersionHistory(String token, String docId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	public List<Version> getVersionHistory(String token, String docId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("getVersionHistory({}, {})", token, docId);
-		List<Version> history = new ArrayList<Version>();
+		List<Version> history = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 		String docPath = null;
 		String docUuid = null;
@@ -1463,7 +1492,7 @@ public class DbDocumentModule implements DocumentModule {
 
 	@Override
 	@SuppressWarnings("unused")
-	public long getVersionHistorySize(String token, String docId) throws RepositoryException, AccessDeniedException, PathNotFoundException,
+	public long getVersionHistorySize(String token, String docId) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
 		log.debug("getVersionHistorySize({}, {})", token, docId);
 		long versionHistorySize = 0;
@@ -1545,14 +1574,14 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	@Override
-	public String getPath(String token, String uuid) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public String getPath(String token, String uuid) throws RepositoryException, DatabaseException {
 		try {
 			return NodeBaseDAO.getInstance().getPathFromUuid(uuid);
 		} catch (PathNotFoundException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		}
 	}
-	
+
 	/*
 	 * ========================
 	 * LiveEdit methods
@@ -1563,9 +1592,8 @@ public class DbDocumentModule implements DocumentModule {
 	 * Create temporal file and set content.
 	 */
 	public void liveEditSetContent(String token, String docId, InputStream is) throws FileSizeExceededException,
-			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException {
-		log.debug("liveEditSetContent({}, {})", new Object[]{docId, is});
+			VirusDetectedException, AccessDeniedException, PathNotFoundException, LockException, IOException, DatabaseException {
+		log.debug("liveEditSetContent({}, {})", docId, is);
 		Authentication auth = null, oldAuth = null;
 		int size = is.available();
 		String docPath = null;
@@ -1606,8 +1634,8 @@ public class DbDocumentModule implements DocumentModule {
 			}
 
 			if (Config.MAX_FILE_SIZE > 0 && size > Config.MAX_FILE_SIZE) {
-				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", new Object[]{FormatUtil.formatSize(size), size,
-						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE});
+				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", FormatUtil.formatSize(size), size,
+						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE);
 				UserActivity.log(auth.getName(), "ERROR_FILE_SIZE_EXCEEDED", null, docPath, FormatUtil.formatSize(size));
 				throw new FileSizeExceededException(FormatUtil.formatSize(size));
 			}
@@ -1653,10 +1681,9 @@ public class DbDocumentModule implements DocumentModule {
 	/**
 	 * New version and delete temporal file.
 	 */
-	public Version liveEditCheckin(String token, String docId, String comment, int increment) throws FileSizeExceededException,
-			UserQuotaExceededException, VirusDetectedException, AccessDeniedException, RepositoryException, PathNotFoundException,
-			LockException, VersionException, IOException, DatabaseException, AutomationException {
-		log.debug("liveEditCheckin({}, {}, {})", new Object[]{token, docId, comment});
+	public Version liveEditCheckin(String token, String docId, String comment, int increment) throws AccessDeniedException,
+			PathNotFoundException, LockException, IOException, DatabaseException, AutomationException {
+		log.debug("liveEditCheckin({}, {}, {})", token, docId, comment);
 		Version version = new Version();
 		Authentication auth = null, oldAuth = null;
 		String docPath = null;
@@ -1690,14 +1717,14 @@ public class DbDocumentModule implements DocumentModule {
 			env.put(AutomationUtils.PARENT_UUID, docNode.getParent());
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_PRE, env);
 			docNode = (NodeDocument) env.get(AutomationUtils.DOCUMENT_NODE);
-			
+
 			NodeDocumentVersion newDocVersion = NodeDocumentVersionDAO.getInstance().liveEditCheckin(auth.getName(), comment, increment,
 					docUuid);
 			version = BaseModule.getProperties(newDocVersion);
 
 			// AUTOMATION - POST
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_UPDATE, AutomationRule.AT_POST, env);
-			
+
 			// Add comment (as system user)
 			String text = "New version " + version.getName() + " by " + auth.getName() + ": " + comment;
 			BaseNoteModule.create(docUuid, Config.SYSTEM_USER, text);
@@ -1754,8 +1781,8 @@ public class DbDocumentModule implements DocumentModule {
 	}
 
 	private void liveEditCancelCheckoutHelper(String token, String docId, boolean force) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("liveEditCancelCheckoutHelper({}, {}, {})", new Object[]{token, docId, force});
+			AccessDeniedException, DatabaseException {
+		log.debug("liveEditCancelCheckoutHelper({}, {}, {})", token, docId, force);
 		long begin = System.currentTimeMillis();
 		Authentication auth = null, oldAuth = null;
 		String action = force ? "FORCE_CANCEL_DOCUMENT_CHECKOUT" : "CANCEL_DOCUMENT_CHECKOUT";
