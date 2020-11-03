@@ -53,6 +53,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -494,7 +495,7 @@ public class MailUtils {
 	 * unique for the same account.
 	 */
 	public static String importMessages(String token, MailAccount ma) throws DatabaseException {
-		log.debug("importMessages({}, {})", new Object[]{token, ma});
+		log.debug("importMessages({}, {})", token, ma);
 		Session session = Session.getDefaultInstance(getProperties());
 		String exceptionMessage;
 
@@ -661,7 +662,7 @@ public class MailUtils {
 
 					MailImportError mie = new MailImportError();
 					mie.setImportDate(Calendar.getInstance());
-					mie.setErrorMessage(String.valueOf(e));
+					mie.setErrorMessage(ExceptionUtils.getStackTrace(e));
 					mie.setMailSubject(subject);
 					mie.setMailUid(msgId);
 					ma.getMailImportErrors().add(mie);
@@ -721,7 +722,7 @@ public class MailUtils {
 		String subject = FormatUtil.trimUnicodeSurrogates(FormatUtil.fixUTF8(msg.getSubject()));
 
 		mail.setContent(body.substring(1));
-		mail.setSubject(subject.isEmpty() ? NO_SUBJECT : subject);
+		mail.setSubject(subject == null || subject.isEmpty() ? NO_SUBJECT : subject);
 		mail.setTo(addressToString(msg.getRecipients(Message.RecipientType.TO)));
 		mail.setCc(addressToString(msg.getRecipients(Message.RecipientType.CC)));
 		mail.setBcc(addressToString(msg.getRecipients(Message.RecipientType.BCC)));
@@ -830,9 +831,9 @@ public class MailUtils {
 	 * Import mail into OpenKM repository
 	 */
 	public static void importMail(String token, String mailPath, boolean grouping, Folder folder, Message msg, MailAccount ma,
-			com.openkm.bean.Mail mail) throws DatabaseException, RepositoryException, AccessDeniedException,
-			ItemExistsException, PathNotFoundException, MessagingException, VirusDetectedException, UserQuotaExceededException,
-			IOException, ExtensionException, AutomationException {
+			com.openkm.bean.Mail mail) throws DatabaseException, RepositoryException, AccessDeniedException, ItemExistsException,
+			PathNotFoundException, MessagingException, VirusDetectedException, UserQuotaExceededException, IOException,
+			ExtensionException, AutomationException {
 		OKMRepository okmRepository = OKMRepository.getInstance();
 		String path = grouping ? createGroupPath(token, mailPath, mail.getReceivedDate()) : mailPath;
 
@@ -911,8 +912,9 @@ public class MailUtils {
 	 * Create mail path
 	 */
 	private static String createGroupPath(String token, String mailPath, Calendar receivedDate) throws DatabaseException,
-			RepositoryException, AccessDeniedException, ItemExistsException, PathNotFoundException, ExtensionException, AutomationException {
-		log.debug("createGroupPath({}, {})", new Object[]{mailPath, receivedDate});
+			RepositoryException, AccessDeniedException, ItemExistsException, PathNotFoundException, ExtensionException,
+			AutomationException {
+		log.debug("createGroupPath({}, {})", mailPath, receivedDate);
 		OKMRepository okmRepository = OKMRepository.getInstance();
 		String path = mailPath + "/" + receivedDate.get(Calendar.YEAR);
 		OKMFolder okmFolder = OKMFolder.getInstance();
@@ -992,11 +994,23 @@ public class MailUtils {
 				if (obj instanceof InputStream) {
 					InputStream is = (InputStream) obj;
 					CharsetDetector detector = new CharsetDetector();
-					detector.setText(new BufferedInputStream(is));
+					BufferedInputStream bis = new BufferedInputStream(is);
+					detector.setText(bis);
 					CharsetMatch cm = detector.detect();
-					Reader rd = cm.getReader();
+					Reader rd;
+
+					if (cm == null) {
+						rd = new InputStreamReader(bis);
+					} else {
+						rd = cm.getReader();
+						if (rd == null) {
+							rd = new InputStreamReader(bis);
+						}
+					}
+
 					str = IOUtils.toString(rd);
 					IOUtils.closeQuietly(rd);
+					IOUtils.closeQuietly(bis);
 					IOUtils.closeQuietly(is);
 				} else if (obj instanceof String) {
 					str = (String) obj;
