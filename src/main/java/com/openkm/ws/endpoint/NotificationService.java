@@ -40,7 +40,7 @@ import java.util.Set;
 
 @WebService(name = "OKMNotification", serviceName = "OKMNotification", targetNamespace = "http://ws.openkm.com")
 public class NotificationService {
-	private static Logger log = LoggerFactory.getLogger(NotificationService.class);
+	private static final Logger log = LoggerFactory.getLogger(NotificationService.class);
 
 	@WebMethod
 	public void subscribe(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath)
@@ -77,7 +77,7 @@ public class NotificationService {
 	                   @WebParam(name = "message") String message, @WebParam(name = "attachment") boolean attachment) throws
 			PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
 			DatabaseException, IOException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodePath, users, message, attachment});
+		log.debug("notify({}, {}, {}, {}, {})", token, nodePath, users, message, attachment);
 		NotificationModule nm = ModuleManager.getNotificationModule();
 		nm.notify(token, nodePath, Arrays.asList(users), Arrays.asList(mails), message, attachment);
 		log.debug("notify: void");

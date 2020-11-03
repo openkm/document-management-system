@@ -36,7 +36,7 @@ import java.util.List;
 
 @WebService(name = "OKMMail", serviceName = "OKMMail", targetNamespace = "http://ws.openkm.com")
 public class MailService {
-	private static Logger log = LoggerFactory.getLogger(MailService.class);
+	private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
 	@WebMethod
 	public Mail create(@WebParam(name = "token") String token, @WebParam(name = "mail") Mail mail)
@@ -72,10 +72,10 @@ public class MailService {
 	public Mail rename(@WebParam(name = "token") String token, @WebParam(name = "mailPath") String mailPath,
 	                   @WebParam(name = "newName") String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, mailPath, newName});
+		log.debug("rename({}, {}, {})", token, mailPath, newName);
 		MailModule mm = ModuleManager.getMailModule();
 		Mail renamedMail = mm.rename(token, mailPath, newName);
-		log.debug("rename: {}");
+		log.debug("rename: void");
 		return renamedMail;
 	}
 
@@ -83,7 +83,7 @@ public class MailService {
 	public void move(@WebParam(name = "token") String token, @WebParam(name = "mailPath") String mailPath,
 	                 @WebParam(name = "dstPath") String dstPath) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("move({}, {}, {})", new Object[]{token, mailPath, dstPath});
+		log.debug("move({}, {}, {})", token, mailPath, dstPath);
 		MailModule mm = ModuleManager.getMailModule();
 		mm.move(token, mailPath, dstPath);
 		log.debug("move: void");

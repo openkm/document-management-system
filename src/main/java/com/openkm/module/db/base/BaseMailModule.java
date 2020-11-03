@@ -25,10 +25,12 @@ import com.openkm.automation.AutomationException;
 import com.openkm.automation.AutomationManager;
 import com.openkm.automation.AutomationUtils;
 import com.openkm.bean.*;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
+import com.openkm.extension.dao.WikiPageDAO;
+import com.openkm.extension.dao.bean.WikiPage;
 import com.openkm.module.db.stuff.DbAccessManager;
 import com.openkm.module.db.stuff.SecurityHelper;
 import com.openkm.util.CloneUtils;
@@ -40,18 +42,19 @@ import java.io.IOException;
 import java.util.*;
 
 public class BaseMailModule {
-	private static Logger log = LoggerFactory.getLogger(BaseMailModule.class);
+	private static final Logger log = LoggerFactory.getLogger(BaseMailModule.class);
 
 	/**
 	 * Create a new mail
 	 */
 	@SuppressWarnings("unchecked")
 	public static NodeMail create(String user, String parentPath, NodeFolder parentFolder, String name, long size, String from,
-	                              String[] reply, String[] to, String[] cc, String[] bcc, Calendar sentDate, Calendar receivedDate, String subject,
-	                              String content, String mimeType, Set<String> keywords, Set<String> categories, Ref<FileUploadResponse> fuResponse)
-			throws PathNotFoundException, AccessDeniedException, ItemExistsException, AutomationException, DatabaseException {
+			String[] reply, String[] to, String[] cc, String[] bcc, Calendar sentDate, Calendar receivedDate, String subject,
+			String content, String mimeType, Set<String> keywords, Set<String> categories, Set<NodeProperty> propertyGroups,
+			List<NodeNote> notes, WikiPage wiki, Ref<FileUploadResponse> fuResponse) throws PathNotFoundException,
+			AccessDeniedException, ItemExistsException, AutomationException, DatabaseException {
 		// AUTOMATION - PRE
-		Map<String, Object> env = new HashMap<String, Object>();
+		Map<String, Object> env = new HashMap<>();
 		env.put(AutomationUtils.PARENT_UUID, parentFolder.getUuid());
 		env.put(AutomationUtils.PARENT_PATH, parentPath);
 		env.put(AutomationUtils.PARENT_NODE, parentFolder);
@@ -74,10 +77,10 @@ public class BaseMailModule {
 		mailNode.setName(name);
 		mailNode.setSize(size);
 		mailNode.setFrom(from);
-		mailNode.setReply(new HashSet<String>(Arrays.asList(reply)));
-		mailNode.setTo(new HashSet<String>(Arrays.asList(to)));
-		mailNode.setCc(new HashSet<String>(Arrays.asList(cc)));
-		mailNode.setBcc(new HashSet<String>(Arrays.asList(bcc)));
+		mailNode.setReply(new HashSet<>(Arrays.asList(reply)));
+		mailNode.setTo(new HashSet<>(Arrays.asList(to)));
+		mailNode.setCc(new HashSet<>(Arrays.asList(cc)));
+		mailNode.setBcc(new HashSet<>(Arrays.asList(bcc)));
 		mailNode.setSentDate(sentDate);
 		mailNode.setReceivedDate(receivedDate);
 		mailNode.setSubject(subject);
@@ -92,6 +95,15 @@ public class BaseMailModule {
 		// Extended Copy Attributes
 		mailNode.setKeywords(CloneUtils.clone(keywords));
 		mailNode.setCategories(CloneUtils.clone(categories));
+
+		for (NodeProperty nProp : propertyGroups) {
+			NodeProperty nPropClone = new NodeProperty();
+			nPropClone.setNode(mailNode);
+			nPropClone.setName(nProp.getName());
+			nPropClone.setGroup(nProp.getGroup());
+			nPropClone.setValue(nProp.getValue());
+			mailNode.getProperties().add(nPropClone);
+		}
 
 		// Get parent node auth info
 		Map<String, Integer> userPerms = parentFolder.getUserPermissions();
@@ -126,6 +138,19 @@ public class BaseMailModule {
 		mailNode.setRolePermissions(CloneUtils.clone(rolePerms));
 
 		NodeMailDAO.getInstance().create(mailNode);
+
+		// Extended Copy Attributes
+		for (NodeNote nNote : CloneUtils.clone(notes)) {
+			BaseNoteModule.create(mailNode.getUuid(), nNote.getAuthor(), nNote.getText());
+		}
+
+		if (wiki != null) {
+			wiki.setNode(mailNode.getUuid());
+			wiki.setDate(Calendar.getInstance());
+			wiki.setLockUser(null);
+			wiki.setDeleted(false);
+			WikiPageDAO.create(wiki);
+		}
 
 		// AUTOMATION - POST
 		env.put(AutomationUtils.MAIL_NODE, mailNode);
@@ -169,7 +194,7 @@ public class BaseMailModule {
 		mail.setMimeType(nMail.getMimeType());
 
 		// Get attachments
-		ArrayList<Document> attachments = new ArrayList<Document>();
+		ArrayList<Document> attachments = new ArrayList<>();
 
 		for (NodeDocument nDocument : NodeDocumentDAO.getInstance().findByParent(nMail.getUuid())) {
 			attachments.add(BaseDocumentModule.getProperties(user, nDocument));
@@ -186,7 +211,7 @@ public class BaseMailModule {
 		mail.setKeywords(nMail.getKeywords());
 
 		// Get categories
-		Set<Folder> categories = new HashSet<Folder>();
+		Set<Folder> categories = new HashSet<>();
 		NodeFolderDAO nFldDao = NodeFolderDAO.getInstance();
 		Set<NodeFolder> resolvedCategories = nFldDao.resolveCategories(nMail.getCategories());
 
@@ -197,7 +222,7 @@ public class BaseMailModule {
 		mail.setCategories(categories);
 
 		// Get notes
-		List<Note> notes = new ArrayList<Note>();
+		List<Note> notes = new ArrayList<>();
 		List<NodeNote> nNoteList = NodeNoteDAO.getInstance().findByParent(nMail.getUuid());
 
 		for (NodeNote nNote : nNoteList) {
@@ -218,22 +243,47 @@ public class BaseMailModule {
 	public static NodeMail copy(String user, NodeMail srcMailNode, String dstPath, NodeFolder dstFldNode, ExtendedAttributes extAttr)
 			throws ItemExistsException, UserQuotaExceededException, PathNotFoundException, AccessDeniedException, AutomationException,
 			DatabaseException, IOException {
-		log.debug("copy({}, {}, {}, {})", new Object[]{user, srcMailNode, dstFldNode, extAttr});
+		log.debug("copy({}, {}, {}, {})", user, srcMailNode, dstFldNode, extAttr);
 		NodeMail newMail = null;
 
 		try {
-			String[] reply = (String[]) srcMailNode.getReply().toArray(new String[srcMailNode.getReply().size()]);
-			String[] to = (String[]) srcMailNode.getTo().toArray(new String[srcMailNode.getTo().size()]);
-			String[] cc = (String[]) srcMailNode.getCc().toArray(new String[srcMailNode.getCc().size()]);
-			String[] bcc = (String[]) srcMailNode.getBcc().toArray(new String[srcMailNode.getBcc().size()]);
+			String[] reply = srcMailNode.getReply().toArray(new String[0]);
+			String[] to = srcMailNode.getTo().toArray(new String[0]);
+			String[] cc = srcMailNode.getCc().toArray(new String[0]);
+			String[] bcc = srcMailNode.getBcc().toArray(new String[0]);
 
-			Set<String> keywords = new HashSet<String>();
-			Set<String> categories = new HashSet<String>();
-			Ref<FileUploadResponse> fuResponse = new Ref<FileUploadResponse>(new FileUploadResponse());
+			Set<String> keywords = new HashSet<>();
+			Set<String> categories = new HashSet<>();
+			Set<NodeProperty> propertyGroups = new HashSet<>();
+			List<NodeNote> notes = new ArrayList<>();
+			WikiPage wiki = null;
 
+			if (extAttr != null) {
+				if (extAttr.isKeywords()) {
+					keywords = srcMailNode.getKeywords();
+				}
+
+				if (extAttr.isCategories()) {
+					categories = srcMailNode.getCategories();
+				}
+
+				if (extAttr.isPropertyGroups()) {
+					propertyGroups = srcMailNode.getProperties();
+				}
+
+				if (extAttr.isNotes()) {
+					notes = NodeNoteDAO.getInstance().findByParent(srcMailNode.getUuid());
+				}
+
+				if (extAttr.isWiki()) {
+					wiki = WikiPageDAO.findLatestByNode(srcMailNode.getUuid());
+				}
+			}
+
+			Ref<FileUploadResponse> fuResponse = new Ref<>(new FileUploadResponse());
 			newMail = create(user, dstPath, dstFldNode, srcMailNode.getName(), srcMailNode.getSize(), srcMailNode.getFrom(), reply, to, cc,
 					bcc, srcMailNode.getSentDate(), srcMailNode.getReceivedDate(), srcMailNode.getSubject(), srcMailNode.getContent(),
-					srcMailNode.getMimeType(), keywords, categories, fuResponse);
+					srcMailNode.getMimeType(), keywords, categories, propertyGroups, notes, wiki, fuResponse);
 
 			// Add attachments
 			for (NodeDocument nDocument : NodeDocumentDAO.getInstance().findByParent(srcMailNode.getUuid())) {
@@ -250,7 +300,7 @@ public class BaseMailModule {
 	/**
 	 * Check recursively if the mail contains locked nodes
 	 */
-	public static boolean hasLockedNodes(String mailUuid) throws PathNotFoundException, DatabaseException, RepositoryException {
+	public static boolean hasLockedNodes(String mailUuid) throws PathNotFoundException, DatabaseException {
 		boolean hasLock = false;
 
 		for (NodeDocument nDoc : NodeDocumentDAO.getInstance().findByParent(mailUuid)) {
@@ -264,7 +314,7 @@ public class BaseMailModule {
 	 * Check if a node has removable childs TODO: Is this necessary? The access manager should prevent this and make the
 	 * core thrown an exception.
 	 */
-	public static boolean hasWriteAccess(String mailUuid) throws PathNotFoundException, DatabaseException, RepositoryException {
+	public static boolean hasWriteAccess(String mailUuid) throws PathNotFoundException, DatabaseException {
 		log.debug("hasWriteAccess({})", mailUuid);
 		DbAccessManager am = SecurityHelper.getAccessManager();
 		boolean canWrite = true;

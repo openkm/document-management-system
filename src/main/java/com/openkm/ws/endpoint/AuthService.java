@@ -35,14 +35,13 @@ import org.slf4j.LoggerFactory;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @WebService(name = "OKMAuth", serviceName = "OKMAuth", targetNamespace = "http://ws.openkm.com")
 public class AuthService {
-	private static Logger log = LoggerFactory.getLogger(AuthService.class);
+	private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
 	@WebMethod
 	public String login(@WebParam(name = "user") String user, @WebParam(name = "password") String password)
@@ -73,8 +72,7 @@ public class AuthService {
 		int i = 0;
 
 		// Marshall HashMap
-		for (Iterator<String> it = keys.iterator(); it.hasNext(); ) {
-			String key = it.next();
+		for (String key : keys) {
 			IntegerPair p = new IntegerPair();
 			p.setKey(key);
 			p.setValue(hm.get(key));
@@ -96,8 +94,7 @@ public class AuthService {
 		int i = 0;
 
 		// Marshall HashMap
-		for (Iterator<String> it = keys.iterator(); it.hasNext(); ) {
-			String key = it.next();
+		for (String key : keys) {
 			IntegerPair p = new IntegerPair();
 			p.setKey(key);
 			p.setValue(hm.get(key));
@@ -133,7 +130,7 @@ public class AuthService {
 	                      @WebParam(name = "role") String role, @WebParam(name = "permissions") int permissions,
 	                      @WebParam(name = "recursive") boolean recursive) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("grantRole({}, {}, {}, {}, {})", new Object[]{token, nodePath, role, permissions, recursive});
+		log.debug("grantRole({}, {}, {}, {}, {})", token, nodePath, role, permissions, recursive);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.grantRole(token, nodePath, role, permissions, recursive);
 		log.debug("grantRole: void");
@@ -144,7 +141,7 @@ public class AuthService {
 	                      @WebParam(name = "user") String user, @WebParam(name = "permissions") int permissions,
 	                      @WebParam(name = "recursive") boolean recursive) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("grantUser({}, {}, {}, {}, {})", new Object[]{token, nodePath, user, permissions, recursive});
+		log.debug("grantUser({}, {}, {}, {}, {})", token, nodePath, user, permissions, recursive);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.grantUser(token, nodePath, user, permissions, recursive);
 		log.debug("grantUser: void");
@@ -155,7 +152,7 @@ public class AuthService {
 	                       @WebParam(name = "role") String role, @WebParam(name = "permissions") int permissions,
 	                       @WebParam(name = "recursive") boolean recursive) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("revokeRole({}, {}, {}, {}, {})", new Object[]{token, nodePath, role, permissions, recursive});
+		log.debug("revokeRole({}, {}, {}, {}, {})", token, nodePath, role, permissions, recursive);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.revokeRole(token, nodePath, role, permissions, recursive);
 		log.debug("revokeRole: void");
@@ -166,7 +163,7 @@ public class AuthService {
 	                       @WebParam(name = "user") String user, @WebParam(name = "permissions") int permissions,
 	                       @WebParam(name = "recursive") boolean recursive) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("revokeUser({}, {}, {}, {}, {})", new Object[]{token, nodePath, user, permissions, recursive});
+		log.debug("revokeUser({}, {}, {}, {}, {})", token, nodePath, user, permissions, recursive);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.revokeUser(token, nodePath, user, permissions, recursive);
 		log.debug("revokeUser: void");

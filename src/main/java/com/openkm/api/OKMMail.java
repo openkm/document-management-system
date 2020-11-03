@@ -48,11 +48,10 @@ import java.util.UUID;
 
 /**
  * @author pavila
- *
  */
 public class OKMMail implements MailModule {
-	private static Logger log = LoggerFactory.getLogger(OKMMail.class);
-	private static OKMMail instance = new OKMMail();
+	private static final Logger log = LoggerFactory.getLogger(OKMMail.class);
+	private static final OKMMail instance = new OKMMail();
 
 	private OKMMail() {
 	}

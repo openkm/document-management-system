@@ -43,12 +43,12 @@ import java.util.List;
 
 @WebService(name = "OKMDashboard", serviceName = "OKMDashboard", targetNamespace = "http://ws.openkm.com")
 public class DashboardService {
-	private static Logger log = LoggerFactory.getLogger(DashboardService.class);
+	private static final Logger log = LoggerFactory.getLogger(DashboardService.class);
 
 	@WebMethod
 	public DashboardDocumentResult[] getUserCheckedOutDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserCheckedOutDocuments({})", new Object[]{token});
+		log.debug("getUserCheckedOutDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserCheckedOutDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -59,7 +59,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserLastModifiedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserLastModifiedDocuments({})", new Object[]{token});
+		log.debug("getUserLastModifiedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserLastModifiedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -70,7 +70,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserLockedDocuments(@WebParam(name = "token") String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("getUserLockedDocuments({})", new Object[]{token});
+		log.debug("getUserLockedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserLockedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -81,7 +81,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserSubscribedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserSubscribedDocuments({})", new Object[]{token});
+		log.debug("getUserSubscribedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserSubscribedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -92,7 +92,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardFolderResult[] getUserSubscribedFolders(@WebParam(name = "token") String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("getUserSubscribedFolders({})", new Object[]{token});
+		log.debug("getUserSubscribedFolders({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardFolderResult> col = dm.getUserSubscribedFolders(token);
 		DashboardFolderResult[] result = col.toArray(new DashboardFolderResult[col.size()]);
@@ -103,7 +103,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserLastUploadedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserLastUploadedDocuments({})", new Object[]{token});
+		log.debug("getUserLastUploadedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserLastUploadedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -114,7 +114,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserLastDownloadedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserLastDownloadedDocuments({})", new Object[]{token});
+		log.debug("getUserLastDownloadedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserLastDownloadedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -125,7 +125,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardMailResult[] getUserLastImportedMails(@WebParam(name = "token") String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("getUserLastImportedMails({})", new Object[]{token});
+		log.debug("getUserLastImportedMails({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardMailResult> col = dm.getUserLastImportedMails(token);
 		DashboardMailResult[] result = col.toArray(new DashboardMailResult[col.size()]);
@@ -136,7 +136,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getUserLastImportedMailAttachments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getUserLastImportedMailAttachments({})", new Object[]{token});
+		log.debug("getUserLastImportedMailAttachments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getUserLastImportedMailAttachments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -147,7 +147,7 @@ public class DashboardService {
 	@WebMethod
 	public long getUserDocumentsSize(@WebParam(name = "token") String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("getUserDocumentsSize({})", new Object[]{token});
+		log.debug("getUserDocumentsSize({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		long ret = dm.getUserDocumentsSize(token);
 		log.debug("getUserDocumentsSize: {}", ret);
@@ -157,7 +157,7 @@ public class DashboardService {
 	@WebMethod
 	public QueryParams[] getUserSearchs(@WebParam(name = "token") String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("getUserSearchs({})", new Object[]{token});
+		log.debug("getUserSearchs({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<QueryParams> col = dm.getUserSearchs(token);
 		QueryParams[] result = col.toArray(new QueryParams[col.size()]);
@@ -168,7 +168,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] find(@WebParam(name = "token") String token, @WebParam(name = "qpId") int qpId)
 			throws IOException, ParseException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("find({}, {})", new Object[]{token, qpId});
+		log.debug("find({}, {})", token, qpId);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.find(token, qpId);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -179,7 +179,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastWeekTopDownloadedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastWeekTopDownloadedDocuments({})", new Object[]{token});
+		log.debug("getLastWeekTopDownloadedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastWeekTopDownloadedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -190,7 +190,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastMonthTopDownloadedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastMonthTopDownloadedDocuments({})", new Object[]{token});
+		log.debug("getLastMonthTopDownloadedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastMonthTopDownloadedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -201,7 +201,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastWeekTopModifiedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastWeekTopModifiedDocuments({})", new Object[]{token});
+		log.debug("getLastWeekTopModifiedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastWeekTopModifiedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -212,7 +212,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastMonthTopModifiedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastMonthTopModifiedDocuments({})", new Object[]{token});
+		log.debug("getLastMonthTopModifiedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastMonthTopModifiedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -223,7 +223,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastModifiedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastModifiedDocuments({})", new Object[]{token});
+		log.debug("getLastModifiedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastModifiedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -234,7 +234,7 @@ public class DashboardService {
 	@WebMethod
 	public DashboardDocumentResult[] getLastUploadedDocuments(@WebParam(name = "token") String token)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getLastUploadedDocuments({})", new Object[]{token});
+		log.debug("getLastUploadedDocuments({})", token);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		List<DashboardDocumentResult> col = dm.getLastUploadedDocuments(token);
 		DashboardDocumentResult[] result = col.toArray(new DashboardDocumentResult[col.size()]);
@@ -246,7 +246,7 @@ public class DashboardService {
 	public void visiteNode(@WebParam(name = "token") String token, @WebParam(name = "source") String source,
 	                       @WebParam(name = "node") String node, @WebParam(name = "date") Calendar date) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("visiteNode({}, {}, {}, {})", new Object[]{token, source, node, date});
+		log.debug("visiteNode({}, {}, {}, {})", token, source, node, date);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		dm.visiteNode(token, source, node, date);
 		log.debug("visiteNode: void");

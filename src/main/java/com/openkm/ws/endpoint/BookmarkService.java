@@ -38,13 +38,13 @@ import java.util.List;
 
 @WebService(name = "OKMBookmark", serviceName = "OKMBookmark", targetNamespace = "http://ws.openkm.com")
 public class BookmarkService {
-	private static Logger log = LoggerFactory.getLogger(BookmarkService.class);
+	private static final Logger log = LoggerFactory.getLogger(BookmarkService.class);
 
 	@WebMethod
 	public Bookmark add(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
 	                    @WebParam(name = "name") String name) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException {
-		log.debug("add({}, {}, {})", new Object[]{token, nodePath, name});
+		log.debug("add({}, {}, {})", token, nodePath, name);
 		BookmarkModule bm = ModuleManager.getBookmarkModule();
 		Bookmark bookmark = bm.add(token, nodePath, name);
 		log.debug("add: {}", bookmark);
@@ -52,9 +52,9 @@ public class BookmarkService {
 	}
 
 	@WebMethod
-	public Bookmark get(@WebParam(name = "token") String token, @WebParam(name = "bmId") int bmId)
-			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("get({}, {})", new Object[]{token, bmId});
+	public Bookmark get(@WebParam(name = "token") String token, @WebParam(name = "bmId") int bmId) throws AccessDeniedException,
+			RepositoryException, DatabaseException {
+		log.debug("get({}, {})", token, bmId);
 		BookmarkModule bm = ModuleManager.getBookmarkModule();
 		Bookmark bookmark = bm.get(token, bmId);
 		log.debug("get: {}", bookmark);
@@ -73,7 +73,7 @@ public class BookmarkService {
 	@WebMethod
 	public Bookmark rename(@WebParam(name = "token") String token, @WebParam(name = "bmId") int bmId,
 	                       @WebParam(name = "newName") String newName) throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, bmId, newName});
+		log.debug("rename({}, {}, {})", token, bmId, newName);
 		BookmarkModule bm = ModuleManager.getBookmarkModule();
 		Bookmark bookmark = bm.rename(token, bmId, newName);
 		log.debug("rename: {}", bookmark);

@@ -33,13 +33,13 @@ import javax.jws.WebService;
 
 @WebService(name = "OKMProperty", serviceName = "OKMProperty", targetNamespace = "http://ws.openkm.com")
 public class PropertyService implements PropertyModule {
-	private static Logger log = LoggerFactory.getLogger(PropertyService.class);
+	private static final Logger log = LoggerFactory.getLogger(PropertyService.class);
 
 	@WebMethod
 	public void addCategory(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                        @WebParam(name = "catId") String catId) throws VersionException, LockException, PathNotFoundException,
+			@WebParam(name = "catId") String catId) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("addCategory({}, {}, {})", new Object[]{token, nodePath, catId});
+		log.debug("addCategory({}, {}, {})", token, nodePath, catId);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.addCategory(token, nodePath, catId);
 		log.debug("addCategory: void");
@@ -47,9 +47,9 @@ public class PropertyService implements PropertyModule {
 
 	@WebMethod
 	public void removeCategory(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                           @WebParam(name = "catId") String catId) throws VersionException, LockException, PathNotFoundException,
+			@WebParam(name = "catId") String catId) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("removeCategory({}, {}, {})", new Object[]{token, nodePath, catId});
+		log.debug("removeCategory({}, {}, {})", token, nodePath, catId);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.removeCategory(token, nodePath, catId);
 		log.debug("removeCategory: void");
@@ -57,9 +57,9 @@ public class PropertyService implements PropertyModule {
 
 	@WebMethod
 	public String addKeyword(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                         @WebParam(name = "keyword") String keyword) throws VersionException, LockException, PathNotFoundException,
+			@WebParam(name = "keyword") String keyword) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("addKeyword({}, {}, {})", new Object[]{token, nodePath, keyword});
+		log.debug("addKeyword({}, {}, {})", token, nodePath, keyword);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		String ret = pm.addKeyword(token, nodePath, keyword);
 		log.debug("addKeyword: {}", ret);
@@ -68,9 +68,9 @@ public class PropertyService implements PropertyModule {
 
 	@WebMethod
 	public void removeKeyword(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                          @WebParam(name = "keyword") String keyword) throws VersionException, LockException, PathNotFoundException,
+			@WebParam(name = "keyword") String keyword) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("removeKeyword({}, {}, {})", new Object[]{token, nodePath, keyword});
+		log.debug("removeKeyword({}, {}, {})", token, nodePath, keyword);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.removeKeyword(token, nodePath, keyword);
 		log.debug("removeKeyword: void");
@@ -78,9 +78,9 @@ public class PropertyService implements PropertyModule {
 
 	@Override
 	public void setEncryption(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	                          @WebParam(name = "cipherName") String cipherName) throws VersionException, LockException, PathNotFoundException,
+			@WebParam(name = "cipherName") String cipherName) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setEncryption({}, {}, {})", new Object[]{token, nodePath, cipherName});
+		log.debug("setEncryption({}, {}, {})", token, nodePath, cipherName);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.setEncryption(token, nodePath, cipherName);
 		log.debug("setEncryption: void");
@@ -90,7 +90,7 @@ public class PropertyService implements PropertyModule {
 	public void unsetEncryption(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath)
 			throws VersionException, LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("unsetEncryption({}, {})", new Object[]{token, nodePath});
+		log.debug("unsetEncryption({}, {})", token, nodePath);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.unsetEncryption(token, nodePath);
 		log.debug("unsetEncryption: void");
@@ -99,7 +99,7 @@ public class PropertyService implements PropertyModule {
 	@Override
 	public void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setSigned({}, {})", new Object[]{token, nodePath});
+		log.debug("setSigned({}, {})", token, nodePath);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.setSigned(token, nodePath, signed);
 		log.debug("setSigned: void");

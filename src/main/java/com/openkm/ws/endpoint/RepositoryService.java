@@ -35,7 +35,7 @@ import javax.jws.WebService;
 
 @WebService(name = "OKMRepository", serviceName = "OKMRepository", targetNamespace = "http://ws.openkm.com")
 public class RepositoryService {
-	private static Logger log = LoggerFactory.getLogger(RepositoryService.class);
+	private static final Logger log = LoggerFactory.getLogger(RepositoryService.class);
 
 	@WebMethod
 	public Folder getRootFolder(@WebParam(name = "token") String token) throws AccessDeniedException, PathNotFoundException,
@@ -117,7 +117,7 @@ public class RepositoryService {
 	}
 
 	@WebMethod
-	public String getUpdateMessage(@WebParam(name = "token") String token) throws RepositoryException, DatabaseException {
+	public String getUpdateMessage(@WebParam(name = "token") String token) throws RepositoryException {
 		log.debug("getUpdateMessage({})", token);
 		RepositoryModule rm = ModuleManager.getRepositoryModule();
 		String msg = rm.getUpdateMessage(null);
@@ -126,8 +126,8 @@ public class RepositoryService {
 	}
 
 	@WebMethod
-	public String getRepositoryUuid() throws RepositoryException, DatabaseException {
-		log.debug("getRepositoryUuid({})");
+	public String getRepositoryUuid() throws RepositoryException {
+		log.debug("getRepositoryUuid()");
 		RepositoryModule rm = ModuleManager.getRepositoryModule();
 		String uuid = rm.getRepositoryUuid(null);
 		log.debug("getRepositoryUuid: void");
