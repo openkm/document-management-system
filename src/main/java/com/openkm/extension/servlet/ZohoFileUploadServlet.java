@@ -95,8 +95,8 @@ public class ZohoFileUploadServlet extends OKMHttpServlet {
 				new DbDocumentModule().checkout(sysToken, path, zot.getUser());
 				new DbDocumentModule().checkin(sysToken, path, is, "Modified from Zoho", zot.getUser());
 			} catch (FileUploadException | PathNotFoundException | RepositoryException | DatabaseException
-					| FileSizeExceededException | UserQuotaExceededException | VirusDetectedException | VersionException
-					| LockException | AccessDeniedException | AutomationException e) {
+					| FileSizeExceededException | VirusDetectedException | LockException | AccessDeniedException
+					| AutomationException e) {
 				log.error(e.getMessage(), e);
 			} finally {
 				IOUtils.closeQuietly(is);
