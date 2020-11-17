@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017 Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,19 +21,43 @@
 
 package com.openkm.rest.util;
 
-import com.openkm.ws.common.util.FormElementComplex;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "formElementsComplex")
-public class FormElementComplexList {
-	@XmlElement(name = "formElementComplex", required = true)
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.openkm.ws.common.util.FormElementComplex;
+
+@XmlRootElement(name = "processDefinitionForm")
+public class ProcessDefinitionForm implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String key = null;
 	List<FormElementComplex> formElementsComplex = new ArrayList<FormElementComplex>();
 
-	public List<FormElementComplex> getList() {
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public List<FormElementComplex> getFormElementsComplex() {
 		return formElementsComplex;
+	}
+
+	public void setFormElementsComplex(List<FormElementComplex> formElementsComplex) {
+		this.formElementsComplex = formElementsComplex;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("key=").append(key);
+		sb.append(", formElementsComplex=").append(formElementsComplex);
+		sb.append("}");
+		return sb.toString();
 	}
 }

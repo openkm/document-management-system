@@ -23,9 +23,12 @@ package com.openkm.bean.workflow;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author pavila
  */
+@XmlRootElement(name = "transition")
 public class Transition implements Serializable, Comparable<Transition> {
 	private static final long serialVersionUID = 9113136516768190724L;
 

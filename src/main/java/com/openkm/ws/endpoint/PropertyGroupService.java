@@ -28,7 +28,7 @@ import com.openkm.core.*;
 import com.openkm.extension.core.ExtensionException;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.PropertyGroupModule;
-import com.openkm.ws.util.FormElementComplex;
+import com.openkm.ws.common.util.FormElementComplex;
 import com.openkm.ws.util.StringPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public class PropertyGroupService {
 
 	@WebMethod
 	public void removeGroup(@WebParam(name = "token") String token, @WebParam(name = "nodePath") String nodePath,
-	 		@WebParam(name = "grpName") String grpName) throws AccessDeniedException, NoSuchGroupException, LockException,
+			@WebParam(name = "grpName") String grpName) throws AccessDeniedException, NoSuchGroupException, LockException,
 			PathNotFoundException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("removeGroup({}, {}, {})", token, nodePath, grpName);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();

@@ -24,9 +24,12 @@ package com.openkm.bean.workflow;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author pavila
  */
+@XmlRootElement(name = "comment")
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 913315631264167804L;
 

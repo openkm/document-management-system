@@ -24,9 +24,12 @@ package com.openkm.bean.workflow;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author pavila
  */
+@XmlRootElement(name = "processDefinition")
 public class ProcessDefinition implements Serializable {
 	private static final long serialVersionUID = -2927429131071624036L;
 

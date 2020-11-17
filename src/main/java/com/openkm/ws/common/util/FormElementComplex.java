@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -19,18 +19,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.openkm.ws.util;
+package com.openkm.ws.common.util;
 
 import com.openkm.bean.form.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "formElementComplex")
 public class FormElementComplex implements Serializable {
-	private static Logger log = LoggerFactory.getLogger(FormElementComplex.class);
+	private static final Logger log = LoggerFactory.getLogger(FormElementComplex.class);
 	private static final long serialVersionUID = 1L;
 	private String objClass;
 	private String label;
@@ -41,8 +43,8 @@ public class FormElementComplex implements Serializable {
 	private String value;
 	private String transition;
 	private boolean readonly;
-	private List<Option> options = new ArrayList<Option>();
-	private List<Validator> validators = new ArrayList<Validator>();
+	private List<Option> options = new ArrayList<>();
+	private List<Validator> validators = new ArrayList<>();
 
 	public FormElementComplex() {
 	}

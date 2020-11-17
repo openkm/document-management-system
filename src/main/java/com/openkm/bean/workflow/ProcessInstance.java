@@ -23,6 +23,7 @@ package com.openkm.bean.workflow;
 
 import com.openkm.bean.form.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ import java.util.Map;
  * @author pavila
  */
 @XmlSeeAlso({Button.class, Input.class, TextArea.class, Select.class, CheckBox.class, SuggestBox.class})
+@XmlRootElement(name = "processInstance")
 public class ProcessInstance implements Serializable {
 	private static final long serialVersionUID = -2917421131012124036L;
 
