@@ -1,2 +1,3 @@
 #!/bin/bash
-./mvnw javadoc:javadoc -Dmaven.javadoc.failOnError=false
+
+mvn javadoc:javadoc -Dmaven.javadoc.failOnError=false
