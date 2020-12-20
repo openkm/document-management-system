@@ -27,15 +27,10 @@ import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.PropertyGroupModule;
 import com.openkm.rest.GenericException;
-import com.openkm.rest.util.FormElementComplexList;
-import com.openkm.rest.util.PropertyGroupList;
-import com.openkm.rest.util.SimplePropertyGroup;
-import com.openkm.rest.util.SimplePropertyGroupList;
-import com.openkm.rest.util.SuggestionList;
+import com.openkm.rest.util.*;
 import com.openkm.util.FormUtils;
-import com.openkm.ws.util.FormElementComplex;
+import com.openkm.ws.common.util.FormElementComplex;
 import io.swagger.annotations.Api;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.slf4j.Logger;
@@ -43,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import java.io.InputStream;
 import java.util.*;
 
@@ -58,7 +52,7 @@ public class PropertyGroupService {
 	@Path("/addGroup")
 	public void addGroup(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName) throws GenericException {
 		try {
-			log.debug("addGroup({}, {})", new Object[]{nodeId, grpName});
+			log.debug("addGroup({}, {})", nodeId, grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			cm.addGroup(null, nodeId, grpName);
 			log.debug("addGroup: void");
@@ -71,7 +65,7 @@ public class PropertyGroupService {
 	@Path("/removeGroup")
 	public void removeGroup(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName) throws GenericException {
 		try {
-			log.debug("removeGroup({}, {})", new Object[]{nodeId, grpName});
+			log.debug("removeGroup({}, {})", nodeId, grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			cm.removeGroup(null, nodeId, grpName);
 			log.debug("removeGroup: void");
@@ -113,9 +107,9 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getProperties")
 	public FormElementComplexList getProperties(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName)
-		throws GenericException {
+			throws GenericException {
 		try {
-			log.debug("getProperties({}, {})", new Object[]{nodeId, grpName});
+			log.debug("getProperties({}, {})", nodeId, grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			FormElementComplexList fecl = new FormElementComplexList();
 
@@ -134,9 +128,9 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getPropertyGroupForm")
 	public FormElementComplexList getPropertyGroupForm(@QueryParam("grpName") String grpName)
-		throws GenericException {
+			throws GenericException {
 		try {
-			log.debug("getPropertyGroupForm({})", new Object[]{grpName});
+			log.debug("getPropertyGroupForm({})", grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			FormElementComplexList fecl = new FormElementComplexList();
 
@@ -156,11 +150,11 @@ public class PropertyGroupService {
 	@Path("/setProperties")
 	// The "properties" parameter comes in the POST request body (encoded as XML or JSON).
 	public void setProperties(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName, FormElementComplexList properties)
-		throws GenericException {
+			throws GenericException {
 		try {
-			log.debug("setProperties({}, {}, {})", new Object[]{nodeId, grpName, properties});
+			log.debug("setProperties({}, {}, {})", nodeId, grpName, properties);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
-			List<FormElement> al = new ArrayList<FormElement>();
+			List<FormElement> al = new ArrayList<>();
 
 			for (FormElementComplex fec : properties.getList()) {
 				al.add(FormElementComplex.toFormElement(fec));
@@ -179,10 +173,10 @@ public class PropertyGroupService {
 	public void setPropertiesSimple(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName,
 									SimplePropertyGroupList properties) throws GenericException {
 		try {
-			log.debug("setPropertiesSimple({}, {}, {})", new Object[]{nodeId, grpName, properties});
+			log.debug("setPropertiesSimple({}, {}, {})", nodeId, grpName, properties);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
-			List<FormElement> al = new ArrayList<FormElement>();
-			HashMap<String, String> mapProps = new HashMap<String, String>();
+			List<FormElement> al = new ArrayList<>();
+			HashMap<String, String> mapProps = new HashMap<>();
 
 			// Unmarshall
 			for (SimplePropertyGroup spg : properties.getList()) {
@@ -200,7 +194,7 @@ public class PropertyGroupService {
 					} else if (fe instanceof TextArea) {
 						((TextArea) fe).setValue(value);
 					} else if (fe instanceof CheckBox) {
-						((CheckBox) fe).setValue(Boolean.valueOf(value));
+						((CheckBox) fe).setValue(Boolean.parseBoolean(value));
 					} else if (fe instanceof Select) {
 						Select sel = (Select) fe;
 
@@ -235,11 +229,11 @@ public class PropertyGroupService {
 	@Produces(MimeTypeConfig.MIME_TEXT)
 	public Boolean hasGroup(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName) throws GenericException {
 		try {
-			log.debug("hasGroup({}, {})", new Object[]{nodeId, grpName});
+			log.debug("hasGroup({}, {})", nodeId, grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			boolean ret = cm.hasGroup(null, nodeId, grpName);
 			log.debug("hasGroup: {}", ret);
-			return new Boolean(ret);
+			return ret;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -248,9 +242,9 @@ public class PropertyGroupService {
 	@GET
 	@Path("/getPropertiesSimple")
 	public SimplePropertyGroupList getPropertiesSimple(@QueryParam("nodeId") String nodeId, @QueryParam("grpName") String grpName)
-		throws GenericException {
+			throws GenericException {
 		try {
-			log.debug("getPropertiesSimple({}, {})", new Object[]{nodeId, grpName});
+			log.debug("getPropertiesSimple({}, {})", nodeId, grpName);
 			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
 			List<FormElement> formElements = cm.getProperties(null, nodeId, grpName);
 			Map<String, String> props = new HashMap<>();

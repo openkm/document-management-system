@@ -27,9 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author pavila
  */
+@XmlRootElement(name = "taskInstance")
 public class TaskInstance implements Serializable, Comparable<TaskInstance> {
 	private static final long serialVersionUID = -2927629831091624036L;
 

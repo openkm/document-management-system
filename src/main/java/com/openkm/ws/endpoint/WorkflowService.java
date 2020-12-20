@@ -29,7 +29,7 @@ import com.openkm.bean.workflow.Token;
 import com.openkm.core.*;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.WorkflowModule;
-import com.openkm.ws.util.FormElementComplex;
+import com.openkm.ws.common.util.FormElementComplex;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +89,7 @@ public class WorkflowService {
 
 	@WebMethod
 	public ProcessInstance runProcessDefinition(@WebParam(name = "token") String token, @WebParam(name = "pdId") long pdId,
-	        @WebParam(name = "uuid") String uuid, @WebParam(name = "values") FormElementComplex[] values)
+			@WebParam(name = "uuid") String uuid, @WebParam(name = "values") FormElementComplex[] values)
 			throws WorkflowException, AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("runProcessDefinition({}, {}, {}, {})", token, pdId, uuid, values);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
