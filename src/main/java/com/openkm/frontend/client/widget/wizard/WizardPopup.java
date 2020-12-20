@@ -210,7 +210,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 		@Override
 		public void onSuccess(Object result) {
 			groupIndex++;
-			
+
 			if (groupsList.size() > groupIndex) {
 				addPropertyGroups();
 			} else {
@@ -302,7 +302,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 			}
 		});
 	}
-	
+
 	/**
 	 * showNextWizard
 	 */
@@ -376,31 +376,31 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 
 			case STATUS_FINISH:
 				hide();
-				
+
 				boolean pathModified = false;
 				// check if nodePath has changed
 				if (!nodePath.equals(initialNodePath)) {
 					pathModified = true;
 				}
-				
+
 				if (jsWizard) {
 					// By default selected row after uploading is uploaded file
 					if (nodePath != null && !nodePath.equals("")) {
 						Main.get().mainPanel.desktop.browser.fileBrowser.mantainSelectedRowByPath(nodePath);
-					}					
+					}
 					Main.get().mainPanel.desktop.browser.fileBrowser.refresh(Main.get().activeFolderTree.getActualPath());
 				} else {
-					Main.get().fileUpload.resetAfterWizardFinished(!pathModified); // Restoring wizard 
+					Main.get().fileUpload.resetAfterWizardFinished(!pathModified); // Restoring wizard
 				}
-				
+
 				if (pathModified) {
 					CommonUI.openPath(Util.getParent(nodePath), nodePath);
 				}
 
 				// Clean values
 				hasKeywords = false;
-				hasCategories = false;				
-				hasWorkflows = false;				
+				hasCategories = false;
+				hasWorkflows = false;
 				break;
 		}
 	}
@@ -441,11 +441,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 		switch (status) {
 			case STATUS_PROPERTY_GROUPS:
 				if (propertyGroupWidget != null) {
-					if (propertyGroupWidget.getValidationProcessor().validate()) {
-						propertyGroupWidget.setProperties();
-					} else {
-						actualButton.setEnabled(true);
-					}
+					propertyGroupWidget.getValidationProcessor().validate(); // Allow plugins
 				}
 				break;
 
@@ -620,7 +616,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 	public GWTDocument getDocumentToSign() {
 		return docToSign;
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		if (result) {
