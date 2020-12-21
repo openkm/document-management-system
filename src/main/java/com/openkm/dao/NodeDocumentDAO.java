@@ -1156,7 +1156,10 @@ public class NodeDocumentDAO {
 			nDoc.setLock(nLock);
 			nDoc.setLocked(true);
 		} else {
-			throw new LockException("Node already locked");
+			NodeLock nLock = nDoc.getLock();
+			if (!nLock.getOwner().equals(user)) {
+				throw new LockException("Node already locked by another user");
+			}
 		}
 	}
 
