@@ -56,8 +56,8 @@ import java.io.*;
 import java.util.*;
 
 public class NodeDocumentDAO {
-	private static Logger log = LoggerFactory.getLogger(NodeDocumentDAO.class);
-	private static NodeDocumentDAO single = new NodeDocumentDAO();
+	private static final Logger log = LoggerFactory.getLogger(NodeDocumentDAO.class);
+	private static final NodeDocumentDAO single = new NodeDocumentDAO();
 	private static final String CACHE_DOCUMENTS_BY_CATEGORY = "com.openkm.cache.documentsByCategory";
 	private static final String CACHE_DOCUMENTS_BY_KEYWORD = "com.openkm.cache.documentsByKeyword";
 
@@ -73,7 +73,7 @@ public class NodeDocumentDAO {
 	 */
 	public synchronized NodeDocumentVersion create(NodeDocument nDoc, InputStream is, long size) throws PathNotFoundException, AccessDeniedException,
 			ItemExistsException, DatabaseException, IOException {
-		log.debug("create({}, {}, {})", new Object[]{nDoc, is, size});
+		log.debug("create({}, {}, {})", nDoc, is, size);
 		Session session = null;
 		Transaction tx = null;
 		NodeDocumentVersion newDocVer = new NodeDocumentVersion();
@@ -110,13 +110,7 @@ public class NodeDocumentDAO {
 
 			log.debug("create: {}", newDocVer);
 			return newDocVer;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
+		} catch (PathNotFoundException | AccessDeniedException | ItemExistsException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -191,10 +185,7 @@ public class NodeDocumentDAO {
 			log.trace("findByParent.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("findByParent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -252,7 +243,7 @@ public class NodeDocumentDAO {
 		final String qs = "from NodeDocument nd where :category in elements(nd.categories) order by nd.name";
 		final String sql = "select NBS_UUID from OKM_NODE_CATEGORY, OKM_NODE_DOCUMENT "
 				+ "where NCT_CATEGORY = :catUuid and NCT_NODE = NBS_UUID";
-		List<NodeDocument> ret = new ArrayList<NodeDocument>();
+		List<NodeDocument> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -291,10 +282,7 @@ public class NodeDocumentDAO {
 			log.trace("findByCategory.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("findByCategory: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -314,7 +302,7 @@ public class NodeDocumentDAO {
 		final String qs = "from NodeDocument nd where :keyword in elements(nd.keywords) order by nd.name";
 		final String sql = "select NBS_UUID from OKM_NODE_KEYWORD, OKM_NODE_DOCUMENT "
 				+ "where NKW_KEYWORD = :keyword and NKW_NODE = NBS_UUID";
-		List<NodeDocument> ret = new ArrayList<NodeDocument>();
+		List<NodeDocument> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -365,7 +353,7 @@ public class NodeDocumentDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<NodeDocument> findByPropertyValue(String group, String property, String value) throws DatabaseException {
-		log.debug("findByPropertyValue({}, {}, {})", property, value);
+		log.debug("findByPropertyValue({}, {}, {})", group, property, value);
 		String qs = "select nb from NodeDocument nb join nb.properties nbp where nbp.group=:group and nbp.name=:property and nbp.value like :value";
 		Session session = null;
 		Transaction tx = null;
@@ -431,7 +419,7 @@ public class NodeDocumentDAO {
 
 	@SuppressWarnings("unchecked")
 	private List<NodeDocument> findFromParentHelper(Session session, String parentUuid) throws DatabaseException, HibernateException {
-		List<NodeDocument> nodeList = new ArrayList<NodeDocument>();
+		List<NodeDocument> nodeList = new ArrayList<>();
 		String qs = "from NodeBase n where n.parent=:parent";
 		Query q = session.createQuery(qs).setCacheable(true);
 		q.setString("parent", parentUuid);
@@ -483,10 +471,7 @@ public class NodeDocumentDAO {
 			HibernateUtil.commit(tx);
 			log.debug("hasChildren: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -535,19 +520,7 @@ public class NodeDocumentDAO {
 			HibernateUtil.commit(tx);
 			log.debug("rename: {}", nDoc);
 			return nDoc;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | ItemExistsException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -599,19 +572,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("move: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | ItemExistsException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -627,7 +588,7 @@ public class NodeDocumentDAO {
 	 */
 	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException, AccessDeniedException, LockException,
 			DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[]{name, uuid, trashUuid});
+		log.debug("delete({}, {}, {})", name, uuid, trashUuid);
 		Session session = null;
 		Transaction tx = null;
 
@@ -668,16 +629,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("delete: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -710,16 +662,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("checkout: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -735,7 +678,7 @@ public class NodeDocumentDAO {
 	 */
 	public void cancelCheckout(String user, String uuid, boolean force) throws PathNotFoundException, AccessDeniedException, LockException,
 			DatabaseException {
-		log.debug("cancelCheckout({}, {}, {})", new Object[]{user, uuid, force});
+		log.debug("cancelCheckout({}, {}, {})", user, uuid, force);
 		Session session = null;
 		Transaction tx = null;
 
@@ -753,16 +696,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("cancelCheckout: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -814,19 +748,7 @@ public class NodeDocumentDAO {
 			purgeHelper(session, nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("purge: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (IOException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | IOException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -935,16 +857,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("setEncryption: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -980,16 +893,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("unsetEncryption: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -1025,16 +929,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("setSigned: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -1087,16 +982,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("setProperties: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -1129,10 +1015,7 @@ public class NodeDocumentDAO {
 			HibernateUtil.commit(tx);
 			log.debug("lock: {}", nDoc.getLock());
 			return nDoc.getLock();
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -1168,7 +1051,7 @@ public class NodeDocumentDAO {
 	 */
 	public void unlock(String user, String uuid, boolean force) throws PathNotFoundException, AccessDeniedException, DatabaseException,
 			LockException {
-		log.debug("unlock({}, {}, {})", new Object[]{user, uuid, force});
+		log.debug("unlock({}, {}, {})", user, uuid, force);
 		Session session = null;
 		Transaction tx = null;
 
@@ -1189,10 +1072,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("unlock: void");
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -1333,10 +1213,7 @@ public class NodeDocumentDAO {
 			log.trace("getSubtreeSize.Path: {}, Time: {}", path, System.currentTimeMillis() - begin);
 			log.debug("getSubtreeSize: {}", total);
 			return total;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (HibernateException e) {
+		} catch (DatabaseException | HibernateException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} finally {
@@ -1349,7 +1226,7 @@ public class NodeDocumentDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	private long getSubtreeSizeHelper(Session session, String parentUuid) throws HibernateException, DatabaseException {
-		log.debug("getSubtreeSizeHelper({})", new Object[]{parentUuid});
+		log.debug("getSubtreeSizeHelper({})", parentUuid);
 		String qs = "from NodeBase n where n.parent=:parent";
 		Query q = session.createQuery(qs).setCacheable(true);
 		q.setString("parent", parentUuid);
@@ -1398,43 +1275,6 @@ public class NodeDocumentDAO {
 	}
 
 	/**
-	 * Clear pending extraction queue
-	 * <p>
-	 * Note: the HQL query fails due to https://hibernate.atlassian.net/browse/HHH-1657
-	 */
-	public int resetPendingExtractionFlag(String docUuid) throws DatabaseException {
-		log.debug("resetPendingExtractionFlag({})", docUuid);
-		// String qs = "update NodeDocument nd set nd.textExtracted=:extracted where nd.uuid=:uuid";
-		String sql = "update OKM_NODE_DOCUMENT set NDC_TEXT='', NDC_TEXT_EXTRACTED='F' where NBS_UUID=:uuid";
-		Session session = null;
-		Transaction tx = null;
-		int rowCount = 0;
-
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			tx = session.beginTransaction();
-
-			// Query q = session.createQuery(qs);
-			// q.setBoolean("extracted", false);
-			// q.setString("uuid", docUuid);
-			// rowCount = q.executeUpdate();
-
-			SQLQuery q = session.createSQLQuery(sql);
-			q.setString("uuid", docUuid);
-			rowCount = q.executeUpdate();
-
-			HibernateUtil.commit(tx);
-			log.debug("resetPendingExtractionFlag: {}", rowCount);
-			return rowCount;
-		} catch (HibernateException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} finally {
-			HibernateUtil.close(session);
-		}
-	}
-
-	/**
 	 * Check for extraction queue
 	 */
 	public boolean hasPendingExtractions() throws DatabaseException {
@@ -1473,7 +1313,7 @@ public class NodeDocumentDAO {
 		String qsDocVer = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		Session session = null;
 		Transaction tx = null;
-		List<TextExtractorWork> ret = new ArrayList<TextExtractorWork>();
+		List<TextExtractorWork> ret = new ArrayList<>();
 
 		try {
 			long begin = System.currentTimeMillis();
@@ -1504,10 +1344,7 @@ public class NodeDocumentDAO {
 			log.trace("getPendingExtractions.MaxResults: {}, Time: {}", maxResults, System.currentTimeMillis() - begin);
 			log.debug("getPendingExtractions: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (HibernateException e) {
+		} catch (PathNotFoundException | HibernateException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {
@@ -1572,7 +1409,7 @@ public class NodeDocumentDAO {
 
 			try {
 				// AUTOMATION - PRE
-				Map<String, Object> env = new HashMap<String, Object>();
+				Map<String, Object> env = new HashMap<>();
 				env.put(AutomationUtils.DOCUMENT_NODE, nDoc);
 				AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_TEXT_EXTRACTOR, AutomationRule.AT_PRE, env);
 
@@ -1747,7 +1584,7 @@ public class NodeDocumentDAO {
 	 */
 	public void liveEditCancelCheckout(String user, String uuid, boolean force) throws PathNotFoundException, AccessDeniedException,
 			LockException, DatabaseException {
-		log.debug("liveEditCancelCheckout({}, {}, {})", new Object[]{user, uuid, force});
+		log.debug("liveEditCancelCheckout({}, {}, {})", user, uuid, force);
 		String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		Session session = null;
 		Transaction tx = null;
@@ -1779,16 +1616,7 @@ public class NodeDocumentDAO {
 			session.update(nDoc);
 			HibernateUtil.commit(tx);
 			log.debug("cancelCheckout: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | LockException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
