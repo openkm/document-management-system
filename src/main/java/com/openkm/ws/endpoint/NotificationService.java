@@ -23,6 +23,7 @@ package com.openkm.ws.endpoint;
 
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
+import com.openkm.core.LockException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.module.ModuleManager;
@@ -76,7 +77,7 @@ public class NotificationService {
 	                   @WebParam(name = "users") String[] users, @WebParam(name = "mails") String[] mails,
 	                   @WebParam(name = "message") String message, @WebParam(name = "attachment") boolean attachment) throws
 			PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
-			DatabaseException, IOException {
+			DatabaseException, IOException, LockException {
 		log.debug("notify({}, {}, {}, {}, {})", token, nodePath, users, message, attachment);
 		NotificationModule nm = ModuleManager.getNotificationModule();
 		nm.notify(token, nodePath, Arrays.asList(users), Arrays.asList(mails), message, attachment);

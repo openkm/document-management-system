@@ -79,19 +79,8 @@ public class TextToSpeechServlet extends HttpServlet {
 			fis = new FileInputStream("output.ogg");
 			IOUtils.copy(fis, os);
 			os.flush();
-		} catch (InterruptedException e) {
-			log.warn(e.getMessage(), e);
-		} catch (IOException e) {
-			log.warn(e.getMessage(), e);
-		} catch (PathNotFoundException e) {
-			log.warn(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
-			log.warn(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			log.warn(e.getMessage(), e);
-		} catch (DatabaseException e) {
-			log.warn(e.getMessage(), e);
-		} catch (ConversionException e) {
+		} catch (InterruptedException | IOException | PathNotFoundException | AccessDeniedException | RepositoryException
+				| DatabaseException | ConversionException | LockException e) {
 			log.warn(e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(fis);

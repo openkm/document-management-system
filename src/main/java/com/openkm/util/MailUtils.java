@@ -102,7 +102,7 @@ public class MailUtils {
 	public static void sendMessage(Collection<String> toAddress, String subject, String content) throws MessagingException {
 		try {
 			send(null, toAddress, subject, content, new ArrayList<>());
-		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | LockException e) {
 			log.warn(e.getMessage(), e);
 		}
 	}
@@ -120,7 +120,7 @@ public class MailUtils {
 			ArrayList<String> toList = new ArrayList<>();
 			toList.add(toAddress);
 			send(null, toList, subject, content, new ArrayList<>());
-		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | LockException e) {
 			log.warn(e.getMessage(), e);
 		}
 	}
@@ -136,7 +136,7 @@ public class MailUtils {
 	public static void sendMessage(String fromAddress, List<String> toAddress, String subject, String content) throws MessagingException {
 		try {
 			send(fromAddress, toAddress, subject, content, new ArrayList<>());
-		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | LockException e) {
 			log.warn(e.getMessage(), e);
 		}
 	}
@@ -154,7 +154,7 @@ public class MailUtils {
 			ArrayList<String> toList = new ArrayList<>();
 			toList.add(toAddress);
 			send(fromAddress, toList, subject, content, new ArrayList<>());
-		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException | LockException e) {
 			log.warn(e.getMessage(), e);
 		}
 	}
@@ -167,8 +167,9 @@ public class MailUtils {
 	 * @param text      The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
-	public static void sendDocument(String fromAddress, List<String> toAddress, String subject, String text, String docPath)
-			throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
+    public static void sendDocument(String fromAddress, List<String> toAddress, String subject, String text, String docPath)
+            throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
+            DatabaseException, LockException {
 		send(fromAddress, toAddress, subject, text, Collections.singletonList(docPath));
 	}
 
@@ -180,8 +181,9 @@ public class MailUtils {
 	 * @param text      The mail body.
 	 * @throws MessagingException If there is any error.
 	 */
-	public static void sendDocuments(String fromAddress, List<String> toAddress, String subject, String text, List<String> docsPath)
-			throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
+    public static void sendDocuments(String fromAddress, List<String> toAddress, String subject, String text,
+            List<String> docsPath) throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException,
+            IOException, DatabaseException, LockException {
 		send(fromAddress, toAddress, subject, text, docsPath);
 	}
 
@@ -192,10 +194,11 @@ public class MailUtils {
 	 * @param toAddress   Destination addresses.
 	 * @param subject     The mail subject.
 	 * @param text        The mail body.
-	 * @throws MessagingException If there is any error.
+	 * @throws MessagingException If there is any error. 
 	 */
-	private static void send(String fromAddress, Collection<String> toAddress, String subject, String text, Collection<String> docsPath)
-			throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
+    private static void send(String fromAddress, Collection<String> toAddress, String subject, String text,
+            Collection<String> docsPath) throws MessagingException, PathNotFoundException, AccessDeniedException,
+            RepositoryException, IOException, DatabaseException, LockException {
 		log.debug("send({}, {}, {}, {}, {})", fromAddress, toAddress, subject, text, docsPath);
 		List<File> tmpAttachments = new ArrayList<>();
 
@@ -227,7 +230,7 @@ public class MailUtils {
 	 */
 	public static void forwardMail(String token, String fromAddress, String toAddress, String message, String mailPath)
 			throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
-			DatabaseException {
+			DatabaseException, LockException {
 		ArrayList<String> toList = new ArrayList<>();
 		toList.add(toAddress);
 		forwardMail(token, fromAddress, toList, message, mailPath);
@@ -242,8 +245,9 @@ public class MailUtils {
 	 * @param mailId      Path of the mail to be forwarded or its UUID.
 	 * @throws MessagingException If there is any error.
 	 */
-	public static void forwardMail(String token, String fromAddress, Collection<String> toAddress, String message, String mailId)
-			throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException {
+    public static void forwardMail(String token, String fromAddress, Collection<String> toAddress, String message,
+            String mailId) throws MessagingException, PathNotFoundException, AccessDeniedException, RepositoryException,
+            IOException, DatabaseException, LockException {
 		log.debug("forwardMail({}, {}, {}, {})", token, fromAddress, toAddress, mailId);
 		Mail mail = OKMMail.getInstance().getProperties(token, mailId);
 		mail.setSubject("Fwd: " + mail.getSubject());
@@ -281,7 +285,7 @@ public class MailUtils {
 	 */
 	private static MimeMessage create(String fromAddress, Collection<String> toAddress, String subject, String text,
 			Collection<String> docsPath, List<File> tmpAttachments) throws MessagingException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, DatabaseException {
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, LockException {
 		log.debug("create({}, {}, {}, {}, {})", fromAddress, toAddress, subject, text, docsPath);
 		Session mailSession = getMailSession();
 		MimeMessage msg = new MimeMessage(mailSession);
@@ -369,7 +373,7 @@ public class MailUtils {
 	 * Create a mail from a Mail object
 	 */
 	public static MimeMessage create(String token, Mail mail) throws MessagingException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, DatabaseException {
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, LockException {
 		log.debug("create({})", mail);
 		Session mailSession = getMailSession();
 		MimeMessage msg = new MimeMessage(mailSession);

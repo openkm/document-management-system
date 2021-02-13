@@ -227,9 +227,9 @@ public class RepositoryExporter {
 	/**
 	 * Export mail from OpenKM repository to filesystem.
 	 */
-	public static ImpExpStats exportMail(String token, String mailPath, String destPath, boolean metadata,
-	                                     Writer out, InfoDecorator deco) throws PathNotFoundException, RepositoryException, DatabaseException,
-			IOException, AccessDeniedException, ParseException, NoSuchGroupException, MessagingException {
+    public static ImpExpStats exportMail(String token, String mailPath, String destPath, boolean metadata, Writer out,
+            InfoDecorator deco) throws PathNotFoundException, RepositoryException, DatabaseException, IOException,
+            AccessDeniedException, ParseException, NoSuchGroupException, MessagingException, LockException {
 		MailModule mm = ModuleManager.getMailModule();
 		MetadataAdapter ma = MetadataAdapter.getInstance(token);
 		Mail mailChild = mm.getProperties(token, mailPath);
@@ -266,8 +266,8 @@ public class RepositoryExporter {
 	 * Export document from OpenKM repository to filesystem.
 	 */
 	public static ImpExpStats exportDocument(String token, String docPath, String destPath, boolean metadata,
-	                                         boolean history, Writer out, InfoDecorator deco) throws PathNotFoundException, RepositoryException,
-			DatabaseException, IOException, AccessDeniedException, ParseException, NoSuchGroupException {
+			boolean history, Writer out, InfoDecorator deco) throws PathNotFoundException, RepositoryException,
+			DatabaseException, IOException, AccessDeniedException, ParseException, NoSuchGroupException, LockException {
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		MetadataAdapter ma = MetadataAdapter.getInstance(token);
 		Document docChild = dm.getProperties(token, docPath);

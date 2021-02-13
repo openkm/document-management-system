@@ -135,7 +135,7 @@ public class DocumentService {
 	@XmlMimeType("application/octet-stream")
 	DataHandler getContent(@WebParam(name = "token") String token, @WebParam(name = "docPath") String docPath,
 			@WebParam(name = "checkout") boolean checkout) throws RepositoryException, IOException, PathNotFoundException,
-			AccessDeniedException, DatabaseException {
+			AccessDeniedException, DatabaseException, LockException {
 		log.debug("getContent({}, {}, {})", token, docPath, checkout);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContent(token, docPath, checkout);

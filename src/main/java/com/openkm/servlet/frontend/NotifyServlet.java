@@ -25,6 +25,7 @@ import com.openkm.api.OKMAuth;
 import com.openkm.api.OKMNotification;
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
+import com.openkm.core.LockException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.frontend.client.OKMException;
@@ -141,7 +142,10 @@ public class NotifyServlet extends OKMRemoteServiceServlet implements OKMNotifyS
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMNotifyService, ErrorCode.CAUSE_IO), e.getMessage());
-		}
+		} catch (LockException e) {
+            log.error(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMNotifyService, ErrorCode.CAUSE_Lock), e.getMessage());
+        }
 
 		log.debug("notify: void");
 	}

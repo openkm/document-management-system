@@ -60,10 +60,9 @@ public class RepositoryS3Backup {
 	 * Performs a recursive repository content export with metadata
 	 */
 	public static ImpExpStats backup(String token, String fldPath, String bucket, boolean metadata, Writer out,
-	                                 InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException,
-			FileNotFoundException, ParseException, NoSuchGroupException, IOException, DatabaseException,
-			GeneralException {
-		log.debug("backup({}, {}, {}, {}, {}, {})", new Object[]{token, fldPath, bucket, metadata, out, deco});
+			InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException, ParseException,
+			NoSuchGroupException, IOException, DatabaseException, GeneralException, LockException {
+		log.debug("backup({}, {}, {}, {}, {}, {})", token, fldPath, bucket, metadata, out, deco);
 		ImpExpStats stats = null;
 
 		if (running) {
@@ -98,9 +97,9 @@ public class RepositoryS3Backup {
 	 * Performs a recursive repository content export with metadata
 	 */
 	private static ImpExpStats backupHelper(String token, String fldPath, AmazonS3 s3, String bucket, boolean metadata,
-	                                        Writer out, InfoDecorator deco) throws FileNotFoundException, PathNotFoundException, AccessDeniedException,
-			ParseException, NoSuchGroupException, RepositoryException, IOException, DatabaseException {
-		log.info("backup({}, {}, {}, {}, {}, {})", new Object[]{token, fldPath, bucket, metadata, out, deco});
+			Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, ParseException,
+			NoSuchGroupException, RepositoryException, IOException, DatabaseException, LockException {
+		log.info("backup({}, {}, {}, {}, {}, {})", token, fldPath, bucket, metadata, out, deco);
 		ImpExpStats stats = new ImpExpStats();
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		FolderModule fm = ModuleManager.getFolderModule();

@@ -812,7 +812,9 @@ public class CmisRepository {
 			throw new CmisStorageException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw new CmisStorageException(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (LockException e) {
+            throw new CmisStorageException(e.getMessage(), e);
+        } catch (IOException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}

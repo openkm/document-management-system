@@ -98,7 +98,7 @@ public class OKMDocument implements DocumentModule {
 
 	@Override
 	public InputStream getContent(String token, String docId, boolean checkout) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, DatabaseException {
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, LockException {
 		log.debug("getContent({}, {}, {})", new Object[]{token, docId, checkout});
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContent(token, docId, checkout);

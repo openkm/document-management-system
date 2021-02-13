@@ -31,6 +31,7 @@ import com.openkm.api.OKMMail;
 import com.openkm.bean.Mail;
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
+import com.openkm.core.LockException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.util.MailUtils;
@@ -148,7 +149,10 @@ public class MailResource implements CopyableResource, DeletableResource, Getabl
 		} catch (MessagingException e) {
 			log.error("MessagingException: " + e.getMessage(), e);
 			throw new RuntimeException("Failed to update content: " + mail.getPath());
-		}
+		} catch (LockException e) {
+            log.error("LockException: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update content: " + mail.getPath());
+        }
 	}
 
 	@Override

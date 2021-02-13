@@ -135,7 +135,10 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMZohoService, ErrorCode.CAUSE_IO), e.getMessage());
-		}
+		} catch (LockException e) {
+            log.error(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMZohoService, ErrorCode.CAUSE_Lock), e.getMessage());
+        }
 
 		log.debug("getZohoWriterUrl: {}", result);
 		return result;
@@ -168,7 +171,10 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMZohoService, ErrorCode.CAUSE_IO), e.getMessage());
-		}
+		} catch (LockException e) {
+            log.error(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMZohoService, ErrorCode.CAUSE_Lock), e.getMessage());
+        }
 
 		log.debug("getZohoSheetUrl: {}", result);
 		return result;
@@ -188,10 +194,10 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 	}
 
 	/**
-	 *
+	 * sendToZoho
 	 */
 	private Map<String, String> sendToZoho(String zohoUrl, String nodeUuid, String lang) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException, IOException, OKMException {
+			AccessDeniedException, RepositoryException, DatabaseException, IOException, OKMException, LockException {
 		Map<String, String> result = new HashMap<String, String>();
 		File tmp = null;
 

@@ -44,7 +44,7 @@ import java.io.PrintWriter;
  * Syntax Highlighter Servlet
  */
 public class SyntaxHighlighterServlet extends BaseServlet {
-	private static Logger log = LoggerFactory.getLogger(SyntaxHighlighterServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(SyntaxHighlighterServlet.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -65,13 +65,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 			CharsetMatch cm = detector.detect();
 			String content = cm.getString();
 			handlePreviewContent(request, response, mimeType, content, core, theme);
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | RepositoryException | LockException e) {
 			sendErrorRedirect(request, response, e);
 		} finally {
 			IOUtils.closeQuietly(fis);
@@ -95,8 +89,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 	/**
 	 * Used when no syntax highlight
 	 */
-	private void sendContent(HttpServletRequest request, HttpServletResponse response, String content) throws ServletException,
-			IOException {
+	private void sendContent(HttpServletRequest request, HttpServletResponse response, String content) throws IOException {
 		PrintWriter out = response.getWriter();
 		out.print(content);
 		out.flush();

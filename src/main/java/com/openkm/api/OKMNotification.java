@@ -23,6 +23,7 @@ package com.openkm.api;
 
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
+import com.openkm.core.LockException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.module.ModuleManager;
@@ -81,7 +82,7 @@ public class OKMNotification implements NotificationModule {
 	@Override
 	public void notify(String token, String nodeId, List<String> users, List<String> mails, String message, boolean attachment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
-			DatabaseException, IOException {
+			DatabaseException, IOException, LockException {
 		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodeId, users, mails, message, attachment});
 		NotificationModule nm = ModuleManager.getNotificationModule();
 		nm.notify(token, nodeId, users, mails, message, attachment);
