@@ -429,7 +429,7 @@ public class ConfigServlet extends BaseServlet {
 
 			out.print("<li>");
 			out.print("<b>" + com.openkm.core.Config.PROPERTY_SYSTEM_OPENOFFICE_PROGRAM + "</b>");
-			checkExecutable(out, com.openkm.core.Config.PROPERTY_SYSTEM_OPENOFFICE_PROGRAM);
+			checkExecutable(out, com.openkm.core.Config.SYSTEM_OPENOFFICE_PROGRAM);
 			out.print("</li>");
 
 			out.println("</ul>");
