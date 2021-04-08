@@ -21,22 +21,6 @@
 
 package com.openkm.servlet.frontend;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.api.OKMDocument;
 import com.openkm.api.OKMMail;
 import com.openkm.api.OKMRepository;
@@ -51,6 +35,19 @@ import com.openkm.frontend.client.constants.service.ErrorCode;
 import com.openkm.util.*;
 import com.openkm.util.impexp.RepositoryExporter;
 import com.openkm.util.impexp.TextInfoDecorator;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Document download servlet
@@ -219,8 +216,9 @@ public class DownloadServlet extends OKMHttpServlet {
 	/**
 	 * Generate a zip file from a repository folder path
 	 */
-	private void exportFolderAsZip(String fldPath, OutputStream os) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, ArchiveException, ParseException, NoSuchGroupException, IOException, DatabaseException, MessagingException {
+    private void exportFolderAsZip(String fldPath, OutputStream os) throws PathNotFoundException, AccessDeniedException,
+			RepositoryException, ParseException, NoSuchGroupException, IOException, DatabaseException, MessagingException,
+			LockException {
 		log.debug("exportFolderAsZip({}, {})", fldPath, os);
 		StringWriter out = new StringWriter();
 		FileOutputStream fos = null;
@@ -263,8 +261,8 @@ public class DownloadServlet extends OKMHttpServlet {
 	 * Generate a zip file from a list of documents
 	 */
 	private void exportDocumentsAsZip(List<String> paths, OutputStream os, String zipname) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, ArchiveException, ParseException, NoSuchGroupException, IOException,
-			DatabaseException {
+			AccessDeniedException, RepositoryException, ParseException, NoSuchGroupException, IOException, DatabaseException,
+			LockException {
 		log.debug("exportDocumentsAsZip({}, {})", paths, os);
 		StringWriter out = new StringWriter();
 		File tmp = null;
@@ -296,7 +294,7 @@ public class DownloadServlet extends OKMHttpServlet {
 	 * Generate a jar file from a repository folder path
 	 */
 	private void exportFolderAsJar(String fldPath, OutputStream os) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, ArchiveException, ParseException, NoSuchGroupException, IOException, DatabaseException, MessagingException {
+			RepositoryException, ParseException, NoSuchGroupException, IOException, DatabaseException, MessagingException {
 		log.debug("exportFolderAsJar({}, {})", fldPath, os);
 		StringWriter out = new StringWriter();
 		File tmp = null;

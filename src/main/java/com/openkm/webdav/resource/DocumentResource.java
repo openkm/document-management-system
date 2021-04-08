@@ -133,7 +133,10 @@ public class DocumentResource implements CopyableResource, DeletableResource, Ge
 		} catch (DatabaseException e) {
 			log.error("DatabaseException: " + e.getMessage(), e);
 			throw new RuntimeException("Failed to update content: " + doc.getPath());
-		} finally {
+		} catch (LockException e) {
+            log.error("LockException: " + e.getMessage(), e);
+            throw new RuntimeException("Failed to update content: " + doc.getPath());
+        } finally {
 			IOUtils.closeQuietly(is);
 		}
 	}

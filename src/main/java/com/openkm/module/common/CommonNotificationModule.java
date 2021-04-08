@@ -30,7 +30,6 @@ import com.openkm.util.TemplateUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.apache.commons.httpclient.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.Twitter;
@@ -44,16 +43,16 @@ import java.io.StringWriter;
 import java.util.*;
 
 public class CommonNotificationModule {
-	private static Logger log = LoggerFactory.getLogger(CommonNotificationModule.class);
+	private static final Logger log = LoggerFactory.getLogger(CommonNotificationModule.class);
 
 	/**
 	 * Clean preview cache for this document
 	 */
 	public static void sendNotification(String user, String nodeUuid, String nodePath, String from, List<String> to, String message,
-	                                    boolean attachment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, IOException {
-		log.debug("sendNotification({}, {}, {}, {}, {}, {}, {})", new Object[]{user, nodeUuid, nodePath, from, to, message, attachment});
-		ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<CommonNotificationModule.NodeInfo>();
+			boolean attachment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException, IOException, LockException {
+		log.debug("sendNotification({}, {}, {}, {}, {}, {}, {})", user, nodeUuid, nodePath, from, to, message, attachment);
+		ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<>();
 		CommonNotificationModule.NodeInfo nodeInfo = new NodeInfo();
 		nodeInfo.setUuid(nodeUuid);
 		nodeInfo.setPath(nodePath);
@@ -62,17 +61,17 @@ public class CommonNotificationModule {
 	}
 
 	public static void sendNotification(String user, ArrayList<CommonNotificationModule.NodeInfo> nodesInfo, String from, List<String> to,
-	                                    String message, boolean attachment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, IOException {
-		log.debug("sendNotification({}, {}, {}, {}, {}, {})", new Object[]{user, nodesInfo, from, to, message, attachment});
+			String message, boolean attachment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException, IOException, LockException {
+		log.debug("sendNotification({}, {}, {}, {}, {}, {})", user, nodesInfo, from, to, message, attachment);
 		StringWriter swSubject = new StringWriter();
 		StringWriter swBody = new StringWriter();
 		Configuration cfg = TemplateUtils.getConfig();
-		List<String> docsPath = new ArrayList<String>();
-		Collection<Map<String, String>> col = new ArrayList<Map<String, String>>();
+		List<String> docsPath = new ArrayList<>();
+		Collection<Map<String, String>> col = new ArrayList<>();
 
 		for (CommonNotificationModule.NodeInfo ni : nodesInfo) {
-			Map<String, String> docInfo = new HashMap<String, String>();
+			Map<String, String> docInfo = new HashMap<>();
 			docInfo.put("url", Config.APPLICATION_URL + "?uuid=" + ni.getUuid());
 			docInfo.put("path", ni.getPath());
 			docInfo.put("name", PathUtils.getName(ni.getPath()));
@@ -82,7 +81,7 @@ public class CommonNotificationModule {
 			docsPath.add(ni.getPath());
 		}
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("userId", user);
 		model.put("notificationMessage", message);
 		model.put("documentList", col);
@@ -108,9 +107,9 @@ public class CommonNotificationModule {
 		}
 
 		if (attachment) {
-			MailUtils.sendDocuments((String) from, to, swSubject.toString(), swBody.toString(), docsPath);
+			MailUtils.sendDocuments(from, to, swSubject.toString(), swBody.toString(), docsPath);
 		} else {
-			MailUtils.sendMessage((String) from, to, swSubject.toString(), swBody.toString());
+			MailUtils.sendMessage(from, to, swSubject.toString(), swBody.toString());
 		}
 	}
 
@@ -118,17 +117,17 @@ public class CommonNotificationModule {
 	 * send mail Proposed Subscription
 	 */
 	public static void sendProposedSubscription(String user, ArrayList<CommonNotificationModule.NodeInfo> nodesInfo, String from,
-	                                            List<String> to, String comment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
+			List<String> to, String comment) throws TemplateException, MessagingException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException, IOException {
-		log.debug("sendProposedSubscription({}, {}, {}, {}, {})", new Object[]{user, nodesInfo, from, to, comment});
+		log.debug("sendProposedSubscription({}, {}, {}, {}, {})", user, nodesInfo, from, to, comment);
 		StringWriter swSubject = new StringWriter();
 		StringWriter swBody = new StringWriter();
 		Configuration cfg = TemplateUtils.getConfig();
-		List<String> docsPath = new ArrayList<String>();
-		Collection<Map<String, String>> col = new ArrayList<Map<String, String>>();
+		List<String> docsPath = new ArrayList<>();
+		Collection<Map<String, String>> col = new ArrayList<>();
 
 		for (CommonNotificationModule.NodeInfo ni : nodesInfo) {
-			Map<String, String> docInfo = new HashMap<String, String>();
+			Map<String, String> docInfo = new HashMap<>();
 			docInfo.put("url", Config.APPLICATION_URL + "?uuid=" + ni.getUuid());
 			docInfo.put("path", ni.getPath());
 			docInfo.put("name", PathUtils.getName(ni.getPath()));
@@ -138,7 +137,7 @@ public class CommonNotificationModule {
 			docsPath.add(ni.getPath());
 		}
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("userId", user);
 		model.put("proposedSubscriptionComment", comment);
 		model.put("documentList", col);
@@ -163,15 +162,15 @@ public class CommonNotificationModule {
 			sr.close();
 		}
 
-		MailUtils.sendMessage((String) from, to, swSubject.toString(), swBody.toString());
+		MailUtils.sendMessage(from, to, swSubject.toString(), swBody.toString());
 	}
 
 	/**
 	 * Send mail subscription message
 	 */
 	public static void sendMailSubscription(String user, String nodeUuid, String nodePath, String eventType, String comment,
-	                                        Set<String> mails) throws TemplateException, MessagingException, IOException {
-		log.debug("sendMailSubscription({}, {}, {}, {}, {}, {})", new Object[]{user, nodeUuid, nodePath, eventType, comment, mails});
+		Set<String> mails) throws TemplateException, MessagingException, IOException {
+		log.debug("sendMailSubscription({}, {}, {}, {}, {}, {})", user, nodeUuid, nodePath, eventType, comment, mails);
 
 		if (comment == null) {
 			comment = "";
@@ -181,7 +180,7 @@ public class CommonNotificationModule {
 		StringWriter swBody = new StringWriter();
 		Configuration cfg = TemplateUtils.getConfig();
 
-		Map<String, String> model = new HashMap<String, String>();
+		Map<String, String> model = new HashMap<>();
 		model.put("documentUrl", Config.APPLICATION_URL + "?uuid=" + nodeUuid);
 		model.put("documentPath", nodePath);
 		model.put("documentName", PathUtils.getName(nodePath));
@@ -216,13 +215,13 @@ public class CommonNotificationModule {
 	 * Send twitter subscription message
 	 */
 	public static void sendTwitterSubscription(String user, String nodePath, String eventType, String comment, Set<String> users)
-			throws TemplateException, TwitterException, DatabaseException, HttpException, IOException {
-		log.debug("sendTwitterSubscription({}, {}, {}, {}, {})", new Object[]{user, nodePath, eventType, comment, users});
+			throws TemplateException, TwitterException, DatabaseException, IOException {
+		log.debug("sendTwitterSubscription({}, {}, {}, {}, {})", user, nodePath, eventType, comment, users);
 		Twitter twitter = new Twitter(Config.SUBSCRIPTION_TWITTER_USER, Config.SUBSCRIPTION_TWITTER_PASSWORD);
 		StringWriter swStatus = new StringWriter();
 		Configuration cfg = TemplateUtils.getConfig();
 
-		Map<String, String> model = new HashMap<String, String>();
+		Map<String, String> model = new HashMap<>();
 		model.put("documentUrl", MailUtils.getTinyUrl(Config.APPLICATION_URL + "?docPath=" + nodePath));
 		model.put("documentPath", nodePath);
 		model.put("documentName", PathUtils.getName(nodePath));
@@ -246,8 +245,7 @@ public class CommonNotificationModule {
 
 			for (Iterator<TwitterAccount> itTwitter = twitterAccounts.iterator(); itTwitter.hasNext(); ) {
 				TwitterAccount ta = itTwitter.next();
-				log.info("Twitter Notify from {} to {} ({}) - {}", new Object[]{twitter.getUserId(), ta.getTwitterUser(), itUser,
-						swStatus.toString()});
+				log.info("Twitter Notify from {} to {} ({}) - {}", twitter.getUserId(), ta.getTwitterUser(), itUser, swStatus);
 				twitter.sendDirectMessage(ta.getTwitterUser(), swStatus.toString());
 			}
 		}

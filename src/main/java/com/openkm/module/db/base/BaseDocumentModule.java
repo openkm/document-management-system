@@ -28,8 +28,8 @@ import com.openkm.bean.*;
 import com.openkm.bean.workflow.ProcessDefinition;
 import com.openkm.bean.workflow.ProcessInstance;
 import com.openkm.cache.UserItemsManager;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.dao.bean.cache.UserItems;
@@ -279,8 +279,12 @@ public class BaseDocumentModule {
 	 *        This is used to enable the document preview.
 	 */
 	public static InputStream getContent(String user, String docUuid, String docPath, boolean checkout, boolean extendedSecurity)
-			throws IOException, PathNotFoundException, AccessDeniedException, DatabaseException {
+			throws IOException, PathNotFoundException, AccessDeniedException, DatabaseException, LockException {
 		InputStream is = NodeDocumentVersionDAO.getInstance().getCurrentContentByParent(docUuid, extendedSecurity);
+
+		if (checkout) {
+		    NodeDocumentDAO.getInstance().checkout(user, docUuid);
+		}
 
 		// Activity log
 		UserActivity.log(user, (checkout ? "GET_DOCUMENT_CONTENT_CHECKOUT" : "GET_DOCUMENT_CONTENT"), docUuid, docPath,

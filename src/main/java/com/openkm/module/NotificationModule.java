@@ -21,10 +21,7 @@
 
 package com.openkm.module;
 
-import com.openkm.core.AccessDeniedException;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.PathNotFoundException;
-import com.openkm.core.RepositoryException;
+import com.openkm.core.*;
 import com.openkm.principal.PrincipalAdapterException;
 
 import java.io.IOException;
@@ -41,8 +38,8 @@ public interface NotificationModule {
 	 * @throws AccessDeniedException If the token authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void subscribe(String token, String nodePath) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException;
+	void subscribe(String token, String nodePath) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			DatabaseException;
 
 	/**
 	 * Remove an user subscription from a node.
@@ -52,8 +49,8 @@ public interface NotificationModule {
 	 * @throws AccessDeniedException If the token authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void unsubscribe(String token, String nodePath) throws PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException;
+	void unsubscribe(String token, String nodePath) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			DatabaseException;
 
 	/**
 	 * Get user subscriptions from am item (document or folder).
@@ -64,7 +61,7 @@ public interface NotificationModule {
 	 * @throws AccessDeniedException If the token authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public Set<String> getSubscriptors(String token, String nodePath) throws PathNotFoundException, AccessDeniedException,
+	Set<String> getSubscriptors(String token, String nodePath) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
@@ -78,24 +75,17 @@ public interface NotificationModule {
 	 * @throws AccessDeniedException If the token authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void notify(String token, String nodeId, List<String> users, List<String> mails, String message, boolean attachment)
+	void notify(String token, String nodeId, List<String> users, List<String> mails, String message, boolean attachment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
-			DatabaseException, IOException;
+			DatabaseException, IOException, LockException;
 
 	/**
 	 *  Send a proposedSubscription comment to an user list.
 	 *
 	 * @param nodeId The complete path to the node or its UUID.
 	 * @param users Array of users to proposedSubscription.
-	 * @param comment An String with the notification message.	 * 
-	 * @throws PathNotFoundException
-	 * @throws AccessDeniedException
-	 * @throws PrincipalAdapterException
-	 * @throws RepositoryException
-	 * @throws DatabaseException
-	 * @throws IOException
+	 * @param comment An String with the notification message.
 	 */
-	public void proposedSubscription(String token, String nodeId, List<String> users, String comment)
-			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
-			DatabaseException, IOException;
+	void proposedSubscription(String token, String nodeId, List<String> users, String comment) throws PathNotFoundException,
+			AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException, IOException;
 }

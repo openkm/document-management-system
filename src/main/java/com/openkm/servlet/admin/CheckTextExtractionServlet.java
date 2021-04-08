@@ -150,15 +150,7 @@ public class CheckTextExtractionServlet extends BaseServlet {
 				sc.setAttribute("extractor", extractor);
 				sc.getRequestDispatcher("/admin/check_text_extraction.jsp").forward(request, response);
 			}
-		} catch (DatabaseException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (FileUploadException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
+		} catch (DatabaseException | FileUploadException | PathNotFoundException | AccessDeniedException | RepositoryException | LockException e) {
 			sendErrorRedirect(request, response, e);
 		} finally {
 			IOUtils.closeQuietly(is);

@@ -22,10 +22,7 @@
 package com.openkm.servlet;
 
 import com.openkm.api.OKMDocument;
-import com.openkm.core.AccessDeniedException;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.PathNotFoundException;
-import com.openkm.core.RepositoryException;
+import com.openkm.core.*;
 import com.openkm.servlet.admin.BaseServlet;
 import com.openkm.util.WebUtils;
 import org.apache.commons.io.IOUtils;
@@ -71,7 +68,7 @@ public class HtmlPreviewServlet extends BaseServlet {
 			sc.setAttribute("cssTheme", theme);
 			sc.setAttribute("content", content);
 			sc.getRequestDispatcher("/html_preview.jsp").forward(request, response);
-		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException | LockException e) {
 			sendErrorRedirect(request, response, e);
 		} finally {
 			IOUtils.closeQuietly(fis);

@@ -422,6 +422,10 @@ public class MailServlet extends OKMRemoteServiceServlet implements OKMMailServi
 			log.warn(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMMailService, ErrorCode.CAUSE_Database),
 					e.getMessage());
-		}
+		} catch (LockException e) {
+            log.warn(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMMailService, ErrorCode.CAUSE_Lock),
+                    e.getMessage());
+        }
 	}
 }

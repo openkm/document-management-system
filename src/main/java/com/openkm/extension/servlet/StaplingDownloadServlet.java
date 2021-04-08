@@ -75,7 +75,7 @@ public class StaplingDownloadServlet extends BaseServlet {
 	}
 
 	/**
-	 * Generate a zip file from a repository folder path   
+	 * Generate a zip file from a repository folder path
 	 */
 	private void exportZip(int sgId, OutputStream os) throws RepositoryException, IOException,
 			DatabaseException {
@@ -116,10 +116,7 @@ public class StaplingDownloadServlet extends BaseServlet {
 							bw.flush();
 						}
 					}
-				} catch (PathNotFoundException e) {
-					bw.write(path != null ? path : nodeUuid + " - " + e.getMessage() + "\n");
-					bw.flush();
-				} catch (AccessDeniedException e) {
+				} catch (PathNotFoundException | AccessDeniedException | LockException e) {
 					bw.write(path != null ? path : nodeUuid + " - " + e.getMessage() + "\n");
 					bw.flush();
 				}

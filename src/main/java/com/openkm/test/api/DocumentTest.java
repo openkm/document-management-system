@@ -99,7 +99,7 @@ public class DocumentTest extends TestCase {
 	@Test
 	public void testCreateSimple() throws IOException, UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException,
 			VirusDetectedException, ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException,
-			DatabaseException, ExtensionException, AutomationException {
+			DatabaseException, ExtensionException, AutomationException, LockException {
 		String locContent = "Sample text";
 		Document piNew = okmDocument.createSimple(token, BASE + "/pi.txt", new ByteArrayInputStream(locContent.getBytes()));
 		assertNotNull(piNew);

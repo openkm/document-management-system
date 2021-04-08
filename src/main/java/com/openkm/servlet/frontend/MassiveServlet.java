@@ -704,7 +704,10 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMNotifyService, ErrorCode.CAUSE_Database), e.getMessage());
-		} catch (IOException e) {
+		} catch (LockException e) {
+            log.error(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMNotifyService, ErrorCode.CAUSE_Lock), e.getMessage());
+        } catch (IOException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMNotifyService, ErrorCode.CAUSE_IO), e.getMessage());
 		}
@@ -768,7 +771,10 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		} catch (DatabaseException e) {
 			log.warn(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMMailService, ErrorCode.CAUSE_Database), e.getMessage());
-		}
+		} catch (LockException e) {
+            log.warn(e.getMessage(), e);
+            throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMMailService, ErrorCode.CAUSE_Lock), e.getMessage());
+        }
 	}
 
 	@Override

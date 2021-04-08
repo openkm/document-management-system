@@ -122,9 +122,10 @@ public interface DocumentModule {
 	 *         permissions. Related to extended security.
 	 * @throws RepositoryException If there is any general repository problem.
 	 * @throws IOException An error when retrieving document data from the repository.
+	 * @throws LockException A locked document can't be modified.
 	 */
 	public InputStream getContent(String token, String docId, boolean checkout) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, IOException, DatabaseException;
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, LockException;
 
 	/**
 	 * Obtain document content from the repository.
