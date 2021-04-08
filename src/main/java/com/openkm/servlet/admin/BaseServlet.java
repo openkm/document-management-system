@@ -23,8 +23,8 @@ public class BaseServlet extends HttpServlet {
 	/**
 	 * Dispatch errors
 	 */
-	protected void sendErrorRedirect(HttpServletRequest request, HttpServletResponse response,
-	                                 Throwable e) throws ServletException, IOException {
+	protected void sendErrorRedirect(HttpServletRequest request, HttpServletResponse response, Throwable e) throws
+			ServletException, IOException {
 		request.setAttribute("javax.servlet.jsp.jspException", e);
 		ServletContext sc = getServletConfig().getServletContext();
 		sc.getRequestDispatcher("/error.jsp").forward(request, response);
@@ -51,7 +51,7 @@ public class BaseServlet extends HttpServlet {
 	public boolean isPost(HttpServletRequest request) {
 		return WebUtils.METHOD_POST.equals(request.getMethod());
 	}
-	
+
 	/**
 	 * Test if an user can access to administration
 	 */

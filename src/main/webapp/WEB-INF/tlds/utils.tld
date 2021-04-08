@@ -6,7 +6,7 @@
   <tlib-version>1.0</tlib-version>
   <short-name>u</short-name>
   <uri>http://www.openkm.com/tags/utils</uri>
-  
+
   <!-- Tags -->
   <tag>
     <name>formatSize</name>
@@ -93,19 +93,19 @@
     <tag-class>com.openkm.util.tags.ConstantsMapTag</tag-class>
     <body-content>empty</body-content>
     <attribute>
-        <name>className</name>
-        <required>true</required>
-        <rtexprvalue>true</rtexprvalue>
+      <name>className</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-        <name>var</name>
-        <required>true</required>
-        <rtexprvalue>false</rtexprvalue>
+      <name>var</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
     <attribute>
-        <name>scope</name>
-        <required>false</required>
-        <rtexprvalue>false</rtexprvalue>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
     </attribute>
   </tag>
   <tag>
@@ -168,7 +168,7 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
-  
+
   <!-- Functions -->
   <function>
     <name>contains</name>
