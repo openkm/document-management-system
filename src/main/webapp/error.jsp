@@ -34,7 +34,7 @@
     </tr>
     <tr>
       <td><b>Message:</b></td>
-      <td><%=((OKMException) exception).getMessage() %></td>
+      <td><%=FormatUtil.sanitizeInput(exception.getMessage()) %></td>
     </tr>
     <% } else if (exception instanceof TargetError) { %>
     <tr>
@@ -52,7 +52,7 @@
     <% } else { %>
     <tr>
       <td><b>Message:</b></td>
-      <td><%=exception.getMessage() %></td>
+      <td><%=FormatUtil.sanitizeInput(exception.getMessage()) %></td>
     </tr>
     <% } %>
     <tr>

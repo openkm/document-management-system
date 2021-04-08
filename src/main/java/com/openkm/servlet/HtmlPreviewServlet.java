@@ -46,7 +46,7 @@ import java.io.StringWriter;
  * Take a look at available brushes alias at http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/
  */
 public class HtmlPreviewServlet extends BaseServlet {
-	private static Logger log = LoggerFactory.getLogger(HtmlPreviewServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(HtmlPreviewServlet.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -71,13 +71,7 @@ public class HtmlPreviewServlet extends BaseServlet {
 			sc.setAttribute("cssTheme", theme);
 			sc.setAttribute("content", content);
 			sc.getRequestDispatcher("/html_preview.jsp").forward(request, response);
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException e) {
 			sendErrorRedirect(request, response, e);
 		} finally {
 			IOUtils.closeQuietly(fis);
