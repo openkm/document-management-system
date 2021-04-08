@@ -194,7 +194,7 @@ public class MailUtils {
 	 * @param toAddress   Destination addresses.
 	 * @param subject     The mail subject.
 	 * @param text        The mail body.
-	 * @throws MessagingException If there is any error. 
+	 * @throws MessagingException If there is any error.
 	 */
     private static void send(String fromAddress, Collection<String> toAddress, String subject, String text,
             Collection<String> docsPath) throws MessagingException, PathNotFoundException, AccessDeniedException,
@@ -586,6 +586,7 @@ public class MailUtils {
 
 		for (int i = 0; i < messages.length; i++) {
 			Message msg = messages[i];
+			boolean isSeen = msg.isSet(Flags.Flag.SEEN);
 			log.info("======= ======= {} ======= =======", i);
 			log.info("Folder: {}", folder);
 			log.info("Subject: {}", msg.getSubject());
@@ -620,7 +621,7 @@ public class MailUtils {
 				if (ma.isMailMarkSeen()) {
 					msg.setFlag(Flags.Flag.SEEN, true);
 				} else {
-					msg.setFlag(Flags.Flag.SEEN, false);
+					msg.setFlag(Flags.Flag.SEEN, isSeen);
 				}
 
 				// Delete read mail if requested
