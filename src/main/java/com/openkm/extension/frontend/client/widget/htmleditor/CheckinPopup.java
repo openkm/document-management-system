@@ -27,7 +27,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
-import com.openkm.frontend.client.extension.comunicator.FileBrowserComunicator;
+import com.openkm.frontend.client.extension.comunicator.FileBrowserCommunicator;
 import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 import com.openkm.frontend.client.service.OKMDocumentService;
 import com.openkm.frontend.client.service.OKMDocumentServiceAsync;
@@ -204,7 +204,7 @@ public class CheckinPopup extends DialogBox {
 								@Override
 								public void onSuccess(String result) {
 									hide();
-									FileBrowserComunicator.refreshOnlyFileBrowser();
+									FileBrowserCommunicator.refreshOnlyFileBrowser();
 									Main.get().mainPanel.dashboard.userDashboard.getUserLastModifiedDocuments();
 									Main.get().mainPanel.dashboard.userDashboard.getUserCheckedOutDocuments();
 									HTMLEditor.get().status.unsetSetHTML();
@@ -283,7 +283,7 @@ public class CheckinPopup extends DialogBox {
 	}
 
 	/**
-	 * lanfRefresh
+	 * langRefresh
 	 */
 	public void langRefresh() {
 		setText(GeneralComunicator.i18n("fileupload.label.update"));

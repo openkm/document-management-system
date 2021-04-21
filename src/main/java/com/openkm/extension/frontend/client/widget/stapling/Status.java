@@ -23,7 +23,7 @@ package com.openkm.extension.frontend.client.widget.stapling;
 
 import com.google.gwt.user.client.ui.*;
 import com.openkm.extension.frontend.client.util.OKMBundleResources;
-import com.openkm.frontend.client.extension.comunicator.FileBrowserComunicator;
+import com.openkm.frontend.client.extension.comunicator.FileBrowserCommunicator;
 import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 import com.openkm.frontend.client.extension.comunicator.TabDocumentComunicator;
 
@@ -86,13 +86,13 @@ public class Status extends PopupPanel {
 			int left = 0;
 			int top = 0;
 
-			if (FileBrowserComunicator.isDocumentSelected()) {
+			if (FileBrowserCommunicator.isDocumentSelected()) {
 				left = ((Stapling.get().tabDocument.getOffsetWidth() - 220) / 2) + Stapling.get().tabDocument.getAbsoluteLeft();
 				top = ((Stapling.get().tabDocument.getOffsetHeight() - 40) / 2) + Stapling.get().tabDocument.getAbsoluteTop();
-			} else if (FileBrowserComunicator.isFolderSelected()) {
+			} else if (FileBrowserCommunicator.isFolderSelected()) {
 				left = ((Stapling.get().tabFolder.getOffsetWidth() - 220) / 2) + Stapling.get().tabFolder.getAbsoluteLeft();
 				top = ((Stapling.get().tabFolder.getOffsetHeight() - 40) / 2) + Stapling.get().tabFolder.getAbsoluteTop();
-			} else if (FileBrowserComunicator.isMailSelected()) {
+			} else if (FileBrowserCommunicator.isMailSelected()) {
 				left = ((Stapling.get().tabMail.getOffsetWidth() - 220) / 2) + Stapling.get().tabMail.getAbsoluteLeft();
 				top = ((Stapling.get().tabMail.getOffsetHeight() - 40) / 2) + Stapling.get().tabMail.getAbsoluteTop();
 			}
