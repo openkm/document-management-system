@@ -39,12 +39,12 @@ import com.openkm.frontend.client.widget.OriginPanel;
 import com.openkm.frontend.client.widget.mainmenu.Bookmark;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author jllort
- *
  */
 public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 	public static final int STARTUP_STARTING = 0;
@@ -64,15 +64,12 @@ public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 	public static final int STARTUP_LOADING_TAXONOMY_EVAL_PARAMS = 14;
 	public static final int STARTUP_LOADING_OPEN_PATH = 15;
 
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT
-			.create(OKMRepositoryService.class);
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
-	private final OKMUserConfigServiceAsync userConfigService = (OKMUserConfigServiceAsync) GWT
-			.create(OKMUserConfigService.class);
-	private final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT
-			.create(OKMDocumentService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
+	private final OKMUserConfigServiceAsync userConfigService = GWT.create(OKMUserConfigService.class);
+	private final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private boolean enabled = true;
 	private boolean error = false;
@@ -82,12 +79,16 @@ public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 	private String taskInstanceId = null;
 	public Timer keepAlive;
 	private List<WidgetHandlerExtension> widgetHandlerExtensionList;
+	private Map<String, String> dynamicExtensionsMap;
+	private List<Object> extensions;
 
 	/**
 	 * StartUp
 	 */
 	public StartUp() {
-		widgetHandlerExtensionList = new ArrayList<WidgetHandlerExtension>();
+		widgetHandlerExtensionList = new ArrayList<>();
+		dynamicExtensionsMap = new HashMap<>();
+		extensions = new ArrayList<>();
 	}
 
 	/**
@@ -100,8 +101,17 @@ public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 				Main.get().setExtensionUuidList(result);
 
 				// Only show registered extensions
-				ExtensionManager.start(Customization.getExtensionWidgets(result));
-				nextStatus(STARTUP_STARTING);
+				// Loading static extensions
+				extensions = Customization.getExtensionWidgets(result);
+
+				// Loading dynamic extensions
+				dynamicExtensionsMap = Customization.getDynamicExtensionWidgets(result);
+
+				if (dynamicExtensionsMap.size() > 0) {
+					Customization.loadDynamicExtensionWidgets();
+				} else {
+					startExtensions();
+				}
 			}
 
 			@Override
@@ -110,6 +120,25 @@ public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 				nextStatus(STARTUP_STARTING);
 			}
 		});
+	}
+
+	/**
+	 * startExtensions
+	 */
+	public void startExtensions() {
+		ExtensionManager.start(extensions);
+		nextStatus(STARTUP_STARTING);
+	}
+
+	/**
+	 * addExtension
+	 */
+	public void addExtension(Object obj) {
+		extensions.add(obj);
+	}
+
+	public Map<String, String> getDynamicExtensionsMap() {
+		return dynamicExtensionsMap;
 	}
 
 	/**
@@ -286,7 +315,6 @@ public class StartUp implements HasWidgetHandlerExtension, HasWidgetEvent {
 
 	/**
 	 * Gets the user home
-	 *
 	 */
 	public void getUserHome() {
 		userConfigService.getUserHome(callbackGetUserHome);

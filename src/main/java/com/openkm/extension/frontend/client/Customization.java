@@ -21,7 +21,14 @@
 
 package com.openkm.extension.frontend.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.openkm.extension.frontend.client.service.OKMGeneralService;
+import com.openkm.extension.frontend.client.service.OKMGeneralServiceAsync;
 import com.openkm.extension.frontend.client.widget.activitylog.ActivityLog;
+import com.openkm.extension.frontend.client.widget.externaltab.ExternalTabDocument;
+import com.openkm.extension.frontend.client.widget.externaltab.ExternalTabFolder;
+import com.openkm.extension.frontend.client.widget.externaltab.ExternalTabMail;
 import com.openkm.extension.frontend.client.widget.extraworkspace.ExtraTabWorkspace;
 import com.openkm.extension.frontend.client.widget.forum.Forum;
 import com.openkm.extension.frontend.client.widget.htmleditor.HTMLEditor;
@@ -33,15 +40,18 @@ import com.openkm.extension.frontend.client.widget.toolbar.downloadPdfButton.Dow
 import com.openkm.extension.frontend.client.widget.wiki.Wiki;
 import com.openkm.extension.frontend.client.widget.workflow.Workflow;
 import com.openkm.extension.frontend.client.widget.zoho.Zoho;
+import com.openkm.frontend.client.Main;
+import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Customization
  *
  * @author jllort
- *
  */
 public class Customization {
 
@@ -49,7 +59,7 @@ public class Customization {
 	 * getExtensionWidgets
 	 */
 	public static List<Object> getExtensionWidgets(List<String> uuidList) {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 
 		// add here your widget extensions
 		if (uuidList.contains("d9dab640-d098-11df-bd3b-0800200c9a66")) {
@@ -75,7 +85,7 @@ public class Customization {
 		// extensions.add(new MainMenuExample().getNewMenu());
 		// extensions.add(new HandlersTest());
 
-		// OPENKM PROPIETARY EXTENSIONS
+		// OPENKM PROPRIETARY EXTENSIONS
 		if (DownloadButton.isRegistered(uuidList)) {
 			extensions.add(new DownloadButton(uuidList).getButton());
 		}
@@ -124,10 +134,157 @@ public class Customization {
 			htmlEditor.initJavaScriptApi();
 		}
 
-		if (ExtraTabWorkspace.isRegistered(uuidList)) {
-			extensions.addAll(new ExtraTabWorkspace(uuidList).getExtensions());
-		}
-
 		return extensions;
+	}
+
+	/**
+	 * getDynamicExtensionWidgets
+	 */
+	public static Map<String, String> getDynamicExtensionWidgets(List<String> uuidList) {
+		Map<String, String> dynamicExtensionsMap = new HashMap<String, String>();
+		if (ExternalTabDocument.isRegistered(uuidList)) {
+			dynamicExtensionsMap.put(ExternalTabDocument.getSimpleName(), ExternalTabDocument.KEY);
+		}
+		if (ExternalTabFolder.isRegistered(uuidList)) {
+			dynamicExtensionsMap.put(ExternalTabFolder.getSimpleName(), ExternalTabFolder.KEY);
+		}
+		if (ExternalTabMail.isRegistered(uuidList)) {
+			dynamicExtensionsMap.put(ExternalTabMail.getSimpleName(), ExternalTabMail.KEY);
+		}
+		if (ExtraTabWorkspace.isRegistered(uuidList)) {
+			dynamicExtensionsMap.put(ExtraTabWorkspace.getSimpleName(), ExtraTabWorkspace.KEY);
+		}
+		return dynamicExtensionsMap;
+	}
+
+	/**
+	 * loadDynamicExtensionWidgets
+	 */
+	public static void loadDynamicExtensionWidgets() {
+		OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
+		final String className = Main.get().startUp.getDynamicExtensionsMap().keySet().iterator().next();
+		String key = Main.get().startUp.getDynamicExtensionsMap().get(className);
+
+		if (ExternalTabDocument.getSimpleName().equals(className)) {
+			generalService.getConfigParam(key, new AsyncCallback<List<String>>() {
+				@Override
+				public void onSuccess(List<String> result) {
+					for (String param : result) {
+						final String[] options = param.split(";");
+						if (options.length == 2) {
+							ExternalTabDocument etDocument = new ExternalTabDocument(Main.get().getExtensionUuidList());
+							etDocument.setName(options[0]);
+							etDocument.setUrl(options[1]);
+							Main.get().startUp.addExtension(etDocument);
+						} else {
+							Main.get().showError("Invalid external tab document option: " + param);
+						}
+					}
+
+					Main.get().startUp.getDynamicExtensionsMap().remove(className);
+					if (Main.get().startUp.getDynamicExtensionsMap().size() > 0) {
+						loadDynamicExtensionWidgets();
+					} else {
+						Main.get().startUp.startExtensions();
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					GeneralComunicator.showError("getConfigParam", caught);
+					Main.get().startUp.startExtensions();
+				}
+			});
+		} else if (ExternalTabFolder.getSimpleName().equals(className)) {
+			generalService.getConfigParam(key, new AsyncCallback<List<String>>() {
+				@Override
+				public void onSuccess(List<String> result) {
+					for (String param : result) {
+						final String[] options = param.split(";");
+						if (options.length == 2) {
+							ExternalTabFolder etFolder = new ExternalTabFolder(Main.get().getExtensionUuidList());
+							etFolder.setName(options[0]);
+							etFolder.setUrl(options[1]);
+							Main.get().startUp.addExtension(etFolder);
+						} else {
+							Main.get().showError("Invalid external tab folder option: " + param);
+						}
+					}
+
+					Main.get().startUp.getDynamicExtensionsMap().remove(className);
+					if (Main.get().startUp.getDynamicExtensionsMap().size() > 0) {
+						loadDynamicExtensionWidgets();
+					} else {
+						Main.get().startUp.startExtensions();
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					GeneralComunicator.showError("getConfigParam", caught);
+					Main.get().startUp.startExtensions();
+				}
+			});
+		} else if (ExternalTabMail.getSimpleName().equals(className)) {
+			generalService.getConfigParam(key, new AsyncCallback<List<String>>() {
+				@Override
+				public void onSuccess(List<String> result) {
+					for (String param : result) {
+						final String[] options = param.split(";");
+						if (options.length == 2) {
+							ExternalTabMail etMail = new ExternalTabMail(Main.get().getExtensionUuidList());
+							etMail.setName(options[0]);
+							etMail.setUrl(options[1]);
+							Main.get().startUp.addExtension(etMail);
+						} else {
+							Main.get().showError("Invalid external tab mail option: " + param);
+						}
+					}
+
+					Main.get().startUp.getDynamicExtensionsMap().remove(className);
+					if (Main.get().startUp.getDynamicExtensionsMap().size() > 0) {
+						loadDynamicExtensionWidgets();
+					} else {
+						Main.get().startUp.startExtensions();
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					GeneralComunicator.showError("getConfigParam", caught);
+					Main.get().startUp.startExtensions();
+				}
+			});
+		} else if (ExtraTabWorkspace.getSimpleName().equals(className)) {
+			generalService.getConfigParam(key, new AsyncCallback<List<String>>() {
+				@Override
+				public void onSuccess(List<String> result) {
+					for (String param : result) {
+						final String[] options = param.split(";");
+						if (options.length == 2) {
+							ExtraTabWorkspace etWorkspace = new ExtraTabWorkspace(Main.get().getExtensionUuidList());
+							etWorkspace.getTabWorkspace().setTextLabel(options[0]);
+							etWorkspace.getTabWorkspace().setUrl(options[1]);
+							Main.get().startUp.addExtension(etWorkspace.getTabWorkspace());
+						} else {
+							Main.get().showError("Invalid external tab workspace option: " + param);
+						}
+					}
+
+					Main.get().startUp.getDynamicExtensionsMap().remove(className);
+					if (Main.get().startUp.getDynamicExtensionsMap().size() > 0) {
+						loadDynamicExtensionWidgets();
+					} else {
+						Main.get().startUp.startExtensions();
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					GeneralComunicator.showError("getConfigParam", caught);
+					Main.get().startUp.startExtensions();
+				}
+			});
+		}
 	}
 }

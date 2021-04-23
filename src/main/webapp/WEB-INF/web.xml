@@ -132,6 +132,10 @@
     <servlet-class>com.openkm.servlet.frontend.GeneralServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ExtensionGeneralServlet</servlet-name>
+    <servlet-class>com.openkm.extension.servlet.GeneralServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>NotifyServlet</servlet-name>
     <servlet-class>com.openkm.servlet.frontend.NotifyServlet</servlet-class>
   </servlet>
@@ -710,6 +714,10 @@
   <servlet-mapping>
     <servlet-name>ZohoFileUploadServlet</servlet-name>
     <url-pattern>/extension/ZohoFileUpload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExtensionGeneralServlet</servlet-name>
+    <url-pattern>/extension/General</url-pattern>
   </servlet-mapping>
   
   <!-- Extension Admin Servlet Mappings -->

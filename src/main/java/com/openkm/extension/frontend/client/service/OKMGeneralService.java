@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017 Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -19,45 +19,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.openkm.extension.frontend.client.widget.extraworkspace;
+package com.openkm.extension.frontend.client.service;
+
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.openkm.frontend.client.OKMException;
 
 import java.util.List;
 
 /**
- * ExtraWorkspace
+ * OKMGeneralService
  *
  * @author sochoa
  */
-public class ExtraTabWorkspace {
-	private static final String UUID = "c20c69a8-7d6b-4539-9e6b-6f2c11e84168";
-	public static final String KEY = "extension.extra.tab.workspace";
-	private static ExtraTabWorkspace singleton;
-	private TabWorkspace tabWorkspace;
-
-	/**
-	 * ExtraWorkspace
-	 */
-	public ExtraTabWorkspace(List<String> uuidList) {
-		if (isRegistered(uuidList)) {
-			tabWorkspace = new TabWorkspace();
-		}
-	}
-
-	public TabWorkspace getTabWorkspace() {
-		return tabWorkspace;
-	}
-
-	/**
-	 * isRegistered
-	 */
-	public static boolean isRegistered(List<String> uuidList) {
-		return uuidList.contains(UUID);
-	}
-
-	/**
-	 * getSimpleName
-	 */
-	public static String getSimpleName() {
-		return "com.openkm.extension.frontend.client.widget.extraworkspace.ExtraTabWorkspace";
-	}
+@RemoteServiceRelativePath("../extension/General")
+public interface OKMGeneralService extends RemoteService {
+	List<String> getConfigParam(String key) throws OKMException;
 }

@@ -125,7 +125,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	public UpdatePropertyGroupPopup updatePropertyGroupPopup;
 	public ConvertPopup convertPopup;
 	public OmrPopup omrPopup;
-	
+
 	// User workspace properties
 	public WorkspaceUserProperties workspaceUserProperties;
 
@@ -135,12 +135,10 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	public Map<String, String> hPropertyGroupI18n;
 
 	// The nodePath parameter
-	public String fldPath = ""; // Used for folderTree because docPath is set to null by filebroeser on this case the
-	// refreshing
-	// panels are not sincronized ( loading )
-	public String docPath = ""; // Used for folderTree because docPath is set to null by filebroeser on this case the
-	// refreshing
-	// panels are not sincronized ( loading )
+	public String fldPath = ""; // Used for folderTree because docPath is set to null by filebrowser on this case the
+	// refreshing panels are not synchronized ( loading )
+	public String docPath = ""; // Used for folderTree because docPath is set to null by filebrowser on this case the
+	// refreshing panels are not synchronized ( loading )
 
 	private String uuid = "";
 	public String taskInstanceId = ""; // Used for workflowDashboard for set pending user task
@@ -478,7 +476,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		omrPopup.setWidth("150px");
 		omrPopup.setHeight("75px");
 		omrPopup.setStyleName("okm-Popup");
-		
+
 		// Get grid of scrollbars, and clear out the window's built-in margin,
 		// because we want to take advantage of the entire client area.
 		Window.enableScrolling(false);
@@ -603,7 +601,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	/**
 	 * Shows popup error message ( unique entry point for error on all application )
 	 *
-	 * @param okme The exception error
+	 * @param caught The exception error
 	 */
 	public void showError(Class<?> clazz, String callback, Throwable caught) {
 		showError(clazz + "." + callback, caught);
@@ -612,7 +610,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	/**
 	 * Shows popup error message ( unique entry point for error on all application )
 	 *
-	 * @param okm The exception error
+	 * @param caught The exception error
 	 */
 	public void showError(String callback, Throwable caught) {
 		startUp.recoverFromError();
@@ -639,9 +637,27 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	}
 
 	/**
+	 * showError
+	 */
+	public void showError(String error) {
+		if (errorPopup != null) {
+			errorPopup.show(error);
+		} else {
+			showAlertError(error);
+		}
+	}
+
+	/**
+	 * showAlertError
+	 */
+	private void showAlertError(String error) {
+		Window.alert("Error: " + error);
+	}
+
+	/**
 	 * Gets the i18n param translation
 	 *
-	 * @param properties The propetie code locator
+	 * @param property The property code locator
 	 * @return The translated value
 	 */
 	public static String i18n(String property) {
@@ -658,12 +674,12 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	/**
 	 * Gets the i18n extension param translation
 	 *
-	 * @param properties The propetier code locator
+	 * @param property The property code locator
 	 * @return The translated value
 	 */
 	public String i18nExtension(String property) {
 		// All extension properties starts with extension.
-		String ret = (String) Main.get().hI18n.get("extension." + property);
+		String ret = Main.get().hI18n.get("extension." + property);
 
 		if (ret == null) {
 			ret = property;
@@ -674,8 +690,6 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 
 	/**
 	 * getExtensionUuidList
-	 *
-	 * @return
 	 */
 	public List<String> getExtensionUuidList() {
 		return extensionUuidList;
@@ -683,8 +697,6 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 
 	/**
 	 * setExtensionUuidList
-	 *
-	 * @param extensionUuidList
 	 */
 	public void setExtensionUuidList(List<String> extensionUuidList) {
 		this.extensionUuidList = extensionUuidList;
@@ -697,8 +709,8 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 
 	@Override
 	public void fireEvent(LanguageEventConstant event) {
-		for (Iterator<LanguageHandlerExtension> it = langHandlerExtensionList.iterator(); it.hasNext(); ) {
-			it.next().onChange(event);
+		for (LanguageHandlerExtension languageHandlerExtension : langHandlerExtensionList) {
+			languageHandlerExtension.onChange(event);
 		}
 	}
 
@@ -706,12 +718,12 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	 * initJavaScriptApi
 	 */
 	native void initJavaScriptApi() /*-{
-        // define a static JS function with a friendly name
-        $wnd.i18n = function (s) {
-            return @com.openkm.frontend.client.Main::i18n(Ljava/lang/String;)(s);
-        };
-        $wnd.jsI18n = function (s) {
-            return @com.openkm.frontend.client.Main::i18n(Ljava/lang/String;)(s);
-        };
-    }-*/;
+		// define a static JS function with a friendly name
+		$wnd.i18n = function (s) {
+			return @com.openkm.frontend.client.Main::i18n(Ljava/lang/String;)(s);
+		};
+		$wnd.jsI18n = function (s) {
+			return @com.openkm.frontend.client.Main::i18n(Ljava/lang/String;)(s);
+		};
+	}-*/;
 }

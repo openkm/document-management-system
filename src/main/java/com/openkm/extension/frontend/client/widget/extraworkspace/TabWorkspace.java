@@ -22,26 +22,33 @@
 package com.openkm.extension.frontend.client.widget.extraworkspace;
 
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.openkm.frontend.client.Main;
+import com.openkm.frontend.client.bean.GWTDocument;
+import com.openkm.frontend.client.bean.GWTFolder;
+import com.openkm.frontend.client.bean.GWTMail;
+import com.openkm.frontend.client.extension.comunicator.FileBrowserCommunicator;
 import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
+import com.openkm.frontend.client.extension.event.HasWorkspaceEvent;
+import com.openkm.frontend.client.extension.event.handler.WorkspaceHandlerExtension;
 import com.openkm.frontend.client.extension.widget.tabworkspace.TabWorkspaceExtension;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TabWorkspace
  *
  * @author jllort
- *
  */
-public class TabWorkspace extends TabWorkspaceExtension {
+public class TabWorkspace extends TabWorkspaceExtension implements WorkspaceHandlerExtension {
 	private VerticalPanel vPanel;
 	private Frame iframe;
 	private String textLabel = "";
-	private Timer timer;
+	private String url = "";
 	private TabBar tabBar;
 	private int tabIndex = 0;
 
@@ -69,62 +76,13 @@ public class TabWorkspace extends TabWorkspaceExtension {
 		vPanel.setWidth("100%");
 		vPanel.setHeight("100%");
 
-		// User workspace values
-		if (GeneralComunicator.getWorkspace() == null) {
-			timer = new Timer() {
-				@Override
-				public void run() {
-					if (GeneralComunicator.getWorkspace() == null) {
-						firstTimeLoadingWorkspace();
-					} else {
-						init();
-					}
-				}
-			};
-
-			firstTimeLoadingWorkspace();
-		} else {
-			init();
-		}
-
 		initWidget(vPanel);
-	}
-
-	/**
-	 * firstTimeLoadingWorkspace
-	 */
-	private void firstTimeLoadingWorkspace() {
-		timer.schedule(200);
-	}
-
-	/**
-	 * init
-	 */
-	private void init() {
-		if (!GeneralComunicator.getWorkspace().getExtraTabWorkspaceLabel().isEmpty()) {
-			textLabel = GeneralComunicator.getWorkspace().getExtraTabWorkspaceLabel();
-		} else {
-			textLabel = "Extra";
-		}
-
-		if (tabBar != null) {
-			tabBar.setTabText(tabIndex, textLabel);
-		}
-
-		if (!GeneralComunicator.getWorkspace().getExtraTabWorkspaceUrl().isEmpty()) {
-			String url = GeneralComunicator.getWorkspace().getExtraTabWorkspaceUrl();
-			if (url.startsWith("http")) {
-				iframe.setUrl(url);
-			} else {
-				iframe.setUrl(Main.CONTEXT + url);
-			}
-		}
 	}
 
 	/**
 	 * Sets the size on initialization
 	 *
-	 * @param width The max width of the widget
+	 * @param width  The max width of the widget
 	 * @param height The max height of the widget
 	 */
 	public void setPixelSize(int width, int height) {
@@ -138,6 +96,10 @@ public class TabWorkspace extends TabWorkspaceExtension {
 		this.textLabel = textLabel;
 	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	@Override
 	public String getTabText() {
 		return textLabel;
@@ -147,5 +109,34 @@ public class TabWorkspace extends TabWorkspaceExtension {
 	public void setTab(TabBar tabBar, int tabIndex) {
 		this.tabBar = tabBar;
 		this.tabIndex = tabIndex;
+	}
+
+	@Override
+	public void onChange(HasWorkspaceEvent.WorkspaceEventConstant event) {
+		if (event.equals(HasWorkspaceEvent.STACK_CHANGED)) {
+			StringBuilder finalUrl = new StringBuilder(this.url + (this.url.contains("?") ? "&" : "?") + "userId=" + GeneralComunicator.getUser());
+			List<String> uuidList = new ArrayList<>();
+
+			if (FileBrowserCommunicator.isPanelSelected()) {
+				if (FileBrowserCommunicator.isMassive()) {
+					uuidList.addAll(FileBrowserCommunicator.getAllSelectedUUIDs());
+				} else if (FileBrowserCommunicator.isDocumentSelected()) {
+					GWTDocument gwtDoc = FileBrowserCommunicator.getDocument();
+					uuidList.add(gwtDoc.getUuid());
+				} else if (FileBrowserCommunicator.isFolderSelected()) {
+					GWTFolder gwtFld = FileBrowserCommunicator.getFolder();
+					uuidList.add(gwtFld.getUuid());
+				} else if (FileBrowserCommunicator.isMailSelected()) {
+					GWTMail gwtMail = FileBrowserCommunicator.getMail();
+					uuidList.add(gwtMail.getUuid());
+				}
+			}
+
+			for (String uuid : uuidList) {
+				finalUrl.append("&uuid=").append(uuid);
+			}
+
+			iframe.setUrl(finalUrl.toString());
+		}
 	}
 }

@@ -26,13 +26,14 @@ import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.bean.GWTFolder;
 import com.openkm.frontend.client.bean.GWTMail;
 
+import java.util.List;
+
 /**
- * FileBrowserComunicator
+ * FileBrowserCommunicator
  *
  * @author jllort
- *
  */
-public class FileBrowserComunicator {
+public class FileBrowserCommunicator {
 	/**
 	 * isDocumentSelected
 	 */
@@ -47,7 +48,6 @@ public class FileBrowserComunicator {
 		return Main.get().mainPanel.desktop.browser.fileBrowser.isFolderSelected();
 	}
 
-
 	/**
 	 * isMailSelected
 	 */
@@ -57,8 +57,6 @@ public class FileBrowserComunicator {
 
 	/**
 	 * getDocument
-	 *
-	 * @return
 	 */
 	public static GWTDocument getDocument() {
 		return Main.get().mainPanel.desktop.browser.fileBrowser.getDocument();
@@ -66,8 +64,6 @@ public class FileBrowserComunicator {
 
 	/**
 	 * getFolder
-	 *
-	 * @return
 	 */
 	public static GWTFolder getFolder() {
 		return Main.get().mainPanel.desktop.browser.fileBrowser.getFolder();
@@ -75,8 +71,6 @@ public class FileBrowserComunicator {
 
 	/**
 	 * getMail
-	 *
-	 * @return
 	 */
 	public static GWTMail getMail() {
 		return Main.get().mainPanel.desktop.browser.fileBrowser.getMail();
@@ -84,8 +78,6 @@ public class FileBrowserComunicator {
 
 	/**
 	 * isPanelSelected
-	 *
-	 * @return
 	 */
 	public static boolean isPanelSelected() {
 		return Main.get().mainPanel.desktop.browser.fileBrowser.isPanelSelected();
@@ -98,4 +90,17 @@ public class FileBrowserComunicator {
 		Main.get().mainPanel.desktop.browser.fileBrowser.refreshOnlyFileBrowser();
 	}
 
+	/**
+	 * isMassive
+	 */
+	public static boolean isMassive() {
+		return Main.get().mainPanel.desktop.browser.fileBrowser.isMassive();
+	}
+
+	/**
+	 * getAllSelectedUUIDs
+	 */
+	public static List<String> getAllSelectedUUIDs() {
+		return Main.get().mainPanel.desktop.browser.fileBrowser.table.getAllSelectedUUIDs();
+	}
 }

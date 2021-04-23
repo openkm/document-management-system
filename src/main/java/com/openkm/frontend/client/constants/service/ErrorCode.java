@@ -72,7 +72,8 @@ public class ErrorCode {
 	public static final String ORIGIN_OKMOpenMeetingsService = "039";
 	public static final String ORIGIN_OKMCSVExporterService = "042";
 	public static final String ORIGIN_OKMDropboxService = "043";
-	public static final String ORIGIN_OKMOmrService	= "044";
+	public static final String ORIGIN_OKMOmrService = "044";
+	public static final String ORIGIN_OKMExtensionGeneralService = "051";
 
 	// Cause code error is XXX digits
 	public static final String CAUSE_Repository = "001";
@@ -128,15 +129,15 @@ public class ErrorCode {
 	public static final String CAUSE_Dropbox = "051";
 	public static final String CAUSE_Omr = "052";
 	public static final String CAUSE_DragAndDropError = "053";
-	
+
 	/**
 	 * Gets the error
-	 *
+	 * <p>
 	 * The final error code returned by application is ORIGIN_CODE_ERROR + CAUSE_CODE_ERROR
 	 * example ERROR 001001 = Error causes on OKMFolderService and originated by Repository Exception
 	 *
 	 * @param origin The error origin
-	 * @param cause The error cause
+	 * @param cause  The error cause
 	 * @return The error
 	 */
 	public static String get(String origin, String cause) {

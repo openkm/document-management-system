@@ -152,7 +152,7 @@ public class SubMenuZoho {
 	 */
 	public void evaluateMenus() {
 		GWTFolder folder = NavigatorComunicator.getFolder(); // The actual folder selected in navigator view
-		if (FileBrowserComunicator.isDocumentSelected()) {
+		if (FileBrowserCommunicator.isDocumentSelected()) {
 			GWTDocument doc = TabDocumentComunicator.getDocument(); // Always usign tab document to prevent refreshing problems
 			if ((doc.getMimeType().equals("application/msword") && doc.getName().endsWith("doc"))
 					|| doc.getMimeType().equals(
