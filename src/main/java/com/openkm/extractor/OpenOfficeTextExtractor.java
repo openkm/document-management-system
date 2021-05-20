@@ -69,8 +69,10 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 			saxParserFactory.setValidating(false);
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			XMLReader xmlReader = saxParser.getXMLReader();
-			xmlReader.setFeature("http://xml.org/sax/features/validation", false);
 			xmlReader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			xmlReader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			xmlReader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			xmlReader.setFeature("http://xml.org/sax/features/validation", false);
 
 			ZipInputStream zis = new ZipInputStream(stream);
 			ZipEntry ze = zis.getNextEntry();
