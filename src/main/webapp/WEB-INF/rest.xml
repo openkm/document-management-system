@@ -23,6 +23,7 @@
       <beans:bean class="com.openkm.rest.endpoint.ConversionService"/>
       <beans:bean class="com.openkm.rest.endpoint.BookmarkService"/>
       <beans:bean class="com.openkm.rest.endpoint.WorkflowService"/>
+      <beans:bean class="com.openkm.rest.endpoint.NotificationService"/>
     </jaxrs:serviceBeans>
     <jaxrs:providers>
       <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
