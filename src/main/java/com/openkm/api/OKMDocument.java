@@ -21,29 +21,35 @@
 
 package com.openkm.api;
 
+import com.lowagie.text.DocumentException;
 import com.openkm.automation.AutomationException;
-import com.openkm.bean.Document;
-import com.openkm.bean.ExtendedAttributes;
-import com.openkm.bean.LockInfo;
-import com.openkm.bean.Version;
+import com.openkm.bean.*;
+import com.openkm.bean.form.FormElement;
 import com.openkm.core.*;
 import com.openkm.extension.core.ExtensionException;
 import com.openkm.module.DocumentModule;
 import com.openkm.module.ModuleManager;
+import com.openkm.module.PropertyGroupModule;
+import com.openkm.module.db.base.BaseDocumentModule;
 import com.openkm.principal.PrincipalAdapterException;
+import com.openkm.util.FormUtils;
+import freemarker.template.TemplateException;
+import net.sf.jooreports.templates.DocumentTemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author pavila
  */
 public class OKMDocument implements DocumentModule {
-	private static Logger log = LoggerFactory.getLogger(OKMDocument.class);
-	private static OKMDocument instance = new OKMDocument();
+	private static final Logger log = LoggerFactory.getLogger(OKMDocument.class);
+	private static final OKMDocument instance = new OKMDocument();
 
 	private OKMDocument() {
 	}
@@ -57,7 +63,7 @@ public class OKMDocument implements DocumentModule {
 			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
 			ExtensionException, AutomationException {
-		log.debug("create({}, {}, {})", new Object[]{token, doc, is});
+		log.debug("create({}, {}, {})", token, doc, is);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Document newDocument = dm.create(token, doc, is);
 		log.debug("create: {}", newDocument);
@@ -68,7 +74,7 @@ public class OKMDocument implements DocumentModule {
 			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
 			ExtensionException, AutomationException {
-		log.debug("createSimple({}, {}, {})", new Object[]{token, docPath, is});
+		log.debug("createSimple({}, {}, {})", token, docPath, is);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Document doc = new Document();
 		doc.setPath(docPath);
@@ -99,7 +105,7 @@ public class OKMDocument implements DocumentModule {
 	@Override
 	public InputStream getContent(String token, String docId, boolean checkout) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, IOException, DatabaseException, LockException {
-		log.debug("getContent({}, {}, {})", new Object[]{token, docId, checkout});
+		log.debug("getContent({}, {}, {})", token, docId, checkout);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContent(token, docId, checkout);
 		log.debug("getContent: {}", is);
@@ -109,7 +115,7 @@ public class OKMDocument implements DocumentModule {
 	@Override
 	public InputStream getContentByVersion(String token, String docId, String versionId) throws RepositoryException,
 			AccessDeniedException, PathNotFoundException, IOException, DatabaseException {
-		log.debug("getContentByVersion({}, {}, {})", new Object[]{token, docId, versionId});
+		log.debug("getContentByVersion({}, {}, {})", token, docId, versionId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		InputStream is = dm.getContentByVersion(token, docId, versionId);
 		log.debug("getContentByVersion: {}", is);
@@ -141,7 +147,7 @@ public class OKMDocument implements DocumentModule {
 	public Document rename(String token, String docId, String newName) throws PathNotFoundException,
 			ItemExistsException, AccessDeniedException, LockException, RepositoryException, DatabaseException,
 			ExtensionException, AutomationException {
-		log.debug("rename({}, {}, {})", new Object[]{token, docId, newName});
+		log.debug("rename({}, {}, {})", token, docId, newName);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Document renamedDocument = dm.rename(token, docId, newName);
 		log.debug("rename: {}", renamedDocument);
@@ -199,7 +205,7 @@ public class OKMDocument implements DocumentModule {
 			throws FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, LockException,
 			VersionException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
 			DatabaseException, ExtensionException, AutomationException {
-		log.debug("checkin({}, {}, {})", new Object[]{token, docId, comment});
+		log.debug("checkin({}, {}, {})", token, docId, comment);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Version version = dm.checkin(token, docId, is, comment);
 		log.debug("checkin: {}", version);
@@ -211,7 +217,7 @@ public class OKMDocument implements DocumentModule {
 			throws FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, LockException,
 			VersionException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
 			DatabaseException, ExtensionException, AutomationException {
-		log.debug("checkin({}, {}, {}, {})", new Object[]{token, docId, comment, increment});
+		log.debug("checkin({}, {}, {}, {})", token, docId, comment, increment);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		Version version = dm.checkin(token, docId, is, comment, increment);
 		log.debug("checkin: {}", version);
@@ -289,7 +295,7 @@ public class OKMDocument implements DocumentModule {
 	public void move(String token, String docId, String dstId) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, LockException, RepositoryException, DatabaseException, ExtensionException,
 			AutomationException {
-		log.debug("move({}, {}, {})", new Object[]{token, docId, dstId});
+		log.debug("move({}, {}, {})", token, docId, dstId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.move(token, docId, dstId);
 		log.debug("move: void");
@@ -299,7 +305,7 @@ public class OKMDocument implements DocumentModule {
 	public void copy(String token, String docId, String dstId) throws ItemExistsException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, IOException, DatabaseException, UserQuotaExceededException,
 			ExtensionException, AutomationException {
-		log.debug("copy({}, {}, {})", new Object[]{token, docId, dstId});
+		log.debug("copy({}, {}, {})", token, docId, dstId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.copy(token, docId, dstId);
 		log.debug("copy: void");
@@ -309,7 +315,7 @@ public class OKMDocument implements DocumentModule {
 	public void extendedCopy(String token, String docId, String dstId, String docName, ExtendedAttributes extAttr)
 			throws ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
 			DatabaseException, UserQuotaExceededException, ExtensionException, AutomationException {
-		log.debug("extendedCopy({}, {}, {}, {})", new Object[]{token, docId, dstId, docName, extAttr});
+		log.debug("extendedCopy({}, {}, {}, {}, {})", token, docId, dstId, docName, extAttr);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.extendedCopy(token, docId, dstId, docName, extAttr);
 		log.debug("extendedCopy: void");
@@ -318,7 +324,7 @@ public class OKMDocument implements DocumentModule {
 	@Override
 	public void restoreVersion(String token, String docId, String versionId) throws PathNotFoundException,
 			AccessDeniedException, LockException, RepositoryException, DatabaseException, ExtensionException {
-		log.debug("restoreVersion({}, {}, {})", new Object[]{token, docId, versionId});
+		log.debug("restoreVersion({}, {}, {})", token, docId, versionId);
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		dm.restoreVersion(token, docId, versionId);
 		log.debug("restoreVersion: void");
@@ -361,5 +367,32 @@ public class OKMDocument implements DocumentModule {
 		String path = dm.getPath(token, uuid);
 		log.debug("getPath: {}", path);
 		return path;
+	}
+
+	/**
+	 * Create document from template
+	 *
+	 * @param docId   The path that identifies an unique document or its UUID.
+	 * @param dstPath The destination where the new document is created.
+	 */
+	public Document createFromTemplateSimple(String token, String docId, String dstPath, Map<String, String> properties,
+			ExtendedAttributes attributes) throws PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
+			DatabaseException, DocumentException, TemplateException, DocumentTemplateException, ConversionException,
+			UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
+			ItemExistsException, AutomationException, ExtensionException, ParseException, NoSuchGroupException,
+			NoSuchPropertyException, LockException {
+		log.debug("createFromTemplate({}, {}, {}, {})", docId, dstPath, properties, attributes);
+		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
+		List<FormElement> formElements = new ArrayList<>();
+
+		for (PropertyGroup pg : cm.getGroups(token, docId)) {
+			List<FormElement> tmp = cm.getProperties(token, docId, pg.getName());
+			FormUtils.fillFormElements(properties, tmp);
+			formElements.addAll(tmp);
+		}
+
+		Document dstDoc = BaseDocumentModule.createFromTemplate(token, docId, dstPath, formElements, attributes);
+		log.debug("createFromTemplate: {}", dstDoc);
+		return dstDoc;
 	}
 }

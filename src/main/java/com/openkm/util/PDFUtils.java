@@ -338,4 +338,12 @@ public class PDFUtils {
 
 		return BaseFont.createFont(fontName, fontEncoding, BaseFont.EMBEDDED);
 	}
+	
+	/**
+     * Optimize PDF (reduce size)
+     */
+    public static void optimize(File pdfIn, File pdfOut) {
+        String params = "-dNOPAUSE -dQUIET -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.7 -dPDFSETTINGS=/prepress -sOutputFile=${fileOut} ${fileIn}";
+        ImageUtils.ghostscript(pdfIn.getPath(), pdfOut.getPath(), params);
+    }
 }

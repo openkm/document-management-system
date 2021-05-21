@@ -21,16 +21,19 @@
 
 package com.openkm.rest.endpoint;
 
-import com.openkm.bean.Document;
-import com.openkm.bean.ExtendedAttributes;
-import com.openkm.bean.LockInfo;
-import com.openkm.bean.Version;
+import com.openkm.bean.*;
+import com.openkm.bean.form.FormElement;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.module.DocumentModule;
 import com.openkm.module.ModuleManager;
+import com.openkm.module.PropertyGroupModule;
+import com.openkm.module.db.base.BaseDocumentModule;
 import com.openkm.rest.GenericException;
 import com.openkm.rest.util.DocumentList;
+import com.openkm.rest.util.SimplePropertyGroup;
+import com.openkm.rest.util.SimplePropertyGroupList;
 import com.openkm.rest.util.VersionList;
+import com.openkm.util.FormUtils;
 import io.swagger.annotations.Api;
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
@@ -44,6 +47,8 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -51,7 +56,7 @@ import java.util.List;
 @Api(description = "document-service", value = "document-service")
 @Path("/document")
 public class DocumentService {
-	private static Logger log = LoggerFactory.getLogger(DocumentService.class);
+	private static final Logger log = LoggerFactory.getLogger(DocumentService.class);
 
 	@POST
 	@Path("/create")
@@ -523,6 +528,45 @@ public class DocumentService {
 			extAttr.setWiki(wiki);
 			dm.extendedCopy(null, docId, dstId, name, extAttr);
 			log.debug("extendedCopy: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@PUT
+	@Path("/createFromTemplate")
+	public Document createFromTemplate(@QueryParam("docId") String docId, @QueryParam("dstPath") String dstPath,
+									   @QueryParam("categories") boolean categories, @QueryParam("keywords") boolean keywords,
+									   @QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
+									   @QueryParam("wiki") boolean wiki, SimplePropertyGroupList properties) throws GenericException {
+		try {
+			log.debug("createFromTemplate({}, {}, {}, {}, {}, {}, {}, {})", docId, dstPath, categories, keywords, propertyGroups,
+					notes, wiki, properties);
+			ExtendedAttributes extAttr = new ExtendedAttributes();
+			extAttr.setCategories(categories);
+			extAttr.setKeywords(keywords);
+			extAttr.setNotes(notes);
+			extAttr.setPropertyGroups(propertyGroups);
+			extAttr.setWiki(wiki);
+
+			// Unmarshall
+			HashMap<String, String> mapProps = new HashMap<>();
+			for (SimplePropertyGroup spg : properties.getList()) {
+				mapProps.put(spg.getName(), spg.getValue());
+			}
+
+			List<FormElement> formElements = new ArrayList<>();
+			PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
+
+			for (PropertyGroup pg : cm.getGroups(null, docId)) {
+				List<FormElement> tmp = cm.getProperties(null, docId, pg.getName());
+				FormUtils.fillFormElements(mapProps, tmp);
+				formElements.addAll(tmp);
+			}
+
+			Document newDoc = BaseDocumentModule.createFromTemplate(null, docId, dstPath, formElements, extAttr);
+			log.debug("createFromTemplateSimple: {}", newDoc);
+			return newDoc;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
