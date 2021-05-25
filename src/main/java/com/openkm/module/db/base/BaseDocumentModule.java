@@ -21,10 +21,14 @@
 
 package com.openkm.module.db.base;
 
+import com.lowagie.text.DocumentException;
+import com.openkm.api.OKMDocument;
+import com.openkm.api.OKMPropertyGroup;
 import com.openkm.automation.AutomationException;
 import com.openkm.automation.AutomationManager;
 import com.openkm.automation.AutomationUtils;
 import com.openkm.bean.*;
+import com.openkm.bean.form.*;
 import com.openkm.bean.workflow.ProcessDefinition;
 import com.openkm.bean.workflow.ProcessInstance;
 import com.openkm.cache.UserItemsManager;
@@ -33,23 +37,22 @@ import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.dao.bean.cache.UserItems;
+import com.openkm.extension.core.ExtensionException;
 import com.openkm.extension.dao.WikiPageDAO;
 import com.openkm.extension.dao.bean.WikiPage;
 import com.openkm.module.common.CommonWorkflowModule;
-import com.openkm.util.CloneUtils;
-import com.openkm.util.DocConverter;
-import com.openkm.util.SystemProfiling;
-import com.openkm.util.UserActivity;
+import com.openkm.util.*;
+import freemarker.template.TemplateException;
+import net.sf.jooreports.templates.DocumentTemplateException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 public class BaseDocumentModule {
-	private static Logger log = LoggerFactory.getLogger(BaseDocumentModule.class);
+	private static final Logger log = LoggerFactory.getLogger(BaseDocumentModule.class);
 
 	/**
 	 * Create a new document
@@ -283,7 +286,7 @@ public class BaseDocumentModule {
 		InputStream is = NodeDocumentVersionDAO.getInstance().getCurrentContentByParent(docUuid, extendedSecurity);
 
 		if (checkout) {
-		    NodeDocumentDAO.getInstance().checkout(user, docUuid);
+			NodeDocumentDAO.getInstance().checkout(user, docUuid);
 		}
 
 		// Activity log
@@ -321,7 +324,7 @@ public class BaseDocumentModule {
 	public static NodeDocument copy(String user, NodeDocument srcDocNode, String dstPath, NodeBase dstNode, String docName,
 			ExtendedAttributes extAttr) throws PathNotFoundException, AccessDeniedException, ItemExistsException,
 			UserQuotaExceededException, AutomationException, DatabaseException, IOException {
-		log.debug("copy({}, {}, {}, {}, {})", new Object[]{user, srcDocNode, dstNode, docName, extAttr});
+		log.debug("copy({}, {}, {}, {}, {})", user, srcDocNode, dstNode, docName, extAttr);
 		InputStream is = null;
 		NodeDocument newDocument;
 
@@ -365,5 +368,128 @@ public class BaseDocumentModule {
 
 		log.debug("copy: {}", newDocument);
 		return newDocument;
+	}
+
+	/**
+	 * Create Document from Template
+	 */
+	public static Document createFromTemplate(String token, String docId, String dstPath, List<FormElement> properties,
+			ExtendedAttributes attributes) throws PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
+			DatabaseException, DocumentException, TemplateException, DocumentTemplateException, ConversionException, UnsupportedMimeTypeException,
+			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, AutomationException,
+			ExtensionException, ParseException, NoSuchGroupException, NoSuchPropertyException, LockException {
+		log.debug("createFromTemplate({}, {}, {}, {})", new Object[]{docId, dstPath, properties, attributes});
+		Document newDoc = new Document();
+		InputStream fis = null;
+		File tmp = null;
+
+		try {
+			Document docTpl = OKMDocument.getInstance().getProperties(token, docId);
+			tmp = tmpFromTemplate(token, docTpl, properties);
+
+			// Change fileName after conversion
+			if (docTpl.getMimeType().equals("text/html")) {
+				dstPath = dstPath.substring(0, dstPath.lastIndexOf(".")) + ".pdf";
+			}
+
+			// Create document
+			fis = new FileInputStream(tmp);
+			newDoc.setPath(dstPath);
+			newDoc = OKMDocument.getInstance().create(token, newDoc, fis);
+
+			// Set property groups ( metadata )
+			for (PropertyGroup pg : OKMPropertyGroup.getInstance().getGroups(token, docId)) {
+				OKMPropertyGroup.getInstance().addGroup(token, newDoc.getPath(), pg.getName());
+				OKMPropertyGroup.getInstance().setProperties(token, newDoc.getPath(), pg.getName(), properties);
+			}
+		} finally {
+			FileUtils.deleteQuietly(tmp);
+			IOUtils.closeQuietly(fis);
+		}
+
+		log.debug("createFromTemplate: {}", newDoc);
+		return newDoc;
+	}
+
+	/**
+	 * Create a document from a template and store it in a temporal file.
+	 */
+	private static File tmpFromTemplate(String token, Document tplDoc, List<FormElement> properties) throws PathNotFoundException,
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, DocumentException, TemplateException,
+			DocumentTemplateException, ConversionException, LockException {
+		log.debug("tmpFromTemplate({}, {}, {})", token, tplDoc, properties);
+		FileOutputStream fos = null;
+		InputStream fis = null;
+		File tmpResult;
+
+		try {
+			// Reading original document
+			fis = OKMDocument.getInstance().getContent(token, tplDoc.getPath(), false);
+
+			// Save content to temporary file
+			String fileName = PathUtils.getName(tplDoc.getPath());
+			tmpResult = File.createTempFile("okm", "." + FileUtils.getFileExtension(fileName));
+			fos = new FileOutputStream(tmpResult);
+
+			// Property name conversion
+			Map<String, Object> conValues = new HashMap<>();
+
+			for (FormElement fe : properties) {
+				String newKey = fe.getName().replace(".", "_").replace(":", "_");
+				Object value = null;
+
+				if (fe instanceof Input) {
+					Input in = (Input) fe;
+
+					if (Input.TYPE_DATE.equals(in.getType())) {
+						// Should be a java.util.Date
+						value = ISO8601.parseBasic(in.getValue()).getTime();
+					} else {
+						value = in.getValue();
+					}
+				} else if (fe instanceof SuggestBox) {
+					value = ((SuggestBox) fe).getValue();
+				} else if (fe instanceof TextArea) {
+					value = ((TextArea) fe).getValue();
+				} else if (fe instanceof CheckBox) {
+					value = Boolean.toString(((CheckBox) fe).getValue());
+				} else if (fe instanceof Select) {
+					value = ((Select) fe).getValue();
+				} else {
+					// throw new ParseException("Unknown property definition: " + fe.getName());
+				}
+
+				conValues.put(newKey, value);
+			}
+
+			// Fill document by mime type
+			if (tplDoc.getMimeType().equals(MimeTypeConfig.MIME_PDF)) {
+				PDFUtils.fillForm(fis, conValues, fos);
+			} else if (tplDoc.getMimeType().equals(MimeTypeConfig.MIME_OO_TEXT)) {
+				OOUtils.fillTemplate(fis, conValues, fos);
+			} else if (tplDoc.getMimeType().equals(MimeTypeConfig.MIME_HTML)) {
+				TemplateUtils.replace(fileName, fis, conValues, fos);
+
+				// Converting to PDF
+				File tmpPdf = File.createTempFile("okm", ".pdf");
+				DocConverter.getInstance().html2pdf(tmpResult, tmpPdf);
+				tmpResult.delete();
+				tmpResult = tmpPdf;
+			}
+		} finally {
+			IOUtils.closeQuietly(fis);
+			IOUtils.closeQuietly(fos);
+		}
+
+		// Optimize PDF
+		if (tmpResult.getName().toLowerCase().endsWith(".pdf")) {
+			File tmpOptimized = File.createTempFile("okm", ".pdf");
+			PDFUtils.optimize(tmpResult, tmpOptimized);
+			FileUtils.deleteQuietly(tmpResult);
+			tmpResult = tmpOptimized;
+		}
+
+		log.debug("tmpFromTemplate: {}", tmpResult);
+		return tmpResult;
 	}
 }

@@ -243,7 +243,7 @@ public class FormUtils {
 	 * Retrieve the form elements from a PropertyGroup definition.
 	 */
 	public static List<FormElement> getPropertyGroupForms(Map<PropertyGroup, List<FormElement>> formsElements,
-	                                                      String groupName) {
+														  String groupName) {
 		// long begin = System.currentTimeMillis();
 
 		for (Entry<PropertyGroup, List<FormElement>> entry : formsElements.entrySet()) {
@@ -261,7 +261,7 @@ public class FormUtils {
 	 * Retrieve the form elements from a PropertyGroup definition.
 	 */
 	public static Map<String, FormElement> getPropertyGroupFormsMap(Map<PropertyGroup, List<FormElement>>
-			                                                                formsElements, String groupName) {
+																			formsElements, String groupName) {
 		// long begin = System.currentTimeMillis();
 		Map<String, FormElement> map = new HashMap<String, FormElement>();
 
@@ -281,12 +281,8 @@ public class FormUtils {
 	 * Retrieve the form element from a PropertyGroups definition.
 	 */
 	public static FormElement getFormElement(Map<PropertyGroup, List<FormElement>> formsElements, String propertyName) {
-		for (Iterator<Entry<PropertyGroup, List<FormElement>>> it1 = formsElements.entrySet().iterator(); it1.hasNext(); ) {
-			Entry<PropertyGroup, List<FormElement>> entry = it1.next();
-
-			for (Iterator<FormElement> it2 = entry.getValue().iterator(); it2.hasNext(); ) {
-				FormElement fe = it2.next();
-
+		for (Entry<PropertyGroup, List<FormElement>> entry : formsElements.entrySet()) {
+			for (FormElement fe : entry.getValue()) {
 				if (fe.getName().equals(propertyName)) {
 					return fe;
 				}
@@ -870,8 +866,8 @@ public class FormUtils {
 		/**
 		 * Registers available DTDs.
 		 *
-		 * @param String publicId    - Public ID of DTD
-		 * @param String dtdFileName - the file name of DTD
+		 * @param publicId    - Public ID of DTD
+		 * @param dtdFileName - the file name of DTD
 		 */
 		public void registerDTD(String publicId, String dtdFileName) {
 			log.info("registerDTD({}, {})", publicId, dtdFileName);
@@ -882,7 +878,7 @@ public class FormUtils {
 		 * Returns DTD inputSource. Is DTD was found in the hashtable and inputSource was created
 		 * flad hasDTD is ser to true.
 		 *
-		 * @param publicId    - Public ID of DTD
+		 * @param publicId - Public ID of DTD
 		 * @param systemId - the file name of DTD
 		 * @return InputSource of DTD
 		 */
@@ -891,7 +887,7 @@ public class FormUtils {
 			hasDTD = false;
 			InputSource aInputSource = null;
 			String dtd = dtds.get(publicId);
-			log.info("resolveEntity(publicId={}, systemId={}) => {}", new Object[]{publicId, systemId, ((dtd == null) ? "NULL" : dtd)});
+			log.info("resolveEntity(publicId={}, systemId={}) => {}", publicId, systemId, ((dtd == null) ? "NULL" : dtd));
 
 			if (dtd != null) {
 				hasDTD = true;
@@ -932,6 +928,46 @@ public class FormUtils {
 		 */
 		public boolean hasDTD() {
 			return hasDTD;
+		}
+	}
+
+	/**
+	 * Get form elements from map
+	 */
+	public static void fillFormElements(Map<String, String> properties, List<FormElement> formElements) {
+		for (FormElement fe : formElements) {
+			String value = properties.get(fe.getName());
+
+			if (value != null) {
+				if (fe instanceof Input) {
+					((Input) fe).setValue(value);
+				} else if (fe instanceof SuggestBox) {
+					((SuggestBox) fe).setValue(value);
+				} else if (fe instanceof TextArea) {
+					((TextArea) fe).setValue(value);
+				} else if (fe instanceof CheckBox) {
+					((CheckBox) fe).setValue(Boolean.parseBoolean(value));
+				} else if (fe instanceof Select) {
+					Select sel = (Select) fe;
+
+					for (Option opt : sel.getOptions()) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+
+						while (st.hasMoreTokens()) {
+							String optVal = st.nextToken().trim();
+
+							if (opt.getValue().equals(optVal)) {
+								opt.setSelected(true);
+								break;
+							} else {
+								opt.setSelected(false);
+							}
+						}
+					}
+				} else {
+					// throw new ParseException("Unknown property definition: " + fe.getName());
+				}
+			}
 		}
 	}
 

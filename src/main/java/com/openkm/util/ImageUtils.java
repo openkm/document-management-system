@@ -203,4 +203,41 @@ public class ImageUtils {
 			throw new RuntimeException("Template exception", e);
 		}
 	}
+	
+	/**
+     * Execute ghostscript command
+     */
+    public static void ghostscript(String input, String output, String params) {
+        log.debug("ghostscript({}, {}, {})", input, output, params);
+        String cmd = null;
+
+        if (params == null || params.isEmpty()) {
+            throw new RuntimeException("Ghostcript parameters are empty");
+        }
+
+        if (Config.SYSTEM_GHOSTSCRIPT.isEmpty()) {
+            throw new RuntimeException(Config.SYSTEM_GHOSTSCRIPT + " not configured");
+        }
+
+        try {
+            HashMap<String, Object> hm = new HashMap<>();
+            hm.put("fileIn", input);
+            hm.put("fileOut", output);
+            String tpl = Config.SYSTEM_GHOSTSCRIPT + " " + params;
+            cmd = TemplateUtils.replace("SYSTEM_GHOSTSCRIPT", tpl, hm);
+            ExecutionResult er = ExecutionUtils.runCmd(cmd);
+
+            if (er.getExitValue() != 0) {
+                throw new RuntimeException(er.getStderr());
+            }
+        } catch (SecurityException e) {
+            throw new RuntimeException("Security exception executing command: " + cmd, e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Interrupted exception executing command: " + cmd, e);
+        } catch (IOException e) {
+            throw new RuntimeException("IO exception executing command: " + cmd, e);
+        } catch (TemplateException e) {
+            throw new RuntimeException("Template exception", e);
+        }
+    }
 }
