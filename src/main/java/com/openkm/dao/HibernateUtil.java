@@ -127,7 +127,7 @@ public class HibernateUtil {
 		//..
 		cfg.addAnnotatedClass(MailImportError.class);
 		cfg.addAnnotatedClass(Plugin.class);
-		
+
 		return cfg;
 	}
 
@@ -150,7 +150,9 @@ public class HibernateUtil {
 				cfg.setProperty("hibernate.search.default.exclusive_index_use", Config.HIBERNATE_SEARCH_INDEX_EXCLUSIVE);
 				cfg.setProperty("hibernate.search.default.optimizer.operation_limit.max", "500");
 				cfg.setProperty("hibernate.search.default.optimizer.transaction_limit.max", "75");
-				cfg.setProperty("hibernate.worker.execution", "async");
+				cfg.setProperty("hibernate.search.worker.execution", Config.HIBERNATE_SEARCH_WORKER_EXECUTION);
+				cfg.setProperty("hibernate.search.worker.thread_pool.size", Config.HIBERNATE_SEARCH_WORKER_THREAD_POOL_SIZE);
+				cfg.setProperty("hibernate.search.worker.buffer_queue.max", Config.HIBERNATE_SEARCH_WORKER_BUFFER_QUEUE_MAX);
 
 				// http://relation.to/Bloggers/PostgreSQLAndBLOBs
 				// cfg.setProperty("hibernate.jdbc.use_streams_for_binary", "false");

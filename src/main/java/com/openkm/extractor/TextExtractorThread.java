@@ -38,8 +38,8 @@ public class TextExtractorThread implements Runnable {
 	private long id = 0;
 
 	public TextExtractorThread(TextExtractorWork work) {
-		this.work = work;
 		this.id = global++;
+		this.work = work;
 	}
 
 	@Override

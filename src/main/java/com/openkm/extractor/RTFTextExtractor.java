@@ -54,7 +54,6 @@ public class RTFTextExtractor extends AbstractTextExtractor {
 	 * {@inheritDoc}
 	 */
 	public String extractText(InputStream stream, String type, String encoding) throws IOException {
-
 		try {
 			RTFEditorKit rek = new RTFEditorKit();
 			DefaultStyledDocument doc = new DefaultStyledDocument();
