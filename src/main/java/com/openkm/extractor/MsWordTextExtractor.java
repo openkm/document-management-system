@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,13 @@ import java.io.InputStream;
 /**
  * Text extractor for Microsoft Word documents.
  */
+@PluginImplementation
 public class MsWordTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(MsWordTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(MsWordTextExtractor.class);
 
 	/**
 	 * Force loading of dependent class.
@@ -62,7 +64,7 @@ public class MsWordTextExtractor extends AbstractTextExtractor {
 		try {
 			return new WordExtractor(stream).getText();
 		} catch (Exception e) {
-			logger.warn("Failed to extract Word text content", e);
+			log.warn("Failed to extract Word text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

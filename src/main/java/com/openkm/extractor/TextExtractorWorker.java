@@ -41,8 +41,8 @@ import java.util.TimerTask;
  * @author pavila
  */
 public class TextExtractorWorker extends TimerTask {
-	private static Logger log = LoggerFactory.getLogger(TextExtractorWorker.class);
-	private static List<TextExtractorWork> inProgress = new ArrayList<TextExtractorWork>();
+	private static final Logger log = LoggerFactory.getLogger(TextExtractorWorker.class);
+	private static List<TextExtractorWork> inProgress = new ArrayList<>();
 	private static Calendar lastExecution = null;
 	private static volatile boolean running = false;
 

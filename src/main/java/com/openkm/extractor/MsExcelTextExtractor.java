@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.poi.hssf.extractor.ExcelExtractor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.slf4j.Logger;
@@ -32,12 +33,13 @@ import java.io.InputStream;
 /**
  * Text extractor for Microsoft Excel sheets.
  */
+@PluginImplementation
 public class MsExcelTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(MsExcelTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(MsExcelTextExtractor.class);
 
 	/**
 	 * Force loading of dependent class.
@@ -63,7 +65,7 @@ public class MsExcelTextExtractor extends AbstractTextExtractor {
 			POIFSFileSystem fs = new POIFSFileSystem(stream);
 			return new ExcelExtractor(fs).getText();
 		} catch (RuntimeException e) {
-			logger.warn("Failed to extract Excel text content", e);
+			log.warn("Failed to extract Excel text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

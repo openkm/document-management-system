@@ -27,9 +27,12 @@ import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.dao.NodeBaseDAO;
+import com.openkm.dao.PluginDAO;
 import com.openkm.module.db.stuff.PersistentFile;
+import com.openkm.util.PluginUtils;
 import com.openkm.util.SystemProfiling;
 import com.openkm.util.UserActivity;
+import net.xeoh.plugins.base.Plugin;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,72 +40,64 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author pavila
  */
 public class RegisteredExtractors {
-	private static Logger log = LoggerFactory.getLogger(RegisteredExtractors.class);
-	private static Map<String, TextExtractor> engine = new HashMap<String, TextExtractor>();
+	private static final Logger log = LoggerFactory.getLogger(RegisteredExtractors.class);
+	public static final String PLUGIN_URI = "classpath://com.openkm.extractor.**";
+	private static List<TextExtractor> extractorList = null;
 	private static final int MIN_EXTRACTION = 16;
 
 	/**
-	 * Initialize text extractors from REGISTERED_TEXT_EXTRACTORS
+	 * Enable default extractors
 	 */
-	public static synchronized void init() {
-		log.info("Initializing text extractors");
+	public static void enableDefaultExtractors() throws URISyntaxException, DatabaseException {
+		URI uri = new URI(PLUGIN_URI);
 
-		for (String clazz : Config.REGISTERED_TEXT_EXTRACTORS) {
-			try {
-				Object obj = Class.forName(clazz).newInstance();
+		for (TextExtractor te : PluginUtils.getAllPlugins(uri, TextExtractor.class)) {
+			com.openkm.dao.bean.Plugin plugin = new com.openkm.dao.bean.Plugin();
+			plugin.setClassName(te.getClass().getCanonicalName());
+			plugin.setActive(false);
 
-				if (obj instanceof TextExtractor) {
-					TextExtractor te = (TextExtractor) obj;
-
-					for (String contType : te.getContentTypes()) {
-						log.info("Registering {} for '{}'", te.getClass().getCanonicalName(), contType);
-						engine.put(contType, te);
-					}
-				} else {
-					log.warn("Unknown text extractor class: {}", clazz);
+			for (String className : Config.REGISTERED_TEXT_EXTRACTORS) {
+				if (te.getClass().getSimpleName().equals(className)) {
+					plugin.setActive(true);
+					break;
 				}
-			} catch (ClassNotFoundException e) {
-				log.warn("Extractor class not found: {}", clazz, e);
-			} catch (LinkageError e) {
-				log.warn("Extractor dependency not found: {}", clazz, e);
-			} catch (IllegalAccessException e) {
-				log.warn("Extractor constructor not accessible: {}", clazz, e);
-			} catch (InstantiationException e) {
-				log.warn("Extractor instantiation failed: {}", clazz, e);
 			}
-		}
-	}
 
-	/**
-	 * Return registered content types
-	 */
-	public static String[] getContentTypes() {
-		return engine.keySet().toArray(new String[engine.keySet().size()]);
+			PluginDAO.getInstance().create(plugin);
+		}
 	}
 
 	/**
 	 * Return guessed text extractor
 	 */
-	public static TextExtractor getTextExtractor(String mimeType) {
-		return engine.get(mimeType);
+	public static TextExtractor getTextExtractor(String mimeType) throws URISyntaxException {
+		for (TextExtractor te : findExtractors(false)) {
+			for (String teMime : te.getContentTypes()) {
+				if (teMime.equals(mimeType)) {
+					log.debug("Text extractor for '{}' found: {}", mimeType, te.getClass());
+					return te;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
 	 * Check for registered text extractor
 	 */
-	public static boolean isRegistered(String className) {
-		List<String> classes = Config.REGISTERED_TEXT_EXTRACTORS;
-
-		for (String name : classes) {
-			if (name.equals(className)) {
+	public static boolean isRegistered(String className) throws URISyntaxException {
+		for (TextExtractor te : findExtractors(false)) {
+			if (te.getClass().getCanonicalName().equals(className)) {
 				return true;
 			}
 		}
@@ -114,7 +109,7 @@ public class RegisteredExtractors {
 	 * Extract text to be indexed
 	 */
 	public static String getText(String docPath, String mimeType, String encoding, InputStream isContent) throws IOException {
-		log.debug("getText({}, {}, {}, {})", new Object[]{docPath, mimeType, encoding, isContent});
+		log.debug("getText({}, {}, {}, {})", docPath, mimeType, encoding, isContent);
 		long begin = System.currentTimeMillis();
 		String failureMessage = "Unknown error";
 		boolean failure = false;
@@ -150,22 +145,26 @@ public class RegisteredExtractors {
 	 */
 	public static String getText(String mimeType, String encoding, InputStream isContent) throws IOException {
 		BufferedInputStream bis = new BufferedInputStream(isContent);
-		TextExtractor te = engine.get(mimeType);
 		String text = null;
 
-		if (te != null) {
-			if (mimeType.startsWith("text/") && encoding == null) {
-				CharsetDetector detector = new CharsetDetector();
-				detector.setText(bis);
-				CharsetMatch cm = detector.detect();
-				encoding = cm.getName();
+		try {
+			TextExtractor te = getTextExtractor(mimeType);
+
+			if (te != null) {
+				if (mimeType.startsWith("text/") && encoding == null) {
+					CharsetDetector detector = new CharsetDetector();
+					detector.setText(bis);
+					CharsetMatch cm = detector.detect();
+					encoding = cm.getName();
+				}
+
+				text = te.extractText(bis, mimeType, encoding);
+			} else {
+				throw new IOException("Full text indexing of '" + mimeType + "' is not supported");
 			}
-
-			text = te.extractText(bis, mimeType, encoding);
-		} else {
-			throw new IOException("Full text indexing of '" + mimeType + "' is not supported");
+		} catch (URISyntaxException e) {
+			throw new IOException(e.getMessage(), e);
 		}
-
 
 		IOUtils.closeQuietly(bis);
 		return text;
@@ -179,9 +178,9 @@ public class RegisteredExtractors {
 	 * Extract text to be indexed
 	 */
 	@SuppressWarnings("unused")
-	private static String getDbText(String docUuid, String mimeType, String encoding, InputStream isContent)
-			throws IOException, PathNotFoundException, DatabaseException {
-		log.debug("getDbText({}, {}, {}, {})", new Object[]{docUuid, mimeType, encoding, isContent});
+	private static String getDbText(String docUuid, String mimeType, String encoding, InputStream isContent) throws
+			PathNotFoundException, DatabaseException {
+		log.debug("getDbText({}, {}, {}, {})", docUuid, mimeType, encoding, isContent);
 		String text = null;
 
 		try {
@@ -214,5 +213,27 @@ public class RegisteredExtractors {
 		} finally {
 			IOUtils.closeQuietly(isContent);
 		}
+	}
+
+	//
+	// DB Methods
+	//
+
+	/**
+	 * Get all converters
+	 */
+	public static synchronized List<TextExtractor> findExtractors(boolean reload) throws URISyntaxException {
+		log.debug("findExtractors({})", reload);
+
+		if (extractorList == null || reload) {
+			extractorList = new ArrayList<>();
+			URI uri = new URI(PLUGIN_URI);
+
+			for (Plugin plg : PluginUtils.getPlugins(uri, TextExtractor.class)) {
+				extractorList.add((TextExtractor) plg);
+			}
+		}
+
+		return extractorList;
 	}
 }

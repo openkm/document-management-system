@@ -43,6 +43,8 @@ import com.openkm.automation.Validation;
 import com.openkm.core.DatabaseException;
 import com.openkm.dao.AutomationDAO;
 import com.openkm.dao.PluginDAO;
+import com.openkm.extractor.RegisteredExtractors;
+import com.openkm.extractor.TextExtractor;
 import com.openkm.util.PluginUtils;
 import com.openkm.util.WebUtils;
 
@@ -55,7 +57,7 @@ import net.xeoh.plugins.base.Plugin;
 public class PluginServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(PluginServlet.class);
-	private String[] pluginList = { Action.class.getCanonicalName(), Validation.class.getCanonicalName()};
+	private String[] pluginList = { Action.class.getCanonicalName(), Validation.class.getCanonicalName(), TextExtractor.class.getCanonicalName()};
 
 	/**
 	 *
@@ -100,6 +102,8 @@ public class PluginServlet extends BaseServlet {
 
 		if (Validation.class.getCanonicalName().equalsIgnoreCase(pluginSelected)) {
 			AutomationDAO.getInstance().findValidations(true);
+		} else if (TextExtractor.class.getCanonicalName().equalsIgnoreCase(pluginSelected)) {
+			RegisteredExtractors.findExtractors(true);
 		} else {
 			AutomationDAO.getInstance().findActions(true);
 		}
@@ -126,7 +130,11 @@ public class PluginServlet extends BaseServlet {
 			plugins = (List<Plugin>) (List<?>) PluginUtils.getAllPlugins(new URI(AutomationDAO.PLUGIN_URI),
 					Validation.class);
 			pluginsLoaded = (List<Plugin>) (List<?>) AutomationDAO.getInstance().findValidations(false);
-			Collections.sort(plugins, OrderByClassName.getInstance());		
+			Collections.sort(plugins, OrderByClassName.getInstance());
+		} else if (TextExtractor.class.getCanonicalName().equalsIgnoreCase(pluginSelected)) {
+			plugins = (List<Plugin>) (List<?>) PluginUtils.getAllPlugins(new URI(RegisteredExtractors.PLUGIN_URI), TextExtractor.class);
+			pluginsLoaded = (List<Plugin>) (List<?>) RegisteredExtractors.findExtractors(false);
+			Collections.sort(plugins, OrderByClassName.getInstance());
 		} else {
 			plugins = (List<Plugin>) (List<?>) PluginUtils.getAllPlugins(new URI(AutomationDAO.PLUGIN_URI),
 					Action.class);

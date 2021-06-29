@@ -27,6 +27,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.Tag;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +38,10 @@ import java.util.Iterator;
 
 /**
  * Text extractor for JPEG image documents.
- * Use java metadata extraction library from 
+ * Use java metadata extraction library from
  * http://www.drewnoakes.com/code/exif/index.html
  */
+@PluginImplementation
 public class ExifTextExtractor extends AbstractTextExtractor {
 
 	/**

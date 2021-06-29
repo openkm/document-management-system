@@ -26,6 +26,7 @@ import com.openkm.core.Config;
 import com.openkm.util.ExecutionUtils;
 import com.openkm.util.FileUtils;
 import com.openkm.util.TemplateUtils;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,7 @@ import java.util.HashMap;
  * Text extractor for MS Excel.
  * Use xls2csv from http://www.wagner.pp.ru/~vitus/software/catdoc/
  */
+@PluginImplementation
 public class NativeMsExcelTextExtractor extends AbstractTextExtractor {
 
 	/**

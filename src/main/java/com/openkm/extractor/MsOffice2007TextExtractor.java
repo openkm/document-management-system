@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.util.IOUtils;
@@ -37,6 +38,7 @@ import java.io.InputStream;
 /**
  * Text extractor for MS Office 2007 documents.
  */
+@PluginImplementation
 public class MsOffice2007TextExtractor extends AbstractTextExtractor {
 	private static final Logger log = LoggerFactory.getLogger(MsOffice2007TextExtractor.class);
 

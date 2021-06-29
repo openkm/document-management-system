@@ -26,6 +26,7 @@ import com.openkm.util.DocumentUtils;
 import com.openkm.util.ExecutionUtils;
 import com.openkm.util.FileUtils;
 import com.openkm.util.TemplateUtils;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,9 @@ import java.util.HashMap;
 
 /**
  * Text extractor for TIFF image documents.
- * Use OCR from http://code.google.com/p/tesseract-ocr/ 
+ * Use OCR from http://code.google.com/p/tesseract-ocr/
  */
+@PluginImplementation
 public class Tesseract2TextExtractor extends AbstractTextExtractor {
 
 	/**

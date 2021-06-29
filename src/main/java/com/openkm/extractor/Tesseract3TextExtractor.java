@@ -24,6 +24,7 @@ package com.openkm.extractor;
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
 import com.openkm.util.*;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import java.util.HashMap;
  * Text extractor for image documents.
  * Use OCR from http://code.google.com/p/tesseract-ocr/
  */
+@PluginImplementation
 public class Tesseract3TextExtractor extends AbstractTextExtractor {
 
 	/**

@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
@@ -44,6 +45,7 @@ import java.nio.charset.Charset;
  * types reported by {@link #getContentTypes()}. However, it often makes sense to use more specialized extractors that
  * better understand the specific content type.
  */
+@PluginImplementation
 public class XMLTextExtractor extends AbstractTextExtractor {
 
 	/**
