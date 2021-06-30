@@ -23,6 +23,7 @@ package com.openkm.extractor;
 
 import com.openkm.core.ConversionException;
 import com.openkm.util.DocConverter;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -35,9 +36,10 @@ import java.io.InputStream;
 
 /**
  * Text extractor for JPEG image documents.
- * Use java metadata extraction library from 
+ * Use java metadata extraction library from
  * http://www.drewnoakes.com/code/exif/index.html
  */
+@PluginImplementation
 public class OOTextExtractor extends AbstractTextExtractor {
 
 	/**

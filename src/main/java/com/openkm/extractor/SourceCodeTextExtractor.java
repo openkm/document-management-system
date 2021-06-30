@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Text extractor for source code.
  */
+@PluginImplementation
 public class SourceCodeTextExtractor extends AbstractTextExtractor {
 
 	/**

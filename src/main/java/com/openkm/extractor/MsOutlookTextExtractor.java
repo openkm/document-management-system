@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.poi.hsmf.MAPIMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,13 @@ import java.io.InputStream;
 /**
  * Text extractor for Microsoft Outlook messages.
  */
+@PluginImplementation
 public class MsOutlookTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(MsOutlookTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(MsOutlookTextExtractor.class);
 
 	/**
 	 * Force loading of dependent class.
@@ -68,7 +70,7 @@ public class MsOutlookTextExtractor extends AbstractTextExtractor {
 			buffer.append(message.getTextBody());
 			return buffer.toString();
 		} catch (Exception e) {
-			logger.warn("Failed to extract Message content", e);
+			log.warn("Failed to extract Message content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

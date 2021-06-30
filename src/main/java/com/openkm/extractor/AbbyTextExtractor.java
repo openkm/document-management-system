@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * Text extractor for image documents.
  * Use OCR from Abby (http://www.ocr4linux.com/en:documentation)
  */
+@PluginImplementation
 public class AbbyTextExtractor extends CuneiformTextExtractor {
 
 	/**

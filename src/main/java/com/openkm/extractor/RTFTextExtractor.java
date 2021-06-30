@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +33,13 @@ import java.io.InputStream;
 /**
  * Text extractor for Rich Text Format (RTF)
  */
+@PluginImplementation
 public class RTFTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(RTFTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(RTFTextExtractor.class);
 
 	/**
 	 * Creates a new <code>RTFTextExtractor</code> instance.
@@ -57,10 +59,9 @@ public class RTFTextExtractor extends AbstractTextExtractor {
 			RTFEditorKit rek = new RTFEditorKit();
 			DefaultStyledDocument doc = new DefaultStyledDocument();
 			rek.read(stream, doc, 0);
-			String text = doc.getText(0, doc.getLength());
-			return text;
+			return doc.getText(0, doc.getLength());
 		} catch (Throwable e) {
-			logger.warn("Failed to extract RTF text content", e);
+			log.warn("Failed to extract RTF text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -40,12 +41,13 @@ import java.util.zip.ZipInputStream;
 /**
  * Text extractor for OpenOffice documents.
  */
+@PluginImplementation
 public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(OpenOfficeTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(OpenOfficeTextExtractor.class);
 
 	/**
 	 * Creates a new <code>OpenOfficeTextExtractor</code> instance.
@@ -92,7 +94,7 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 
 			return contentHandler.getContent();
 		} catch (ParserConfigurationException | SAXException e) {
-			logger.warn("Failed to extract OpenOffice text content", e);
+			log.warn("Failed to extract OpenOffice text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

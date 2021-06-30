@@ -21,13 +21,13 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
@@ -40,12 +40,13 @@ import java.io.Reader;
 /**
  * Text extractor for HyperText Markup Language (HTML).
  */
+@PluginImplementation
 public class HTMLTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(HTMLTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(HTMLTextExtractor.class);
 
 	/**
 	 * Creates a new <code>HTMLTextExtractor</code> instance.
@@ -77,11 +78,8 @@ public class HTMLTextExtractor extends AbstractTextExtractor {
 			transformer.transform(source, result);
 
 			return parser.getContents();
-		} catch (TransformerConfigurationException e) {
-			logger.warn("Failed to extract HTML text content", e);
-			throw new IOException(e.getMessage(), e);
 		} catch (TransformerException e) {
-			logger.warn("Failed to extract HTML text content", e);
+			log.warn("Failed to extract HTML text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			stream.close();

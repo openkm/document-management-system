@@ -21,6 +21,7 @@
 
 package com.openkm.extractor;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.poi.hslf.extractor.PowerPointExtractor;
 import org.apache.poi.poifs.eventfilesystem.POIFSReader;
 import org.slf4j.Logger;
@@ -32,12 +33,13 @@ import java.io.InputStream;
 /**
  * Text extractor for Microsoft PowerPoint presentations.
  */
+@PluginImplementation
 public class MsPowerPointTextExtractor extends AbstractTextExtractor {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(MsPowerPointTextExtractor.class);
+	private static final Logger log = LoggerFactory.getLogger(MsPowerPointTextExtractor.class);
 
 	/**
 	 * Force loading of dependent class.
@@ -63,7 +65,7 @@ public class MsPowerPointTextExtractor extends AbstractTextExtractor {
 			PowerPointExtractor extractor = new PowerPointExtractor(stream);
 			return extractor.getText(true, true);
 		} catch (RuntimeException e) {
-			logger.warn("Failed to extract PowerPoint text content", e);
+			log.warn("Failed to extract PowerPoint text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
 			try {

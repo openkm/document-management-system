@@ -27,6 +27,7 @@ import entagged.audioformats.Tag;
 import entagged.audioformats.exceptions.CannotReadException;
 import entagged.audioformats.mp3.util.id3frames.TextId3Frame;
 import entagged.audioformats.ogg.util.OggTagField;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -40,9 +41,10 @@ import java.util.Iterator;
 
 /**
  * Text extractor for audio documents.
- * Use java metadata extraction library from 
+ * Use java metadata extraction library from
  * http://entagged.sourceforge.net/
  */
+@PluginImplementation
 public class AudioTextExtractor extends AbstractTextExtractor {
 
 	/**

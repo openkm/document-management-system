@@ -27,6 +27,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.multi.GenericMultipleBarcodeReader;
 import com.google.zxing.multi.MultipleBarcodeReader;
 import com.openkm.util.SystemProfiling;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ import java.util.Hashtable;
  * Text extractor for image documents.
  * Use OCR from https://code.launchpad.net/cuneiform-linux
  */
+@PluginImplementation
 public class BarcodeTextExtractor extends AbstractTextExtractor {
 
 	/**

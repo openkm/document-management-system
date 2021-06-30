@@ -23,6 +23,7 @@ package com.openkm.extractor;
 
 import com.openkm.core.Config;
 import com.openkm.util.*;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 /**
  * Text extractor for Portable Document Format (PDF).
  */
+@PluginImplementation
 public class PdfTextExtractor extends AbstractTextExtractor {
 
 	/**

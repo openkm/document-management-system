@@ -21,13 +21,16 @@
 
 package com.openkm.servlet.admin;
 
-import com.openkm.api.OKMDocument;
-import com.openkm.api.OKMRepository;
-import com.openkm.bean.Repository;
-import com.openkm.core.*;
-import com.openkm.extractor.RegisteredExtractors;
-import com.openkm.extractor.TextExtractor;
-import com.openkm.util.PathUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -38,14 +41,18 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
+import com.openkm.api.OKMDocument;
+import com.openkm.api.OKMRepository;
+import com.openkm.bean.Repository;
+import com.openkm.core.AccessDeniedException;
+import com.openkm.core.DatabaseException;
+import com.openkm.core.LockException;
+import com.openkm.core.MimeTypeConfig;
+import com.openkm.core.PathNotFoundException;
+import com.openkm.core.RepositoryException;
+import com.openkm.extractor.RegisteredExtractors;
+import com.openkm.extractor.TextExtractor;
+import com.openkm.util.PathUtils;
 
 /**
  * Mime type management servlet
@@ -125,17 +132,22 @@ public class CheckTextExtractionServlet extends BaseServlet {
 
 				if (is != null) {
 					if (!MimeTypeConfig.MIME_UNDEFINED.equals(mimeType)) {
-						TextExtractor extClass = RegisteredExtractors.getTextExtractor(mimeType);
+						try {
+							if (extractor != null && !extractor.isEmpty()) {
+								TextExtractor extClass = (TextExtractor) Class.forName(extractor).newInstance();
+								text = extClass.extractText(is, mimeType, null);
+							} else {
+								TextExtractor extClass = RegisteredExtractors.getTextExtractor(mimeType);
 
-						if (extClass != null) {
-							try {
-								extractor = extClass.getClass().getCanonicalName();
-								text = RegisteredExtractors.getText(mimeType, null, is);
-							} catch (Exception e) {
-								error = e.getMessage();
+								if (extClass != null) {
+									extractor = extClass.getClass().getCanonicalName();
+									text = RegisteredExtractors.getText(mimeType, null, is);
+								} else {
+									extractor = "Undefined text extractor";
+								}
 							}
-						} else {
-							extractor = "Undefined text extractor";
+						} catch (Exception e) {
+							error = e.getMessage();
 						}
 					}
 				}

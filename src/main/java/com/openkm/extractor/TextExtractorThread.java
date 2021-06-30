@@ -32,10 +32,10 @@ import java.io.FileNotFoundException;
  * @author pavila
  */
 public class TextExtractorThread implements Runnable {
-	private static Logger log = LoggerFactory.getLogger(TextExtractorThread.class);
+	private static final Logger log = LoggerFactory.getLogger(TextExtractorThread.class);
 	private static volatile long global = 1;
+	private TextExtractorWork work;
 	private long id = 0;
-	private TextExtractorWork work = null;
 
 	public TextExtractorThread(TextExtractorWork work) {
 		this.work = work;
@@ -48,9 +48,7 @@ public class TextExtractorThread implements Runnable {
 			log.debug("processConcurrent.Working {} on {}", id, work);
 			NodeDocumentDAO.getInstance().textExtractorHelper(work);
 			log.debug("processConcurrent.Finish {} on {}", id, work);
-		} catch (FileNotFoundException e) {
-			log.warn(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (FileNotFoundException | DatabaseException e) {
 			log.warn(e.getMessage(), e);
 		}
 	}
