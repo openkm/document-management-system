@@ -81,7 +81,7 @@ public class FormManager {
 	private Map<String, Object> workflowVarMap = new HashMap<String, Object>();
 	private FormManager singleton;
 	private ValidatorToFire validatorToFire;
-	
+
 	/**
 	 * FormManager used in workflow mode
 	 */
@@ -543,7 +543,7 @@ public class FormManager {
 			textBox.setWidth(gwtFormElement.getWidth());
 			textBox.setStyleName("okm-Input");
 			textBox.setReadOnly(true);
-			textBox.setEnabled((!readOnly && !suggestBox.isReadonly()) || isSearchView); // read only 
+			textBox.setEnabled((!readOnly && !suggestBox.isReadonly()) || isSearchView); // read only
 			final HTML hiddenKey = new HTML("");
 			hiddenKey.setVisible(false);
 
@@ -564,13 +564,13 @@ public class FormManager {
 				databaseRecordImage.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						List<String> tables = new ArrayList<String>();
+						List<String> tables = new ArrayList<>();
 						if (suggestBox.getTable() != null) {
 							tables.add(suggestBox.getTable());
 						}
 
 						DatabaseRecord databaseRecord = new DatabaseRecord(hiddenKey, textBox);
-						// when any changes is done is fired search.metadataValueChanged();
+						// when any changes are done is fired search.metadataValueChanged();
 						DatabaseRecordSelectPopup drsPopup = new DatabaseRecordSelectPopup(suggestBox, databaseRecord, propertyHandler);
 						drsPopup.setWidth("300px");
 						drsPopup.setHeight("220px");
@@ -590,30 +590,6 @@ public class FormManager {
 				textBox.setValue(suggestBox.getText());
 				value.setHTML(suggestBox.getText());
 				hiddenKey.setHTML(suggestBox.getValue());
-				
-				/*List<String> tables = new ArrayList<String>();
-				
-				if (suggestBox.getTable() != null) {
-					tables.add(suggestBox.getTable());
-				}
-				
-				String formatedQuery = MessageFormat.format(suggestBox.getValueQuery(), suggestBox.getValue());
-				keyValueService.getKeyValues(tables, formatedQuery, new AsyncCallback<List<GWTKeyValue>>() {
-					@Override
-					public void onSuccess(List<GWTKeyValue> result) {
-						if (!result.isEmpty()) {
-							GWTKeyValue keyValue = result.get(0);
-							textBox.setValue(keyValue.getValue());
-							value.setHTML(keyValue.getValue());
-							hiddenKey.setHTML(keyValue.getKey());
-						}
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						Main.get().showError("getKeyValues", caught);
-					}
-				}); */
 			}
 
 			if (searchView || isMassiveView) {
@@ -707,7 +683,7 @@ public class FormManager {
 				listBox.setEnabled((!readOnly && !gwtSelect.isReadonly()) || isSearchView); // read only
 				hPanel.add(listBox);
 				listBox.setStyleName("okm-Select");
-				listBox.addItem("", ""); // Always we set and empty value
+				listBox.addItem("", ""); // We always set an empty value
 
 				for (GWTOption option : gwtSelect.getOptions()) {
 					listBox.addItem(option.getLabel(), option.getValue());
@@ -781,7 +757,7 @@ public class FormManager {
 				ListBox listMulti = new ListBox();
 				listMulti.setEnabled((!readOnly && !gwtSelect.isReadonly()) || isSearchView); // read only
 				listMulti.setStyleName("okm-Select");
-				listMulti.addItem("", ""); // Always we set and empty value
+				listMulti.addItem("", ""); // We always set an empty value
 
 				// Table for values
 				FlexTable tableMulti = new FlexTable();
@@ -810,9 +786,7 @@ public class FormManager {
 									String value = htmlValue.getText();
 									String optionLabel = "";
 
-									for (Iterator<GWTOption> itOptions = gwtSelect.getOptions().iterator(); itOptions
-											.hasNext(); ) {
-										GWTOption option = itOptions.next();
+									for (GWTOption option : gwtSelect.getOptions()) {
 										if (option.getValue().equals(htmlValue.getText())) {
 											optionLabel = option.getLabel();
 											break;
@@ -879,9 +853,7 @@ public class FormManager {
 				table.getCellFormatter().setVerticalAlignment(row, 1, VerticalPanel.ALIGN_TOP);
 				table.getCellFormatter().setWidth(row, 1, "100%");
 
-				for (Iterator<GWTOption> itData = gwtSelect.getOptions().iterator(); itData.hasNext(); ) {
-					final GWTOption option = itData.next();
-
+				for (final GWTOption option : gwtSelect.getOptions()) {
 					// Looks if there's some selected value
 					if (option.isSelected()) {
 						int rowTableMulti = tableMulti.getRowCount();
@@ -1045,11 +1017,11 @@ public class FormManager {
 			}
 		} else if (gwtFormElement instanceof GWTText) {
 			HorizontalPanel hPanel = new HorizontalPanel();
-			HTML title = new HTML("&nbsp;" + ((GWTText) gwtFormElement).getLabel() + "&nbsp;");
+			HTML title = new HTML("&nbsp;" + gwtFormElement.getLabel() + "&nbsp;");
 			title.setStyleName("okm-NoWrap");
 			hPanel.add(Util.hSpace("10px"));
 			hPanel.add(title);
-			hPanel.setCellWidth(title, ((GWTText) gwtFormElement).getWidth());
+			hPanel.setCellWidth(title, gwtFormElement.getWidth());
 			hWidgetProperties.put(propertyName, hPanel);
 			table.setWidget(row, 0, hPanel);
 			table.getFlexCellFormatter().setColSpan(row, 0, 2);
@@ -1061,14 +1033,18 @@ public class FormManager {
 			Image horizontalLine2 = new Image("img/transparent_pixel.gif");
 			horizontalLine2.setStyleName("okm-TopPanel-Line-Border");
 			horizontalLine2.setSize("100%", "2px");
-			HTML title = new HTML("&nbsp;" + ((GWTSeparator) gwtFormElement).getLabel() + "&nbsp;");
-			title.setStyleName("okm-NoWrap");
 			hPanel.add(horizontalLine);
-			hPanel.add(title);
+
+			if (!gwtFormElement.getLabel().isEmpty()) {
+				HTML title = new HTML("&nbsp;" + gwtFormElement.getLabel() + "&nbsp;");
+				title.setStyleName("okm-NoWrap");
+				hPanel.add(title);
+			}
+
 			hPanel.add(horizontalLine2);
 			hPanel.setCellVerticalAlignment(horizontalLine, HasAlignment.ALIGN_MIDDLE);
 			hPanel.setCellVerticalAlignment(horizontalLine2, HasAlignment.ALIGN_MIDDLE);
-			hPanel.setCellWidth(horizontalLine2, ((GWTSeparator) gwtFormElement).getWidth());
+			hPanel.setCellWidth(horizontalLine2, gwtFormElement.getWidth());
 			hWidgetProperties.put(propertyName, hPanel);
 			table.setWidget(row, 0, hPanel);
 			table.getFlexCellFormatter().setColSpan(row, 0, 2);
@@ -1217,9 +1193,6 @@ public class FormManager {
 	 * <p>
 	 * Called externally by file browser to draw form element, really used to do not reply draw logic and use actual
 	 * Use with caution table elements will be removed after executed this method
-	 *
-	 * @param gwtFormElement
-	 * @return
 	 */
 	public Widget getDrawFormElement(GWTFormElement gwtFormElement) {
 		Widget widget = new HTML(""); // empty widget ( used in case not applicable form elements )
@@ -1288,7 +1261,7 @@ public class FormManager {
 		}
 		int row = table.getRowCount();
 		isSearchView = true;
-		setFormElements(Arrays.asList(gwtFormElement)); // Initilizing form element list ( needed by edit 
+		setFormElements(Arrays.asList(gwtFormElement)); // Initilizing form element list ( needed by edit
 		drawFormElement(row, gwtFormElement, false, isSearchView);
 		drawed = true;
 		edit();
