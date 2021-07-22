@@ -30,8 +30,6 @@ import org.hibernate.Session;
  * @author pavila
  */
 public class MajorMinorReleaseVersionNumerationAdapter implements VersionNumerationAdapter {
-	public static final int MINOR = 1;
-	public static final int MAJOR = 2;
 
 	@Override
 	public String getInitialVersionNumber() {
@@ -49,11 +47,11 @@ public class MajorMinorReleaseVersionNumerationAdapter implements VersionNumerat
 		NodeDocumentVersion ndv = null;
 
 		do {
-			if (increment == MAJOR) {
+			if (increment == INCREASE_MAJOR) {
 				major++;
 				minor = 0;
 				release = 0;
-			} else if (increment == MINOR) {
+			} else if (increment == INCREASE_MINOR) {
 				minor++;
 				release = 0;
 			} else {
