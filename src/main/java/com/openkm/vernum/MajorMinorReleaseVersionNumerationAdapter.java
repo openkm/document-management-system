@@ -30,8 +30,8 @@ import org.hibernate.Session;
  * @author pavila
  */
 public class MajorMinorReleaseVersionNumerationAdapter implements VersionNumerationAdapter {
-	public static final int MINOR = 1;
-	public static final int MAJOR = 2;
+	public static final int MAJOR = 1;
+	public static final int MINOR = 2;
 
 	@Override
 	public String getInitialVersionNumber() {
