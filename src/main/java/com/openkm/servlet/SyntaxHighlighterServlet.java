@@ -52,7 +52,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("doGet({}, {})", request, response);
-		String path = WebUtils.getString(request, "docPath");
+		String uuid = WebUtils.getString(request, "uuid");
 		String mimeType = WebUtils.getString(request, "mimeType");
 		String core = WebUtils.getString(request, "core");
 		String theme = WebUtils.getString(request, "theme");
@@ -60,7 +60,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 		InputStream fis = null;
 
 		try {
-			fis = OKMDocument.getInstance().getContent(null, path, false);
+			fis = OKMDocument.getInstance().getContent(null, uuid, false);
 			detector.setText(new BufferedInputStream(fis));
 			CharsetMatch cm = detector.detect();
 			String content = cm.getString();

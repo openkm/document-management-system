@@ -64,7 +64,7 @@ public class SyntaxHighlighterPreview extends Composite {
 		String core = Main.get().workspaceUserProperties.getWorkspace().getHtmlSyntaxHighlighterCore();
 		String theme = Main.get().workspaceUserProperties.getWorkspace().getHtmlSyntaxHighlighterTheme();
 		iframe.setUrl(Main.CONTEXT + "/SyntaxHighlighter?mimeType=" + doc.getMimeType() + "&core=" + core
-				+ "&theme=" + theme + "&docPath=" + doc.getPath());
+				+ "&theme=" + theme + "&uuid=" + doc.getUuid());
 	}
 
 	/**
