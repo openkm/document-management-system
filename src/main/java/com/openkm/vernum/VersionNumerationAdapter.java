@@ -33,14 +33,19 @@ import org.hibernate.Session;
  * @see MajorMinorReleaseVersionNumerationAdapter
  */
 public interface VersionNumerationAdapter {
-	final String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.name=:name";
+	int INCREASE_DEFAULT = 0;
+	int INCREASE_MINOR = 1;
+	int INCREASE_MAJOR = 2;
+	int INCREASE_MAJOR_MINOR = 3;
+
+	String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.name=:name";
 
 	/**
 	 * Obtain the initial version number to be set when creating a new document
 	 *
 	 * @return This first version number.
 	 */
-	public String getInitialVersionNumber();
+	String getInitialVersionNumber();
 
 	/**
 	 * Calculate the next version number from a given one.
@@ -50,5 +55,5 @@ public interface VersionNumerationAdapter {
 	 * @param nDocVer Current document version node.
 	 * @return The new calculated version numbering.
 	 */
-	public String getNextVersionNumber(Session session, NodeDocument nDoc, NodeDocumentVersion nDocVer, int increment);
+	String getNextVersionNumber(Session session, NodeDocument nDoc, NodeDocumentVersion nDocVer, int increment);
 }

@@ -177,7 +177,7 @@ public class DocumentTest extends TestCase {
 		okmDocument.checkout(token, BASE + "/omega.txt");
 		Thread.sleep(1000); // Version date need to be different
 		ver = okmDocument.checkin(token, BASE + "/omega.txt", new ByteArrayInputStream("sample text 2.0".getBytes()), "New version 2.0",
-				MajorMinorVersionNumerationAdapter.MAJOR);
+				MajorMinorVersionNumerationAdapter.INCREASE_MAJOR);
 		assertEquals(Config.UNIT_TESTING_USER, ver.getAuthor());
 		assertEquals("2.0", ver.getName());
 		assertEquals("New version 2.0", ver.getComment());

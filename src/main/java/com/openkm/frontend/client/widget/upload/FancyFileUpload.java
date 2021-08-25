@@ -71,6 +71,14 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	public static final int MAX_FILENAME_LENGHT = 60;
 
 	/**
+	 * Increase part for increase version
+	 */
+	public final static int INCREASE_DEFAULT = 0;
+	public final static int INCREASE_MINOR = 1;
+	public final static int INCREASE_MAJOR = 2;
+	public final static int INCREASE_MAJOR_MINOR = 3;
+
+	/**
 	 * OK message expected from file upload servlet to indicate successful upload.
 	 */
 	private static final String returnErrorMessage = "OKM-";
@@ -455,17 +463,17 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 		uploadForm.setMessage(message.getText());
 
 		if (increaseMajorVersion.getValue()) {
-			uploadForm.setIncreaseVersion(1);
+			uploadForm.setIncreaseVersion(INCREASE_MAJOR);
 		} else if (increaseMinorVersion.getValue()) {
-			uploadForm.setIncreaseVersion(2);
+			uploadForm.setIncreaseVersion(INCREASE_MINOR);
 		} else {
-			uploadForm.setIncreaseVersion(0);
+			uploadForm.setIncreaseVersion(INCREASE_DEFAULT);
 		}
 
 		uploadForm.setVisible(false);
-		enqueueFileToUpload(new ArrayList<FileToUpload>(Arrays.asList(pendingFileToUpload.remove(0))));
+		enqueueFileToUpload(new ArrayList<>(Arrays.asList(pendingFileToUpload.remove(0))));
 
-		// Ensure comment is hidden ( we're comming from updating file )
+		// Ensure comment is hidden ( we're coming from updating file )
 		versionComment.setVisible(false);
 		versionCommentText.setVisible(false);
 		versionHTMLBR.setVisible(false);
@@ -839,9 +847,9 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	 * setIncrementalVersion
 	 */
 	public void setIncreaseVersion(int incrementVersion) {
-		if (incrementVersion == 0) {
+		if (incrementVersion == INCREASE_DEFAULT) {
 			mainPanel.remove(hIncreaseVersionPanel);
-		} else if (incrementVersion == 1) {
+		} else if (incrementVersion == INCREASE_MAJOR) {
 			hIncreaseVersionPanel.remove(increaseMinorVersion);
 		}
 	}
@@ -865,7 +873,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	}
 
 	/**
-	 * @param filesToUpload
+	 *
 	 */
 	public void enqueueFileToUpload(Collection<FileToUpload> filesToUpload) {
 		this.filesToUpload.addAll(filesToUpload);
@@ -1108,7 +1116,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 					if (actualFileToUpload.getWorkflow() == null) {
 						wizard = false;
 						boolean fuResponseWizard = false;
-						
+
 						// Case is not importing a zip and wizard is enabled
 						if (fuResponse.isHasAutomation()) {
 							// If is importing file as zip wizard should be disabled
@@ -1119,7 +1127,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 									.size() > 0)) {
 								fuResponseWizard = true;
 								wizard = true;
-							} 
+							}
 						} else {
 							if (!uploadForm.isImportZip()
 									&& action == UIFileUploadConstants.ACTION_INSERT
@@ -1130,7 +1138,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 								wizard = true;
 							}
 						}
-						
+
 						if (wizard && docPath != null) {
 							if (!fuResponseWizard) {
 								Main.get().wizardPopup.start(docPath, false);

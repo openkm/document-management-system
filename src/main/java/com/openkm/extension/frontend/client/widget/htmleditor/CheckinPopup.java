@@ -42,6 +42,14 @@ import com.openkm.frontend.client.widget.notify.NotifyPanel;
 public class CheckinPopup extends DialogBox {
 	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
 
+	/**
+	 * Increase part for increase version
+	 */
+	public final static int INCREASE_DEFAULT = 0;
+	public final static int INCREASE_MINOR = 1;
+	public final static int INCREASE_MAJOR = 2;
+	public final static int INCREASE_MAJOR_MINOR = 3;
+
 	private Button closeButton;
 	private Button sendButton;
 	private HorizontalPanel hPanel;
@@ -192,11 +200,11 @@ public class CheckinPopup extends DialogBox {
 
 				if (!notifyToUser.getValue() || (notifyToUser.getValue() && (!users.equals("") || !roles.equals("") || !mails.equals("")))) {
 					sendButton.setEnabled(false);
-					int increaseVersion = 0;
+					int increaseVersion = INCREASE_DEFAULT;
 					if (increaseMajorVersion.getValue()) {
-						increaseVersion = 1;
+						increaseVersion = INCREASE_MAJOR;
 					} else if (increaseMinorVersion.getValue()) {
-						increaseVersion = 2;
+						increaseVersion = INCREASE_MINOR;
 					}
 					HTMLEditor.get().status.setSetHTML();
 					documentService.setHTMLContent(docPath, mails, users, roles, messageToSend, HTMLEditor.get().getTexteAreaText(),
@@ -302,9 +310,9 @@ public class CheckinPopup extends DialogBox {
 	 * setIncrementalVersion
 	 */
 	public void setIncreaseVersion(int incrementVersion) {
-		if (incrementVersion == 0) {
+		if (incrementVersion == INCREASE_DEFAULT) {
 			vPanel.remove(hIncreaseVersionPanel);
-		} else if (incrementVersion == 1) {
+		} else if (incrementVersion == INCREASE_MAJOR) {
 			hIncreaseVersionPanel.remove(increaseMinorVersion);
 		}
 	}
