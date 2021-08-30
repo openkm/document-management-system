@@ -47,7 +47,7 @@ public class WebUtils {
 	public static final String EMPTY_STRING = "";
 	public static final String METHOD_GET = "GET";
 	public static final String METHOD_POST = "POST";
-	
+
 	/**
 	 * Extrae un parámetro de tipo String del request. Si el parámetro no existe devuelve
 	 * un String vacio.
@@ -116,7 +116,7 @@ public class WebUtils {
 
 		return stringValue;
 	}
-	
+
 	/**
 	 * Extrae un parámetro de tipo String del request. Si el parámetro no existe devuelve
 	 * un String vacio.
@@ -146,7 +146,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo entero del request. 
+	 * Extrae un parámetro de tipo entero del request.
 	 * Si el parámetro no existe o no es valido devuelve 0.
 	 * @param request Petición de la que extraer el parámetro.
 	 * @param name Nombre del parámetro
@@ -168,7 +168,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo entero del request. 
+	 * Extrae un parámetro de tipo entero del request.
 	 * Si el parámetro no existe o no es valido devuelve el valor por defecto especificado.
 	 * @param request Petición de la que extraer el parámetro.
 	 * @param name Nombre del parámetro
@@ -239,7 +239,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo long del request. 
+	 * Extrae un parámetro de tipo long del request.
 	 * Si el parámetro no existe o no es valido devuelve 0.
 	 * @param request Petición de la que extraer el parámetro.
 	 * @param name Nombre del parámetro
@@ -261,7 +261,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo float del request. 
+	 * Extrae un parámetro de tipo float del request.
 	 * Si el parámetro no existe o no es valido devuelve 0.
 	 * @param request Petición de la que extraer el parámetro.
 	 * @param name Nombre del parámetro
@@ -283,7 +283,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo booleano del request. 
+	 * Extrae un parámetro de tipo booleano del request.
 	 * Si el parámetro existe y no esta vacio devuelve true, en caso contrario devuelve false.
 	 * @param request Petición de la que extraer el parámetro.
 	 * @param name Nombre del parámetro
@@ -295,7 +295,7 @@ public class WebUtils {
 	}
 
 	/**
-	 * Extrae un parámetro de tipo booleano del request. 
+	 * Extrae un parámetro de tipo booleano del request.
 	 * Si el parámetro existe y es igual al valor especificado devuelve true, en caso
 	 * contrario devuelve false.
 	 * @param request Petición de la que extraer el parámetro.
@@ -329,7 +329,7 @@ public class WebUtils {
 		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, is});
 		sendFile(request, response, fileName, mimeType, inline, is, is.available());
 	}
-	
+
 	/**
 	 * Send file to client browser.
 	 */
@@ -374,6 +374,7 @@ public class WebUtils {
 	public static void prepareSendFile(HttpServletRequest request, HttpServletResponse response,
 	                                   String fileName, String mimeType, boolean inline) throws UnsupportedEncodingException {
 		String userAgent = WebUtils.getHeader(request, "user-agent").toLowerCase();
+		fileName = PathUtils.decodeEntities(fileName);
 
 		// Disable browser cache
 		response.setHeader("Expires", "Sat, 6 May 1971 12:00:00 GMT");

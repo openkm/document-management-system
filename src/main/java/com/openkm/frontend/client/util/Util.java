@@ -485,6 +485,22 @@ public class Util {
 	}
 
 	/**
+	 * Reverse of encodeEntities. For example:
+	 * - "/okm:root/a &amp; b" => "/okm:root/a & b"
+	 *
+	 * @param path Path or string to decode.
+	 * @return The string with the decoded entities.
+	 */
+	public static String decodeEntities(String path) {
+		String tmp = path.replaceAll("&amp;", "&");
+		tmp = tmp.replaceAll("&lt;", "<");
+		tmp = tmp.replaceAll("&gt;", ">");
+		tmp = tmp.replaceAll("&#34;", "\"");
+		tmp = tmp.replaceAll("&#39;", "'");
+		return tmp;
+	}
+
+	/**
 	 * Change on fly the actual css
 	 *
 	 * @param title The css name
