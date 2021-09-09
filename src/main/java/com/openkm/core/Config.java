@@ -151,9 +151,6 @@ public class Config {
 	public static final String PROPERTY_DEFAULT_ADMIN_ROLE = "default.admin.role";
 	public static final String PROPERTY_WEBSERVICES_VISIBLE_PROPERTIES = "webservices.visible.properties";
 
-	// Text extractors
-	public static final String PROPERTY_REGISTERED_TEXT_EXTRACTORS = "registered.text.extractors";
-
 	// Workflow
 	public static final String PROPERTY_WORKFLOW_START_TASK_AUTO_RUN = "workflow.start.task.auto.run";
 	public static final String PROPERTY_WORKFLOW_RUN_CONFIG_FORM = "workflow.run.config.form";
@@ -420,25 +417,6 @@ public class Config {
 	public static String DEFAULT_ADMIN_ROLE = "ROLE_ADMIN";
 
 	public static List<String> WEBSERVICES_VISIBLE_PROPERTIES = new ArrayList<>();
-
-	// Text extractors
-	public static List<String> REGISTERED_TEXT_EXTRACTORS = new ArrayList<String>();
-	private static final String DEFAULT_REGISTERED_TEXT_EXTRACTORS =
-			"com.openkm.extractor.PlainTextExtractor\n" +
-					"com.openkm.extractor.MsWordTextExtractor\n" +
-					"com.openkm.extractor.MsExcelTextExtractor\n" +
-					"com.openkm.extractor.MsPowerPointTextExtractor\n" +
-					"com.openkm.extractor.OpenOfficeTextExtractor\n" +
-					"com.openkm.extractor.RTFTextExtractor\n" +
-					"com.openkm.extractor.HTMLTextExtractor\n" +
-					"com.openkm.extractor.XMLTextExtractor\n" +
-					"com.openkm.extractor.MsOutlookTextExtractor\n" +
-					"com.openkm.extractor.PdfTextExtractor\n" +
-					"com.openkm.extractor.AudioTextExtractor\n" +
-					"com.openkm.extractor.ExifTextExtractor\n" +
-					"com.openkm.extractor.Tesseract3TextExtractor\n" +
-					"com.openkm.extractor.SourceCodeTextExtractor\n" +
-					"com.openkm.extractor.MsOffice2007TextExtractor";
 
 	// Workflow
 	public static String WORKFLOW_RUN_CONFIG_FORM = "run_config";
@@ -872,10 +850,6 @@ public class Config {
 
 			// Set max search clauses
 			BooleanQuery.setMaxClauseCount(MAX_SEARCH_CLAUSES);
-
-			// Text extractors
-			REGISTERED_TEXT_EXTRACTORS = ConfigDAO.getList(PROPERTY_REGISTERED_TEXT_EXTRACTORS, DEFAULT_REGISTERED_TEXT_EXTRACTORS);
-			values.put(PROPERTY_REGISTERED_TEXT_EXTRACTORS, String.valueOf(REGISTERED_TEXT_EXTRACTORS));
 
 			// Workflow
 			WORKFLOW_RUN_CONFIG_FORM = ConfigDAO.getString(PROPERTY_WORKFLOW_RUN_CONFIG_FORM, WORKFLOW_RUN_CONFIG_FORM);
