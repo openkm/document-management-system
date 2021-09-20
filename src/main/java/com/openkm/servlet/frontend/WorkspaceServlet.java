@@ -62,6 +62,14 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 	private static Logger log = LoggerFactory.getLogger(WorkspaceServlet.class);
 	private static final long serialVersionUID = 8673521252684830906L;
 
+	/**
+	 * Increase part for increase version
+	 */
+	public final static int INCREASE_DEFAULT = 0;
+	public final static int INCREASE_MINOR = 1;
+	public final static int INCREASE_MAJOR = 2;
+	public final static int INCREASE_MAJOR_MINOR = 3;
+
 	@Override
 	public GWTWorkspace getUserWorkspace() throws OKMException {
 		log.debug("getUserWorkspace()");
@@ -158,9 +166,9 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			if (up.getPrfMisc().isIncreaseVersion()) {
 				VersionNumerationAdapter vna = VersionNumerationFactory.getVersionNumerationAdapter();
 				if (vna instanceof MajorMinorReleaseVersionNumerationAdapter) {
-					workspace.setIncreaseVersion(2);
+					workspace.setIncreaseVersion(INCREASE_MINOR);
 				} else if (vna instanceof MajorMinorVersionNumerationAdapter) {
-					workspace.setIncreaseVersion(1);
+					workspace.setIncreaseVersion(INCREASE_MAJOR);
 				}
 			}
 
