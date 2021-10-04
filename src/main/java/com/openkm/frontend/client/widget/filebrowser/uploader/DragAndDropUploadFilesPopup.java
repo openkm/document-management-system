@@ -143,7 +143,7 @@ public class DragAndDropUploadFilesPopup extends DialogBox {
 		HorizontalPanel progressBarAndButtonPanel = new HorizontalPanel();
 		progressBarAndButtonPanel.add(progressBar);
 		progressBarAndButtonPanel.add(Util.hSpace("5px"));
-		Label nameLabel = new Label(Util.shortenPath(filePath, 80));
+		Label nameLabel = new Label(Util.shortenPath(Util.decodeEntities(filePath), 80));
 		progressBarAndButtonPanel.add(nameLabel);
 		addPanel(progressBarAndButtonPanel);
 	}
