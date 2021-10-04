@@ -55,28 +55,6 @@ public class RegisteredExtractors {
 	private static final int MIN_EXTRACTION = 16;
 
 	/**
-	 * Enable default extractors
-	 */
-	public static void enableDefaultExtractors() throws URISyntaxException, DatabaseException {
-		URI uri = new URI(PLUGIN_URI);
-
-		for (TextExtractor te : PluginUtils.getAllPlugins(uri, TextExtractor.class)) {
-			com.openkm.dao.bean.Plugin plugin = new com.openkm.dao.bean.Plugin();
-			plugin.setClassName(te.getClass().getCanonicalName());
-			plugin.setActive(false);
-
-			for (String className : Config.REGISTERED_TEXT_EXTRACTORS) {
-				if (te.getClass().getSimpleName().equals(className)) {
-					plugin.setActive(true);
-					break;
-				}
-			}
-
-			PluginDAO.getInstance().create(plugin);
-		}
-	}
-
-	/**
 	 * Return guessed text extractor
 	 */
 	public static TextExtractor getTextExtractor(String mimeType) throws URISyntaxException {
