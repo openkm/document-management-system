@@ -64,7 +64,7 @@ public class EmbeddedPreview extends Composite {
 	 * show
 	 */
 	public void showEmbedded(String url) {
-		iframe.setUrl(Main.CONTEXT + "/preview/pdfjs/viewer.html?" + url);
+		iframe.setUrl(Main.CONTEXT + "/preview/pdfjs/web/viewer.html?" + url);
 	}
 
 	/**
