@@ -1246,6 +1246,33 @@ public class NodeDocumentDAO {
 	}
 
 	/**
+	 * Check for document item existence.
+	 */
+	public boolean itemExists(String uuid) throws DatabaseException {
+		Session session = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			// Security Check
+			NodeBase nBase = (NodeBase) session.get(NodeDocument.class, uuid);
+
+			if (nBase != null && nBase instanceof NodeDocument) {
+				SecurityHelper.checkRead(nBase);
+				return true;
+			}
+
+			return false;
+		} catch (ObjectNotFoundException | PathNotFoundException e) {
+			return false;
+		} catch (HibernateException e) {
+			throw new DatabaseException(e.getMessage(), e);
+		} finally {
+			HibernateUtil.close(session);
+		}
+	}
+
+	/**
 	 * Clear pending extraction queue
 	 */
 	public int resetAllPendingExtractionFlags() throws DatabaseException {

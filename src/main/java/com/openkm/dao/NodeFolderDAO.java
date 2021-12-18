@@ -716,6 +716,33 @@ public class NodeFolderDAO {
 	}
 
 	/**
+	 * Check for folder item existence.
+	 */
+	public boolean itemExists(String uuid) throws DatabaseException {
+		Session session = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			// Security Check
+			NodeBase nBase = (NodeBase) session.get(NodeFolder.class, uuid);
+
+			if (nBase != null && nBase instanceof NodeFolder) {
+				SecurityHelper.checkRead(nBase);
+				return true;
+			}
+
+			return false;
+		} catch (ObjectNotFoundException | PathNotFoundException e) {
+			return false;
+		} catch (HibernateException e) {
+			throw new DatabaseException(e.getMessage(), e);
+		} finally {
+			HibernateUtil.close(session);
+		}
+	}
+
+	/**
 	 * Purge in depth helper.
 	 */
 	private void purgeHelper(Session session, NodeFolder nFolder, boolean deleteBase) throws PathNotFoundException, AccessDeniedException,

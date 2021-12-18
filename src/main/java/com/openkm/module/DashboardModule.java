@@ -61,13 +61,13 @@ public interface DashboardModule {
 			DatabaseException;
 
 	/**
-	 * Get user last uploaded documents 
+	 * Get user last uploaded documents
 	 */
 	public List<DashboardDocumentResult> getUserLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
-	 * Get user last modified documents 
+	 * Get user last modified documents
 	 */
 	public List<DashboardDocumentResult> getUserLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
@@ -139,7 +139,19 @@ public interface DashboardModule {
 	/**
 	 * Get last uploaded documents
 	 */
+	List<DashboardDocumentResult> getLastCreatedDocuments(String token) throws AccessDeniedException, RepositoryException,
+			DatabaseException;
+
+	/**
+	 * Get last uploaded documents
+	 */
 	public List<DashboardDocumentResult> getLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
+			DatabaseException;
+
+	/**
+	 * Get last created folders
+	 */
+	List<DashboardFolderResult> getLastCreatedFolders(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**

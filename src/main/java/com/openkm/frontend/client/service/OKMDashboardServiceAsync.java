@@ -65,6 +65,10 @@ public interface OKMDashboardServiceAsync {
 
 	public void getLastUploadedDocuments(AsyncCallback<List<GWTDashboardDocumentResult>> callback);
 
+	public void getLastCreatedDocuments(AsyncCallback<List<GWTDashboardDocumentResult>> callback);
+
+	public void getLastCreatedFolders(AsyncCallback<List<GWTDashboardFolderResult>> callback);
+
 	public void getUserLastImportedMailAttachments(AsyncCallback<List<GWTDashboardDocumentResult>> callback);
 
 	public void getUserLastImportedMails(AsyncCallback<List<GWTDashboardMailResult>> callback);

@@ -68,6 +68,10 @@ public interface OKMDashboardService extends RemoteService {
 
 	public List<GWTDashboardDocumentResult> getLastUploadedDocuments() throws OKMException;
 
+	public List<GWTDashboardDocumentResult> getLastCreatedDocuments() throws OKMException;
+
+	public List<GWTDashboardFolderResult> getLastCreatedFolders() throws OKMException;
+
 	public List<GWTDashboardDocumentResult> getUserLastImportedMailAttachments() throws OKMException;
 
 	public List<GWTDashboardMailResult> getUserLastImportedMails() throws OKMException;

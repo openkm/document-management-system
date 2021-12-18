@@ -239,4 +239,24 @@ public class OKMDashboard implements DashboardModule {
 		dm.visiteNode(token, source, node, date);
 		log.debug("visiteNode: void");
 	}
+
+	@Override
+	public List<DashboardDocumentResult> getLastCreatedDocuments(String token) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
+		log.debug("getLastCreatedDocuments({})", token);
+		DashboardModule dm = ModuleManager.getDashboardModule();
+		List<DashboardDocumentResult> result = dm.getLastCreatedDocuments(token);
+		log.debug("getLastCreatedDocuments: {}", result);
+		return result;
+	}
+
+	@Override
+	public List<DashboardFolderResult> getLastCreatedFolders(String token) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
+		log.debug("getLastCreatedFolders({})", token);
+		DashboardModule dm = ModuleManager.getDashboardModule();
+		List<DashboardFolderResult> result = dm.getLastCreatedFolders(token);
+		log.debug("getLastCreatedFolders: {}", result);
+		return result;
+	}
 }
