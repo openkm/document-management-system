@@ -98,7 +98,7 @@ public class AutomationManager {
 
 	/**
 	 * Check for validations
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private List<List<AutomationAction>> getValidActions(String event, String at, Map<String, Object> env)
@@ -139,7 +139,7 @@ public class AutomationManager {
 						}
 
 						actionsList.add(actions);
-						
+
 						// Stop processing rules if rule is exclusive
 						if (aRule.getExclusive()) {
 							break;
@@ -198,31 +198,7 @@ public class AutomationManager {
 		List<Object> retParams = new ArrayList<>();
 
 		// param0
-		if (Automation.PARAM_TYPE_TEXT.equals(amd.getType00()) || Automation.PARAM_TYPE_TEXTAREA.equals(amd.getType00())
-				|| Automation.PARAM_TYPE_CODE.equals(amd.getType00())) {
-			retParams.add(String.valueOf(params.get(0)));
-		} else if (Automation.PARAM_TYPE_INTEGER.equals(amd.getType00())) {
-			try {
-				retParams.add(Integer.valueOf(params.get(0)));
-			} catch (NumberFormatException e) {
-				log.warn("Error parsing Integer for Parameter 0: {}", params.get(0));
-			}
-		} else if (Automation.PARAM_TYPE_LONG.equals(amd.getType00())) {
-			try {
-				retParams.add(Long.valueOf(params.get(0)));
-			} catch (NumberFormatException e) {
-				log.warn("Error parsing Integer for Parameter 0: {}", params.get(0));
-			}
-		} else if (Automation.PARAM_TYPE_BOOLEAN.equals(amd.getType00())) {
-			try {
-				retParams.add(Boolean.valueOf(params.get(0)));
-			} catch (NumberFormatException e) {
-				log.warn("Error parsing Boolean for Parameter 0: {}", params.get(0));
-			}
-		} else if (Automation.PARAM_TYPE_USER.equals(amd.getType00())
-				|| Automation.PARAM_TYPE_ROLE.equals(amd.getType00())) {
-			retParams.add(new ArrayList<>(Arrays.asList(String.valueOf(params.get(0)).split(","))));
-		}
+		type00checker(amd, params, retParams);
 
 		// param1
 		if (Automation.PARAM_TYPE_TEXT.equals(amd.getType01()) || Automation.PARAM_TYPE_TEXTAREA.equals(amd.getType01())
@@ -279,5 +255,33 @@ public class AutomationManager {
 		}
 
 		return retParams.toArray();
+	}
+
+	private void type00checker(Automation amd, List<String> params, List<Object> retParams) {
+		if (Automation.PARAM_TYPE_TEXT.equals(amd.getType00()) || Automation.PARAM_TYPE_TEXTAREA.equals(amd.getType00())
+				|| Automation.PARAM_TYPE_CODE.equals(amd.getType00())) {
+			retParams.add(String.valueOf(params.get(0)));
+		} else if (Automation.PARAM_TYPE_INTEGER.equals(amd.getType00())) {
+			try {
+				retParams.add(Integer.valueOf(params.get(0)));
+			} catch (NumberFormatException e) {
+				log.warn("Error parsing Integer for Parameter 0: {}", params.get(0));
+			}
+		} else if (Automation.PARAM_TYPE_LONG.equals(amd.getType00())) {
+			try {
+				retParams.add(Long.valueOf(params.get(0)));
+			} catch (NumberFormatException e) {
+				log.warn("Error parsing Integer for Parameter 0: {}", params.get(0));
+			}
+		} else if (Automation.PARAM_TYPE_BOOLEAN.equals(amd.getType00())) {
+			try {
+				retParams.add(Boolean.valueOf(params.get(0)));
+			} catch (NumberFormatException e) {
+				log.warn("Error parsing Boolean for Parameter 0: {}", params.get(0));
+			}
+		} else if (Automation.PARAM_TYPE_USER.equals(amd.getType00())
+				|| Automation.PARAM_TYPE_ROLE.equals(amd.getType00())) {
+			retParams.add(new ArrayList<>(Arrays.asList(String.valueOf(params.get(0)).split(","))));
+		}
 	}
 }

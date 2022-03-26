@@ -36,14 +36,9 @@ import com.openkm.frontend.client.extension.widget.tabmail.TabMailExtension;
  *
  */
 public class TabMailActivityLog extends TabMailExtension implements MailHandlerExtension {
-	private String title = "";
-	private ActivityLogTable activityLogTable;
-	private int width = 0;
-	private int height = 0;
 
 	public TabMailActivityLog() {
-		title = GeneralComunicator.i18nExtension("activitylog.title");
-		activityLogTable = new ActivityLogTable(ActivityLogTable.MAIL);
+		super();
 		initWidget(activityLogTable);
 	}
 

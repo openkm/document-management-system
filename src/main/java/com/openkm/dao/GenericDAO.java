@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class GenericDAO<T, ID extends Serializable> {
 	private static Logger log = LoggerFactory.getLogger(GenericDAO.class);
 	private Class<T> persistentClass;
-	private Session session;
+	Session session;
 
 	@SuppressWarnings("unchecked")
 	public GenericDAO() {
@@ -51,14 +51,14 @@ public abstract class GenericDAO<T, ID extends Serializable> {
 	public Class<T> getPersistentClass() {
 		return persistentClass;
 	}
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-
-	protected Session getSession() {
-		return session;
-	}
+//
+//	public void setSession(Session session) {
+//		this.session = session;
+//	}
+//
+//	protected Session getSession() {
+//		return session;
+//	}
 
 	/**
 	 * Create

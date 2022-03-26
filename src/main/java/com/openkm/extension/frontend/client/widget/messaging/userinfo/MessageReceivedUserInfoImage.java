@@ -23,8 +23,6 @@ package com.openkm.extension.frontend.client.widget.messaging.userinfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.openkm.extension.frontend.client.util.OKMBundleResources;
 import com.openkm.extension.frontend.client.widget.messaging.MessagingToolBarBox;
 import com.openkm.extension.frontend.client.widget.messaging.stack.MessageStack;
 import com.openkm.frontend.client.constants.ui.UIDockPanelConstants;
@@ -41,13 +39,11 @@ import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
  */
 public class MessageReceivedUserInfoImage extends UserInfoExtension {
 
-	private Image image;
-
 	/**
 	 * MessageReceivedUserInfoImage
 	 */
 	public MessageReceivedUserInfoImage() {
-		image = new Image(OKMBundleResources.INSTANCE.messageReceived());
+		super();
 		image.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

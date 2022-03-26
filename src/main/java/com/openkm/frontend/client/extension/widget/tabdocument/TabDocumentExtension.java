@@ -22,6 +22,8 @@
 package com.openkm.frontend.client.extension.widget.tabdocument;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.openkm.extension.frontend.client.widget.activitylog.ActivityLogTable;
+import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 
 /**
  * TabDocumentExtension
@@ -31,4 +33,13 @@ import com.google.gwt.user.client.ui.Composite;
  */
 
 public abstract class TabDocumentExtension extends Composite implements HasDocumentExtension {
+	protected String title = "";
+	protected ActivityLogTable activityLogTable;
+	protected int width = 0;
+	protected int height = 0;
+
+	public TabDocumentExtension() {
+		title = GeneralComunicator.i18nExtension("activitylog.title");
+		activityLogTable = new ActivityLogTable(ActivityLogTable.DOCUMENT);
+	}
 }

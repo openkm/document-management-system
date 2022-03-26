@@ -143,7 +143,7 @@ public class ProposedQueryPopup extends DialogBox {
 	}
 
 	/**
-	 * langRefresh 
+	 * langRefresh
 	 *
 	 * Refreshing lang
 	 */
@@ -159,7 +159,7 @@ public class ProposedQueryPopup extends DialogBox {
 	/**
 	 * executeProposeQuery
 	 *
-	 * @param TYPE
+//	 * @param TYPE
 	 */
 	public void executeProposeQuery(int type) {
 		this.type = type;

@@ -402,7 +402,7 @@ public class Document extends Composite {
 	/**
 	 * removeCategory
 	 *
-	 * @param category
+//	 * @param category
 	 */
 	public void removeCategory(CategoryToRemove obj) {
 		categoryManager.removeCategory(obj);

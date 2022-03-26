@@ -1002,8 +1002,8 @@ public class CmisRepository {
 		Set<String> filterCollection = splitFilter(filter);
 
 		// set defaults if values not set
-		boolean iaa = (includeAllowableActions == null ? false : includeAllowableActions.booleanValue());
-		boolean irps = (includeRelativePathSegment == null ? false : includeRelativePathSegment.booleanValue());
+		boolean addaction = (includeAllowableActions == null ? false : includeAllowableActions.booleanValue());
+		boolean addsegment = (includeRelativePathSegment == null ? false : includeRelativePathSegment.booleanValue());
 
 		// get the document or folder
 		Node node = getNode(objectId);
@@ -1021,11 +1021,11 @@ public class CmisRepository {
 		try {
 			// get parent folder
 			Folder parent = OKMFolder.getInstance().getProperties(null, PathUtils.getParent(node.getPath()));
-			ObjectData object = compileObjectType(context, parent, filterCollection, iaa, false, objectInfos);
+			ObjectData object = compileObjectType(context, parent, filterCollection, addaction, false, objectInfos);
 
 			ObjectParentDataImpl result = new ObjectParentDataImpl();
 			result.setObject(object);
-			if (irps) {
+			if (addsegment) {
 				result.setRelativePathSegment(PathUtils.getName(parent.getPath()));
 			}
 

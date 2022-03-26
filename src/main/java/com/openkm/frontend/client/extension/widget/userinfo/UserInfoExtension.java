@@ -22,6 +22,9 @@
 package com.openkm.frontend.client.extension.widget.userinfo;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
+import com.openkm.extension.frontend.client.util.OKMBundleResources;
 
 /**
  * UserInfoExtension
@@ -31,4 +34,11 @@ import com.google.gwt.user.client.ui.Composite;
  */
 
 public abstract class UserInfoExtension extends Composite implements HasUserInfoExtension {
+	protected Image image;
+	protected HTML htmlValue;
+
+	public UserInfoExtension() {
+		image = new Image(OKMBundleResources.INSTANCE.messageReceived());
+		htmlValue = new HTML("");
+	}
 }

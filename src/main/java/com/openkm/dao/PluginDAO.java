@@ -22,6 +22,7 @@ package com.openkm.dao;
 
 import com.openkm.core.DatabaseException;
 import com.openkm.dao.bean.Plugin;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,15 @@ public class PluginDAO extends GenericDAO<Plugin, String> {
 
 	public static PluginDAO getInstance() {
 		return single;
+	}
+
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	protected Session getSession() {
+		return session;
 	}
 
 	/**

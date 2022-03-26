@@ -36,14 +36,8 @@ import com.openkm.frontend.client.extension.widget.tabdocument.TabDocumentExtens
  */
 public class TabDocumentActivityLog extends TabDocumentExtension implements DocumentHandlerExtension {
 
-	private String title = "";
-	private ActivityLogTable activityLogTable;
-	private int width = 0;
-	private int height = 0;
-
 	public TabDocumentActivityLog() {
-		title = GeneralComunicator.i18nExtension("activitylog.title");
-		activityLogTable = new ActivityLogTable(ActivityLogTable.DOCUMENT);
+		super();
 		initWidget(activityLogTable);
 	}
 

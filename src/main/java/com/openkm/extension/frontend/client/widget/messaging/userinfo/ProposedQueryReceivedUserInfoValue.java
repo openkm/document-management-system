@@ -32,7 +32,7 @@ import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
  */
 public class ProposedQueryReceivedUserInfoValue extends UserInfoExtension {
 
-	private HTML htmlValue;
+
 
 	/**
 	 * MessageUserInfoValue

@@ -36,14 +36,9 @@ import com.openkm.frontend.client.extension.widget.tabfolder.TabFolderExtension;
  *
  */
 public class TabFolderActivityLog extends TabFolderExtension implements FolderHandlerExtension {
-	private String title = "";
-	private ActivityLogTable activityLogTable;
-	private int width = 0;
-	private int height = 0;
 
 	public TabFolderActivityLog() {
-		title = GeneralComunicator.i18nExtension("activitylog.title");
-		activityLogTable = new ActivityLogTable(ActivityLogTable.FOLDER);
+		super();
 		initWidget(activityLogTable);
 	}
 

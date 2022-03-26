@@ -93,7 +93,7 @@ public class ExternalURLPopup extends DialogBox {
 	/**
 	 * Show the popup error
 	 *
-	 * @param msg Error message
+//	 * @param msg Error message
 	 */
 	public void show(String property, String url, int width, int height) {
 		this.property = property;

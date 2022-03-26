@@ -1,0 +1,4 @@
+Detecting code smells...
+The trial version allows you to analyze an application lesser than 50000 lines of code in size. The selected application has crossed the threshold, therefore the detailed results are disabled. 
+Please consider buying a Professional edition of the tool for unrestricted access to the functionality.
+Done.

@@ -41,7 +41,7 @@ import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
  */
 public class ProposedSubscriptionReceivedUserInfoImage extends UserInfoExtension {
 
-	private Image image;
+
 
 	/**
 	 * ProposedSubscriptionUserInfoImage

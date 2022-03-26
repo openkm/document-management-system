@@ -21,7 +21,6 @@
 
 package com.openkm.extension.frontend.client.widget.messaging.userinfo;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
 
 /**
@@ -32,13 +31,11 @@ import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
  */
 public class MessageReceivedUserInfoValue extends UserInfoExtension {
 
-	private HTML htmlValue;
-
 	/**
 	 * MessageUserInfoValue
 	 */
 	public MessageReceivedUserInfoValue() {
-		htmlValue = new HTML("");
+		super();
 		initWidget(htmlValue);
 	}
 
