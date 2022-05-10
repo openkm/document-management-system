@@ -296,6 +296,7 @@ public class DocumentService {
 			String docId = null;
 			String comment = null;
 			InputStream is = null;
+			int increment = -1;
 
 			for (Attachment att : atts) {
 				if ("docId".equals(att.getContentDisposition().getParameter("name"))) {
@@ -304,11 +305,20 @@ public class DocumentService {
 					comment = att.getObject(String.class);
 				} else if ("content".equals(att.getContentDisposition().getParameter("name"))) {
 					is = att.getDataHandler().getInputStream();
+				} else if ("increment".equals(att.getContentDisposition().getParameter("name"))) {
+					increment = Integer.parseInt(att.getObject(String.class));
 				}
 			}
 
 			DocumentModule dm = ModuleManager.getDocumentModule();
-			Version version = dm.checkin(null, docId, is, comment);
+			Version version;
+
+			if (increment >= 0) {
+				version = dm.checkin(null, docId, is, comment, increment);
+			} else {
+				version = dm.checkin(null, docId, is, comment);
+			}
+
 			IOUtils.closeQuietly(is);
 			log.debug("checkin: {}", version);
 			return version;
