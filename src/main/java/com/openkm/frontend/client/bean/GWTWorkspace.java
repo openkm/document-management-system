@@ -35,7 +35,7 @@ import java.util.List;
 public class GWTWorkspace implements IsSerializable {
 	private String sessionId = "";
 	private GWTUser user;
-	private List<String> roleList = new ArrayList<String>();
+	private List<String> roleList = new ArrayList<>();
 	private String applicationURL = "";
 	private String mailProtocol = "";
 	private String mailHost = "";
@@ -141,7 +141,7 @@ public class GWTWorkspace implements IsSerializable {
 	private GWTProfilePagination profilePagination = new GWTProfilePagination();
 	private List<GWTMimeType> mimeTypes;
 	private boolean askDragAndDropUpdates;
-	
+
 	/**
 	 * GWTWorkspace
 	 */
@@ -992,5 +992,5 @@ public class GWTWorkspace implements IsSerializable {
 
     public void setAskDragAndDropUpdates(boolean askDragAndDropUpdates) {
         this.askDragAndDropUpdates = askDragAndDropUpdates;
-    }	
+    }
 }
