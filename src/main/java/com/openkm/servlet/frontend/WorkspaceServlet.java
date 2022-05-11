@@ -24,8 +24,8 @@ import com.openkm.api.OKMAuth;
 import com.openkm.api.OKMDashboard;
 import com.openkm.api.OKMPropertyGroup;
 import com.openkm.bean.PropertyGroup;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.frontend.client.OKMException;
@@ -151,16 +151,16 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			workspace.setWizardCategories(up.getPrfWizard().isCategoriesEnabled());
 			workspace.setWizardKeywords(up.getPrfWizard().isKeywordsEnabled());
 
-			// acrobat plgin preview
+			// acrobat plugin preview
 			workspace.setAcrobatPluginPreview(up.getPrfMisc().isAcrobatPluginPreview());
 
 			// increase version
 			if (up.getPrfMisc().isIncreaseVersion()) {
 				VersionNumerationAdapter vna = VersionNumerationFactory.getVersionNumerationAdapter();
 				if (vna instanceof MajorMinorReleaseVersionNumerationAdapter) {
-					workspace.setIncreaseVersion(2);
+					workspace.setIncreaseVersion(VersionNumerationAdapter.INCREASE_MAJOR_MINOR);
 				} else if (vna instanceof MajorMinorVersionNumerationAdapter) {
-					workspace.setIncreaseVersion(1);
+					workspace.setIncreaseVersion(VersionNumerationAdapter.INCREASE_MAJOR);
 				}
 			}
 
@@ -475,7 +475,7 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			}
 
 			workspace.setAskDragAndDropUpdates(Config.ASK_DRAG_AND_DROP_UPDATES);
-			
+
 			// Saving workspace to session ( will be used to get extracolumn data )
 			saveUserWorkspaceSession(workspace);
 		} catch (DatabaseException e) {
