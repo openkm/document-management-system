@@ -32,11 +32,13 @@ import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.util.Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * NotifyPanel
  *
  * @author jllort
- *
  */
 public class NotifyPanel extends Composite {
 
@@ -58,14 +60,16 @@ public class NotifyPanel extends Composite {
 	private VerticalPanel vNotifyExternalUserPanel;
 	private TextBox externalMailAddress;
 	private HTML externalUserHTML;
+	public List<String> users = null;
+	public List<String> roles = null;
 
 	/**
 	 * NotifyPanel
 	 */
-	public NotifyPanel() {
+	public NotifyPanel(final NotifyHandler notifyChange) {
 		vPanel = new VerticalPanel();
-		notifyUser = new NotifyUser();
-		notifyRole = new NotifyRole();
+		notifyUser = new NotifyUser(notifyChange);
+		notifyRole = new NotifyRole(notifyChange);
 		tabPanel = new TabLayoutPanel(TAB_HEIGHT, Unit.PX);
 
 		tabPanel.add(notifyUser, Main.i18n("fileupload.label.users"));
@@ -110,7 +114,21 @@ public class NotifyPanel extends Composite {
 					filter.setEnabled(false);
 					usersFilter = "";
 					groupsFilter = "";
-					getAll();
+					users = new ArrayList<>();
+					roles = new ArrayList<>();
+
+					for (String user : notifyUser.getUsersToNotify().split(",")) {
+						users.add(user);
+					}
+
+					for (String role : notifyRole.getRolesToNotify().split(",")) {
+						roles.add(role);
+					}
+
+					notifyUser.reset();
+					notifyRole.reset();
+					notifyUser.getAllUsers(users, NotifyUser.DEFAULT);
+					notifyRole.getAllRoles(roles, NotifyRole.DEFAULT);
 				}
 			}
 		});
@@ -153,6 +171,12 @@ public class NotifyPanel extends Composite {
 		externalUserHTML = new HTML(Main.i18n("security.notify.external.mail"));
 		externalMailAddress = new TextBox();
 		externalMailAddress.setWidth("374px");
+		externalMailAddress.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				notifyChange.onChange();
+			}
+		});
 		externalMailAddress.setStyleName("okm-Input");
 		vNotifyExternalUserPanel.add(Util.vSpace("5px"));
 		vNotifyExternalUserPanel.add(externalUserHTML);
@@ -229,8 +253,24 @@ public class NotifyPanel extends Composite {
 	 */
 	public void getAll() {
 		if (!filterView || !checkBoxFilter.getValue()) {
-			notifyUser.getAllUsers();
-			notifyRole.getAllRoles();
+			notifyUser.getAllUsers(null, NotifyUser.DEFAULT);
+			notifyRole.getAllRoles(null, NotifyRole.DEFAULT);
+		}
+	}
+
+	/**
+	 * Gets all users and roles
+	 */
+	public void getAll(List<String> users, List<String> roles, String externalMailAddress) {
+		this.users = users;
+		this.roles = roles;
+		this.externalMailAddress.setText(externalMailAddress);
+		if (!filterView || !checkBoxFilter.getValue()) {
+			notifyUser.getAllUsers(users, NotifyUser.DEFAULT);
+			notifyRole.getAllRoles(roles, NotifyRole.DEFAULT);
+		} else {
+			notifyUser.getAllUsers(users, NotifyUser.FILTER);
+			notifyRole.getAllRoles(roles, NotifyRole.FILTER);
 		}
 	}
 

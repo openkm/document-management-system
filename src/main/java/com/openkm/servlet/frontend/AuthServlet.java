@@ -45,7 +45,7 @@ import java.util.*;
  * Servlet Class
  */
 public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthService {
-	private static Logger log = LoggerFactory.getLogger(AuthServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(AuthServlet.class);
 	private static final long serialVersionUID = 2638205115826644606L;
 
 	@Override
@@ -73,7 +73,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public Map<String, Integer> getGrantedRoles(String nodePath) throws OKMException {
 		log.debug("getGrantedRoles({})", nodePath);
-		Map<String, Integer> hm = new HashMap<String, Integer>();
+		Map<String, Integer> hm = new HashMap<>();
 		updateSessionManager();
 
 		try {
@@ -105,7 +105,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<GWTGrantedUser> getGrantedUsers(String nodePath) throws OKMException {
 		log.debug("getGrantedUsers({})", nodePath);
-		List<GWTGrantedUser> guList = new ArrayList<GWTGrantedUser>();
+		List<GWTGrantedUser> guList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -158,7 +158,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<GWTGrantedUser> getUngrantedUsers(String nodePath) throws OKMException {
 		log.debug("getUngrantedUsers({})", nodePath);
-		List<GWTGrantedUser> guList = new ArrayList<GWTGrantedUser>();
+		List<GWTGrantedUser> guList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -201,7 +201,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<String> getUngrantedRoles(String nodePath) throws OKMException {
 		log.debug("getUngrantedRoles({})", nodePath);
-		List<String> roleList = new ArrayList<String>();
+		List<String> roleList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -239,7 +239,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<GWTGrantedUser> getFilteredUngrantedUsers(String nodePath, String filter) throws OKMException {
 		log.debug("getFilteredUngrantedUsers({})", nodePath);
-		List<GWTGrantedUser> guList = new ArrayList<GWTGrantedUser>();
+		List<GWTGrantedUser> guList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -285,7 +285,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<String> getFilteredUngrantedRoles(String nodePath, String filter) throws OKMException {
 		log.debug("getFilteredUngrantedRoles({})", nodePath);
-		List<String> roleList = new ArrayList<String>();
+		List<String> roleList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -323,7 +323,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void grantUser(String path, String user, int permissions, boolean recursive) throws OKMException {
-		log.debug("grantUser({}, {}, {}, {})", new Object[]{path, user, permissions, recursive});
+		log.debug("grantUser({}, {}, {}, {})", path, user, permissions, recursive);
 		updateSessionManager();
 
 		try {
@@ -350,7 +350,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void revokeUser(String path, String user, boolean recursive) throws OKMException {
-		log.debug("revokeUser({}, {}, {})", new Object[]{path, user, recursive});
+		log.debug("revokeUser({}, {}, {})", path, user, recursive);
 		updateSessionManager();
 
 		try {
@@ -396,7 +396,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void revokeUser(String path, String user, int permissions, boolean recursive) throws OKMException {
-		log.debug("revokeUser({}, {}, {}, {})", new Object[]{path, user, permissions, recursive});
+		log.debug("revokeUser({}, {}, {}, {})", path, user, permissions, recursive);
 		updateSessionManager();
 
 		try {
@@ -423,7 +423,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void grantRole(String path, String role, int permissions, boolean recursive) throws OKMException {
-		log.debug("grantRole({}, {}, {}, {})", new Object[]{path, role, permissions, recursive});
+		log.debug("grantRole({}, {}, {}, {})", path, role, permissions, recursive);
 		updateSessionManager();
 
 		try {
@@ -450,7 +450,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void revokeRole(String path, String role, boolean recursive) throws OKMException {
-		log.debug("revokeRole({}, {}, {})", new Object[]{path, role, recursive});
+		log.debug("revokeRole({}, {}, {})", path, role, recursive);
 		updateSessionManager();
 
 		try {
@@ -499,7 +499,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void revokeRole(String path, String role, int permissions, boolean recursive) throws OKMException {
-		log.debug("revokeRole({}, {}, {}, {})", new Object[]{path, role, permissions, recursive});
+		log.debug("revokeRole({}, {}, {}, {})", path, role, permissions, recursive);
 		updateSessionManager();
 
 		try {
@@ -541,7 +541,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<GWTUser> getAllUsers() throws OKMException {
 		log.debug("getAllUsers()");
-		List<GWTUser> userList = new ArrayList<GWTUser>();
+		List<GWTUser> userList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -567,9 +567,37 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	}
 
 	@Override
+	public List<GWTUser> getUsers(List<String> users) throws OKMException {
+		log.debug("getUsers()");
+		List<GWTUser> userList = new ArrayList<>();
+		updateSessionManager();
+
+		try {
+			for (String userId : users) {
+				GWTUser user = new GWTUser();
+				user.setId(userId);
+				user.setUsername(OKMAuth.getInstance().getName(null, userId));
+				userList.add(user);
+			}
+
+			Collections.sort(userList, GWTUserComparator.getInstance(getLanguage()));
+		} catch (PrincipalAdapterException e) {
+			log.error(e.getMessage(), e);
+			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMAuthService, ErrorCode.CAUSE_PrincipalAdapter),
+					e.getMessage());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMAuthService, ErrorCode.CAUSE_General), e.getMessage());
+		}
+
+		log.debug("getUsers: {}", userList);
+		return userList;
+	}
+
+	@Override
 	public List<String> getAllRoles() throws OKMException {
 		log.debug("getAllRoles()");
-		List<String> roleList = new ArrayList<String>();
+		List<String> roleList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -596,7 +624,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<GWTUser> getFilteredAllUsers(String filter, List<String> selectedUsers) throws OKMException {
 		log.debug("getFilteredAllUsers()");
-		List<GWTUser> userList = new ArrayList<GWTUser>();
+		List<GWTUser> userList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -627,7 +655,7 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 	@Override
 	public List<String> getFilteredAllRoles(String filter, List<String> selectedRoles) throws OKMException {
 		log.debug("getFilteredAllRoles()");
-		List<String> roleList = new ArrayList<String>();
+		List<String> roleList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -654,9 +682,8 @@ public class AuthServlet extends OKMRemoteServiceServlet implements OKMAuthServi
 
 	@Override
 	public void changeSecurity(String path, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
-	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws OKMException {
-		log.debug("changeSecurity({}, {}, {}, {}, {}, {})", new Object[]{path, grantUsers, revokeUsers, grantRoles,
-				revokeRoles, recursive});
+							   Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws OKMException {
+		log.debug("changeSecurity({}, {}, {}, {}, {}, {})", path, grantUsers, revokeUsers, grantRoles, revokeRoles, recursive);
 		updateSessionManager();
 
 		try {

@@ -16,8 +16,8 @@
   <script type="text/javascript" src="../js/vanadium-min.js"></script>
   <script type="text/javascript"  src="../js/chosen.jquery.js"></script>
   <!-- Load TinyMCE -->
-  <script type="text/javascript" src="../js/tiny_mce/tiny_mce.js"></script>
-  <script type="text/javascript" src="../js/tiny_mce/jquery.tinymce.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/tinymce.min.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/jquery.tinymce.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('select#me_action').chosen({
@@ -26,11 +26,11 @@
       $('select#me_type').chosen({
         disable_search_threshold : 10
       });
-  
+
       $("#form").submit(function() {
         <c:if test="${action == 'messageCreate' || action == 'messageEdit'}">
         var message = tinymce.get('mq_message').getContent();
-  
+
         if (message != null && message != "") {
           return true;
         } else {
@@ -39,9 +39,9 @@
         }
         </c:if>
       });
-  
+
       $("#mq_message_error").hide();
-  
+
       <c:choose>
       <c:when test="${action == 'messageDelete'}">
       $("#me_action").attr('disabled', 'disabled');
@@ -50,19 +50,19 @@
       $("#me_message").attr('readonly', true);
       </c:when>
       </c:choose>
-  
-      var toolbar = 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code';
-      var params = '{';
-      params = params + '"elements":"textarea"';
-      params = params + ',"language":"en"';
-      params = params + ',"theme":"advanced"';
-      params = params + ',"plugins":""';
-      params = params + ',"toolbar":"' + toolbar + '"';
-      params = params + ',"height":"300"';
-      params = params + ',"menubar":"false"';
-      params = params + '}';
-      var json = $.parseJSON(params); // create json object from string value		   
-      $('textarea').tinymce(json);
+
+      tinymce.init({
+        selector: "textarea",
+        theme: "modern",
+        language: "en",
+        menubar: false,
+        <c:if test="${action == 'messageDelete'}" >
+        readonly : true,
+        </c:if>
+        plugins: [ "link" ],
+        toolbar1: "bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+        toolbar2: false
+      });
     });
   </script>
   <title>Message edit</title>
@@ -149,17 +149,17 @@
             </c:choose>
           </td>
         </tr>
-        <tr>	
+        <tr>
           <td colspan="2">Message</td>
         </tr>
-        <tr>	
+        <tr>
           <td colspan="2">
             <textarea class=":required :only_on_blur" name="me_message" id="me_message" rows="10" cols="60">${me.message}</textarea>
           </td>
         </tr>
         <tr>
           <td colspan="2"><span id="mq_message_error" style="color: red;">This is a required field.</span></td>
-        </tr>        
+        </tr>
         <tr>
           <td colspan="2" align="right">
             <input type="button" onclick="javascript:window.history.back()" value="Cancel" class="noButton"/>

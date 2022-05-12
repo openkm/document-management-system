@@ -89,6 +89,7 @@ public class MainMenu extends Composite {
 	private MenuItem sendDocumentLink;
 	private MenuItem sendDocumentAttachment;
 	private MenuItem forwardMail;
+	private MenuItem writeMail;
 	private MenuItem createFromTemplate;
 	private MenuItem export;
 	private MenuItem horizontalLineFile1;
@@ -219,6 +220,9 @@ public class MainMenu extends Composite {
 		sendDocumentAttachment = new MenuItem(Util.menuHTML("img/icon/actions/send_document_attachment.gif",
 				Main.i18n("general.menu.file.send.attachment")), true, sendDocumentAttachmentOKM);
 		sendDocumentAttachment.addStyleName("okm-MainMenuItem");
+		writeMail = new MenuItem(Util.menuHTML("img/icon/actions/write_mail.png", Main.i18n("general.menu.file.write.mail")), true,
+				sendNewMailOKM);
+		writeMail.addStyleName("okm-MainMenuItem");
 		forwardMail = new MenuItem(Util.menuHTML("img/email_forward.png", Main.i18n("general.menu.file.send.forward.mail")), true,
 				sendMailForwardOKM);
 		forwardMail.addStyleName("okm-MainMenuItem");
@@ -268,6 +272,7 @@ public class MainMenu extends Composite {
 		subMenuFile.addItem(sendDocumentLink);
 		subMenuFile.addItem(sendDocumentAttachment);
 		subMenuFile.addItem(forwardMail);
+		subMenuFile.addItem(writeMail);
 		subMenuFile.addItem(createFromTemplate);
 		subMenuFile.addItem(export);
 		subMenuFile.addItem(horizontalLineFile1);
@@ -432,7 +437,7 @@ public class MainMenu extends Composite {
 		// OMR
 		omr = new MenuItem(Util.menuHTML("img/icon/actions/omr.png", Main.i18n("general.menu.tools.omr")), true, executeOmr);
 		omr.addStyleName("okm-MainMenuItem");
-		
+
 		// Convert
 		convert = new MenuItem(Util.menuHTML("img/icon/menu/convert.png", Main.i18n("general.menu.tools.convert")), true, showConvert);
 		convert.addStyleName("okm-MainMenuItem");
@@ -608,6 +613,7 @@ public class MainMenu extends Composite {
 		sendDocumentLink.setHTML(Util.menuHTML("img/icon/actions/send_document_link.gif", Main.i18n("general.menu.file.send.link")));
 		sendDocumentAttachment.setHTML(Util.menuHTML("img/icon/actions/send_document_attachment.gif",
 				Main.i18n("general.menu.file.send.attachment")));
+		writeMail.setHTML(Util.menuHTML("img/icon/actions/write_mail.png", Main.i18n("general.menu.file.write.mail")));
 		forwardMail.setHTML(Util.menuHTML("img/email_forward.png", Main.i18n("general.menu.file.send.forward.mail")));
 		createFromTemplate.setHTML(Util.menuHTML("img/icon/actions/create_from_template.gif",
 				Main.i18n("general.menu.file.create.from.template")));
@@ -790,6 +796,12 @@ public class MainMenu extends Composite {
 			disable(forwardMail);
 		}
 
+		if (mainMenuOption.writeMailOption) {
+			enable(writeMail);
+		} else {
+			disable(writeMail);
+		}
+
 		if (mainMenuOption.createFromTemplateOption) {
 			enable(createFromTemplate);
 		} else {
@@ -939,7 +951,7 @@ public class MainMenu extends Composite {
 		} else {
 			disable(omr);
 		}
-		
+
 		if (mainMenuOption.convertOption) {
 			enable(convert);
 		} else {
@@ -1169,6 +1181,15 @@ public class MainMenu extends Composite {
 		public void execute() {
 			if (mainMenuOption.sendDocumentAttachmentOption) {
 				Main.get().notifyPopup.executeSendDocument(NotifyPopup.NOTIFY_WITH_ATTACHMENT);
+			}
+		}
+	};
+
+	// Command menu to send mail
+	Command sendNewMailOKM = new Command() {
+		public void execute() {
+			if (mainMenuOption.writeMailOption) {
+				Main.get().mainPanel.topPanel.toolBar.executeWriteMail();
 			}
 		}
 	};
@@ -1498,7 +1519,7 @@ public class MainMenu extends Composite {
 			}
 		}
 	};
-	
+
 	// Command menu to convert
 	Command showConvert = new Command() {
 		@Override
@@ -1615,6 +1636,7 @@ public class MainMenu extends Composite {
 		sendDocumentLink.setVisible(option.isSendDocumentLinkOption());
 		sendDocumentAttachment.setVisible(option.isSendDocumentAttachmentOption());
 		forwardMail.setVisible(option.isForwardMailOption());
+		writeMail.setVisible(option.isWriteMailOption());
 		createFromTemplate.setVisible(option.isCreateFromTemplateOption());
 		export.setVisible(option.isExportOption());
 		horizontalLineFile1.setVisible(option.isCreateFolderOption() || option.isFindFolderOption() || option.isFindDocumentOption()

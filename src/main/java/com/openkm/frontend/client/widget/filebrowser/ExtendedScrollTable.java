@@ -599,7 +599,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 		}
 
 		if (profileFileBrowser.isIconVisible()) {
-			if (mail.getAttachments().size() > 0) {
+			if (mail.isHasAttachments()) {
 				dataTable.setHTML(row, col, Util.imageItemHTML("img/email_attach.gif"));
 			} else {
 				dataTable.setHTML(row, col, Util.imageItemHTML("img/email.gif"));
@@ -862,7 +862,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 						} else if (isMailSelected()) {
 							GWTMail mail = getMail();
 
-							if (mail.getAttachments().size() > 0) {
+							if (mail.isHasAttachments()) {
 								dragText = Util.imageItemHTML("img/email_attach.gif");
 							} else {
 								dragText = Util.imageItemHTML("img/email.gif");

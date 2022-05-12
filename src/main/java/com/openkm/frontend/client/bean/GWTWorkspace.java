@@ -30,9 +30,11 @@ import java.util.List;
  * GWTWorkspace
  *
  * @author jllort
- *
  */
 public class GWTWorkspace implements IsSerializable {
+	public static final String MAIL_STORAGE_MAIL_FOLDER = "mail_fld";
+	public static final String MAIL_STORAGE_CURRENT_FOLDER = "current_fld";
+
 	private String sessionId = "";
 	private GWTUser user;
 	private List<String> roleList = new ArrayList<>();
@@ -52,6 +54,7 @@ public class GWTWorkspace implements IsSerializable {
 	private List<GWTReport> reports = new ArrayList<GWTReport>();
 	private int minSearchCharacters = 0;
 	private int securityExtendedMask = 0;
+	private boolean systemReadOnly = false;
 
 	// System wide
 	private GWTAppVersion appVersion = new GWTAppVersion();
@@ -61,14 +64,10 @@ public class GWTWorkspace implements IsSerializable {
 	private long keepAliveSchedule;
 	private long dashboardSchedule;
 	private long uINotificationSchedule;
-	private String tinymceTheme = "";
-	private String tinymcePlugins = "";
-	private String tinymceSkin = "";
-	private String tinymceSkinVariant = "";
-	private String tinimceThemeButtons1 = "";
-	private String tinimceThemeButtons2 = "";
-	private String tinimceThemeButtons3 = "";
-	private String tinimceThemeButtons4 = "";
+	private String tinymce4Theme = "";
+	private String tinymce4Plugins = "";
+	private String tinymce4Toolbar1 = "";
+	private String tinymce4Toolbar2 = "";
 	private String htmlSyntaxHighlighterCore = "";
 	private String htmlSyntaxHighlighterTheme = "";
 	private String extraTabWorkspaceLabel = "";
@@ -84,6 +83,7 @@ public class GWTWorkspace implements IsSerializable {
 	private boolean keywordEnabled;
 	private boolean uploadNotifyUsers;
 	private boolean notifyExternalUsers;
+	private String sentMailStorage = "";
 	private boolean acrobatPluginPreview;
 	private int increaseVersion = 0;
 	private boolean userQuotaEnabled;
@@ -368,6 +368,14 @@ public class GWTWorkspace implements IsSerializable {
 
 	public void setNotifyExternalUsers(boolean notifyExternalUsers) {
 		this.notifyExternalUsers = notifyExternalUsers;
+	}
+
+	public String getSentMailStorage() {
+		return sentMailStorage;
+	}
+
+	public void setSentMailStorage(String sentMailStorage) {
+		this.sentMailStorage = sentMailStorage;
 	}
 
 	public boolean isAcrobatPluginPreview() {
@@ -834,6 +842,14 @@ public class GWTWorkspace implements IsSerializable {
 		this.securityExtendedMask = securityExtendedMask;
 	}
 
+	public boolean isSystemReadOnly() {
+		return systemReadOnly;
+	}
+
+	public void setSystemReadOnly(boolean systemReadOnly) {
+		this.systemReadOnly = systemReadOnly;
+	}
+
 	public boolean isTabMailPreviewVisible() {
 		return tabMailPreviewVisible;
 	}
@@ -866,68 +882,36 @@ public class GWTWorkspace implements IsSerializable {
 		this.miscWorkflowList = miscWorkflowList;
 	}
 
-	public String getTinymceTheme() {
-		return tinymceTheme;
+	public String getTinymce4Theme() {
+		return tinymce4Theme;
 	}
 
-	public void setTinymceTheme(String tinymceTheme) {
-		this.tinymceTheme = tinymceTheme;
+	public void setTinymce4Theme(String tinymce4Theme) {
+		this.tinymce4Theme = tinymce4Theme;
 	}
 
-	public String getTinymcePlugins() {
-		return tinymcePlugins;
+	public String getTinymce4Plugins() {
+		return tinymce4Plugins;
 	}
 
-	public void setTinymcePlugins(String tinymcePlugins) {
-		this.tinymcePlugins = tinymcePlugins;
+	public void setTinymce4Plugins(String tinymce4Plugins) {
+		this.tinymce4Plugins = tinymce4Plugins;
 	}
 
-	public String getTinymceSkin() {
-		return tinymceSkin;
+	public String getTinymce4Toolbar1() {
+		return tinymce4Toolbar1;
 	}
 
-	public void setTinymceSkin(String tinymceSkin) {
-		this.tinymceSkin = tinymceSkin;
+	public void setTinymce4Toolbar1(String tinymce4Toolbar1) {
+		this.tinymce4Toolbar1 = tinymce4Toolbar1;
 	}
 
-	public String getTinymceSkinVariant() {
-		return tinymceSkinVariant;
+	public String getTinymce4Toolbar2() {
+		return tinymce4Toolbar2;
 	}
 
-	public void setTinymceSkinVariant(String tinymceSkinVariant) {
-		this.tinymceSkinVariant = tinymceSkinVariant;
-	}
-
-	public String getTinimceThemeButtons1() {
-		return tinimceThemeButtons1;
-	}
-
-	public void setTinimceThemeButtons1(String tinimceThemeButtons1) {
-		this.tinimceThemeButtons1 = tinimceThemeButtons1;
-	}
-
-	public String getTinimceThemeButtons2() {
-		return tinimceThemeButtons2;
-	}
-
-	public void setTinimceThemeButtons2(String tinimceThemeButtons2) {
-		this.tinimceThemeButtons2 = tinimceThemeButtons2;
-	}
-
-	public String getTinimceThemeButtons3() {
-		return tinimceThemeButtons3;
-	}
-
-	public void setTinimceThemeButtons3(String tinimceThemeButtons3) {
-		this.tinimceThemeButtons3 = tinimceThemeButtons3;
-	}
-
-	public String getTinimceThemeButtons4() {
-		return tinimceThemeButtons4;
-	}
-
-	public void setTinimceThemeButtons4(String tinimceThemeButtons4) {
-		this.tinimceThemeButtons4 = tinimceThemeButtons4;
+	public void setTinymce4Toolbar2(String tinymce4Toolbar2) {
+		this.tinymce4Toolbar2 = tinymce4Toolbar2;
 	}
 
 	public String getHtmlSyntaxHighlighterCore() {
@@ -987,10 +971,10 @@ public class GWTWorkspace implements IsSerializable {
 	}
 
 	public boolean isAskDragAndDropUpdates() {
-        return askDragAndDropUpdates;
-    }
+		return askDragAndDropUpdates;
+	}
 
-    public void setAskDragAndDropUpdates(boolean askDragAndDropUpdates) {
-        this.askDragAndDropUpdates = askDragAndDropUpdates;
-    }
+	public void setAskDragAndDropUpdates(boolean askDragAndDropUpdates) {
+		this.askDragAndDropUpdates = askDragAndDropUpdates;
+	}
 }

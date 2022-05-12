@@ -209,10 +209,10 @@ public class ResourceUtils {
 				String url = path.toPath().concat("/").concat(mailPath.getName());
 				pw.print("<tr>");
 
-				if (mail.getAttachments().isEmpty()) {
-					pw.print("<td><img src='/" + path.getFirst() + "/img/webdav/email.png'/></td>");
-				} else {
+				if (mail.isHasAttachments()) {
 					pw.print("<td><img src='/" + path.getFirst() + "/img/webdav/email_attach.png'/></td>");
+				} else {
+					pw.print("<td><img src='/" + path.getFirst() + "/img/webdav/email.png'/></td>");
 				}
 
 				pw.print("<td><a href='" + url + "'>" + mailPath.getName() + "</a></td>");

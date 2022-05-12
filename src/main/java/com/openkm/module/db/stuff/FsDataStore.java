@@ -39,13 +39,13 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 
 public class FsDataStore {
-	private static Logger log = LoggerFactory.getLogger(FsDataStore.class);
+	private static final Logger log = LoggerFactory.getLogger(FsDataStore.class);
 	public static final String DATASTORE_BACKEND_FS = "fs";
 	public static final String DATASTORE_BACKEND_DB = "db";
 	public static final String DATASTORE_DIRNAME = "datastore";
 
 	/**
-	 * Write to data store 
+	 * Write to data store
 	 */
 	public static File save(String uuid, InputStream is) throws IOException {
 		log.debug("save({}, {})", uuid, is);
@@ -134,7 +134,7 @@ public class FsDataStore {
 	 */
 	public static void verifyChecksum(String docUuid, String verName, File fsRaw) throws RepositoryException,
 			DatabaseException, IOException {
-		log.debug("verifyChecksum({}, {}, {})", new Object[]{docUuid, verName, fsRaw});
+		log.debug("verifyChecksum({}, {}, {})", docUuid, verName, fsRaw);
 		Session session = null;
 
 		try {
@@ -157,7 +157,7 @@ public class FsDataStore {
 
 	/**
 	 * Purge orphan datastore files.
-	 *
+	 * <p>
 	 * This method will remove datastore files not corresponding with a NodeDocumentVersion.
 	 */
 	public static void purgeOrphanFiles() throws DatabaseException, IOException {
@@ -200,7 +200,7 @@ public class FsDataStore {
 		StringBuilder path = new StringBuilder();
 
 		// For really big repositories maybe better: i < seq.length
-		// But for most usual repositories a 4 depth level is enough 
+		// But for most usual repositories a 4 depth level is enough
 		for (int i = 0; i < 8; i = i + 2) {
 			path.append(seq[i]).append(seq[i + 1]).append(File.separator);
 		}

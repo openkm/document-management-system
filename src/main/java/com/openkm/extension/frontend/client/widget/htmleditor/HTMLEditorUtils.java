@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017 Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,17 +25,14 @@ package com.openkm.extension.frontend.client.widget.htmleditor;
  * HTMLEditorUtils
  *
  * @author jllort
- *
  */
 public class HTMLEditorUtils {
 
 	/**
-	 * getOpenMeetingsLang
-	 *
 	 * take a look http://www.tinymce.com/i18n/index.php?ctrl=lang&act=download&pr_id=1
 	 */
 	public static String getTinymceLang(String lang) {
-		String lg = "en";
+		String lg = "en_GB";
 
 		if (lang.equals("ar-PS")) {
 			lg = "ar";
@@ -44,13 +41,11 @@ public class HTMLEditorUtils {
 		} else if (lang.equals("bs-BS")) {
 			lg = "bs";
 		} else if (lang.equals("bg-BG")) {
-			lg = "bg";
-		} else if (lang.equals("bg-BG")) {
-			lg = "bg";
+			lg = "bg_BG";
 		} else if (lang.equals("zh-CN")) {
 			lg = "zh-cn";
 		} else if (lang.equals("zh-TW")) {
-			lg = "zh-tw";
+			lg = "zh_TW";
 		} else if (lang.equals("cs-CZ")) {
 			lg = "cs";
 		} else if (lang.equals("dk-DK")) {
@@ -58,29 +53,29 @@ public class HTMLEditorUtils {
 		} else if (lang.equals("de-DE")) {
 			lg = "de";
 		} else if (lang.equals("de-AT")) {
-			lg = "en"; // NOT exist in tinymce
+			lg = "de_AT";
 		} else if (lang.equals("nl-NL")) {
 			lg = "nl";
 		} else if (lang.equals("en-GB")) {
-			lg = "en";
+			lg = "en_GB";
 		} else if (lang.equals("en-US")) {
-			lg = "en"; // NOT exist in tinymce
+			lg = "en_GB";
 		} else if (lang.equals("es-ES")) {
 			lg = "es";
 		} else if (lang.equals("co-ES")) {
-			lg = "es"; // NOT exist in tinymce
+			lg = "es";                        // NOT exist in tinymce
 		} else if (lang.equals("eu-ES")) {
 			lg = "eu";
 		} else if (lang.equals("fa-FA")) {
 			lg = "fa";
 		} else if (lang.equals("fr-FR")) {
-			lg = "fr";
+			lg = "fr_FR";
 		} else if (lang.equals("gl-ES")) {
 			lg = "gl";
 		} else if (lang.equals("el-GR")) {
 			lg = "el";
 		} else if (lang.equals("hu-HU")) {
-			lg = "hu";
+			lg = "hu_HU";
 		} else if (lang.equals("id-ID")) {
 			lg = "id";
 		} else if (lang.equals("it-IT")) {
@@ -92,11 +87,11 @@ public class HTMLEditorUtils {
 		} else if (lang.equals("lt-LT")) {
 			lg = "lt";
 		} else if (lang.equals("mk-MK")) {
-			lg = "mk";
+			lg = "en_GB";                        // NOT exist in tinymce
 		} else if (lang.equals("pt-PT")) {
-			lg = "pt";
+			lg = "pt_PT";
 		} else if (lang.equals("pt-BR")) {
-			lg = "pt"; // NOT exist in tinymce
+			lg = "pt_BR";
 		} else if (lang.equals("ro-RO")) {
 			lg = "ro";
 		} else if (lang.equals("ru-RU")) {
@@ -106,11 +101,11 @@ public class HTMLEditorUtils {
 		} else if (lang.equals("sk-SK")) {
 			lg = "sk";
 		} else if (lang.equals("sv-SE")) {
-			lg = "sv";
+			lg = "sv_SE";
 		} else if (lang.equals("th-TH")) {
-			lg = "th";
+			lg = "th_TH";
 		} else if (lang.equals("tr-TR")) {
-			lg = "tr";
+			lg = "tr_TR";
 		} else if (lang.equals("zh-VN")) {
 			lg = "vi";
 		}

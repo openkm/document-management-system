@@ -36,7 +36,7 @@ import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
 import com.openkm.frontend.client.util.CommonUI;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.util.Util;
-import com.openkm.frontend.client.widget.WidgetUtil;
+import com.openkm.frontend.client.widget.util.WidgetUtil;
 import com.openkm.frontend.client.widget.dashboard.keymap.TagCloud;
 import com.openkm.frontend.client.widget.form.FormManager;
 import com.openkm.frontend.client.widget.searchin.SearchControl;
@@ -556,7 +556,7 @@ public class SearchFullResult extends Composite {
 		hPanel.add(new HTML(score.getHTML()));
 		hPanel.add(Util.hSpace("5px"));
 
-		if (mail.getAttachments().size() > 0) {
+		if (mail.isHasAttachments()) {
 			hPanel.add(new HTML(Util.imageItemHTML("img/email_attach.gif")));
 		} else {
 			hPanel.add(new HTML(Util.imageItemHTML("img/email.gif")));

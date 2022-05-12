@@ -44,6 +44,7 @@ import com.openkm.frontend.client.service.OKMGeneralServiceAsync;
 import com.openkm.frontend.client.service.OKMRepositoryService;
 import com.openkm.frontend.client.service.OKMRepositoryServiceAsync;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.notify.NotifyHandler;
 import com.openkm.frontend.client.widget.notify.NotifyPanel;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ import java.util.List;
  *
  * @author jllort
  */
-public class FancyFileUpload extends Composite implements HasText, HasChangeHandlers {
+public class FancyFileUpload extends Composite implements NotifyHandler, HasText, HasChangeHandlers {
 	private final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
 	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
 
@@ -103,7 +104,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	private HTML versionCommentText = new HTML();
 	private HorizontalPanel hNotifyPanel = new HorizontalPanel();
 	private HorizontalPanel hUnzipPanel = new HorizontalPanel();
-	public NotifyPanel notifyPanel = new NotifyPanel();
+	public NotifyPanel notifyPanel = new NotifyPanel(this);
 	private HTML versionHTMLBR;
 	private TextArea versionComment;
 	private ScrollPanel versionCommentScrollPanel;
@@ -1184,7 +1185,7 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 	 * This method will be invoked from client applets.
 	 *
 	 * @param docPath Related document path.
-	 * @param result json encoded response.
+	 * @param result  json encoded response.
 	 */
 	public void jsWizard(String docPath, String result) {
 		Log.debug("jsWizard(" + docPath + ", " + result + ")");
@@ -1238,13 +1239,28 @@ public class FancyFileUpload extends Composite implements HasText, HasChangeHand
 		}
 	}
 
+	@Override
+	public void onChange() {
+		evaluateSendButton();
+	}
+
+	/**
+	 * evaluateSendButton
+	 */
+	public void evaluateSendButton() {
+		boolean enabled = message.getText().trim().length() > 0
+				&& (!notifyPanel.getUsersToNotify().equals("") || !notifyPanel.getRolesToNotify().equals("") || !notifyPanel
+				.getExternalMailAddress().equals(""));
+		Main.get().fileUpload.sendButton.setEnabled(enabled);
+	}
+
 	/**
 	 * initJavaScriptApi
 	 */
 	public native void initJavaScriptApi(FancyFileUpload ffu) /*-{
-        $wnd.jsWizard = function (docPath, result) {
-            ffu.@com.openkm.frontend.client.widget.upload.FancyFileUpload::jsWizard(Ljava/lang/String;Ljava/lang/String;)(docPath, result);
-            return true;
-        }
-    }-*/;
+		$wnd.jsWizard = function (docPath, result) {
+			ffu.@com.openkm.frontend.client.widget.upload.FancyFileUpload::jsWizard(Ljava/lang/String;Ljava/lang/String;)(docPath, result);
+			return true;
+		}
+	}-*/;
 }

@@ -27,7 +27,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * GWTAvailableOption
  *
  * @author jllort
- *
  */
 public class GWTAvailableOption implements IsSerializable {
 	private boolean createFolderOption = true;
@@ -67,6 +66,7 @@ public class GWTAvailableOption implements IsSerializable {
 	private boolean sendDocumentLinkOption = true;
 	private boolean sendDocumentAttachmentOption = true;
 	private boolean forwardMailOption = true;
+	private boolean writeMailOption = true;
 	private boolean skinOption = true;
 	private boolean debugOption = true;
 	private boolean administrationOption = true;
@@ -374,6 +374,14 @@ public class GWTAvailableOption implements IsSerializable {
 		this.forwardMailOption = forwardMailOption;
 	}
 
+	public boolean isWriteMailOption() {
+		return writeMailOption;
+	}
+
+	public void setWriteMailOption(boolean writeMailOption) {
+		this.writeMailOption = writeMailOption;
+	}
+
 	public boolean isSkinOption() {
 		return skinOption;
 	}
@@ -565,7 +573,7 @@ public class GWTAvailableOption implements IsSerializable {
 	public void setMergePdfOption(boolean mergeOption) {
 		this.mergePdfOption = mergeOption;
 	}
-	
+
 	public boolean isOmr() {
 		return omr;
 	}
@@ -573,5 +581,4 @@ public class GWTAvailableOption implements IsSerializable {
 	public void setOmr(boolean omr) {
 		this.omr = omr;
 	}
-	
 }

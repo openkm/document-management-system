@@ -31,7 +31,7 @@ import com.openkm.frontend.client.bean.GWTKeyword;
 import com.openkm.frontend.client.service.OKMMassiveService;
 import com.openkm.frontend.client.service.OKMMassiveServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
-import com.openkm.frontend.client.widget.WidgetUtil;
+import com.openkm.frontend.client.widget.util.WidgetUtil;
 import com.openkm.frontend.client.widget.dashboard.ImageHover;
 import com.openkm.frontend.client.widget.dashboard.keymap.TagCloud;
 import com.openkm.frontend.client.widget.thesaurus.ThesaurusSelectPopup;
@@ -285,8 +285,8 @@ public class KeywordsPopup extends DialogBox {
 			} else if (keyWordsListPending.isEmpty()) {
 				WidgetUtil.drawTagCloud(keywordsCloud, docKeywords);
 			} else {
-				addPendingKeyWordsList();	
-			}	
+				addPendingKeyWordsList();
+			}
 		}
 	}
 

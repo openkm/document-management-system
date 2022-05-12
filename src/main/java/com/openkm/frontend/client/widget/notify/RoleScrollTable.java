@@ -21,6 +21,10 @@
 
 package com.openkm.frontend.client.widget.notify;
 
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollPolicy;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollTableImages;
 import com.google.gwt.gen2.table.client.FixedWidthFlexTable;
@@ -39,24 +43,20 @@ import java.util.List;
  * RoleScrollTable
  *
  * @author jllort
- *
  */
-public class RoleScrollTable extends Composite {
-
+public class RoleScrollTable extends Composite implements HasDoubleClickHandlers {
 	public static final int NUMBER_OF_COLUMNS = 1;
 
 	private ScrollTable table;
 	private FixedWidthFlexTable headerTable;
 	private FixedWidthGrid dataTable;
-	private boolean isRolesToNofity = false;
+	private boolean isRolesToNotify = false;
 
 	/**
 	 * RoleScrollTable
-	 *
-	 * @param isAssigned
 	 */
-	public RoleScrollTable(boolean isRolesToNofity) {
-		this.isRolesToNofity = isRolesToNofity;
+	public RoleScrollTable(boolean isRolesToNotify) {
+		this.isRolesToNotify = isRolesToNotify;
 
 		ScrollTableImages scrollTableImages = new ScrollTableImages() {
 			public AbstractImagePrototype scrollTableAscending() {
@@ -117,7 +117,7 @@ public class RoleScrollTable extends Composite {
 		table.setSize("175px", "140px");
 
 		// Level 1 headers
-		if (isRolesToNofity) {
+		if (isRolesToNotify) {
 			headerTable.setHTML(0, 0, Main.i18n("fileupload.label.roles.to.notify"));
 		} else {
 			headerTable.setHTML(0, 0, Main.i18n("fileupload.label.roles"));
@@ -153,9 +153,9 @@ public class RoleScrollTable extends Composite {
 		String role = null;
 
 		if (!dataTable.getSelectedRows().isEmpty()) {
-			int selectedRow = ((Integer) dataTable.getSelectedRows().iterator().next()).intValue();
+			int selectedRow = dataTable.getSelectedRows().iterator().next();
 			if (dataTable.isRowSelected(selectedRow)) {
-				role = dataTable.getHTML(((Integer) dataTable.getSelectedRows().iterator().next()).intValue(), 0);
+				role = dataTable.getHTML(dataTable.getSelectedRows().iterator().next(), 0);
 			}
 		}
 
@@ -176,7 +176,7 @@ public class RoleScrollTable extends Composite {
 	 */
 	public void removeSelectedRow() {
 		if (!dataTable.getSelectedRows().isEmpty()) {
-			int selectedRow = ((Integer) dataTable.getSelectedRows().iterator().next()).intValue();
+			int selectedRow = dataTable.getSelectedRows().iterator().next();
 			dataTable.removeRow(selectedRow);
 			if (dataTable.getRowCount() > 0) {
 				if (dataTable.getRowCount() > selectedRow) {
@@ -216,7 +216,7 @@ public class RoleScrollTable extends Composite {
 	 * @return The users list
 	 */
 	public List<String> getRolesToNotifyList() {
-		List<String> rolesList = new ArrayList<String>();
+		List<String> rolesList = new ArrayList<>();
 
 		if (dataTable.getRowCount() > 0) {
 			for (int i = 0; i < dataTable.getRowCount(); i++) {
@@ -231,7 +231,7 @@ public class RoleScrollTable extends Composite {
 	 * Removes all rows except the first
 	 */
 	public void removeAllRows() {
-		// Purge all rows 
+		// Purge all rows
 		while (dataTable.getRowCount() > 0) {
 			dataTable.removeRow(0);
 		}
@@ -249,7 +249,7 @@ public class RoleScrollTable extends Composite {
 	 * Lang refresh
 	 */
 	public void langRefresh() {
-		if (isRolesToNofity) {
+		if (isRolesToNotify) {
 			headerTable.setHTML(0, 0, Main.i18n("fileupload.label.roles.to.notify"));
 		} else {
 			headerTable.setHTML(0, 0, Main.i18n("fileupload.label.roles"));
@@ -263,5 +263,10 @@ public class RoleScrollTable extends Composite {
 	 */
 	public FixedWidthGrid getDataTable() {
 		return table.getDataTable();
+	}
+
+	@Override
+	public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+		return addDomHandler(handler, DoubleClickEvent.getType());
 	}
 }

@@ -1,5 +1,5 @@
 /**
-0 * OpenKM, Open Document Management System (http://www.openkm.com)
+ * OpenKM, Open Document Management System (http://www.openkm.com)
  * Copyright (c) 2006-2017  Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
@@ -25,7 +25,6 @@ package com.openkm.frontend.client.bean;
  * ToolBarOption
  *
  * @author jllort
- *
  */
 public class ToolBarOption {
 	public boolean createFolderOption;
@@ -55,6 +54,7 @@ public class ToolBarOption {
 	public boolean sendDocumentLinkOption;
 	public boolean sendDocumentAttachmentOption;
 	public boolean mailForwardOption;
+	public boolean writeMailOption;
 	public boolean moveOption;
 	public boolean exportOption;
 	public boolean workflowOption;
@@ -104,6 +104,7 @@ public class ToolBarOption {
 		sendDocumentLinkOption = false;
 		sendDocumentAttachmentOption = false;
 		mailForwardOption = false;
+		writeMailOption = false;
 		moveOption = false;
 		exportOption = false;
 		workflowOption = false;

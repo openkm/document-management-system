@@ -362,7 +362,7 @@ public class KeyMapTable extends Composite {
 	/**
 	 * Gets the actual detail
 	 *
-	 * @return The actual detail 
+	 * @return The actual detail
 	 */
 	public int getActualDetail() {
 		return visibleStatus;
@@ -536,7 +536,7 @@ public class KeyMapTable extends Composite {
 		table.setWidget(rows, 0, gotoMail);
 
 		SimplePanel sp = new SimplePanel(); // Solves some middle alignament problem derived from mimeImageHTML method
-		if (mail.getAttachments().size() > 0) {
+		if (mail.isHasAttachments()) {
 			sp.add(new HTML(Util.imageItemHTML("img/email_attach.gif")));
 		} else {
 			sp.add(new HTML(Util.imageItemHTML("img/email.gif")));

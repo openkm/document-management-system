@@ -108,7 +108,7 @@ public class FindDocumentSelectPopup extends DialogBox {
 		});
 
 		keyword = new TextBox();
-		keyword.setWidth("692");
+		keyword.setWidth("692px");
 		keyword.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {

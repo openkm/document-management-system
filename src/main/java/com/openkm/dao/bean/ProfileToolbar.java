@@ -35,6 +35,7 @@ public class ProfileToolbar implements Serializable {
 	private boolean lockVisible;
 	private boolean unlockVisible;
 	private boolean addDocumentVisible;
+	private boolean writeMailVisible;
 	private boolean checkoutVisible;
 	private boolean checkinVisible;
 	private boolean cancelCheckoutVisible;
@@ -48,7 +49,7 @@ public class ProfileToolbar implements Serializable {
 	private boolean homeVisible;
 	private boolean splitterResizeVisible;
 	private boolean omrVisible;
-	
+
 	public boolean isCreateFolderVisible() {
 		return createFolderVisible;
 	}
@@ -127,6 +128,14 @@ public class ProfileToolbar implements Serializable {
 
 	public void setAddDocumentVisible(boolean addDocumentVisible) {
 		this.addDocumentVisible = addDocumentVisible;
+	}
+
+	public boolean isWriteMailVisible() {
+		return writeMailVisible;
+	}
+
+	public void setWriteMailVisible(boolean writeMailVisible) {
+		this.writeMailVisible = writeMailVisible;
 	}
 
 	public boolean isCheckoutVisible() {
@@ -232,7 +241,7 @@ public class ProfileToolbar implements Serializable {
 	public void setOmrVisible(boolean omrVisible) {
 		this.omrVisible = omrVisible;
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -256,8 +265,8 @@ public class ProfileToolbar implements Serializable {
 		sb.append(", addSubscriptionVisible=").append(addSubscriptionVisible);
 		sb.append(", removeSubscriptionVisible=").append(removeSubscriptionVisible);
 		sb.append(", homeVisible=").append(homeVisible);
-		sb.append(", refreshVisible=").append(refreshVisible);	
-		sb.append(", splitterResizeVisible=").append(splitterResizeVisible);		
+		sb.append(", refreshVisible=").append(refreshVisible);
+		sb.append(", splitterResizeVisible=").append(splitterResizeVisible);
 		sb.append(", omrVisible=").append(omrVisible);
 		sb.append("}");
 		return sb.toString();

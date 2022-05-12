@@ -44,7 +44,7 @@ import java.util.Collection;
 public class FileUploadPopup extends DialogBox {
 	private Button closeButton;
 	private Button addButton;
-	private Button sendButton;
+	public Button sendButton;
 	private VerticalPanel vPanel;
 	private HorizontalPanel vButtonPanel;
 	private FancyFileUpload ffUpload;
@@ -283,7 +283,7 @@ public class FileUploadPopup extends DialogBox {
 	}
 
 	/**
-	 * @param filesToUpload
+	 * enqueueFileToUpload
 	 */
 	public void enqueueFileToUpload(Collection<FileToUpload> filesToUpload) {
 		ffUpload.enqueueFileToUpload(filesToUpload);
@@ -291,8 +291,6 @@ public class FileUploadPopup extends DialogBox {
 
 	/**
 	 * addPendingFileToUpload
-	 *
-	 * @param pendingFileToUpload
 	 */
 	public void addPendingFileToUpload(FileToUpload pendingFileToUpload) {
 		setModal(true);
@@ -303,7 +301,6 @@ public class FileUploadPopup extends DialogBox {
 
 	/**
 	 * setUploadNotifyUsers
-	 * @param visible
 	 */
 	public void setUploadNotifyUsers(boolean visible) {
 		ffUpload.setUploadNotifyUsers(visible);

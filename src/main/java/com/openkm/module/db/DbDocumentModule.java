@@ -227,6 +227,17 @@ public class DbDocumentModule implements DocumentModule {
 				// AUTOMATION - POST
 				// INSIDE BaseDocumentModule.create
 
+				// In case of mail parent, it's an attachment
+				// See also com.openkm.module.db.DbMailModule.createAttachment(String, String, String, InputStream, long, String)
+				if (NodeMailDAO.getInstance().itemExists(docNode.getParent())) {
+					NodeMail nodeMail = NodeMailDAO.getInstance().findByPk(docNode.getParent());
+
+					if (!nodeMail.getHasAttachments()) {
+						nodeMail.setHasAttachments(true);
+						NodeMailDAO.getInstance().update(nodeMail);
+					}
+				}
+
 				// Set returned folder properties
 				newDocument = BaseDocumentModule.getProperties(auth.getName(), docNode);
 
@@ -312,6 +323,17 @@ public class DbDocumentModule implements DocumentModule {
 
 			// After notification move to trash folder
 			NodeDocumentDAO.getInstance().delete(name, docNode.getUuid(), userTrashUuid);
+
+			// In case of mail parent, it's an attachment
+			// See also com.openkm.module.db.DbMailModule.deleteAttachment(String, String, String)
+			if (NodeMailDAO.getInstance().itemExists(docNode.getParent())) {
+				NodeMail nodeMail = NodeMailDAO.getInstance().findByPk(docNode.getParent());
+
+				if (nodeMail.getHasAttachments()) {
+					nodeMail.setHasAttachments(NodeDocumentDAO.getInstance().hasChildren(nodeMail.getUuid()));
+					NodeMailDAO.getInstance().update(nodeMail);
+				}
+			}
 
 			// AUTOMATION - POST
 			AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_DOCUMENT_DELETE, AutomationRule.AT_POST, env);

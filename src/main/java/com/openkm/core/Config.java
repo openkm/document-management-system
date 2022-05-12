@@ -286,7 +286,7 @@ public class Config {
 	public static String PROPERTY_HIBERNATE_SEARCH_INDEX_EXCLUSIVE = "hibernate.search.index.exclusive";
 	public static String PROPERTY_HIBERNATE_SEARCH_WORKER_EXECUTION = "hibernate.search.worker.execution";
 	public static String PROPERTY_HIBERNATE_SEARCH_WORKER_THREAD_POOL_SIZE = "hibernate.search.worker.thread.pool.size";
-    public static String PROPERTY_HIBERNATE_SEARCH_WORKER_BUFFER_QUEUE_MAX = "hibernate.search.worker.buffer.queue.max";
+	public static String PROPERTY_HIBERNATE_SEARCH_WORKER_BUFFER_QUEUE_MAX = "hibernate.search.worker.buffer.queue.max";
 
 	// Logo icons & login texts
 	public static final String PROPERTY_TEXT_BANNER = "text.banner";
@@ -315,15 +315,11 @@ public class Config {
 	public static final String PROPERTY_CLOUD_MAX_REPOSITORY_SIZE = "cloud.max.repository.size";
 	public static final String PROPERTY_CLOUD_MAX_USERS = "cloud.max.users";
 
-	// TinyMCE
-	public static final String PROPERTY_TINYMCE_THEME = "tinymce.theme";
-	public static final String PROPERTY_TINYMCE_SKIN = "tinymce.skin";
-	public static final String PROPERTY_TINYMCE_SKIN_VARIANT = "tinymce.skin.variant";
-	public static final String PROPERTY_TINYMCE_PLUGINS = "tinymce.plugins";
-	public static final String PROPERTY_TINYMCE_THEME_BUTTONS1 = "tinymce.theme.buttons1";
-	public static final String PROPERTY_TINYMCE_THEME_BUTTONS2 = "tinymce.theme.buttons2";
-	public static final String PROPERTY_TINYMCE_THEME_BUTTONS3 = "tinymce.theme.buttons3";
-	public static final String PROPERTY_TINYMCE_THEME_BUTTONS4 = "tinymce.theme.buttons4";
+	// TinyMCE 4
+	public static final String PROPERTY_TINYMCE4_THEME = "extension.tinymce4.theme";
+	public static final String PROPERTY_TINYMCE4_PLUGINS = "extension.tinymce4.plugins";
+	public static final String PROPERTY_TINYMCE4_TOOLBAR1 = "extension.tinymce4.toolbar1";
+	public static final String PROPERTY_TINYMCE4_TOOLBAR2 = "extension.tinymce4.toolbar2";
 
 	// HTML syntax highlighter
 	public static String PROPERTY_HTML_SINTAXHIGHLIGHTER_CORE = "html.syntaxhighlighter.core";
@@ -563,7 +559,7 @@ public class Config {
 	public static String HIBERNATE_SEARCH_INDEX_EXCLUSIVE = "true";
 	public static String HIBERNATE_SEARCH_WORKER_EXECUTION = "sync";
 	public static String HIBERNATE_SEARCH_WORKER_THREAD_POOL_SIZE = "1";
-    public static String HIBERNATE_SEARCH_WORKER_BUFFER_QUEUE_MAX = "256";
+	public static String HIBERNATE_SEARCH_WORKER_BUFFER_QUEUE_MAX = "256";
 
 	// Logo icons and login texts
 	public static String TEXT_BANNER;
@@ -592,15 +588,11 @@ public class Config {
 	public static long CLOUD_MAX_REPOSITORY_SIZE;
 	public static int CLOUD_MAX_USERS;
 
-	// TinyMCE
-	public static String TINYMCE_THEME = "advanced";
-	public static String TINYMCE_SKIN = "o2k7";
-	public static String TINYMCE_SKIN_VARIANT = "silver";
-	public static String TINYMCE_PLUGINS = "codehighlighting, autolink, lists, pagebreak, style, layer, table, save, advhr, advimage, advlink, emotions, iespell, inlinepopups, insertdatetime, preview, media, searchreplace, print, contextmenu, paste, directionality, fullscreen, noneditable, visualchars, nonbreaking, xhtmlxtras, template, advlist";
-	public static String TINYMCE_THEME_BUTTONS1 = "okm_checkin, okm_cancelcheckout, okm_searchDocument, okm_searchFolder, okm_searchImage, newdocument, codehighlighting, |, bold, italic, underline, strikethrough, |, justifyleft, justifycenter, justifyright, justifyfull, styleselect, formatselect, fontselect, fontsizeselect";
-	public static String TINYMCE_THEME_BUTTONS2 = "cut, copy, paste, pastetext, pasteword, |, search, replace, |, bullist, numlist, |, outdent, indent, blockquote, |, undo, redo, |, link, unlink, anchor, image, cleanup, help, code, |, insertdate, inserttime, preview, |, forecolor, backcolor";
-	public static String TINYMCE_THEME_BUTTONS3 = "tablecontrols, |, hr, removeformat, visualaid, |, sub, sup, |, charmap, emotions, iespell, media, advhr, |, print, |, ltr, rtl";
-	public static String TINYMCE_THEME_BUTTONS4 = "insertlayer, moveforward, movebackward, absolute, |, styleprops, |, cite, abbr, acronym, del, ins, attribs, |, visualchars, nonbreaking, template, pagebreak";
+	// TinyMCE 4
+	public static String TINYMCE4_THEME = "modern";
+	public static String TINYMCE4_PLUGINS = "advlist autolink lists link image charmap print preview hr anchor pagebreak searchreplace wordcount visualblocks visualchars fullscreen insertdatetime media nonbreaking save table contextmenu directionality emoticons template paste textcolor code";
+	public static String TINYMCE4_TOOLBAR1 = "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image";
+	public static String TINYMCE4_TOOLBAR2 = "okm_checkin okm_cancelcheckout okm_searchDocument okm_searchFolder okm_searchImage okm_searchDocumentToDownload okm_codeHighlight | print preview media | forecolor backcolor emoticons";
 
 	// HTML syntax highlighter
 	public static String HTML_SINTAXHIGHLIGHTER_CORE = "shCoreEclipse.css";
@@ -1124,15 +1116,11 @@ public class Config {
 			OPENMEETINGS_CREDENTIALS = ConfigDAO.getString(PROPERTY_OPENMEETINGS_CREDENTIALS, cfg.getProperty(PROPERTY_OPENMEETINGS_CREDENTIALS, ""));
 			values.put(PROPERTY_OPENMEETINGS_CREDENTIALS, OPENMEETINGS_CREDENTIALS);
 
-			// TinyMCE
-			TINYMCE_THEME = ConfigDAO.getString(PROPERTY_TINYMCE_THEME, cfg.getProperty(PROPERTY_TINYMCE_THEME, TINYMCE_THEME));
-			TINYMCE_SKIN = ConfigDAO.getString(PROPERTY_TINYMCE_SKIN, cfg.getProperty(PROPERTY_TINYMCE_SKIN, TINYMCE_SKIN));
-			TINYMCE_SKIN_VARIANT = ConfigDAO.getString(PROPERTY_TINYMCE_SKIN_VARIANT, cfg.getProperty(PROPERTY_TINYMCE_SKIN_VARIANT, TINYMCE_SKIN_VARIANT));
-			TINYMCE_PLUGINS = ConfigDAO.getString(PROPERTY_TINYMCE_PLUGINS, cfg.getProperty(PROPERTY_TINYMCE_PLUGINS, TINYMCE_PLUGINS));
-			TINYMCE_THEME_BUTTONS1 = ConfigDAO.getString(PROPERTY_TINYMCE_THEME_BUTTONS1, cfg.getProperty(PROPERTY_TINYMCE_THEME_BUTTONS1, TINYMCE_THEME_BUTTONS1));
-			TINYMCE_THEME_BUTTONS2 = ConfigDAO.getString(PROPERTY_TINYMCE_THEME_BUTTONS2, cfg.getProperty(PROPERTY_TINYMCE_THEME_BUTTONS2, TINYMCE_THEME_BUTTONS2));
-			TINYMCE_THEME_BUTTONS3 = ConfigDAO.getString(PROPERTY_TINYMCE_THEME_BUTTONS3, cfg.getProperty(PROPERTY_TINYMCE_THEME_BUTTONS3, TINYMCE_THEME_BUTTONS3));
-			TINYMCE_THEME_BUTTONS4 = ConfigDAO.getString(PROPERTY_TINYMCE_THEME_BUTTONS4, cfg.getProperty(PROPERTY_TINYMCE_THEME_BUTTONS4, TINYMCE_THEME_BUTTONS4));
+			// TinyMCE 4
+			TINYMCE4_THEME = ConfigDAO.getString(PROPERTY_TINYMCE4_THEME, cfg.getProperty(PROPERTY_TINYMCE4_THEME, TINYMCE4_THEME));
+			TINYMCE4_PLUGINS = ConfigDAO.getString(PROPERTY_TINYMCE4_PLUGINS, cfg.getProperty(PROPERTY_TINYMCE4_PLUGINS, TINYMCE4_PLUGINS));
+			TINYMCE4_TOOLBAR1 = ConfigDAO.getString(PROPERTY_TINYMCE4_TOOLBAR1, cfg.getProperty(PROPERTY_TINYMCE4_TOOLBAR1, TINYMCE4_TOOLBAR1));
+			TINYMCE4_TOOLBAR2 = ConfigDAO.getString(PROPERTY_TINYMCE4_TOOLBAR2, cfg.getProperty(PROPERTY_TINYMCE4_TOOLBAR2, TINYMCE4_TOOLBAR2));
 
 			// HTML syntax highlighter
 			PROPERTY_HTML_SINTAXHIGHLIGHTER_CORE = ConfigDAO.getString(PROPERTY_HTML_SINTAXHIGHLIGHTER_CORE, cfg.getProperty(PROPERTY_HTML_SINTAXHIGHLIGHTER_CORE, HTML_SINTAXHIGHLIGHTER_CORE));
