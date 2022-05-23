@@ -24,6 +24,8 @@ package com.openkm.extension.frontend.client.widget.htmleditor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
@@ -32,6 +34,7 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 import com.openkm.frontend.client.service.OKMDocumentService;
 import com.openkm.frontend.client.service.OKMDocumentServiceAsync;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.notify.NotifyHandler;
 import com.openkm.frontend.client.widget.notify.NotifyPanel;
 
 /**
@@ -39,7 +42,7 @@ import com.openkm.frontend.client.widget.notify.NotifyPanel;
  *
  * @author jllort
  */
-public class CheckinPopup extends DialogBox {
+public class CheckinPopup extends DialogBox implements NotifyHandler {
 	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
 
 	/**
@@ -68,7 +71,6 @@ public class CheckinPopup extends DialogBox {
 	private ScrollPanel versionCommentScrollPanel;
 	private VerticalPanel vVersionCommentPanel;
 	public CheckBox notifyToUser;
-	private HTML notifyToUserText;
 	private HorizontalPanel hNotifyPanel;
 	private HTML errorNotify;
 	private String docPath;
@@ -129,39 +131,48 @@ public class CheckinPopup extends DialogBox {
 		});
 		hIncreaseVersionPanel = new HorizontalPanel();
 		hIncreaseVersionPanel.add(increaseMajorVersion);
-		hIncreaseVersionPanel.add(Util.hSpace("5px"));
+		hIncreaseVersionPanel.add(Util.vSpace("5px"));
 		hIncreaseVersionPanel.add(increaseMinorVersion);
 
 		// Enable disable notification panel
-		notifyToUser = new CheckBox();
+		notifyToUser = new CheckBox(GeneralComunicator.i18n("fileupload.label.users.notify"));
 		notifyToUser.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (notifyToUser.getValue()) {
 					vNotifyPanel.setVisible(true);
+
 					// TODO:Solves minor bug with IE
 					if (Util.getUserAgent().startsWith("ie")) {
 						notifyPanel.tabPanel.setWidth("374px");
 						notifyPanel.tabPanel.setWidth("375px");
 						notifyPanel.correcIEBug();
 					}
+
+					message.setFocus(true);
+					sendButton.setEnabled(false);
+					onChange();
 				} else {
+					versionComment.setFocus(true);
+					sendButton.setEnabled(true);
 					vNotifyPanel.setVisible(false);
 				}
 			}
 		});
-		notifyToUserText = new HTML(GeneralComunicator.i18n("fileupload.label.users.notify"));
 
 		hNotifyPanel = new HorizontalPanel();
 		hNotifyPanel.add(notifyToUser);
-		hNotifyPanel.add(notifyToUserText);
-		hNotifyPanel.setCellVerticalAlignment(notifyToUser, VerticalPanel.ALIGN_MIDDLE);
-		hNotifyPanel.setCellVerticalAlignment(notifyToUserText, VerticalPanel.ALIGN_MIDDLE);
 
 		// Notification panel
 		vNotifyPanel = new VerticalPanel();
 		commentTXT = new HTML(GeneralComunicator.i18n("fileupload.label.notify.comment"));
 		message = new TextArea();
+		message.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				onChange();
+			}
+		});
 		message.setName("message");
 		message.setSize("375px", "60px");
 		message.setStyleName("okm-TextArea");
@@ -171,13 +182,13 @@ public class CheckinPopup extends DialogBox {
 		messageScroll = new ScrollPanel(message);
 		messageScroll.setAlwaysShowScrollBars(false);
 
-		notifyPanel = new NotifyPanel();
+		notifyPanel = new NotifyPanel(this);
 		vNotifyPanel.add(commentTXT);
 		vNotifyPanel.add(messageScroll);
 		vNotifyPanel.add(errorNotify);
-		vNotifyPanel.add(new HTML("<br/>"));
+		vNotifyPanel.add(Util.vSpace("10px"));
 		vNotifyPanel.add(notifyPanel);
-		vNotifyPanel.add(new HTML("<br/>"));
+		vNotifyPanel.add(Util.vSpace("10px"));
 
 		// Buttons
 		vButtonPanel = new HorizontalPanel();
@@ -201,13 +212,16 @@ public class CheckinPopup extends DialogBox {
 				if (!notifyToUser.getValue() || (notifyToUser.getValue() && (!users.equals("") || !roles.equals("") || !mails.equals("")))) {
 					sendButton.setEnabled(false);
 					int increaseVersion = INCREASE_DEFAULT;
+
+					// Indicates to the version adapter which part of the version number has to be increased
 					if (increaseMajorVersion.getValue()) {
 						increaseVersion = INCREASE_MAJOR;
 					} else if (increaseMinorVersion.getValue()) {
 						increaseVersion = INCREASE_MINOR;
 					}
+
 					HTMLEditor.get().status.setSetHTML();
-					documentService.setHTMLContent(docPath, mails, users, roles, messageToSend, HTMLEditor.get().getTexteAreaText(),
+					documentService.setHTMLContent(docPath, mails, users, roles, messageToSend, HTMLEditor.get().getContent(),
 							versionComment.getText(), increaseVersion, new AsyncCallback<String>() {
 								@Override
 								public void onSuccess(String result) {
@@ -235,19 +249,19 @@ public class CheckinPopup extends DialogBox {
 		sendButton.setStyleName("okm-AddButton");
 
 		vButtonPanel.add(closeButton);
-		vButtonPanel.add(new HTML("&nbsp;&nbsp;"));
+		vButtonPanel.add(Util.hSpace("10px"));
 		vButtonPanel.add(sendButton);
 
 		// Popup main panel
-		vPanel.add(new HTML("<br/>"));
+		vPanel.add(Util.vSpace("5px"));
 		vPanel.add(vVersionCommentPanel);
 		vPanel.add(hIncreaseVersionPanel);
 		vPanel.add(hNotifyPanel);
-		vPanel.add(new HTML("<br/>"));
+		vPanel.add(Util.vSpace("5px"));
 		vPanel.add(vNotifyPanel);
-		vPanel.add(new HTML("<br/>"));
+		vPanel.add(Util.vSpace("10px"));
 		vPanel.add(vButtonPanel);
-		vPanel.add(new HTML("<br/>"));
+		vPanel.add(Util.vSpace("10px"));
 		vPanel.setCellHorizontalAlignment(vVersionCommentPanel, HasAlignment.ALIGN_LEFT);
 		vPanel.setCellHorizontalAlignment(hNotifyPanel, HasAlignment.ALIGN_LEFT);
 		vPanel.setCellHorizontalAlignment(vNotifyPanel, HasAlignment.ALIGN_LEFT);
@@ -268,6 +282,7 @@ public class CheckinPopup extends DialogBox {
 		increaseMinorVersion.setValue(false);
 		notifyPanel.reset();
 		versionComment.setText("");
+		versionComment.setFocus(true);
 		message.setText("");
 		notifyPanel.getAll();
 		notifyToUser.setValue(false);
@@ -301,7 +316,6 @@ public class CheckinPopup extends DialogBox {
 		sendButton.setText(GeneralComunicator.i18n("fileupload.button.send"));
 		commentTXT.setHTML(GeneralComunicator.i18n("fileupload.label.notify.comment"));
 		versionCommentText.setHTML(GeneralComunicator.i18n("fileupload.label.comment"));
-		notifyToUserText.setHTML(GeneralComunicator.i18n("fileupload.label.users.notify"));
 		errorNotify.setHTML(GeneralComunicator.i18n("fileupload.label.must.select.users"));
 		notifyPanel.langRefresh();
 	}
@@ -310,10 +324,35 @@ public class CheckinPopup extends DialogBox {
 	 * setIncrementalVersion
 	 */
 	public void setIncreaseVersion(int incrementVersion) {
-		if (incrementVersion == INCREASE_DEFAULT) {
-			vPanel.remove(hIncreaseVersionPanel);
-		} else if (incrementVersion == INCREASE_MAJOR) {
-			hIncreaseVersionPanel.remove(increaseMinorVersion);
+		switch (incrementVersion) {
+			case INCREASE_MINOR:
+				hIncreaseVersionPanel.remove(increaseMajorVersion);
+				break;
+
+			case INCREASE_MAJOR:
+				hIncreaseVersionPanel.remove(increaseMinorVersion);
+				break;
+
+			case INCREASE_MAJOR_MINOR:
+				// Nothing to remove
+				break;
+
+			default:
+				vPanel.remove(hIncreaseVersionPanel);
 		}
+	}
+
+	@Override
+	public void onChange() {
+		evaluateSendButton();
+	}
+
+	/**
+	 * evaluateSendButton
+	 */
+	public void evaluateSendButton() {
+		boolean enabled = message.getText().trim().length() > 0 && (!notifyPanel.getUsersToNotify().equals("")
+				|| !notifyPanel.getRolesToNotify().equals("") || !notifyPanel.getExternalMailAddress().equals(""));
+		sendButton.setEnabled(enabled);
 	}
 }

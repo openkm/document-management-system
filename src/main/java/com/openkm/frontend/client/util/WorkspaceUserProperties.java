@@ -538,7 +538,7 @@ public class WorkspaceUserProperties {
 			Main.get().mainPanel.desktop.navigator.taxonomyTree.menuPopup.menu.setAvailableOption(workspace
 					.getAvailableOption());
 			Main.get().mainPanel.desktop.browser.fileBrowser.taxonomyMenuPopup.menu.setAvailableOption(workspace
-					.getAvailableOption());			
+					.getAvailableOption());
 		}
 		if (Main.get().workspaceUserProperties.getWorkspace().isStackMetadataVisible()) {
 			Main.get().mainPanel.desktop.navigator.metadataTree.menuPopup.menu.setAvailableOption(workspace
@@ -584,6 +584,6 @@ public class WorkspaceUserProperties {
 		}
 		Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.menuPopup.menu
 				.setAvailableOption(workspace.getAvailableOption());
-		Main.get().mainPanel.topPanel.mainMenu.setAvailableOption(workspace);		
+		Main.get().mainPanel.topPanel.mainMenu.setAvailableOption(workspace);
 	}
 }

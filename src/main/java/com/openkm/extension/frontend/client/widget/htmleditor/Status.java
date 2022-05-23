@@ -21,7 +21,11 @@
 
 package com.openkm.extension.frontend.client.widget.htmleditor;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.widget.foldertree.ExtendedPopupPanel;
@@ -40,6 +44,7 @@ public class Status extends ExtendedPopupPanel {
 
 	private boolean flag_setHTML = false;
 	private boolean flag_editHTML = false;
+	private boolean flag_Checkout = false;
 
 	/**
 	 * The status
@@ -73,10 +78,11 @@ public class Status extends ExtendedPopupPanel {
 	 * Refreshing the panel
 	 */
 	public void refresh() {
-		if (flag_setHTML || flag_editHTML) {
-			Widget widget = HTMLEditor.get().hTMLEditorPopup;
-			int left = widget.getAbsoluteLeft() + (widget.getOffsetWidth() - 200) / 2;
-			int top = widget.getAbsoluteTop() + (widget.getOffsetHeight() - 40) / 2;
+		if (flag_setHTML || flag_editHTML | flag_Checkout) {
+			Widget widgetBase = GeneralComunicator.get().mainPanel;
+
+			int left = widgetBase.getAbsoluteLeft() + (widgetBase.getOffsetWidth() - 200) / 2;
+			int top = widgetBase.getAbsoluteTop() + (widgetBase.getOffsetHeight() - 40) / 2;
 
 			if (left > 0 && top > 0) {
 				setPopupPosition(left, top);
@@ -118,6 +124,23 @@ public class Status extends ExtendedPopupPanel {
 	 */
 	public void unsetEditHTML() {
 		flag_editHTML = false;
+		refresh();
+	}
+
+	/**
+	 * Sets checkout flag
+	 */
+	public void setFlagCheckout() {
+		msg.setHTML(GeneralComunicator.i18nExtension("filebrowser.status.refresh.checkout"));
+		flag_Checkout = true;
+		refresh();
+	}
+
+	/**
+	 * Unset checkout flag
+	 */
+	public void unsetFlagCheckout() {
+		flag_Checkout = false;
 		refresh();
 	}
 }

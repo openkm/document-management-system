@@ -21,15 +21,12 @@
 
 package com.openkm.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author pavila
- *
  */
 @XmlRootElement(name = "mail")
 public class Mail extends Node {
@@ -50,6 +47,7 @@ public class Mail extends Node {
 	public static final String SUBJECT = "okm:subject";
 	public static final String CONTENT = "okm:content";
 	public static final String MIME_TYPE = "okm:mimeType";
+	public static final String SENT = "sent";
 	public static final String INBOX = "inbox";
 
 	private String from;
@@ -63,7 +61,7 @@ public class Mail extends Node {
 	private String content;
 	private String mimeType;
 	private long size;
-	private List<Document> attachments;
+	private boolean hasAttachments;
 
 	public String getFrom() {
 		return from;
@@ -153,12 +151,12 @@ public class Mail extends Node {
 		this.size = size;
 	}
 
-	public List<Document> getAttachments() {
-		return attachments;
+	public boolean isHasAttachments() {
+		return hasAttachments;
 	}
 
-	public void setAttachments(List<Document> attachments) {
-		this.attachments = attachments;
+	public void setHasAttachments(boolean hasAttachments) {
+		this.hasAttachments = hasAttachments;
 	}
 
 	@Override
@@ -182,7 +180,7 @@ public class Mail extends Node {
 		sb.append(", keywords=").append(keywords);
 		sb.append(", categories=").append(categories);
 		sb.append(", notes=").append(notes);
-		sb.append(", attachments=").append(attachments);
+		sb.append(", hasAttachments=").append(hasAttachments);
 		sb.append("}");
 		return sb.toString();
 	}

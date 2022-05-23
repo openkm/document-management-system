@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Extends ScrollTable functionalities 
+ * Extends ScrollTable functionalities
  *
  * @author jllort
  *
@@ -383,7 +383,7 @@ public class ExtendedScrollTable extends ScrollTable {
 		// Sets folder object
 		data.put(new Integer(dataIndexValue), gwtQueryResult);
 
-		// Score is always visible 
+		// Score is always visible
 		dataTable.setHTML(rows, col, score.getHTML());
 		dataTable.getCellFormatter().setHorizontalAlignment(rows, col++, HasHorizontalAlignment.ALIGN_LEFT);
 
@@ -513,7 +513,7 @@ public class ExtendedScrollTable extends ScrollTable {
 		dataTable.getCellFormatter().setHorizontalAlignment(rows, col++, HasHorizontalAlignment.ALIGN_LEFT);
 
 		if (profileFileBrowser.isIconVisible()) {
-			if (mail.getAttachments().size() > 0) {
+			if (mail.isHasAttachments()) {
 				dataTable.setHTML(rows, col, Util.imageItemHTML("img/email_attach.gif"));
 			} else {
 				dataTable.setHTML(rows, col, Util.imageItemHTML("img/email.gif"));

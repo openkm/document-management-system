@@ -1,0 +1,63 @@
+
+<html>
+<head>
+<meta content="noindex,nofollow" name="robots">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>TinyMCE in jQuery modal dialog</title>
+  <!-- Load jQuery -->
+  <script type="text/javascript" src="../../js/jquery-1.11.3.min.js"></script>
+  
+  <!-- Load jQuery build -->
+  <script type="text/javascript" src="tinymce.min.js"></script>
+  <script type="text/javascript" src="jquery.tinymce.min.js"></script>
+  <script>
+// Load external plugins
+//tinymce.PluginManager.load('imagemanager', '/external/imagemanager/editor_plugin_src.js');
+//tinymce.PluginManager.load('filemanager', '/external/filemanager/editor_plugin_src.js');
+//tinymce.PluginManager.load('spellchecker', '/external/spellchecker/editor_plugin_src.js');
+</script>
+<link href="http://fiddle.tinymce.com/rsdaab/css/preview.css" rel="stylesheet">
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<body style="cursor: auto;">
+<div id="dialog" title="TinyMCE dialog" style="display: none">
+    <textarea id="mce_0"></textarea>
+</div>
+
+<textarea id="mce_1"></textarea>
+
+<button id="open" type="button">Open</button>
+
+<script type="text/javascript">
+// Prevent jQuery UI dialog from blocking focusin
+$(document).on('focusin', function(e) {
+    if ($(event.target).closest(".mce-window").length) {
+    e.stopImmediatePropagation();
+  }
+});
+
+// Open dialog and add tinymce to it
+$('#open').click(function() {
+  $("#dialog").dialog({
+    width: 800,
+    modal: true
+  });
+  
+  $('textarea').html('contents changed');
+  $('textarea').tinymce({
+    toolbar: 'link',
+    plugins: 'link'
+  });
+  
+  $('#mce_1').html('contents changed');
+  $('#mce_1').tinymce({
+    toolbar: 'link',
+    plugins: 'link'
+  });
+});
+</script>
+
+</body>
+</html>

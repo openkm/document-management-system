@@ -596,12 +596,12 @@ public class MailAccountServlet extends BaseServlet {
 	 */
 	private void serverList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
 			DatabaseException, MessagingException {
-		log.debug("serverList({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("serverList({}, {}, {})", userId, request, response);
 		int maId = WebUtils.getInt(request, "ma_id");
 		String ma_user = WebUtils.getString(request, "ma_user");
 		int start = WebUtils.getInt(request, "start", 1);
-		Session session = Session.getDefaultInstance(MailUtils.getProperties());
-		List<Map<String, Object>> serverMails = new ArrayList<Map<String, Object>>();
+		Session session = MailUtils.getDefaultSession();
+		List<Map<String, Object>> serverMails = new ArrayList<>();
 
 		// Open connection
 		MailAccount ma = MailAccountDAO.findByPk(maId);
@@ -613,7 +613,7 @@ public class MailAccountServlet extends BaseServlet {
 
 		// Get messages
 		int end = start + PAGINATION_LIMIT - 1;
-		Message[] messages = folder.getMessages(start, end < max ? end : max);
+		Message[] messages = folder.getMessages(start, Math.min(end, max));
 		FetchProfile fp = new FetchProfile();
 		fp.add(FetchProfile.Item.CONTENT_INFO);
 		fp.add(FetchProfile.Item.ENVELOPE);
@@ -622,7 +622,7 @@ public class MailAccountServlet extends BaseServlet {
 
 		// Read mails
 		for (Message msg : messages) {
-			Map<String, Object> mail = new HashMap<String, Object>();
+			Map<String, Object> mail = new HashMap<>();
 			mail.put("receivedDate", msg.getReceivedDate());
 			mail.put("sentDate", msg.getSentDate());
 			mail.put("subject", (msg.getSubject() == null || msg.getSubject().isEmpty()) ? MailUtils.NO_SUBJECT : msg.getSubject());
@@ -646,10 +646,10 @@ public class MailAccountServlet extends BaseServlet {
 		ServletContext sc = getServletContext();
 		sc.setAttribute("ma_id", maId);
 		sc.setAttribute("ma_user", ma_user);
-        sc.setAttribute("max", max);
-        sc.setAttribute("start", start);
-        sc.setAttribute("end", end < max ? end : max);
-        sc.setAttribute("limit", PAGINATION_LIMIT);
+		sc.setAttribute("max", max);
+		sc.setAttribute("start", start);
+		sc.setAttribute("end", Math.min(end, max));
+		sc.setAttribute("limit", PAGINATION_LIMIT);
 		sc.setAttribute("serverMails", serverMails);
 		sc.getRequestDispatcher("/admin/mail_server_list.jsp").forward(request, response);
 		log.debug("serverList: void");
@@ -662,10 +662,10 @@ public class MailAccountServlet extends BaseServlet {
 			throws ServletException, IOException, PathNotFoundException, DatabaseException, MessagingException, RepositoryException,
 			AccessDeniedException, ItemExistsException, VirusDetectedException, UserQuotaExceededException, ExtensionException,
 			AutomationException {
-		log.debug("serverImport({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("serverImport({}, {}, {})", userId, request, response);
 		int maId = WebUtils.getInt(request, "ma_id");
 		long msgId = WebUtils.getLong(request, "msg_id");
-		Session session = Session.getDefaultInstance(MailUtils.getProperties());
+		Session session = MailUtils.getDefaultSession();
 
 		// Open connection
 		MailAccount ma = MailAccountDAO.findByPk(maId);

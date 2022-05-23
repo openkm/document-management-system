@@ -24,6 +24,8 @@ package com.openkm.frontend.client.widget.notify;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
@@ -38,26 +40,31 @@ import java.util.List;
  * NotifyUser
  *
  * @author jllort
- *
  */
 public class NotifyUser extends Composite {
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
-
+	public static final int DEFAULT = 1;
+	public static final int FILTER = 2;
 	private HorizontalPanel hPanel;
 	private UserScrollTable notifyUsersTable;
 	private UserScrollTable userTable;
 	private VerticalPanel buttonPanel;
 	private Image addButton;
 	private Image removeButton;
+	private NotifyHandler notifyChange;
+	private List<String> selectedUsers;
 
 	/**
 	 * NotifyUser
 	 */
-	public NotifyUser() {
+	public NotifyUser(NotifyHandler notifyChange) {
+		this.notifyChange = notifyChange;
 		hPanel = new HorizontalPanel();
 		notifyUsersTable = new UserScrollTable(true);
+		notifyUsersTable.addDoubleClickHandler(removeTableHandler);
 		userTable = new UserScrollTable(false);
+		userTable.addDoubleClickHandler(addTableHandler);
 
 		buttonPanel = new VerticalPanel();
 		addButton = new Image(OKMBundleResources.INSTANCE.add());
@@ -132,13 +139,17 @@ public class NotifyUser extends Composite {
 	ClickHandler addButtonHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			if (userTable.getUser() != null) {
-				notifyUsersTable.addRow(userTable.getUser());
-				notifyUsersTable.selectLastRow();
-				userTable.removeSelectedRow();
-				Main.get().fileUpload.disableErrorNotify();  // Used in both widgets
-				Main.get().notifyPopup.disableErrorNotify(); // has no bad effect disabling both
-			}
+			addUser();
+		}
+	};
+
+	/**
+	 * Add Table handler
+	 */
+	DoubleClickHandler addTableHandler = new DoubleClickHandler() {
+		@Override
+		public void onDoubleClick(DoubleClickEvent event) {
+			addUser();
 		}
 	};
 
@@ -148,13 +159,51 @@ public class NotifyUser extends Composite {
 	ClickHandler removeButtonHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			if (notifyUsersTable.getUser() != null) {
-				userTable.addRow(notifyUsersTable.getUser());
-				userTable.selectLastRow();
-				notifyUsersTable.removeSelectedRow();
-			}
+			removeUser();
 		}
 	};
+
+	/**
+	 * Remove Table handler
+	 */
+	DoubleClickHandler removeTableHandler = new DoubleClickHandler() {
+		@Override
+		public void onDoubleClick(DoubleClickEvent event) {
+			removeUser();
+		}
+	};
+
+	/**
+	 * addUser
+	 */
+	private void addUser() {
+		if (userTable.getUser() != null) {
+			notifyUsersTable.addRow(userTable.getUser());
+			if (Main.get().mailEditorPopup.recipientsPopup.notifyPanel.users != null) {
+				Main.get().mailEditorPopup.recipientsPopup.notifyPanel.users.add(userTable.getUser().getId());
+			}
+			notifyUsersTable.selectLastRow();
+			userTable.removeSelectedRow();
+			Main.get().fileUpload.disableErrorNotify(); // Used in both widgets
+			Main.get().notifyPopup.disableErrorNotify(); // has no bad effect disabling both
+			notifyChange.onChange();
+		}
+	}
+
+	/**
+	 * removeUser
+	 */
+	private void removeUser() {
+		if (notifyUsersTable.getUser() != null) {
+			userTable.addRow(notifyUsersTable.getUser());
+			if (Main.get().mailEditorPopup.recipientsPopup.notifyPanel.users != null) {
+				Main.get().mailEditorPopup.recipientsPopup.notifyPanel.users.remove(notifyUsersTable.getUser().getId());
+			}
+			userTable.selectLastRow();
+			notifyUsersTable.removeSelectedRow();
+			notifyChange.onChange();
+		}
+	}
 
 	/**
 	 * Call back get all users
@@ -162,7 +211,19 @@ public class NotifyUser extends Composite {
 	final AsyncCallback<List<GWTUser>> callbackAllUsers = new AsyncCallback<List<GWTUser>>() {
 		public void onSuccess(List<GWTUser> result) {
 			for (GWTUser user : result) {
-				userTable.addRow(user);
+				if (selectedUsers != null) {
+					if (!selectedUsers.contains(user.getId())) {
+						userTable.addRow(user);
+					} else {
+						notifyUsersTable.addRow(user);
+					}
+				} else {
+					userTable.addRow(user);
+				}
+			}
+			if (selectedUsers != null) {
+				selectedUsers = null;
+				notifyChange.onChange();
 			}
 		}
 
@@ -172,10 +233,49 @@ public class NotifyUser extends Composite {
 	};
 
 	/**
+	 * Call back get all users
+	 */
+	final AsyncCallback<List<GWTUser>> callbackFilterUsers = new AsyncCallback<List<GWTUser>>() {
+		public void onSuccess(List<GWTUser> result) {
+			for (GWTUser user : result) {
+				if (selectedUsers != null) {
+					if (!selectedUsers.contains(user.getId())) {
+						userTable.addRow(user);
+					} else {
+						notifyUsersTable.addRow(user);
+					}
+				} else {
+					userTable.addRow(user);
+				}
+			}
+
+			if (selectedUsers != null) {
+				selectedUsers = null;
+				notifyChange.onChange();
+			}
+		}
+
+		public void onFailure(Throwable caught) {
+			Main.get().showError("GetFilterUsers", caught);
+		}
+	};
+
+	/**
 	 * Gets all users
 	 */
-	public void getAllUsers() {
-		authService.getAllUsers(callbackAllUsers);
+	public void getAllUsers(List<String> selectedUsers, int type) {
+		this.selectedUsers = selectedUsers;
+		switch (type) {
+			case DEFAULT:
+				authService.getAllUsers(callbackAllUsers);
+				break;
+
+			case FILTER:
+				if (selectedUsers != null) {
+					authService.getUsers(selectedUsers, callbackFilterUsers);
+				}
+				break;
+		}
 	}
 
 	/**
@@ -187,8 +287,6 @@ public class NotifyUser extends Composite {
 
 	/**
 	 * getUsersToNotify
-	 *
-	 * @return
 	 */
 	public String getUsersToNotify() {
 		return notifyUsersTable.getUsersToNotify();

@@ -64,6 +64,8 @@ public interface OKMAuthServiceAsync {
 
 	public void getAllUsers(AsyncCallback<List<GWTUser>> callback);
 
+	public void getUsers(List<String> users, AsyncCallback<List<GWTUser>> callback);
+
 	public void getAllRoles(AsyncCallback<List<String>> callback);
 
 	public void getFilteredAllUsers(String filter, List<String> selectedUsers, AsyncCallback<List<GWTUser>> callback);

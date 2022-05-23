@@ -40,7 +40,7 @@ import java.util.List;
  *
  * @author jllort
  */
-public class NotifyPopup extends DialogBox {
+public class NotifyPopup extends DialogBox implements NotifyHandler {
 
 	private static final int NONE = -1;
 	public static final int NOTIFY_WITH_LINK = 0;
@@ -80,7 +80,7 @@ public class NotifyPopup extends DialogBox {
 
 		vPanel = new VerticalPanel();
 		hPanel = new HorizontalPanel();
-		notifyPanel = new NotifyPanel();
+		notifyPanel = new NotifyPanel(this);
 		message = new TextArea();
 		message.addKeyUpHandler(new KeyUpHandler() {
 			@Override
@@ -354,5 +354,19 @@ public class NotifyPopup extends DialogBox {
 	 */
 	public void disableErrorNotify() {
 		errorNotify.setVisible(false);
+	}
+
+	@Override
+	public void onChange() {
+		evaluateSendButton();
+	}
+
+	/**
+	 * evaluateSendButton
+	 */
+	public void evaluateSendButton() {
+		boolean enabled = message.getText().trim().length() > 0 &&
+				(!notifyPanel.getUsersToNotify().equals("") || !notifyPanel.getRolesToNotify().equals("") || !notifyPanel.getExternalMailAddress().equals(""));
+		sendButton.setEnabled(enabled);
 	}
 }

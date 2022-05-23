@@ -254,6 +254,7 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfMisc().setNotifyExternalUsers(WebUtils.getBoolean(request, "prf_misc_notify_external_users"));
 		prf.getPrfMisc().setAcrobatPluginPreview(WebUtils.getBoolean(request, "prf_misc_acrobat_plugin_preview"));
 		prf.getPrfMisc().setIncreaseVersion(WebUtils.getBoolean(request, "prf_misc_increase_version"));
+		prf.getPrfMisc().setSentMailStorage(WebUtils.getString(request, "prf_misc_sent_mail_storage"));
 		prf.getPrfMisc().setExtensions(new HashSet<String>(WebUtils.getStringList(request, "prf_misc_extensions")));
 		prf.getPrfMisc().setReports(new HashSet<Long>(WebUtils.getLongList(request, "prf_misc_reports")));
 		prf.getPrfMisc().setWorkflows(new HashSet<String>(WebUtils.getStringList(request, "prf_misc_workflows")));
@@ -314,6 +315,7 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfMenu().getPrfFile().setSendDocumentLinkVisible(WebUtils.getBoolean(request, "prf_menu_file_send_document_link_visible"));
 		prf.getPrfMenu().getPrfFile().setSendDocumentAttachmentVisible(WebUtils.getBoolean(request, "prf_menu_file_send_document_attachment_visible"));
 		prf.getPrfMenu().getPrfFile().setForwardMailVisible(WebUtils.getBoolean(request, "prf_menu_file_forward_mail_visible"));
+		prf.getPrfMenu().getPrfFile().setWriteMailVisible(WebUtils.getBoolean(request, "prf_menu_file_write_mail_visible"));
 
 		// Menu Bookmarks
 		prf.getPrfMenu().getPrfBookmark().setManageBookmarksVisible(WebUtils.getBoolean(request, "prf_menu_bookmark_manage_bookmarks_visible"));
@@ -409,6 +411,7 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfToolbar().setLockVisible(WebUtils.getBoolean(request, "prf_toolbar_lock_visible"));
 		prf.getPrfToolbar().setUnlockVisible(WebUtils.getBoolean(request, "prf_toolbar_unlock_visible"));
 		prf.getPrfToolbar().setAddDocumentVisible(WebUtils.getBoolean(request, "prf_toolbar_add_document_visible"));
+		prf.getPrfToolbar().setWriteMailVisible(WebUtils.getBoolean(request, "prf_toolbar_write_mail_visible"));
 		prf.getPrfToolbar().setCheckoutVisible(WebUtils.getBoolean(request, "prf_toolbar_checkout_visible"));
 		prf.getPrfToolbar().setCheckinVisible(WebUtils.getBoolean(request, "prf_toolbar_checkin_visible"));
 		prf.getPrfToolbar().setCancelCheckoutVisible(WebUtils.getBoolean(request, "prf_toolbar_cancel_checkout_visible"));

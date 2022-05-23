@@ -38,9 +38,9 @@ import com.openkm.frontend.client.service.OKMPropertyService;
 import com.openkm.frontend.client.service.OKMPropertyServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.widget.ConfirmPopup;
-import com.openkm.frontend.client.widget.WidgetUtil;
 import com.openkm.frontend.client.widget.dashboard.ImageHover;
 import com.openkm.frontend.client.widget.dashboard.keymap.TagCloud;
+import com.openkm.frontend.client.widget.util.WidgetUtil;
 
 import java.util.*;
 
@@ -48,7 +48,6 @@ import java.util.*;
  * KeywordManager
  *
  * @author jllort
- *
  */
 public class KeywordManager {
 	private final OKMPropertyServiceAsync propertyService = (OKMPropertyServiceAsync) GWT.create(OKMPropertyService.class);
@@ -302,7 +301,6 @@ public class KeywordManager {
 
 	/**
 	 * Adds keywords sequentially
-	 *
 	 */
 	public void addPendingKeyWordsList() {
 		if (!keyWordsListPending.isEmpty()) {
@@ -321,7 +319,7 @@ public class KeywordManager {
 			hKeyPanel.add(keywordButton);
 			keywords.add(keyword);
 
-			if (keyWordsListPending.isEmpty()) {				
+			if (keyWordsListPending.isEmpty()) {
 				WidgetUtil.drawTagCloud(keywordsCloud, keywords);
 
 				if (object instanceof GWTDocument) {
@@ -397,8 +395,8 @@ public class KeywordManager {
 		} else if (keyWordsListPending.isEmpty()) {
 			WidgetUtil.drawTagCloud(keywordsCloud, keywords);
 		} else {
-			addPendingKeyWordsList();	
-		}	
+			addPendingKeyWordsList();
+		}
 	}
 
 	/**
@@ -410,9 +408,7 @@ public class KeywordManager {
 	}
 
 	/**
-	 * removeKeyword 
-	 *
-	 * @param ktr
+	 * removeKeyword
 	 */
 	public void removeKeyword(KeywordToRemove ktr) {
 		removeKey(ktr.getKeyword());
@@ -423,7 +419,6 @@ public class KeywordManager {
 	 * Get a new widget keyword
 	 *
 	 * @param keyword The keyword
-	 *
 	 * @return The widget
 	 */
 	private HorizontalPanel getKeyWidget(final String keyword, boolean remove) {
@@ -488,7 +483,6 @@ public class KeywordManager {
 	 * KeywordToRemove
 	 *
 	 * @author jllort
-	 *
 	 */
 	public class KeywordToRemove {
 		private HorizontalPanel externalPanel;

@@ -23,6 +23,7 @@ package com.openkm.rest.endpoint;
 
 import com.openkm.api.OKMMail;
 import com.openkm.automation.AutomationException;
+import com.openkm.bean.Document;
 import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.Mail;
 import com.openkm.core.*;
@@ -30,6 +31,7 @@ import com.openkm.extension.core.ExtensionException;
 import com.openkm.module.MailModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.rest.GenericException;
+import com.openkm.rest.util.DocumentList;
 import com.openkm.rest.util.MailList;
 import com.openkm.util.PathUtils;
 import io.swagger.annotations.Api;
@@ -43,7 +45,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -165,6 +169,64 @@ public class MailService {
 		}
 	}
 
+	@POST
+	@Path("/createAttachment")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	// The "docPath" and "content" parameters comes in the POST request body.
+	public Document createAttachment(List<Attachment> atts) throws GenericException {
+		try {
+			log.debug("createAttachment({})", atts);
+			String mailId = null;
+			String docName = null;
+			InputStream is = null;
+
+			for (Attachment att : atts) {
+				if ("mailId".equals(att.getContentDisposition().getParameter("name"))) {
+					mailId = att.getObject(String.class);
+				} else if ("docName".equals(att.getContentDisposition().getParameter("name"))) {
+					docName = att.getObject(String.class);
+				} else if ("content".equals(att.getContentDisposition().getParameter("name"))) {
+					is = att.getDataHandler().getInputStream();
+				}
+			}
+
+			MailModule mm = ModuleManager.getMailModule();
+			Document newDocument = mm.createAttachment(null, mailId, docName, is);
+			IOUtils.closeQuietly(is);
+			log.debug("createAttachment: {}", newDocument);
+			return newDocument;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@DELETE
+	@Path("/deleteAttachment")
+	public void deleteAttachment(@QueryParam("mailId") String mailId, @QueryParam("docId") String docId) throws GenericException {
+		try {
+			log.debug("deleteAttachment({})", docId);
+			MailModule mm = ModuleManager.getMailModule();
+			mm.deleteAttachment(null, mailId, docId);
+			log.debug("deleteAttachment: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@GET
+	@Path("/getAttachments")
+	public DocumentList getAttachments(@QueryParam("mailId") String mailId) throws GenericException {
+		try {
+			log.debug("getAttachments({})", mailId);
+			MailModule mm = ModuleManager.getMailModule();
+			DocumentList docList = new DocumentList();
+			docList.getList().addAll(mm.getAttachments(null, mailId));
+			return docList;
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
 	@PUT
 	@Path("/purge")
 	public void purge(@QueryParam("mailId") String mailId) throws GenericException {
@@ -277,6 +339,125 @@ public class MailService {
 			Mail newMail = OKMMail.getInstance().importMsg(dstPath, is);
 			log.debug("importMsg: {}", newMail);
 			return newMail;
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+	}
+
+	@POST
+	@Path("/sendMail")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	// The "query" parameter comes in the POST request body (encoded as XML or JSON).
+	public void sendMail(List<Attachment> atts) throws GenericException {
+		log.debug("sendMail({})", atts);
+		InputStream is = null;
+		List<String> recipients = new ArrayList<>();
+		String subject = null;
+		String from = null;
+		String body = null;
+
+		try {
+			for (Attachment att : atts) {
+				if ("recipient".equals(att.getContentDisposition().getParameter("name"))) {
+					String value = att.getObject(String.class);
+					if (value.contains(Config.LIST_SEPARATOR)) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+						while (st.hasMoreTokens()) {
+							recipients.add(st.nextToken().trim());
+						}
+					} else {
+						recipients.add(value);
+					}
+				} else if ("from".equals(att.getContentDisposition().getParameter("name"))) {
+					from = att.getObject(String.class);
+				} else if ("subject".equals(att.getContentDisposition().getParameter("name"))) {
+					subject = att.getObject(String.class);
+				} else if ("body".equals(att.getContentDisposition().getParameter("name"))) {
+					is = att.getDataHandler().getInputStream();
+					body = IOUtils.toString(is).trim();
+				}
+			}
+
+			OKMMail.getInstance().sendMail(null, from, recipients, subject, body);
+			log.debug("sendMail: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	@POST
+	@Path("/sendMailWithAttachments")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public void sendMailWithAttachments(List<Attachment> atts) throws GenericException {
+		log.debug("sendMailWithAttachments({})", atts);
+		List<String> toRecipients = new ArrayList<>();
+		List<String> ccRecipients = new ArrayList<>();
+		List<String> bccRecipients = new ArrayList<>();
+		List<String> docsId = new ArrayList<>();
+		String subject = "";
+		String dstId = "";
+		String body = "";
+		String from = null;
+		InputStream is = null;
+
+		try {
+			for (Attachment att : atts) {
+				if ("to".equals(att.getContentDisposition().getParameter("name"))) {
+					String value = att.getObject(String.class);
+					if (value.contains(Config.LIST_SEPARATOR)) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+						while (st.hasMoreTokens()) {
+							toRecipients.add(st.nextToken().trim());
+						}
+					} else {
+						toRecipients.add(value);
+					}
+				} else if ("cc".equals(att.getContentDisposition().getParameter("name"))) {
+					String value = att.getObject(String.class);
+					if (value.contains(Config.LIST_SEPARATOR)) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+						while (st.hasMoreTokens()) {
+							ccRecipients.add(st.nextToken().trim());
+						}
+					} else {
+						ccRecipients.add(value);
+					}
+				} else if ("bcc".equals(att.getContentDisposition().getParameter("name"))) {
+					String value = att.getObject(String.class);
+					if (value.contains(Config.LIST_SEPARATOR)) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+						while (st.hasMoreTokens()) {
+							bccRecipients.add(st.nextToken().trim());
+						}
+					} else {
+						bccRecipients.add(value);
+					}
+				} else if ("docsId".equals(att.getContentDisposition().getParameter("name"))) {
+					String value = att.getObject(String.class);
+					if (value.contains(Config.LIST_SEPARATOR)) {
+						StringTokenizer st = new StringTokenizer(value, Config.LIST_SEPARATOR);
+						while (st.hasMoreTokens()) {
+							docsId.add(st.nextToken().trim());
+						}
+					} else {
+						docsId.add(value);
+					}
+				} else if ("from".equals(att.getContentDisposition().getParameter("name"))) {
+					from = att.getObject(String.class);
+				} else if ("subject".equals(att.getContentDisposition().getParameter("name"))) {
+					subject = att.getObject(String.class);
+				} else if ("dstId".equals(att.getContentDisposition().getParameter("name"))) {
+					dstId = att.getObject(String.class);
+				} else if ("body".equals(att.getContentDisposition().getParameter("name"))) {
+					is = att.getDataHandler().getInputStream();
+					body = IOUtils.toString(is);
+				}
+			}
+
+			OKMMail.getInstance().sendMailWithAttachments(null, from, toRecipients, ccRecipients, bccRecipients, null, subject, body, docsId, dstId);
+			log.debug("sendMailWithAttachments: void");
+		} catch (Exception e) {
+			throw new GenericException(e);
 		} finally {
 			IOUtils.closeQuietly(is);
 		}

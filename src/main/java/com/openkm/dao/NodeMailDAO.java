@@ -107,6 +107,36 @@ public class NodeMailDAO {
 	}
 
 	/**
+	 * Update node
+	 */
+	public void update(NodeMail nMail) throws PathNotFoundException, AccessDeniedException, DatabaseException {
+		log.debug("update({})", nMail);
+		Session session = null;
+		Transaction tx = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.beginTransaction();
+
+			// Security Check
+			SecurityHelper.checkRead(nMail);
+			SecurityHelper.checkWrite(nMail);
+
+			session.update(nMail);
+			HibernateUtil.commit(tx);
+			log.debug("create: void");
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException e) {
+			HibernateUtil.rollback(tx);
+			throw e;
+		} catch (HibernateException e) {
+			HibernateUtil.rollback(tx);
+			throw new DatabaseException(e.getMessage(), e);
+		} finally {
+			HibernateUtil.close(session);
+		}
+	}
+
+	/**
 	 * Find by parent
 	 */
 	@SuppressWarnings("unchecked")

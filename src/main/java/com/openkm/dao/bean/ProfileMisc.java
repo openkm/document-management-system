@@ -36,6 +36,7 @@ public class ProfileMisc implements Serializable {
 	private boolean notifyExternalUsers;
 	private boolean acrobatPluginPreview;
 	private boolean increaseVersion;
+	private String sentMailStorage;
 	private Set<String> extensions = new HashSet<String>();
 	private Set<Long> reports = new HashSet<Long>();
 	private Set<String> workflows = new HashSet<String>();
@@ -112,6 +113,14 @@ public class ProfileMisc implements Serializable {
 		this.increaseVersion = increaseVersion;
 	}
 
+	public String getSentMailStorage() {
+		return sentMailStorage;
+	}
+
+	public void setSentMailStorage(String sentMailStorage) {
+		this.sentMailStorage = sentMailStorage;
+	}
+
 	public Set<String> getExtensions() {
 		return extensions;
 	}
@@ -139,24 +148,16 @@ public class ProfileMisc implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("userQuota=");
-		sb.append(userQuota);
-		sb.append(", advancedFilters=");
-		sb.append(advancedFilters);
-		sb.append(", webSkin=");
-		sb.append(webSkin);
-		sb.append(", printPreview=");
-		sb.append(printPreview);
-		sb.append(", keywordsEnabled=");
-		sb.append(keywordsEnabled);
-		sb.append(", uploadNotifyUsers=");
-		sb.append(uploadNotifyUsers);
-		sb.append(", extensions=");
-		sb.append(extensions);
-		sb.append(", reports=");
-		sb.append(reports);
-		sb.append(", workflows=");
-		sb.append(workflows);
+		sb.append("userQuota=").append(userQuota);
+		sb.append(", advancedFilters=").append(advancedFilters);
+		sb.append(", webSkin=").append(webSkin);
+		sb.append(", printPreview=").append(printPreview);
+		sb.append(", keywordsEnabled=").append(keywordsEnabled);
+		sb.append(", uploadNotifyUsers=").append(uploadNotifyUsers);
+		sb.append(", sentMailStorage").append(sentMailStorage);
+		sb.append(", extensions=").append(extensions);
+		sb.append(", reports=").append(reports);
+		sb.append(", workflows=").append(workflows);
 		sb.append("}");
 		return sb.toString();
 	}

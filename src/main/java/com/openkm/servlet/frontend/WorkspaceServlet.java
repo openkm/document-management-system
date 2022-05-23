@@ -56,10 +56,9 @@ import java.util.concurrent.TimeUnit;
  * WorkspaceServlet
  *
  * @author jllort
- *
  */
 public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWorkspaceService {
-	private static Logger log = LoggerFactory.getLogger(WorkspaceServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(WorkspaceServlet.class);
 	private static final long serialVersionUID = 8673521252684830906L;
 
 	@Override
@@ -75,16 +74,13 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 		workspace.setWorkflowProcessIntanceVariablePath(Config.WORKFLOW_PROCESS_INSTANCE_VARIABLE_PATH);
 		workspace.setSessionId(getThreadLocalRequest().getSession().getId());
 		workspace.setMinSearchCharacters(Config.MIN_SEARCH_CHARACTERS);
+		workspace.setSystemReadOnly(Config.SYSTEM_READONLY);
 
-		// Tinymce
-		workspace.setTinymceTheme(Config.TINYMCE_THEME);
-		workspace.setTinymceSkin(Config.TINYMCE_SKIN);
-		workspace.setTinymceSkinVariant(Config.TINYMCE_SKIN_VARIANT);
-		workspace.setTinymcePlugins(Config.TINYMCE_PLUGINS);
-		workspace.setTinimceThemeButtons1(Config.TINYMCE_THEME_BUTTONS1);
-		workspace.setTinimceThemeButtons2(Config.TINYMCE_THEME_BUTTONS2);
-		workspace.setTinimceThemeButtons3(Config.TINYMCE_THEME_BUTTONS3);
-		workspace.setTinimceThemeButtons4(Config.TINYMCE_THEME_BUTTONS4);
+		// TinyMCE 4
+		workspace.setTinymce4Theme(Config.TINYMCE4_THEME);
+		workspace.setTinymce4Plugins(Config.TINYMCE4_PLUGINS);
+		workspace.setTinymce4Toolbar1(Config.TINYMCE4_TOOLBAR1);
+		workspace.setTinymce4Toolbar2(Config.TINYMCE4_TOOLBAR2);
 
 		// Syntax highlighter
 		workspace.setHtmlSyntaxHighlighterCore(Config.HTML_SINTAXHIGHLIGHTER_CORE);
@@ -105,9 +101,9 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 		workspace.setDashboardSchedule(TimeUnit.MINUTES.toMillis(Config.SCHEDULE_DASHBOARD_REFRESH));
 		workspace.setUINotificationSchedule(TimeUnit.MINUTES.toMillis(Config.SCHEDULE_UI_NOTIFICATION));
 
-		List<GWTPropertyGroup> wizardPropGrpLst = new ArrayList<GWTPropertyGroup>();
-		List<String> wizardWorkflowLst = new ArrayList<String>();
-		List<String> miscWorkflowLst = new ArrayList<String>();
+		List<GWTPropertyGroup> wizardPropGrpLst = new ArrayList<>();
+		List<String> wizardWorkflowLst = new ArrayList<>();
+		List<String> miscWorkflowLst = new ArrayList<>();
 		Profile up = new Profile();
 
 		try {
@@ -153,6 +149,9 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 
 			// acrobat plugin preview
 			workspace.setAcrobatPluginPreview(up.getPrfMisc().isAcrobatPluginPreview());
+
+			// Mail Default Storage
+			workspace.setSentMailStorage(up.getPrfMisc().getSentMailStorage() == null ? GWTWorkspace.MAIL_STORAGE_MAIL_FOLDER : up.getPrfMisc().getSentMailStorage());
 
 			// increase version
 			if (up.getPrfMisc().isIncreaseVersion()) {
@@ -271,6 +270,7 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			availableOption.setSendDocumentLinkOption(up.getPrfMenu().getPrfFile().isSendDocumentLinkVisible());
 			availableOption.setSendDocumentAttachmentOption(up.getPrfMenu().getPrfFile().isSendDocumentAttachmentVisible());
 			availableOption.setForwardMailOption(up.getPrfMenu().getPrfFile().isForwardMailVisible());
+			availableOption.setWriteMailOption(up.getPrfMenu().getPrfFile().isWriteMailVisible());
 
 			// Menu Edit
 			availableOption.setLockOption(up.getPrfMenu().getPrfEdit().isLockVisible());
@@ -338,6 +338,7 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			// Is visible on toolbar && available option too
 			GWTProfileToolbar profileToolbar = new GWTProfileToolbar();
 			profileToolbar.setAddDocumentVisible(up.getPrfToolbar().isAddDocumentVisible() && availableOption.isAddDocumentOption());
+			profileToolbar.setWriteMailVisible(up.getPrfToolbar().isWriteMailVisible() && availableOption.isWriteMailOption());
 			profileToolbar.setAddPropertyGroupVisible(up.getPrfToolbar().isAddPropertyGroupVisible()
 					&& availableOption.isAddPropertyGroupOption());
 			profileToolbar.setAddSubscriptionVisible(up.getPrfToolbar().isAddSubscriptionVisible()
@@ -425,14 +426,14 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 			workspace.setProfilePagination(profilePagination);
 
 			// Setting available UI languages
-			List<GWTLanguage> langs = new ArrayList<GWTLanguage>();
+			List<GWTLanguage> langs = new ArrayList<>();
 			for (Language lang : LanguageDAO.findAll()) {
 				langs.add(GWTUtil.copy(lang));
 			}
 			workspace.setLangs(langs);
 
 			// Mimetypes
-			List<GWTMimeType> mimeTypes = new ArrayList<GWTMimeType>();
+			List<GWTMimeType> mimeTypes = new ArrayList<>();
 			for (MimeType mt : MimeTypeDAO.findBySearch()) {
 				mimeTypes.add(GWTUtil.copy(mt));
 			}
@@ -514,7 +515,7 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 		updateSessionManager();
 
 		try {
-			docSize = new Double(OKMDashboard.getInstance().getUserDocumentsSize(null));
+			docSize = (double) OKMDashboard.getInstance().getUserDocumentsSize(null);
 		} catch (AccessDeniedException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMWorkspaceService, ErrorCode.CAUSE_AccessDenied), e.getMessage());

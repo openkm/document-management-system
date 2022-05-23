@@ -29,7 +29,6 @@ import com.google.gwt.resources.client.ImageResource;
  * OKMBundleResources
  *
  * @author jllort
- *
  */
 public interface OKMBundleResources extends ClientBundle {
 	OKMBundleResources INSTANCE = GWT.create(OKMBundleResources.class);
@@ -467,11 +466,11 @@ public interface OKMBundleResources extends ClientBundle {
 	ImageResource exportCSV();
 
 	@Source("com/openkm/frontend/public/img/icon/actions/options.png")
-	ImageResource options();	
-	
+	ImageResource options();
+
 	@Source("com/openkm/frontend/public/img/icon/actions/omr.png")
 	ImageResource omr();
-	
+
 	@Source("com/openkm/frontend/public/img/icon/actions/omr_disabled.png")
 	ImageResource omrDisabled();
 
@@ -480,4 +479,34 @@ public interface OKMBundleResources extends ClientBundle {
 
 	@Source("com/openkm/frontend/public/img/icon/actions/clipboard_small.png")
 	ImageResource clipboardSmall();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/write_mail.png")
+	ImageResource writeMail();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/write_mail_disabled.png")
+	ImageResource writeMailDisabled();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/button_close.png")
+	ImageResource buttonClose();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/button_maximize.png")
+	ImageResource buttonMaximize();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/button_minimize.png")
+	ImageResource buttonMinimize();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/user.png")
+	ImageResource user();
+
+	@Source("com/openkm/frontend/public/img/icon/actions/attachment.png")
+	ImageResource attachment();
+
+	@Source("com/openkm/frontend/public/img/email_reply.png")
+	ImageResource mailReply();
+
+	@Source("com/openkm/frontend/public/img/email_reply_all.png")
+	ImageResource mailReplyAll();
+
+	@Source("com/openkm/frontend/public/img/email_forward.png")
+	ImageResource mailForward();
 }

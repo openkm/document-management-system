@@ -53,6 +53,7 @@ import com.openkm.frontend.client.widget.foldertree.FolderTree;
 import com.openkm.frontend.client.widget.massive.*;
 import com.openkm.frontend.client.widget.notify.NotifyPopup;
 import com.openkm.frontend.client.widget.security.SecurityPopup;
+import com.openkm.frontend.client.widget.sendmail.MailEditorPopup;
 import com.openkm.frontend.client.widget.startup.StartUp;
 import com.openkm.frontend.client.widget.startup.StartUpPopup;
 import com.openkm.frontend.client.widget.test.TestPopup;
@@ -123,6 +124,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	public TemplatePopup templatePopup;
 	public ConversionStatus conversionStatus;
 	public UpdatePropertyGroupPopup updatePropertyGroupPopup;
+	public MailEditorPopup mailEditorPopup;
 	public ConvertPopup convertPopup;
 	public OmrPopup omrPopup;
 
@@ -468,6 +470,8 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		updatePropertyGroupPopup.setWidth("250px");
 		updatePropertyGroupPopup.setHeight("50px");
 		updatePropertyGroupPopup.setStyleName("okm-Popup");
+		mailEditorPopup = new MailEditorPopup();
+		mailEditorPopup.setStyleName("okm-Popup");
 		convertPopup = new ConvertPopup();
 		convertPopup.setWidth("150px");
 		convertPopup.setHeight("50px");
@@ -510,6 +514,9 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		mainPanel.topPanel.toolBar.initJavaScriptApi(mainPanel.topPanel.toolBar);
 		fileUpload.initJavaScriptApi();
 		new NavigatorComunicator().initJavaScriptApi();
+		mailEditorPopup.initJavaScriptApi(mailEditorPopup);
+		findDocumentSelectPopup.initJavaScriptApi(findDocumentSelectPopup);
+		findFolderSelectPopup.initJavaScriptApi(findFolderSelectPopup);
 
 		// Initialize commonUI public js api
 		CommonUI commonUI = new CommonUI();

@@ -14,8 +14,8 @@
   <script type="text/javascript" src="../js/vanadium-min.js" ></script>
   <script type="text/javascript" src="../js/chosen.jquery.js" ></script>
   <!-- Load TinyMCE -->
-  <script type="text/javascript" src="../js/tiny_mce/tiny_mce.js"></script>
-  <script type="text/javascript" src="../js/tiny_mce/jquery.tinymce.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/tinymce.min.js"></script>
+  <script type="text/javascript" src="../js/tinymce4/jquery.tinymce.min.js"></script>
   <title>Configuration</title>
   <u:constantsMap className="com.openkm.dao.bean.Config" var="Config"/>
   <script type="text/javascript">
@@ -27,23 +27,22 @@
       });
 
       <c:if test="${cfg.type == Config.HTML}">
-		   var toolbar = 'bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code';      
-		   var params = '{';
-		   params = params + '"elements":"textarea"';
-		   params = params + ',"language":"en"';
-		   params = params + ',"theme":"advanced"';
-		   params = params + ',"plugins":""';
-		   params = params + ',"toolbar":"' + toolbar + '"';
-		   params = params + ',"height":"300"';        
-		   params = params + ',"menubar":"false"';		   
-		   params = params + '}';
-		   var json = $.parseJSON(params); // create json object from string value		   
-		   $('textarea').tinymce(json);
+      tinymce.init({
+        selector: "textarea",
+        theme : "modern",
+        language : "en",
+        menubar: false,
+        convert_urls: false,
+        height : 300,
+        plugins: "link image code",
+        toolbar1: "bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+        toolbar2: false
+      });
       </c:if>
     });
   </script>
 </head>
-<body>  
+<body>
 <c:set var="isAdmin"><%=BaseServlet.isMultipleInstancesAdmin(request)%></c:set>
   <c:choose>
     <c:when test="${isAdmin}">
@@ -60,7 +59,7 @@
       <br/>
       <form action="Config" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="${action}"/>
-        <input type="hidden" name="filter" value="${filter}"/>   
+        <input type="hidden" name="filter" value="${filter}"/>
         <c:choose>
           <c:when test="${cfg.type == Config.TEXT || cfg.type == Config.LIST}">
             <c:set var="tableWidth" value="500px"></c:set>
@@ -71,7 +70,7 @@
           <c:otherwise>
             <c:set var="tableWidth" value="400px"></c:set>
           </c:otherwise>
-        </c:choose>             
+        </c:choose>
         <table class="form" width="${tableWidth}">
           <tr>
             <td nowrap="nowrap">Key</td>

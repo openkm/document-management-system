@@ -123,8 +123,8 @@ public class HTMLEditor implements LanguageHandlerExtension {
 	/**
 	 *
 	 */
-	public String getTexteAreaText() {
-		return hTMLEditorPopup.getTexteAreaText();
+	public String getContent() {
+		return hTMLEditorPopup.getContent();
 	}
 
 	/**

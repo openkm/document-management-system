@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
                                    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
   <class name="com.openkm.dao.bean.Profile" table="OKM_PROFILE">
@@ -36,6 +36,9 @@
       <property name="increaseVersion" type="true_false" not-null="true">
         <column name="PRF_MSC_INCREASE_VER" default="'T'"/>
       </property>
+      <property name="sentMailStorage" not-null="true">
+        <column name="PRF_MSC_SENT_MAIL_STORAGE"/>
+      </property>
       <set name="extensions" table="OKM_PROFILE_MSC_EXTENSION" lazy="false">
         <key column="PEX_ID" not-null="true"/>
         <element column="PEX_EXTENSION" type="string"/>
@@ -49,7 +52,7 @@
         <element column="PMW_WORKFLOW" type="string"/>
       </set>
     </component>
-    
+
     <!-- CHAT -->
     <component name="prfChat" class="com.openkm.dao.bean.ProfileChat">
       <property name="chatEnabled" type="true_false" not-null="true">
@@ -59,7 +62,7 @@
         <column name="PRF_CHT_AUTO_LOGIN_EN" default="'F'" />
       </property>
     </component>
-    
+
     <!-- PAGINATION -->
     <component name="prfPagination" class="com.openkm.dao.bean.ProfilePagination">
       <property name="paginationEnabled" type="true_false" not-null="true">
@@ -84,7 +87,7 @@
         <column name="PRF_PAG_SHOW_MAILS_EN" default="'T'"/>
       </property>
     </component>
-    
+
     <!-- WIZARD -->
     <component name="prfWizard" class="com.openkm.dao.bean.ProfileWizard">
       <set name="propertyGroups" table="OKM_PROFILE_WZRD_PROP_GRP" lazy="false">
@@ -102,7 +105,7 @@
         <column name="PRF_WZRD_CATEGORIES_EN" default="'F'"/>
       </property>
     </component>
-    
+
     <!-- STACK -->
     <component name="prfStack" class="com.openkm.dao.bean.ProfileStack">
       <property name="taxonomyVisible" type="true_false" not-null="true">
@@ -130,7 +133,7 @@
         <column name="PRF_STCK_TRASH_VIS" default="'T'"/>
       </property>
     </component>
-    
+
     <!-- TAB -->
     <component name="prfTab" class="com.openkm.dao.bean.ProfileTab">
       <property name="defaultTab" not-null="true">
@@ -148,7 +151,7 @@
       <property name="administrationVisible" type="true_false" not-null="true">
         <column name="PRF_TB_ADMIN_VIS" default="'T'"/>
       </property>
-      
+
       <!-- TAB DOCUMENT -->
       <component name="prfDocument" class="com.openkm.dao.bean.ProfileTabDocument">
         <property name="propertiesVisible" type="true_false" not-null="true">
@@ -203,7 +206,7 @@
         </property>
       </component>
     </component>
-  
+
     <!-- DASHBOARD -->
 	<component name="prfDashboard" class="com.openkm.dao.bean.ProfileDashboard">
       <property name="userVisible" type="true_false" not-null="true">
@@ -225,7 +228,7 @@
 	    <column name="PRF_DB_KEYWORDS_VIS" default="'T'"/>
 	  </property>
 	</component>
-	
+
 	<!-- MENU -->
 	<component name="prfMenu" class="com.openkm.dao.bean.ProfileMenu">
       <property name="fileVisible" type="true_false" not-null="true">
@@ -303,6 +306,9 @@
 	    <property name="forwardMailVisible" type="true_false" not-null="true">
 	      <column name="PRF_MN_FI_FORWARD_MAIL_VIS" default="'T'"/>
 	    </property>
+	    <property name="writeMailVisible" type="true_false" not-null="true">
+	      <column name="PRF_MN_FI_WRITE_MAIL_VIS" default="'T'"/>
+	    </property>
       </component>
 
       <!-- MENU EDIT -->
@@ -371,7 +377,7 @@
 	      <column name="PRF_MN_ED_MERGE_PDF_VIS" default="'T'"/>
 	    </property>
       </component>
-      
+
       <!-- MENU BOOKMARK -->
       <component name="prfBookmark" class="com.openkm.dao.bean.ProfileMenuBookmark">
       	<property name="manageBookmarksVisible" type="true_false" not-null="true">
@@ -387,7 +393,7 @@
 	      <column name="PRF_MN_BM_GO_HOME_VIS" default="'T'"/>
 	    </property>
       </component>
-      
+
       <!-- MENU TOOL -->
       <component name="prfTool" class="com.openkm.dao.bean.ProfileMenuTool">
         <property name="languagesVisible" type="true_false" not-null="true">
@@ -412,7 +418,7 @@
         <column name="PRF_MN_TL_CONVERT_VIS" default="'T'"/>
       </property>
       </component>
-      
+
       <!-- MENU HELP -->
       <component name="prfHelp" class="com.openkm.dao.bean.ProfileMenuHelp">
 	    <property name="documentationVisible" type="true_false" not-null="true">
@@ -438,7 +444,7 @@
 	    </property>
       </component>
     </component>
-    
+
     <!-- TOOLBAR BUTTONS -->
     <component name="prfToolbar" class="com.openkm.dao.bean.ProfileToolbar">
 	  <property name="createFolderVisible" type="true_false" not-null="true">
@@ -470,6 +476,9 @@
 	  </property>
 	  <property name="addDocumentVisible" type="true_false" not-null="true">
 	    <column name="PRF_TB_ADD_DOC_VIS" default="'T'"/>
+	  </property>
+	  <property name="writeMailVisible" type="true_false" not-null="true">
+	    <column name="PRF_TB_WRITE_MAIL_VIS" default="'T'"/>
 	  </property>
 	  <property name="checkoutVisible" type="true_false" not-null="true">
 	    <column name="PRF_TB_COUT_VIS" default="'T'"/>
@@ -511,7 +520,7 @@
         <column name="PRF_TB_OMR_VIS" default="'F'" />
       </property>
     </component>
-    
+
     <!-- FILE BROWSER -->
     <component name="prfFileBrowser" class="com.openkm.dao.bean.ProfileFileBrowser">
 	  <property name="statusVisible" type="true_false" not-null="true">
@@ -568,7 +577,7 @@
 	  <property name="column9" not-null="true">
 	    <column name="PRF_FB_COLUMN9"/>
 	  </property>
-	  
+
 	  <!-- FILE BROWSER - COLUMNS WIDTH -->
 	  <property name="statusWidth" not-null="true">
 	    <column name="PRF_FB_STATUS_WIDTH" default="'60'"/>

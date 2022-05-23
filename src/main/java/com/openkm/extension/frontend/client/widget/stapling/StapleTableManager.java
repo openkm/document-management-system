@@ -225,7 +225,7 @@ public class StapleTableManager {
 		// Mail is never checkout or subscribed ( because can not be changed )
 		table.setHTML(row, 0, "&nbsp;");
 
-		if (mail.getAttachments().size() > 0) {
+		if (mail.isHasAttachments()) {
 			table.setHTML(row, 1, Util.imageItemHTML("img/email_attach.gif"));
 		} else {
 			table.setHTML(row, 1, Util.imageItemHTML("img/email.gif"));

@@ -24,6 +24,8 @@ package com.openkm.frontend.client.widget.notify;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
@@ -38,26 +40,30 @@ import java.util.List;
  * NotifyRole
  *
  * @author jllort
- *
  */
 public class NotifyRole extends Composite {
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
-
+	public static final int DEFAULT = 1;
+	public static final int FILTER = 2;
 	private HorizontalPanel hPanel;
 	private RoleScrollTable notifyRolesTable;
 	private RoleScrollTable rolesTable;
 	private VerticalPanel buttonPanel;
 	private Image addButton;
 	private Image removeButton;
+	private NotifyHandler notifyChange;
+	private List<String> selectedRoles;
 
 	/**
 	 * NotifyRole
 	 */
-	public NotifyRole() {
+	public NotifyRole(NotifyHandler notifyChange) {
 		hPanel = new HorizontalPanel();
 		notifyRolesTable = new RoleScrollTable(true);
+		notifyRolesTable.addDoubleClickHandler(removeTableHandler);
 		rolesTable = new RoleScrollTable(false);
+		rolesTable.addDoubleClickHandler(addTableHandler);
 
 		buttonPanel = new VerticalPanel();
 		addButton = new Image(OKMBundleResources.INSTANCE.add());
@@ -132,37 +138,87 @@ public class NotifyRole extends Composite {
 	ClickHandler addButtonHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			if (rolesTable.getRole() != null) {
-				notifyRolesTable.addRow(rolesTable.getRole());
-				notifyRolesTable.selectLastRow();
-				rolesTable.removeSelectedRow();
-				Main.get().fileUpload.disableErrorNotify();  // Used in both widgets
-				Main.get().notifyPopup.disableErrorNotify(); // has no bad efeccts disabling 
-			}
+			addRole();
 		}
 	};
 
+	/**
+	 * Add Table handler
+	 */
+	DoubleClickHandler addTableHandler = new DoubleClickHandler() {
+		@Override
+		public void onDoubleClick(DoubleClickEvent event) {
+			addRole();
+		}
+	};
 	/**
 	 * Remove button handler
 	 */
 	ClickHandler removeButtonHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			if (notifyRolesTable.getRole() != null) {
-				rolesTable.addRow(notifyRolesTable.getRole());
-				rolesTable.selectLastRow();
-				notifyRolesTable.removeSelectedRow();
-			}
+			removeRole();
 		}
 	};
+
+	DoubleClickHandler removeTableHandler = new DoubleClickHandler() {
+		@Override
+		public void onDoubleClick(DoubleClickEvent event) {
+			removeRole();
+		}
+	};
+
+	/**
+	 * addRole
+	 */
+	private void addRole() {
+		if (rolesTable.getRole() != null) {
+			notifyRolesTable.addRow(rolesTable.getRole());
+			if (Main.get().mailEditorPopup.recipientsPopup.notifyPanel.roles != null) {
+				Main.get().mailEditorPopup.recipientsPopup.notifyPanel.roles.add(rolesTable.getRole());
+			}
+			notifyRolesTable.selectLastRow();
+			rolesTable.removeSelectedRow();
+			Main.get().fileUpload.disableErrorNotify(); // Used in both widgets
+			Main.get().notifyPopup.disableErrorNotify(); // has no bad efeccts disabling
+			notifyChange.onChange();
+		}
+	}
+
+	/**
+	 * removeRole
+	 */
+	private void removeRole() {
+		if (notifyRolesTable.getRole() != null) {
+			rolesTable.addRow(notifyRolesTable.getRole());
+			if (Main.get().mailEditorPopup.recipientsPopup.notifyPanel.roles != null) {
+				Main.get().mailEditorPopup.recipientsPopup.notifyPanel.roles.remove(notifyRolesTable.getRole());
+			}
+			rolesTable.selectLastRow();
+			notifyRolesTable.removeSelectedRow();
+			notifyChange.onChange();
+		}
+	}
 
 	/**
 	 * Call back get all roles
 	 */
 	final AsyncCallback<List<String>> callbackAllRoles = new AsyncCallback<List<String>>() {
 		public void onSuccess(List<String> result) {
-			for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
-				rolesTable.addRow(it.next());
+			for (String role : result) {
+				if (selectedRoles != null) {
+					if (!selectedRoles.contains(role)) {
+						rolesTable.addRow(role);
+					} else {
+						notifyRolesTable.addRow(role);
+					}
+				} else {
+					rolesTable.addRow(role);
+				}
+			}
+			if (selectedRoles != null) {
+				selectedRoles = null;
+				notifyChange.onChange();
 			}
 		}
 
@@ -172,10 +228,51 @@ public class NotifyRole extends Composite {
 	};
 
 	/**
+	 * Call back get Filter Roles
+	 */
+	final AsyncCallback<List<String>> callbackFilterRoles = new AsyncCallback<List<String>>() {
+		public void onSuccess(List<String> result) {
+			for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
+				String role = it.next();
+				if (selectedRoles != null) {
+					if (!selectedRoles.contains(role)) {
+						rolesTable.addRow(role);
+					}
+				} else {
+					rolesTable.addRow(role);
+				}
+			}
+			if (selectedRoles != null) {
+				selectedRoles = null;
+				notifyChange.onChange();
+			}
+		}
+
+		public void onFailure(Throwable caught) {
+			Main.get().showError("GetFilterRoles", caught);
+		}
+	};
+
+	/**
 	 * Gets all roles
 	 */
-	public void getAllRoles() {
-		authService.getAllRoles(callbackAllRoles);
+	public void getAllRoles(List<String> selectedRoles, int type) {
+		this.selectedRoles = selectedRoles;
+		switch (type) {
+			case DEFAULT:
+				authService.getAllRoles(callbackAllRoles);
+				break;
+
+			case FILTER:
+				if (selectedRoles != null) {
+					for (String role : selectedRoles) {
+						notifyRolesTable.addRow(role);
+					}
+					selectedRoles = null;
+					notifyChange.onChange();
+				}
+				break;
+		}
 	}
 
 	/**
@@ -187,8 +284,6 @@ public class NotifyRole extends Composite {
 
 	/**
 	 * getRolesToNotify
-	 *
-	 * @return
 	 */
 	public String getRolesToNotify() {
 		return notifyRolesTable.getRolesToNotify();

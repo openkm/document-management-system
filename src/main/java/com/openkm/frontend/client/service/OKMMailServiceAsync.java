@@ -22,6 +22,7 @@
 package com.openkm.frontend.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.bean.GWTMail;
 import com.openkm.frontend.client.widget.filebrowser.GWTFilter;
 
@@ -30,7 +31,6 @@ import java.util.Map;
 
 /**
  * @author jllort
- *
  */
 public interface OKMMailServiceAsync {
 	public void getChilds(String fldPath, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTMail>> callback);
@@ -50,4 +50,12 @@ public interface OKMMailServiceAsync {
 	public void isValid(String mailPath, AsyncCallback<Boolean> callback);
 
 	public void forwardMail(String mailPath, String mails, String users, String roles, String message, AsyncCallback<?> callback);
+
+	public void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+						 boolean attachment, AsyncCallback<GWTMail> callback);
+
+	public void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+						 boolean attachment, String storePath, AsyncCallback<GWTMail> callback);
+
+	public void getAttachments(String uuid, AsyncCallback<List<GWTDocument>> callback);
 }

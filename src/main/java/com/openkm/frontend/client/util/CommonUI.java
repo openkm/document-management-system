@@ -39,7 +39,6 @@ import java.util.Date;
 
 /**
  * @author jllort
- *
  */
 public class CommonUI {
 	private static final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
@@ -57,7 +56,7 @@ public class CommonUI {
 	/**
 	 * Opens path
 	 *
-	 * @param path The parent path
+	 * @param path    The parent path
 	 * @param docPath The document full path
 	 */
 	public static void openPath(String path, String docPath) {
@@ -123,7 +122,7 @@ public class CommonUI {
 			}
 
 			if (found) {
-				// At loading time in profiles can defined other tab than desktop. 
+				// At loading time in profiles can defined other tab than desktop.
 				// If actual loading status is STARTUP_LOADING_TAXONOMY_EVAL_PARAMS should not change tab
 				// This indicates we're on startup loading
 				if (Main.get().startUp.getStatus() != StartUp.STARTUP_LOADING_TAXONOMY_EVAL_PARAMS) {
@@ -199,11 +198,8 @@ public class CommonUI {
 
 	/**
 	 * getRealVisiblePathByProfile
-	 *
+	 * <p>
 	 * If path is not visible in user stack panels, return the first visible path
-	 *
-	 * @param path
-	 * @return
 	 */
 	public static String getRealVisiblePathByProfile(String path) {
 		// If folder destination is not visible should select newer destination
@@ -254,11 +250,8 @@ public class CommonUI {
 
 	/**
 	 * isVisiblePathByProfile
-	 *
+	 * <p>
 	 * Evaluates if path is visible to user profiles
-	 *
-	 * @param path
-	 * @return
 	 */
 	public static boolean isVisiblePathByProfile(String path) {
 		if (!Main.get().workspaceUserProperties.getWorkspace().isStackTaxonomy()
@@ -360,30 +353,42 @@ public class CommonUI {
 	}
 
 	/**
+	 * showBackgrounGrayEffect
+	 */
+	public static native void showBackgrounGrayEffect() /*-{
+		new $wnd.showBackgrounGrayEffect();
+	}-*/;
+
+	/**
+	 * showBackgrounGrayEffect
+	 */
+	public static native void hideBackgrounGrayEffect() /*-{
+		new $wnd.hideBackgrounGrayEffect();
+	}-*/;
+
+	/**
 	 * initJavaScriptApi
-	 *
-	 * @param toolBar
 	 */
 	public native void initJavaScriptApi(CommonUI commonUI) /*-{
-        $wnd.openPathByUuid = function (uuid) {
-            @com.openkm.frontend.client.util.CommonUI::openPathByUuid(Ljava/lang/String;)(uuid);
-            return true;
-        }
-        $wnd.openPath = function (folderPath, docPath) {
-            @com.openkm.frontend.client.util.CommonUI::openPath(Ljava/lang/String;Ljava/lang/String;)(folderPath, docPath);
-            return true;
-        };
-        $wnd.jsOpenPathByUuid = function (uuid) {
-            @com.openkm.frontend.client.util.CommonUI::openPathByUuid(Ljava/lang/String;)(uuid);
-            return true;
-        }
-        $wnd.jsOpenPath = function (folderPath, docPath) {
-            @com.openkm.frontend.client.util.CommonUI::openPath(Ljava/lang/String;Ljava/lang/String;)(folderPath, docPath);
-            return true;
-        };
-        $wnd.jsOpenUserTaskInstance = function (taskInstanceId) {
-            @com.openkm.frontend.client.util.CommonUI::openUserTaskInstance(Ljava/lang/String;)(taskInstanceId);
-            return true;
-        };
-    }-*/;
+		$wnd.openPathByUuid = function (uuid) {
+			@com.openkm.frontend.client.util.CommonUI::openPathByUuid(Ljava/lang/String;)(uuid);
+			return true;
+		}
+		$wnd.openPath = function (folderPath, docPath) {
+			@com.openkm.frontend.client.util.CommonUI::openPath(Ljava/lang/String;Ljava/lang/String;)(folderPath, docPath);
+			return true;
+		};
+		$wnd.jsOpenPathByUuid = function (uuid) {
+			@com.openkm.frontend.client.util.CommonUI::openPathByUuid(Ljava/lang/String;)(uuid);
+			return true;
+		}
+		$wnd.jsOpenPath = function (folderPath, docPath) {
+			@com.openkm.frontend.client.util.CommonUI::openPath(Ljava/lang/String;Ljava/lang/String;)(folderPath, docPath);
+			return true;
+		};
+		$wnd.jsOpenUserTaskInstance = function (taskInstanceId) {
+			@com.openkm.frontend.client.util.CommonUI::openUserTaskInstance(Ljava/lang/String;)(taskInstanceId);
+			return true;
+		};
+	}-*/;
 }

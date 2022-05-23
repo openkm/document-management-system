@@ -22,35 +22,29 @@
 package com.openkm.module.db;
 
 import com.openkm.automation.AutomationException;
-import com.openkm.bean.ExtendedAttributes;
-import com.openkm.bean.FileUploadResponse;
-import com.openkm.bean.Mail;
-import com.openkm.bean.Repository;
+import com.openkm.bean.*;
+import com.openkm.core.Config;
 import com.openkm.core.*;
-import com.openkm.dao.NodeBaseDAO;
-import com.openkm.dao.NodeFolderDAO;
-import com.openkm.dao.NodeMailDAO;
-import com.openkm.dao.bean.NodeFolder;
-import com.openkm.dao.bean.NodeMail;
+import com.openkm.dao.*;
+import com.openkm.dao.bean.*;
 import com.openkm.module.MailModule;
+import com.openkm.module.db.base.BaseDocumentModule;
 import com.openkm.module.db.base.BaseMailModule;
+import com.openkm.module.db.base.BaseModule;
 import com.openkm.module.db.base.BaseNotificationModule;
 import com.openkm.spring.PrincipalUtils;
-import com.openkm.util.FileUtils;
-import com.openkm.util.PathUtils;
-import com.openkm.util.SystemProfiling;
-import com.openkm.util.UserActivity;
+import com.openkm.spring.SecurityHolder;
+import com.openkm.util.*;
 import com.openkm.util.impexp.RepositoryExporter;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 
 import javax.mail.MessagingException;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class DbMailModule implements MailModule {
 	private static final Logger log = LoggerFactory.getLogger(DbMailModule.class);
@@ -177,6 +171,263 @@ public class DbMailModule implements MailModule {
 
 		log.debug("getProperties: {}", mail);
 		return mail;
+	}
+
+	@Override
+	public Document createAttachment(String token, String mailId, String docName, InputStream is) throws UnsupportedMimeTypeException,
+			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, PathNotFoundException,
+			AccessDeniedException, RepositoryException, IOException, DatabaseException, AutomationException {
+		return createAttachment(token, mailId, docName, is, is.available(), null);
+	}
+
+	/**
+	 * Used when big files and FileUpload
+	 */
+	public Document createAttachment(String token, String mailId, String docName, InputStream is, long size, String userId)
+			throws UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException, VirusDetectedException,
+			ItemExistsException, PathNotFoundException, AccessDeniedException, RepositoryException, IOException, DatabaseException,
+			AutomationException {
+		log.debug("createAttachment({}, {}, {}, {}, {}, {})", token, mailId, docName, is, size, userId);
+		long begin = System.currentTimeMillis();
+		Document newDocument = null;
+		String mailUuid = mailId;
+
+		if (Config.SYSTEM_READONLY) {
+			throw new AccessDeniedException("System is in read-only mode");
+		}
+
+		if (PathUtils.isPath(mailId)) {
+			mailUuid = NodeBaseDAO.getInstance().getUuidFromPath(mailId);
+		}
+
+		// Escape dangerous chars in name
+		docName = PathUtils.escape(docName);
+
+		NodeMail parentNode = NodeMailDAO.getInstance().findByPk(mailUuid);
+		String parentPath = parentNode.getPath();
+
+		if (parentPath == null) {
+			parentPath = getPath(token, parentNode.getUuid());
+		}
+
+		String docPath = parentPath + "/" + docName;
+		String fileExt = FileUtils.getFileExtension(docName);
+		File tmp = File.createTempFile("okm", fileExt.isEmpty() ? ".tmp" : "." + fileExt);
+
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			if (Config.MAX_FILE_SIZE > 0 && size > Config.MAX_FILE_SIZE) {
+				log.error("Uploaded file size: {} ({}), Max file size: {} ({})", FormatUtil.formatSize(size), size,
+						FormatUtil.formatSize(Config.MAX_FILE_SIZE), Config.MAX_FILE_SIZE);
+				String usr = userId == null ? PrincipalUtils.getUser() : userId;
+				UserActivity.log(usr, "ERROR_FILE_SIZE_EXCEEDED", null, docPath, FormatUtil.formatSize(size));
+				throw new FileSizeExceededException(FormatUtil.formatSize(size));
+			}
+
+			if (!docName.isEmpty()) {
+				// Check file restrictions
+				String mimeType = MimeTypeConfig.mimeTypes.getContentType(docName.toLowerCase());
+
+				if (Config.RESTRICT_FILE_MIME && MimeTypeDAO.findByName(mimeType) == null) {
+					String usr = userId == null ? PrincipalUtils.getUser() : userId;
+					UserActivity.log(usr, "ERROR_UNSUPPORTED_MIME_TYPE", null, docPath, mimeType);
+					throw new UnsupportedMimeTypeException(mimeType);
+				}
+
+				// Restrict for extension
+				if (!Config.RESTRICT_FILE_NAME.isEmpty()) {
+					StringTokenizer st = new StringTokenizer(Config.RESTRICT_FILE_NAME, Config.LIST_SEPARATOR);
+
+					while (st.hasMoreTokens()) {
+						String wc = st.nextToken().trim();
+						String re = ConfigUtils.wildcard2regexp(wc);
+
+						if (Pattern.matches(re, docName)) {
+							String usr = userId == null ? PrincipalUtils.getUser() : userId;
+							UserActivity.log(usr, "ERROR_UNSUPPORTED_MIME_TYPE", null, docPath, mimeType);
+							throw new UnsupportedMimeTypeException(mimeType);
+						}
+					}
+				}
+
+				if (!Config.SYSTEM_ANTIVIR.isEmpty()) {
+					FileOutputStream fos = new FileOutputStream(tmp);
+					IOUtils.copy(is, fos);
+					IOUtils.closeQuietly(fos);
+					IOUtils.closeQuietly(is);
+					is = new FileInputStream(tmp);
+					String info = VirusDetection.detect(tmp);
+
+					if (info != null) {
+						String usr = userId == null ? PrincipalUtils.getUser() : userId;
+						UserActivity.log(usr, "ERROR_VIRUS_DETECTED", null, docPath, info);
+						throw new VirusDetectedException(info);
+					}
+				}
+
+				// AUTOMATION - PRE
+				// INSIDE BaseDocumentModule.create
+
+				// Create node
+				NodeDocument docNode = BaseDocumentModule.create(PrincipalUtils.getUser(), parentPath, parentNode, docName, null, Calendar.getInstance(),
+						mimeType, is, size, new HashSet<String>(), new HashSet<String>(), new HashSet<NodeProperty>(), new ArrayList<NodeNote>(),
+						null, new Ref<FileUploadResponse>(null));
+
+				// AUTOMATION - POST
+				// INSIDE BaseDocumentModule.create
+
+				// Keep on sync
+				// See also com.openkm.module.db.DbDocumentModule.create(String, Document, InputStream, long, String)
+				NodeMail nodeMail = NodeMailDAO.getInstance().findByPk(mailId);
+				if (!nodeMail.getHasAttachments()) {
+					nodeMail.setHasAttachments(true);
+					NodeMailDAO.getInstance().update(nodeMail);
+				}
+
+				// Set returned folder properties
+				newDocument = BaseDocumentModule.getProperties(PrincipalUtils.getUser(), docNode);
+
+				// Setting wizard properties
+				// INSIDE BaseDocumentModule.create
+
+				if (userId == null) {
+					userId = PrincipalUtils.getUser();
+				}
+
+				// Check subscriptions
+				BaseNotificationModule.checkSubscriptions(docNode, userId, "CREATE_MAIL_ATTACHMENT", null);
+
+				// Activity log
+				UserActivity.log(userId, "CREATE_MAIL_ATTACHMENT", docNode.getUuid(), docPath, mimeType + ", " + size);
+			} else {
+				throw new RepositoryException("Invalid document name");
+			}
+		} finally {
+			IOUtils.closeQuietly(is);
+			org.apache.commons.io.FileUtils.deleteQuietly(tmp);
+
+			if (token != null) {
+				SecurityHolder.unset();
+			}
+		}
+
+		SystemProfiling.log(docPath, System.currentTimeMillis() - begin);
+		log.trace("createAttachment.Time: {}", System.currentTimeMillis() - begin);
+		log.debug("createAttachment: {}", newDocument);
+		return newDocument;
+	}
+
+	@Override
+	public void deleteAttachment(String token, String mailId, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException {
+		log.debug("deleteAttachment({}, {})", new Object[]{token, docId});
+		long begin = System.currentTimeMillis();
+		String mailUuid = mailId;
+		String docPath = null;
+		String docUuid = null;
+
+		if (Config.SYSTEM_READONLY) {
+			throw new AccessDeniedException("System is in read-only mode");
+		}
+
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			if (PathUtils.isPath(mailId)) {
+				mailUuid = NodeBaseDAO.getInstance().getUuidFromPath(mailId);
+			}
+
+			if (PathUtils.isPath(docId)) {
+				docPath = docId;
+				docUuid = NodeBaseDAO.getInstance().getUuidFromPath(docId);
+			} else {
+				docPath = NodeBaseDAO.getInstance().getPathFromUuid(docId);
+				docUuid = docId;
+			}
+
+			if (BaseDocumentModule.hasWorkflowNodes(docUuid)) {
+				throw new RepositoryException("Can't delete a document used in a workflow");
+			}
+
+			String parentUuid = NodeBaseDAO.getInstance().getParentUuid(docUuid);
+
+			if (!mailUuid.equals(parentUuid)) {
+				throw new RepositoryException("This mail does not include this attachment");
+			}
+
+			String userTrashPath = "/" + Repository.TRASH + "/" + PrincipalUtils.getUser();
+			String userTrashUuid = NodeBaseDAO.getInstance().getUuidFromPath(userTrashPath);
+			String name = PathUtils.getName(docPath);
+
+			// Check subscriptions
+			NodeDocument documentNode = NodeDocumentDAO.getInstance().findByPk(docUuid);
+			BaseNotificationModule.checkSubscriptions(documentNode, PrincipalUtils.getUser(), "DELETE_MAIL_ATTACHMENT", null);
+
+			// After notification move to trash folder
+			NodeDocumentDAO.getInstance().delete(name, docUuid, userTrashUuid);
+
+			// Keep on sync
+			// See also com.openkm.module.db.DbDocumentModule.delete(String, String)
+			NodeMail nodeMail = NodeMailDAO.getInstance().findByPk(mailId);
+			if (nodeMail.getHasAttachments()) {
+				nodeMail.setHasAttachments(NodeDocumentDAO.getInstance().hasChildren(nodeMail.getUuid()));
+				NodeMailDAO.getInstance().update(nodeMail);
+			}
+
+			// Activity log
+			UserActivity.log(PrincipalUtils.getUser(), "DELETE_MAIL_ATTACHMENT", docUuid, docPath, null);
+		} catch (WorkflowException e) {
+			throw new RepositoryException(e.getMessage(), e);
+		} catch (DatabaseException e) {
+			throw e;
+		} finally {
+			if (token != null) {
+				SecurityHolder.unset();
+			}
+		}
+
+		SystemProfiling.log(docPath, System.currentTimeMillis() - begin);
+		log.trace("deleteAttachment.Time: {}", System.currentTimeMillis() - begin);
+		log.debug("deleteAttachment: void");
+	}
+
+	@Override
+	public List<Document> getAttachments(String token, String mailId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+			DatabaseException {
+		log.debug("getAttachments({}, {})", token, mailId);
+		long begin = System.currentTimeMillis();
+		List<Document> children = new ArrayList<Document>();
+
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			NodeBase node = BaseModule.resolveNodeById(mailId);
+
+			for (NodeDocument nDocument : NodeDocumentDAO.getInstance().findByParent(node.getUuid())) {
+				children.add(BaseDocumentModule.getProperties(PrincipalUtils.getUser(), nDocument));
+			}
+
+			// Activity log
+			UserActivity.log(PrincipalUtils.getUser(), "GET_MAIL_ATTACHMENTS", node.getUuid(), node.getPath(), null);
+
+			SystemProfiling.log(node.getPath(), System.currentTimeMillis() - begin);
+			log.trace("getAttachments.Time: {}", System.currentTimeMillis() - begin);
+			log.debug("getAttachments: {}", children);
+			return children;
+		} catch (DatabaseException e) {
+			throw e;
+		} finally {
+			if (token != null) {
+				SecurityHolder.unset();
+			}
+		}
 	}
 
 	@Override
@@ -583,6 +834,23 @@ public class DbMailModule implements MailModule {
 			return NodeBaseDAO.getInstance().getPathFromUuid(uuid);
 		} catch (PathNotFoundException e) {
 			throw new RepositoryException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void sendMail(String token, List<String> recipients, String subject, String body) throws AccessDeniedException, IOException {
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			MailUtils.sendMessage(recipients, subject, body);
+		} catch (MessagingException e) {
+			throw new IOException(e.getMessage(), e);
+		} finally {
+			if (token != null) {
+				SecurityHolder.unset();
+			}
 		}
 	}
 }

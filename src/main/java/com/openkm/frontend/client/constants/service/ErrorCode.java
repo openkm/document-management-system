@@ -128,7 +128,8 @@ public class ErrorCode {
 	public static final String CAUSE_Messaging = "050";
 	public static final String CAUSE_Dropbox = "051";
 	public static final String CAUSE_Omr = "052";
-	public static final String CAUSE_DragAndDropError = "053";
+	public static final String CAUSE_SystemReadOnlyMode = "053";
+	public static final String CAUSE_DragAndDropError = "054";
 
 	/**
 	 * Gets the error

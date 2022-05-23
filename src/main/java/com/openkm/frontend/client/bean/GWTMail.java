@@ -30,9 +30,10 @@ import java.util.*;
  * GWTMail
  *
  * @author jllort
- *
  */
 public class GWTMail implements IsSerializable {
+	public static final String SENT = "sent";
+
 	private String path;
 	private String uuid;
 	private int permissions;
@@ -46,7 +47,7 @@ public class GWTMail implements IsSerializable {
 	private String subject;
 	private String content;
 	private long size;
-	private Collection<GWTDocument> attachments;
+	private boolean hasAttachments;
 	private String parentPath;
 	private String mimeType;
 	private boolean hasNotes = false;
@@ -180,12 +181,12 @@ public class GWTMail implements IsSerializable {
 		this.size = size;
 	}
 
-	public Collection<GWTDocument> getAttachments() {
-		return attachments;
+	public boolean isHasAttachments() {
+		return hasAttachments;
 	}
 
-	public void setAttachments(Collection<GWTDocument> attachments) {
-		this.attachments = attachments;
+	public void setHasAttachments(boolean hasAttachments) {
+		this.hasAttachments = hasAttachments;
 	}
 
 	public String getParentPath() {
@@ -338,7 +339,7 @@ public class GWTMail implements IsSerializable {
 		sb.append(", receivedDate=").append(receivedDate == null ? null : receivedDate.getTime());
 		sb.append(", subject=").append(subject);
 		sb.append(", content=").append(content);
-		sb.append(", attachments=").append(attachments);
+		sb.append(", hasAttachments=").append(hasAttachments);
 		sb.append(", notes=").append(notes);
 		sb.append(", categories=").append(categories);
 		sb.append(", keywords=").append(keywords);

@@ -1522,11 +1522,6 @@ public class GWTUtil {
 		GWTMail gwtMail = MappingUtils.getMapper().map(mail, GWTMail.class);
 		gwtMail.setParentPath(GWTUtil.getParent(mail.getPath()));
 
-		for (GWTDocument doc : gwtMail.getAttachments()) {
-			doc.setParentPath(GWTUtil.getParent(doc.getPath()));
-			doc.setName(GWTUtil.getName(doc.getPath()));
-		}
-
 		// Notes user id & username
 		gwtMail.getNotes().clear();
 
@@ -1927,7 +1922,7 @@ public class GWTUtil {
 		gWTOmr.setName(omr.getName());
 		return gWTOmr;
 	}
-	
+
 	/**
 	 * GWTProcessInstanceLogEntry
 	 */

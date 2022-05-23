@@ -124,6 +124,24 @@
       </td>
     </tr>
     <tr>
+      <td nowrap>Sent Mail Storage</td>
+      <td>
+        <u:constantsMap className="com.openkm.frontend.client.bean.GWTWorkspace" var="GWTWorkspace"/>
+        <select name="prf_misc_sent_mail_storage" id="prf_misc_sent_mail_storage" data-placeholder="Select sent mail storage" style="width: 200px">
+          <c:choose>
+            <c:when test="${prf.prfMisc.sentMailStorage == GWTWorkspace.MAIL_STORAGE_CURRENT_FOLDER}">
+              <option value="${GWTWorkspace.MAIL_STORAGE_MAIL_FOLDER}">Mail Folder</option>
+              <option value="${GWTWorkspace.MAIL_STORAGE_CURRENT_FOLDER}" selected="selected">Current Folder</option>
+            </c:when>
+            <c:otherwise>
+              <option value="${GWTWorkspace.MAIL_STORAGE_MAIL_FOLDER}" selected="selected">Mail Folder</option>
+              <option value="${GWTWorkspace.MAIL_STORAGE_CURRENT_FOLDER}">Current Folder</option>
+            </c:otherwise>
+          </c:choose>
+        </select>
+      </td>
+    </tr>
+    <tr>
       <td>Extensions</td>
       <td>
         <select name="prf_misc_extensions" id="prf_misc_extensions" data-placeholder="Select extension" multiple="multiple" style="width: 230px">

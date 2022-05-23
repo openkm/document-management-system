@@ -236,5 +236,18 @@
         </c:choose>
       </td>
     </tr>
+    <tr>
+      <td nowrap>Write e-mail</td>
+      <td>
+        <c:choose>
+          <c:when test="${prf.prfMenu.prfFile.writeMailVisible}">
+            <input name="prf_menu_file_write_mail_visible" type="checkbox" checked="checked"/>
+          </c:when>
+          <c:otherwise>
+            <input name="prf_menu_file_write_mail_visible" type="checkbox"/>
+          </c:otherwise>
+        </c:choose>
+      </td>
+    </tr>
   </table>
 </fieldset>

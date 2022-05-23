@@ -57,15 +57,15 @@ function addCss(css) {
  * showBackgrounGrayEffect
  */
 function showBackgrounGrayEffect() {
-    $('#screenGrayBackground').show();
-    $('#screenGrayBackground').css({"display": "block", opacity: 0.5, "width":$(document).width(),"height":$(document).height()});
+  $('#screenGrayBackground').show();
+  $('#screenGrayBackground').css({"display": "block", opacity: 0.5, "width":$(document).width(),"height":$(document).height()});
 }
 
 /**
  * showBackgrounGrayEffect
  */
 function hideBackgrounGrayEffect() {
-    $('#screenGrayBackground').css({"display": "none"});
+  $('#screenGrayBackground').css({"display": "none"});
 }
 
 /**

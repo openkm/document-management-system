@@ -182,6 +182,7 @@ public class BaseMailModule {
 		mail.setAuthor(nMail.getAuthor());
 		mail.setUuid(nMail.getUuid());
 		mail.setSize(nMail.getSize());
+		mail.setHasAttachments(nMail.getHasAttachments());
 		mail.setFrom(nMail.getFrom());
 		mail.setReply(nMail.getReply().toArray(new String[nMail.getReply().size()]));
 		mail.setTo(nMail.getTo().toArray(new String[nMail.getTo().size()]));
@@ -192,15 +193,6 @@ public class BaseMailModule {
 		mail.setSubject(nMail.getSubject());
 		mail.setContent(nMail.getContent());
 		mail.setMimeType(nMail.getMimeType());
-
-		// Get attachments
-		ArrayList<Document> attachments = new ArrayList<>();
-
-		for (NodeDocument nDocument : NodeDocumentDAO.getInstance().findByParent(nMail.getUuid())) {
-			attachments.add(BaseDocumentModule.getProperties(user, nDocument));
-		}
-
-		mail.setAttachments(attachments);
 
 		// Get permissions
 		BaseModule.setPermissions(nMail, mail);

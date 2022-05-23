@@ -100,6 +100,11 @@ public class NodeMail extends NodeBase {
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String mimeType;
 
+	@Column(name = "NML_ATTACHMENT")
+	@Type(type = "true_false")
+	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
+	private Boolean hasAttachments = Boolean.FALSE;
+
 	public long getSize() {
 		return size;
 	}
@@ -192,6 +197,17 @@ public class NodeMail extends NodeBase {
 		this.mimeType = mimeType;
 	}
 
+	public Boolean getHasAttachments() {
+		if (hasAttachments == null) {
+			return false;
+		}
+		return hasAttachments;
+	}
+
+	public void setHasAttachments(Boolean hasAttachments) {
+		this.hasAttachments = hasAttachments;
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -215,6 +231,7 @@ public class NodeMail extends NodeBase {
 		sb.append(", subscriptors=").append(subscriptors);
 		sb.append(", keywords=").append(keywords);
 		sb.append(", categories=").append(categories);
+		sb.append(", hasAttachments=").append(hasAttachments);
 		// sb.append(", properties=").append(properties); Prevents Lazy Exception
 		sb.append(", userPermissions=").append(userPermissions);
 		sb.append(", rolePermissions=").append(rolePermissions);

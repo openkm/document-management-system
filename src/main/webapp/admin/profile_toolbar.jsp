@@ -134,6 +134,19 @@
       </td>
     </tr>
     <tr>
+      <td nowrap>Write mail</td>
+      <td>
+        <c:choose>
+          <c:when test="${prf.prfToolbar.writeMailVisible}">
+            <input name="prf_toolbar_write_mail_visible" type="checkbox" checked="checked"/>
+          </c:when>
+          <c:otherwise>
+            <input name="prf_toolbar_write_mail_visible" type="checkbox"/>
+          </c:otherwise>
+        </c:choose>
+      </td>
+    </tr>
+    <tr>
       <td>Edit</td>
       <td>
         <c:choose>

@@ -26,19 +26,24 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.openkm.frontend.client.Main;
+import com.openkm.frontend.client.bean.GWTDocument;
+import com.openkm.frontend.client.bean.ToolBarOption;
 import com.openkm.frontend.client.util.Util;
+import com.openkm.frontend.client.widget.toolbar.DocumentSecurityHelper;
 
 /**
  * Search saved menu
  *
  * @author jllort
- *
  */
 public class Menu extends Composite {
+	private boolean downloadOption = true;
+	private boolean copyOption = true;
 
 	private MenuBar attachMenu;
 	private MenuItem download;
 	private MenuItem copy;
+	private ToolBarOption mainMenuOption;
 
 	/**
 	 * Browser menu
@@ -61,7 +66,9 @@ public class Menu extends Composite {
 	// Command menu to download attachement file
 	Command downloadFile = new Command() {
 		public void execute() {
-			Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.downloadAttachment();
+			if (downloadOption && mainMenuOption.downloadOption) {
+				Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.downloadAttachment();
+			}
 			hide();
 		}
 	};
@@ -69,13 +76,15 @@ public class Menu extends Composite {
 	// Command menu to refresh actual Directory
 	Command copyAttachment = new Command() {
 		public void execute() {
-			Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.copyAttachment();
+			if (copyOption) {
+				Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.copyAttachment();
+			}
 			hide();
 		}
 	};
 
 	/**
-	 *  Refresh language values
+	 * Refresh language values
 	 */
 	public void langRefresh() {
 		download.setHTML(Util.menuHTML("img/icon/actions/download.gif", Main.i18n("filebrowser.menu.download")));
@@ -86,6 +95,50 @@ public class Menu extends Composite {
 	 * Hide popup menu
 	 */
 	public void hide() {
-		Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.attamentMenuPopup.hide();
+		Main.get().mainPanel.desktop.browser.tabMultiple.tabMail.mailViewer.attachmentMenuPopup.hide();
+	}
+
+	/**
+	 * Evaluates menu options
+	 */
+	public void evaluateMenuOptions() {
+		if (downloadOption && mainMenuOption.downloadOption) {
+			enable(download);
+		} else {
+			disable(download);
+		}
+		if (copyOption) {
+			enable(copy);
+		} else {
+			disable(copy);
+		}
+	}
+
+	/**
+	 * set
+	 */
+	public void set(GWTDocument doc) {
+		mainMenuOption = DocumentSecurityHelper.menuPopupEvaluation(new ToolBarOption(), doc);
+		evaluateMenuOptions();
+	}
+
+	/**
+	 * Enables menu item
+	 *
+	 * @param menuItem The menu item
+	 */
+	public void enable(MenuItem menuItem) {
+		menuItem.addStyleName("okm-MenuItem");
+		menuItem.removeStyleName("okm-MenuItem-strike");
+	}
+
+	/**
+	 * Disable the menu item
+	 *
+	 * @param menuItem The menu item
+	 */
+	public void disable(MenuItem menuItem) {
+		menuItem.removeStyleName("okm-MenuItem");
+		menuItem.addStyleName("okm-MenuItem-strike");
 	}
 }
