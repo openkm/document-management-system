@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.bean.GWTDashboardDocumentResult;
+import com.openkm.frontend.client.bean.GWTDashboardFolderResult;
 import com.openkm.frontend.client.constants.ui.UIDashboardConstants;
 import com.openkm.frontend.client.constants.ui.UIDockPanelConstants;
 import com.openkm.frontend.client.service.OKMDashboardService;
@@ -56,6 +57,8 @@ public class GeneralDashboard extends Composite {
 	private DashboardWidget lastWeekTopModifiedDocuments;
 	private DashboardWidget lastModifiedDocuments;
 	private DashboardWidget lastUploadedDocuments;
+	private DashboardWidget lastCreatedDocuments;
+	private DashboardWidget lastCreatedFolders;
 
 	private boolean showStatus = false;
 
@@ -85,6 +88,10 @@ public class GeneralDashboard extends Composite {
 		lastUploadedDocuments = new DashboardWidget("LastUploadedDocuments",
 				"dashboard.general.last.uploaded.documents", "img/icon/actions/add_document.gif",
 				false, "lastUploadedDocuments");
+		lastCreatedDocuments = new DashboardWidget("LastCreatedDocuments", "dashboard.general.last.created.documents", "img/icon/actions/add_document.gif",
+				false, "lastCreatedDocuments");
+		lastCreatedFolders = new DashboardWidget("LastCreatedFolders", "dashboard.general.last.created.folders", "img/menuitem_empty.gif",
+				false, "lastCreatedFolders");
 
 		vPanelLeft.add(lastWeekTopDownloadedDocuments);
 		vPanelLeft.add(lastMonthTopDownloadedDocuments);
@@ -92,6 +99,8 @@ public class GeneralDashboard extends Composite {
 		vPanelLeft.add(lastMonthTopModifiedDocuments);
 		vPanelLeft.add(lastUploadedDocuments);
 		vPanelRight.add(lastModifiedDocuments);
+		vPanelRight.add(lastCreatedDocuments);
+		vPanelRight.add(lastCreatedFolders);
 
 		hPanel.add(vPanelLeft);
 		hPanel.add(vPanelRight);
@@ -109,6 +118,8 @@ public class GeneralDashboard extends Composite {
 		lastMonthTopModifiedDocuments.langRefresh();
 		lastModifiedDocuments.langRefresh();
 		lastUploadedDocuments.langRefresh();
+		lastCreatedDocuments.langRefresh();
+		lastCreatedFolders.langRefresh();
 	}
 
 	/**
@@ -126,6 +137,8 @@ public class GeneralDashboard extends Composite {
 		lastMonthTopModifiedDocuments.setWidth(columnWidth);
 		lastModifiedDocuments.setWidth(columnWidth);
 		lastUploadedDocuments.setWidth(columnWidth);
+		lastCreatedDocuments.setWidth(columnWidth);
+		lastCreatedFolders.setWidth(columnWidth);
 	}
 
 	/**
@@ -226,6 +239,38 @@ public class GeneralDashboard extends Composite {
 	};
 
 	/**
+	 * get last week top uploaded documents
+	 */
+	final AsyncCallback<List<GWTDashboardDocumentResult>> callbackGetLastCreatedDocuments = new AsyncCallback<List<GWTDashboardDocumentResult>>() {
+		public void onSuccess(List<GWTDashboardDocumentResult> result) {
+			lastCreatedDocuments.setDocuments(result);
+			lastCreatedDocuments.setHeaderResults(result.size());
+			lastCreatedDocuments.unsetRefreshing();
+		}
+
+		public void onFailure(Throwable caught) {
+			Main.get().showError("callbackGetLastCreatedDocuments", caught);
+			lastCreatedDocuments.unsetRefreshing();
+		}
+	};
+
+	/**
+	 * get last week top created folders
+	 */
+	final AsyncCallback<List<GWTDashboardFolderResult>> callbackGetLastCreatedFolders = new AsyncCallback<List<GWTDashboardFolderResult>>() {
+		public void onSuccess(List<GWTDashboardFolderResult> result) {
+			lastCreatedFolders.setFolders(result);
+			lastCreatedFolders.setHeaderResults(result.size());
+			lastCreatedFolders.unsetRefreshing();
+		}
+
+		public void onFailure(Throwable caught) {
+			Main.get().showError("callbackGetLastCreatedFolders", caught);
+			lastCreatedFolders.unsetRefreshing();
+		}
+	};
+
+	/**
 	 * getLastWeekTopDownloadedDocuments
 	 */
 	public void getLastWeekTopDownloadedDocuments() {
@@ -286,6 +331,26 @@ public class GeneralDashboard extends Composite {
 	}
 
 	/**
+	 * getLastCreatedDocuments
+	 */
+	public void getLastCreatedDocuments() {
+		if (showStatus) {
+			lastCreatedDocuments.setRefreshing();
+		}
+		dashboardService.getLastCreatedDocuments(callbackGetLastCreatedDocuments);
+	}
+
+	/**
+	 * getLastCreatedFolders
+	 */
+	public void getLastCreatedFolders() {
+		if (showStatus) {
+			lastCreatedFolders.setRefreshing();
+		}
+		dashboardService.getLastCreatedFolders(callbackGetLastCreatedFolders);
+	}
+
+	/**
 	 * Refresh all panels
 	 */
 	public void refreshAll() {
@@ -297,5 +362,7 @@ public class GeneralDashboard extends Composite {
 		getLastWeekTopModifiedDocuments();
 		getLastModifiedDocuments();
 		getLastUploadedDocuments();
+		getLastCreatedDocuments();
+		getLastCreatedFolders();
 	}
 }

@@ -37,6 +37,7 @@ import com.openkm.module.db.base.BaseFolderModule;
 import com.openkm.module.db.base.BaseMailModule;
 import com.openkm.module.db.stuff.SecurityHelper;
 import com.openkm.spring.PrincipalUtils;
+import com.openkm.spring.SecurityHolder;
 import com.openkm.util.SystemProfiling;
 import com.openkm.util.UserActivity;
 import net.sf.ehcache.Cache;
@@ -57,27 +58,24 @@ public class DbDashboardModule implements DashboardModule {
 	private static final String CACHE_DASHBOARD_USER_MAILS = "com.openkm.cache.dashboardUserMails";
 	private static final String CACHE_DASHBOARD_USER_DOCUMENTS = "com.openkm.cache.dashboardUserDocuments";
 	private static final String CACHE_DASHBOARD_TOP_DOCUMENTS = "com.openkm.cache.dashboardTopDocuments";
+	private static final String CACHE_DASHBOARD_TOP_FOLDERS = "com.openkm.cache.dashboardTopFolders";
 
 	@Override
 	public List<DashboardDocumentResult> getUserLockedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLockedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserLockedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserLockedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLockedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -104,22 +102,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserCheckedOutDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserCheckedOutDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserCheckedOutDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserCheckedOutDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserCheckedOutDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -146,22 +140,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserSubscribedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserSubscribedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserSubscribedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserSubscribedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserSubscribedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -188,22 +178,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardFolderResult> getUserSubscribedFolders(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserSubscribedFolders({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardFolderResult> al = getUserSubscribedFoldersSrv(auth.getName());
+			List<DashboardFolderResult> al = getUserSubscribedFoldersSrv(PrincipalUtils.getUser());
 			log.debug("getUserSubscribedFolders: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -326,22 +312,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLastUploadedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserLastUploadedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserLastUploadedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLastUploadedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -370,22 +352,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLastModifiedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserLastModifiedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserLastModifiedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLastModifiedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -414,22 +392,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserLastDownloadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLastDownloadedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserLastDownloadedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserLastDownloadedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLastDownloadedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -458,22 +432,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardMailResult> getUserLastImportedMails(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLastImportedMails({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardMailResult> al = getUserLastImportedMailsSrv(auth.getName());
+			List<DashboardMailResult> al = getUserLastImportedMailsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLastImportedMails: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -502,22 +472,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getUserLastImportedMailAttachments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getUserLastImportedMailAttachments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getUserLastImportedMailAttachmentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getUserLastImportedMailAttachmentsSrv(PrincipalUtils.getUser());
 			log.debug("getUserLastImportedMailAttachments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -543,19 +509,15 @@ public class DbDashboardModule implements DashboardModule {
 	public long getUserDocumentsSize(String token) throws AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("getUserDocumentsSize({})", token);
 		long begin = System.currentTimeMillis();
-		Authentication auth = null, oldAuth = null;
 		long size = 0;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
 			if (Config.USER_ITEM_CACHE) {
-				UserItems usrItems = UserItemsManager.get(auth.getName());
+				UserItems usrItems = UserItemsManager.get(PrincipalUtils.getUser());
 				size = usrItems.getSize();
 			} else {
 				// Other implementation
@@ -567,7 +529,7 @@ public class DbDashboardModule implements DashboardModule {
 			return size;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -577,17 +539,13 @@ public class DbDashboardModule implements DashboardModule {
 		log.debug("getUserSearchs({})", token);
 		long begin = System.currentTimeMillis();
 		List<QueryParams> ret = new ArrayList<QueryParams>();
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<QueryParams> qParams = QueryParamsDAO.findByUser(auth.getName());
+			List<QueryParams> qParams = QueryParamsDAO.findByUser(PrincipalUtils.getUser());
 
 			for (Iterator<QueryParams> it = qParams.iterator(); it.hasNext(); ) {
 				QueryParams qp = it.next();
@@ -601,10 +559,10 @@ public class DbDashboardModule implements DashboardModule {
 			}
 
 			// Activity log
-			UserActivity.log(auth.getName(), "GET_DASHBOARD_USER_SEARCHS", null, null, null);
+			UserActivity.log(PrincipalUtils.getUser(), "GET_DASHBOARD_USER_SEARCHS", null, null, null);
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 
@@ -619,20 +577,16 @@ public class DbDashboardModule implements DashboardModule {
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("find({}, {})", token, qpId);
 		List<DashboardDocumentResult> al = new ArrayList<DashboardDocumentResult>();
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			al = findSrv(auth.getName(), qpId);
+			al = findSrv(PrincipalUtils.getUser(), qpId);
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 
@@ -732,22 +686,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getLastWeekTopDownloadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastWeekTopDownloadedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastWeekTopDownloadedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastWeekTopDownloadedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastWeekTopDownloadedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -780,22 +730,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getLastMonthTopDownloadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastMonthTopDownloadedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastMonthTopDownloadedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastMonthTopDownloadedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastMonthTopDownloadedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -828,22 +774,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getLastWeekTopModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastWeekTopModifiedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastWeekTopModifiedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastWeekTopModifiedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastWeekTopModifiedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -876,22 +818,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getLastMonthTopModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastMonthTopModifiedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastMonthTopModifiedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastMonthTopModifiedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastMonthTopModifiedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -924,22 +862,18 @@ public class DbDashboardModule implements DashboardModule {
 	public List<DashboardDocumentResult> getLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastModifiedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastModifiedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastModifiedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastModifiedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -967,25 +901,65 @@ public class DbDashboardModule implements DashboardModule {
 	}
 
 	@Override
+	public List<DashboardDocumentResult> getLastCreatedDocuments(String token) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
+		log.debug("getLastCreatedDocuments({})", token);
+
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			List<DashboardDocumentResult> al = getLastCreatedDocumentsSrv(PrincipalUtils.getUser());
+			log.debug("getLastCreatedDocuments: {}", al);
+			return al;
+		} finally {
+			if (token != null) {
+				SecurityHolder.unset();
+			}
+		}
+	}
+
+	/**
+	 * Convenient method for syndication
+	 */
+	public List<DashboardDocumentResult> getLastCreatedDocumentsSrv(String user) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
+		log.debug("getLastCreatedDocumentsSrv({})", user);
+		long begin = System.currentTimeMillis();
+		// @formatter:off
+		String qs = "select distinct a.item, max(a.date) from DashboardActivity a " +
+				"where (a.action='CREATE_DOCUMENT' or a.action='COPY_DOCUMENT') and a.path like '/" + Repository.ROOT + "/%' " +
+				"group by a.item " +
+				"order by max(a.date) desc";
+		// @formatter:on
+		final String SOURCE = "LastCreatedDocuments";
+		List<DashboardDocumentResult> al = getTopDocuments(user, SOURCE, qs, null);
+
+		// Check for already visited results
+		checkVisitedDocuments(user, SOURCE, al);
+		SystemProfiling.log(user, System.currentTimeMillis() - begin);
+		log.trace("getLastCreatedDocumentsSrv.Time: {}", System.currentTimeMillis() - begin);
+		log.debug("getLastCreatedDocumentsSrv: {}", al);
+		return al;
+	}
+
+	@Override
 	public List<DashboardDocumentResult> getLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getLastUploadedDocuments({})", token);
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
-			List<DashboardDocumentResult> al = getLastUploadedDocumentsSrv(auth.getName());
+			List<DashboardDocumentResult> al = getLastUploadedDocumentsSrv(PrincipalUtils.getUser());
 			log.debug("getLastUploadedDocuments: {}", al);
 			return al;
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 	}
@@ -1016,17 +990,18 @@ public class DbDashboardModule implements DashboardModule {
 	 * Get top documents
 	 */
 	@SuppressWarnings("unchecked")
-	private ArrayList<DashboardDocumentResult> getTopDocuments(String user, String source, String qs, Calendar date)
+	private List<DashboardDocumentResult> getTopDocuments(String user, String source, String qs, Calendar date)
 			throws RepositoryException, DatabaseException {
 		log.debug("getTopDocuments({}, {}, {}, {})", new Object[]{user, source, qs, (date != null ? date.getTime() : "null")});
-		ArrayList<DashboardDocumentResult> al = new ArrayList<DashboardDocumentResult>();
+		List<DashboardDocumentResult> al = new ArrayList<>();
 		Cache docResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_TOP_DOCUMENTS);
-		String key = source + ":" + Config.SYSTEM_USER;
+		String key = source + ":" + user;
 		Element elto = docResultCache.get(key);
 
 		if (elto != null) {
 			log.debug("Get '{}' from cache", source);
-			al = (ArrayList<DashboardDocumentResult>) elto.getValue();
+			List<DashboardDocumentResult> cachedResults = (List<DashboardDocumentResult>) elto.getValue();
+			al = allowedCachedDocumentResults(cachedResults);
 		} else {
 			log.debug("Get '{}' from database", source);
 			Session session = null;
@@ -1077,29 +1052,149 @@ public class DbDashboardModule implements DashboardModule {
 		return al;
 	}
 
+	private List<DashboardDocumentResult> allowedCachedDocumentResults(List<DashboardDocumentResult> list) throws DatabaseException {
+		List<DashboardDocumentResult> results = new ArrayList<>(list.size());
+		for (DashboardDocumentResult result : list) {
+			if (NodeDocumentDAO.getInstance().itemExists(result.getDocument().getUuid())) {
+				results.add(result);
+			}
+		}
+		return results;
+	}
+
+	@Override
+	public List<DashboardFolderResult> getLastCreatedFolders(String token) throws AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("getLastCreatedFolders({})", token);
+
+		try {
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
+			}
+
+			List<DashboardFolderResult> al = getLastCreatedFoldersSrv(PrincipalUtils.getUser());
+			log.debug("getLastCreatedFolders: {}", al);
+			return al;
+		} finally {
+			if (token != null) {
+				SecurityHolder.unset();
+			}
+		}
+	}
+
+	/**
+	 * Convenient method for syndication
+	 */
+	public List<DashboardFolderResult> getLastCreatedFoldersSrv(String user) throws RepositoryException, DatabaseException {
+		log.debug("getLastCreatedFoldersSrv({})", user);
+		long begin = System.currentTimeMillis();
+		// @formatter:off
+		String qs = "select distinct a.item, max(a.date) from DashboardActivity a " +
+				"where a.action='CREATE_FOLDER' and a.path like '/" + Repository.ROOT + "/%' " +
+				"group by a.item " +
+				"order by max(a.date) desc";
+		// @formatter:on
+		final String SOURCE = "LastCreatedFolders";
+		List<DashboardFolderResult> al = getTopFolders(user, SOURCE, qs, null);
+
+		// Check for already visited results
+		checkVisitedFolders(user, SOURCE, al);
+		SystemProfiling.log(user, System.currentTimeMillis() - begin);
+		log.trace("getLastCreatedFoldersSrv.Time: {}", System.currentTimeMillis() - begin);
+		log.debug("getLastCreatedFoldersSrv: {}", al);
+		return al;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<DashboardFolderResult> getTopFolders(String user, String source, String qs, Calendar date)
+			throws RepositoryException, DatabaseException {
+		log.debug("getTopFolders({}, {}, {}, {})", new Object[]{user, source, qs, (date != null ? date.getTime() : "null")});
+		List<DashboardFolderResult> al = new ArrayList<>();
+		Cache fldResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_TOP_FOLDERS);
+		String key = source + ":" + user;
+		Element elto = fldResultCache.get(key);
+
+		if (elto != null) {
+			log.debug("Get '{}' from cache", source);
+			List<DashboardFolderResult> cachedResults = (List<DashboardFolderResult>) elto.getValue();
+			al = allowedCachedFolderResults(cachedResults);
+		} else {
+			log.debug("Get '{}' from database", source);
+			Session session = null;
+			int cont = 0;
+
+			try {
+				session = HibernateUtil.getSessionFactory().openSession();
+				Query q = session.createQuery(qs).setFetchSize(MAX_RESULTS);
+
+				if (date != null) {
+					q.setCalendar("date", date);
+				}
+
+				// While there is more query results and the MAX_RESULT limit has reached
+				for (Iterator<Object[]> it = q.iterate(); it.hasNext() && cont < MAX_RESULTS; cont++) {
+					Object[] obj = it.next();
+					String resItem = (String) obj[0];
+					Calendar resDate = (Calendar) obj[1];
+
+					try {
+						NodeFolder nFld = NodeFolderDAO.getInstance().findByPk(resItem);
+						// String docPath = NodeBaseDAO.getInstance().getPathFromUuid(nDoc.getUuid());
+
+						// Only documents from taxonomy
+						// Already filtered in the query
+						// if (docPath.startsWith("/okm:root")) {
+						Folder fld = BaseFolderModule.getProperties(user, nFld);
+						DashboardFolderResult vo = new DashboardFolderResult();
+						vo.setFolder(fld);
+						vo.setDate(resDate);
+						vo.setVisited(false);
+						al.add(vo);
+						// }
+					} catch (PathNotFoundException e) {
+						// Do nothing
+					}
+				}
+
+				fldResultCache.put(new Element(key, al));
+			} catch (HibernateException e) {
+				throw new DatabaseException(e.getMessage(), e);
+			} finally {
+				HibernateUtil.close(session);
+			}
+		}
+
+		log.debug("getTopFolders: {}", al);
+		return al;
+	}
+
+	private List<DashboardFolderResult> allowedCachedFolderResults(List<DashboardFolderResult> list) throws DatabaseException {
+		List<DashboardFolderResult> results = new ArrayList<>(list.size());
+		for (DashboardFolderResult result : list) {
+			if (NodeFolderDAO.getInstance().itemExists(result.getFolder().getUuid())) {
+				results.add(result);
+			}
+		}
+		return results;
+	}
 	@Override
 	public void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("visiteNode({}, {}, {}, {})", new Object[]{token, source, node, (date == null ? null : date.getTime())});
-		Authentication auth = null, oldAuth = null;
 
 		try {
-			if (token == null) {
-				auth = PrincipalUtils.getAuthentication();
-			} else {
-				oldAuth = PrincipalUtils.getAuthentication();
-				auth = PrincipalUtils.getAuthenticationByToken(token);
+			if (token != null) {
+				SecurityHolder.set(PrincipalUtils.getAuthenticationByToken(token));
 			}
 
 			Dashboard vo = new Dashboard();
-			vo.setUser(auth.getName());
+			vo.setUser(PrincipalUtils.getUser());
 			vo.setSource(source);
 			vo.setNode(node);
 			vo.setDate(date);
 			DashboardDAO.createIfNew(vo);
 		} finally {
 			if (token != null) {
-				PrincipalUtils.setAuthentication(oldAuth);
+				SecurityHolder.unset();
 			}
 		}
 

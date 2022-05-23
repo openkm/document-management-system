@@ -48,6 +48,7 @@ public class UserActivity {
 		dashboardActions.add("GET_DOCUMENT_CONTENT");
 		dashboardActions.add("CREATE_MAIL_ATTACHMENT");
 		dashboardActions.add("CREATE_MAIL");
+		dashboardActions.add("CREATE_FOLDER");
 	}
 
 	/**
