@@ -90,7 +90,7 @@ public class OOTextExtractor extends AbstractTextExtractor {
 			fos.close();
 
 			// Convert to text
-			DocConverter.getInstance().convert(fIn, type, fOut);
+			DocConverter.getInstance().convert(fIn, fOut);
 			ret = FileUtils.readFileToString(fOut);
 			log.debug("TEXT: " + ret);
 			return ret;

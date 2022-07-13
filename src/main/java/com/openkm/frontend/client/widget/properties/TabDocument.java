@@ -242,15 +242,16 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 		}
 
 		if (previewVisible) {
-			preview.setPreviewAvailable(doc.isConvertibleToSwf()
+			preview.setPreviewAvailable(doc.getMimeType().equals("application/pdf")
 					|| doc.getMimeType().equals("application/x-shockwave-flash")
+					|| doc.isConvertibleToSwf() || doc.isConvertibleToPdf()
 					|| HTMLPreview.isPreviewAvailable(doc.getMimeType())
 					|| SyntaxHighlighterPreview.isPreviewAvailable(doc.getMimeType()));
 		}
 
 		if (!propertyGroup.isEmpty()) {
-			for (Iterator<PropertyGroup> it = propertyGroup.iterator(); it.hasNext(); ) {
-				tabPanel.remove(it.next());
+			for (PropertyGroup group : propertyGroup) {
+				tabPanel.remove(group);
 			}
 			propertyGroup.clear();
 		}

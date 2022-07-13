@@ -207,7 +207,7 @@ public class DocConverter {
 
 		try {
 			long start = System.currentTimeMillis();
-			convert(input, mimeType, output);
+			convert(input, output);
 			log.debug("Elapse doc2pdf time: {}", FormatUtil.formatSeconds(System.currentTimeMillis() - start));
 		} catch (Exception e) {
 			throw new ConversionException("Error in " + mimeType + " to PDF conversion", e);
@@ -287,7 +287,7 @@ public class DocConverter {
 				IOUtils.copy(input, fos);
 				fos.flush();
 				fos.close();
-				convert(tmp, mimeType, output);
+				convert(tmp, output);
 			}
 
 			log.debug("Elapse doc2txt time: {}", FormatUtil.formatSeconds(System.currentTimeMillis() - start));
@@ -341,7 +341,7 @@ public class DocConverter {
 
 		try {
 			long start = System.currentTimeMillis();
-			convert(input, MimeTypeConfig.MIME_RTF, output);
+			convert(input, output);
 			log.debug("Elapse rtf2html time: {}", FormatUtil.formatSeconds(System.currentTimeMillis() - start));
 		} catch (Exception e) {
 			throw new ConversionException("Error in RTF to HTML conversion", e);
@@ -803,7 +803,8 @@ public class DocConverter {
 		}
 	}
 
-	public void convert(File input, String mimeType, File output) throws ConversionException, IOException {
+	public void convert(File input, File output) throws ConversionException, IOException {
+		String outExt = FileUtils.getFileExtension(output.getName());
 		File tmp = FileUtils.createTempDir();
 		String cmd = null;
 
@@ -813,8 +814,18 @@ public class DocConverter {
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 			hm.put("tmpDir", tmp.getPath());
-			String tpl = Config.SYSTEM_OPENOFFICE_PROGRAM + " --headless --convert-to pdf --outdir ${tmpDir} ${fileIn}";
-			cmd = TemplateUtils.replace("SYSTEM_UNOCONV", tpl, hm);
+
+			if (EnvironmentDetector.isWindows()) {
+				String tpl = Config.SYSTEM_OPENOFFICE_PROGRAM + " --headless --convert-to " + outExt + " --outdir ${tmpDir} ${fileIn}";
+				cmd = TemplateUtils.replace("SYSTEM_OPENOFFICE_PROGRAM", tpl, hm);
+			} else if (EnvironmentDetector.isLinux()) {
+				String tpl = Config.SYSTEM_OPENOFFICE_PROGRAM + " --headless -env:UserInstallation=file://${tmpDir} --convert-to " + outExt + " --outdir ${tmpDir} ${fileIn}";
+				cmd = TemplateUtils.replace("SYSTEM_OPENOFFICE_PROGRAM", tpl, hm);
+			} else {
+				throw new ConversionException("Operating system not supported");
+			}
+
+			log.info("Cmd: {}", cmd);
 			ExecutionResult er = ExecutionUtils.runCmd(cmd);
 
 			if (er.getExitValue() != 0) {
