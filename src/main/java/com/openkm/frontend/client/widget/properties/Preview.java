@@ -151,62 +151,6 @@ public class Preview extends Composite {
 	}
 
 	/**
-	 * showEmbedSWF
-	 *
-	 * @param uuid Unique document ID to be previewed.
-	 */
-	public void showEmbedSWF(String uuid) {
-		hideWidgetExtension();
-		vPanel.clear();
-
-		if (previewEvent != null) {
-			vPanel.add(hReturnPanel);
-			vPanel.setCellHeight(hReturnPanel, String.valueOf(TURN_BACK_HEIGHT) + "px");
-		}
-
-		vPanel.add(swf);
-		vPanel.setCellHorizontalAlignment(swf, HasAlignment.ALIGN_CENTER);
-		vPanel.setCellVerticalAlignment(swf, HasAlignment.ALIGN_MIDDLE);
-
-		if (previewAvailable) {
-			if (previewConversion) {
-				String url = RPCService.ConverterServlet + "?inline=true&toSwf=true&uuid=" + URL.encodeQueryString(uuid);
-				swf.setHTML("<div id=\"pdfviewercontainer\"></div>\n"); // needed for rewriting purpose
-
-				if (Main.get().workspaceUserProperties.getWorkspace().getPreviewer().equals("flexpaper")) {
-					if (Main.get().workspaceUserProperties.getWorkspace().isPrintPreview()) {
-						Util.createPDFViewerFlexPaper(url, "" + width, "" + height);
-					} else {
-						Util.createPDFViewerFlexPaper(url, "" + width, "" + height);
-					}
-				}
-
-				Main.get().conversionStatus.getStatus();
-			} else {
-				String url = RPCService.DownloadServlet + "?inline=true&uuid=" + URL.encodeQueryString(uuid);
-				swf.setHTML("<div id=\"swfviewercontainer\"></div>\n"); // needed for rewriting purpose
-				Util.createSwfViewer(url, "" + width, "" + height);
-			}
-		} else {
-			swf.setHTML("<div id=\"pdfviewercontainer\" align=\"center\"><br><br>" + Main.i18n("preview.unavailable")
-					+ "</div>\n"); // needed for rewriting purpose
-		}
-	}
-
-	/**
-	 * resizeEmbedSWF
-	 */
-	public void resizeEmbedSWF(int width, int height) {
-		if (previewConversion) {
-			if (Main.get().workspaceUserProperties.getWorkspace().getPreviewer().equals("flexpaper")) {
-				Util.resizePDFViewerFlexPaper("" + width, "" + height);
-			}
-		} else {
-			Util.resizeSwfViewer("" + width, "" + height);
-		}
-	}
-
-	/**
 	 * showEmbedPDF
 	 *
 	 * @param uuid Unique document ID to be previewed.
@@ -232,7 +176,7 @@ public class Preview extends Composite {
 					"</object>" +
 					"</div>\n"); // needed for rewriting  purpose
 		} else {
-			swf.setHTML("<div id=\"pdfembededcontainer\" align=\"center\"><br><br>" + Main.i18n("preview.unavailable") + "</div>\n");
+			pdf.setHTML("<div id=\"pdfembededcontainer\" align=\"center\"><br><br>" + Main.i18n("preview.unavailable") + "</div>\n");
 		}
 	}
 
@@ -363,14 +307,6 @@ public class Preview extends Composite {
 			if (!refreshing) {
 				showPDF(doc.getUuid());
 			}
-		} else if (doc.getMimeType().equals("application/x-shockwave-flash")) {
-			setPreviewConversion(false);
-
-			if (!refreshing) {
-				showEmbedSWF(doc.getUuid());
-			} else {
-				resizeEmbedSWF(width, height);
-			}
 		} else {
 			if (Main.get().workspaceUserProperties.getWorkspace().isAcrobatPluginPreview() && doc.getMimeType().equals("application/pdf")) {
 				if (!refreshing) {
@@ -381,16 +317,8 @@ public class Preview extends Composite {
 			} else {
 				setPreviewConversion(true);
 
-				if (!refreshing) {
-					if (doc.isConvertibleToPdf()) {
-						showPDF(doc.getUuid());
-					} else {
-						showEmbedSWF(doc.getUuid());
-					}
-				} else {
-					if (!doc.isConvertibleToPdf()) {
-						resizeEmbedSWF(width, height);
-					}
+				if (!refreshing && doc.isConvertibleToPdf()) {
+					showPDF(doc.getUuid());
 				}
 			}
 		}

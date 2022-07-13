@@ -594,59 +594,6 @@ public class Util {
       obj.height = height;
     }-*/;
 
-	public static native void createSwfViewer(String swfUrl, String width, String height) /*-{
-      $wnd.swfobject.embedSWF(swfUrl, "swfviewercontainer", width, height, "9.0.0", "../js/mediaplayer/expressinstall.swf", {
-        width: width,
-        height: height
-      }, {}, {id: "jswfviewer", name: "jswfviewer"});
-    }-*/;
-
-	public static native void resizeSwfViewer(String width, String height) /*-{
-      obj = $wnd.swfobject.getObjectById('jswfviewer');
-      obj.width = width;
-      obj.height = height;
-    }-*/;
-
-	public static native void createPDFViewerFlexPaper(String pdfUrl, String width, String height) /*-{
-      fpViewer = "../js/flexpaper/FlexPaperViewer.swf";
-      pdfUrl = encodeURIComponent(pdfUrl);
-      $wnd.swfobject.embedSWF(fpViewer, "pdfviewercontainer", width, height, "10.0.0", "playerProductInstall.swf",
-        {
-          SwfFile: pdfUrl,
-          Scale: 0.6,
-          ZoomTransition: "easeOut",
-          ZoomTime: 0.5,
-          ZoomInterval: 0.1,
-          FitPageOnLoad: false,
-          FitWidthOnLoad: true,
-          FullScreenAsMaxWindow: false,
-          ProgressiveLoading: true,
-          ViewModeToolsVisible: true,
-          ZoomToolsVisible: true,
-          FullScreenVisible: true,
-          NavToolsVisible: true,
-          CursorToolsVisible: true,
-          SearchToolsVisible: true,
-          localeChain: "en_US"
-        },
-        {
-          quality: "high",
-          bgcolor: "#ffffff",
-          allowscriptaccess: "sameDomain",
-          allowfullscreen: "true"
-        },
-        {
-          id: "FlexPaperViewer",
-          name: "FlexPaperViewer"
-        });
-    }-*/;
-
-	public static native void resizePDFViewerFlexPaper(String width, String height) /*-{
-      obj = $wnd.swfobject.getObjectById('FlexPaperViewer');
-      obj.width = width;
-      obj.height = height;
-    }-*/;
-
 	public static native void resizeEmbededPDF(String width, String height, String pdfId) /*-{
       obj = $wnd.document.getElementById(pdfId);
       obj.width = width;

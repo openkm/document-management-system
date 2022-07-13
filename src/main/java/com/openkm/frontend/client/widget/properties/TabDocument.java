@@ -243,8 +243,7 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 
 		if (previewVisible) {
 			preview.setPreviewAvailable(doc.getMimeType().equals("application/pdf")
-					|| doc.getMimeType().equals("application/x-shockwave-flash")
-					|| doc.isConvertibleToSwf() || doc.isConvertibleToPdf()
+					|| doc.isConvertibleToPdf()
 					|| HTMLPreview.isPreviewAvailable(doc.getMimeType())
 					|| SyntaxHighlighterPreview.isPreviewAvailable(doc.getMimeType()));
 		}
