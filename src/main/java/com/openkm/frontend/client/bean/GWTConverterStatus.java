@@ -32,8 +32,6 @@ public class GWTConverterStatus implements IsSerializable {
 	public static final int STATUS_LOADING = 1;
 	public static final int STATUS_CONVERTING_TO_PDF = 2;
 	public static final int STATUS_CONVERTING_TO_PDF_FINISHED = 3;
-	public static final int STATUS_CONVERTING_TO_SWF = 4;
-	public static final int STATUS_CONVERTING_TO_SWF_FINISHED = 5;
 	public static final int STATUS_SENDING_FILE = 6;
 
 	private int status = STATUS_LOADING;

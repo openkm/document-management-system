@@ -23,6 +23,7 @@ package com.openkm.frontend.client.extension.widget.preview;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.openkm.frontend.client.bean.GWTDocument;
 
 /**
  * TabDocumentExtension
@@ -30,11 +31,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author jllort
  */
 public abstract class PreviewExtension extends Composite implements HasPreviewExtension {
-	public abstract void createViewer(String url, int width, int height);
+	public abstract void createViewer(GWTDocument doc, String url, int width, int height);
 
 	public abstract Widget getWidget();
 
 	public abstract void setVisible(boolean visible);
 
 	public abstract void resizeViewer(int width, int height);
+
+	public abstract boolean isPreviewAvailable(String mimeType);
 }

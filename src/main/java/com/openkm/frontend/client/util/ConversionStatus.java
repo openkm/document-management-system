@@ -61,12 +61,6 @@ public class ConversionStatus {
 							case GWTConverterStatus.STATUS_CONVERTING_TO_PDF_FINISHED:
 								Main.get().mainPanel.bottomPanel.setStatus(Main.i18n("status.converter.topdf.finished"));
 								break;
-							case GWTConverterStatus.STATUS_CONVERTING_TO_SWF:
-								Main.get().mainPanel.bottomPanel.setStatus(Main.i18n("status.converter.toswf"));
-								break;
-							case GWTConverterStatus.STATUS_CONVERTING_TO_SWF_FINISHED:
-								Main.get().mainPanel.bottomPanel.setStatus(Main.i18n("status.converter.toswf.finished"));
-								break;
 							case GWTConverterStatus.STATUS_SENDING_FILE:
 								Main.get().mainPanel.bottomPanel.setStatus(Main.i18n("status.converter.sending.file"));
 								break;

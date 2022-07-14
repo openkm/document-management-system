@@ -51,7 +51,6 @@ public class AutomationRule implements Serializable {
 	public static final String EVENT_TEXT_EXTRACTOR = "text_extractor";
 
 	public static final String EVENT_CONVERSION_PDF = "convert_pdf";
-	public static final String EVENT_CONVERSION_SWF = "convert_swf";
 
 	public static final String EVENT_PROPERTY_GROUP_ADD = "prop_group_add";
 	public static final String EVENT_PROPERTY_GROUP_SET = "prop_group_set";
@@ -81,13 +80,12 @@ public class AutomationRule implements Serializable {
 			put(AutomationRule.EVENT_TEXT_EXTRACTOR, "Text extraction");
 
 			put(AutomationRule.EVENT_CONVERSION_PDF, "Convert to PDF");
-			put(AutomationRule.EVENT_CONVERSION_SWF, "Convert to SWF");
 
 			put(AutomationRule.EVENT_USER_LOGIN, "User login");
 			put(AutomationRule.EVENT_USER_LOGOUT, "User logout");
 		}
 	};
-	
+
 	@Id
 	@Column(name = "ARL_ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)

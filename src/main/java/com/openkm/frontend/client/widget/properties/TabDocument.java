@@ -103,7 +103,7 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 		notes = new Notes(Notes.DOCUMENT_NOTE);
 		version = new VersionScrollTable();
 		security = new SecurityScrollTable();
-		preview = new Preview(null);
+		preview = new Preview();
 		panel = new VerticalPanel();
 		propertyGroup = new ArrayList<PropertyGroup>();
 		widgetExtensionList = new ArrayList<TabDocumentExtension>();
@@ -242,10 +242,7 @@ public class TabDocument extends Composite implements HasDocumentEvent, HasDocum
 		}
 
 		if (previewVisible) {
-			preview.setPreviewAvailable(doc.isConvertibleToSwf()
-					|| doc.getMimeType().equals("application/x-shockwave-flash")
-					|| HTMLPreview.isPreviewAvailable(doc.getMimeType())
-					|| SyntaxHighlighterPreview.isPreviewAvailable(doc.getMimeType()));
+			preview.setPreviewAvailable(doc);
 		}
 
 		if (!propertyGroup.isEmpty()) {

@@ -381,13 +381,6 @@ public class RepositoryStartupServlet extends HttpServlet {
 			pdfCacheFolder.mkdirs();
 		}
 
-		// Initialize SWF cache folder
-		File swfCacheFolder = new File(Config.REPOSITORY_CACHE_SWF);
-		if (!swfCacheFolder.exists()) {
-			log.info("Create missing directory {}", swfCacheFolder.getPath());
-			swfCacheFolder.mkdirs();
-		}
-
 		// Initialize chroot folder
 		if (Config.SYSTEM_MULTIPLE_INSTANCES || Config.CLOUD_MODE) {
 			File chrootFolder = new File(Config.INSTANCE_CHROOT_PATH);
