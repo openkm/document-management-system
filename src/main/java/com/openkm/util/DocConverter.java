@@ -59,45 +59,51 @@ public class DocConverter {
 	private static final Logger log = LoggerFactory.getLogger(DocConverter.class);
 	public static ArrayList<String> validOpenOffice = new ArrayList<>();
 	public static ArrayList<String> validImageMagick = new ArrayList<>();
+	public static ArrayList<String> validFFmpeg = new ArrayList<>();
 	private static ArrayList<String> validGhoscript = new ArrayList<>();
 	private static ArrayList<String> validInternal = new ArrayList<>();
+	public static ArrayList<String> validSourceCode = new ArrayList<>();
 	private static DocConverter instance = null;
 
 	private DocConverter() {
 		// Basic
-		validOpenOffice.add("text/plain");
-		validOpenOffice.add("text/html");
-		validOpenOffice.add("text/csv");
-		validOpenOffice.add("application/rtf");
+		validOpenOffice.add(MimeTypeConfig.MIME_TEXT);
+		validOpenOffice.add(MimeTypeConfig.MIME_CSV);
+		validOpenOffice.add(MimeTypeConfig.MIME_RTF);
 
 		// OpenOffice.org OpenDocument
-		validOpenOffice.add("application/vnd.oasis.opendocument.text");
-		validOpenOffice.add("application/vnd.oasis.opendocument.presentation");
-		validOpenOffice.add("application/vnd.oasis.opendocument.spreadsheet");
-		validOpenOffice.add("application/vnd.oasis.opendocument.graphics");
-		validOpenOffice.add("application/vnd.oasis.opendocument.database");
+		validOpenOffice.add(MimeTypeConfig.MIME_OO_TEXT);
+		validOpenOffice.add(MimeTypeConfig.MIME_OO_PRESENTATION);
+		validOpenOffice.add(MimeTypeConfig.MIME_OO_SPREADSHEET);
 
 		// Microsoft Office
-		validOpenOffice.add("application/msword");
-		validOpenOffice.add("application/vnd.ms-excel");
-		validOpenOffice.add("application/vnd.ms-powerpoint");
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_WORD);
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_EXCEL);
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_POWERPOINT);
 
 		// Microsoft Office 2007
-		validOpenOffice.add("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-		validOpenOffice.add("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		validOpenOffice.add("application/vnd.openxmlformats-officedocument.presentationml.presentation");
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_WORD_2007);
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_EXCEL_2007);
+		validOpenOffice.add(MimeTypeConfig.MIME_MS_POWERPOINT_2007);
 
 		// Postcript
-		validGhoscript.add("application/postscript");
+		validGhoscript.add(MimeTypeConfig.MIME_POSTSCRIPT);
 
 		// Images
-		validImageMagick.add("image/jpeg");
-		validImageMagick.add("image/png");
-		validImageMagick.add("image/gif");
-		validImageMagick.add("image/tiff");
-		validImageMagick.add("image/bmp");
-		validImageMagick.add("image/svg+xml");
-		validImageMagick.add("image/x-psd");
+		validImageMagick.add(MimeTypeConfig.MIME_JPEG);
+		validImageMagick.add(MimeTypeConfig.MIME_PNG);
+		validImageMagick.add(MimeTypeConfig.MIME_GIF);
+		validImageMagick.add(MimeTypeConfig.MIME_TIFF);
+		validImageMagick.add(MimeTypeConfig.MIME_BMP);
+		validImageMagick.add(MimeTypeConfig.MIME_SVG);
+		validImageMagick.add(MimeTypeConfig.MIME_PSD);
+
+		// Videos
+		validFFmpeg.add(MimeTypeConfig.MIME_MP4);
+		validFFmpeg.add(MimeTypeConfig.MIME_MPEG);
+		validFFmpeg.add(MimeTypeConfig.MIME_FLV);
+		validFFmpeg.add(MimeTypeConfig.MIME_WMV);
+		validFFmpeg.add(MimeTypeConfig.MIME_AVI);
 
 		// Internal conversion
 		validInternal.add(MimeTypeConfig.MIME_ZIP);
@@ -107,6 +113,27 @@ public class DocConverter {
 		validInternal.add(MimeTypeConfig.MIME_PHP);
 		validInternal.add(MimeTypeConfig.MIME_BSH);
 		validInternal.add(MimeTypeConfig.MIME_SH);
+
+		// Source code
+		validSourceCode.add(MimeTypeConfig.MIME_JAVA);
+		validSourceCode.add(MimeTypeConfig.MIME_XML);
+		validSourceCode.add(MimeTypeConfig.MIME_SQL);
+		validSourceCode.add(MimeTypeConfig.MIME_SCALA);
+		validSourceCode.add(MimeTypeConfig.MIME_PYTHON);
+		validSourceCode.add(MimeTypeConfig.MIME_PHP);
+		validSourceCode.add(MimeTypeConfig.MIME_BSH);
+		validSourceCode.add(MimeTypeConfig.MIME_PERL);
+		validSourceCode.add(MimeTypeConfig.MIME_JAVASCRIPT);
+		validSourceCode.add(MimeTypeConfig.MIME_TEXT);
+		validSourceCode.add(MimeTypeConfig.MIME_GROOVY);
+		validSourceCode.add(MimeTypeConfig.MIME_DIFF);
+		validSourceCode.add(MimeTypeConfig.MIME_PASCAL);
+		validSourceCode.add(MimeTypeConfig.MIME_CSS);
+		validSourceCode.add(MimeTypeConfig.MIME_CSHARP);
+		validSourceCode.add(MimeTypeConfig.MIME_CPP);
+		validSourceCode.add(MimeTypeConfig.MIME_APPLESCRIPT);
+		validSourceCode.add(MimeTypeConfig.MIME_SH);
+		validSourceCode.add(MimeTypeConfig.MIME_AS3);
 	}
 
 	/**
@@ -141,25 +168,6 @@ public class DocConverter {
 		}
 
 		log.trace("convertibleToPdf: {}", ret);
-		return ret;
-	}
-
-	/**
-	 * Test if a MIME document can be converted to SWF
-	 */
-	public boolean convertibleToSwf(String from) {
-		log.trace("convertibleToSwf({})", from);
-		boolean ret = false;
-
-		if (!Config.REMOTE_CONVERSION_SERVER.equals("")
-				&& (MimeTypeConfig.MIME_PDF.equals(from) || validOpenOffice.contains(from) || validImageMagick.contains(from)
-				|| validGhoscript.contains(from))) {
-			ret = true;
-		} else if (!Config.SYSTEM_SWFTOOLS_PDF2SWF.equals("") && (MimeTypeConfig.MIME_PDF.equals(from) || convertibleToPdf(from))) {
-			ret = true;
-		}
-
-		log.trace("convertibleToSwf: {}", ret);
 		return ret;
 	}
 
@@ -575,38 +583,6 @@ public class DocConverter {
 			throw new ConversionException("Exception in conversion: " + e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(fos);
-		}
-	}
-
-	/**
-	 * Convert PDF to SWF (for document preview feature).
-	 */
-	public void pdf2swf(File input, File output) throws ConversionException, DatabaseException, IOException {
-		log.debug("** Convert from PDF to SWF **");
-		BufferedReader stdout = null;
-		String cmd = null;
-
-		try {
-			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
-			hm.put("fileIn", input.getPath());
-			hm.put("fileOut", output.getPath());
-			cmd = TemplateUtils.replace("SYSTEM_PDF2SWF", Config.SYSTEM_SWFTOOLS_PDF2SWF, hm);
-			ExecutionResult er = ExecutionUtils.runCmd(cmd);
-
-			if (er.getExitValue() != 0) {
-				throw new ConversionException(er.getStderr());
-			}
-		} catch (SecurityException e) {
-			throw new ConversionException("Security exception executing command: " + cmd, e);
-		} catch (InterruptedException e) {
-			throw new ConversionException("Interrupted exception executing command: " + cmd, e);
-		} catch (IOException e) {
-			throw new ConversionException("IO exception executing command: " + cmd, e);
-		} catch (TemplateException e) {
-			throw new ConversionException("Template exception", e);
-		} finally {
-			IOUtils.closeQuietly(stdout);
 		}
 	}
 

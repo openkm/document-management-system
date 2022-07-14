@@ -413,11 +413,6 @@ public class ConfigServlet extends BaseServlet {
 			out.println("<ul>");
 
 			out.print("<li>");
-			out.print("<b>" + com.openkm.core.Config.PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF + "</b>");
-			checkExecutable(out, com.openkm.core.Config.SYSTEM_SWFTOOLS_PDF2SWF);
-			out.print("</li>");
-
-			out.print("<li>");
 			out.print("<b>" + com.openkm.core.Config.PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT + "</b>");
 			checkExecutable(out, com.openkm.core.Config.SYSTEM_IMAGEMAGICK_CONVERT);
 			out.print("</li>");

@@ -36,8 +36,6 @@ public class ConverterListener implements Serializable {
 	public static final int STATUS_CONVERTING_TO_DXF_FINISHED = 3;
 	public static final int STATUS_CONVERTING_TO_PDF = 4;
 	public static final int STATUS_CONVERTING_TO_PDF_FINISHED = 5;
-	public static final int STATUS_CONVERTING_TO_SWF = 6;
-	public static final int STATUS_CONVERTING_TO_SWF_FINISHED = 7;
 	public static final int STATUS_SENDING_FILE = 8;
 
 	private volatile int status = 0;

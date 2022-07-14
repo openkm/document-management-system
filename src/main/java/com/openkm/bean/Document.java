@@ -54,7 +54,6 @@ public class Document extends Node {
 	private LockInfo lockInfo;
 	private boolean signed;
 	private boolean convertibleToPdf;
-	private boolean convertibleToSwf;
 	private String cipherName;
 
 	public LockInfo getLockInfo() {
@@ -137,14 +136,6 @@ public class Document extends Node {
 		this.convertibleToPdf = convertibleToPdf;
 	}
 
-	public boolean isConvertibleToSwf() {
-		return convertibleToSwf;
-	}
-
-	public void setConvertibleToSwf(boolean convertibleToSwf) {
-		this.convertibleToSwf = convertibleToSwf;
-	}
-
 	public void setCipherName(String cipherName) {
 		this.cipherName = cipherName;
 	}
@@ -182,7 +173,6 @@ public class Document extends Node {
 		sb.append(", subscriptors=").append(subscriptors);
 		sb.append(", uuid=").append(uuid);
 		sb.append(", convertibleToPdf=").append(convertibleToPdf);
-		sb.append(", convertibleToSwf=").append(convertibleToSwf);
 		sb.append(", cipherName=").append(cipherName);
 		sb.append(", notes=").append(notes);
 		sb.append(", language=").append(language);

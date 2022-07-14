@@ -37,6 +37,5 @@ public class CommonGeneralModule {
 	public static void cleanPreviewCache(String uuid) {
 		new File(Config.REPOSITORY_CACHE_DXF + File.separator + uuid + ".dxf").delete();
 		new File(Config.REPOSITORY_CACHE_PDF + File.separator + uuid + ".pdf").delete();
-		new File(Config.REPOSITORY_CACHE_SWF + File.separator + uuid + ".swf").delete();
 	}
 }

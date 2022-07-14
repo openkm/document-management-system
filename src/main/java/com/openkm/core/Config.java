@@ -102,7 +102,6 @@ public class Config {
 	public static String REPOSITORY_CACHE_DIRNAME = "cache";
 	public static String REPOSITORY_CACHE_DXF;
 	public static String REPOSITORY_CACHE_PDF;
-	public static String REPOSITORY_CACHE_SWF;
 
 	// Experimental features
 	public static final String PROPERTY_PLUGIN_DEBUG = "plugin.debug";
@@ -221,7 +220,6 @@ public class Config {
 	public static final String PROPERTY_SYSTEM_OPENOFFICE_PROGRAM = "system.openoffice.program";
 	public static final String PROPERTY_SYSTEM_OPENOFFICE_DICTIONARY = "system.openoffice.dictionary";
 	public static final String PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT = "system.imagemagick.convert";
-	public static final String PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF = "system.swftools.pdf2swf";
 	public static final String PROPERTY_SYSTEM_GHOSTSCRIPT = "system.ghostscript";
 	public static final String PROPERTY_SYSTEM_DWG2DXF = "system.dwg2dxf";
 	public static final String PROPERTY_SYSTEM_ANTIVIR = "system.antivir";
@@ -486,7 +484,6 @@ public class Config {
 	public static String SYSTEM_OPENOFFICE_PROGRAM = "";
 	public static String SYSTEM_OPENOFFICE_DICTIONARY = "";
 	public static String SYSTEM_IMAGEMAGICK_CONVERT = "";
-	public static String SYSTEM_SWFTOOLS_PDF2SWF = "";
 	public static String SYSTEM_GHOSTSCRIPT = "";
 	public static String SYSTEM_DWG2DXF = "";
 	public static String SYSTEM_ANTIVIR = "";
@@ -732,8 +729,6 @@ public class Config {
 			values.put("repository.cache.dxf", REPOSITORY_CACHE_DXF);
 			REPOSITORY_CACHE_PDF = REPOSITORY_CACHE_HOME + File.separator + "pdf";
 			values.put("repository.cache.pdf", REPOSITORY_CACHE_PDF);
-			REPOSITORY_CACHE_SWF = REPOSITORY_CACHE_HOME + File.separator + "swf";
-			values.put("repository.cache.swf", REPOSITORY_CACHE_SWF);
 			values.put(PROPERTY_HIBERNATE_SEARCH_INDEX_HOME, HIBERNATE_SEARCH_INDEX_HOME);
 			values.put(PROPERTY_REPOSITORY_DATASTORE_BACKEND, REPOSITORY_DATASTORE_BACKEND);
 			values.put(PROPERTY_REPOSITORY_DATASTORE_HOME, REPOSITORY_DATASTORE_HOME);
@@ -967,8 +962,6 @@ public class Config {
 			values.put(PROPERTY_SYSTEM_PDF_FORCE_OCR, Boolean.toString(SYSTEM_PDF_FORCE_OCR));
 			SYSTEM_IMAGEMAGICK_CONVERT = ConfigDAO.getString(PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT, cfg.getProperty(PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT, EnvironmentDetector.detectImagemagickConvert()));
 			values.put(PROPERTY_SYSTEM_IMAGEMAGICK_CONVERT, SYSTEM_IMAGEMAGICK_CONVERT);
-			SYSTEM_SWFTOOLS_PDF2SWF = ConfigDAO.getString(PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF, cfg.getProperty(PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF, EnvironmentDetector.detectSwftoolsPdf2Swf()));
-			values.put(PROPERTY_SYSTEM_SWFTOOLS_PDF2SWF, SYSTEM_SWFTOOLS_PDF2SWF);
 			SYSTEM_GHOSTSCRIPT = ConfigDAO.getString(PROPERTY_SYSTEM_GHOSTSCRIPT, cfg.getProperty(PROPERTY_SYSTEM_GHOSTSCRIPT, EnvironmentDetector.detectGhostscript()));
 			values.put(PROPERTY_SYSTEM_GHOSTSCRIPT, SYSTEM_GHOSTSCRIPT);
 			SYSTEM_DWG2DXF = ConfigDAO.getString(PROPERTY_SYSTEM_DWG2DXF, cfg.getProperty(PROPERTY_SYSTEM_DWG2DXF, ""));

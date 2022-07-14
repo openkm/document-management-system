@@ -125,17 +125,6 @@ public class ConverterServlet extends OKMHttpServlet {
 						InputStream tis = ConverterServlet.class.getResourceAsStream("conversion_problem.pdf");
 						FileUtils.copy(tis, cd.file);
 					}
-				} else if (toSwf && !cd.mimeType.equals(MimeTypeConfig.MIME_SWF)) {
-					try {
-						listener.setStatus(ConverterListener.STATUS_CONVERTING_TO_SWF);
-						toSWF(cd);
-						listener.setStatus(ConverterListener.STATUS_CONVERTING_TO_SWF_FINISHED);
-					} catch (ConversionException e) {
-						log.error(e.getMessage(), e);
-						listener.setError(e.getMessage());
-						InputStream tis = ConverterServlet.class.getResourceAsStream("conversion_problem.swf");
-						FileUtils.copy(tis, cd.file);
-					}
 				}
 
 				if (toPdf && print) {
@@ -265,66 +254,6 @@ public class ConverterServlet extends OKMHttpServlet {
 		}
 
 		log.debug("toPDF: {}", cd);
-	}
-
-	/**
-	 * Handles SWF conversion
-	 */
-	private void toSWF(ConversionData cd) throws ConversionException, AutomationException, DatabaseException, IOException {
-		log.debug("toSWF({})", cd);
-		File swfCache = new File(Config.REPOSITORY_CACHE_SWF + File.separator + cd.uuid + ".swf");
-		boolean delTmp = true;
-
-		if (DocConverter.getInstance().convertibleToSwf(cd.mimeType)) {
-			if (!swfCache.exists()) {
-				try {
-					if (cd.mimeType.equals(MimeTypeConfig.MIME_SWF)) {
-						// Document already in SWF format
-					} else if (!Config.REMOTE_CONVERSION_SERVER.equals("")) {
-						DocConverter.getInstance().remoteConvert(Config.REMOTE_CONVERSION_SERVER, cd.file, cd.mimeType,
-								swfCache, MimeTypeConfig.MIME_SWF);
-					} else if (cd.mimeType.equals(MimeTypeConfig.MIME_PDF)) {
-						// AUTOMATION - PRE
-						Map<String, Object> env = new HashMap<>();
-						env.put(AutomationUtils.DOCUMENT_FILE, cd.file);
-						env.put(AutomationUtils.DOCUMENT_UUID, cd.uuid);
-						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_SWF, AutomationRule.AT_PRE, env);
-
-						DocConverter.getInstance().pdf2swf(cd.file, swfCache);
-					} else if (DocConverter.getInstance().convertibleToPdf(cd.mimeType)) {
-						toPDF(cd);
-						delTmp = false;
-
-						// AUTOMATION - PRE
-						Map<String, Object> env = new HashMap<>();
-						env.put(AutomationUtils.DOCUMENT_FILE, cd.file);
-						env.put(AutomationUtils.DOCUMENT_UUID, cd.uuid);
-						AutomationManager.getInstance().fireEvent(AutomationRule.EVENT_CONVERSION_SWF, AutomationRule.AT_PRE, env);
-
-						DocConverter.getInstance().pdf2swf(cd.file, swfCache);
-					} else {
-						throw new NotImplementedException("Conversion from '" + cd.mimeType + "' to SWF not available");
-					}
-				} catch (ConversionException e) {
-					swfCache.delete();
-					throw e;
-				} finally {
-					if (delTmp) {
-						FileUtils.deleteQuietly(cd.file);
-					}
-					cd.mimeType = MimeTypeConfig.MIME_SWF;
-					cd.fileName = FileUtils.getFileName(cd.fileName) + ".swf";
-				}
-			}
-
-			if (swfCache.exists()) cd.file = swfCache;
-			cd.mimeType = MimeTypeConfig.MIME_SWF;
-			cd.fileName = FileUtils.getFileName(cd.fileName) + ".swf";
-		} else {
-			throw new NotImplementedException("Conversion from '" + cd.mimeType + "' to SWF not available");
-		}
-
-		log.debug("toSWF: {}", cd);
 	}
 
 	/**

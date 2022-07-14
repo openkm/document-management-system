@@ -228,7 +228,6 @@ public class BaseDocumentModule {
 		// Document conversion capabilities
 		DocConverter convert = DocConverter.getInstance();
 		doc.setConvertibleToPdf(convert.convertibleToPdf(doc.getMimeType()));
-		doc.setConvertibleToSwf(convert.convertibleToSwf(doc.getMimeType()));
 
 		// Get user subscription & keywords
 		doc.setSubscriptors(nDocument.getSubscriptors());

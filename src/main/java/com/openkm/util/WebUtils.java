@@ -311,7 +311,7 @@ public class WebUtils {
 	/**
 	 * Get HTTP header.
 	 */
-	private static String getHeader(HttpServletRequest request, String name) {
+	public static String getHeader(HttpServletRequest request, String name) {
 		String value = request.getHeader(name);
 
 		if (value != null) {
