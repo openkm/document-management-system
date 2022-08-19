@@ -6,7 +6,7 @@
   <packaging>war</packaging>
   <version>6.3.12-DEV</version>
   <name>OpenKM Web Application</name>
-  <url>http://www.openkm.com</url>
+  <url>https://www.openkm.com</url>
   <description>OpenKM is a powerful scalable Document Management System (DMS). OpenKM uses Tomcat + GWT + Hibernate open
     source technologies.
   </description>
