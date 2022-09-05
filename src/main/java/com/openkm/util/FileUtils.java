@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -66,13 +67,7 @@ public class FileUtils {
 	 * @throws IOException If something fails.
 	 */
 	public static File createTempDir() throws IOException {
-		File tmpFile = File.createTempFile("okm", null);
-
-		if (!tmpFile.delete())
-			throw new IOException();
-		if (!tmpFile.mkdir())
-			throw new IOException();
-		return tmpFile;
+		return Files.createTempDirectory("okm").toFile();
 	}
 
 	/**
@@ -229,7 +224,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * Create "year / month / day" directory structure. 
+	 * Create "year / month / day" directory structure.
 	 */
 	public static File createDateDir(String parent) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd");
