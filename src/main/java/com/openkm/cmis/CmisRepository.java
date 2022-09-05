@@ -1250,7 +1250,7 @@ public class CmisRepository {
 				addPropertyBoolean(result, typeId, filter, PropertyIds.IS_LATEST_VERSION, true);
 				addPropertyBoolean(result, typeId, filter, PropertyIds.IS_MAJOR_VERSION, true);
 				addPropertyBoolean(result, typeId, filter, PropertyIds.IS_LATEST_MAJOR_VERSION, true);
-				addPropertyString(result, typeId, filter, PropertyIds.VERSION_LABEL, PathUtils.getName(node.getPath()));
+				addPropertyString(result, typeId, filter, PropertyIds.VERSION_LABEL, doc.getActualVersion().getName());
 				addPropertyId(result, typeId, filter, PropertyIds.VERSION_SERIES_ID, node.getUuid());
 				addPropertyBoolean(result, typeId, filter, PropertyIds.IS_VERSION_SERIES_CHECKED_OUT, false);
 				addPropertyString(result, typeId, filter, PropertyIds.VERSION_SERIES_CHECKED_OUT_BY, null);
