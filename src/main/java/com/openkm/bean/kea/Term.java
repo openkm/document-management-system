@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -30,9 +30,7 @@ import java.io.Serializable;
  *
  */
 public class Term implements Serializable {
-
 	private static final long serialVersionUID = 290660580424913769L;
-
 	private String text;
 	private String uid;
 
@@ -44,8 +42,6 @@ public class Term implements Serializable {
 
 	/**
 	 * Term
-	 * @param text
-	 * @param uid
 	 */
 	public Term(String uid, String text) {
 		this.uid = uid;

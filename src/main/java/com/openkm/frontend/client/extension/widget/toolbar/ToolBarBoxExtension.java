@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,9 +35,6 @@ public abstract class ToolBarBoxExtension extends ToolBarBox implements HasWidge
 
 	/**
 	 * ToolBarBoxExtension
-	 *
-	 * @param img
-	 * @param text
 	 */
 	public ToolBarBoxExtension(Image img, String text) {
 		super(img, text);

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -113,7 +113,7 @@ public class ActivityLogServlet extends BaseServlet {
 			"ADMIN_TWITTER_ACCOUNT_CREATE", "ADMIN_TWITTER_ACCOUNT_EDIT", "ADMIN_TWITTER_ACCOUNT_DELETE",
 			"ADMIN_USER_CONFIG_EDIT", "ADMIN_SCRIPTING",
 			"ADMIN_OMR_CREATE", "ADMIN_OMR_EDIT", "ADMIN_OMR_DELETE", "ADMIN_OMR_EXECUTE", "ADMIN_OMR_CHECK_TEMPLATE",
-			
+
 			//---------------------------------
 			"Misc",
 			"MISC_OPENKM_START", "MISC_OPENKM_STOP",

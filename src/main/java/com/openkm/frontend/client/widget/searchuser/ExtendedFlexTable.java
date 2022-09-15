@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.openkm.frontend.client.Main;
 
 /**
- * Extends FlexTable functionalities 
+ * Extends FlexTable functionalities
  *
  * @author jllort
  *
@@ -53,7 +53,7 @@ public class ExtendedFlexTable extends FlexTable {
 		addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// Mark selected row or orders rows if header row (0) is clicked 
+				// Mark selected row or orders rows if header row (0) is clicked
 				// And row must be other than the selected one
 				markSelectedRow(getCellForEvent(event).getRowIndex());
 			}
@@ -224,7 +224,7 @@ public class ExtendedFlexTable extends FlexTable {
 	}
 
 	/**
-	 * After deletes document or folder selects a row 
+	 * After deletes document or folder selects a row
 	 */
 	public void selectPrevRow() {
 		// After deletes document or folder selects a previous row if not 0 or the next if exists ( next row is actual after delete )

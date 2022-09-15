@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,9 +21,6 @@
 
 package com.openkm.frontend.client.widget.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
@@ -33,6 +30,9 @@ import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.constants.service.RPCService;
 import com.openkm.frontend.client.extension.widget.preview.PreviewExtension;
 import com.openkm.frontend.client.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Notes

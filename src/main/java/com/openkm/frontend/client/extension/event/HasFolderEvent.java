@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,11 +25,9 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasFolderEvent
  *
- *
  * @author jllort
  *
  */
-
 public interface HasFolderEvent {
 
 	/**
@@ -38,8 +36,7 @@ public interface HasFolderEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class FolderEventConstant {
-
+	class FolderEventConstant {
 		static final int EVENT_FOLDER_CHANGED = 1;
 		static final int EVENT_PANEL_RESIZED = 2;
 		static final int EVENT_TAB_CHANGED = 3;
@@ -56,8 +53,6 @@ public interface HasFolderEvent {
 
 		/**
 		 * DocumentEventConstant
-		 *
-		 * @param type
 		 */
 		private FolderEventConstant(int type) {
 			this.type = type;
@@ -81,7 +76,7 @@ public interface HasFolderEvent {
 	FolderEventConstant CATEGORY_REMOVED = new FolderEventConstant(FolderEventConstant.EVENT_CATEGORY_REMOVED);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(FolderEventConstant event);
 }

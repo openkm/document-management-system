@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -33,14 +33,11 @@ import java.util.Collection;
  * TabDocumentComunicator
  *
  * @author jllort
- *
  */
 public class TabDocumentComunicator {
 
 	/**
 	 * getSelectedTab
-	 *
-	 * @return
 	 */
 	public static int getSelectedTab() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.getSelectedTab();
@@ -48,8 +45,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * getDocument
-	 *
-	 * @return
 	 */
 	public static GWTDocument getDocument() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.getDocument();
@@ -57,8 +52,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * addKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void addKeyword(String keyword) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.document.addKeyword(keyword);
@@ -66,8 +59,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * removeKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void removeKeyword(String keyword) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.document.removeKey(keyword);
@@ -75,8 +66,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * addCategory
-	 *
-	 * @param keyword
 	 */
 	public static void addCategory(GWTFolder category) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.document.addCategory(category);
@@ -84,8 +73,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * removeKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void removeCategory(String UUID) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.document.removeCategory(UUID);
@@ -93,8 +80,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * getKeywords
-	 *
-	 * @return
 	 */
 	public static Collection<String> getKeywords() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.document.getKeywords();
@@ -102,8 +87,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * getNotes
-	 *
-	 * @return
 	 */
 	public static Collection<GWTNote> getNotes() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.notes.getNotes();
@@ -111,8 +94,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * isVisibleButton
-	 *
-	 * @return
 	 */
 	public static boolean isVisibleButton() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.isVisibleButton();
@@ -141,9 +122,6 @@ public class TabDocumentComunicator {
 
 	/**
 	 * isWidgetExtensionVisible
-	 *
-	 * @param widget
-	 * @return
 	 */
 	public static boolean isWidgetExtensionVisible(Widget widget) {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.isWidgetExtensionVisible(widget);

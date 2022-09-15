@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -29,7 +29,7 @@ import com.openkm.frontend.client.Main;
  * @author jllort
  */
 public class RPCService {
-	// Service entry point 
+	// Service entry point
 	public static String DownloadServlet = Main.CONTEXT + "/frontend/Download";
 	public static String ConverterServlet = Main.CONTEXT + "/frontend/Converter";
 	public static String FileUploadService = Main.CONTEXT + "/frontend/FileUpload";

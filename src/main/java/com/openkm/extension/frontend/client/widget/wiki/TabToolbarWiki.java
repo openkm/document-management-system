@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -134,7 +134,7 @@ public class TabToolbarWiki extends Composite {
 						case MODE_UPDATE:
 						case MODE_HISTORY:
 						case MODE_SHOW_HISTORY:
-							// Go to last viewed ( actual index i right ). 
+							// Go to last viewed ( actual index i right ).
 							break;
 					}
 					controller.showWikiPage(wikiPageHistory.get(index));
@@ -346,11 +346,9 @@ public class TabToolbarWiki extends Composite {
 
 	/**
 	 * setHistoryWikiPage
-	 *
-	 * @param wikiPage
 	 */
 	public void setHistoryWikiPage(GWTWikiPage wikiPage) {
-		// Preserve return wikiPage used by home buttom ( wikiPage must not be changed ).  
+		// Preserve return wikiPage used by home button ( wikiPage must not be changed ).
 		GWTWikiPage latestWikiPage = this.wikiPage.clone();
 		setWikiPage(wikiPage);
 		this.wikiPage = latestWikiPage;
@@ -508,7 +506,7 @@ public class TabToolbarWiki extends Composite {
 				break;
 		}
 
-		// Main wiki page can not be deleted 
+		// Main wiki page can not be deleted
 		if (wikiPage != null && wikiPage.getTitle().equals(MAIN_PAGE_TITTLE)) {
 			delete.setVisible(false);
 		}
@@ -583,7 +581,7 @@ public class TabToolbarWiki extends Composite {
 		if (isDashboard && wikiPageHistory.size() > 0) {
 			// Case never might happens
 			if (index > 0) {
-				// Must ensure all references to actual wiki page are deleted in navigation 
+				// Must ensure all references to actual wiki page are deleted in navigation
 				// we could be passed several times on same navigation process to same wiki page
 				// must return to first location
 				GWTWikiPage wikiPage = wikiPageHistory.get(index); // Actual wiki page

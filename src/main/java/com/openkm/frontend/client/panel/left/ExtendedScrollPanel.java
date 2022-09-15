@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,34 +25,34 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class ExtendedScrollPanel extends ScrollPanel {
-	
+
 	/*
 	 HOW IT RUNS EXTENDEDSCROLL DESCRIPTION
-	 
+
 	 [getAbsoluteLeft() , getAbsoluteTop()]
 	 ^
 	 |
 	 x--------------------------x-> [getAbsoluteLeft()+getOffsetWidth() , getAbsoluteTop()]
 	 |			^	timer    	|
 	 |			|	fired		| (timer fired while is on this zone )
-	 |			|				|							
-	 |--------------------------x	<- MARGIN_AUTO_SCROLL_POS (Zone on auto scroll up while drag & drop 		
+	 |			|				|
+	 |--------------------------x	<- MARGIN_AUTO_SCROLL_POS (Zone on auto scroll up while drag & drop
 	 |							|
 	 |							|
 	 |							|
 	 |							|
-	 |							|							
-	 |							|							
+	 |							|
+	 |							|
 	 |							|
 	 |							|
 	 |							|
 	 |							|
 	 |--------------------------x	<- MARGIN_AUTO_SCROLL_POS (Zone on auto scroll downwhile drag & drop
-	 |			^	timer		|							
-	 |			|	fired		|   
+	 |			^	timer		|
+	 |			|	fired		|
 	 |			|				|
 	 x--------------------------x-> [getAbsoluteLeft()+getOffsetHeight() , getAbsoluteLeft() + getOffsetWidth()]
-	  
+
 	 ^
 	 |
 	 [getAbsoluteLeft() , getAbsoluteTop() + getOffsetHeight()]

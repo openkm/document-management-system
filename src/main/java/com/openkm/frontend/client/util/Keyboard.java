@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -26,7 +26,6 @@ package com.openkm.frontend.client.util;
  *
  */
 public class Keyboard {
-
 	public static final int KEY_UP = 38;
 	public static final int KEY_DOWN = 40;
 	public static final int KEY_INSERT = 45;

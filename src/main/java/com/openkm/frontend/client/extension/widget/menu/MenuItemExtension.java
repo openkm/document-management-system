@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -39,10 +39,6 @@ public class MenuItemExtension extends MenuItem {
 
 	/**
 	 * MenuItemExtension
-	 *
-	 * @param imageURL
-	 * @param text
-	 * @param cmd
 	 */
 	public MenuItemExtension(String imageURL, String text, Command cmd) {
 		super(Util.menuHTML(imageURL, text), true, cmd);
@@ -51,10 +47,6 @@ public class MenuItemExtension extends MenuItem {
 
 	/**
 	 * MenuItemExtension
-	 *
-	 * @param imageURL
-	 * @param text
-	 * @param menuBar
 	 */
 	public MenuItemExtension(String imageURL, String text, MenuBar menuBar) {
 		super(Util.menuHTML(imageURL, text), true, menuBar);
@@ -63,9 +55,6 @@ public class MenuItemExtension extends MenuItem {
 
 	/**
 	 * MenuItemExtension
-	 *
-	 * @param text
-	 * @param cmd
 	 */
 	public MenuItemExtension(String text, MenuBar menuBar) {
 		super(text, menuBar);
@@ -74,8 +63,6 @@ public class MenuItemExtension extends MenuItem {
 
 	/**
 	 * setMenuLocation
-	 *
-	 * @param menuLocation
 	 */
 	public void setMenuLocation(int menuLocation) {
 		this.menuLocation = menuLocation;
@@ -83,8 +70,6 @@ public class MenuItemExtension extends MenuItem {
 
 	/**
 	 * getMenuLocation
-	 *
-	 * @return
 	 */
 	public int getMenuLocation() {
 		return menuLocation;

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -41,9 +41,7 @@ import java.util.List;
  *
  */
 public class NotifyRole extends Composite {
-
 	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
-
 	private HorizontalPanel hPanel;
 	private RoleScrollTable notifyRolesTable;
 	private RoleScrollTable rolesTable;
@@ -128,7 +126,7 @@ public class NotifyRole extends Composite {
 				notifyRolesTable.selectLastRow();
 				rolesTable.removeSelectedRow();
 				Main.get().fileUpload.disableErrorNotify();  // Used in both widgets
-				Main.get().notifyPopup.disableErrorNotify(); // has no bad efeccts disabling 
+				Main.get().notifyPopup.disableErrorNotify(); // has no bad effects disabling
 			}
 		}
 	};

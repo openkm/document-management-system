@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -24,7 +24,6 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasDocumentEvent
  *
- *
  * @author jllort
  *
  */
@@ -37,8 +36,7 @@ public interface HasDocumentEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class DocumentEventConstant {
-
+	class DocumentEventConstant {
 		static final int EVENT_DOCUMENT_CHANGED = 1;
 		static final int EVENT_KEYWORD_ADDED = 2;
 		static final int EVENT_KEYWORD_REMOVED = 3;
@@ -55,8 +53,6 @@ public interface HasDocumentEvent {
 
 		/**
 		 * DocumentEventConstant
-		 *
-		 * @param type
 		 */
 		private DocumentEventConstant(int type) {
 			this.type = type;
@@ -80,7 +76,7 @@ public interface HasDocumentEvent {
 	DocumentEventConstant DOCUMENT_DELETED = new DocumentEventConstant(DocumentEventConstant.EVENT_DOCUMENT_DELETED);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(DocumentEventConstant event);
 }

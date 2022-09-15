@@ -1,7 +1,7 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
  * No bytes were intentionally harmed during the development of this application.
  * <p>
  * This program is free software; you can redistribute it and/or modify

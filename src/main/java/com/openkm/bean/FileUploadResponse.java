@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -101,10 +101,10 @@ public class FileUploadResponse implements Serializable {
 	public void setError(String error) {
 		this.error = error;
 	}
-	
+
     public void setError(String errorCode, String errorMessage) {
         this.error = errorCode + "|" + errorMessage;
-    }	
+    }
 
 	public boolean isDigitalSignature() {
 		return digitalSignature;

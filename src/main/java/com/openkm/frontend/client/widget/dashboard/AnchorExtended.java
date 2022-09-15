@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -33,9 +33,6 @@ public class AnchorExtended extends Anchor {
 
 	/**
 	 * AnchorExtended
-	 *
-	 * @param text
-	 * @param asHtml
 	 */
 	public AnchorExtended(String text, boolean asHtml) {
 		super(text, asHtml);
@@ -44,9 +41,6 @@ public class AnchorExtended extends Anchor {
 
 	/**
 	 * setProperty
-	 *
-	 * @param propertyName
-	 * @param value
 	 */
 	public void setProperty(String propertyName, String value) {
 		getElement().getStyle().setProperty(propertyName, value);

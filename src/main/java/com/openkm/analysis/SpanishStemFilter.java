@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -39,24 +39,6 @@ public class SpanishStemFilter extends TokenFilter {
 		super(in);
 		stemmer = new SpanishStemmer();
 	}
-
-	/** Returns the next input Token, after being stemmed */
-	/*
-	public final Token next() throws IOException {
-		if ((token = input.next()) == null) {
-			return null;
-		} else {
-			stemmer.setCurrent(token.termText());
-			stemmer.stem();
-			String s = stemmer.getCurrent();
-			if (!s.equals(token.termText())) {
-				return new Token(s, token.startOffset(), token.endOffset(),
-						token.type());
-			}
-			return token;
-		}
-	}
-	*/
 
 	/**
 	 * Set a alternative/custom Stemmer for this filter.

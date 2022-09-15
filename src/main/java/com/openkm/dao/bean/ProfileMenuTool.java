@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -72,7 +72,7 @@ public class ProfileMenuTool implements Serializable {
 	public void setPreferencesVisible(boolean preferencesVisible) {
 		this.preferencesVisible = preferencesVisible;
 	}
-	
+
 	public boolean isOmrVisible() {
 		return omrVisible;
 	}
@@ -96,9 +96,9 @@ public class ProfileMenuTool implements Serializable {
 		sb.append(", skinVisible=").append(skinVisible);
 		sb.append(", debugVisible=").append(debugVisible);
 		sb.append(", administrationVisible=").append(administrationVisible);
-		sb.append(", preferencesVisible=").append(preferencesVisible);		
+		sb.append(", preferencesVisible=").append(preferencesVisible);
 		sb.append(", omrVisible=").append(omrVisible);
-		sb.append(", convertVisible=").append(convertVisible);		
+		sb.append(", convertVisible=").append(convertVisible);
 		sb.append("}");
 		return sb.toString();
 	}

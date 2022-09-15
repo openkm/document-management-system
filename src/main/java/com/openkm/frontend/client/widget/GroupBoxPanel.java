@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GroupBoxPanel extends ComplexPanel implements InsertPanel {
-
 	private Element legend;
 
 	/**
@@ -97,4 +96,4 @@ public class GroupBoxPanel extends ComplexPanel implements InsertPanel {
 	public void insert(Widget w, int beforeIndex) {
 		insert(w, getElement(), beforeIndex, true);
 	}
-}  
+}

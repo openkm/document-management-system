@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -243,7 +243,7 @@ public class ChatManager {
 
 			case ACTION_ADD_USER_MESSAGE_TO_ROOM:
 				String username = OKMAuth.getInstance().getName(null, user);
-				//avoid cross scripting 
+				//avoid cross scripting
 				if (msg.endsWith("</br>")) {
 					msg = msg.substring(0, msg.lastIndexOf("</br>"));
 				}

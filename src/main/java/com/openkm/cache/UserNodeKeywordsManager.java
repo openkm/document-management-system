@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -38,7 +38,7 @@ public class UserNodeKeywordsManager {
 	 * Get user document keywords
 	 *
 	 * @param user The user which have the document keywords cached.
-	 * @return A Map which key is the node UUID and the value is UserNodeKeywords. 
+	 * @return A Map which key is the node UUID and the value is UserNodeKeywords.
 	 */
 	public static Map<String, UserNodeKeywords> get(String user) {
 		Map<String, UserNodeKeywords> userDocKeywords = userNodeKeywordsMgr.get(user);

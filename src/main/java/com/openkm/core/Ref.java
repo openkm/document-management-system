@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -22,7 +22,6 @@
 package com.openkm.core;
 
 /**
- * @see http://stackoverflow.com/questions/1068760/can-i-pass-parameters-by-reference-in-java
  * @author pavila
  */
 public class Ref<T> {

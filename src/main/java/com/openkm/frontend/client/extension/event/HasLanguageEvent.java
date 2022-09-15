@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -24,9 +24,7 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasLanguageEvent
  *
- *
  * @author jllort
- *
  */
 
 public interface HasLanguageEvent {
@@ -37,16 +35,12 @@ public interface HasLanguageEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class LanguageEventConstant {
-
+	class LanguageEventConstant {
 		static final int EVENT_LANGUAGE_CHANGED = 1;
-
 		private int type = 0;
 
 		/**
 		 * DocumentEventConstant
-		 *
-		 * @param type
 		 */
 		private LanguageEventConstant(int type) {
 			this.type = type;
@@ -60,7 +54,7 @@ public interface HasLanguageEvent {
 	LanguageEventConstant LANGUAGE_CHANGED = new LanguageEventConstant(LanguageEventConstant.EVENT_LANGUAGE_CHANGED);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(LanguageEventConstant event);
 }

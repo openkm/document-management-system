@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,7 +35,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -53,7 +53,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -71,7 +71,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -89,7 +89,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -98,7 +98,7 @@ public interface PropertyModule {
 			DatabaseException;
 
 	/**
-	 * Define a document as encrypted. 
+	 * Define a document as encrypted.
 	 *
 	 * @param token The session authorization token.
 	 * @param nodePath The complete path to the node.
@@ -107,7 +107,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -116,7 +116,7 @@ public interface PropertyModule {
 			DatabaseException;
 
 	/**
-	 * Unset a document as encrypted. 
+	 * Unset a document as encrypted.
 	 *
 	 * @param token The session authorization token.
 	 * @param nodePath The complete path to the node.
@@ -124,7 +124,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -133,7 +133,7 @@ public interface PropertyModule {
 			DatabaseException;
 
 	/**
-	 * Define a document as signed. 
+	 * Define a document as signed.
 	 *
 	 * @param token The session authorization token.
 	 * @param nodePath The complete path to the node.
@@ -142,7 +142,7 @@ public interface PropertyModule {
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no node in this
 	 * repository path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */

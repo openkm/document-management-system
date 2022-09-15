@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,7 +36,6 @@ import eu.maydu.gwt.validation.client.i18n.ValidationMessages;
  *
  */
 public class IntegerMinValidator extends Validator<IntegerMinValidator> {
-
 	private TextBoxBase text;
 	private SuggestBox suggest;
 	private int min;
@@ -85,7 +84,6 @@ public class IntegerMinValidator extends Validator<IntegerMinValidator> {
 	public IntegerMinValidator(SuggestBox suggest, int min) {
 		this(suggest, min, false);
 	}
-
 
 	public IntegerMinValidator(SuggestBox suggest, boolean preventsPropagationOfValidationChain) {
 		this(suggest, preventsPropagationOfValidationChain, null);

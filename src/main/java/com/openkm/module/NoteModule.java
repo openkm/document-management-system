@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,7 +36,7 @@ public interface NoteModule {
 	 * @return A note object with the new created note properties.
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no document in the repository with this path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -50,7 +50,7 @@ public interface NoteModule {
 	 * @param notePath The path that identifies an unique document note.
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no document in the repository with this path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -65,7 +65,7 @@ public interface NoteModule {
 	 * @return The required note associated to the document.
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no document in the repository with this path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
@@ -80,7 +80,7 @@ public interface NoteModule {
 	 * @param text The message text
 	 * @throws LockException A locked document can't be modified.
 	 * @throws PathNotFoundException If there is no document in the repository with this path.
-	 * @throws AccessDeniedException If there is any security problem: 
+	 * @throws AccessDeniedException If there is any security problem:
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */

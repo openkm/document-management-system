@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -32,7 +32,6 @@ import com.openkm.extension.frontend.client.widget.messaging.MessagingToolBarBox
  *
  */
 public class ExtendedStackPanel extends StackLayoutPanel {
-
 	private boolean startupFinished = false; // to indicate process starting up has finished
 
 	public ExtendedStackPanel() {

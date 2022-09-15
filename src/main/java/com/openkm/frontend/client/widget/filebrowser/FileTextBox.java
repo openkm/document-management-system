@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,7 +35,6 @@ import com.openkm.frontend.client.Main;
  *
  */
 public class FileTextBox extends Composite {
-
 	public static final int ACTION_NONE = -1;
 	public static final int ACTION_RENAME = 0;
 	private TextBox textBox;

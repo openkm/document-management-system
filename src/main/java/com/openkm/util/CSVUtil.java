@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -186,9 +186,9 @@ public class CSVUtil {
 		String[] columns = new String[cols];
 		if (qr.getNode() instanceof Document) {
 			if (!qr.isAttachment()) {
-				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);	
+				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);
 			} else {
-				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);				
+				columns = handleDocument((Document) qr.getNode(), dtf, translations, cols, up, ecMap, compact);
 			}
 		} else if (qr.getNode() instanceof Folder) {
 			columns = handleFolder((Folder) qr.getNode(), dtf, translations, cols, up, ecMap, compact);
@@ -311,7 +311,7 @@ public class CSVUtil {
 		addExtraColumnsValues(columns, up, col, mail.getPath(), ecMap, dtf);
 		return columns;
 	}
-	
+
 	/**
 	 * numberOfExtraColumns
 	 */

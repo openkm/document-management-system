@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -215,7 +215,7 @@ public class ConfigDAO {
 	public static long getLong(String key, long defaultValue) throws DatabaseException {
 		return Long.parseLong(getProperty(key, Long.toString(defaultValue), Config.LONG));
 	}
-	
+
 	/**
 	 * Find by pk with a default value
 	 */

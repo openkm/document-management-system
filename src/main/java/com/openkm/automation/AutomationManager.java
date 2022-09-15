@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,27 +21,21 @@
 
 package com.openkm.automation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
 import com.openkm.core.PathNotFoundException;
 import com.openkm.dao.AuthDAO;
 import com.openkm.dao.AutomationDAO;
-import com.openkm.dao.bean.Automation;
-import com.openkm.dao.bean.AutomationAction;
-import com.openkm.dao.bean.AutomationRule;
-import com.openkm.dao.bean.AutomationValidation;
-import com.openkm.dao.bean.User;
+import com.openkm.dao.bean.*;
 import com.openkm.util.MailUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.mail.MessagingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class AutomationManager {
 	private static Logger log = LoggerFactory.getLogger(AutomationManager.class);
@@ -98,8 +92,6 @@ public class AutomationManager {
 
 	/**
 	 * Check for validations
-	 * 
-	 * @throws Exception
 	 */
 	private List<List<AutomationAction>> getValidActions(String event, String at, Map<String, Object> env)
 			throws IllegalArgumentException, SecurityException, AutomationException {
@@ -139,7 +131,7 @@ public class AutomationManager {
 						}
 
 						actionsList.add(actions);
-						
+
 						// Stop processing rules if rule is exclusive
 						if (aRule.getExclusive()) {
 							break;

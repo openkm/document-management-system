@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -32,16 +32,15 @@ import com.openkm.frontend.client.bean.GWTQueryParams;
  * JSONUtil
  *
  * @author jllort
- *
  */
 public class JSONUtil {
 
 	/**
 	 * toJson
-	 *
 	 */
 	public static JSONObject toJson(Object obj) {
 		JSONObject json = new JSONObject();
+
 		if (obj instanceof GWTQueryParams) {
 			GWTQueryParams params = (GWTQueryParams) obj;
 			json.put("author", new JSONString(params.getAuthor()));
@@ -57,17 +56,21 @@ public class JSONUtil {
 			json.put("categoryUuid", new JSONString(params.getCategoryUuid()));
 			json.put("categoryPath", new JSONString(URL.encodeQueryString(params.getCategoryPath())));
 			json.put("operator", new JSONString(params.getOperator()));
+
 			if (params.getLastModifiedFrom() != null) {
 				json.put("lastModifiedFrom", new JSONString(ISO8601.formatBasic(params.getLastModifiedFrom())));
 			}
+
 			if (params.getLastModifiedTo() != null) {
 				json.put("lastModifiedTo", new JSONString(ISO8601.formatBasic(params.getLastModifiedTo())));
 			}
+
 			if (!params.getProperties().isEmpty()) {
 				JSONObject properties = new JSONObject();
 				for (String key : params.getProperties().keySet()) {
 					GWTPropertyParams propertyParam = params.getProperties().get(key);
 					JSONObject property = new JSONObject();
+
 					// Only is necessary groupName and value
 					property.put("grpName", new JSONString(propertyParam.getGrpName()));
 					property.put("value", new JSONString(propertyParam.getValue()));
@@ -76,6 +79,7 @@ public class JSONUtil {
 				json.put("properties", properties);
 			}
 		}
+
 		return json;
 	}
 }

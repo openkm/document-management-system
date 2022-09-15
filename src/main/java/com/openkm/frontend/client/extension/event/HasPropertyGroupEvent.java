@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,11 +25,8 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasPropertyGroupEvent
  *
- *
  * @author jllort
- *
  */
-
 public interface HasPropertyGroupEvent {
 
 	/**
@@ -38,8 +35,7 @@ public interface HasPropertyGroupEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class PropertyGroupEventConstant {
-
+	class PropertyGroupEventConstant {
 		static final int EVENT_PROPERTYGROUP_CHANGED = 1;
 		static final int EVENT_PROPERTYGROUP_GET_PROPERTIES = 2;
 		static final int EVENT_PROPERTYGROUP_REMOVED = 3;
@@ -50,8 +46,6 @@ public interface HasPropertyGroupEvent {
 
 		/**
 		 * PropertyGroupEventConstant
-		 *
-		 * @param type
 		 */
 		private PropertyGroupEventConstant(int type) {
 			this.type = type;
@@ -69,7 +63,7 @@ public interface HasPropertyGroupEvent {
 	PropertyGroupEventConstant PROPERTYGROUP_CANCEL_EDIT = new PropertyGroupEventConstant(PropertyGroupEventConstant.EVENT_PROPERTYGROUP_CANCEL_EDIT);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(PropertyGroupEventConstant event);
 }

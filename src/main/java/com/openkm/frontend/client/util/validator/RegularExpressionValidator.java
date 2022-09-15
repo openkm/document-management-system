@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,7 +35,6 @@ import eu.maydu.gwt.validation.client.i18n.ValidationMessages;
  *
  */
 public class RegularExpressionValidator extends Validator<RegularExpressionValidator> {
-
 	private TextBoxBase textBox = null;
 	private SuggestBox suggestBox = null;
 	private String regexPattern = null;

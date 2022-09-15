@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -38,8 +38,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * getSelectedTab
-	 *
-	 * @return
 	 */
 	public static int getSelectedTab() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.getSelectedTab();
@@ -47,8 +45,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * getFolder
-	 *
-	 * @return
 	 */
 	public static GWTFolder getFolder() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.getFolder();
@@ -56,8 +52,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * isVisibleButton
-	 *
-	 * @return
 	 */
 	public static boolean isVisibleButton() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.isVisibleButton();
@@ -65,8 +59,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * addKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void addKeyword(String keyword) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.addKeyword(keyword);
@@ -74,8 +66,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * removeKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void removeKeyword(String keyword) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.removeKey(keyword);
@@ -83,8 +73,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * addCategory
-	 *
-	 * @param keyword
 	 */
 	public static void addCategory(GWTFolder category) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.addCategory(category);
@@ -92,8 +80,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * removeKeyword
-	 *
-	 * @param keyword
 	 */
 	public static void removeCategory(String UUID) {
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.removeCategory(UUID);
@@ -101,8 +87,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * getKeywords
-	 *
-	 * @return
 	 */
 	public static Collection<String> getKeywords() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.folder.getKeywords();
@@ -110,8 +94,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * getNotes
-	 *
-	 * @return
 	 */
 	public static Collection<GWTNote> getNotes() {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.notes.getNotes();
@@ -119,9 +101,6 @@ public class TabFolderComunicator {
 
 	/**
 	 * isWidgetExtensionVisible
-	 *
-	 * @param widget
-	 * @return
 	 */
 	public static boolean isWidgetExtensionVisible(Widget widget) {
 		return Main.get().mainPanel.desktop.browser.tabMultiple.tabFolder.isWidgetExtensionVisible(widget);

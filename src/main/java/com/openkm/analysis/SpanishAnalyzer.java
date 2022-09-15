@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,7 +35,7 @@ import java.util.Set;
 public class SpanishAnalyzer extends Analyzer {
 
 	/**
-	 * An array containing some common Spanish words that are usually not  
+	 * An array containing some common Spanish words that are usually not
 	 * useful for searching. Imported from http://www.unine.ch/info/clef/.
 	 * http://members.unine.ch/jacques.savoy/clef/spanishSmart.txt
 	 */

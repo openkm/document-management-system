@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,7 +36,6 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
  *
  */
 public class ConfirmPopup extends DialogBox {
-
 	public static final int NO_ACTION = 0;
 	public static final int CONFIRM_DELETE_WIKI_PAGE = 1;
 

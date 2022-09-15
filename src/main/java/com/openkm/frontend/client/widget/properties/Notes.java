@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -249,9 +249,7 @@ public class Notes extends Composite {
 	}
 
 	/**
-	 * Writes the note 
-	 *
-	 * @param note
+	 * Writes the note
 	 */
 	private void writeNote(final GWTNote note) {
 		int row = tableNotes.getRowCount();
@@ -389,7 +387,7 @@ public class Notes extends Composite {
 	}
 
 	/**
-	 * Callback addNote 
+	 * Callback addNote
 	 */
 	final AsyncCallback<GWTNote> callbackAddNote = new AsyncCallback<GWTNote>() {
 		public void onSuccess(GWTNote result) {

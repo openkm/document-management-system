@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * OpenKM, Open Document Management System (http://www.openkm.com)
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -34,7 +35,6 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class ResizeToolBarMenu extends DialogBox {
-
 	public static final int NORMAL = 1;
 	public static final int CLOSE_TREE = 2;
 	public static final int CLOSE_PROPERTIES = 3;

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,24 +21,6 @@
 
 package com.openkm.extension.servlet;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.api.OKMDocument;
 import com.openkm.api.OKMFolder;
 import com.openkm.api.OKMRepository;
@@ -52,6 +34,16 @@ import com.openkm.util.EnvironmentDetector;
 import com.openkm.util.PathUtils;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Data browser servlet
@@ -186,8 +178,8 @@ public class DataBrowserServlet extends BaseServlet {
 
 		if (!root.equals(path)) {
 			// Add parent folder link
-		    Folder fld = OKMFolder.getInstance().getProperties(null, uuid);   
-            String pathParent = PathUtils.getParent(fld.getPath()); 
+		    Folder fld = OKMFolder.getInstance().getProperties(null, uuid);
+            String pathParent = PathUtils.getParent(fld.getPath());
 			Map<String, String> item = new HashMap<String, String>();
 			item.put("name", "&lt;PARENT FOLDER&gt;");
 			item.put("path", PathUtils.getParent(path));
@@ -201,7 +193,7 @@ public class DataBrowserServlet extends BaseServlet {
 			item.put("name", PathUtils.getName(fld.getPath()));
 			item.put("path", fld.getPath());
 			item.put("uuid", fld.getUuid());
-			
+
 			if (sel.equals(SEL_BOTH) || sel.equals(SEL_FOLDER)) {
 				item.put("sel", "true");
 			} else {
