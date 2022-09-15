@@ -45,10 +45,8 @@ import java.util.List;
  * @author jllort
  */
 public class WorkspaceUserProperties {
-	private final OKMWorkspaceServiceAsync workspaceService = (OKMWorkspaceServiceAsync) GWT
-			.create(OKMWorkspaceService.class);
-	private final OKMUINotificationServiceAsync uINotificationService = (OKMUINotificationServiceAsync) GWT
-			.create(OKMUINotificationService.class);
+	private final OKMUINotificationServiceAsync uINotificationService = GWT.create(OKMUINotificationService.class);
+	private final OKMWorkspaceServiceAsync workspaceService = GWT.create(OKMWorkspaceService.class);
 
 	private GWTWorkspace workspace;
 	private GWTUser user = new GWTUser();

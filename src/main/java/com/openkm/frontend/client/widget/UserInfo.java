@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfo extends Composite {
-	private final OKMChatServiceAsync chatService = (OKMChatServiceAsync) GWT.create(OKMChatService.class);
+	private final OKMChatServiceAsync chatService = GWT.create(OKMChatService.class);
 
 	public static final int USERS_IN_ROOM_REFRESHING_TIME = 1000;
 	private static final int NEW_ROOM_REFRESHING_TIME = 1000;

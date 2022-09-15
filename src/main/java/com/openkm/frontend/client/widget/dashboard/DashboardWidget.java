@@ -52,7 +52,7 @@ import java.util.ListIterator;
  *
  */
 public class DashboardWidget extends Composite {
-	private final OKMDashboardServiceAsync dashboardService = (OKMDashboardServiceAsync) GWT.create(OKMDashboardService.class);
+	private final OKMDashboardServiceAsync dashboardService = GWT.create(OKMDashboardService.class);
 
 	private static int HEADER_SQUARE = 24;
 	private static int SEPARATOR_HEIGHT = 20;

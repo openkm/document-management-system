@@ -49,7 +49,7 @@ import java.util.Map;
  *
  */
 public class DatabaseRecordSelectPopup extends DialogBox {
-	private final OKMKeyValueServiceAsync keyValueService = (OKMKeyValueServiceAsync) GWT.create(OKMKeyValueService.class);
+	private final OKMKeyValueServiceAsync keyValueService = GWT.create(OKMKeyValueService.class);
 
 	private VerticalPanel vPanel;
 	private ScrollPanel scrollDatabaseRecordPanel;

@@ -49,7 +49,7 @@ import java.util.List;
  *
  */
 public class GroupPopup extends DialogBox {
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

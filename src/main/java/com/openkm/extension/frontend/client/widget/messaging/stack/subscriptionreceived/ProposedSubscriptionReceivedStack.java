@@ -42,8 +42,7 @@ import java.util.Map;
  *
  */
 public class ProposedSubscriptionReceivedStack extends Composite {
-
-	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = (OKMProposedSubscriptionServiceAsync) GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = GWT.create(OKMProposedSubscriptionService.class);
 
 	private ExtendedFlexTable table;
 	private boolean firstTime = true;

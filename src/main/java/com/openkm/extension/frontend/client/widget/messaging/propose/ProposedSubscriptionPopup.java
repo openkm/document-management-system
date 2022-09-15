@@ -38,7 +38,8 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class ProposedSubscriptionPopup extends DialogBox {
-	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = (OKMProposedSubscriptionServiceAsync) GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = GWT.create(OKMProposedSubscriptionService.class);
+
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private Button closeButton;

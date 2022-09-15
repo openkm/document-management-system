@@ -48,8 +48,8 @@ import java.util.*;
  */
 @SuppressWarnings("deprecation")
 public class KeyMapDashboard extends Composite {
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
 	private HorizontalSplitPanel horizontalSplitPanel;
 	private KeywordWidget keyAllTable;
 	private KeywordWidget keyTopTable;

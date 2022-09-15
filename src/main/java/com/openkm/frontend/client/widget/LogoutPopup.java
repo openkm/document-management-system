@@ -42,11 +42,11 @@ import com.openkm.frontend.client.service.OKMAuthServiceAsync;
  * @author jllort
  */
 public class LogoutPopup extends DialogBox implements ClickHandler {
-	private VerticalPanel vPanel;
-	private HTML text;
-	private Button button;
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private VerticalPanel vPanel;
+	private Button button;
+	private HTML text;
 
 	/**
 	 * Logout popup

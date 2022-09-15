@@ -34,7 +34,6 @@ import com.openkm.frontend.client.widget.properties.TabMultiple;
  *
  */
 public class Browser extends Composite {
-
 	private final static int IE_SIZE_RECTIFICATION = (Util.getUserAgent().startsWith("ie") ? 2 : 0);
 	private final static int SPLITTER_HEIGHT = 10;
 

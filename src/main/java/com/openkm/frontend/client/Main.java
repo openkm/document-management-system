@@ -71,14 +71,14 @@ import java.util.Map;
  * @author jllort
  */
 public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasLanguageEvent {
+	private final OKMLanguageServiceAsync languageService = GWT.create(OKMLanguageService.class);
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private static final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
+	private List<String> extensionUuidList = new ArrayList<String>();
 	public static String CONTEXT = "/OpenKM";
 	private static Main singleton;
-	private final OKMLanguageServiceAsync languageService = (OKMLanguageServiceAsync) GWT.create(OKMLanguageService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
-	private static final OKMMailServiceAsync mailService = (OKMMailServiceAsync) GWT.create(OKMMailService.class);
-	private List<String> extensionUuidList = new ArrayList<String>();
 
 	/**
 	 * @return singleton Main instance
@@ -246,14 +246,14 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 					folderService.isValid(path, new AsyncCallback<Boolean>() {
 						@Override
 						public void onSuccess(Boolean result) {
-							if (result.booleanValue()) {
+							if (result) {
 								fldPath = path;
 								loadTranslations();
 							} else {
 								documentService.isValid(path, new AsyncCallback<Boolean>() {
 									@Override
 									public void onSuccess(Boolean result) {
-										if (result.booleanValue()) {
+										if (result) {
 											docPath = path;
 											fldPath = Util.getParent(path);
 											loadTranslations();
@@ -261,7 +261,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 											mailService.isValid(path, new AsyncCallback<Boolean>() {
 												@Override
 												public void onSuccess(Boolean result) {
-													if (result.booleanValue()) {
+													if (result) {
 														docPath = path;
 														fldPath = Util.getParent(path);
 														loadTranslations();

@@ -46,8 +46,7 @@ import java.util.*;
  *
  */
 public class KeywordsWidget extends Composite {
-
-	private final OKMPropertyServiceAsync propertyService = (OKMPropertyServiceAsync) GWT.create(OKMPropertyService.class);
+	private final OKMPropertyServiceAsync propertyService = GWT.create(OKMPropertyService.class);
 
 	private FlexTable table;
 	private String docPath;

@@ -48,14 +48,14 @@ import java.util.Map;
  *
  */
 public class UserNews extends Composite {
-
-	private final OKMDashboardServiceAsync dashboardService = (OKMDashboardServiceAsync) GWT.create(OKMDashboardService.class);
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMDashboardServiceAsync dashboardService = GWT.create(OKMDashboardService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	private ExtendedFlexTable table;
 	public MenuPopup menuPopup;
 	private Status status;
 	private boolean firstTime = true;
+
 	// Holds the data rows of the table this is a list of RowData Object
 	public Map<Integer, GWTQueryParams> data;
 	private int dataIndexValue = 0;

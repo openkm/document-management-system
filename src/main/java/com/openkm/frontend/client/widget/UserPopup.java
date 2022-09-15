@@ -40,9 +40,8 @@ import com.openkm.frontend.client.service.OKMWorkspaceServiceAsync;
  * @author jllort
  */
 public class UserPopup extends DialogBox implements ClickHandler {
-	private final OKMWorkspaceServiceAsync workspaceService = (OKMWorkspaceServiceAsync) GWT
-			.create(OKMWorkspaceService.class);
-	private final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
+	private final OKMWorkspaceServiceAsync workspaceService = GWT.create(OKMWorkspaceService.class);
+	private final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
 
 	private VerticalPanel vPanel;
 	private FlexTable userFlexTable;

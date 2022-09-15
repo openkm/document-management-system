@@ -42,7 +42,7 @@ import java.util.Map;
  * @author jllort
  */
 public class Util {
-	private static final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
+	private static final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
 
 	/**
 	 * Generates HTML for item with an attached icon.

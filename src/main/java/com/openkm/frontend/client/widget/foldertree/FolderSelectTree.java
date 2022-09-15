@@ -48,11 +48,12 @@ import java.util.List;
  *
  */
 public class FolderSelectTree extends Composite {
-	private Tree tree;
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+
+	private TreeItem rootItem = new TreeItem();
 	private TreeItem actualItem;
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
-	TreeItem rootItem = new TreeItem();
+	private Tree tree;
 
 	/**
 	 * Folder Tree

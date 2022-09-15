@@ -51,7 +51,7 @@ import java.util.Set;
  *
  */
 public class CategoryManager {
-	private final OKMPropertyServiceAsync propertyService = (OKMPropertyServiceAsync) GWT.create(OKMPropertyService.class);
+	private final OKMPropertyServiceAsync propertyService = GWT.create(OKMPropertyService.class);
 	public static final int ORIGIN_FOLDER = 1;
 	public static final int ORIGIN_DOCUMENT = 2;
 	public static final int ORIGIN_MAIL = 3;

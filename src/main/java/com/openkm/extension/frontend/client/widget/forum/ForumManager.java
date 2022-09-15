@@ -45,8 +45,8 @@ import java.util.List;
  * @author jllort
  */
 public class ForumManager extends Composite implements ForumController {
-	private final OKMForumServiceAsync forumService = (OKMForumServiceAsync) GWT.create(OKMForumService.class);
 	private final static int IE_SIZE_RECTIFICATION = (Util.getUserAgent().startsWith("ie") ? 2 : 0);
+	private final OKMForumServiceAsync forumService = GWT.create(OKMForumService.class);
 
 	// Toolbar height
 	public static final int TOOLBAR_HEADER = 25;

@@ -42,7 +42,7 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class ConvertPopup extends DialogBox {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private VerticalPanel vPanel;
 	private CheckBox saveCheck;

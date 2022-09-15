@@ -41,7 +41,7 @@ import java.util.Map;
  * @author jllort
  */
 public class MessageReceivedStack extends Composite {
-	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
+	private final OKMMessageServiceAsync messageService = GWT.create(OKMMessageService.class);
 
 	private ExtendedFlexTable table;
 	private boolean firstTime = true;

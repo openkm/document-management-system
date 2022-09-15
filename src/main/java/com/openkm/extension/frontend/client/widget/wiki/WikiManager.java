@@ -41,8 +41,8 @@ import java.util.List;
  *
  */
 public class WikiManager extends Composite implements WikiController {
-	private final OKMWikiServiceAsync wikiService = (OKMWikiServiceAsync) GWT.create(OKMWikiService.class);
 	private final static int IE_SIZE_RECTIFICATION = (Util.getUserAgent().startsWith("ie") ? 1 : 0);
+	private final OKMWikiServiceAsync wikiService = GWT.create(OKMWikiService.class);
 
 	private VerticalPanel vPanel;
 	private TabToolbarWiki toolbar;

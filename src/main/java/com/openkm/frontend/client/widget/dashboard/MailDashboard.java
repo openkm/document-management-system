@@ -43,8 +43,7 @@ import java.util.List;
  *
  */
 public class MailDashboard extends Composite {
-	private final OKMDashboardServiceAsync dashboardService = (OKMDashboardServiceAsync) GWT.create(OKMDashboardService.class);
-
+	private final OKMDashboardServiceAsync dashboardService = GWT.create(OKMDashboardService.class);
 	private final int NUMBER_OF_COLUMNS = 2;
 
 	private HorizontalPanel hPanel;

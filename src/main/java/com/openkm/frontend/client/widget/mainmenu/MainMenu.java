@@ -52,7 +52,7 @@ import java.util.Map;
  * @author jllort
  */
 public class MainMenu extends Composite {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private static final int OUTPUT_PDF = 2;
 	private static final int OUTPUT_RTF = 3;

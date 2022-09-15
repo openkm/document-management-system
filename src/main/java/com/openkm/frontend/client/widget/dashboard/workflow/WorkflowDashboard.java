@@ -42,9 +42,7 @@ import java.util.List;
  *
  */
 public class WorkflowDashboard extends Composite {
-
-	private final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
-
+	private final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
 	private final int NUMBER_OF_COLUMNS = 2;
 
 	private HorizontalPanel hPanel;

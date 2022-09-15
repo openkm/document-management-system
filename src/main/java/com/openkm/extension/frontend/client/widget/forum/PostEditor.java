@@ -42,7 +42,7 @@ import com.openkm.frontend.client.extension.comunicator.WorkspaceComunicator;
  * @author jllort
  */
 public class PostEditor extends Composite {
-	private final OKMForumServiceAsync forumService = (OKMForumServiceAsync) GWT.create(OKMForumService.class);
+	private final OKMForumServiceAsync forumService = GWT.create(OKMForumService.class);
 
 	public static final int NONE = 0;
 	public static final int CREATE_TOPIC = 1;

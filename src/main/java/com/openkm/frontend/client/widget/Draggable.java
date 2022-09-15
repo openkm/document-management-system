@@ -47,14 +47,13 @@ import java.util.Iterator;
  *
  */
 public class Draggable extends Composite implements OriginPanel {
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT
-			.create(OKMDocumentService.class);
-	private final OKMMailServiceAsync mailService = (OKMMailServiceAsync) GWT.create(OKMMailService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
 
-	private boolean dragged = false;
 	private FlexTable table = new FlexTable();
 	private HTML floater = new HTML();
+	private boolean dragged = false;
 
 	private int originPanel = NONE;
 	private TreeItem selectedTreeItem;

@@ -43,7 +43,7 @@ import java.util.HashMap;
  * @author jllort
  */
 public class FindDocumentSelectPopup extends DialogBox {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	public static final int ORIGIN_DEFAULT = 1;
 	public static final int ORIGIN_MAIL_EDITOR_ATTACHMENT = 2;

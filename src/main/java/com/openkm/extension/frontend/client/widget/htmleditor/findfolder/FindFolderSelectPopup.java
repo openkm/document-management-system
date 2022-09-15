@@ -45,7 +45,7 @@ import java.util.Iterator;
  *
  */
 public class FindFolderSelectPopup extends DialogBox {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

@@ -45,7 +45,7 @@ import java.util.Map;
  * @author jllort
  */
 public class SearchSaved extends Composite {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	private ExtendedFlexTable table;
 	public MenuPopup menuPopup;

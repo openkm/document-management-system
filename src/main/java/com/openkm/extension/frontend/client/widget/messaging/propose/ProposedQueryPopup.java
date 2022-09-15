@@ -41,7 +41,8 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class ProposedQueryPopup extends DialogBox {
-	private final OKMProposedQueryServiceAsync proposedQueryService = (OKMProposedQueryServiceAsync) GWT.create(OKMProposedQueryService.class);
+	private final OKMProposedQueryServiceAsync proposedQueryService = GWT.create(OKMProposedQueryService.class);
+
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private Button closeButton;

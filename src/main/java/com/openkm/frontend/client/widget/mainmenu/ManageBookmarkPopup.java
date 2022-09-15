@@ -44,8 +44,7 @@ import java.util.Map;
  *
  */
 public class ManageBookmarkPopup extends DialogBox {
-
-	private final OKMBookmarkServiceAsync bookmarkService = (OKMBookmarkServiceAsync) GWT.create(OKMBookmarkService.class);
+	private final OKMBookmarkServiceAsync bookmarkService = GWT.create(OKMBookmarkService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

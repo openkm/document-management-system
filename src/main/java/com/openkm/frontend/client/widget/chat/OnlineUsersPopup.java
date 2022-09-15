@@ -42,7 +42,7 @@ import java.util.List;
  *
  */
 public class OnlineUsersPopup extends DialogBox {
-	private final OKMChatServiceAsync chatService = (OKMChatServiceAsync) GWT.create(OKMChatService.class);
+	private final OKMChatServiceAsync chatService = GWT.create(OKMChatService.class);
 
 	public static final int ACTION_NONE = -1;
 	public static final int ACTION_NEW_CHAT = 0;

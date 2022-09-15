@@ -48,11 +48,8 @@ import java.util.List;
  *
  */
 public class Bookmark {
-
-	private final OKMBookmarkServiceAsync bookmarkService = (OKMBookmarkServiceAsync) GWT
-			.create(OKMBookmarkService.class);
-	private final OKMUserConfigServiceAsync userConfigService = (OKMUserConfigServiceAsync) GWT
-			.create(OKMUserConfigService.class);
+	private final OKMUserConfigServiceAsync userConfigService = GWT.create(OKMUserConfigService.class);
+	private final OKMBookmarkServiceAsync bookmarkService = GWT.create(OKMBookmarkService.class);
 
 	public static final String BOOKMARK_DOCUMENT = "okm:document";
 	public static final String BOOKMARK_FOLDER = "okm:folder";

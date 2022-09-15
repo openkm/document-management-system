@@ -41,8 +41,8 @@ import java.util.List;
  *
  */
 public class SearchControl extends Composite {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
-	private final OKMPropertyGroupServiceAsync propertyGroupService = (OKMPropertyGroupServiceAsync) GWT.create(OKMPropertyGroupService.class);
+	private final OKMPropertyGroupServiceAsync propertyGroupService = GWT.create(OKMPropertyGroupService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	public static final int SEARCH_MODE_SIMPLE = 0;
 	public static final int SEARCH_MODE_ADVANCED = 1;
@@ -169,7 +169,7 @@ public class SearchControl extends Composite {
 
 				if (!searchAdvanced.categoryUuid.equals("")) {
 					params.setCategoryUuid(searchAdvanced.categoryUuid);
-					params.setCategoryPath(searchAdvanced.categoryPath.getText().substring(16)); // removes /okm:category 
+					params.setCategoryPath(searchAdvanced.categoryPath.getText().substring(16)); // removes /okm:category
 				}
 
 				params.setContent(searchNormal.content.getText());
@@ -504,7 +504,7 @@ public class SearchControl extends Composite {
 	}
 
 	/**
-	 * Call Back save search 
+	 * Call Back save search
 	 */
 	final AsyncCallback<Long> callbackSaveSearch = new AsyncCallback<Long>() {
 		public void onSuccess(Long result) {

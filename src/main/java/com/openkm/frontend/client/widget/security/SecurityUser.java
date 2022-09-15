@@ -45,7 +45,7 @@ import java.util.*;
  * @author jllort
  */
 public class SecurityUser extends Composite {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
 	public UserScrollTable assignedUser;
 	public UserScrollTable unassignedUser;
@@ -112,8 +112,6 @@ public class SecurityUser extends Composite {
 
 	/**
 	 * initExtendedSecurity
-	 *
-	 * @param extendedSecurity
 	 */
 	public void initExtendedSecurity(int extendedSecurity) {
 		evaluateGroup = ((extendedSecurity & GWTPermission.PROPERTY_GROUP) == GWTPermission.PROPERTY_GROUP);

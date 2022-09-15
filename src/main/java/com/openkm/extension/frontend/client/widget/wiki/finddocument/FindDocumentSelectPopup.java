@@ -49,7 +49,7 @@ import java.util.Iterator;
  * @author jllort
  */
 public class FindDocumentSelectPopup extends DialogBox {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	private static final int FIND_DOCUMENT = 0;
 	private static final int FIND_IMAGE = 1;
