@@ -36,23 +36,23 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("../extension/Message")
 public interface OKMMessageService extends RemoteService {
-	public void send(String users, String roles, String subject, String content) throws OKMException;
+	void send(String users, String roles, String subject, String content) throws OKMException;
 
-	public void deleteSent(long msgId) throws OKMException;
+	void deleteSent(long msgId) throws OKMException;
 
-	public void deleteReceived(long msgId) throws OKMException;
+	void deleteReceived(long msgId) throws OKMException;
 
-	public List<String> findSentUsersTo() throws OKMException;
+	List<String> findSentUsersTo() throws OKMException;
 
-	public Map<String, Long> findReceivedUsersFrom() throws OKMException;
+	Map<String, Long> findReceivedUsersFrom() throws OKMException;
 
-	public void markSeen(long msgId) throws OKMException;
+	void markSeen(long msgId) throws OKMException;
 
-	public List<GWTMessageSent> findSentFromMeToUser(String user) throws OKMException;
+	List<GWTMessageSent> findSentFromMeToUser(String user) throws OKMException;
 
-	public void deleteSentFromMeToUser(String user) throws OKMException;
+	void deleteSentFromMeToUser(String user) throws OKMException;
 
-	public List<GWTMessageReceived> findReceivedByMeFromUser(String user) throws OKMException;
+	List<GWTMessageReceived> findReceivedByMeFromUser(String user) throws OKMException;
 
-	public void deleteReceivedByMeFromUser(String user) throws OKMException;
+	void deleteReceivedByMeFromUser(String user) throws OKMException;
 }

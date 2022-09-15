@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasDocumentEvent.DocumentEvent
  */
 public interface DocumentHandlerExtension {
 
-	public abstract void onChange(DocumentEventConstant event);
+	void onChange(DocumentEventConstant event);
 
 }

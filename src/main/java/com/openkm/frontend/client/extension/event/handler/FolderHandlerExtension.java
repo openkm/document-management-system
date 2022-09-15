@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasFolderEvent.FolderEventCons
  */
 public interface FolderHandlerExtension {
 
-	public abstract void onChange(FolderEventConstant event);
+	void onChange(FolderEventConstant event);
 
 }

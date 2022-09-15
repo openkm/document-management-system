@@ -30,5 +30,5 @@ import java.util.Map;
  *
  */
 public interface OKMLanguageServiceAsync {
-	public void getFrontEndTranslations(String lang, AsyncCallback<Map<String, String>> callback);
+	void getFrontEndTranslations(String lang, AsyncCallback<Map<String, String>> callback);
 }

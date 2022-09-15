@@ -44,8 +44,8 @@ public interface FolderModule {
 	 *         lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Folder create(String token, Folder fld) throws PathNotFoundException, ItemExistsException,
-			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException;
+	Folder create(String token, Folder fld) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
+			RepositoryException, DatabaseException, ExtensionException, AutomationException;
 
 	/**
 	 * Obtains properties from a previously created folder.
@@ -55,7 +55,7 @@ public interface FolderModule {
 	 * @throws PathNotFoundException If the indicated folder doesn't exist.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Folder getProperties(String token, String fldPath) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	Folder getProperties(String token, String fldPath) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -68,11 +68,11 @@ public interface FolderModule {
 	 *         permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void delete(String token, String fldPath) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException;
+	void delete(String token, String fldPath) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException;
 
 	/**
-	 * Deletes definitively a folder from the repository. It is a phisical delete, so the folder can't be restored.
+	 * Deletes definitively a folder from the repository. It is a physical delete, so the folder can't be restored.
 	 *
 	 * @param fldPath The path that identifies an unique folder.
 	 * @throws LockException Can't delete a folder with locked documents.
@@ -81,7 +81,7 @@ public interface FolderModule {
 	 *         permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void purge(String token, String fldPath) throws LockException, PathNotFoundException, AccessDeniedException,
+	void purge(String token, String fldPath) throws LockException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
@@ -96,8 +96,8 @@ public interface FolderModule {
 	 *         permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Folder rename(String token, String fldPath, String newName) throws PathNotFoundException,
-			ItemExistsException, AccessDeniedException, RepositoryException, DatabaseException;
+	Folder rename(String token, String fldPath, String newName) throws PathNotFoundException, ItemExistsException,
+			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Move a folder to another location in the repository.
@@ -110,7 +110,7 @@ public interface FolderModule {
 	 *         destination folder because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void move(String token, String fldPath, String dstPath) throws PathNotFoundException, ItemExistsException,
+	void move(String token, String fldPath, String dstPath) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
@@ -124,7 +124,7 @@ public interface FolderModule {
 	 *         destination folder because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void copy(String token, String fldPath, String dstPath) throws PathNotFoundException, ItemExistsException,
+	void copy(String token, String fldPath, String dstPath) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException,
 			UserQuotaExceededException;
 
@@ -140,9 +140,9 @@ public interface FolderModule {
 	 *         destination folder because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void extendedCopy(String token, String fldPath, String dstPath, ExtendedAttributes extAttr) throws
-			PathNotFoundException, ItemExistsException, AccessDeniedException, RepositoryException, IOException,
-			AutomationException, DatabaseException, UserQuotaExceededException;
+	void extendedCopy(String token, String fldPath, String dstPath, ExtendedAttributes extAttr) throws PathNotFoundException,
+			ItemExistsException, AccessDeniedException, RepositoryException, IOException, AutomationException,
+			DatabaseException, UserQuotaExceededException;
 
 	/**
 	 * Retrieve a list of child folders from an existing one.
@@ -153,7 +153,7 @@ public interface FolderModule {
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
 	@Deprecated
-	public List<Folder> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	List<Folder> getChilds(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -164,11 +164,11 @@ public interface FolderModule {
 	 * @throws PathNotFoundException If there is no folder in the repository in this path
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<Folder> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	List<Folder> getChildren(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException;
 
 	/**
-	 * Retrive the content info of the folder: number of folders, number of documents, and total size.
+	 * Retrieve the content info of the folder: number of folders, number of documents, and total size.
 	 *
 	 * @param fldPath The path that identifies an unique folder.
 	 * @return A ContentInfo with the number of folder, number of documents and total size.
@@ -177,7 +177,7 @@ public interface FolderModule {
 	 * @throws RepositoryException If there is any general repository problem.
 	 * @throws PathNotFoundException If there is no folder in the repository with this path.
 	 */
-	public ContentInfo getContentInfo(String token, String fldPath) throws AccessDeniedException, RepositoryException,
+	ContentInfo getContentInfo(String token, String fldPath) throws AccessDeniedException, RepositoryException,
 			PathNotFoundException, DatabaseException;
 
 	/**
@@ -188,7 +188,7 @@ public interface FolderModule {
 	 * @throws PathNotFoundException If the node does not exists.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public boolean isValid(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+	boolean isValid(String token, String fldId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -200,6 +200,5 @@ public interface FolderModule {
 	 *         permissions.
 	 * @throws RepositoryException If there is any problem.
 	 */
-	public String getPath(String token, String uuid) throws AccessDeniedException, RepositoryException,
-			DatabaseException;
+	String getPath(String token, String uuid) throws AccessDeniedException, RepositoryException, DatabaseException;
 }

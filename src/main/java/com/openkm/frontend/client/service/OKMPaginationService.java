@@ -37,7 +37,7 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Pagination")
 public interface OKMPaginationService extends RemoteService {
-	public GWTPaginated getChildrenPaginated(String fldPath, boolean extraColumns, int offset, int limit, int order,
-	                                         boolean reserve, boolean folders, boolean documents, boolean mails, String selectedRowId,
-	                                         Map<String, GWTFilter> filter) throws OKMException;
+	GWTPaginated getChildrenPaginated(String fldPath, boolean extraColumns, int offset, int limit, int order, boolean reserve,
+									  boolean folders, boolean documents, boolean mails, String selectedRowId,
+									  Map<String, GWTFilter> filter) throws OKMException;
 }

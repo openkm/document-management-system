@@ -39,101 +39,101 @@ public interface DashboardModule {
 	/**
 	 * Get list of locked documents by user
 	 */
-	public List<DashboardDocumentResult> getUserLockedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserLockedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get list of checked-out documents by user
 	 */
-	public List<DashboardDocumentResult> getUserCheckedOutDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserCheckedOutDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user subscribed documents
 	 */
-	public List<DashboardDocumentResult> getUserSubscribedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserSubscribedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user subscribed folders
 	 */
-	public List<DashboardFolderResult> getUserSubscribedFolders(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardFolderResult> getUserSubscribedFolders(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user last uploaded documents
 	 */
-	public List<DashboardDocumentResult> getUserLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user last modified documents
 	 */
-	public List<DashboardDocumentResult> getUserLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user last downloaded documents
 	 */
-	public List<DashboardDocumentResult> getUserLastDownloadedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserLastDownloadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user last imported mails
 	 */
-	public List<DashboardMailResult> getUserLastImportedMails(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardMailResult> getUserLastImportedMails(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user last imported mail attachments
 	 */
-	public List<DashboardDocumentResult> getUserLastImportedMailAttachments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getUserLastImportedMailAttachments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
 	 * Get user documents size
 	 */
-	public long getUserDocumentsSize(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
+	long getUserDocumentsSize(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Get user searchs
 	 */
-	public List<QueryParams> getUserSearchs(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
+	List<QueryParams> getUserSearchs(String token) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Find
 	 */
-	public List<DashboardDocumentResult> find(String token, int pqId) throws IOException, ParseException, AccessDeniedException,
+	List<DashboardDocumentResult> find(String token, int pqId) throws IOException, ParseException, AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
 	 * Get last week top downloaded documents
 	 */
-	public List<DashboardDocumentResult> getLastWeekTopDownloadedDocuments(String token) throws AccessDeniedException,
+	List<DashboardDocumentResult> getLastWeekTopDownloadedDocuments(String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
 	 * Get last month downloaded documents
 	 */
-	public List<DashboardDocumentResult> getLastMonthTopDownloadedDocuments(String token) throws AccessDeniedException,
+	List<DashboardDocumentResult> getLastMonthTopDownloadedDocuments(String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
 	 * Get last week top modified documents
 	 */
-	public List<DashboardDocumentResult> getLastWeekTopModifiedDocuments(String token) throws AccessDeniedException,
+	List<DashboardDocumentResult> getLastWeekTopModifiedDocuments(String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
 	 * Get las month top modified documentd
 	 */
-	public List<DashboardDocumentResult> getLastMonthTopModifiedDocuments(String token) throws AccessDeniedException,
+	List<DashboardDocumentResult> getLastMonthTopModifiedDocuments(String token) throws AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
 	 * Get last modified documents
 	 */
-	public List<DashboardDocumentResult> getLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getLastModifiedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -145,7 +145,7 @@ public interface DashboardModule {
 	/**
 	 * Get last uploaded documents
 	 */
-	public List<DashboardDocumentResult> getLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
+	List<DashboardDocumentResult> getLastUploadedDocuments(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -157,6 +157,6 @@ public interface DashboardModule {
 	/**
 	 * Visite node
 	 */
-	public void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException, RepositoryException,
+	void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException, RepositoryException,
 			DatabaseException;
 }

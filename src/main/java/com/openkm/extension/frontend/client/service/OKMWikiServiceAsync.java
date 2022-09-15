@@ -34,25 +34,25 @@ import java.util.List;
  *
  */
 public interface OKMWikiServiceAsync extends RemoteService {
-	public void findLatestByNode(String uuid, AsyncCallback<GWTWikiPage> callback);
+	void findLatestByNode(String uuid, AsyncCallback<GWTWikiPage> callback);
 
-	public void createNewWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
+	void createNewWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
 
-	public void lock(GWTWikiPage wikiPage, AsyncCallback<?> callback);
+	void lock(GWTWikiPage wikiPage, AsyncCallback<?> callback);
 
-	public void updateWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
+	void updateWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
 
-	public void deleteWikiPage(GWTWikiPage wikiPage, AsyncCallback<?> callback);
+	void deleteWikiPage(GWTWikiPage wikiPage, AsyncCallback<?> callback);
 
-	public void unlock(GWTWikiPage wikiPage, AsyncCallback<?> callback);
+	void unlock(GWTWikiPage wikiPage, AsyncCallback<?> callback);
 
-	public void findLatestByTitle(String title, AsyncCallback<GWTWikiPage> callback);
+	void findLatestByTitle(String title, AsyncCallback<GWTWikiPage> callback);
 
-	public void findAllByTitle(String title, AsyncCallback<List<GWTWikiPage>> callback);
+	void findAllByTitle(String title, AsyncCallback<List<GWTWikiPage>> callback);
 
-	public void restoreWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
+	void restoreWikiPage(GWTWikiPage wikiPage, AsyncCallback<GWTWikiPage> callback);
 
-	public void findAllLatestByTitleFiltered(String filter, AsyncCallback<List<String>> callback);
+	void findAllLatestByTitleFiltered(String filter, AsyncCallback<List<String>> callback);
 
-	public void findAllHistoricByTitle(String title, AsyncCallback<List<GWTWikiPage>> callback);
+	void findAllHistoricByTitle(String title, AsyncCallback<List<GWTWikiPage>> callback);
 }

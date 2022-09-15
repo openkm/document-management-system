@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasToolBarEvent.ToolBarEventCo
  */
 public interface ToolBarHandlerExtension {
 
-	public abstract void onChange(ToolBarEventConstant event);
+	void onChange(ToolBarEventConstant event);
 
 }

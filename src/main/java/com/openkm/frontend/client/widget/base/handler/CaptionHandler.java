@@ -28,9 +28,9 @@ package com.openkm.frontend.client.widget.base.handler;
  * @author sochoa
  */
 public interface CaptionHandler {
-	public abstract void onMinimize();
+	void onMinimize();
 
-	public abstract void onMaximize();
+	void onMaximize();
 
-	public abstract void onClose();
+	void onClose();
 }

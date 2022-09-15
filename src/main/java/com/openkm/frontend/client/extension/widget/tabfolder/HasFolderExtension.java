@@ -31,10 +31,10 @@ import com.openkm.frontend.client.bean.GWTFolder;
  */
 public interface HasFolderExtension {
 
-	public abstract String getTabText();
+	String getTabText();
 
-	public abstract void set(GWTFolder doc);
+	void set(GWTFolder doc);
 
-	public abstract void setVisibleButtons(boolean visible);
+	void setVisibleButtons(boolean visible);
 
 }

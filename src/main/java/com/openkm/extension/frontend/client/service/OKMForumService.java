@@ -38,29 +38,29 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("../extension/Forum")
 public interface OKMForumService extends RemoteService {
-	public List<GWTForumTopic> getTopicsByForum(long id) throws OKMException;
+	List<GWTForumTopic> getTopicsByForum(long id) throws OKMException;
 
-	public List<GWTForumTopic> getTopicsByNode(String uuid) throws OKMException;
+	List<GWTForumTopic> getTopicsByNode(String uuid) throws OKMException;
 
-	public GWTForumTopic createTopic(long id, String uuid, GWTForumTopic topic) throws OKMException;
+	GWTForumTopic createTopic(long id, String uuid, GWTForumTopic topic) throws OKMException;
 
-	public GWTForumTopic findTopicByPK(long id) throws OKMException;
+	GWTForumTopic findTopicByPK(long id) throws OKMException;
 
-	public void createPost(long forumId, long topicId, GWTForumPost post) throws OKMException;
+	void createPost(long forumId, long topicId, GWTForumPost post) throws OKMException;
 
-	public void increaseTopicView(long id) throws OKMException;
+	void increaseTopicView(long id) throws OKMException;
 
-	public Boolean deletePost(long forumId, long topicId, long postId) throws OKMException;
+	Boolean deletePost(long forumId, long topicId, long postId) throws OKMException;
 
-	public void updatePost(GWTForumPost post) throws OKMException;
+	void updatePost(GWTForumPost post) throws OKMException;
 
-	public List<GWTForum> getAllForum() throws OKMException;
+	List<GWTForum> getAllForum() throws OKMException;
 
-	public GWTForum createForum(GWTForum forum) throws OKMException;
+	GWTForum createForum(GWTForum forum) throws OKMException;
 
-	public void deleteForum(long id) throws OKMException;
+	void deleteForum(long id) throws OKMException;
 
-	public void updateForum(GWTForum forum) throws OKMException;
+	void updateForum(GWTForum forum) throws OKMException;
 
-	public void updateTopic(long id, GWTForumPost post) throws OKMException;
+	void updateTopic(long id, GWTForumPost post) throws OKMException;
 }

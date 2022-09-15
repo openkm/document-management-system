@@ -36,29 +36,29 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Mail")
 public interface OKMMailService extends RemoteService {
-	public List<GWTMail> getChilds(String fldId, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTMail> getChilds(String fldId, Map<String, GWTFilter> mapFilter) throws OKMException;
 
-	public void delete(String mailPath) throws OKMException;
+	void delete(String mailPath) throws OKMException;
 
-	public void move(String docPath, String destPath) throws OKMException;
+	void move(String docPath, String destPath) throws OKMException;
 
-	public void purge(String mailPath) throws OKMException;
+	void purge(String mailPath) throws OKMException;
 
-	public void copy(String mailPath, String fldPath) throws OKMException;
+	void copy(String mailPath, String fldPath) throws OKMException;
 
-	public GWTMail getProperties(String mailPath) throws OKMException;
+	GWTMail getProperties(String mailPath) throws OKMException;
 
-	public GWTMail rename(String mailId, String newName) throws OKMException;
+	GWTMail rename(String mailId, String newName) throws OKMException;
 
-	public Boolean isValid(String mailPath) throws OKMException;
+	Boolean isValid(String mailPath) throws OKMException;
 
-	public void forwardMail(String mailPath, String mails, String users, String roles, String message) throws OKMException;
+	void forwardMail(String mailPath, String mails, String users, String roles, String message) throws OKMException;
 
-	public GWTMail sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
-							boolean attachment) throws OKMException;
+	GWTMail sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+					 boolean attachment) throws OKMException;
 
-	public GWTMail sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
-							boolean attachment, String storePath) throws OKMException;
+	GWTMail sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+					 boolean attachment, String storePath) throws OKMException;
 
-	public List<GWTDocument> getAttachments(String uuid) throws OKMException;
+	List<GWTDocument> getAttachments(String uuid) throws OKMException;
 }

@@ -32,5 +32,5 @@ import java.util.List;
  *
  */
 public interface OKMThesaurusServiceAsync {
-	public void getKeywords(String filter, AsyncCallback<List<String>> callback);
+	void getKeywords(String filter, AsyncCallback<List<String>> callback);
 }

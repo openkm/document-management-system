@@ -28,9 +28,9 @@ package com.openkm.extension.frontend.client.widget.workflow;
  *
  */
 public interface WorkflowController {
-	public abstract void goHome();
+	void goHome();
 
-	public abstract void showGraph(int processId, String taskNode);
+	void showGraph(int processId, String taskNode);
 
-	public abstract void findLogsByProcessInstance(int processInstanceId);
+	void findLogsByProcessInstance(int processInstanceId);
 }

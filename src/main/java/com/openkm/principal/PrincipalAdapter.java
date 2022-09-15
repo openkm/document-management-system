@@ -31,7 +31,7 @@ public interface PrincipalAdapter {
 	 * @return A Collection with all the users.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public List<String> getUsers() throws PrincipalAdapterException;
+	List<String> getUsers() throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve all roles from a authentication source.
@@ -39,7 +39,7 @@ public interface PrincipalAdapter {
 	 * @return A Collection with all the roles.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public List<String> getRoles() throws PrincipalAdapterException;
+	List<String> getRoles() throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve all users from a role.
@@ -47,7 +47,7 @@ public interface PrincipalAdapter {
 	 * @return A Collection with all the users within a role.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public List<String> getUsersByRole(String role) throws PrincipalAdapterException;
+	List<String> getUsersByRole(String role) throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve all roles from a user.
@@ -55,7 +55,7 @@ public interface PrincipalAdapter {
 	 * @return A Collection with all the roles of the user.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public List<String> getRolesByUser(String user) throws PrincipalAdapterException;
+	List<String> getRolesByUser(String user) throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve the mail from a user.
@@ -64,7 +64,7 @@ public interface PrincipalAdapter {
 	 * @return The email of the user.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public String getMail(String user) throws PrincipalAdapterException;
+	String getMail(String user) throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve the name from a user.
@@ -73,7 +73,7 @@ public interface PrincipalAdapter {
 	 * @return The name of the user.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public String getName(String user) throws PrincipalAdapterException;
+	String getName(String user) throws PrincipalAdapterException;
 
 	/**
 	 * Method to retrieve the user password
@@ -82,8 +82,8 @@ public interface PrincipalAdapter {
 	 * @return The password of the user.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public String getPassword(String user) throws PrincipalAdapterException;
-	
+	String getPassword(String user) throws PrincipalAdapterException;
+
 	/*
 	 * ------------------------------------------------------------------
 	 * These methods only works if using the OpenKM user database.
@@ -99,7 +99,7 @@ public interface PrincipalAdapter {
 	 * @param name The full user name.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void createUser(String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
+	void createUser(String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a delete a user
@@ -107,7 +107,7 @@ public interface PrincipalAdapter {
 	 * @param user A user id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void deleteUser(String user) throws PrincipalAdapterException;
+	void deleteUser(String user) throws PrincipalAdapterException;
 
 	/**
 	 * Update user information
@@ -118,7 +118,7 @@ public interface PrincipalAdapter {
 	 * @param name The full user name.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void updateUser(String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
+	void updateUser(String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a new role
@@ -126,7 +126,7 @@ public interface PrincipalAdapter {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void createRole(String role, boolean active) throws PrincipalAdapterException;
+	void createRole(String role, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a delete a role
@@ -134,7 +134,7 @@ public interface PrincipalAdapter {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void deleteRole(String role) throws PrincipalAdapterException;
+	void deleteRole(String role) throws PrincipalAdapterException;
 
 	/**
 	 * Update role information
@@ -142,7 +142,7 @@ public interface PrincipalAdapter {
 	 * @param role A role id..
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void updateRole(String role, boolean active) throws PrincipalAdapterException;
+	void updateRole(String role, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to assign a role
@@ -151,7 +151,7 @@ public interface PrincipalAdapter {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void assignRole(String user, String role) throws PrincipalAdapterException;
+	void assignRole(String user, String role) throws PrincipalAdapterException;
 
 	/**
 	 * Method to remove a role
@@ -160,5 +160,5 @@ public interface PrincipalAdapter {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void removeRole(String user, String role) throws PrincipalAdapterException;
+	void removeRole(String user, String role) throws PrincipalAdapterException;
 }

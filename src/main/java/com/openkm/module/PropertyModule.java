@@ -39,7 +39,7 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void addCategory(String token, String nodePath, String catId) throws VersionException,
+	void addCategory(String token, String nodePath, String catId) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
@@ -57,7 +57,7 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void removeCategory(String token, String nodePath, String catId) throws VersionException,
+	void removeCategory(String token, String nodePath, String catId) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
@@ -75,7 +75,7 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public String addKeyword(String token, String nodePath, String keyword) throws VersionException,
+	String addKeyword(String token, String nodePath, String keyword) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
@@ -93,7 +93,7 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void removeKeyword(String token, String nodePath, String keyword) throws VersionException,
+	void removeKeyword(String token, String nodePath, String keyword) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
@@ -111,7 +111,7 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void setEncryption(String token, String nodePath, String cipherName) throws VersionException,
+	void setEncryption(String token, String nodePath, String cipherName) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
@@ -128,9 +128,8 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void unsetEncryption(String token, String nodePath) throws VersionException,
-			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
-			DatabaseException;
+	void unsetEncryption(String token, String nodePath) throws VersionException, LockException, PathNotFoundException,
+			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Define a document as signed.
@@ -146,6 +145,6 @@ public interface PropertyModule {
 	 * you can't modify the node because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException,
-			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException;
+	void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException, PathNotFoundException,
+			AccessDeniedException, RepositoryException, DatabaseException;
 }

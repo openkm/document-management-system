@@ -31,6 +31,6 @@ import com.openkm.frontend.client.extension.event.HasNavigatorEvent.NavigatorEve
  */
 public interface NavigatorHandlerExtension {
 
-	public abstract void onChange(NavigatorEventConstant event);
+	void onChange(NavigatorEventConstant event);
 
 }

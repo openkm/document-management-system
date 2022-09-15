@@ -34,7 +34,7 @@ import java.util.Map;
  *
  */
 public interface OKMPaginationServiceAsync {
-	public void getChildrenPaginated(String fldPath, boolean extraColumns, int offset, int limit, int order,
-	                                 boolean reverse, boolean folders, boolean documents, boolean mails, String selectedRowId,
-	                                 Map<String, GWTFilter> filter, AsyncCallback<GWTPaginated> callback);
+	void getChildrenPaginated(String fldPath, boolean extraColumns, int offset, int limit, int order, boolean reverse,
+							  boolean folders, boolean documents, boolean mails, String selectedRowId,
+							  Map<String, GWTFilter> filter, AsyncCallback<GWTPaginated> callback);
 }

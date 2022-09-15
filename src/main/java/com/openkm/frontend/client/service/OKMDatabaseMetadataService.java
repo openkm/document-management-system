@@ -36,15 +36,15 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("DatabaseMetadata")
 public interface OKMDatabaseMetadataService extends RemoteService {
-	public List<Map<String, String>> executeValueQuery(String table, String filter, String order) throws OKMException;
+	List<Map<String, String>> executeValueQuery(String table, String filter, String order) throws OKMException;
 
-	public void updateValue(Map<String, String> map) throws OKMException;
+	void updateValue(Map<String, String> map) throws OKMException;
 
-	public Double createValue(Map<String, String> map) throws OKMException;
+	Double createValue(Map<String, String> map) throws OKMException;
 
-	public List<List<Map<String, String>>> executeMultiValueQuery(List<String> tables, String query) throws OKMException;
+	List<List<Map<String, String>>> executeMultiValueQuery(List<String> tables, String query) throws OKMException;
 
-	public Double getNextSequenceValue(String table, String column) throws OKMException;
+	Double getNextSequenceValue(String table, String column) throws OKMException;
 
-	public void deleteValue(Map<String, String> map) throws OKMException;
+	void deleteValue(Map<String, String> map) throws OKMException;
 }

@@ -22,5 +22,5 @@
 package com.openkm.util.impexp;
 
 public interface InfoDecorator {
-	public String print(String path, long size, String error);
+	String print(String path, long size, String error);
 }

@@ -33,5 +33,5 @@ import java.util.List;
  *
  */
 public interface OKMKeyValueServiceAsync {
-	public void getKeyValues(List<String> tables, String query, AsyncCallback<List<GWTKeyValue>> callback);
+	void getKeyValues(List<String> tables, String query, AsyncCallback<List<GWTKeyValue>> callback);
 }

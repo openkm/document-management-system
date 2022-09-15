@@ -29,8 +29,8 @@ package com.openkm.frontend.client.widget.wizard;
  */
 public interface WorkflowWidgetToFire {
 
-	public abstract void finishedRunProcessDefinition();
+	void finishedRunProcessDefinition();
 
-	public abstract void hasPendingProcessDefinitionForms();
+	void hasPendingProcessDefinitionForms();
 
 }

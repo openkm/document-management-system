@@ -32,10 +32,10 @@ import java.util.Date;
  *
  */
 public class GWTMessageSent implements IsSerializable {
-	private Date sentDate;
-	private GWTTextMessageSent textMessageSent;
-	private GWTProposedQuerySent proposedQuerySent;
 	private GWTProposedSubscriptionSent proposedSubscriptionSent;
+	private GWTProposedQuerySent proposedQuerySent;
+	private GWTTextMessageSent textMessageSent;
+	private Date sentDate;
 
 	public GWTProposedSubscriptionSent getProposedSubscriptionSent() {
 		return proposedSubscriptionSent;

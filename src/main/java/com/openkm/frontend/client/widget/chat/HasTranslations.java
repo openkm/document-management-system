@@ -32,6 +32,6 @@ public interface HasTranslations {
 	/**
 	 * langRefresh
 	 */
-	public abstract void langRefresh();
+	void langRefresh();
 
 }

@@ -47,7 +47,7 @@ public interface PropertyGroupModule {
 	 *         you can't modify the document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void addGroup(String token, String nodeId, String grpName) throws NoSuchGroupException, LockException, PathNotFoundException,
+	void addGroup(String token, String nodeId, String grpName) throws NoSuchGroupException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException;
 
 	/**
@@ -62,8 +62,9 @@ public interface PropertyGroupModule {
 	 *         repository path.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void removeGroup(String token, String nodeId, String grpName) throws AccessDeniedException, NoSuchGroupException,
-			LockException, PathNotFoundException, RepositoryException, DatabaseException, ExtensionException, AutomationException;
+	void removeGroup(String token, String nodeId, String grpName) throws AccessDeniedException, NoSuchGroupException,
+			LockException, PathNotFoundException, RepositoryException, DatabaseException, ExtensionException,
+			AutomationException;
 
 	/**
 	 * Get groups assigned to a document.
@@ -75,7 +76,7 @@ public interface PropertyGroupModule {
 	 *         repository path.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<PropertyGroup> getGroups(String token, String nodeId) throws IOException, ParseException, AccessDeniedException,
+	List<PropertyGroup> getGroups(String token, String nodeId) throws IOException, ParseException, AccessDeniedException,
 			PathNotFoundException, RepositoryException, DatabaseException;
 
 	/**
@@ -85,7 +86,7 @@ public interface PropertyGroupModule {
 	 * @return A list with all groups registered in the system.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<PropertyGroup> getAllGroups(String token) throws IOException, ParseException, AccessDeniedException, RepositoryException,
+	List<PropertyGroup> getAllGroups(String token) throws IOException, ParseException, AccessDeniedException, RepositoryException,
 			DatabaseException;
 
 	/**
@@ -100,7 +101,7 @@ public interface PropertyGroupModule {
 	 *         repository path.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<FormElement> getProperties(String token, String nodeId, String grpName) throws IOException, ParseException,
+	List<FormElement> getProperties(String token, String nodeId, String grpName) throws IOException, ParseException,
 			NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException;
 
 	/**
@@ -119,9 +120,9 @@ public interface PropertyGroupModule {
 	 *         you can't modify the document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void setProperties(String token, String nodeId, String grpName, List<FormElement> properties) throws IOException,
-			ParseException, NoSuchPropertyException, NoSuchGroupException, LockException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException, ExtensionException, AutomationException;
+	void setProperties(String token, String nodeId, String grpName, List<FormElement> properties) throws IOException,
+			ParseException, NoSuchPropertyException, NoSuchGroupException, LockException, PathNotFoundException,
+			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException;
 
 	/**
 	 * Get all possible values which can have a property.
@@ -131,8 +132,8 @@ public interface PropertyGroupModule {
 	 * @throws IOException If there is any problem reading the property values.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<FormElement> getPropertyGroupForm(String token, String grpName) throws ParseException, IOException, AccessDeniedException,
-			RepositoryException, DatabaseException;
+	List<FormElement> getPropertyGroupForm(String token, String grpName) throws ParseException, IOException,
+			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Test if a node has a property group assigned
@@ -142,11 +143,10 @@ public interface PropertyGroupModule {
 	 * @param grpName The group name previously registered in the system.
 	 * @return True if the document has the given property group assigned, and false otherwise.
 	 * @throws NoSuchGroupException If there is no such registered group name.
-	 * @throws PathNotFoundException If there is no document in this
-	 *         repository path.
+	 * @throws PathNotFoundException If there is no document in this repository path.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public boolean hasGroup(String token, String nodeId, String grpName) throws IOException, ParseException, AccessDeniedException,
+	boolean hasGroup(String token, String nodeId, String grpName) throws IOException, ParseException, AccessDeniedException,
 			PathNotFoundException, RepositoryException, DatabaseException;
 
 	/**
@@ -157,7 +157,7 @@ public interface PropertyGroupModule {
 	 * @param grpName The group name previously registered in the system.
 	 * @param propName The group name previously registered in the system.
 	 */
-	public List<String> getSuggestions(String token, String nodeId, String grpName, String propName) throws AccessDeniedException,
+	List<String> getSuggestions(String token, String nodeId, String grpName, String propName) throws AccessDeniedException,
 			PathNotFoundException, IOException, ParseException, NoSuchGroupException, SuggestionException, DatabaseException;
 
 	/**
@@ -166,5 +166,5 @@ public interface PropertyGroupModule {
 	 * @param token The session authorization token.
 	 * @param pgDef The XML with the Property Group Definition
 	 */
-	public void registerDefinition(String token, String pgDef) throws ParseException, AccessDeniedException, DatabaseException, IOException;
+	void registerDefinition(String token, String pgDef) throws ParseException, AccessDeniedException, DatabaseException, IOException;
 }

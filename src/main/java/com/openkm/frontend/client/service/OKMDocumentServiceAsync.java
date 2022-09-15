@@ -35,69 +35,69 @@ import java.util.Map;
  * @author jllort
  */
 public interface OKMDocumentServiceAsync {
-	public void getChilds(String fldPath, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTDocument>> callback);
+	void getChilds(String fldPath, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTDocument>> callback);
 
-	public void getVersionHistory(String docPath, AsyncCallback<List<GWTVersion>> callback);
+	void getVersionHistory(String docPath, AsyncCallback<List<GWTVersion>> callback);
 
-	public void delete(String docPath, AsyncCallback<?> callback);
+	void delete(String docPath, AsyncCallback<?> callback);
 
-	public void checkout(String docPath, AsyncCallback<?> callback);
+	void checkout(String docPath, AsyncCallback<?> callback);
 
-	public void cancelCheckout(String docPath, AsyncCallback<?> callback);
+	void cancelCheckout(String docPath, AsyncCallback<?> callback);
 
-	public void lock(String docPath, AsyncCallback<?> callback);
+	void lock(String docPath, AsyncCallback<?> callback);
 
-	public void unlock(String docPath, AsyncCallback<?> callback);
+	void unlock(String docPath, AsyncCallback<?> callback);
 
-	public void rename(String docPath, String newName, AsyncCallback<GWTDocument> callback);
+	void rename(String docPath, String newName, AsyncCallback<GWTDocument> callback);
 
-	public void move(String docPath, String destPath, AsyncCallback<?> callback);
+	void move(String docPath, String destPath, AsyncCallback<?> callback);
 
-	public void purge(String docPath, AsyncCallback<?> callback);
+	void purge(String docPath, AsyncCallback<?> callback);
 
-	public void restoreVersion(String docPath, String versionId, AsyncCallback<?> callback);
+	void restoreVersion(String docPath, String versionId, AsyncCallback<?> callback);
 
-	public void getProperties(String docPath, AsyncCallback<GWTDocument> callback);
+	void getProperties(String docPath, AsyncCallback<GWTDocument> callback);
 
-	public void copy(String docPath, String fldPath, AsyncCallback<?> callback);
+	void copy(String docPath, String fldPath, AsyncCallback<?> callback);
 
-	public void isValid(String docPath, AsyncCallback<Boolean> callback);
+	void isValid(String docPath, AsyncCallback<Boolean> callback);
 
-	public void getVersionHistorySize(String docPath, AsyncCallback<Long> callback);
+	void getVersionHistorySize(String docPath, AsyncCallback<Long> callback);
 
-	public void purgeVersionHistory(String docPath, AsyncCallback<?> callback);
+	void purgeVersionHistory(String docPath, AsyncCallback<?> callback);
 
-	public void forceUnlock(String docPath, AsyncCallback<?> callback);
+	void forceUnlock(String docPath, AsyncCallback<?> callback);
 
-	public void forceCancelCheckout(String docPath, AsyncCallback<?> callback);
+	void forceCancelCheckout(String docPath, AsyncCallback<?> callback);
 
-	public void createFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
-	                               Map<String, List<Map<String, String>>> tableProperties, AsyncCallback<GWTDocument> callback);
+	void createFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
+							Map<String, List<Map<String, String>>> tableProperties, AsyncCallback<GWTDocument> callback);
 
-	public void updateFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
-	                               Map<String, List<Map<String, String>>> tableProperties, AsyncCallback<String> callback);
+	void updateFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
+ 							Map<String, List<Map<String, String>>> tableProperties, AsyncCallback<String> callback);
 
-	public void convertToPdf(String docPath, AsyncCallback<String> callback);
+	void convertToPdf(String docPath, AsyncCallback<String> callback);
 
-	public void mergePdf(String docName, List<String> paths, AsyncCallback<?> callback);
+	void mergePdf(String docName, List<String> paths, AsyncCallback<?> callback);
 
-	public void getAllTemplates(AsyncCallback<List<GWTDocument>> callback);
+	void getAllTemplates(AsyncCallback<List<GWTDocument>> callback);
 
-	public void createFromTemplate(String docPath, String fldPath, String name, GWTExtendedAttributes attributes,
-	                               AsyncCallback<Object> callback);
+	void createFromTemplate(String docPath, String fldPath, String name, GWTExtendedAttributes attributes,
+							AsyncCallback<Object> callback);
 
-	public void getHTMLContent(String docPath, boolean checkout, AsyncCallback<String> callback);
+	void getHTMLContent(String docPath, boolean checkout, AsyncCallback<String> callback);
 
-	public void setHTMLContent(String docPath, String mails, String users, String roles, String message, String content, String comment,
-	                           int increaseVersion, AsyncCallback<String> callback);
+	void setHTMLContent(String docPath, String mails, String users, String roles, String message, String content, String comment,
+						int increaseVersion, AsyncCallback<String> callback);
 
 	/*
 	 * ======================== LiveEdit methods =========================
 	 */
-	public void liveEditCheckin(String docPath, String mails, String users, String roles, String message, String comment,
-	                            int increaseVersion, AsyncCallback<?> callback);
+	void liveEditCheckin(String docPath, String mails, String users, String roles, String message, String comment,
+						 int increaseVersion, AsyncCallback<?> callback);
 
-	public void liveEditForceCancelCheckout(String docPath, AsyncCallback<?> callback);
+	void liveEditForceCancelCheckout(String docPath, AsyncCallback<?> callback);
 
-	public void liveEditCancelCheckout(String docPath, AsyncCallback<?> callback);
+	void liveEditCancelCheckout(String docPath, AsyncCallback<?> callback);
 }

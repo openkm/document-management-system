@@ -33,23 +33,23 @@ import java.util.List;
  *
  */
 public interface OKMSearchServiceAsync {
-	public void getAllSearchs(AsyncCallback<List<GWTQueryParams>> callback);
+	void getAllSearchs(AsyncCallback<List<GWTQueryParams>> callback);
 
-	public void saveSearch(GWTQueryParams params, String type, AsyncCallback<Long> callback);
+	void saveSearch(GWTQueryParams params, String type, AsyncCallback<Long> callback);
 
-	public void deleteSearch(long id, AsyncCallback<?> callback);
+	void deleteSearch(long id, AsyncCallback<?> callback);
 
-	public void findPaginated(GWTQueryParams params, int offset, int limit, AsyncCallback<GWTResultSet> callback);
+	void findPaginated(GWTQueryParams params, int offset, int limit, AsyncCallback<GWTResultSet> callback);
 
-	public void getKeywordMap(List<String> filter, AsyncCallback<List<GWTKeyword>> callback);
+	void getKeywordMap(List<String> filter, AsyncCallback<List<GWTKeyword>> callback);
 
-	public void find(GWTQueryParams params, AsyncCallback<GWTResultSet> callback);
+	void find(GWTQueryParams params, AsyncCallback<GWTResultSet> callback);
 
-	public void share(long qpId, AsyncCallback<?> callback);
+	void share(long qpId, AsyncCallback<?> callback);
 
-	public void unshare(long qpId, AsyncCallback<?> callback);
+	void unshare(long qpId, AsyncCallback<?> callback);
 
-	public void findSimpleQueryPaginated(String statement, int offset, int limit, AsyncCallback<GWTResultSet> callback);
+	void findSimpleQueryPaginated(String statement, int offset, int limit, AsyncCallback<GWTResultSet> callback);
 
-	public void findMoreLikeThis(String uuid, AsyncCallback<GWTResultSet> callback);
+	void findMoreLikeThis(String uuid, AsyncCallback<GWTResultSet> callback);
 }

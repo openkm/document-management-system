@@ -28,5 +28,5 @@ import com.openkm.frontend.client.bean.GWTKeyValue;
  *
  */
 public interface HasDatabaseRecord {
-	public abstract void setKeyValue(GWTKeyValue keyValue);
+	void setKeyValue(GWTKeyValue keyValue);
 }

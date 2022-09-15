@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasDashboardEvent.DashboardEve
  */
 public interface DashboardHandlerExtension {
 
-	public abstract void onChange(DashboardEventConstant event);
+	void onChange(DashboardEventConstant event);
 
 }

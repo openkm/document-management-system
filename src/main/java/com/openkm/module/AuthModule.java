@@ -35,14 +35,14 @@ public interface AuthModule {
 	/**
 	 * Logins into the repository.
 	 */
-	public void login() throws RepositoryException, DatabaseException;
+	void login() throws RepositoryException, DatabaseException;
 
-	public String login(String user, String password) throws AccessDeniedException, RepositoryException, DatabaseException;
+	String login(String user, String password) throws AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 * Log out from the repository.
 	 */
-	public void logout(String token) throws RepositoryException, DatabaseException;
+	void logout(String token) throws RepositoryException, DatabaseException;
 
 	/**
 	 * Add user permissions to a node.
@@ -56,7 +56,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void grantUser(String token, String nodeId, String user, int permissions, boolean recursive) throws PathNotFoundException,
+	void grantUser(String token, String nodeId, String user, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
@@ -71,7 +71,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void revokeUser(String token, String nodeId, String user, int permissions, boolean recursive) throws PathNotFoundException,
+	void revokeUser(String token, String nodeId, String user, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
@@ -83,7 +83,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public Map<String, Integer> getGrantedUsers(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
+	Map<String, Integer> getGrantedUsers(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
@@ -98,7 +98,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void grantRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
+	void grantRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
@@ -113,7 +113,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public void revokeRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
+	void revokeRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
@@ -125,7 +125,7 @@ public interface AuthModule {
 	 * @throws AccessDeniedException If the authorization information is not valid.
 	 * @throws RepositoryException If there is any error accessing to the repository.
 	 */
-	public Map<String, Integer> getGrantedRoles(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
+	Map<String, Integer> getGrantedRoles(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException;
 
 	/**
@@ -134,7 +134,7 @@ public interface AuthModule {
 	 * @return A collection of repository users.
 	 * @throws RepositoryException If there is any error retrieving the users list.
 	 */
-	public List<String> getUsers(String token) throws PrincipalAdapterException;
+	List<String> getUsers(String token) throws PrincipalAdapterException;
 
 	/**
 	 * Retrieves a list of repository roles.
@@ -142,7 +142,7 @@ public interface AuthModule {
 	 * @return A collection of repository roles.
 	 * @throws RepositoryException If there is any error retrieving the roles list.
 	 */
-	public List<String> getRoles(String token) throws PrincipalAdapterException;
+	List<String> getRoles(String token) throws PrincipalAdapterException;
 
 	/**
 	 * Retrieves a list of users by role.
@@ -150,7 +150,7 @@ public interface AuthModule {
 	 * @return A repository role.
 	 * @throws RepositoryException If there is any error retrieving the user list.
 	 */
-	public List<String> getUsersByRole(String token, String role) throws PrincipalAdapterException;
+	List<String> getUsersByRole(String token, String role) throws PrincipalAdapterException;
 
 	/**
 	 * Retrieves a list of roles by user.
@@ -158,7 +158,7 @@ public interface AuthModule {
 	 * @return A repository user.
 	 * @throws RepositoryException If there is any error retrieving the roles list.
 	 */
-	public List<String> getRolesByUser(String token, String user) throws PrincipalAdapterException;
+	List<String> getRolesByUser(String token, String user) throws PrincipalAdapterException;
 
 	/**
 	 * Retrieves the mail from an user.
@@ -167,7 +167,7 @@ public interface AuthModule {
 	 * @return A email of the user.
 	 * @throws RepositoryException If there is any error retrieving the mail.
 	 */
-	public String getMail(String token, String user) throws PrincipalAdapterException;
+	String getMail(String token, String user) throws PrincipalAdapterException;
 
 	/**
 	 * Retrieves the name from an user.
@@ -176,15 +176,15 @@ public interface AuthModule {
 	 * @return A name of the user.
 	 * @throws RepositoryException If there is any error retrieving the mail.
 	 */
-	public String getName(String token, String user) throws PrincipalAdapterException;
+	String getName(String token, String user) throws PrincipalAdapterException;
 
 	/**
 	 * Change several security permissions in the same call.
 	 */
-	public void changeSecurity(String token, String nodePath, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
-	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException;
-	
+	void changeSecurity(String token, String nodePath, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
+						Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
+				AccessDeniedException, RepositoryException, DatabaseException;
+
 	/*
 	 * ------------------------------------------------------------------
 	 * These methods only works if using the OpenKM user database.
@@ -200,8 +200,7 @@ public interface AuthModule {
 	 * @param name The full user name.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void createUser(String token, String user, String password, String email, String name, boolean active)
-			throws PrincipalAdapterException;
+	void createUser(String token, String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a delete a user
@@ -209,7 +208,7 @@ public interface AuthModule {
 	 * @param user A user id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void deleteUser(String token, String user) throws PrincipalAdapterException;
+	void deleteUser(String token, String user) throws PrincipalAdapterException;
 
 	/**
 	 * Update user information
@@ -220,7 +219,7 @@ public interface AuthModule {
 	 * @param name The full user name.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void updateUser(String token, String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
+	void updateUser(String token, String user, String password, String email, String name, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a new role
@@ -228,7 +227,7 @@ public interface AuthModule {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void createRole(String token, String role, boolean active) throws PrincipalAdapterException;
+	void createRole(String token, String role, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to create a delete a role
@@ -236,7 +235,7 @@ public interface AuthModule {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void deleteRole(String token, String role) throws PrincipalAdapterException;
+	void deleteRole(String token, String role) throws PrincipalAdapterException;
 
 	/**
 	 * Update role information
@@ -244,7 +243,7 @@ public interface AuthModule {
 	 * @param role A role id..
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void updateRole(String token, String role, boolean active) throws PrincipalAdapterException;
+	void updateRole(String token, String role, boolean active) throws PrincipalAdapterException;
 
 	/**
 	 * Method to assign a role
@@ -253,7 +252,7 @@ public interface AuthModule {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void assignRole(String token, String user, String role) throws PrincipalAdapterException;
+	void assignRole(String token, String user, String role) throws PrincipalAdapterException;
 
 	/**
 	 * Method to remove a role
@@ -262,5 +261,5 @@ public interface AuthModule {
 	 * @param role A role id.
 	 * @throws PrincipalAdapterException If any error occurs.
 	 */
-	public void removeRole(String token, String user, String role) throws PrincipalAdapterException;
+	void removeRole(String token, String user, String role) throws PrincipalAdapterException;
 }

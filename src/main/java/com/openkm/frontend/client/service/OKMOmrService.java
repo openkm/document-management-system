@@ -21,12 +21,12 @@
 
 package com.openkm.frontend.client.service;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.openkm.frontend.client.OKMException;
 import com.openkm.frontend.client.bean.GWTOmr;
+
+import java.util.List;
 
 /**
  * @author jllort
@@ -34,6 +34,6 @@ import com.openkm.frontend.client.bean.GWTOmr;
  */
 @RemoteServiceRelativePath("Omr")
 public interface OKMOmrService extends RemoteService {
-	public List<GWTOmr> getAllOmr() throws OKMException;
-	public void process(long omId, String uuid)  throws OKMException;
+	List<GWTOmr> getAllOmr() throws OKMException;
+	void process(long omId, String uuid)  throws OKMException;
 }

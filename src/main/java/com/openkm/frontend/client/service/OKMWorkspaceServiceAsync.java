@@ -29,13 +29,13 @@ import com.openkm.frontend.client.bean.GWTWorkspace;
  *
  */
 public interface OKMWorkspaceServiceAsync {
-	public void getUserWorkspace(AsyncCallback<GWTWorkspace> callback);
+	void getUserWorkspace(AsyncCallback<GWTWorkspace> callback);
 
-	public void getUserDocumentsSize(AsyncCallback<Double> callback);
+	void getUserDocumentsSize(AsyncCallback<Double> callback);
 
-	public void updateUserWorkspace(GWTWorkspace workspace, AsyncCallback<?> callback);
+	void updateUserWorkspace(GWTWorkspace workspace, AsyncCallback<?> callback);
 
-	public void deleteMailAccount(long id, AsyncCallback<?> callback);
+	void deleteMailAccount(long id, AsyncCallback<?> callback);
 
-	public void isValidPassword(String password, AsyncCallback<String> callback);
+	void isValidPassword(String password, AsyncCallback<String> callback);
 }

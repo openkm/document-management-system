@@ -28,11 +28,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public interface OKMPropertyServiceAsync {
-	public void addCategory(String nodePath, String category, AsyncCallback<?> callback);
+	void addCategory(String nodePath, String category, AsyncCallback<?> callback);
 
-	public void removeCategory(String nodePath, String category, AsyncCallback<?> callback);
+	void removeCategory(String nodePath, String category, AsyncCallback<?> callback);
 
-	public void addKeyword(String nodePath, String keyword, AsyncCallback<?> callback);
+	void addKeyword(String nodePath, String keyword, AsyncCallback<?> callback);
 
-	public void removeKeyword(String nodePath, String keyword, AsyncCallback<?> callback);
+	void removeKeyword(String nodePath, String keyword, AsyncCallback<?> callback);
 }

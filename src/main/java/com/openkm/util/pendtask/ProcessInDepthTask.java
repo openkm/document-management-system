@@ -28,7 +28,7 @@ import org.hibernate.Session;
 import java.util.List;
 
 public interface ProcessInDepthTask {
-	public void securityPruneNodeList(List<? extends NodeBase> nodeList) throws DatabaseException;
+	void securityPruneNodeList(List<? extends NodeBase> nodeList) throws DatabaseException;
 
-	public Object doTask(Session session, NodeBase parentNode, NodeBase node) throws DatabaseException;
+	Object doTask(Session session, NodeBase parentNode, NodeBase node) throws DatabaseException;
 }

@@ -31,33 +31,33 @@ import java.util.List;
  *
  */
 public interface OKMMassiveServiceAsync {
-	public void copy(List<String> paths, String fldPath, AsyncCallback<?> callback);
+	void copy(List<String> paths, String fldPath, AsyncCallback<?> callback);
 
-	public void move(List<String> paths, String fldPath, AsyncCallback<?> callback);
+	void move(List<String> paths, String fldPath, AsyncCallback<?> callback);
 
-	public void delete(List<String> paths, AsyncCallback<?> callback);
+	void delete(List<String> paths, AsyncCallback<?> callback);
 
-	public void addNote(List<String> paths, String text, AsyncCallback<?> callback);
+	void addNote(List<String> paths, String text, AsyncCallback<?> callback);
 
-	public void addCategory(List<String> paths, String category, AsyncCallback<?> callback);
+	void addCategory(List<String> paths, String category, AsyncCallback<?> callback);
 
-	public void removeCategory(List<String> paths, String category, AsyncCallback<?> callback);
+	void removeCategory(List<String> paths, String category, AsyncCallback<?> callback);
 
-	public void addKeyword(List<String> paths, String keyword, AsyncCallback<?> callback);
+	void addKeyword(List<String> paths, String keyword, AsyncCallback<?> callback);
 
-	public void removeKeyword(List<String> paths, String keyword, AsyncCallback<?> callback);
+	void removeKeyword(List<String> paths, String keyword, AsyncCallback<?> callback);
 
-	public void addPropertyGroup(List<String> paths, String grpName, AsyncCallback<?> callback);
+	void addPropertyGroup(List<String> paths, String grpName, AsyncCallback<?> callback);
 
-	public void setProperties(List<String> paths, String grpName, List<GWTFormElement> formProperties, AsyncCallback<?> callback);
+	void setProperties(List<String> paths, String grpName, List<GWTFormElement> formProperties, AsyncCallback<?> callback);
 
-	public void lock(List<String> paths, AsyncCallback<?> callback);
+	void lock(List<String> paths, AsyncCallback<?> callback);
 
-	public void unlock(List<String> paths, AsyncCallback<?> callback);
+	void unlock(List<String> paths, AsyncCallback<?> callback);
 
-	public void notify(List<String> uuids, String mails, String users, String roles, String message, boolean attachment, AsyncCallback<?> callback);
+	void notify(List<String> uuids, String mails, String users, String roles, String message, boolean attachment, AsyncCallback<?> callback);
 
-	public void forwardMail(List<String> uuids, String mails, String users, String roles, String message, AsyncCallback<?> callback);
+	void forwardMail(List<String> uuids, String mails, String users, String roles, String message, AsyncCallback<?> callback);
 
-	public void setMixedProperties(List<String> uuidList, List<GWTFormElement> formProperties, boolean recursive, AsyncCallback<?> callback);
+	void setMixedProperties(List<String> uuidList, List<GWTFormElement> formProperties, boolean recursive, AsyncCallback<?> callback);
 }

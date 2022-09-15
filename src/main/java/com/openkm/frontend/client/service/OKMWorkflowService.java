@@ -39,29 +39,29 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Workflow")
 public interface OKMWorkflowService extends RemoteService {
-	public List<GWTProcessDefinition> findLatestProcessDefinitions() throws OKMException;
+	List<GWTProcessDefinition> findLatestProcessDefinitions() throws OKMException;
 
-	public void runProcessDefinition(String UUID, String name, List<GWTFormElement> formElements) throws OKMException;
+	void runProcessDefinition(String UUID, String name, List<GWTFormElement> formElements) throws OKMException;
 
-	public List<GWTTaskInstance> findUserTaskInstances() throws OKMException;
+	List<GWTTaskInstance> findUserTaskInstances() throws OKMException;
 
-	public Map<String, List<GWTFormElement>> getProcessDefinitionForms(double id) throws OKMException;
+	Map<String, List<GWTFormElement>> getProcessDefinitionForms(double id) throws OKMException;
 
-	public Map<String, List<GWTFormElement>> getProcessDefinitionFormsByName(String name) throws OKMException;
+	Map<String, List<GWTFormElement>> getProcessDefinitionFormsByName(String name) throws OKMException;
 
-	public void setTaskInstanceValues(double id, String transitionName, List<GWTFormElement> formElements) throws OKMException;
+	void setTaskInstanceValues(double id, String transitionName, List<GWTFormElement> formElements) throws OKMException;
 
-	public void addComment(double tokenId, String message) throws OKMException;
+	void addComment(double tokenId, String message) throws OKMException;
 
-	public List<GWTTaskInstance> findPooledTaskInstances() throws OKMException;
+	List<GWTTaskInstance> findPooledTaskInstances() throws OKMException;
 
-	public void setTaskInstanceActorId(double id) throws OKMException;
+	void setTaskInstanceActorId(double id) throws OKMException;
 
-	public void startTaskInstance(double id) throws OKMException;
+	void startTaskInstance(double id) throws OKMException;
 
-	public List<GWTProcessInstance> findProcessInstancesByNode(String uuid) throws OKMException;
+	List<GWTProcessInstance> findProcessInstancesByNode(String uuid) throws OKMException;
 
-	public List<GWTProcessInstanceLogEntry> findLogsByProcessInstance(int processInstanceId) throws OKMException;
+	List<GWTProcessInstanceLogEntry> findLogsByProcessInstance(int processInstanceId) throws OKMException;
 
-	public GWTTaskInstance getUserTaskInstance(long taskInstanceId) throws OKMException;
+	GWTTaskInstance getUserTaskInstance(long taskInstanceId) throws OKMException;
 }

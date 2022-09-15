@@ -34,15 +34,15 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("../extension/Stapling")
 public interface OKMStaplingService extends RemoteService {
-	public String create(String username, String uuid, String type, String uuid2, String type2) throws OKMException;
+	String create(String username, String uuid, String type, String uuid2, String type2) throws OKMException;
 
-	public void add(String id, String uuid, String type) throws OKMException;
+	void add(String id, String uuid, String type) throws OKMException;
 
-	public void remove(String id) throws OKMException;
+	void remove(String id) throws OKMException;
 
-	public void removeStaple(String id) throws OKMException;
+	void removeStaple(String id) throws OKMException;
 
-	public List<GWTStapleGroup> getAll(String uuid) throws OKMException;
+	List<GWTStapleGroup> getAll(String uuid) throws OKMException;
 
-	public void removeAllStapleByUuid(String uuid) throws OKMException;
+	void removeAllStapleByUuid(String uuid) throws OKMException;
 }

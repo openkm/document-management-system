@@ -33,19 +33,19 @@ import java.util.Map;
  *
  */
 public interface OKMProposedQueryServiceAsync extends RemoteService {
-	public void create(long qpId, String users, String roles, String comment, AsyncCallback<?> callback);
+	void create(long qpId, String users, String roles, String comment, AsyncCallback<?> callback);
 
-	public void findProposedQueriesUsersFrom(AsyncCallback<Map<String, Long>> callback);
+	void findProposedQueriesUsersFrom(AsyncCallback<Map<String, Long>> callback);
 
-	public void markSeen(long msgId, AsyncCallback<?> callback);
+	void markSeen(long msgId, AsyncCallback<?> callback);
 
-	public void markAccepted(long msgId, AsyncCallback<?> callback);
+	void markAccepted(long msgId, AsyncCallback<?> callback);
 
-	public void deleteReceived(long msgId, AsyncCallback<?> callback);
+	void deleteReceived(long msgId, AsyncCallback<?> callback);
 
-	public void deleteSent(long msgId, AsyncCallback<?> callback);
+	void deleteSent(long msgId, AsyncCallback<?> callback);
 
-	public void findProposedQueryByMeFromUser(String sender, AsyncCallback<List<GWTProposedQueryReceived>> callback);
+	void findProposedQueryByMeFromUser(String sender, AsyncCallback<List<GWTProposedQueryReceived>> callback);
 
-	public void deleteProposedQueryByMeFromUser(String user, AsyncCallback<?> callback);
+	void deleteProposedQueryByMeFromUser(String user, AsyncCallback<?> callback);
 }

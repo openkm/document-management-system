@@ -30,11 +30,10 @@ import com.openkm.frontend.client.bean.GWTUserConfig;
  * OKMUserConfigService
  *
  * @author jllort
- *
  */
 @RemoteServiceRelativePath("UserConfig")
 public interface OKMUserConfigService extends RemoteService {
-	public void setUserHome(String path) throws OKMException;
+	void setUserHome(String path) throws OKMException;
 
-	public GWTUserConfig getUserHome() throws OKMException;
+	GWTUserConfig getUserHome() throws OKMException;
 }

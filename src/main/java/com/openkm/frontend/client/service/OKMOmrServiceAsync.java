@@ -21,16 +21,16 @@
 
 package com.openkm.frontend.client.service;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.openkm.frontend.client.bean.GWTOmr;
+
+import java.util.List;
 
 /**
  * @author jllort
  *
  */
 public interface OKMOmrServiceAsync  {
-	public void getAllOmr(AsyncCallback<List<GWTOmr>> callback);
-	public void process(long omId, String uuid, AsyncCallback<String> callback);
+	void getAllOmr(AsyncCallback<List<GWTOmr>> callback);
+	void process(long omId, String uuid, AsyncCallback<String> callback);
 }

@@ -38,68 +38,68 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Document")
 public interface OKMDocumentService extends RemoteService {
-	public List<GWTDocument> getChilds(String fldId, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTDocument> getChilds(String fldId, Map<String, GWTFilter> mapFilter) throws OKMException;
 
-	public List<GWTVersion> getVersionHistory(String docPath) throws OKMException;
+	List<GWTVersion> getVersionHistory(String docPath) throws OKMException;
 
-	public void delete(String docPath) throws OKMException;
+	void delete(String docPath) throws OKMException;
 
-	public void checkout(String docPath) throws OKMException;
+	void checkout(String docPath) throws OKMException;
 
-	public void cancelCheckout(String docPath) throws OKMException;
+	void cancelCheckout(String docPath) throws OKMException;
 
-	public void lock(String docPath) throws OKMException;
+	void lock(String docPath) throws OKMException;
 
-	public void unlock(String docPath) throws OKMException;
+	void unlock(String docPath) throws OKMException;
 
-	public GWTDocument rename(String docPath, String newName) throws OKMException;
+	GWTDocument rename(String docPath, String newName) throws OKMException;
 
-	public void move(String docPath, String destPath) throws OKMException;
+	void move(String docPath, String destPath) throws OKMException;
 
-	public void purge(String docPath) throws OKMException;
+	void purge(String docPath) throws OKMException;
 
-	public void restoreVersion(String docPath, String versionId) throws OKMException;
+	void restoreVersion(String docPath, String versionId) throws OKMException;
 
-	public GWTDocument getProperties(String docPath) throws OKMException;
+	GWTDocument getProperties(String docPath) throws OKMException;
 
-	public void copy(String docPath, String fldPath) throws OKMException;
+	void copy(String docPath, String fldPath) throws OKMException;
 
-	public Boolean isValid(String docPath) throws OKMException;
+	Boolean isValid(String docPath) throws OKMException;
 
-	public Long getVersionHistorySize(String docPath) throws OKMException;
+	Long getVersionHistorySize(String docPath) throws OKMException;
 
-	public void purgeVersionHistory(String docPath) throws OKMException;
+	void purgeVersionHistory(String docPath) throws OKMException;
 
-	public void forceUnlock(String docPath) throws OKMException;
+	void forceUnlock(String docPath) throws OKMException;
 
-	public void forceCancelCheckout(String docPath) throws OKMException;
+	void forceCancelCheckout(String docPath) throws OKMException;
 
-	public GWTDocument createFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
-	                                      Map<String, List<Map<String, String>>> tableProperties) throws OKMException;
+	GWTDocument createFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
+									Map<String, List<Map<String, String>>> tableProperties) throws OKMException;
 
-	public String updateFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
-	                                 Map<String, List<Map<String, String>>> tableProperties) throws OKMException;
+	String updateFromTemplate(String docPath, String destinationPath, List<GWTFormElement> formProperties,
+							  Map<String, List<Map<String, String>>> tableProperties) throws OKMException;
 
-	public String convertToPdf(String docPath) throws OKMException;
+	String convertToPdf(String docPath) throws OKMException;
 
-	public void mergePdf(String docName, List<String> paths) throws OKMException;
+	void mergePdf(String docName, List<String> paths) throws OKMException;
 
-	public List<GWTDocument> getAllTemplates() throws OKMException;
+	List<GWTDocument> getAllTemplates() throws OKMException;
 
-	public void createFromTemplate(String docPath, String fldPath, String name, GWTExtendedAttributes attributes) throws OKMException;
+	void createFromTemplate(String docPath, String fldPath, String name, GWTExtendedAttributes attributes) throws OKMException;
 
-	public String getHTMLContent(String docPath, boolean checkout) throws OKMException;
+	String getHTMLContent(String docPath, boolean checkout) throws OKMException;
 
-	public void setHTMLContent(String docPath, String mails, String users, String roles, String message, String content, String comment,
-	                           int increaseVersion) throws OKMException;
+	void setHTMLContent(String docPath, String mails, String users, String roles, String message, String content, String comment,
+						int increaseVersion) throws OKMException;
 
 	/*
 	 * ======================== LiveEdit methods =========================
 	 */
-	public void liveEditCheckin(String docPath, String mails, String users, String roles, String message, String comment,
-	                            int increaseVersion) throws OKMException;
+	void liveEditCheckin(String docPath, String mails, String users, String roles, String message, String comment,
+						 int increaseVersion) throws OKMException;
 
-	public void liveEditForceCancelCheckout(String docPath) throws OKMException;
+	void liveEditForceCancelCheckout(String docPath) throws OKMException;
 
-	public void liveEditCancelCheckout(String docPath) throws OKMException;
+	void liveEditCancelCheckout(String docPath) throws OKMException;
 }

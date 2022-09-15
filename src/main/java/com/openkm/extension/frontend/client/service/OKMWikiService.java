@@ -36,25 +36,25 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("../extension/Wiki")
 public interface OKMWikiService extends RemoteService {
-	public GWTWikiPage findLatestByNode(String uuid) throws OKMException;
+	GWTWikiPage findLatestByNode(String uuid) throws OKMException;
 
-	public GWTWikiPage createNewWikiPage(GWTWikiPage wikiPage) throws OKMException;
+	GWTWikiPage createNewWikiPage(GWTWikiPage wikiPage) throws OKMException;
 
-	public void lock(GWTWikiPage wikiPage) throws OKMException;
+	void lock(GWTWikiPage wikiPage) throws OKMException;
 
-	public GWTWikiPage updateWikiPage(GWTWikiPage wikiPage) throws OKMException;
+	GWTWikiPage updateWikiPage(GWTWikiPage wikiPage) throws OKMException;
 
-	public void deleteWikiPage(GWTWikiPage wikiPage) throws OKMException;
+	void deleteWikiPage(GWTWikiPage wikiPage) throws OKMException;
 
-	public void unlock(GWTWikiPage wikiPage) throws OKMException;
+	void unlock(GWTWikiPage wikiPage) throws OKMException;
 
-	public GWTWikiPage findLatestByTitle(String title) throws OKMException;
+	GWTWikiPage findLatestByTitle(String title) throws OKMException;
 
-	public List<GWTWikiPage> findAllByTitle(String title) throws OKMException;
+	List<GWTWikiPage> findAllByTitle(String title) throws OKMException;
 
-	public GWTWikiPage restoreWikiPage(GWTWikiPage wikiPage) throws OKMException;
+	GWTWikiPage restoreWikiPage(GWTWikiPage wikiPage) throws OKMException;
 
-	public List<String> findAllLatestByTitleFiltered(String filter) throws OKMException;
+	List<String> findAllLatestByTitleFiltered(String filter) throws OKMException;
 
-	public List<GWTWikiPage> findAllHistoricByTitle(String title) throws OKMException;
+	List<GWTWikiPage> findAllHistoricByTitle(String title) throws OKMException;
 }

@@ -34,25 +34,25 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("Chat")
 public interface OKMChatService extends RemoteService {
-	public void login() throws OKMException;
+	void login() throws OKMException;
 
-	public void logout() throws OKMException;
+	void logout() throws OKMException;
 
-	public List<GWTUser> getLoggedUsers() throws OKMException;
+	List<GWTUser> getLoggedUsers() throws OKMException;
 
-	public String createNewChatRoom(String user) throws OKMException;
+	String createNewChatRoom(String user) throws OKMException;
 
-	public List<String> getPendingChatRoomUser();
+	List<String> getPendingChatRoomUser();
 
-	public List<String> getPendingMessage(String room) throws OKMException;
+	List<String> getPendingMessage(String room) throws OKMException;
 
-	public void addMessageToRoom(String room, String msg) throws OKMException;
+	void addMessageToRoom(String room, String msg) throws OKMException;
 
-	public void closeRoom(String room) throws OKMException;
+	void closeRoom(String room) throws OKMException;
 
-	public void addUserToChatRoom(String room, String user) throws OKMException;
+	void addUserToChatRoom(String room, String user) throws OKMException;
 
-	public String usersInRoom(String room) throws OKMException;
+	String usersInRoom(String room) throws OKMException;
 
-	public List<String> getUsersInRoom(String room) throws OKMException;
+	List<String> getUsersInRoom(String room) throws OKMException;
 }

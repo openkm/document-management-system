@@ -34,13 +34,13 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("Bookmark")
 public interface OKMBookmarkService extends RemoteService {
-	public List<GWTBookmark> getAll() throws OKMException;
+	List<GWTBookmark> getAll() throws OKMException;
 
-	public GWTBookmark add(String nodePath, String name) throws OKMException;
+	GWTBookmark add(String nodePath, String name) throws OKMException;
 
-	public void remove(int bmId) throws OKMException;
+	void remove(int bmId) throws OKMException;
 
-	public GWTBookmark rename(int bmId, String newName) throws OKMException;
+	GWTBookmark rename(int bmId, String newName) throws OKMException;
 
-	public GWTBookmark get(int bmId) throws OKMException;
+	GWTBookmark get(int bmId) throws OKMException;
 }

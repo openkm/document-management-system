@@ -31,6 +31,6 @@ import com.openkm.frontend.client.extension.event.HasMailEvent.MailEventConstant
  */
 public interface MailHandlerExtension {
 
-	public abstract void onChange(MailEventConstant event);
+	void onChange(MailEventConstant event);
 
 }

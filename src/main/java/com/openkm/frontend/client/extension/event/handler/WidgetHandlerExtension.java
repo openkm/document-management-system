@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasWidgetEvent.WidgetEventCons
  */
 public interface WidgetHandlerExtension {
 
-	public abstract void onChange(WidgetEventConstant event);
+	void onChange(WidgetEventConstant event);
 
 }

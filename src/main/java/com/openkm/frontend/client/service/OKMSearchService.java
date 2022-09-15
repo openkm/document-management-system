@@ -38,23 +38,23 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("Search")
 public interface OKMSearchService extends RemoteService {
-	public List<GWTQueryParams> getAllSearchs() throws OKMException;
+	List<GWTQueryParams> getAllSearchs() throws OKMException;
 
-	public Long saveSearch(GWTQueryParams params, String type) throws OKMException;
+	Long saveSearch(GWTQueryParams params, String type) throws OKMException;
 
-	public void deleteSearch(long id) throws OKMException;
+	void deleteSearch(long id) throws OKMException;
 
-	public GWTResultSet findPaginated(GWTQueryParams params, int offset, int limit) throws OKMException;
+	GWTResultSet findPaginated(GWTQueryParams params, int offset, int limit) throws OKMException;
 
-	public List<GWTKeyword> getKeywordMap(List<String> filter) throws OKMException;
+	List<GWTKeyword> getKeywordMap(List<String> filter) throws OKMException;
 
-	public GWTResultSet find(GWTQueryParams params) throws OKMException;
+	GWTResultSet find(GWTQueryParams params) throws OKMException;
 
-	public void share(long qpId) throws OKMException;
+	void share(long qpId) throws OKMException;
 
-	public void unshare(long qpId) throws OKMException;
+	void unshare(long qpId) throws OKMException;
 
-	public GWTResultSet findSimpleQueryPaginated(String statement, int offset, int limit) throws OKMException;
+	GWTResultSet findSimpleQueryPaginated(String statement, int offset, int limit) throws OKMException;
 
-	public GWTResultSet findMoreLikeThis(String uuid) throws OKMException;
+	GWTResultSet findMoreLikeThis(String uuid) throws OKMException;
 }

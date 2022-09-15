@@ -34,7 +34,7 @@ import java.util.List;
  *
  */
 public interface OKMMacrosServiceAsync extends RemoteService {
-	public void getActions(AsyncCallback<List<GWTMacros>> callback);
+	void getActions(AsyncCallback<List<GWTMacros>> callback);
 
-	public void executeAction(GWTMacros action, String path, AsyncCallback<?> callback);
+	void executeAction(GWTMacros action, String path, AsyncCallback<?> callback);
 }
