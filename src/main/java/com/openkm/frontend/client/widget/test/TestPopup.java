@@ -44,7 +44,7 @@ import java.util.List;
  *
  */
 public class TestPopup extends DialogBox {
-	private final OKMTestServiceAsync testService = (OKMTestServiceAsync) GWT.create(OKMTestService.class);
+	private final OKMTestServiceAsync testService = GWT.create(OKMTestService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

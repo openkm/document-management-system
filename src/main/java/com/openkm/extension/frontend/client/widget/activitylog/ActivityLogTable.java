@@ -42,13 +42,13 @@ import java.util.List;
  *
  */
 public class ActivityLogTable extends Composite {
+	private final OKMActivityLogServiceAsync activityLogService = GWT.create(OKMActivityLogService.class);
+
 	public static final int DOCUMENT = 0;
 	public static final int FOLDER = 1;
 	public static final int MAIL = 2;
 	public static final int LOG_NUMBER_OF_COLUMNS = 4;
 
-	private final OKMActivityLogServiceAsync activityLogService = (OKMActivityLogServiceAsync) GWT
-			.create(OKMActivityLogService.class);
 	private ListBox actionList;
 	private HTML filterText;
 	private HTML filterGetChildsText;

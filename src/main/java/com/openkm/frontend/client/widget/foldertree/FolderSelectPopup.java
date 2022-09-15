@@ -40,6 +40,11 @@ import com.openkm.frontend.client.util.Util;
 import com.openkm.frontend.client.widget.massive.Status;
 
 public class FolderSelectPopup extends DialogBox {
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
+	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
+
 	public static final int ENTRYPOINT_NONE = -1;
 	public static final int ENTRYPOINT_TAXONOMY = 0;
 	public static final int ENTRYPOINT_BROWSER = 1;
@@ -63,11 +68,6 @@ public class FolderSelectPopup extends DialogBox {
 	public static final int FOLDER = 1;
 	public static final int MAIL = 2;
 	public static final int MASSIVE = 3;
-
-	private final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
-	private final OKMMailServiceAsync mailService = (OKMMailServiceAsync) GWT.create(OKMMailService.class);
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

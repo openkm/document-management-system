@@ -21,22 +21,13 @@
 
 package com.openkm.frontend.client.widget.massive;
 
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.bean.GWTDocument;
 import com.openkm.frontend.client.bean.GWTOmr;
@@ -44,13 +35,15 @@ import com.openkm.frontend.client.service.OKMOmrService;
 import com.openkm.frontend.client.service.OKMOmrServiceAsync;
 import com.openkm.frontend.client.util.Util;
 
+import java.util.List;
+
 /**
  * OmrPopup popup
  *
  * @author jllort
  */
 public class OmrPopup extends DialogBox {
-	private final OKMOmrServiceAsync omrService = (OKMOmrServiceAsync) GWT.create(OKMOmrService.class);
+	private final OKMOmrServiceAsync omrService = GWT.create(OKMOmrService.class);
 
 	private FlexTable table;
 	private Button cancelButton;

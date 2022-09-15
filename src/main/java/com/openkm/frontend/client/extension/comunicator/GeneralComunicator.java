@@ -46,7 +46,7 @@ import java.util.List;
  *
  */
 public class GeneralComunicator {
-	private static final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
+	private static final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
 
 	/**
 	 * refreshUI

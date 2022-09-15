@@ -41,7 +41,7 @@ import com.openkm.frontend.client.widget.richtext.RichTextToolbar;
  * @author jllort
  */
 public class NotesPopup extends DialogBox {
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
 
 	private VerticalPanel newNotePanel;
 	private Button cancelButton;

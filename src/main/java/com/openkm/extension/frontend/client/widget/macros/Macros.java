@@ -54,11 +54,12 @@ import java.util.List;
  */
 public class Macros implements DocumentHandlerExtension, FolderHandlerExtension, MailHandlerExtension, WorkspaceHandlerExtension,
 		LanguageHandlerExtension {
+	private final OKMMacrosServiceAsync macrosService = GWT.create(OKMMacrosService.class);
+
 	public static final int TAB_DOCUMENT = 0;
 	public static final int TAB_FOLDER = 1;
 	public static final int TAB_MAIL = 2;
 
-	private final OKMMacrosServiceAsync macrosService = (OKMMacrosServiceAsync) GWT.create(OKMMacrosService.class);
 	public static Macros singleton;
 	public static final String UUID = "c60082c2-7d4c-4750-901b-a817f246cfa1";
 

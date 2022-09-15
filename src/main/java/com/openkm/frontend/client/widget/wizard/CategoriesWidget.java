@@ -46,7 +46,7 @@ import java.util.Collection;
  *
  */
 public class CategoriesWidget extends Composite {
-	private final OKMPropertyServiceAsync propertyService = (OKMPropertyServiceAsync) GWT.create(OKMPropertyService.class);
+	private final OKMPropertyServiceAsync propertyService = GWT.create(OKMPropertyService.class);
 
 	private FlexTable table;
 	private String docPath;

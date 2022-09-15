@@ -44,7 +44,7 @@ import java.util.Collection;
  * @author jllort
  */
 public class CategoriesPopup extends DialogBox {
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
 
 	private FlexTable table;
 	private CellFormatter cellFormatter;

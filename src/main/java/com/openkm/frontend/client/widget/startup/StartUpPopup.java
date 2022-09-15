@@ -37,7 +37,6 @@ import java.util.List;
  *
  */
 public class StartUpPopup extends DialogBox implements ClickHandler {
-
 	private final static int IE_SIZE_RECTIFICATION = (Util.getUserAgent().startsWith("ie") ? 2 : 0);
 
 	private VerticalPanel vPanel;

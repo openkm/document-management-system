@@ -52,7 +52,7 @@ import java.util.*;
  * @author jllort
  */
 public class VersionScrollTable extends Composite implements ClickHandler {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	// Number of columns
 	public static final int NUMBER_OF_COLUMNS = 7;

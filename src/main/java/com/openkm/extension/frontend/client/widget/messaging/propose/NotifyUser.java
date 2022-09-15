@@ -40,7 +40,8 @@ import java.util.List;
  * @author jllort
  */
 public class NotifyUser extends Composite {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
+
 	private HorizontalPanel hPanel;
 	private UserScrollTable notifyUsersTable;
 	private UserScrollTable userTable;

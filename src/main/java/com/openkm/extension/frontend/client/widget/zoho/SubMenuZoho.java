@@ -42,7 +42,7 @@ import java.util.Map;
  * @author jllort
  */
 public class SubMenuZoho {
-	private final OKMZohoServiceAsync zohoService = (OKMZohoServiceAsync) GWT.create(OKMZohoService.class);
+	private final OKMZohoServiceAsync zohoService = GWT.create(OKMZohoService.class);
 
 	private MenuItemExtension zohoMenu;
 	private MenuItemExtension zohoWriterMenu;

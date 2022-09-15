@@ -43,7 +43,7 @@ import java.util.List;
  *
  */
 public class FindWikiSelectPopup extends DialogBox {
-	private final OKMWikiServiceAsync wikiService = (OKMWikiServiceAsync) GWT.create(OKMWikiService.class);
+	private final OKMWikiServiceAsync wikiService = GWT.create(OKMWikiService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

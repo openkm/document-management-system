@@ -39,7 +39,7 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
  * @author jllort
  */
 public class ZohoPopup extends DialogBox {
-	private final OKMZohoServiceAsync zohoService = (OKMZohoServiceAsync) GWT.create(OKMZohoService.class);
+	private final OKMZohoServiceAsync zohoService = GWT.create(OKMZohoService.class);
 
 	public static final int DEFAULT_WIDTH = 1020;
 	public static final int DEFAULT_HEIGHT = 720;

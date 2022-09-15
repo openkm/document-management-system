@@ -52,7 +52,7 @@ import java.util.*;
  *
  */
 public class SecurityScrollTable extends Composite implements ClickHandler {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
 	// Number of columns
 	private String uuid;

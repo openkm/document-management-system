@@ -48,8 +48,7 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class StapleTableManager {
-
-	private final static OKMStaplingServiceAsync staplingService = (OKMStaplingServiceAsync) GWT.create(OKMStaplingService.class);
+	private final static OKMStaplingServiceAsync staplingService = GWT.create(OKMStaplingService.class);
 
 	/**
 	 * addDocument

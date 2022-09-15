@@ -44,7 +44,7 @@ import java.util.Map;
  *
  */
 public class SecurityPopup extends DialogBox {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
 	public Status status;
 	private VerticalPanel vPanel;

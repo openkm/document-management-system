@@ -38,10 +38,11 @@ import com.openkm.frontend.client.service.OKMRepositoryServiceAsync;
  *
  */
 public class FilePath extends Composite {
+	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+
 	private VerticalPanel panel;
-	private HTML path;
 	private String valuePath;
-	private final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
+	private HTML path;
 
 	/**
 	 * FilePath

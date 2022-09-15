@@ -53,7 +53,7 @@ import java.util.Collection;
  * @author jllort
  */
 public class Document extends Composite {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private FlexTable tableProperties;
 	private FlexTable tableSubscribedUsers;

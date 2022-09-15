@@ -42,10 +42,9 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
  *
  */
 public class Message extends Composite {
-
-	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
-	private final OKMProposedQueryServiceAsync proposedQueryService = (OKMProposedQueryServiceAsync) GWT.create(OKMProposedQueryService.class);
-	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = (OKMProposedSubscriptionServiceAsync) GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedQueryServiceAsync proposedQueryService = GWT.create(OKMProposedQueryService.class);
+	private final OKMMessageServiceAsync messageService = GWT.create(OKMMessageService.class);
 
 	// Number of columns
 	public static final int NUMBER_OF_COLUMNS = 6;

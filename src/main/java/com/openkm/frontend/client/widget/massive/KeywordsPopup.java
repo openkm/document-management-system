@@ -31,10 +31,10 @@ import com.openkm.frontend.client.bean.GWTKeyword;
 import com.openkm.frontend.client.service.OKMMassiveService;
 import com.openkm.frontend.client.service.OKMMassiveServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
-import com.openkm.frontend.client.widget.util.WidgetUtil;
 import com.openkm.frontend.client.widget.dashboard.ImageHover;
 import com.openkm.frontend.client.widget.dashboard.keymap.TagCloud;
 import com.openkm.frontend.client.widget.thesaurus.ThesaurusSelectPopup;
+import com.openkm.frontend.client.widget.util.WidgetUtil;
 
 import java.util.*;
 
@@ -44,7 +44,7 @@ import java.util.*;
  * @author jllort
  */
 public class KeywordsPopup extends DialogBox {
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
 
 	private FlexTable table;
 	private CellFormatter cellFormatter;

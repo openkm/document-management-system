@@ -45,8 +45,8 @@ import com.openkm.frontend.client.service.OKMNotifyServiceAsync;
  * @author jllort
  */
 public class ProposedSubscriptionReceivedDetail extends Composite {
-	private final OKMNotifyServiceAsync notifyService = (OKMNotifyServiceAsync) GWT.create(OKMNotifyService.class);
-	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = (OKMProposedSubscriptionServiceAsync) GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMNotifyServiceAsync notifyService = GWT.create(OKMNotifyService.class);
 
 	private ScrollPanel scrollPanel;
 	private VerticalPanel vPanel;

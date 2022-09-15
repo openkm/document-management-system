@@ -42,8 +42,7 @@ import java.util.Map;
  *
  */
 public class ProposedQueryReceivedStack extends Composite {
-
-	private final OKMProposedQueryServiceAsync proposedQueryService = (OKMProposedQueryServiceAsync) GWT.create(OKMProposedQueryService.class);
+	private final OKMProposedQueryServiceAsync proposedQueryService = GWT.create(OKMProposedQueryService.class);
 
 	private ExtendedFlexTable table;
 	private boolean firstTime = true;
@@ -57,7 +56,6 @@ public class ProposedQueryReceivedStack extends Composite {
 	 */
 	public ProposedQueryReceivedStack() {
 		userSeen = new HashMap<String, Long>();
-
 		menuPopup = new MenuPopup();
 		menuPopup.setStyleName("okm-MenuPopup");
 

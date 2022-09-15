@@ -56,14 +56,14 @@ import java.util.List;
  */
 public class Stapling implements DocumentHandlerExtension, FolderHandlerExtension, MailHandlerExtension,
 		NavigatorHandlerExtension, LanguageHandlerExtension, WorkspaceHandlerExtension {
+	private final OKMStaplingServiceAsync staplingService = GWT.create(OKMStaplingService.class);
+
 	public static final int TAB_DOCUMENT = 0;
 	public static final int TAB_FOLDER = 1;
 	public static final int TAB_MAIL = 2;
 
 	private static Stapling singleton;
 	private static final String UUID = "25af39c0-580f-431c-8852-0b6430b4dc1d";
-
-	private final OKMStaplingServiceAsync staplingService = (OKMStaplingServiceAsync) GWT.create(OKMStaplingService.class);
 
 	private ToolBarButtonStart buttonStart;
 	private ToolBarButtonStop buttonStop;

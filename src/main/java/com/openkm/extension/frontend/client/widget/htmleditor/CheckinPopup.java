@@ -43,7 +43,7 @@ import com.openkm.frontend.client.widget.notify.NotifyPanel;
  * @author jllort
  */
 public class CheckinPopup extends DialogBox implements NotifyHandler {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	/**
 	 * Increase part for increase version

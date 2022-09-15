@@ -40,7 +40,7 @@ import java.util.Iterator;
  *
  */
 public class SearchResult extends Composite {
-	private final OKMSearchServiceAsync searchService = (OKMSearchServiceAsync) GWT.create(OKMSearchService.class);
+	private final OKMSearchServiceAsync searchService = GWT.create(OKMSearchService.class);
 
 	SimplePanel sp;
 	public SearchCompactResult searchCompactResult;

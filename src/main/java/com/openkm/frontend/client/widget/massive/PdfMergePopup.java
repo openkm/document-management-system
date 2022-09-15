@@ -43,7 +43,7 @@ import java.util.List;
  *
  */
 public class PdfMergePopup extends DialogBox {
-	private final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
+	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 
 	private LinkedList<GWTDocument> data;
 	private VerticalPanel vPanel;

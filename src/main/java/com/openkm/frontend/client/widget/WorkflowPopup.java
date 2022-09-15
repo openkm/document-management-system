@@ -47,7 +47,7 @@ import java.util.List;
  *
  */
 public class WorkflowPopup extends DialogBox implements WorkflowWidgetToFire {
-	private final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
+	private final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

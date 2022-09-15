@@ -42,9 +42,7 @@ import java.util.*;
  *
  */
 public class NewsDashboard extends WidgetToFire {
-
-	private final OKMDashboardServiceAsync dashboardService = (OKMDashboardServiceAsync) GWT.create(OKMDashboardService.class);
-
+	private final OKMDashboardServiceAsync dashboardService = GWT.create(OKMDashboardService.class);
 	private final int NUMBER_OF_COLUMNS = 2;
 
 	private HorizontalPanel hPanel;

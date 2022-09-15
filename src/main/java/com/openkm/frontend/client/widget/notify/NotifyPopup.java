@@ -41,14 +41,14 @@ import java.util.List;
  * @author jllort
  */
 public class NotifyPopup extends DialogBox implements NotifyHandler {
+	private final OKMMassiveServiceAsync massiveService = GWT.create(OKMMassiveService.class);
+	private final OKMNotifyServiceAsync notifyService = GWT.create(OKMNotifyService.class);
+	private final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
+
 	private static final int NONE = -1;
 	public static final int NOTIFY_WITH_LINK = 0;
 	public static final int NOTIFY_WITH_ATTACHMENT = 1;
 	public static final int FORWARD_MAIL = 2;
-
-	private final OKMNotifyServiceAsync notifyService = (OKMNotifyServiceAsync) GWT.create(OKMNotifyService.class);
-	private final OKMMassiveServiceAsync massiveService = (OKMMassiveServiceAsync) GWT.create(OKMMassiveService.class);
-	private final OKMMailServiceAsync mailService = (OKMMailServiceAsync) GWT.create(OKMMailService.class);
 
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;

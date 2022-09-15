@@ -43,7 +43,7 @@ import java.util.*;
  * @author jllort
  */
 public class SecurityRole extends Composite implements HasWidgets {
-	private final OKMAuthServiceAsync authService = (OKMAuthServiceAsync) GWT.create(OKMAuthService.class);
+	private final OKMAuthServiceAsync authService = GWT.create(OKMAuthService.class);
 
 	public RoleScrollTable assignedRole;
 	public RoleScrollTable unassignedRole;

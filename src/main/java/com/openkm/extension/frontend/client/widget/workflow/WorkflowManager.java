@@ -43,7 +43,8 @@ import java.util.List;
  *
  */
 public class WorkflowManager extends Composite implements WorkflowController {
-	private final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
+	private final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
+
 	private VerticalPanel vPanel;
 	private TabToolbarWorkflow toolbar;
 	public WorkflowTable workflowTable;

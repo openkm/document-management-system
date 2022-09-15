@@ -58,11 +58,9 @@ import java.util.Map;
  * @author jllort
  */
 public class ExtendedScrollTable extends ScrollTable {
-	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = (OKMProposedSubscriptionServiceAsync) GWT
-			.create(OKMProposedSubscriptionService.class);
-	private final OKMProposedQueryServiceAsync proposedQueryService = (OKMProposedQueryServiceAsync) GWT
-			.create(OKMProposedQueryService.class);
-	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
+	private final OKMProposedSubscriptionServiceAsync proposedSubscriptionService = GWT.create(OKMProposedSubscriptionService.class);
+	private final OKMProposedQueryServiceAsync proposedQueryService = GWT.create(OKMProposedQueryService.class);
+	private final OKMMessageServiceAsync messageService = GWT.create(OKMMessageService.class);
 
 	// Special event case
 	private static final int EVENT_ONMOUSEDOWN_RIGHT = -2;

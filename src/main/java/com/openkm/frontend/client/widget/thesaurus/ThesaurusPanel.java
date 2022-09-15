@@ -45,7 +45,7 @@ import java.util.List;
  *
  */
 public class ThesaurusPanel extends Composite {
-	private final OKMThesaurusServiceAsync thesaurusService = (OKMThesaurusServiceAsync) GWT.create(OKMThesaurusService.class);
+	private final OKMThesaurusServiceAsync thesaurusService = GWT.create(OKMThesaurusService.class);
 
 	private static final int TAB_HEIGHT = 20;
 	private final int TAB_TREE = 0;

@@ -39,7 +39,8 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class MessagePopup extends DialogBox {
-	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
+	private final OKMMessageServiceAsync messageService = GWT.create(OKMMessageService.class);
+
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private Button closeButton;

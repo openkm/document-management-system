@@ -40,7 +40,7 @@ import java.util.List;
  * @author jllort
  */
 public class ChatRoomPopup extends ChatRoomDialogBox {
-	private final OKMChatServiceAsync chatService = (OKMChatServiceAsync) GWT.create(OKMChatService.class);
+	private final OKMChatServiceAsync chatService = GWT.create(OKMChatService.class);
 
 	private final static int DELAY_PENDING_MESSAGE = 1000; // 1 seg
 	private final static int DELAY_USERS_IN_ROOM = 3 * 1000; // 3 seg

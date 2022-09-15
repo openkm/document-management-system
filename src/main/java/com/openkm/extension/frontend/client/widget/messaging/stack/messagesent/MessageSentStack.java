@@ -39,7 +39,8 @@ import java.util.List;
  * @author jllort
  */
 public class MessageSentStack extends Composite {
-	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
+	private final OKMMessageServiceAsync messageService = GWT.create(OKMMessageService.class);
+
 	private ExtendedFlexTable table;
 	private boolean firstTime = true;
 	private String selectedId = "";

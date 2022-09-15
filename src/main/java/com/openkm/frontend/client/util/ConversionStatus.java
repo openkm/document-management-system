@@ -36,7 +36,7 @@ import com.openkm.frontend.client.service.OKMGeneralServiceAsync;
  *
  */
 public class ConversionStatus {
-	private final OKMGeneralServiceAsync generalService = (OKMGeneralServiceAsync) GWT.create(OKMGeneralService.class);
+	private final OKMGeneralServiceAsync generalService = GWT.create(OKMGeneralService.class);
 	private static final int REFRESH_STATUS_DELAY = 500;
 
 	/**

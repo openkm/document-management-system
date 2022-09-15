@@ -52,7 +52,7 @@ import java.util.Iterator;
  *
  */
 public class Notes extends Composite {
-	private final OKMNoteServiceAsync noteService = (OKMNoteServiceAsync) GWT.create(OKMNoteService.class);
+	private final OKMNoteServiceAsync noteService = GWT.create(OKMNoteService.class);
 	public static final int DOCUMENT_NOTE = 1;
 	public static final int FOLDER_NOTE = 2;
 	public static final int MAIL_NOTE = 3;

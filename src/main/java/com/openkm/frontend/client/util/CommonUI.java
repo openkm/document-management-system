@@ -41,11 +41,11 @@ import java.util.Date;
  * @author jllort
  */
 public class CommonUI {
-	private static final OKMRepositoryServiceAsync repositoryService = (OKMRepositoryServiceAsync) GWT.create(OKMRepositoryService.class);
-	private static final OKMFolderServiceAsync folderService = (OKMFolderServiceAsync) GWT.create(OKMFolderService.class);
-	private static final OKMDocumentServiceAsync documentService = (OKMDocumentServiceAsync) GWT.create(OKMDocumentService.class);
-	private static final OKMMailServiceAsync mailService = (OKMMailServiceAsync) GWT.create(OKMMailService.class);
-	private static final OKMWorkflowServiceAsync workflowService = (OKMWorkflowServiceAsync) GWT.create(OKMWorkflowService.class);
+	private static final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
+	private static final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
+	private static final OKMWorkflowServiceAsync workflowService = GWT.create(OKMWorkflowService.class);
+	private static final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
+	private static final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
 
 	public static final String FOLDER_IMAGE_WITH_CHILDREN = "menuitem_childs";
 	public static final String FOLDER_IMAGE_EMPTY = "menuitem_empty";

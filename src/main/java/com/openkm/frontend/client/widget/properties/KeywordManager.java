@@ -50,7 +50,7 @@ import java.util.*;
  * @author jllort
  */
 public class KeywordManager {
-	private final OKMPropertyServiceAsync propertyService = (OKMPropertyServiceAsync) GWT.create(OKMPropertyService.class);
+	private final OKMPropertyServiceAsync propertyService = GWT.create(OKMPropertyService.class);
 
 	private HorizontalPanel keywordPanel;
 	private SuggestBox suggestKey;
