@@ -36,7 +36,7 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("../extension/Macros")
 public interface OKMMacrosService extends RemoteService {
-	public List<GWTMacros> getActions() throws OKMException;
+	List<GWTMacros> getActions() throws OKMException;
 
-	public void executeAction(GWTMacros action, String path) throws OKMException;
+	void executeAction(GWTMacros action, String path) throws OKMException;
 }

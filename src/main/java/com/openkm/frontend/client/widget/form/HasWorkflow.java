@@ -32,7 +32,7 @@ import java.util.Collection;
  *
  */
 public interface HasWorkflow {
-	public abstract void setTaskInstanceValues(double id, String transitionName);
+	void setTaskInstanceValues(double id, String transitionName);
 
-	public abstract void setTaskInstanceValues(double id, String transitionName, Collection<FileToUpload> filesToUpload);
+	void setTaskInstanceValues(double id, String transitionName, Collection<FileToUpload> filesToUpload);
 }

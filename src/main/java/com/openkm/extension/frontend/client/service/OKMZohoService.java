@@ -35,11 +35,11 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("../extension/Zoho")
 public interface OKMZohoService extends RemoteService {
-	public String getTicket() throws OKMException;
+	String getTicket() throws OKMException;
 
-	public Map<String, String> getZohoWriterUrl(String uuid, String lang) throws OKMException;
+	Map<String, String> getZohoWriterUrl(String uuid, String lang) throws OKMException;
 
-	public Map<String, String> getZohoSheetUrl(String uuid, String lang) throws OKMException;
+	Map<String, String> getZohoSheetUrl(String uuid, String lang) throws OKMException;
 
-	public void closeZohoWriter(String id);
+	void closeZohoWriter(String id);
 }

@@ -31,6 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface HasWidget {
 
-	public abstract Widget getWidget();
+	Widget getWidget();
 
 }

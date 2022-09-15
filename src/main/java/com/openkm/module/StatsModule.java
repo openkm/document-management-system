@@ -30,20 +30,20 @@ public interface StatsModule {
 	/**
 	 * Get number of documents per context
 	 */
-	public StatsInfo getDocumentsByContext(String token) throws RepositoryException, DatabaseException;
+	StatsInfo getDocumentsByContext(String token) throws RepositoryException, DatabaseException;
 
 	/**
 	 * Get number of folders per context
 	 */
-	public StatsInfo getFoldersByContext(String token) throws RepositoryException, DatabaseException;
+	StatsInfo getFoldersByContext(String token) throws RepositoryException, DatabaseException;
 
 	/**
 	 * Get number of mails per context
 	 */
-	public StatsInfo getMailsByContext(String token) throws RepositoryException, DatabaseException;
+	StatsInfo getMailsByContext(String token) throws RepositoryException, DatabaseException;
 
 	/**
 	 * Get size of documents per context
 	 */
-	public StatsInfo getDocumentsSizeByContext(String token) throws RepositoryException, DatabaseException;
+	StatsInfo getDocumentsSizeByContext(String token) throws RepositoryException, DatabaseException;
 }

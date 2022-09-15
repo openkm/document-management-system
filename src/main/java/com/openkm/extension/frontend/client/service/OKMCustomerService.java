@@ -34,7 +34,8 @@ import com.openkm.frontend.client.OKMException;
  */
 @RemoteServiceRelativePath("../extension/Customer")
 public interface OKMCustomerService extends RemoteService {
-	public Double addExtendedSecurity(GWTExtendedSecurity security, boolean recursive) throws OKMException;
 
-	public void removeExtendedSecurity(GWTExtendedSecurity security, boolean recursive) throws OKMException;
+	Double addExtendedSecurity(GWTExtendedSecurity security, boolean recursive) throws OKMException;
+
+	void removeExtendedSecurity(GWTExtendedSecurity security, boolean recursive) throws OKMException;
 }

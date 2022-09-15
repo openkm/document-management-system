@@ -36,5 +36,5 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("../extension/ActivityLog")
 public interface OKMActivityLogService extends RemoteService {
-	public List<GWTActivity> findByFilterByItem(String item, String action, boolean getChilds) throws OKMException;
+	List<GWTActivity> findByFilterByItem(String item, String action, boolean getChilds) throws OKMException;
 }

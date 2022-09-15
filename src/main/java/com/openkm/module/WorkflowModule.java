@@ -45,8 +45,8 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public void registerProcessDefinition(String token, InputStream is) throws ParseException,
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException, IOException;
+	void registerProcessDefinition(String token, InputStream is) throws ParseException, AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException, IOException;
 
 	/**
 	 * Delete a previously registered process definition.
@@ -57,7 +57,7 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public void deleteProcessDefinition(String token, long processDefinitionId) throws AccessDeniedException, RepositoryException,
+	void deleteProcessDefinition(String token, long processDefinitionId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
@@ -69,8 +69,8 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public ProcessDefinition getProcessDefinition(String token, long processDefinitionId) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
+	ProcessDefinition getProcessDefinition(String token, long processDefinitionId) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 * Get a visual representation of the process definition.
@@ -82,8 +82,8 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public byte[] getProcessDefinitionImage(String token, long processDefinitionId, String node) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
+	byte[] getProcessDefinitionImage(String token, long processDefinitionId, String node) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 * Obtain a map with the forms defined in the process definition.
@@ -95,8 +95,8 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public Map<String, List<FormElement>> getProcessDefinitionForms(String token, long processDefinitionId)
-			throws ParseException, AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
+	Map<String, List<FormElement>> getProcessDefinitionForms(String token, long processDefinitionId) throws ParseException,
+			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 * Run a process definition to create a process instance: begins a worflow process.
@@ -110,205 +110,204 @@ public interface WorkflowModule {
 	 * @throws DatabaseException If there is a general database error.
 	 * @throws WorkflowException If there is any workflow engine error.
 	 */
-	public ProcessInstance runProcessDefinition(String token, long processDefinitionId, String uuid,
-	                                            List<FormElement> vars) throws WorkflowException, AccessDeniedException, RepositoryException,
-			DatabaseException;
+	ProcessInstance runProcessDefinition(String token, long processDefinitionId, String uuid, List<FormElement> vars)
+			throws WorkflowException, AccessDeniedException, RepositoryException, DatabaseException;
 
 	/**
 	 *
 	 */
-	public ProcessInstance sendProcessInstanceSignal(String token, long processInstanceId,
-	                                                 String transitionName) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void endProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
-			DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void deleteProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
-			DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public List<ProcessInstance> findProcessInstances(String token, long processDefinitionId) throws
+	ProcessInstance sendProcessInstanceSignal(String token, long processInstanceId, String transitionName) throws
 			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	void endProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+			DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	void deleteProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+			DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	List<ProcessInstance> findProcessInstances(String token, long processDefinitionId) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 * Get list of registered process definitions
 	 */
-	public List<ProcessDefinition> findAllProcessDefinitions(String token) throws AccessDeniedException, RepositoryException,
+	List<ProcessDefinition> findAllProcessDefinitions(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 * Get list of registered process definitions. Only last version for each process
 	 */
-	public List<ProcessDefinition> findLatestProcessDefinitions(String token) throws AccessDeniedException, RepositoryException,
+	List<ProcessDefinition> findLatestProcessDefinitions(String token) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 * Get last version of a given process definition.
 	 */
-	public ProcessDefinition findLastProcessDefinition(String token, String name) throws AccessDeniedException, RepositoryException,
+	ProcessDefinition findLastProcessDefinition(String token, String name) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 * Get list of registered process definitions versions
 	 */
-	public List<ProcessDefinition> findAllProcessDefinitionVersions(String token, String name) throws AccessDeniedException,
+	List<ProcessDefinition> findAllProcessDefinitionVersions(String token, String name) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public ProcessInstance getProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+	ProcessInstance getProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void suspendProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+	void suspendProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void resumeProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+	void resumeProcessInstance(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void addProcessInstanceVariable(String token, long processInstanceId, String name, Object value)
+	void addProcessInstanceVariable(String token, long processInstanceId, String name, Object value) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	void deleteProcessInstanceVariable(String token, long processInstanceId, String name) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	List<TaskInstance> findUserTaskInstances(String token) throws AccessDeniedException, RepositoryException, DatabaseException,
+			WorkflowException;
+
+	/**
+	 *
+	 */
+	List<TaskInstance> findPooledTaskInstances(String token) throws RepositoryException, AccessDeniedException,
+			DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	List<TaskInstance> findTaskInstances(String token, long processInstanceId) throws AccessDeniedException, RepositoryException,
+			DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	void setTaskInstanceValues(String token, long taskInstanceId, String transitionName, List<FormElement> values)
 			throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void deleteProcessInstanceVariable(String token, long processInstanceId, String name) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public List<TaskInstance> findUserTaskInstances(String token) throws AccessDeniedException, RepositoryException,
-			DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public List<TaskInstance> findPooledTaskInstances(String token) throws RepositoryException,
-			AccessDeniedException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public List<TaskInstance> findTaskInstances(String token, long processInstanceId) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void setTaskInstanceValues(String token, long taskInstanceId, String transitionName,
-	                                  List<FormElement> values) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void addTaskInstanceComment(String token, long taskInstanceId, String message) throws AccessDeniedException,
+	void addTaskInstanceComment(String token, long taskInstanceId, String message) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public TaskInstance getTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
+	TaskInstance getTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void setTaskInstanceActorId(String token, long taskInstanceId, String actorId) throws AccessDeniedException,
+	void setTaskInstanceActorId(String token, long taskInstanceId, String actorId) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void addTaskInstanceVariable(String token, long taskInstanceId, String name, Object value) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void deleteTaskInstanceVariable(String token, long taskInstanceId, String name) throws AccessDeniedException,
+	void addTaskInstanceVariable(String token, long taskInstanceId, String name, Object value) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void startTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
-			DatabaseException, WorkflowException;
-
-	/**
-	 *
-	 */
-	public void endTaskInstance(String token, long taskInstanceId, String transitionName) throws AccessDeniedException,
+	void deleteTaskInstanceVariable(String token, long taskInstanceId, String name) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void suspendTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
+	void startTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void resumeTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
+	void endTaskInstance(String token, long taskInstanceId, String transitionName) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	void suspendTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public Token getToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
+	void resumeTaskInstance(String token, long taskInstanceId) throws AccessDeniedException, RepositoryException,
+			DatabaseException, WorkflowException;
+
+	/**
+	 *
+	 */
+	Token getToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException;
 
 	/**
 	 *
 	 */
-	public void addTokenComment(String token, long tokenId, String message) throws AccessDeniedException, RepositoryException,
+	void addTokenComment(String token, long tokenId, String message) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void suspendToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
+	void suspendToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException;
 
 	/**
 	 *
 	 */
-	public void resumeToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
+	void resumeToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException;
 
 	/**
 	 *
 	 */
-	public Token sendTokenSignal(String token, long tokenId, String transitionName) throws AccessDeniedException,
+	Token sendTokenSignal(String token, long tokenId, String transitionName) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void setTokenNode(String token, long tokenId, String nodeName) throws AccessDeniedException, RepositoryException,
+	void setTokenNode(String token, long tokenId, String nodeName) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException;
 
 	/**
 	 *
 	 */
-	public void endToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
+	void endToken(String token, long tokenId) throws AccessDeniedException, RepositoryException, DatabaseException,
 			WorkflowException;
 }

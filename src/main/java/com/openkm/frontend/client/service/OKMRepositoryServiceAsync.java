@@ -29,27 +29,27 @@ import com.openkm.frontend.client.bean.GWTFolder;
  *
  */
 public interface OKMRepositoryServiceAsync {
-	public void getRootFolder(AsyncCallback<GWTFolder> callback);
+	void getRootFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getTrashFolder(AsyncCallback<GWTFolder> callback);
+	void getTrashFolder(AsyncCallback<GWTFolder> callback);
 
-	public void purgeTrash(AsyncCallback<?> callback);
+	void purgeTrash(AsyncCallback<?> callback);
 
-	public void getTemplatesFolder(AsyncCallback<GWTFolder> callback);
+	void getTemplatesFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getPersonalFolder(AsyncCallback<GWTFolder> callback);
+	void getPersonalFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getMailFolder(AsyncCallback<GWTFolder> callback);
+	void getMailFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getThesaurusFolder(AsyncCallback<GWTFolder> callback);
+	void getThesaurusFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getCategoriesFolder(AsyncCallback<GWTFolder> callback);
+	void getCategoriesFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getMetadataFolder(AsyncCallback<GWTFolder> callback);
+	void getMetadataFolder(AsyncCallback<GWTFolder> callback);
 
-	public void getPathByUUID(String uuid, AsyncCallback<String> callback);
+	void getPathByUUID(String uuid, AsyncCallback<String> callback);
 
-	public void getUUIDByPath(String path, AsyncCallback<String> callback);
+	void getUUIDByPath(String path, AsyncCallback<String> callback);
 
-	public void hasNode(String path, AsyncCallback<Boolean> callback);
+	void hasNode(String path, AsyncCallback<Boolean> callback);
 }

@@ -28,7 +28,7 @@ package com.openkm.frontend.client.widget.richtext;
  *
  */
 public interface RichTextAction {
-	public abstract void insertURL(String url);
+	void insertURL(String url);
 
-	public abstract void insertImageURL(String url);
+	void insertImageURL(String url);
 }

@@ -32,11 +32,11 @@ public interface HasChatRoom {
 	/**
 	 * langRefresh
 	 */
-	public abstract String getRoom();
+	String getRoom();
 
 	/**
-	 * @param active
+	 *
 	 */
-	public abstract void setChatRoomActive(boolean active);
+	void setChatRoomActive(boolean active);
 
 }

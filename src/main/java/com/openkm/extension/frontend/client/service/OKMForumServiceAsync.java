@@ -35,29 +35,29 @@ import java.util.List;
  * @author jllort
  */
 public interface OKMForumServiceAsync extends RemoteService {
-	public void getTopicsByForum(long id, AsyncCallback<List<GWTForumTopic>> callback);
+	void getTopicsByForum(long id, AsyncCallback<List<GWTForumTopic>> callback);
 
-	public void getTopicsByNode(String uuid, AsyncCallback<List<GWTForumTopic>> callback);
+	void getTopicsByNode(String uuid, AsyncCallback<List<GWTForumTopic>> callback);
 
-	public void createTopic(long id, String uuid, GWTForumTopic topic, AsyncCallback<GWTForumTopic> callback);
+	void createTopic(long id, String uuid, GWTForumTopic topic, AsyncCallback<GWTForumTopic> callback);
 
-	public void findTopicByPK(long id, AsyncCallback<GWTForumTopic> callback);
+	void findTopicByPK(long id, AsyncCallback<GWTForumTopic> callback);
 
-	public void createPost(long forumId, long postId, GWTForumPost post, AsyncCallback<?> callback);
+	void createPost(long forumId, long postId, GWTForumPost post, AsyncCallback<?> callback);
 
-	public void increaseTopicView(long id, AsyncCallback<?> callback);
+	void increaseTopicView(long id, AsyncCallback<?> callback);
 
-	public void deletePost(long forumId, long topicId, long postId, AsyncCallback<Boolean> callback);
+	void deletePost(long forumId, long topicId, long postId, AsyncCallback<Boolean> callback);
 
-	public void updatePost(GWTForumPost post, AsyncCallback<?> callback);
+	void updatePost(GWTForumPost post, AsyncCallback<?> callback);
 
-	public void getAllForum(AsyncCallback<List<GWTForum>> callback);
+	void getAllForum(AsyncCallback<List<GWTForum>> callback);
 
-	public void createForum(GWTForum forum, AsyncCallback<GWTForum> callback);
+	void createForum(GWTForum forum, AsyncCallback<GWTForum> callback);
 
-	public void deleteForum(long id, AsyncCallback<?> callback);
+	void deleteForum(long id, AsyncCallback<?> callback);
 
-	public void updateForum(GWTForum forum, AsyncCallback<?> callback);
+	void updateForum(GWTForum forum, AsyncCallback<?> callback);
 
-	public void updateTopic(long id, GWTForumPost post, AsyncCallback<?> callback);
+	void updateTopic(long id, GWTForumPost post, AsyncCallback<?> callback);
 }

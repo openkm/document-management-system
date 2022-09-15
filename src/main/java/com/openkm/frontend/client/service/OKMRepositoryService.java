@@ -32,27 +32,27 @@ import com.openkm.frontend.client.bean.GWTFolder;
  */
 @RemoteServiceRelativePath("Repository")
 public interface OKMRepositoryService extends RemoteService {
-	public GWTFolder getRootFolder() throws OKMException;
+	GWTFolder getRootFolder() throws OKMException;
 
-	public GWTFolder getTrashFolder() throws OKMException;
+	GWTFolder getTrashFolder() throws OKMException;
 
-	public void purgeTrash() throws OKMException;
+	void purgeTrash() throws OKMException;
 
-	public GWTFolder getTemplatesFolder() throws OKMException;
+	GWTFolder getTemplatesFolder() throws OKMException;
 
-	public GWTFolder getPersonalFolder() throws OKMException;
+	GWTFolder getPersonalFolder() throws OKMException;
 
-	public GWTFolder getMailFolder() throws OKMException;
+	GWTFolder getMailFolder() throws OKMException;
 
-	public GWTFolder getThesaurusFolder() throws OKMException;
+	GWTFolder getThesaurusFolder() throws OKMException;
 
-	public GWTFolder getCategoriesFolder() throws OKMException;
+	GWTFolder getCategoriesFolder() throws OKMException;
 
-	public GWTFolder getMetadataFolder() throws OKMException;
+	GWTFolder getMetadataFolder() throws OKMException;
 
-	public String getPathByUUID(String uuid) throws OKMException;
+	String getPathByUUID(String uuid) throws OKMException;
 
-	public String getUUIDByPath(String path) throws OKMException;
+	String getUUIDByPath(String path) throws OKMException;
 
-	public Boolean hasNode(String path) throws OKMException;
+	Boolean hasNode(String path) throws OKMException;
 }

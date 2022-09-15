@@ -35,19 +35,19 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("../extension/ProposedSubscription")
 public interface OKMProposedSubscriptionService extends RemoteService {
-	public void send(String uuid, String type, String users, String roles, String comment) throws OKMException;
+	void send(String uuid, String type, String users, String roles, String comment) throws OKMException;
 
-	public Map<String, Long> findProposedSubscriptionsUsersFrom() throws OKMException;
+	Map<String, Long> findProposedSubscriptionsUsersFrom() throws OKMException;
 
-	public void markSeen(int msgId) throws OKMException;
+	void markSeen(int msgId) throws OKMException;
 
-	public void markAccepted(int msgId) throws OKMException;
+	void markAccepted(int msgId) throws OKMException;
 
-	public void deleteReceived(int msgId) throws OKMException;
+	void deleteReceived(int msgId) throws OKMException;
 
-	public void deleteSent(int msgId) throws OKMException;
+	void deleteSent(int msgId) throws OKMException;
 
-	public void deleteProposedSubscriptionByMeFromUser(String sender) throws OKMException;
+	void deleteProposedSubscriptionByMeFromUser(String sender) throws OKMException;
 
-	public List<GWTProposedSubscriptionReceived> findProposedSubscriptionByMeFromUser(String user) throws OKMException;
+	List<GWTProposedSubscriptionReceived> findProposedSubscriptionByMeFromUser(String user) throws OKMException;
 }

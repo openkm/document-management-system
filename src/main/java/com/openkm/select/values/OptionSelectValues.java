@@ -29,5 +29,5 @@ import java.util.List;
  * @author lazarovski
  */
 public interface OptionSelectValues {
-	public abstract List<Option> getOptions();
+	List<Option> getOptions();
 }

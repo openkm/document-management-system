@@ -30,33 +30,33 @@ import com.openkm.frontend.client.bean.extension.GWTWikiPage;
  *
  */
 public interface WikiController {
-	public abstract void showWikiPage(GWTWikiPage wikiPage);
+	void showWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void showUpdateWikiPage(GWTWikiPage wikiPage);
+	void showUpdateWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void showCreateWikiPage();
+	void showCreateWikiPage();
 
-	public abstract void newWikiPageCreated(GWTWikiPage wikiPage);
+	void newWikiPageCreated(GWTWikiPage wikiPage);
 
-	public abstract void deleteWikiPage(GWTWikiPage wikiPage);
+	void deleteWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void updateWikiPage(GWTWikiPage wikiPage);
+	void updateWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void createNewWikiPage(GWTWikiPage wikiPage);
+	void createNewWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void unlockWikiPage(GWTWikiPage wikiPage);
+	void unlockWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void findWikiPageByNode(String uuid);
+	void findWikiPageByNode(String uuid);
 
-	public abstract void lockWikiPage(GWTWikiPage wikiPage);
+	void lockWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void findWikiPageByTitle(String title);
+	void findWikiPageByTitle(String title);
 
-	public abstract void historyWikiPage(String title);
+	void historyWikiPage(String title);
 
-	public abstract void restoreWikiPage(GWTWikiPage wikiPage);
+	void restoreWikiPage(GWTWikiPage wikiPage);
 
-	public abstract void showHistoryWikiPageVersion(GWTWikiPage wikiPage);
+	void showHistoryWikiPageVersion(GWTWikiPage wikiPage);
 
-	public abstract void cancelWikiPageCreation();
+	void cancelWikiPageCreation();
 }

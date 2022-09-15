@@ -31,9 +31,8 @@ import java.util.List;
  * OKMThesaurusService
  *
  * @author jllort
- *
  */
 @RemoteServiceRelativePath("Thesaurus")
 public interface OKMThesaurusService extends RemoteService {
-	public List<String> getKeywords(String filter) throws OKMException;
+	List<String> getKeywords(String filter) throws OKMException;
 }

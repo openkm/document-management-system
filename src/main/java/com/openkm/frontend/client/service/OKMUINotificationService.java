@@ -32,9 +32,8 @@ import java.util.List;
  * OKMUINotificationService
  *
  * @author jllort
- *
  */
 @RemoteServiceRelativePath("UINotification")
 public interface OKMUINotificationService extends RemoteService {
-	public List<GWTUINotification> get() throws OKMException;
+	List<GWTUINotification> get() throws OKMException;
 }

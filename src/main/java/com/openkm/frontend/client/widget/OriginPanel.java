@@ -22,8 +22,8 @@
 package com.openkm.frontend.client.widget;
 
 public interface OriginPanel {
-	static final int NONE = -1;
-	static final int TREE_ROOT = 1;
-	static final int FILE_BROWSER = 2;
-	static final int TREE_TRASH = 3;
+	int NONE = -1;
+	int TREE_ROOT = 1;
+	int FILE_BROWSER = 2;
+	int TREE_TRASH = 3;
 }

@@ -28,18 +28,16 @@ import com.openkm.frontend.client.bean.GWTFolder;
 
 import java.util.List;
 
-
 /**
  * @author jllort
- *
  */
 @RemoteServiceRelativePath("Test")
 public interface OKMTestService extends RemoteService {
-	public String StringTest(int size);
+	String StringTest(int size);
 
-	public List<GWTFolder> folderText(int size);
+	List<GWTFolder> folderText(int size);
 
-	public List<GWTDocument> documentText(int size);
+	List<GWTDocument> documentText(int size);
 
-	public void RPCTimeout(int seconds);
+	void RPCTimeout(int seconds);
 }

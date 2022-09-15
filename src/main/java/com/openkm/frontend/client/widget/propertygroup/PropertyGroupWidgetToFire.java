@@ -28,9 +28,9 @@ package com.openkm.frontend.client.widget.propertygroup;
  *
  */
 public interface PropertyGroupWidgetToFire {
-	public abstract void finishedGetProperties();
+	void finishedGetProperties();
 
-	public abstract void finishedSetProperties();
+	void finishedSetProperties();
 
-	public abstract void finishedRemoveGroup();
+	void finishedRemoveGroup();
 }

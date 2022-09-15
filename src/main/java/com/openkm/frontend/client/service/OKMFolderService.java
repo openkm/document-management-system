@@ -38,27 +38,27 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Folder")
 public interface OKMFolderService extends RemoteService {
-	public List<GWTFolder> getChilds(String fldId, boolean extraColumns, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTFolder> getChilds(String fldId, boolean extraColumns, Map<String, GWTFilter> mapFilter) throws OKMException;
 
-	public void delete(String fldPath) throws OKMException;
+	void delete(String fldPath) throws OKMException;
 
-	public GWTFolder create(String fldId, String fldIdParent) throws OKMException;
+	GWTFolder create(String fldId, String fldIdParent) throws OKMException;
 
-	public GWTFolder rename(String fldId, String newName) throws OKMException;
+	GWTFolder rename(String fldId, String newName) throws OKMException;
 
-	public void move(String fldPath, String dstPath) throws OKMException;
+	void move(String fldPath, String dstPath) throws OKMException;
 
-	public void purge(String fldPath) throws OKMException;
+	void purge(String fldPath) throws OKMException;
 
-	public GWTFolder getProperties(String fldPath) throws OKMException;
+	GWTFolder getProperties(String fldPath) throws OKMException;
 
-	public void copy(String fldPath, String dstPath) throws OKMException;
+	void copy(String fldPath, String dstPath) throws OKMException;
 
-	public Boolean isValid(String fldPath) throws OKMException;
+	Boolean isValid(String fldPath) throws OKMException;
 
-	public List<GWTFolder> getCategorizedChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTFolder> getCategorizedChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
 
-	public List<GWTFolder> getMetadataChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTFolder> getMetadataChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
 
-	public List<GWTFolder> getThesaurusChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
+	List<GWTFolder> getThesaurusChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException;
 }

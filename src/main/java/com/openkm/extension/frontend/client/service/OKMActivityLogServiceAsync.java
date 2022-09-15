@@ -34,5 +34,5 @@ import java.util.List;
  *
  */
 public interface OKMActivityLogServiceAsync extends RemoteService {
-	public void findByFilterByItem(String item, String action, boolean getChilds, AsyncCallback<List<GWTActivity>> callback);
+	void findByFilterByItem(String item, String action, boolean getChilds, AsyncCallback<List<GWTActivity>> callback);
 }

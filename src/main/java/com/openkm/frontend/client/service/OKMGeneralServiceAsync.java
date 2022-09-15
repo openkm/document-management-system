@@ -29,20 +29,18 @@ import com.openkm.frontend.client.bean.GWTTestMail;
 
 import java.util.List;
 
-
 /**
  * @author jllort
- *
  */
 public interface OKMGeneralServiceAsync {
-	public void getFileUploadStatus(AsyncCallback<GWTFileUploadingStatus> callback);
+	void getFileUploadStatus(AsyncCallback<GWTFileUploadingStatus> callback);
 
-	public void getConversionStatus(AsyncCallback<GWTConverterStatus> callback);
+	void getConversionStatus(AsyncCallback<GWTConverterStatus> callback);
 
-	public void testMailConnection(String protocol, String host, String user, String password, String mailFolder,
-	                               AsyncCallback<GWTTestMail> callback);
+	void testMailConnection(String protocol, String host, String user, String password, String mailFolder,
+							AsyncCallback<GWTTestMail> callback);
 
-	public void getEnabledExtensions(AsyncCallback<List<String>> callback);
+	void getEnabledExtensions(AsyncCallback<List<String>> callback);
 
-	public void getConfigValue(String key, AsyncCallback<GWTConfig> callback);
+	void getConfigValue(String key, AsyncCallback<GWTConfig> callback);
 }

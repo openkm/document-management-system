@@ -35,27 +35,27 @@ import java.util.Map;
  *
  */
 public interface OKMFolderServiceAsync {
-	public void getChilds(String fldId, boolean extraColumns, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
+	void getChilds(String fldId, boolean extraColumns, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
 
-	public void delete(String fldPath, AsyncCallback<?> callback);
+	void delete(String fldPath, AsyncCallback<?> callback);
 
-	public void create(String fldId, String fldIdParent, AsyncCallback<GWTFolder> callback);
+	void create(String fldId, String fldIdParent, AsyncCallback<GWTFolder> callback);
 
-	public void rename(String fldId, String newName, AsyncCallback<GWTFolder> callback);
+	void rename(String fldId, String newName, AsyncCallback<GWTFolder> callback);
 
-	public void move(String fldPath, String dstPath, AsyncCallback<?> callback);
+	void move(String fldPath, String dstPath, AsyncCallback<?> callback);
 
-	public void purge(String fldPath, AsyncCallback<?> callback);
+	void purge(String fldPath, AsyncCallback<?> callback);
 
-	public void getProperties(String fldPath, AsyncCallback<GWTFolder> callback);
+	void getProperties(String fldPath, AsyncCallback<GWTFolder> callback);
 
-	public void copy(String fldPath, String dstPath, AsyncCallback<?> callback);
+	void copy(String fldPath, String dstPath, AsyncCallback<?> callback);
 
-	public void isValid(String fldPath, AsyncCallback<Boolean> callback);
+	void isValid(String fldPath, AsyncCallback<Boolean> callback);
 
-	public void getCategorizedChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
+	void getCategorizedChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
 
-	public void getMetadataChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
+	void getMetadataChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
 
-	public void getThesaurusChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
+	void getThesaurusChilds(String fldId, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTFolder>> callback);
 }

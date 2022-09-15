@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasLanguageEvent.LanguageEvent
  */
 public interface LanguageHandlerExtension {
 
-	public abstract void onChange(LanguageEventConstant event);
+	void onChange(LanguageEventConstant event);
 
 }

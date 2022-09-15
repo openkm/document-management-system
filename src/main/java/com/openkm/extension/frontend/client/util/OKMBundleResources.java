@@ -32,285 +32,284 @@ import com.google.gwt.resources.client.ImageResource;
  *
  */
 public interface OKMBundleResources extends ClientBundle {
-
-	public static final OKMBundleResources INSTANCE = GWT.create(OKMBundleResources.class);
+	OKMBundleResources INSTANCE = GWT.create(OKMBundleResources.class);
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/download.gif")
-	public ImageResource download();
+	ImageResource download();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/download_disabled.gif")
-	public ImageResource downloadDisabled();
+	ImageResource downloadDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/download_pdf.gif")
-	public ImageResource downloadPdf();
+	ImageResource downloadPdf();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/download_pdf_disabled.gif")
-	public ImageResource downloadPdfDisabled();
+	ImageResource downloadPdfDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/stapling.gif")
-	public ImageResource stapling();
+	ImageResource stapling();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/stapling_disabled.gif")
-	public ImageResource staplingDisabled();
+	ImageResource staplingDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/stapling_stop.gif")
-	public ImageResource staplingStop();
+	ImageResource staplingStop();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/stapling_stop_disabled.gif")
-	public ImageResource staplingStopDisabled();
+	ImageResource staplingStopDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/indicator.gif")
-	public ImageResource indicator();
+	ImageResource indicator();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/propose_subscription.png")
-	public ImageResource proposeSubscription();
+	ImageResource proposeSubscription();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/messaging.png")
-	public ImageResource messaging();
+	ImageResource messaging();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/general/yes.gif")
-	public ImageResource yes();
+	ImageResource yes();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/delete.png")
-	public ImageResource delete();
+	ImageResource delete();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/run.png")
-	public ImageResource run();
+	ImageResource run();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/security/add.gif")
-	public ImageResource add();
+	ImageResource add();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/security/remove.gif")
-	public ImageResource remove();
+	ImageResource remove();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/share_query.gif")
-	public ImageResource shareQuery();
+	ImageResource shareQuery();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/message.png")
-	public ImageResource messageSent();
+	ImageResource messageSent();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/message_received.png")
-	public ImageResource messageReceived();
+	ImageResource messageReceived();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/stamp.png")
-	public ImageResource stamp();
+	ImageResource stamp();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/stamp_disabled.png")
-	public ImageResource stampDisabled();
+	ImageResource stampDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/digital_signature.png")
-	public ImageResource digitalSignature();
+	ImageResource digitalSignature();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/edit.png")
-	public ImageResource edit();
+	ImageResource edit();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/contact_add.png")
-	public ImageResource addContact();
+	ImageResource addContact();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/pencil.png")
-	public ImageResource pencil();
+	ImageResource pencil();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/forum.png")
-	public ImageResource forum();
+	ImageResource forum();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_biggrin.gif")
-	public ImageResource smileBigGrin();
+	ImageResource smileBigGrin();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_sad.gif")
-	public ImageResource smileSad();
+	ImageResource smileSad();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_smile.gif")
-	public ImageResource smileSmile();
+	ImageResource smileSmile();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_eek.gif")
-	public ImageResource smileEek();
+	ImageResource smileEek();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_surprised.gif")
-	public ImageResource smileSurprised();
+	ImageResource smileSurprised();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_confused.gif")
-	public ImageResource smileConfused();
+	ImageResource smileConfused();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_cool.gif")
-	public ImageResource smileCool();
+	ImageResource smileCool();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_lol.gif")
-	public ImageResource smileLol();
+	ImageResource smileLol();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_mad.gif")
-	public ImageResource smileMad();
+	ImageResource smileMad();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_razz.gif")
-	public ImageResource smileRazz();
+	ImageResource smileRazz();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_redface.gif")
-	public ImageResource smileRedface();
+	ImageResource smileRedface();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_cry.gif")
-	public ImageResource smileCry();
+	ImageResource smileCry();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_evil.gif")
-	public ImageResource smileEvil();
+	ImageResource smileEvil();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_twisted.gif")
-	public ImageResource smileTwisted();
+	ImageResource smileTwisted();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_rolleyes.gif")
-	public ImageResource smileRolleyes();
+	ImageResource smileRolleyes();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_wink.gif")
-	public ImageResource smileWink();
+	ImageResource smileWink();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_exclaim.gif")
-	public ImageResource smileExclaim();
+	ImageResource smileExclaim();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_idea.gif")
-	public ImageResource smileIdea();
+	ImageResource smileIdea();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_question.gif")
-	public ImageResource smileQuestion();
+	ImageResource smileQuestion();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_arrow.gif")
-	public ImageResource smileArrow();
+	ImageResource smileArrow();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_neutral.gif")
-	public ImageResource smileNeutral();
+	ImageResource smileNeutral();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/smilies/icon_mrgreen.gif")
-	public ImageResource smileMrgreen();
+	ImageResource smileMrgreen();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/justifyCenter.gif")
-	public ImageResource justifyCenter();
+	ImageResource justifyCenter();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/justifyLeft.gif")
-	public ImageResource justifyLeft();
+	ImageResource justifyLeft();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/justifyRight.gif")
-	public ImageResource justifyRight();
+	ImageResource justifyRight();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/bold.gif")
-	public ImageResource bold();
+	ImageResource bold();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/italic.gif")
-	public ImageResource italic();
+	ImageResource italic();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/underline.gif")
-	public ImageResource underline();
+	ImageResource underline();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/createLink.gif")
-	public ImageResource createLink();
+	ImageResource createLink();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/insertImage.gif")
-	public ImageResource insertImage();
+	ImageResource insertImage();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/strikeThrough.gif")
-	public ImageResource strikeThrough();
+	ImageResource strikeThrough();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/editor/justify.gif")
-	public ImageResource justify();
+	ImageResource justify();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/municipality.png")
-	public ImageResource municipality();
+	ImageResource municipality();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/database_record.png")
-	public ImageResource databaseRecord();
+	ImageResource databaseRecord();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/new_record.png")
-	public ImageResource newRecord();
+	ImageResource newRecord();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/new_record_disabled.png")
-	public ImageResource newRecordDisabled();
+	ImageResource newRecordDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/new_entry.png")
-	public ImageResource newEntry();
+	ImageResource newEntry();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/new_entry_disabled.png")
-	public ImageResource newEntryDisabled();
+	ImageResource newEntryDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/contacts.png")
-	public ImageResource contacts();
+	ImageResource contacts();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/contacts_disabled.png")
-	public ImageResource contactsDisabled();
+	ImageResource contactsDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/document_find.png")
-	public ImageResource findDocument();
+	ImageResource findDocument();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/open_folder.gif")
-	public ImageResource openFolder();
+	ImageResource openFolder();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/folder_find.gif")
-	public ImageResource findFolder();
+	ImageResource findFolder();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/wiki.png")
-	public ImageResource wiki();
+	ImageResource wiki();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/wiki_link.png")
-	public ImageResource wikiLink();
+	ImageResource wikiLink();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/wiki_add.png")
-	public ImageResource wikiAdd();
+	ImageResource wikiAdd();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/resultset_next.gif")
-	public ImageResource next();
+	ImageResource next();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/resultset_next_disabled.gif")
-	public ImageResource nextDisabled();
+	ImageResource nextDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/resultset_previous.gif")
-	public ImageResource previous();
+	ImageResource previous();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/resultset_previous_disabled.gif")
-	public ImageResource previousDisabled();
+	ImageResource previousDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/search.png")
-	public ImageResource search();
+	ImageResource search();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/chart_organisation.png")
-	public ImageResource chartOrganisation();
+	ImageResource chartOrganisation();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/fast_action.png")
-	public ImageResource fastAction();
+	ImageResource fastAction();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/fast_action_disabled.png")
-	public ImageResource fastActionDisabled();
+	ImageResource fastActionDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/toolbar/meeting.png")
-	public ImageResource meeting();
+	ImageResource meeting();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/room.png")
-	public ImageResource room();
+	ImageResource room();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/room_in.png")
-	public ImageResource roomIn();
+	ImageResource roomIn();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/room_close.png")
-	public ImageResource roomClose();
+	ImageResource roomClose();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/room_add_file.png")
-	public ImageResource roomAddFile();
+	ImageResource roomAddFile();
 
 	@Source("com/openkm/extension/frontend/public/img/zoom_out.gif")
-	public ImageResource zoomOut();
+	ImageResource zoomOut();
 
 	@Source("com/openkm/extension/frontend/public/img/zoom_in.gif")
-	public ImageResource zoomIn();
+	ImageResource zoomIn();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/user.png")
-	public ImageResource user();
+	ImageResource user();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/image_find.png")
-	public ImageResource findImage();
+	ImageResource findImage();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/edit_workflow.png")
-	public ImageResource workflowEdit();
+	ImageResource workflowEdit();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/edit_workflow_disabled.png")
-	public ImageResource workflowEditDisabled();
+	ImageResource workflowEditDisabled();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/add_workflow.png")
-	public ImageResource workflowAdd();
+	ImageResource workflowAdd();
 
 	@Source("com/openkm/extension/frontend/public/img/icon/actions/add_workflow_disabled.png")
-	public ImageResource workflowAddDisabled();
+	ImageResource workflowAddDisabled();
 }

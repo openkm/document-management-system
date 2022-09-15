@@ -30,8 +30,7 @@ import java.util.List;
  * OKMUINoficationServiceAsync
  *
  * @author jllort
- *
  */
 public interface OKMUINotificationServiceAsync {
-	public void get(AsyncCallback<List<GWTUINotification>> callback);
+	void get(AsyncCallback<List<GWTUINotification>> callback);
 }

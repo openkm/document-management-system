@@ -31,11 +31,11 @@ import com.openkm.frontend.client.OKMException;
  */
 @RemoteServiceRelativePath("Property")
 public interface OKMPropertyService extends RemoteService {
-	public void addCategory(String nodePath, String category) throws OKMException;
+	void addCategory(String nodePath, String category) throws OKMException;
 
-	public void removeCategory(String nodePath, String category) throws OKMException;
+	void removeCategory(String nodePath, String category) throws OKMException;
 
-	public String addKeyword(String nodePath, String keyword) throws OKMException;
+	String addKeyword(String nodePath, String keyword) throws OKMException;
 
-	public void removeKeyword(String nodePath, String keyword) throws OKMException;
+	void removeKeyword(String nodePath, String keyword) throws OKMException;
 }

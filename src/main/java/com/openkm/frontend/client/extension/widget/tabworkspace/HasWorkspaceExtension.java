@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.TabBar;
  */
 public interface HasWorkspaceExtension {
 
-	public abstract String getTabText();
+	String getTabText();
 
-	public abstract void setTab(TabBar tabBar, int tabIndex);
+	void setTab(TabBar tabBar, int tabIndex);
 
 }

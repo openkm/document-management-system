@@ -35,46 +35,46 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Auth")
 public interface OKMAuthService extends RemoteService {
-	public void logout() throws OKMException;
+	void logout() throws OKMException;
 
-	public List<GWTGrantedUser> getGrantedUsers(String nodePath) throws OKMException;
+	List<GWTGrantedUser> getGrantedUsers(String nodePath) throws OKMException;
 
-	public Map<String, Integer> getGrantedRoles(String nodePath) throws OKMException;
+	Map<String, Integer> getGrantedRoles(String nodePath) throws OKMException;
 
-	public String getRemoteUser();
+	String getRemoteUser();
 
-	public List<GWTGrantedUser> getUngrantedUsers(String nodePath) throws OKMException;
+	List<GWTGrantedUser> getUngrantedUsers(String nodePath) throws OKMException;
 
-	public List<String> getUngrantedRoles(String nodePath) throws OKMException;
+	List<String> getUngrantedRoles(String nodePath) throws OKMException;
 
-	public List<GWTGrantedUser> getFilteredUngrantedUsers(String nodePath, String filter) throws OKMException;
+	List<GWTGrantedUser> getFilteredUngrantedUsers(String nodePath, String filter) throws OKMException;
 
-	public List<String> getFilteredUngrantedRoles(String nodePath, String filter) throws OKMException;
+	List<String> getFilteredUngrantedRoles(String nodePath, String filter) throws OKMException;
 
-	public void grantUser(String path, String user, int permissions, boolean recursive) throws OKMException;
+	void grantUser(String path, String user, int permissions, boolean recursive) throws OKMException;
 
-	public void revokeUser(String path, String user, boolean recursive) throws OKMException;
+	void revokeUser(String path, String user, boolean recursive) throws OKMException;
 
-	public void revokeUser(String path, String user, int permissions, boolean recursive) throws OKMException;
+	void revokeUser(String path, String user, int permissions, boolean recursive) throws OKMException;
 
-	public void grantRole(String path, String role, int permissions, boolean recursive) throws OKMException;
+	void grantRole(String path, String role, int permissions, boolean recursive) throws OKMException;
 
-	public void revokeRole(String path, String role, boolean recursive) throws OKMException;
+	void revokeRole(String path, String role, boolean recursive) throws OKMException;
 
-	public void revokeRole(String path, String role, int permissions, boolean recursive) throws OKMException;
+	void revokeRole(String path, String role, int permissions, boolean recursive) throws OKMException;
 
-	public void keepAlive() throws OKMException;
+	void keepAlive() throws OKMException;
 
-	public List<GWTUser> getAllUsers() throws OKMException;
+	List<GWTUser> getAllUsers() throws OKMException;
 
 	List<GWTUser> getUsers(List<String> users) throws OKMException;
 
-	public List<String> getAllRoles() throws OKMException;
+	List<String> getAllRoles() throws OKMException;
 
-	public List<GWTUser> getFilteredAllUsers(String filter, List<String> selectedUsers) throws OKMException;
+	List<GWTUser> getFilteredAllUsers(String filter, List<String> selectedUsers) throws OKMException;
 
-	public List<String> getFilteredAllRoles(String filter, List<String> selectedRoles) throws OKMException;
+	List<String> getFilteredAllRoles(String filter, List<String> selectedRoles) throws OKMException;
 
-	public void changeSecurity(String path, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
+	void changeSecurity(String path, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
 	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws OKMException;
 }

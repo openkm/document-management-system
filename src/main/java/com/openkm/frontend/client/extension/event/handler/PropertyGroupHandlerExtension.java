@@ -32,6 +32,6 @@ import com.openkm.frontend.client.extension.event.HasPropertyGroupEvent.Property
  */
 public interface PropertyGroupHandlerExtension {
 
-	public abstract void onChange(PropertyGroupEventConstant event);
+	void onChange(PropertyGroupEventConstant event);
 
 }

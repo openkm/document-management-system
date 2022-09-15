@@ -31,25 +31,25 @@ import java.util.List;
  *
  */
 public interface OKMChatServiceAsync {
-	public void login(AsyncCallback<?> callback);
+	void login(AsyncCallback<?> callback);
 
-	public void logout(AsyncCallback<?> callback);
+	void logout(AsyncCallback<?> callback);
 
-	public void getLoggedUsers(AsyncCallback<List<GWTUser>> callback);
+	void getLoggedUsers(AsyncCallback<List<GWTUser>> callback);
 
-	public void createNewChatRoom(String user, AsyncCallback<String> callback);
+	void createNewChatRoom(String user, AsyncCallback<String> callback);
 
-	public void getPendingChatRoomUser(AsyncCallback<List<String>> callback);
+	void getPendingChatRoomUser(AsyncCallback<List<String>> callback);
 
-	public void getPendingMessage(String room, AsyncCallback<List<String>> callback);
+	void getPendingMessage(String room, AsyncCallback<List<String>> callback);
 
-	public void addMessageToRoom(String room, String msg, AsyncCallback<?> callback);
+	void addMessageToRoom(String room, String msg, AsyncCallback<?> callback);
 
-	public void closeRoom(String room, AsyncCallback<?> callback);
+	void closeRoom(String room, AsyncCallback<?> callback);
 
-	public void addUserToChatRoom(String room, String user, AsyncCallback<?> callback);
+	void addUserToChatRoom(String room, String user, AsyncCallback<?> callback);
 
-	public void usersInRoom(String room, AsyncCallback<String> callback);
+	void usersInRoom(String room, AsyncCallback<String> callback);
 
-	public void getUsersInRoom(String room, AsyncCallback<List<String>> callback);
+	void getUsersInRoom(String room, AsyncCallback<List<String>> callback);
 }

@@ -37,21 +37,21 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("PropertyGroup")
 public interface OKMPropertyGroupService extends RemoteService {
-	public List<GWTPropertyGroup> getAllGroups() throws OKMException;
+	List<GWTPropertyGroup> getAllGroups() throws OKMException;
 
-	public List<GWTPropertyGroup> getAllGroups(String path) throws OKMException;
+	List<GWTPropertyGroup> getAllGroups(String path) throws OKMException;
 
-	public void addGroup(String path, String grpName) throws OKMException;
+	void addGroup(String path, String grpName) throws OKMException;
 
-	public List<GWTPropertyGroup> getGroups(String path) throws OKMException;
+	List<GWTPropertyGroup> getGroups(String path) throws OKMException;
 
-	public List<GWTFormElement> getProperties(String path, String grpName, boolean suggestion) throws OKMException;
+	List<GWTFormElement> getProperties(String path, String grpName, boolean suggestion) throws OKMException;
 
-	public void setProperties(String path, String grpName, List<GWTFormElement> formProperties) throws OKMException;
+	void setProperties(String path, String grpName, List<GWTFormElement> formProperties) throws OKMException;
 
-	public void removeGroup(String path, String grpName) throws OKMException;
+	void removeGroup(String path, String grpName) throws OKMException;
 
-	public List<GWTFormElement> getPropertyGroupForm(String grpName) throws OKMException;
+	List<GWTFormElement> getPropertyGroupForm(String grpName) throws OKMException;
 
-	public List<GWTFormElement> getPropertyGroupForm(String grpName, String path, boolean suggestion) throws OKMException;
+	List<GWTFormElement> getPropertyGroupForm(String grpName, String path, boolean suggestion) throws OKMException;
 }

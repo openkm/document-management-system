@@ -25,10 +25,9 @@ package com.openkm.frontend.client.widget.searchin;
  * HasPropertyHandler
  *
  * @author jllort
- *
  */
 public interface HasPropertyHandler {
-	public abstract void propertyRemoved();
+	void propertyRemoved();
 
-	public abstract void metadataValueChanged();
+	void metadataValueChanged();
 }

@@ -28,6 +28,6 @@ public interface PasswordValidator {
 	/**
 	 * Validate
 	 */
-	public void Validate(String password) throws ValidatorException;
+	void Validate(String password) throws ValidatorException;
 
 }

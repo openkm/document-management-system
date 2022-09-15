@@ -34,9 +34,9 @@ import com.openkm.principal.PrincipalAdapterException;
  */
 public interface DbAccessManager {
 
-	public void checkPermission(NodeBase node, int permissions) throws AccessDeniedException, PathNotFoundException, DatabaseException;
+	void checkPermission(NodeBase node, int permissions) throws AccessDeniedException, PathNotFoundException, DatabaseException;
 
-	public boolean isGranted(NodeBase node, int permissions) throws DatabaseException;
+	boolean isGranted(NodeBase node, int permissions) throws DatabaseException;
 
-	public boolean isGranted(NodeBase node, String user, int permissions) throws PrincipalAdapterException, DatabaseException;
+	boolean isGranted(NodeBase node, String user, int permissions) throws PrincipalAdapterException, DatabaseException;
 }

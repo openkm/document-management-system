@@ -40,8 +40,8 @@ public interface NoteModule {
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Note add(String token, String nodePath, String text) throws LockException,
-			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException;
+	Note add(String token, String nodePath, String text) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException;
 
 	/**
 	 * Remove a note from a document
@@ -54,8 +54,8 @@ public interface NoteModule {
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public void delete(String token, String notePath) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException;
+	void delete(String token, String notePath) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException;
 
 	/**
 	 * Get note from document
@@ -69,8 +69,8 @@ public interface NoteModule {
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public Note get(String token, String notePath) throws LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException;
+	Note get(String token, String notePath) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException;
 
 	/**
 	 * Set a new text to document note.
@@ -84,8 +84,8 @@ public interface NoteModule {
 	 * you can't access this document because of lack of permissions.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public String set(String token, String notePath, String text) throws LockException,
-			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException;
+	String set(String token, String notePath, String text) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException;
 
 	/**
 	 * Retrieve a list of notes from a document.
@@ -96,6 +96,6 @@ public interface NoteModule {
 	 * @throws PathNotFoundException If there is no document in this repository path.
 	 * @throws RepositoryException If there is any general repository problem.
 	 */
-	public List<Note> list(String token, String nodePath) throws AccessDeniedException, PathNotFoundException,
-			RepositoryException, DatabaseException;
+	List<Note> list(String token, String nodePath) throws AccessDeniedException, PathNotFoundException, RepositoryException,
+			DatabaseException;
 }

@@ -29,6 +29,6 @@ package com.openkm.frontend.client.extension.widget.tabdocument;
  */
 public interface HasDocumentExtension {
 
-	public abstract String getTabText();
+	String getTabText();
 
 }

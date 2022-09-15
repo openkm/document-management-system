@@ -36,5 +36,5 @@ import java.util.List;
  */
 @RemoteServiceRelativePath("KeyValue")
 public interface OKMKeyValueService extends RemoteService {
-	public List<GWTKeyValue> getKeyValues(List<String> tables, String query) throws OKMException;
+	List<GWTKeyValue> getKeyValues(List<String> tables, String query) throws OKMException;
 }

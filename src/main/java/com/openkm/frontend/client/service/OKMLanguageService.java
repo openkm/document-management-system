@@ -33,5 +33,5 @@ import java.util.Map;
  */
 @RemoteServiceRelativePath("Language")
 public interface OKMLanguageService extends RemoteService {
-	public Map<String, String> getFrontEndTranslations(String lang) throws OKMException;
+	Map<String, String> getFrontEndTranslations(String lang) throws OKMException;
 }

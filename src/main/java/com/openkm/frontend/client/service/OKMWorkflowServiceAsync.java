@@ -31,35 +31,34 @@ import com.openkm.frontend.client.bean.form.GWTFormElement;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * @author jllort
  *
  */
 public interface OKMWorkflowServiceAsync {
-	public void findLatestProcessDefinitions(AsyncCallback<List<GWTProcessDefinition>> callback);
+	void findLatestProcessDefinitions(AsyncCallback<List<GWTProcessDefinition>> callback);
 
-	public void runProcessDefinition(String UUID, String name, List<GWTFormElement> formElements, AsyncCallback<?> callback);
+	void runProcessDefinition(String UUID, String name, List<GWTFormElement> formElements, AsyncCallback<?> callback);
 
-	public void findUserTaskInstances(AsyncCallback<List<GWTTaskInstance>> callback);
+	void findUserTaskInstances(AsyncCallback<List<GWTTaskInstance>> callback);
 
-	public void getProcessDefinitionForms(double id, AsyncCallback<Map<String, List<GWTFormElement>>> callback);
+	void getProcessDefinitionForms(double id, AsyncCallback<Map<String, List<GWTFormElement>>> callback);
 
-	public void getProcessDefinitionFormsByName(String name, AsyncCallback<Map<String, List<GWTFormElement>>> callback);
+	void getProcessDefinitionFormsByName(String name, AsyncCallback<Map<String, List<GWTFormElement>>> callback);
 
-	public void setTaskInstanceValues(double id, String transitionName, List<GWTFormElement> formElements, AsyncCallback<?> callback);
+	void setTaskInstanceValues(double id, String transitionName, List<GWTFormElement> formElements, AsyncCallback<?> callback);
 
-	public void addComment(double tokenId, String message, AsyncCallback<?> callback);
+	void addComment(double tokenId, String message, AsyncCallback<?> callback);
 
-	public void findPooledTaskInstances(AsyncCallback<List<GWTTaskInstance>> callback);
+	void findPooledTaskInstances(AsyncCallback<List<GWTTaskInstance>> callback);
 
-	public void setTaskInstanceActorId(double id, AsyncCallback<?> callback);
+	void setTaskInstanceActorId(double id, AsyncCallback<?> callback);
 
-	public void startTaskInstance(double id, AsyncCallback<?> callback);
+	void startTaskInstance(double id, AsyncCallback<?> callback);
 
-	public void findProcessInstancesByNode(String uuid, AsyncCallback<List<GWTProcessInstance>> callback);
+	void findProcessInstancesByNode(String uuid, AsyncCallback<List<GWTProcessInstance>> callback);
 
-	public void findLogsByProcessInstance(int processInstanceId, AsyncCallback<List<GWTProcessInstanceLogEntry>> callback);
+	void findLogsByProcessInstance(int processInstanceId, AsyncCallback<List<GWTProcessInstanceLogEntry>> callback);
 
-	public void getUserTaskInstance(long taskInstanceId, AsyncCallback<GWTTaskInstance> callback);
+	void getUserTaskInstance(long taskInstanceId, AsyncCallback<GWTTaskInstance> callback);
 }

@@ -29,8 +29,8 @@ package com.openkm.frontend.client.extension.widget.toolbar;
  */
 public interface HasEnabledExtension {
 
-	public abstract boolean isEnabled();
+	boolean isEnabled();
 
-	public abstract void enable(boolean enable);
+	void enable(boolean enable);
 
 }

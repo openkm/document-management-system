@@ -33,29 +33,29 @@ import java.util.Map;
  * @author jllort
  */
 public interface OKMMailServiceAsync {
-	public void getChilds(String fldPath, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTMail>> callback);
+	void getChilds(String fldPath, Map<String, GWTFilter> mapFilter, AsyncCallback<List<GWTMail>> callback);
 
-	public void delete(String mailPath, AsyncCallback<?> callback);
+	void delete(String mailPath, AsyncCallback<?> callback);
 
-	public void move(String docPath, String destPath, AsyncCallback<?> callback);
+	void move(String docPath, String destPath, AsyncCallback<?> callback);
 
-	public void purge(String mailPath, AsyncCallback<?> callback);
+	void purge(String mailPath, AsyncCallback<?> callback);
 
-	public void copy(String mailPath, String fldPath, AsyncCallback<?> callback);
+	void copy(String mailPath, String fldPath, AsyncCallback<?> callback);
 
-	public void getProperties(String mailPath, AsyncCallback<GWTMail> callback);
+	void getProperties(String mailPath, AsyncCallback<GWTMail> callback);
 
-	public void rename(String mailId, String newName, AsyncCallback<GWTMail> callback);
+	void rename(String mailId, String newName, AsyncCallback<GWTMail> callback);
 
-	public void isValid(String mailPath, AsyncCallback<Boolean> callback);
+	void isValid(String mailPath, AsyncCallback<Boolean> callback);
 
-	public void forwardMail(String mailPath, String mails, String users, String roles, String message, AsyncCallback<?> callback);
+	void forwardMail(String mailPath, String mails, String users, String roles, String message, AsyncCallback<?> callback);
 
-	public void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
-						 boolean attachment, AsyncCallback<GWTMail> callback);
+	void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+				  boolean attachment, AsyncCallback<GWTMail> callback);
 
-	public void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
-						 boolean attachment, String storePath, AsyncCallback<GWTMail> callback);
+	void sendMail(List<String> uuidList, Map<String, List<String>> recipients, String subject, String message,
+				  boolean attachment, String storePath, AsyncCallback<GWTMail> callback);
 
-	public void getAttachments(String uuid, AsyncCallback<List<GWTDocument>> callback);
+	void getAttachments(String uuid, AsyncCallback<List<GWTDocument>> callback);
 }

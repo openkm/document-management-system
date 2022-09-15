@@ -32,37 +32,37 @@ import com.openkm.frontend.client.bean.extension.GWTForumTopic;
  *
  */
 public interface ForumController {
-	public abstract void createNewPost();
+	void createNewPost();
 
-	public abstract void createNewTopic(long forumId, String name);
+	void createNewTopic(long forumId, String name);
 
-	public abstract void newTopicCreated(long forumId, GWTForumTopic topic);
+	void newTopicCreated(long forumId, GWTForumTopic topic);
 
-	public abstract void refreshTopics(long topicId, String name);
+	void refreshTopics(long topicId, String name);
 
-	public abstract void refreshTopics(String uuid);
+	void refreshTopics(String uuid);
 
-	public abstract void refreshPosts(long topicId, String topicName);
+	void refreshPosts(long topicId, String topicName);
 
-	public abstract void goHome();
+	void goHome();
 
-	public abstract void deletePost(long postId);
+	void deletePost(long postId);
 
-	public abstract void updatePost(GWTForumPost post);
+	void updatePost(GWTForumPost post);
 
-	public abstract void editPost(GWTForumPost post);
+	void editPost(GWTForumPost post);
 
-	public abstract ForumController getController();
+	ForumController getController();
 
-	public abstract void refreshForums();
+	void refreshForums();
 
-	public abstract void createForum();
+	void createForum();
 
-	public abstract void editForum(GWTForum forum);
+	void editForum(GWTForum forum);
 
-	public abstract void deleteForum(long forumId);
+	void deleteForum(long forumId);
 
-	public abstract void editTopic(GWTForumPost post);
+	void editTopic(GWTForumPost post);
 
-	public abstract void quotePost(GWTForumPost post);
+	void quotePost(GWTForumPost post);
 }

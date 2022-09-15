@@ -30,7 +30,7 @@ import com.openkm.frontend.client.bean.GWTUserConfig;
  */
 public interface OKMUserConfigServiceAsync {
 
-	public void setUserHome(String path, AsyncCallback<?> callback);
+	void setUserHome(String path, AsyncCallback<?> callback);
 
-	public void getUserHome(AsyncCallback<GWTUserConfig> callback);
+	void getUserHome(AsyncCallback<GWTUserConfig> callback);
 }

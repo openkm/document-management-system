@@ -31,6 +31,6 @@ import com.openkm.frontend.client.extension.event.HasWorkspaceEvent.WorkspaceEve
  */
 public interface WorkspaceHandlerExtension {
 
-	public abstract void onChange(WorkspaceEventConstant event);
+	void onChange(WorkspaceEventConstant event);
 
 }
