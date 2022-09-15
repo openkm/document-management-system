@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -72,7 +72,7 @@ public class TabFolder extends Composite implements HasFolderEvent, HasFolderHan
 	private List<TabFolderExtension> widgetExtensionList;
 	private List<FolderHandlerExtension> folderHandlerExtensionList;
 	private List<PropertyGroupHandlerExtension> propertyGroupHandlerExtensionList;
-	private boolean visibleButton = true; // Sets visibleButtons enabled to default view 
+	private boolean visibleButton = true; // Sets visibleButtons enabled to default view
 	private int selectedTab = 0;
 	private int latestSelectedTab = 0;
 	private int height = 0;
@@ -334,7 +334,7 @@ public class TabFolder extends Composite implements HasFolderEvent, HasFolderHan
 	 * Gets asynchronous to get all groups assigned to a document
 	 */
 	final AsyncCallback<List<GWTPropertyGroup>> callbackGetGroups = new AsyncCallback<List<GWTPropertyGroup>>() {
-		public void onSuccess(List<GWTPropertyGroup> result) {			
+		public void onSuccess(List<GWTPropertyGroup> result) {
 			boolean enableUpdatePropertyGroup = false;
 			for (GWTPropertyGroup gwtGroup : result) {
 				String groupTranslation = gwtGroup.getLabel();
@@ -389,7 +389,7 @@ public class TabFolder extends Composite implements HasFolderEvent, HasFolderHan
 	public void removePropertyGroup() {
 		selectedTab = tabPanel.getSelectedIndex(); // Sets the actual selected Tab
 
-		// Removes group 
+		// Removes group
 		PropertyGroup group = (PropertyGroup) tabPanel.getWidget(selectedTab);
 		group.removeGroup();
 		propertyGroup.remove(group);
@@ -421,9 +421,9 @@ public class TabFolder extends Composite implements HasFolderEvent, HasFolderHan
 	}
 
 	/**
-	 * resizingIncubatorWidgets 
+	 * resizingIncubatorWidgets
 	 *
-	 * Needs resizing if not widgets disapears
+	 * Needs resizing if not widgets disappears
 	 */
 	public void resizingIncubatorWidgets() {
 		if (!propertyGroup.isEmpty()) {

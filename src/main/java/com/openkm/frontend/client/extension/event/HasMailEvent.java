@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -24,11 +24,8 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasDocumentEvent
  *
- *
  * @author jllort
- *
  */
-
 public interface HasMailEvent {
 
 	/**
@@ -37,8 +34,7 @@ public interface HasMailEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class MailEventConstant {
-
+	class MailEventConstant {
 		static final int EVENT_MAIL_CHANGED = 1;
 		static final int EVENT_PANEL_RESIZED = 2;
 		static final int EVENT_TAB_CHANGED = 3;
@@ -54,8 +50,6 @@ public interface HasMailEvent {
 
 		/**
 		 * DocumentEventConstant
-		 *
-		 * @param type
 		 */
 		private MailEventConstant(int type) {
 			this.type = type;
@@ -78,7 +72,7 @@ public interface HasMailEvent {
 	MailEventConstant CATEGORY_REMOVED = new MailEventConstant(MailEventConstant.EVENT_CATEGORY_REMOVED);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(MailEventConstant event);
 }

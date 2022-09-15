@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,22 +21,17 @@
 
 package com.openkm.frontend.client;
 
-
 /**
  * Propagates server exception
  *
  * @author jllort
- *
  */
 public class OKMException extends Exception {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -4496726716603093472L;
 	private String code;
 	private String msg;
 
-	// Necessary to define de default contructor
+	// Necessary to define de default constructor
 	public OKMException() {
 	}
 

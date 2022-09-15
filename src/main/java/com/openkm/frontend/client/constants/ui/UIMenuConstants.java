@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -26,8 +26,9 @@ package com.openkm.frontend.client.constants.ui;
  */
 public class UIMenuConstants {
 
-	// MENU CONTANTS
+	// MENU CONSTANTS
 	public static final int NEW_MENU = -1;
+
 	// MAIN MENU
 	public static final int MAIN_MENU_FILE = 0;
 	public static final int MAIN_MENU_EDIT = 1;

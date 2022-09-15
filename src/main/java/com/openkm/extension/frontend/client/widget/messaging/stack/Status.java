@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -33,7 +33,6 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
  *
  */
 public class Status extends PopupPanel {
-
 	private HorizontalPanel hPanel;
 	private HTML msg;
 	private HTML space;

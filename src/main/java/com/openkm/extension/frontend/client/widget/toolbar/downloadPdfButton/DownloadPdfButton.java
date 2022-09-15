@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -133,7 +133,7 @@ public class DownloadPdfButton {
 		 * refreshButtonPermissions
 		 */
 		private void refreshButtonPermissions() {
-			// Button permissions are the same as download 
+			// Button permissions are the same as download
 			enabled = GeneralComunicator.getToolBarOption().downloadPdfOption;
 			if (enabled && !GeneralComunicator.getUserRoleList().contains(NO_RESTRICTION_ROLE)) {
 				enabled = false;

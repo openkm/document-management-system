@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -65,7 +65,7 @@ public class ActivityLogServlet extends OKMRemoteServiceServlet implements OKMAc
 					if (getChilds) {
 						activityList.add(GWTUtil.copy(activity));
 					} else {
-						// Root folders are added to limit filtering too 
+						// Root folders are added to limit filtering too
 						if (!activity.getAction().equals("GET_CHILDREN_DOCUMENTS") && !activity.getAction().equals("GET_CHILDREN_FOLDERS") &&
 								!activity.getAction().equals("GET_CHILDREN_MAILS") && !activity.getAction().equals("GET_ROOT_FOLDER") &&
 								!activity.getAction().equals("GET_CATEGORIES_FOLDER") && !activity.getAction().equals("GET_THESAURUS_FOLDER") &&

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -48,7 +48,7 @@ public class Wiki implements LanguageHandlerExtension {
 	public static Wiki singleton;
 	private static final String UUID = "a7b5a3c0-4b2f-11e0-b8af-0800200c9a66";
 
-	private int selectedPanel = TAB_FOLDER;  // By default the folder tab is selected at starting 
+	private int selectedPanel = TAB_FOLDER;  // By default the folder tab is selected at starting
 	private TabDocumentWiki tabDocumentWiki;
 	private TabFolderWiki tabFolderWiki;
 	private TabMailWiki tabMailWiki;

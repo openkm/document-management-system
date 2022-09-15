@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,9 +36,6 @@ public class UtilComunicator {
 
 	/**
 	 * formatSize
-	 *
-	 * @param size
-	 * @return
 	 */
 	public static String formatSize(double size) {
 		return Util.formatSize(size);
@@ -46,10 +43,6 @@ public class UtilComunicator {
 
 	/**
 	 * createHeaderHTML
-	 *
-	 * @param imageURL
-	 * @param caption
-	 * @return
 	 */
 	public static String createHeaderHTML(String imageURL, String caption) {
 		return Util.createHeaderHTML(imageURL, caption);
@@ -57,11 +50,6 @@ public class UtilComunicator {
 
 	/**
 	 * imageItemHTML
-	 *
-	 * @param imageUrl
-	 * @param title
-	 * @param align
-	 * @return
 	 */
 	public static String imageItemHTML(String imageUrl, String title, String align) {
 		return Util.imageItemHTML(imageUrl, title, align);
@@ -69,10 +57,6 @@ public class UtilComunicator {
 
 	/**
 	 * menuHTML
-	 *
-	 * @param imageUrl
-	 * @param text
-	 * @return
 	 */
 	public static String menuHTML(String imageUrl, String text) {
 		return Util.menuHTML(imageUrl, text);
@@ -80,9 +64,6 @@ public class UtilComunicator {
 
 	/**
 	 * menuHTML
-	 *
-	 * @param text
-	 * @return
 	 */
 	public static String menuHTMLWithoutIcon(String text) {
 		return Util.menuHTMLWithouIcon(text);
@@ -90,9 +71,6 @@ public class UtilComunicator {
 
 	/**
 	 * imageItemHTML
-	 *
-	 * @param imageUrl
-	 * @return
 	 */
 	public static String imageItemHTML(String imageUrl) {
 		return Util.imageHTML(imageUrl);
@@ -100,10 +78,6 @@ public class UtilComunicator {
 
 	/**
 	 * getTextAsBoldHTML
-	 *
-	 * @param text
-	 * @param mark
-	 * @return
 	 */
 	public static String getTextAsBoldHTML(String text, boolean mark) {
 		return Util.getTextAsBoldHTML(text, mark);
@@ -111,8 +85,6 @@ public class UtilComunicator {
 
 	/**
 	 * getUserAgent
-	 *
-	 * @return
 	 */
 	public static String getUserAgent() {
 		return Util.getUserAgent();
@@ -120,9 +92,6 @@ public class UtilComunicator {
 
 	/**
 	 * Get item name from path.
-	 *
-	 * @param path The complete item path.
-	 * @return The name of the item.
 	 */
 	public static String getName(String path) {
 		return Util.getName(path);
@@ -130,9 +99,6 @@ public class UtilComunicator {
 
 	/**
 	 * get parent
-	 *
-	 * @param path
-	 * @return
 	 */
 	public static String getParent(String path) {
 		return Util.getParent(path);
@@ -140,9 +106,6 @@ public class UtilComunicator {
 
 	/**
 	 * Generate HTML icon for mime-type document
-	 *
-	 * @param mime The document mime-type
-	 * @return the html image of mime-type file
 	 */
 	public static String mimeImageHTML(String mime) {
 		return Util.mimeImageHTML(mime);
@@ -150,9 +113,6 @@ public class UtilComunicator {
 
 	/**
 	 * hSpace
-	 *
-	 * @param width
-	 * @return
 	 */
 	public static HTML hSpace(String width) {
 		return Util.hSpace(width);
@@ -160,9 +120,6 @@ public class UtilComunicator {
 
 	/**
 	 * vSpace
-	 *
-	 * @param height
-	 * @return
 	 */
 	public static HTML vSpace(String height) {
 		return Util.vSpace(height);
@@ -170,9 +127,6 @@ public class UtilComunicator {
 
 	/**
 	 * isSearchableKey
-	 *
-	 * @param event
-	 * @return
 	 */
 	public static boolean isSearchableKey(KeyUpEvent event) {
 		if (event != null) {

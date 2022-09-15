@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -37,7 +37,6 @@ public class GWTUINotification implements IsSerializable {
 
 	public static final int TYPE_TEMPORAL = 1;
 	public static final int TYPE_PERMANENT = 2;
-
 
 	private int id;
 	private Date date;

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -299,12 +299,12 @@ public class KeywordWidget extends Composite {
 	 */
 	public void decreaseKeywordRate(String keyword) {
 		if (keywordTableMap.containsKey(keyword)) {
-			int row = Integer.valueOf(keywordTableMap.get(keyword));
-			int value = Integer.valueOf(table.getHTML(row, 1)) - 1;
+			int row = Integer.parseInt(keywordTableMap.get(keyword));
+			int value = Integer.parseInt(table.getHTML(row, 1)) - 1;
 			if (value > 0) {
 				table.setHTML(row, 1, "" + value);
 			} else {
-				// This case is not possible in KeyMapDashBoard controls case <=0 
+				// This case is not possible in KeyMapDashBoard controls case <=0
 				table.setHTML(row, 1, "0");
 			}
 		}

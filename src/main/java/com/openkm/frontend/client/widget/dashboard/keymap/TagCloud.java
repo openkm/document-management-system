@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -60,7 +60,7 @@ public class TagCloud extends Composite {
 	 */
 	public int getLabelSize(int frequency) {
 		// Lineal interpolation
-		//int multiplier = (MAX_FONT_SIZE-MIN_FONT_SIZE)/(maxFrequency-minFrequency);  
+		//int multiplier = (MAX_FONT_SIZE-MIN_FONT_SIZE)/(maxFrequency-minFrequency);
 		//int fontSize = MIN_FONT_SIZE + ((maxFrequency-(maxFrequency-(frequency-minFrequency)))*multiplier);
 
 		// Logarithmic interpolation

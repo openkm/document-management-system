@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,11 +21,7 @@
 
 package com.openkm.extension.frontend.client.widget.htmleditor;
 
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
 import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.widget.foldertree.ExtendedPopupPanel;
@@ -36,7 +32,6 @@ import com.openkm.frontend.client.widget.foldertree.ExtendedPopupPanel;
  * @author jllort
  */
 public class Status extends ExtendedPopupPanel {
-
 	private HorizontalPanel hPanel;
 	private HTML msg;
 	private HTML space;

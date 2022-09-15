@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,8 +35,6 @@ public class ToolBarComunicator {
 
 	/**
 	 * getToolBarOption
-	 *
-	 * @return
 	 */
 	public static ToolBarOption getToolBarOption() {
 		return Main.get().mainPanel.topPanel.toolBar.getToolBarOption();
@@ -44,8 +42,6 @@ public class ToolBarComunicator {
 
 	/**
 	 * setToolBarOption
-	 *
-	 * @param toolBarOption
 	 */
 	public static void setToolBarOption(ToolBarOption toolBarOption) {
 		Main.get().mainPanel.topPanel.toolBar.setToolBarOption(toolBarOption);

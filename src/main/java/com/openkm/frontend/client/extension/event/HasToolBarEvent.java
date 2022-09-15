@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,16 +21,11 @@
 
 package com.openkm.frontend.client.extension.event;
 
-import com.openkm.frontend.client.extension.event.HasToolBarEvent.ToolBarEventConstant;
-
 /**
  * HasToolBarEvent
  *
- *
  * @author jllort
- *
  */
-
 public interface HasToolBarEvent {
 
 	/**
@@ -39,8 +34,7 @@ public interface HasToolBarEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class ToolBarEventConstant {
-
+	class ToolBarEventConstant {
 		static final int EVENT_CHECK_DOCUMENT_PERMISSION = 1;
 		static final int EVENT_CHECK_FOLDER_PERMISSION = 2;
 		static final int EVENT_CHECK_MAIL_PERMISSION = 3;
@@ -73,13 +67,11 @@ public interface HasToolBarEvent {
 		static final int EVENT_EXECUTE_FIND_DOCUMENT = 30;
 		static final int EVENT_EXECUTE_FIND_SIMILAR_DOCUMENT = 31;
 		static final int EVENT_OMR = 32;
-		
+
 		private int type = 0;
 
 		/**
 		 * ToolBarEventConstant
-		 *
-		 * @param type
 		 */
 		private ToolBarEventConstant(int type) {
 			this.type = type;
@@ -122,7 +114,7 @@ public interface HasToolBarEvent {
 	ToolBarEventConstant EXECUTE_OMR = new ToolBarEventConstant(ToolBarEventConstant.EVENT_OMR);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(ToolBarEventConstant event);
 }

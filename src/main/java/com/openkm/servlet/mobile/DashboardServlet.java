@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -93,7 +93,7 @@ public class DashboardServlet extends HttpServlet {
 	}
 
 	/**
-	 * Dispatch errors 
+	 * Dispatch errors
 	 */
 	private void sendErrorRedirect(HttpServletRequest request, HttpServletResponse response,
 	                               Throwable e) throws ServletException, IOException {

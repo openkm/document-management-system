@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -504,7 +504,7 @@ public class LanguageServlet extends BaseServlet {
 		response.sendRedirect(request.getContextPath() + request.getServletPath());
 		log.debug("normalize: void");
 	}
-		   
+
     /**
      * Sort set
      */

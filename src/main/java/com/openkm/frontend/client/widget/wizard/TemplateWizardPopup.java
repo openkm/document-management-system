@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -199,9 +199,7 @@ public class TemplateWizardPopup extends DialogBox {
 	}
 
 	/**
-	 * Accept button 
-	 *
-	 * @return
+	 * Accept button
 	 */
 	private Button acceptButton() {
 		Button button = new Button(Main.i18n("button.accept"), new ClickHandler() {
@@ -218,9 +216,7 @@ public class TemplateWizardPopup extends DialogBox {
 	}
 
 	/**
-	 * Next button 
-	 *
-	 * @return
+	 * Next button
 	 */
 	private Button nextButton() {
 		Button button = new Button(Main.i18n("button.next"), new ClickHandler() {

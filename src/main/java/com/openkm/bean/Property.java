@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -29,7 +29,6 @@ import java.io.Serializable;
  */
 public class Property implements Serializable {
 	private static final long serialVersionUID = -1;
-
 	public static final String KEYWORDS = "okm:keywords";
 	public static final String CATEGORIES = "okm:categories";
 }

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -405,14 +405,14 @@ public class WorkflowWidget extends Composite {
 	}
 
 	/**
-	 * Sets the widget as pending task 
+	 * Sets the widget as pending task
 	 */
 	public void setIsWidgetPendingTask() {
 		widgetType = TYPE_PENDING_TASK;
 	}
 
 	/**
-	 * Sets the widget as pooled task 
+	 * Sets the widget as pooled task
 	 */
 	public void setIsWidgetPooledTask() {
 		widgetType = TYPE_POOLED_TASK;

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,29 +25,21 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasWorkspaceEvent
  *
- *
  * @author jllort
- *
  */
-
 public interface HasWorkspaceEvent {
 
 	/**
 	 * NavigatorEventConstant
 	 *
 	 * @author jllort
-	 *
 	 */
-	public static class WorkspaceEventConstant {
-
+	class WorkspaceEventConstant {
 		static final int EVENT_STACK_CHANGED = 1;
-
 		private int type = 0;
 
 		/**
 		 * ToolBarEventConstant
-		 *
-		 * @param type
 		 */
 		private WorkspaceEventConstant(int type) {
 			this.type = type;
@@ -61,7 +53,7 @@ public interface HasWorkspaceEvent {
 	WorkspaceEventConstant STACK_CHANGED = new WorkspaceEventConstant(WorkspaceEventConstant.EVENT_STACK_CHANGED);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(WorkspaceEventConstant event);
 

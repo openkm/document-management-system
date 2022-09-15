@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * OpenKM, Open Document Management System (http://www.openkm.com)
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -17,6 +18,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
+
 package com.openkm.frontend.client.widget.upload;
 
 import com.google.gwt.user.client.ui.*;
@@ -30,7 +32,6 @@ import com.openkm.frontend.client.constants.service.RPCService;
  *
  */
 public class FileUploadForm extends Composite {
-
 	private FormPanel uploadForm;
 	private VerticalPanel vPanel;
 	private TextBox inputPath;

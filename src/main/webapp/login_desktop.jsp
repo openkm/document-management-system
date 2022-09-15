@@ -275,7 +275,7 @@
         <div class="form-group form-footer"
              style="border-bottom-left-radius: 10px !important; border-bottom-right-radius: 10px !important;">
           <div class="col-xs-12 text-center">
-            <p>&copy; 2006-2018 OpenKM. All rights reserved.</p>
+            <p>&copy; 2006-2022 OpenKM. All rights reserved.</p>
           </div>
         </div>
       </form>

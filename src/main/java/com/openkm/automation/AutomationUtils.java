@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -21,9 +21,6 @@
 
 package com.openkm.automation;
 
-import java.io.File;
-import java.util.Map;
-
 import com.openkm.api.OKMRepository;
 import com.openkm.core.AccessDeniedException;
 import com.openkm.core.DatabaseException;
@@ -34,6 +31,9 @@ import com.openkm.dao.bean.NodeDocument;
 import com.openkm.dao.bean.NodeFolder;
 import com.openkm.dao.bean.NodeMail;
 import com.openkm.util.PathUtils;
+
+import java.io.File;
+import java.util.Map;
 
 /**
  * AutomationUtils
@@ -67,7 +67,7 @@ public class AutomationUtils {
 	public static final String PROPERTY_GROUP_PROPERTIES = "propGroupProperties";
 	public static final String EVENT = "event";
 	public static final String USER = "user";
-	
+
 	/**
 	 * getPath
 	 */
@@ -75,7 +75,7 @@ public class AutomationUtils {
 			DatabaseException {
 		NodeDocument docNode = (NodeDocument) env.get(DOCUMENT_NODE);
 		NodeFolder fldNode = (NodeFolder) env.get(FOLDER_NODE);
-		NodeMail mailNode = (NodeMail) env.get(MAIL_NODE);		
+		NodeMail mailNode = (NodeMail) env.get(MAIL_NODE);
 		String uuid = null;
 		String path = null;
 
@@ -85,7 +85,7 @@ public class AutomationUtils {
 			uuid = fldNode.getUuid();
 		} else if (mailNode != null) {
 			uuid = mailNode.getUuid();
-		} 
+		}
 
 		if (uuid != null) {
 			path = OKMRepository.getInstance().getNodePath(null, uuid);
@@ -93,7 +93,7 @@ public class AutomationUtils {
 
 		return path;
 	}
-	
+
 	/**
 	 * getUuid
 	 */
@@ -168,7 +168,7 @@ public class AutomationUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * getParentPath
 	 */
@@ -221,7 +221,7 @@ public class AutomationUtils {
 	public static Integer getInteger(int index, Object... params) {
 		return (Integer) params[index];
 	}
-	
+
 	/**
 	 * getLong
 	 */

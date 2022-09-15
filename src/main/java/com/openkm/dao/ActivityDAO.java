@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -159,7 +159,7 @@ public class ActivityDAO {
 			Calendar ret = (Calendar) q.setMaxResults(1).uniqueResult();
 
 			if (ret == null) {
-				// May be the document has been moved or renamed? 
+				// May be the document has been moved or renamed?
 				ret = Calendar.getInstance();
 			}
 

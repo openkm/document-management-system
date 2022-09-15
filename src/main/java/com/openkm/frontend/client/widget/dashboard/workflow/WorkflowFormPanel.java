@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -442,7 +442,7 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow, Validat
 	}
 
 	/**
-	 * Start user task instance 
+	 * Start user task instance
 	 */
 	public void startTaskInstance(double id) {
 		workflowService.startTaskInstance(id, callbackStartTaskInstance);
@@ -697,7 +697,7 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow, Validat
 			return addHandler(handler, ClickEvent.getType());
 		}
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		// Submit form is not visible when other buttons are declared into form.xml, in these case must not be executed the setTaskInstanceValues
@@ -705,7 +705,7 @@ public class WorkflowFormPanel extends Composite implements HasWorkflow, Validat
 			validationPassed();
 		}
 	}
-	
+
 	/**
 	 * validationPassed
 	 */

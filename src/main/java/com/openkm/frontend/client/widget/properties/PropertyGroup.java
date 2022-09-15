@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -50,9 +50,8 @@ import java.util.Arrays;
  */
 public class PropertyGroup extends Composite implements HasPropertyGroupHandlerExtension, ValidatorToFire {
 	private final OKMRepositoryServiceAsync repositoryService = GWT.create(OKMRepositoryService.class);
-	
-	private ScrollPanel scrollPanel;
 	private PropertyGroupWidget propertyGroupWidget;
+	private ScrollPanel scrollPanel;
 	private Button changeButton;
 	private Button removeButton;
 	private Button cancelButton;
@@ -67,7 +66,7 @@ public class PropertyGroup extends Composite implements HasPropertyGroupHandlerE
 	 * PropertyGroup
 	 */
 	public PropertyGroup(GWTPropertyGroup propertyGroup, final Object node, boolean visible, boolean readOnly) {
-		this.node = node;		
+		this.node = node;
 		int permissions = 0;
 
 		if (node instanceof GWTDocument) {
@@ -82,7 +81,7 @@ public class PropertyGroup extends Composite implements HasPropertyGroupHandlerE
 			path = ((GWTMail) node).getPath();
 			uuid = ((GWTMail) node).getUuid();
 			permissions = ((GWTMail) node).getPermissions();
-		}	
+		}
 
 		hPanelFired = new FiredHorizontalPanel();
 		propertyGroupWidget = new PropertyGroupWidget(path, propertyGroup, hPanelFired, hPanelFired, this);
@@ -282,7 +281,7 @@ public class PropertyGroup extends Composite implements HasPropertyGroupHandlerE
 				Main.get().activeFolderTree.refresh(true);
 			} else {
 				refreshingActualNode();
-				
+
 				// If the node has been moved, open in file browser
 				repositoryService.getPathByUUID(uuid, new AsyncCallback<String>() {
 					@Override
@@ -298,7 +297,7 @@ public class PropertyGroup extends Composite implements HasPropertyGroupHandlerE
 					}
 				});
 			}
-						
+
 			Main.get().mainPanel.desktop.browser.tabMultiple.status.unsetGroupProperties();
 		}
 
@@ -347,7 +346,7 @@ public class PropertyGroup extends Composite implements HasPropertyGroupHandlerE
 	public void addPropertyGroupHandlerExtension(PropertyGroupHandlerExtension handlerExtension) {
 		propertyGroupWidget.addPropertyGroupHandlerExtension(handlerExtension);
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		if (result) {

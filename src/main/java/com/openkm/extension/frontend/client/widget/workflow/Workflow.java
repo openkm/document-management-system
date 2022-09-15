@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -48,7 +48,7 @@ public class Workflow implements LanguageHandlerExtension {
 	public static Workflow singleton;
 	private static final String UUID = "fa7f4556-3249-4268-88e0-0dd78a79872a";
 
-	private int selectedPanel = TAB_FOLDER;  // By default the folder tab is selected at starting 
+	private int selectedPanel = TAB_FOLDER;  // By default the folder tab is selected at starting
 	private TabDocumentWorkflow tabDocumentWorkflow;
 	private TabFolderWorkflow tabFolderWorkflow;
 

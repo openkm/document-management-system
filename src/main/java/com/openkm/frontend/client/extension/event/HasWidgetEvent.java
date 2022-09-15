@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -25,11 +25,8 @@ package com.openkm.frontend.client.extension.event;
 /**
  * HasDashboardEvent
  *
- *
  * @author jllort
- *
  */
-
 public interface HasWidgetEvent {
 
 	/**
@@ -38,16 +35,12 @@ public interface HasWidgetEvent {
 	 * @author jllort
 	 *
 	 */
-	public static class WidgetEventConstant {
-
+	class WidgetEventConstant {
 		static final int EVENT_FINISH_STARTUP = 1;
-
 		private int type = 0;
 
 		/**
 		 * WidgetEventConstant
-		 *
-		 * @param type
 		 */
 		private WidgetEventConstant(int type) {
 			this.type = type;
@@ -61,7 +54,7 @@ public interface HasWidgetEvent {
 	WidgetEventConstant FINISH_STARTUP = new WidgetEventConstant(WidgetEventConstant.EVENT_FINISH_STARTUP);
 
 	/**
-	 * @param event
+	 *
 	 */
 	void fireEvent(WidgetEventConstant event);
 }

@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -18,7 +18,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
 
 package com.openkm.extension.frontend.client;
 
@@ -47,7 +46,6 @@ import com.openkm.frontend.client.extension.event.handler.WorkspaceHandlerExtens
  *
  */
 public class HandlersTest implements WorkspaceHandlerExtension {
-
 	@Override
 	public void onChange(WorkspaceEventConstant event) {
 		Window.alert("workspace event fired");

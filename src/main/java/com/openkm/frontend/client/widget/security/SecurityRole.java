@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -657,11 +657,11 @@ public class SecurityRole extends Composite implements HasWidgets {
 			} else {
 				if (actualGrants.containsKey(role)) { // test diferences
 					// Table A=actual grants B=Change grants
-					// A B  XOR           
-					// 0 0   0      
-					// 0 1   1    B & (XOR) -> 1  ( add grant )   
+					// A B  XOR
+					// 0 0   0
+					// 0 1   1    B & (XOR) -> 1  ( add grant )
 					// 1 0   1    A & (XOR) -> 1  ( revoke grant )
-					// 1 1   0       
+					// 1 1   0
 					int bitDiference = changedGrants.get(role).intValue() ^ actualGrants.get(role).intValue();
 					int addBit = changedGrants.get(role).intValue() & bitDiference;
 					int revokeBit = actualGrants.get(role).intValue() & bitDiference;

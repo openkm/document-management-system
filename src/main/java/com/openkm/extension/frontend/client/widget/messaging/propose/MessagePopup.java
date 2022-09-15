@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -39,9 +39,7 @@ import com.openkm.frontend.client.util.Util;
  *
  */
 public class MessagePopup extends DialogBox {
-
 	private final OKMMessageServiceAsync messageService = (OKMMessageServiceAsync) GWT.create(OKMMessageService.class);
-
 	private VerticalPanel vPanel;
 	private HorizontalPanel hPanel;
 	private Button closeButton;
@@ -154,7 +152,7 @@ public class MessagePopup extends DialogBox {
 	}
 
 	/**
-	 * langRefresh 
+	 * langRefresh
 	 *
 	 * Refreshing lang
 	 */

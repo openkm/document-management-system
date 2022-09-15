@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -200,7 +200,7 @@ public class SecurityScrollTable extends Composite implements ClickHandler {
 			col++;
 		}
 
-		// Level 1 headers		
+		// Level 1 headers
 		col = 0;
 		headerTable.setHTML(0, col++, Main.i18n("security.role.name"));
 		headerTable.setHTML(0, col++, Main.i18n("security.role.permission.read"));

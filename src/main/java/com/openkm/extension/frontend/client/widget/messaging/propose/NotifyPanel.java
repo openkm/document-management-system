@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -35,10 +35,8 @@ import com.openkm.frontend.client.extension.comunicator.GeneralComunicator;
  * NotifyPanel
  *
  * @author jllort
- *
  */
 public class NotifyPanel extends Composite {
-
 	private static final int TAB_HEIGHT = 20;
 	private static final int TAB_USERS = 0;
 	private static final int TAB_GROUPS = 1;

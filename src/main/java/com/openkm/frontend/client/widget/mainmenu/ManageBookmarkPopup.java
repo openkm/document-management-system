@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -137,7 +137,7 @@ public class ManageBookmarkPopup extends DialogBox {
 		table.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// Mark selected row or orders rows if header row (0) is clicked 
+				// Mark selected row or orders rows if header row (0) is clicked
 				// And row must be other than the selected one
 				int row = table.getCellForEvent(event).getRowIndex();
 				if (row != selectedRow) {
@@ -346,19 +346,14 @@ public class ManageBookmarkPopup extends DialogBox {
 	}
 
 	/**
-	 * Remove bookmark 
-	 *
-	 * @param id
+	 * Remove bookmark
 	 */
 	private void remove(int id) {
 		bookmarkService.remove(id, callbackRemove);
 	}
 
 	/**
-	 * Rename bookmark 
-	 *
-	 * @param id
-	 * @param newName
+	 * Rename bookmark
 	 */
 	private void rename(int id, String newName) {
 		bookmarkService.rename(id, newName, callbackRename);
@@ -409,10 +404,6 @@ public class ManageBookmarkPopup extends DialogBox {
 
 	/**
 	 * Set the WordWarp for all the row cells
-	 *
-	 * @param row The row cell
-	 * @param columns Number of row columns
-	 * @param warp
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp) {
 		CellFormatter cellFormatter = table.getCellFormatter();

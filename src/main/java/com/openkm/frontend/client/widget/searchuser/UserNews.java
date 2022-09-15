@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User news searches 
+ * User news searches
  *
  * @author jllort
  *
@@ -110,7 +110,7 @@ public class UserNews extends Composite {
 	}
 
 	/**
-	 * Call Back get search 
+	 * Call Back get search
 	 */
 	final AsyncCallback<List<GWTQueryParams>> callbackGetUserSearchs = new AsyncCallback<List<GWTQueryParams>>() {
 		public void onSuccess(List<GWTQueryParams> result) {
@@ -138,7 +138,7 @@ public class UserNews extends Composite {
 	};
 
 	/**
-	 * Call Back delete search 
+	 * Call Back delete search
 	 */
 	final AsyncCallback<Object> callbackDeleteSearch = new AsyncCallback<Object>() {
 		public void onSuccess(Object result) {
@@ -285,4 +285,3 @@ public class UserNews extends Composite {
 		menuPopup.langRefresh();
 	}
 }
-	

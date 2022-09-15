@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -36,7 +36,7 @@ public class GWTExtendedSecurity extends DatabaseMetadataCommon implements IsSer
 	public static final String TYPE_USER = "user";
 	public static final String TYPE_ROLE = "role";
 
-	// Metadata Virtual Name mapping 
+	// Metadata Virtual Name mapping
 	public static final String MV_TABLE_NAME = "security";
 	public static final String MV_COLUMN_NAME_UUID = "uuid_id";
 	public static final String MV_COLUMN_NAME_TYPE = "type";

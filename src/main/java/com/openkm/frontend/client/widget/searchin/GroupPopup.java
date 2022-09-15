@@ -1,6 +1,6 @@
 /**
  * OpenKM, Open Document Management System (http://www.openkm.com)
- * Copyright (c) 2006-2017  Paco Avila & Josep Llort
+ * Copyright (c) Paco Avila & Josep Llort
  * <p>
  * No bytes were intentionally harmed during the development of this application.
  * <p>
@@ -326,7 +326,7 @@ public class GroupPopup extends DialogBox {
 	}
 
 	/**
-	 * Gets all metadata group properties 
+	 * Gets all metadata group properties
 	 */
 	private void getMetaData() {
 		propertyGroupService.getPropertyGroupForm(groupListBox.getValue(groupListBox.getSelectedIndex()), callbackGetPropertyGroupForm);
@@ -351,7 +351,7 @@ public class GroupPopup extends DialogBox {
 		} else {
 			switch (origin) {
 				case UIDockPanelConstants.SEARCH:
-					// Validate button 
+					// Validate button
 					if (groupListBox.getItemCount() > 1) {
 						Main.get().mainPanel.search.searchBrowser.searchIn.searchMetadata.addGroup.setEnabled(true);
 					} else {
@@ -360,7 +360,7 @@ public class GroupPopup extends DialogBox {
 					validate = -1; // Resets values
 					break;
 				case UIDockPanelConstants.DESKTOP:
-					// Validate button 
+					// Validate button
 					if (groupListBox.getItemCount() > 1) {
 						Main.get().updatePropertyGroupPopup.addGroup.setEnabled(true);
 					} else {
