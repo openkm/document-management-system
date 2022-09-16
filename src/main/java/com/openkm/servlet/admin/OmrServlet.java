@@ -83,9 +83,6 @@ public class OmrServlet extends BaseServlet {
 			} else {
 				list(userId, request, response);
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);

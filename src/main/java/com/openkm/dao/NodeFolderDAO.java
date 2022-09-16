@@ -102,16 +102,7 @@ public class NodeFolderDAO {
 			session.save(nFolder);
 			HibernateUtil.commit(tx);
 			log.debug("create: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | ItemExistsException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -157,10 +148,7 @@ public class NodeFolderDAO {
 			log.trace("findByParent.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("findByParent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -259,10 +247,7 @@ public class NodeFolderDAO {
 			log.trace("findByCategory.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("findByCategory: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -394,10 +379,7 @@ public class NodeFolderDAO {
 			HibernateUtil.commit(tx);
 			log.debug("hasChildren: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -443,16 +425,7 @@ public class NodeFolderDAO {
 			HibernateUtil.commit(tx);
 			log.debug("rename: {}", nFld);
 			return nFld;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | ItemExistsException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -513,16 +486,7 @@ public class NodeFolderDAO {
 			SystemProfiling.log(uuid, System.currentTimeMillis() - begin);
 			log.trace("move.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("move: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (ItemExistsException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | ItemExistsException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -579,13 +543,7 @@ public class NodeFolderDAO {
 			SystemProfiling.log(uuid, System.currentTimeMillis() - begin);
 			log.trace("delete.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("delete: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -675,16 +633,7 @@ public class NodeFolderDAO {
 			SystemProfiling.log(uuid + ", " + deleteBase, System.currentTimeMillis() - begin);
 			log.trace("purgue.Time: {}", System.currentTimeMillis() - begin);
 			log.debug("purgue: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (IOException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | IOException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -727,7 +676,7 @@ public class NodeFolderDAO {
 			// Security Check
 			NodeBase nBase = (NodeBase) session.get(NodeFolder.class, uuid);
 
-			if (nBase != null && nBase instanceof NodeFolder) {
+			if (nBase instanceof NodeFolder) {
 				SecurityHelper.checkRead(nBase);
 				return true;
 			}

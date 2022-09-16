@@ -68,11 +68,7 @@ public class DbRepositoryModule implements RepositoryModule {
 			// Store system session token
 			DbSessionManager.getInstance().putSystemSession();
 			DbAuthModule.loadUserData(Config.SYSTEM_USER);
-		} catch (ItemExistsException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (PathNotFoundException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (ItemExistsException | PathNotFoundException | AccessDeniedException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		}
 
@@ -578,13 +574,7 @@ public class DbRepositoryModule implements RepositoryModule {
 
 			// Activity log
 			UserActivity.log(auth.getName(), "PURGE_TRASH", userTrashUuid, userTrashPath, null);
-		} catch (IOException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (ParseException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (NoSuchGroupException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (MessagingException e) {
+		} catch (IOException | ParseException | NoSuchGroupException | MessagingException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw e;

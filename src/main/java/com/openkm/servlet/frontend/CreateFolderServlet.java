@@ -125,10 +125,6 @@ public class CreateFolderServlet extends OKMHttpServlet {
 			fuResponse.get().setError(e.toString());
 			sendErrorResponse(out, action, fuResponse.get(), request, response, redirect, redirectURL);
 		} finally {
-			if (tmp != null) {
-				tmp.delete();
-			}
-
 			IOUtils.closeQuietly(is);
 			out.flush();
 			IOUtils.closeQuietly(out);

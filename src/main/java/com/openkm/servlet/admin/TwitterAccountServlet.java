@@ -63,10 +63,7 @@ public class TwitterAccountServlet extends BaseServlet {
 			if (action.equals("") || WebUtils.getBoolean(request, "persist")) {
 				list(userId, request, response);
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (DatabaseException | NoSuchAlgorithmException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

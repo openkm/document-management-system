@@ -79,11 +79,7 @@ public class PasswordResetServlet extends HttpServlet {
 					log.error(e.getMessage(), e);
 					sc.setAttribute("resetFailed", "Failed to send the new password by email");
 					response.sendRedirect("password_reset.jsp");
-				} catch (DatabaseException e) {
-					log.error(e.getMessage(), e);
-					sc.setAttribute("resetFailed", "Failed reset the user password");
-					response.sendRedirect("password_reset.jsp");
-				} catch (AccessDeniedException e) {
+				} catch (DatabaseException | AccessDeniedException e) {
 					log.error(e.getMessage(), e);
 					sc.setAttribute("resetFailed", "Failed reset the user password");
 					response.sendRedirect("password_reset.jsp");

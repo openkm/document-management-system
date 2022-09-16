@@ -161,13 +161,7 @@ public class CommonAuthModule {
 				log.info("PrincipalAdapter: {}", Config.PRINCIPAL_ADAPTER);
 				Object object = Class.forName(Config.PRINCIPAL_ADAPTER).newInstance();
 				principalAdapter = (PrincipalAdapter) object;
-			} catch (ClassNotFoundException e) {
-				log.error(e.getMessage(), e);
-				throw new PrincipalAdapterException(e.getMessage(), e);
-			} catch (InstantiationException e) {
-				log.error(e.getMessage(), e);
-				throw new PrincipalAdapterException(e.getMessage(), e);
-			} catch (IllegalAccessException e) {
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 				log.error(e.getMessage(), e);
 				throw new PrincipalAdapterException(e.getMessage(), e);
 			}

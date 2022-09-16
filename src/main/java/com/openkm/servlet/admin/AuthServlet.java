@@ -111,16 +111,7 @@ public class AuthServlet extends BaseServlet {
                     userList(userId, request, response);
                 }
 
-			} catch (DatabaseException e) {
-				log.error(e.getMessage(), e);
-				sendErrorRedirect(request, response, e);
-			} catch (NoSuchAlgorithmException e) {
-				log.error(e.getMessage(), e);
-				sendErrorRedirect(request, response, e);
-			} catch (PrincipalAdapterException e) {
-				log.error(e.getMessage(), e);
-				sendErrorRedirect(request, response, e);
-			} catch (AccessDeniedException e) {
+			} catch (DatabaseException | NoSuchAlgorithmException | PrincipalAdapterException | AccessDeniedException e) {
 				log.error(e.getMessage(), e);
 				sendErrorRedirect(request, response, e);
 			}

@@ -21,10 +21,7 @@
 
 package com.openkm.servlet.admin;
 
-import bsh.EvalError;
 import bsh.Interpreter;
-import bsh.ParseException;
-import bsh.TargetError;
 import com.openkm.util.FormatUtil;
 import com.openkm.util.SecureStore;
 import com.openkm.util.UserActivity;
@@ -43,7 +40,7 @@ import java.util.UUID;
 
 /**
  * Execute BeanShell
- * 
+ *
  * @author sochoa
  */
 @WebServlet("/admin/Scripting")
@@ -125,17 +122,11 @@ public class ScriptingServlet extends BaseServlet {
 
                     try {
                         scriptResult = bsh.eval(script);
-                    } catch (ParseException e) {
-                        scriptError = e;
-                    } catch (TargetError e) {
-                        scriptError = e;
-                    } catch (EvalError e) {
-                        scriptError = e;
                     } catch (Exception e) {
                         scriptError = e;
                     }
 
-                    pout.flush();
+					pout.flush();
 
                     // Activity log
                     UserActivity.log(request.getRemoteUser(), "ADMIN_SCRIPTING", request.getRemoteHost(), null, script);

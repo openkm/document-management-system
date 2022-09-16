@@ -87,8 +87,7 @@ public class BaseNotificationModule {
 		 * Twitter notification
 		 */
 		try {
-			if (users != null && !users.isEmpty() && !Config.SUBSCRIPTION_TWITTER_USER.equals("")
-					&& !Config.SUBSCRIPTION_TWITTER_PASSWORD.equals("")) {
+			if (!users.isEmpty() && !Config.SUBSCRIPTION_TWITTER_USER.equals("") && !Config.SUBSCRIPTION_TWITTER_PASSWORD.equals("")) {
 				String path = NodeBaseDAO.getInstance().getPathFromUuid(node.getUuid());
 				CommonNotificationModule.sendTwitterSubscription(user, path, eventType, comment, users);
 			}

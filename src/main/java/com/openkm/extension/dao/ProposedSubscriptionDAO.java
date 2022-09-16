@@ -138,7 +138,6 @@ public class ProposedSubscriptionDAO {
 
 	/**
 	 * Find sent from me to user
-	 * @throws RepositoryException
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ProposedSubscriptionSent> findSentProposedSubscriptionFromMeToUser(String me, String user)

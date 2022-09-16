@@ -1,8 +1,6 @@
 package com.openkm.servlet.admin;
 
 import com.openkm.api.OKMWorkflow;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.WorkflowException;
 import com.openkm.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +45,6 @@ public class WorkflowGraphServlet extends BaseServlet {
 				response.setContentType("text/plain");
 				sos.write("Null process definition image".getBytes());
 			}
-		} catch (WorkflowException e) {
-			log.error(e.getMessage(), e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		} finally {

@@ -35,14 +35,12 @@ import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.lang.InstantiationException;
 
 /**
  * AutomationDAO
@@ -346,9 +344,8 @@ public class AutomationDAO {
 	/**
 	 * Get all metadata actions
 	 */
-	public List<Automation> findMetadataActionsByAt(String at)
-			throws DatabaseException, IllegalArgumentException, SecurityException, URISyntaxException,
-			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+	public List<Automation> findMetadataActionsByAt(String at) throws IllegalArgumentException, SecurityException,
+			URISyntaxException {
 		log.debug("findMetadataActionsByAt()");
 		List<Automation> amList = new ArrayList<Automation>();
 
@@ -483,9 +480,8 @@ public class AutomationDAO {
 	/**
 	 * Get metadata by pk
 	 */
-	public Automation findMetadataByPk(String className) throws DatabaseException, IllegalArgumentException, SecurityException,
-			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
-			IllegalAccessException {
+	public Automation findMetadataByPk(String className) throws IllegalArgumentException, SecurityException,
+			URISyntaxException {
 		log.debug("findMetadataByPk({})", className);
 
 		for (Action action : findActions(false)) {

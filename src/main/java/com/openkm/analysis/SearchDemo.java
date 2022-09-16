@@ -30,7 +30,10 @@ import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -92,8 +95,7 @@ public class SearchDemo {
 	/**
 	 * Search in documents
 	 */
-	private static void search(Directory index, Analyzer analyzer, String str) throws ParseException, CorruptIndexException,
-			IOException {
+	private static void search(Directory index, Analyzer analyzer, String str) throws IOException {
 		IndexReader reader = IndexReader.open(index);
 		IndexSearcher searcher = new IndexSearcher(reader);
 		TopScoreDocCollector collector = TopScoreDocCollector.create(NUM_HITS, true);

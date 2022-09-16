@@ -620,8 +620,8 @@ public class CommonWorkflowModule {
 		try {
 			TaskMgmtSession taskMgmtSession = jbpmContext.getTaskMgmtSession();
 
-			for (Iterator it = taskMgmtSession.findPooledTaskInstances(user).iterator(); it.hasNext(); ) {
-				org.jbpm.taskmgmt.exe.TaskInstance ti = (org.jbpm.taskmgmt.exe.TaskInstance) it.next();
+			for (Object o : taskMgmtSession.findPooledTaskInstances(user)) {
+				org.jbpm.taskmgmt.exe.TaskInstance ti = (org.jbpm.taskmgmt.exe.TaskInstance) o;
 				al.add(WorkflowUtils.copy(ti));
 			}
 
@@ -652,8 +652,7 @@ public class CommonWorkflowModule {
 			TaskMgmtInstance taskMgmtInstance = pi.getTaskMgmtInstance();
 
 			if (taskMgmtInstance.getTaskInstances() != null) {
-				for (Iterator it = taskMgmtInstance.getTaskInstances().iterator(); it.hasNext(); ) {
-					org.jbpm.taskmgmt.exe.TaskInstance ti = (org.jbpm.taskmgmt.exe.TaskInstance) it.next();
+				for (org.jbpm.taskmgmt.exe.TaskInstance ti : taskMgmtInstance.getTaskInstances()) {
 					al.add(WorkflowUtils.copy(ti));
 				}
 			}

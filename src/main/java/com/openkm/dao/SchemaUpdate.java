@@ -158,9 +158,7 @@ public class SchemaUpdate {
 
 			String[] createSQL = configuration.generateSchemaUpdateScript(dialect, meta);
 
-			for (int j = 0; j < createSQL.length; j++) {
-				final String sql = createSQL[j];
-
+			for (final String sql : createSQL) {
 				try {
 					if (script) {
 						log.info("writing generated schema to console: ");

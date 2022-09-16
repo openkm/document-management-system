@@ -183,13 +183,7 @@ public class LanguageServlet extends BaseServlet {
 
 			// Go to list
 			response.sendRedirect(request.getContextPath() + request.getServletPath());
-		} catch (FileUploadException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (SQLException e) {
+		} catch (FileUploadException | DatabaseException | SQLException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		} finally {

@@ -96,7 +96,7 @@ public class Update {
 			log.error("Exception: " + e.getMessage());
 		}
 
-		log.info("checkVersion: {}", sb.toString());
+		log.info("checkVersion: {}", sb);
 		return sb.toString();
 	}
 }

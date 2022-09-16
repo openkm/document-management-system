@@ -78,21 +78,8 @@ public class RegisterThesaurusServlet extends BaseServlet {
 
 			try {
 				KEATree.generateTree(null, level, "/" + Repository.THESAURUS, new Vector<String>(), out);
-			} catch (PathNotFoundException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (ItemExistsException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (AccessDeniedException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (RepositoryException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (DatabaseException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (ExtensionException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (AutomationException e) {
-				sendErrorRedirect(request, response, e);
-			} catch (LockException e) {
+			} catch (PathNotFoundException | ItemExistsException | AccessDeniedException | RepositoryException |
+					 DatabaseException | ExtensionException | AutomationException | LockException e) {
 				sendErrorRedirect(request, response, e);
 			}
 

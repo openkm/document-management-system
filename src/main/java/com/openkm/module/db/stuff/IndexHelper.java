@@ -97,52 +97,6 @@ public class IndexHelper {
 		}
 	}
 
-	public void updateSpellCheckerIndex(NodeDocumentVersion nDocVer) {
-		log.info("Observed Wine added/updated event for {1} from Thread {0}",
-				Thread.currentThread().getName(), String.valueOf(nDocVer));
-		String text = (nDocVer != null) ? nDocVer.getText() : null;
-
-		if (text != null) {
-			Dictionary dictionary = null;
-
-			try {
-				FullTextEntityManager ftEm = (FullTextEntityManager) entityManager;
-				SearchFactory searchFactory = ftEm.getSearchFactory();
-				dictionary = new SetDictionary(text, searchFactory.getAnalyzer("wine_en"));
-			} catch (IOException ioExc) {
-				log.error("Failed to analyze dictionary text {0} from Wine {1} to update spell checker due to: {2}" +
-						text + nDocVer.getUuid() + ioExc.toString());
-			}
-
-			if (dictionary != null) {
-				Directory dir = null;
-				// only allow one thread to update the index at a time ...
-				// the Dictionary is pre-computed, so it should happen quickly
-				// ...
-				// this synchronized approach only works because this component
-				// is application-scoped
-				synchronized (this) {
-					try {
-						dir = FSDirectory.open(new File("lucene_index/spellcheck"));
-						SpellChecker spell = new SpellChecker(dir);
-						spell.indexDictionary(dictionary);
-						spell.close();
-						log.info("Successfully updated the spell checker index after Document added/updated.");
-					} catch (Exception exc) {
-						log.error("Failed to update the spell checker index!", exc);
-					} finally {
-						if (dir != null) {
-							try {
-								dir.close();
-							} catch (Exception zzz) {
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
 	// used to feed updates to the spell checker index
 	class SetDictionary implements Dictionary {
 		private Set<String> wordSet;
@@ -175,7 +129,7 @@ public class IndexHelper {
 		Directory dir = null;
 		long _entr = System.currentTimeMillis();
 		File spellCheckIndexDir = new File("lucene_index/spellcheck");
-		log.info("Building SpellChecker index in {0}", spellCheckIndexDir.getAbsolutePath());
+		log.info("Building SpellChecker index in {}", spellCheckIndexDir.getAbsolutePath());
 		ReaderProvider readerProvider = searchFactory.getReaderProvider();
 
 		try {
@@ -188,15 +142,15 @@ public class IndexHelper {
 			dir.close();
 			dir = null;
 			long _exit = System.currentTimeMillis();
-			log.info("Took {1} (ms) to build SpellChecker index in {0}",
-					spellCheckIndexDir.getAbsolutePath(), String.valueOf((_exit - _entr)));
+			log.info("Took {1} (ms) to build SpellChecker index in {}",
+					spellCheckIndexDir.getAbsolutePath(), _exit - _entr);
 		} catch (Exception exc) {
 			log.error("Failed to build spell checker index!", exc);
 		} finally {
 			if (dir != null) {
 				try {
 					dir.close();
-				} catch (Exception zzz) {
+				} catch (Exception ignored) {
 				}
 			}
 			if (reader != null) {

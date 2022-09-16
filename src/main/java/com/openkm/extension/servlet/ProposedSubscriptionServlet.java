@@ -92,8 +92,7 @@ public class ProposedSubscriptionServlet extends OKMRemoteServiceServlet impleme
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMProposedSubscriptionService, ErrorCode.CAUSE_Database), e.getMessage());
 		} catch (PrincipalAdapterException e) {
 			log.error(e.getMessage(), e);
-			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMProposedSubscriptionService, ErrorCode.CAUSE_PrincipalAdapter),
-					e.getMessage());
+			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMProposedSubscriptionService, ErrorCode.CAUSE_PrincipalAdapter), e.getMessage());
 		} catch (PathNotFoundException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMProposedSubscriptionService, ErrorCode.CAUSE_PathNotFound), e.getMessage());
@@ -123,7 +122,7 @@ public class ProposedSubscriptionServlet extends OKMRemoteServiceServlet impleme
 				if (unreadMap.containsKey(sender)) {
 					received.put(sender, unreadMap.get(sender));
 				} else {
-					received.put(sender, new Long(0));
+					received.put(sender, 0L);
 				}
 			}
 		} catch (DatabaseException e) {
@@ -236,7 +235,7 @@ public class ProposedSubscriptionServlet extends OKMRemoteServiceServlet impleme
 			}
 
 			for (String id : IdToDelete) {
-				ProposedSubscriptionDAO.deleteReceived(Integer.valueOf(id));
+				ProposedSubscriptionDAO.deleteReceived(Integer.parseInt(id));
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);

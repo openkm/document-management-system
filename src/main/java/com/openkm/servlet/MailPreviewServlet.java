@@ -63,13 +63,7 @@ public class MailPreviewServlet extends BaseServlet {
 			ServletContext sc = getServletContext();
 			sc.setAttribute("content", content);
 			sc.getRequestDispatcher("/mail_preview.jsp").forward(request, response);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (AccessDeniedException | PathNotFoundException | RepositoryException | DatabaseException e) {
 			sendErrorRedirect(request, response, e);
 		}
 	}

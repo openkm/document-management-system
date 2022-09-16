@@ -202,19 +202,8 @@ public class DatabaseQueryServlet extends BaseServlet {
 					log.info("Rows affected: {}", rows);
 				}
 			}
-		} catch (FileUploadException e) {
-			sendError(sc, request, response, e);
-		} catch (SQLException e) {
-			sendError(sc, request, response, e);
-		} catch (HibernateException e) {
-			sendError(sc, request, response, e);
-		} catch (DatabaseException e) {
-			sendError(sc, request, response, e);
-		} catch (IllegalAccessException e) {
-			sendError(sc, request, response, e);
-		} catch (InvocationTargetException e) {
-			sendError(sc, request, response, e);
-		} catch (NoSuchMethodException e) {
+		} catch (FileUploadException | SQLException | HibernateException | DatabaseException | IllegalAccessException |
+				 InvocationTargetException | NoSuchMethodException e) {
 			sendError(sc, request, response, e);
 		} finally {
 			HibernateUtil.close(session);
@@ -225,7 +214,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 	 * Execute metadata query
 	 */
 	private void executeMetadata(Session session, String qs, boolean showSql, ServletContext sc, HttpServletRequest request,
-	                             HttpServletResponse response) throws DatabaseException, ServletException, IOException, HibernateException,
+			HttpServletResponse response) throws DatabaseException, ServletException, IOException, HibernateException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		StringTokenizer st = new StringTokenizer(qs, "\n\r");
 		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();

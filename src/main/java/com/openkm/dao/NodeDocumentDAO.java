@@ -485,8 +485,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Rename document
 	 */
-	public synchronized NodeDocument rename(String uuid, String newName) throws PathNotFoundException, AccessDeniedException, ItemExistsException,
-			LockException, DatabaseException {
+	public synchronized NodeDocument rename(String uuid, String newName) throws PathNotFoundException, AccessDeniedException,
+			ItemExistsException, LockException, DatabaseException {
 		log.debug("rename({}, {})", uuid, newName);
 		Session session = null;
 		Transaction tx = null;
@@ -534,8 +534,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Move document
 	 */
-	public synchronized void move(String uuid, String dstUuid) throws PathNotFoundException, AccessDeniedException, ItemExistsException, LockException,
-			DatabaseException {
+	public synchronized void move(String uuid, String dstUuid) throws PathNotFoundException, AccessDeniedException,
+			ItemExistsException, LockException, DatabaseException {
 		log.debug("move({}, {})", uuid, dstUuid);
 		Session session = null;
 		Transaction tx = null;
@@ -586,8 +586,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Delete document
 	 */
-	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException, AccessDeniedException, LockException,
-			DatabaseException {
+	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException, AccessDeniedException,
+			LockException, DatabaseException {
 		log.debug("delete({}, {}, {})", name, uuid, trashUuid);
 		Session session = null;
 		Transaction tx = null;
@@ -643,7 +643,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Checkout
 	 */
-	public void checkout(String user, String uuid) throws PathNotFoundException, AccessDeniedException, LockException, DatabaseException {
+	public void checkout(String user, String uuid) throws PathNotFoundException, AccessDeniedException, LockException,
+			DatabaseException {
 		log.debug("checkout({})", uuid);
 		Session session = null;
 		Transaction tx = null;
@@ -676,8 +677,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Cancel checkout
 	 */
-	public void cancelCheckout(String user, String uuid, boolean force) throws PathNotFoundException, AccessDeniedException, LockException,
-			DatabaseException {
+	public void cancelCheckout(String user, String uuid, boolean force) throws PathNotFoundException, AccessDeniedException,
+			LockException, DatabaseException {
 		log.debug("cancelCheckout({}, {}, {})", user, uuid, force);
 		Session session = null;
 		Transaction tx = null;
@@ -736,7 +737,8 @@ public class NodeDocumentDAO {
 	/**
 	 * Purge in depth
 	 */
-	public void purge(String uuid) throws PathNotFoundException, AccessDeniedException, LockException, DatabaseException, IOException {
+	public void purge(String uuid) throws PathNotFoundException, AccessDeniedException, LockException, DatabaseException,
+			IOException {
 		log.debug("purge({})", uuid);
 		Session session = null;
 		Transaction tx = null;
@@ -1257,7 +1259,7 @@ public class NodeDocumentDAO {
 			// Security Check
 			NodeBase nBase = (NodeBase) session.get(NodeDocument.class, uuid);
 
-			if (nBase != null && nBase instanceof NodeDocument) {
+			if (nBase instanceof NodeDocument) {
 				SecurityHelper.checkRead(nBase);
 				return true;
 			}

@@ -166,7 +166,7 @@ public class ForumDAO {
 	 * Find by pk
 	 */
 	public static Forum findByPk(long id) throws DatabaseException {
-		log.debug("findByPk({})");
+		log.debug("findByPk({})", id);
 		String qs = "from Forum frm where frm.id=:id";
 		Session session = null;
 
@@ -188,7 +188,7 @@ public class ForumDAO {
 	 * Find by pk
 	 */
 	public static ForumTopic findTopicByPk(long id) throws DatabaseException {
-		log.debug("findTopicByPk({})");
+		log.debug("findTopicByPk({})", id);
 		Session session = null;
 
 		try {
@@ -207,7 +207,7 @@ public class ForumDAO {
 	 * Find by pk
 	 */
 	public static ForumPost findPostByPk(long id) throws DatabaseException {
-		log.debug("findPostByPk({})");
+		log.debug("findPostByPk({})", id);
 		Session session = null;
 
 		try {
@@ -227,7 +227,7 @@ public class ForumDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<Forum> findAll() throws DatabaseException {
-		log.debug("findAll({})");
+		log.debug("findAll()");
 		String qs = "from Forum frm order by frm.date asc";
 		Session session = null;
 
@@ -250,7 +250,7 @@ public class ForumDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<ForumTopic> findAllTopicsByNode(String uuid) throws DatabaseException {
-		log.debug("findAllTopicsByNode({})");
+		log.debug("findAllTopicsByNode({})", uuid);
 		String qs = "from ForumTopic ft where ft.node=:uuid order by ft.lastPostDate desc";
 		Session session = null;
 
@@ -269,7 +269,7 @@ public class ForumDAO {
 	}
 
 	/**
-	 * Remove forum topics by parent node 
+	 * Remove forum topics by parent node
 	 */
 	@SuppressWarnings("unchecked")
 	public static void purgeTopicsByNode(String nodeUuid) throws DatabaseException {

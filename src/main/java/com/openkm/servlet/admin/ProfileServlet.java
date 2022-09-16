@@ -74,22 +74,8 @@ public class ProfileServlet extends BaseServlet {
 			if (action.equals("") || WebUtils.getBoolean(request, "persist")) {
 				list(userId, request, response);
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (NoSuchAlgorithmException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (WorkflowException e) {
+		} catch (DatabaseException | NoSuchAlgorithmException | AccessDeniedException | RepositoryException |
+				 ParseException | WorkflowException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

@@ -65,14 +65,6 @@ public class SearchServlet extends HttpServlet {
 			} else {
 				normalSearch(request, response);
 			}
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			sendErrorRedirect(request, response, e);
 		} catch (Exception e) {
 			sendErrorRedirect(request, response, e);
 		}

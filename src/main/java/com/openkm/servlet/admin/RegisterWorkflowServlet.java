@@ -1,9 +1,6 @@
 package com.openkm.servlet.admin;
 
 import com.openkm.api.OKMWorkflow;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.ParseException;
-import com.openkm.core.WorkflowException;
 import com.openkm.util.UserActivity;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -72,18 +69,6 @@ public class RegisterWorkflowServlet extends BaseServlet {
 				UserActivity.log(request.getRemoteUser(), "ADMIN_WORKFLOW_REGISTER", fileName, null, null);
 				response.sendRedirect("Workflow");
 			}
-		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (WorkflowException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);

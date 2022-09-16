@@ -24,7 +24,6 @@ package com.openkm.core;
 import com.openkm.bean.ConfigStoredFile;
 import com.openkm.dao.ConfigDAO;
 import com.openkm.dao.SearchDAO;
-import com.openkm.extractor.RegisteredExtractors;
 import com.openkm.module.db.stuff.DbSimpleAccessManager;
 import com.openkm.module.db.stuff.FsDataStore;
 import com.openkm.principal.DatabasePrincipalAdapter;
@@ -1160,9 +1159,7 @@ public class Config {
 			for (Entry<String, String> entry : values.entrySet()) {
 				log.info("RELOAD - {}={}", entry.getKey(), entry.getValue());
 			}
-		} catch (DatabaseException e) {
-			log.error("** Error reading configuration table **");
-		} catch (IOException e) {
+		} catch (DatabaseException | IOException e) {
 			log.error("** Error reading configuration table **");
 		} catch (Exception e) {
 			log.error("** Unknown error: {} **", e.getMessage());

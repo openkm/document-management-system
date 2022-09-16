@@ -98,7 +98,7 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 		updateSessionManager();
 
 		try {
-			return new Double(DatabaseMetadataDAO.createValue(DatabaseMetadataUtils.getDatabaseMetadataValueByMap(map)));
+			return (double) DatabaseMetadataDAO.createValue(DatabaseMetadataUtils.getDatabaseMetadataValueByMap(map));
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMDatabaseMetadataService, ErrorCode.CAUSE_Database), e.getMessage());
@@ -140,8 +140,8 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 			for (DatabaseMetadataValue[] dmv : DatabaseMetadataDAO.executeMultiValueQuery(DatabaseMetadataUtils.replaceVirtual(tables, query))) {
 				List<Map<String, String>> dmvRow = new ArrayList<Map<String, String>>();
 
-				for (int i = 0; i < dmv.length; i++) {
-					dmvRow.add(DatabaseMetadataUtils.getDatabaseMetadataValueMap(dmv[i]));
+				for (DatabaseMetadataValue databaseMetadataValue : dmv) {
+					dmvRow.add(DatabaseMetadataUtils.getDatabaseMetadataValueMap(databaseMetadataValue));
 				}
 
 				ret.add(dmvRow);
@@ -168,7 +168,7 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 		updateSessionManager();
 
 		try {
-			return new Double(DatabaseMetadataDAO.getNextSequenceValue(table, column));
+			return (double) DatabaseMetadataDAO.getNextSequenceValue(table, column);
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMDatabaseMetadataService, ErrorCode.CAUSE_Database), e.getMessage());

@@ -302,18 +302,10 @@ public class CmisRepository {
 			return newDoc.getPath();
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException("Could not create document!");
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Could not create document!");
-		} catch (DatabaseException e) {
-			throw new CmisStorageException("Could not create document!");
 		} catch (ItemExistsException e) {
 			throw new CmisNameConstraintViolationException("Document already exists");
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException("No write permission!");
-		} catch (ExtensionException e) {
-			throw new CmisStorageException("Could not create document!");
-		} catch (AutomationException e) {
-			throw new CmisStorageException("Could not create document!");
 		} catch (IOException e) {
 			throw new CmisStorageException("Could not create document: " + e.getMessage());
 		} catch (Exception e) {
@@ -419,18 +411,10 @@ public class CmisRepository {
 			return newDoc.getPath();
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException("Could not create document!");
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Could not create document!");
-		} catch (DatabaseException e) {
-			throw new CmisStorageException("Could not create document!");
 		} catch (ItemExistsException e) {
 			throw new CmisNameConstraintViolationException("Document already exists");
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException("No write permission!");
-		} catch (ExtensionException e) {
-			throw new CmisStorageException("Could not create document!");
-		} catch (AutomationException e) {
-			throw new CmisStorageException("Could not create document!");
 		} catch (IOException e) {
 			throw new CmisStorageException("Could not read or write content: " + e.getMessage(), e);
 		} catch (Exception e) {
@@ -483,18 +467,12 @@ public class CmisRepository {
 			return newFld.getPath();
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException("Could not create folder!");
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Could not create folder", e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException | ExtensionException | AutomationException e) {
 			throw new CmisStorageException("Could not create folder", e);
 		} catch (ItemExistsException e) {
 			throw new CmisNameConstraintViolationException("Folder already exists", e);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException("No write permission", e);
-		} catch (ExtensionException e) {
-			throw new CmisStorageException("Could not create folder", e);
-		} catch (AutomationException e) {
-			throw new CmisStorageException("Could not create folder", e);
 		}
 	}
 
@@ -526,20 +504,12 @@ public class CmisRepository {
 			return compileObjectType(context, node, null, false, false, objectInfos);
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException("Could not move node", e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Could not move node", e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException | ExtensionException | AutomationException | LockException e) {
 			throw new CmisStorageException("Could not move node", e);
 		} catch (ItemExistsException e) {
 			throw new CmisNameConstraintViolationException("Node already exists", e);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException("No write permission", e);
-		} catch (ExtensionException e) {
-			throw new CmisStorageException("Could not move node", e);
-		} catch (AutomationException e) {
-			throw new CmisStorageException("Could not move node", e);
-		} catch (LockException e) {
-			throw new CmisStorageException("Could not move node", e);
 		}
 	}
 
@@ -593,15 +563,7 @@ public class CmisRepository {
 			throw new CmisObjectNotFoundException(objectId, e);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (DatabaseException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (LockException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (ExtensionException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (AutomationException e) {
+		} catch (RepositoryException | DatabaseException | LockException | ExtensionException | AutomationException e) {
 			throw new CmisStorageException("Deletion failed!", e);
 		}
 	}
@@ -624,11 +586,7 @@ public class CmisRepository {
 			throw new CmisObjectNotFoundException(folderId, e);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (DatabaseException e) {
-			throw new CmisStorageException("Deletion failed!", e);
-		} catch (LockException e) {
+		} catch (RepositoryException | DatabaseException | LockException e) {
 			throw new CmisStorageException("Deletion failed!", e);
 		}
 
@@ -702,15 +660,8 @@ public class CmisRepository {
 				throw new CmisPermissionDeniedException(e.getMessage(), e);
 			} catch (ItemExistsException e) {
 				throw new CmisNameConstraintViolationException(e.getMessage(), e);
-			} catch (RepositoryException e) {
-				throw new CmisStorageException("Update perties failed!", e);
-			} catch (DatabaseException e) {
-				throw new CmisStorageException("Update perties failed!", e);
-			} catch (LockException e) {
-				throw new CmisStorageException("Update perties failed!", e);
-			} catch (ExtensionException e) {
-				throw new CmisStorageException("Update perties failed!", e);
-			} catch (AutomationException e) {
+			} catch (RepositoryException | DatabaseException | LockException | ExtensionException |
+					 AutomationException e) {
 				throw new CmisStorageException("Update perties failed!", e);
 			}
 
@@ -808,13 +759,7 @@ public class CmisRepository {
 			throw new CmisObjectNotFoundException(e.getMessage(), e);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException("No read permission!");
-		} catch (RepositoryException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (DatabaseException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (LockException e) {
-            throw new CmisStorageException(e.getMessage(), e);
-        } catch (IOException e) {
+		} catch (RepositoryException | DatabaseException | LockException | IOException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}
@@ -823,7 +768,7 @@ public class CmisRepository {
 	 * CMIS getChildren.
 	 */
 	public ObjectInFolderList getChildren(CallContext context, String folderId, String filter, Boolean includeAllowableActions,
-	                                      Boolean includePathSegment, BigInteger maxItems, BigInteger skipCount, ObjectInfoHandler objectInfos) {
+			Boolean includePathSegment, BigInteger maxItems, BigInteger skipCount, ObjectInfoHandler objectInfos) {
 		log.debug("getChildren({})", folderId);
 
 		// split filter
@@ -919,9 +864,7 @@ public class CmisRepository {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}
@@ -930,7 +873,7 @@ public class CmisRepository {
 	 * CMIS getDescendants.
 	 */
 	public List<ObjectInFolderContainer> getDescendants(CallContext context, String folderId, BigInteger depth, String filter,
-	                                                    Boolean includeAllowableActions, Boolean includePathSegment, ObjectInfoHandler objectInfos, boolean foldersOnly) {
+			Boolean includeAllowableActions, Boolean includePathSegment, ObjectInfoHandler objectInfos, boolean foldersOnly) {
 		log.debug("getDescendants or getFolderTree");
 
 		// check depth
@@ -971,9 +914,7 @@ public class CmisRepository {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}
@@ -1034,9 +975,7 @@ public class CmisRepository {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}
@@ -1848,9 +1787,7 @@ public class CmisRepository {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
 		} catch (PathNotFoundException e) {
 			throw new CmisObjectNotFoundException(e.getMessage(), e);
-		} catch (RepositoryException e) {
-			throw new CmisStorageException(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | DatabaseException e) {
 			throw new CmisStorageException(e.getMessage(), e);
 		}
 	}

@@ -115,8 +115,6 @@ public class DbFolderModule implements FolderModule {
 			}
 		} catch (DatabaseException e) {
 			throw e;
-			// } catch (ExtensionException e) {
-			// throw e;
 		} finally {
 			if (token != null) {
 				PrincipalUtils.setAuthentication(oldAuth);
@@ -311,13 +309,7 @@ public class DbFolderModule implements FolderModule {
 
 			// Activity log - Already inside DAO
 			// UserActivity.log(auth.getName(), "PURGE_FOLDER", fldUuid, fldPath, null);
-		} catch (IOException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (ParseException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (NoSuchGroupException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (MessagingException e) {
+		} catch (IOException | ParseException | NoSuchGroupException | MessagingException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw e;

@@ -484,39 +484,10 @@ public class DocConverter {
 	}
 
 	/**
-	 * Convert TXT to PDF
-	 */
-	public void txt2pdf(InputStream is, File output) throws ConversionException, DatabaseException, IOException {
-		log.debug("** Convert from TXT to PDF **");
-		FileOutputStream fos = null;
-		String line = null;
-
-		try {
-			fos = new FileOutputStream(output);
-
-			// Make conversion
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			Document doc = new Document(PageSize.A4);
-			PdfWriter.getInstance(doc, fos);
-			doc.open();
-
-			while ((line = br.readLine()) != null) {
-				doc.add(new Paragraph(12F, line));
-			}
-
-			doc.close();
-		} catch (DocumentException e) {
-			throw new ConversionException("Exception in conversion: " + e.getMessage(), e);
-		} finally {
-			IOUtils.closeQuietly(fos);
-		}
-	}
-
-	/**
 	 * Convert ZIP to PDF
 	 */
 	@SuppressWarnings("rawtypes")
-	public void zip2pdf(File input, File output) throws ConversionException, DatabaseException, IOException {
+	public void zip2pdf(File input, File output) throws ConversionException, IOException {
 		log.debug("** Convert from ZIP to PDF **");
 		FileOutputStream fos = null;
 		ZipFile zipFile = null;
@@ -537,9 +508,7 @@ public class DocConverter {
 
 			doc.close();
 			zipFile.close();
-		} catch (ZipException e) {
-			throw new ConversionException("Exception in conversion: " + e.getMessage(), e);
-		} catch (DocumentException e) {
+		} catch (ZipException | DocumentException e) {
 			throw new ConversionException("Exception in conversion: " + e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(fos);
@@ -549,7 +518,7 @@ public class DocConverter {
 	/**
 	 * Convert SRC to PDF
 	 */
-	public void src2pdf(File input, File output, String lang) throws ConversionException, DatabaseException, IOException {
+	public void src2pdf(File input, File output, String lang) throws ConversionException, IOException {
 		log.debug("** Convert from SRC to PDF **");
 		FileOutputStream fos = null;
 		FileInputStream fis = null;
@@ -581,7 +550,7 @@ public class DocConverter {
 	/**
 	 * Convert PDF to SWF (for document preview feature).
 	 */
-	public void pdf2swf(File input, File output) throws ConversionException, DatabaseException, IOException {
+	public void pdf2swf(File input, File output) throws ConversionException {
 		log.debug("** Convert from PDF to SWF **");
 		BufferedReader stdout = null;
 		String cmd = null;
@@ -779,7 +748,6 @@ public class DocConverter {
 	 * @param imgIn  Image to rotate.
 	 * @param imgOut Image rotated.
 	 * @param angle  Rotation angle.
-	 * @throws IOException
 	 */
 	public void rotateImage(File imgIn, File imgOut, double angle) throws ConversionException {
 		String cmd = null;

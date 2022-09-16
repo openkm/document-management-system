@@ -101,9 +101,7 @@ public class PendingTaskQueueServlet extends BaseServlet {
 
 			sc.setAttribute("pendingTasks", tasks);
 			sc.getRequestDispatcher("/admin/pending_task_queue.jsp").forward(request, response);
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			sendErrorRedirect(request, response, e);
 		}
 	}

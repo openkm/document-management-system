@@ -25,7 +25,6 @@ import com.openkm.bean.DashboardDocumentResult;
 import com.openkm.bean.DashboardFolderResult;
 import com.openkm.bean.DashboardMailResult;
 import com.openkm.core.Config;
-import com.openkm.core.DatabaseException;
 import com.openkm.dao.QueryParamsDAO;
 import com.openkm.dao.bean.QueryParams;
 import com.openkm.module.db.DbDashboardModule;
@@ -137,10 +136,6 @@ public class SyndicationServlet extends HttpServlet {
 				out.println("Unknown syndicantion feed");
 				out.close();
 			}
-		} catch (DatabaseException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-		} catch (FeedException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 		}

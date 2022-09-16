@@ -80,10 +80,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("findByParent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -119,10 +116,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("findVersion: {}", nDocVer);
 			return nDocVer;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -153,10 +147,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("findCurrentVersion: {}", currentVersion);
 			return currentVersion;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -190,10 +181,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("findCurrentVersionName: {}", verName);
 			return verName;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -234,10 +222,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("getVersionContentChecksumByParent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -308,13 +293,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("getContent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -358,10 +337,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			HibernateUtil.commit(tx);
 			log.debug("getVersionContentByParent: {}", ret);
 			return ret;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -439,16 +415,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			log.debug("checkin: {}", newDocVersion);
 			return newDocVersion;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -504,16 +471,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			HibernateUtil.commit(tx);
 			log.debug("setContent: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -573,16 +531,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			HibernateUtil.commit(tx);
 			log.debug("restoreVersion: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -647,16 +596,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			HibernateUtil.commit(tx);
 			log.debug("purgeVersionHistory: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -732,16 +672,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			HibernateUtil.commit(tx);
 			log.debug("liveEditSetContent: void");
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {
@@ -832,16 +763,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 
 			log.debug("liveEditCheckin: {}", newDocVersion);
 			return newDocVersion;
-		} catch (PathNotFoundException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (AccessDeniedException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (DatabaseException e) {
-			HibernateUtil.rollback(tx);
-			throw e;
-		} catch (LockException e) {
+		} catch (PathNotFoundException | AccessDeniedException | DatabaseException | LockException e) {
 			HibernateUtil.rollback(tx);
 			throw e;
 		} catch (HibernateException e) {

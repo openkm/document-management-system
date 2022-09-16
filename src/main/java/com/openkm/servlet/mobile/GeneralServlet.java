@@ -58,17 +58,13 @@ public class GeneralServlet extends HttpServlet {
 			if (action.equals("logout")) {
 				logout(request, response);
 			}
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (RepositoryException | AccessDeniedException | DatabaseException e) {
 			sendErrorRedirect(request, response, e);
 		}
 	}
 
-	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			AccessDeniedException, RepositoryException, DatabaseException, IOException {
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws AccessDeniedException,
+			RepositoryException, DatabaseException, IOException {
 		log.debug("logout({}, {})", request, response);
 		OKMAuth.getInstance().logout(null);
 		request.getSession().invalidate();

@@ -242,39 +242,11 @@ public class OMRHelper {
 			// process
 			Map<String, String> results = OMRHelper.process(fileToProcess, omId);
 			OMRHelper.storeMetadata(results, docPath);
-		} catch (IOException e) {
-			throw e;
-		} catch (PathNotFoundException e) {
-			throw e;
-		} catch (AccessDeniedException e) {
-			throw e;
-		} catch (RepositoryException e) {
-			throw e;
-		} catch (DatabaseException e) {
-			throw e;
-		} catch (OMRException e) {
-			throw e;
-		} catch (NoSuchGroupException e) {
-			throw e;
-		} catch (LockException e) {
-			throw e;
-		} catch (ExtensionException e) {
-			throw e;
-		} catch (ParseException e) {
-			throw e;
-		} catch (NoSuchPropertyException e) {
-			throw e;
-		} catch (AutomationException e) {
-			throw e;
-		} catch (InvalidFileStructureException e) {
-			throw e;
-		} catch (InvalidImageIndexException e) {
-			throw e;
-		} catch (UnsupportedTypeException e) {
-			throw e;
-		} catch (MissingParameterException e) {
-			throw e;
-		} catch (WrongParameterException e) {
+		} catch (IOException | PathNotFoundException | AccessDeniedException | RepositoryException | DatabaseException |
+				 OMRException | NoSuchGroupException | LockException | ExtensionException | ParseException |
+				 NoSuchPropertyException | AutomationException | InvalidFileStructureException |
+				 InvalidImageIndexException | UnsupportedTypeException | MissingParameterException |
+				 WrongParameterException e) {
 			throw e;
 		} finally {
 			FileUtils.deleteQuietly(fileToProcess);

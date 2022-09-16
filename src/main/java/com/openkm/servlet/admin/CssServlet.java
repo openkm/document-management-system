@@ -153,10 +153,7 @@ public class CssServlet extends BaseServlet {
 			}
 
 			list(userId, request, response);
-		} catch (FileUploadException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
+		} catch (FileUploadException | DatabaseException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

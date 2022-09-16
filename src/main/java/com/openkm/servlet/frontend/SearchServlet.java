@@ -268,8 +268,8 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 			}
 
 			// Marks selectedTop10 as selected
-			for (Iterator<GWTKeyword> it = selectedTop10.iterator(); it.hasNext(); ) {
-				it.next().setTop10(true);
+			for (GWTKeyword gwtKeyword : selectedTop10) {
+				gwtKeyword.setTop10(true);
 			}
 
 			Collections.sort(keyList, KeywordComparator.getInstance(getLanguage()));

@@ -108,16 +108,7 @@ public class MailAccountServlet extends BaseServlet {
 					list(userId, request, response);
 				}
 			}
-		} catch (PathNotFoundException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (NoSuchAlgorithmException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (MessagingException e) {
+		} catch (PathNotFoundException | DatabaseException | NoSuchAlgorithmException | MessagingException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}
@@ -139,37 +130,9 @@ public class MailAccountServlet extends BaseServlet {
 			} else if (action.equals("serverImport")) {
 				serverImport(pw, userId, request, response);
 			}
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (AccessDeniedException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (ItemExistsException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (VirusDetectedException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (UserQuotaExceededException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (ExtensionException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (AutomationException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (PathNotFoundException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			pw.print(e.getMessage());
-		} catch (MessagingException e) {
+		} catch (IOException | RepositoryException | AccessDeniedException | ItemExistsException |
+				 VirusDetectedException | UserQuotaExceededException | ExtensionException | AutomationException |
+				 PathNotFoundException | DatabaseException | MessagingException e) {
 			log.error(e.getMessage(), e);
 			pw.print(e.getMessage());
 		} finally {

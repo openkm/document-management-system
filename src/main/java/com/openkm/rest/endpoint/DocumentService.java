@@ -392,7 +392,7 @@ public class DocumentService {
 			DocumentModule dm = ModuleManager.getDocumentModule();
 			boolean lock = dm.isLocked(null, docId);
 			log.debug("isLocked: void");
-			return new Boolean(lock);
+			return lock;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -486,7 +486,7 @@ public class DocumentService {
 			DocumentModule dm = ModuleManager.getDocumentModule();
 			long size = dm.getVersionHistorySize(null, docId);
 			log.debug("getVersionHistorySize: {}", size);
-			return new Long(size);
+			return size;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -501,7 +501,7 @@ public class DocumentService {
 			DocumentModule dm = ModuleManager.getDocumentModule();
 			boolean valid = dm.isValid(null, docId);
 			log.debug("isValid: {}", valid);
-			return new Boolean(valid);
+			return valid;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

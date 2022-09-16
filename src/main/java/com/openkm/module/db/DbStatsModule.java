@@ -25,7 +25,6 @@ import com.openkm.bean.Repository;
 import com.openkm.bean.StatsInfo;
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
-import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.dao.NodeBaseDAO;
 import com.openkm.dao.NodeDocumentDAO;
@@ -119,8 +118,6 @@ public class DbStatsModule implements StatsModule {
 			percents[2] = (totalNodes > 0) ? ((double) templatesNodes / totalNodes) : 0;
 			percents[3] = (totalNodes > 0) ? ((double) trashNodes / totalNodes) : 0;
 			si.setPercents(percents);
-		} catch (PathNotFoundException e) {
-			throw new RepositoryException(e.getMessage(), e);
 		} catch (Exception e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} finally {
@@ -178,8 +175,6 @@ public class DbStatsModule implements StatsModule {
 			percents[2] = (totalDocumentSize > 0) ? ((double) templatesDocumentSize / totalDocumentSize) : 0;
 			percents[3] = (totalDocumentSize > 0) ? ((double) trashDocumentSize / totalDocumentSize) : 0;
 			si.setPercents(percents);
-		} catch (PathNotFoundException e) {
-			throw new RepositoryException(e.getMessage(), e);
 		} catch (Exception e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} finally {

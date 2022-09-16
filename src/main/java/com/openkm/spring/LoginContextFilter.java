@@ -51,9 +51,7 @@ public class LoginContextFilter implements Filter {
 		try {
 			LoginContextHolder.set(ctx);
 			chain.doFilter(request, response);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ServletException e) {
+		} catch (IOException | ServletException e) {
 			e.printStackTrace();
 		} finally {
 			LoginContextHolder.set(null);

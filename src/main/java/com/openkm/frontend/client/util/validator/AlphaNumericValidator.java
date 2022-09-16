@@ -35,10 +35,9 @@ import eu.maydu.gwt.validation.client.i18n.ValidationMessages;
  *
  */
 public class AlphaNumericValidator extends Validator<AlphaNumericValidator> {
-
-	private TextBoxBase textBox = null;
-	private SuggestBox suggestBox = null;
 	private String regexPattern = "[a-zA-z0-9]*";
+	private SuggestBox suggestBox = null;
+	private TextBoxBase textBox = null;
 
 	public AlphaNumericValidator(TextBoxBase text) {
 		this.textBox = text;

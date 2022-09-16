@@ -54,11 +54,7 @@ public class ChangeSecurityTask implements ProcessInDepthTask {
 		try {
 			NodeBaseDAO.getInstance().changeSecurity(session, node, params.getGrantUsers(), params.getRevokeUsers(),
 					params.getGrantRoles(), params.getRevokeRoles(), true);
-		} catch (HibernateException e) {
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (PathNotFoundException e) {
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (HibernateException | PathNotFoundException | AccessDeniedException e) {
 			throw new DatabaseException(e.getMessage(), e);
 		}
 

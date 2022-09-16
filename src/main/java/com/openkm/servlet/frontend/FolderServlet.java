@@ -560,7 +560,7 @@ public class FolderServlet extends OKMRemoteServiceServlet implements OKMFolderS
 			if (fldPath.startsWith(("/" + Repository.METADATA))) {
 				return true;
 			} else {
-				return Boolean.valueOf(OKMFolder.getInstance().isValid(null, fldPath));
+				return OKMFolder.getInstance().isValid(null, fldPath);
 			}
 		} catch (PathNotFoundException e) {
 			log.warn(e.getMessage(), e);

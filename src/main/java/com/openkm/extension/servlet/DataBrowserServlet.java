@@ -66,12 +66,6 @@ public class DataBrowserServlet extends BaseServlet {
 			} else if (action.equals("repo")) {
 				repositoryList(request, response);
 			}
-		} catch (PathNotFoundException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
