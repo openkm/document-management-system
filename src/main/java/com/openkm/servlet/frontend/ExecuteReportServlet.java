@@ -83,19 +83,7 @@ public class ExecuteReportServlet extends HttpServlet {
 				// Activity log
 				UserActivity.log(user, "EXECUTE_REPORT", Integer.toString(id), null, "FAILURE");
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-		} catch (JRException e) {
-			log.error(e.getMessage(), e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-		} catch (EvalError e) {
-			log.error(e.getMessage(), e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-		} catch (PathNotFoundException e) {
+		} catch (DatabaseException | ParseException | JRException | EvalError | PathNotFoundException e) {
 			log.error(e.getMessage(), e);
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 		} finally {

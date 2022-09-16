@@ -54,7 +54,7 @@ public class StapleGroupDAO {
 			tx = session.beginTransaction();
 			Long id = (Long) session.save(sg);
 			HibernateUtil.commit(tx);
-			log.debug("create: {}" + id);
+			log.debug("create: {}", id);
 			return id;
 		} catch (HibernateException e) {
 			HibernateUtil.rollback(tx);

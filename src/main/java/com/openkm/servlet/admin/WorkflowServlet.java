@@ -145,22 +145,8 @@ public class WorkflowServlet extends BaseServlet {
 			} else {
 				processDefinitionList(userId, request, response);
 			}
-		} catch (RepositoryException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (WorkflowException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (PrincipalAdapterException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
+		} catch (RepositoryException | WorkflowException | DatabaseException | ParseException |
+				 PrincipalAdapterException | AccessDeniedException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

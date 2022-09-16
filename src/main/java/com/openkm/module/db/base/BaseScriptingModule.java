@@ -45,9 +45,7 @@ public class BaseScriptingModule {
 
 		try {
 			checkScriptsHelper(user, scriptNodeUuid, eventNodeUuid, eventType);
-		} catch (PathNotFoundException e) {
-			log.error(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (PathNotFoundException | DatabaseException e) {
 			log.error(e.getMessage(), e);
 		}
 

@@ -50,11 +50,11 @@ public class ConstantsMapTag extends SimpleTagSupport {
 			Class declaringClass = Class.forName(this.className);
 			Field[] fields = declaringClass.getFields();
 
-			for (int n = 0; n < fields.length; n++) {
-				if (Modifier.isPublic(fields[n].getModifiers()) &&
-						Modifier.isStatic(fields[n].getModifiers()) /*&&
+			for (Field field : fields) {
+				if (Modifier.isPublic(field.getModifiers()) &&
+						Modifier.isStatic(field.getModifiers()) /*&&
 	                Modifier.isFinal( fields[n].getModifiers() )*/) {
-					constantsMap.put(fields[n].getName(), fields[n].get(null));
+					constantsMap.put(field.getName(), field.get(null));
 				}
 			}
 

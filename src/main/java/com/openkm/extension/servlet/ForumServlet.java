@@ -39,7 +39,10 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * ForumServlet
@@ -122,8 +125,8 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 			ForumDAO.update(forum);
 			ForumTopic ft = new ForumTopic();
 
-			for (Iterator<ForumTopic> it = forum.getTopics().iterator(); it.hasNext(); ) {
-				ft = it.next();
+			for (ForumTopic forumTopic : forum.getTopics()) {
+				ft = forumTopic;
 			}
 
 			log.debug("getTopicsByUuid: {}", ft);
@@ -236,7 +239,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 				}
 
 				ForumDAO.update(forum); // Deleting topic
-				return new Boolean(false);
+				return Boolean.FALSE;
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);

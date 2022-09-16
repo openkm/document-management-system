@@ -93,7 +93,7 @@ public class AutomationFormElementTag extends TagSupport {
 				html += "<select name=\"" + name + "\" id=\"" + name + "\">";
 
 				if (value != null) {
-					if (Boolean.valueOf(value).booleanValue()) {
+					if (Boolean.parseBoolean(value)) {
 						html += "<option value=\"" + String.valueOf(Boolean.FALSE) + "\">false</option>";
 						html += "<option value=\"" + String.valueOf(Boolean.TRUE) + "\" selected=\"selected\">true</option>";
 					} else {
@@ -137,7 +137,7 @@ public class AutomationFormElementTag extends TagSupport {
 			// closing table
 			html += "</td></tr>"
 					+ "</table>";
-			// @formatter:on	
+			// @formatter:on
 		} else if (type.equals(Automation.PARAM_TYPE_TEXTAREA)) {
 			// @formatter:off
 			html += "<textarea cols=\"80\" rows=\"25\" style=\"width: 600px; height: 300px;\" name=\"" + name + "\" id=\"" + name + "\">" + value + "</textarea>";

@@ -342,7 +342,8 @@ public class OKMMail implements MailModule {
 			String dstId) throws AccessDeniedException, PathNotFoundException, ItemExistsException, AutomationException,
 			VirusDetectedException, UserQuotaExceededException, UnsupportedMimeTypeException, FileSizeExceededException,
 			ExtensionException, RepositoryException, DatabaseException, IOException, LockException {
-		log.debug("sendMailWithAttachments({}, {}, {}, {}, {}, {}, {}, {})", token, toRecipients, ccRecipients, bccRecipients, replyToMails, subject, body, docsId);
+		log.debug("sendMailWithAttachments({}, {}, {}, {}, {}, {}, {}, {})", token, toRecipients, ccRecipients, bccRecipients,
+				replyToMails, subject, body, docsId);
 		RepositoryModule rp = ModuleManager.getRepositoryModule();
 		DocumentModule dm = ModuleManager.getDocumentModule();
 		MailModule mm = ModuleManager.getMailModule();

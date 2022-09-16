@@ -672,9 +672,7 @@ public class DbDashboardModule implements DashboardModule {
 				vo.setVisited(false);
 				al.add(vo);
 			}
-		} catch (ParseException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (PathNotFoundException e) {
+		} catch (ParseException | PathNotFoundException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		}
 

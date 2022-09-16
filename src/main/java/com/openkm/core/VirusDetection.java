@@ -31,9 +31,7 @@ public class VirusDetection {
 			} else {
 				return null;
 			}
-		} catch (InterruptedException e) {
-			log.warn("Failed to check for viruses", e);
-		} catch (IOException e) {
+		} catch (InterruptedException | IOException e) {
 			log.warn("Failed to check for viruses", e);
 		}
 

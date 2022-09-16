@@ -132,7 +132,7 @@ public class StatsGraphServlet extends BaseServlet {
 	/**
 	 * Generate disk statistics
 	 */
-	public JFreeChart diskStats() throws IOException, ServletException {
+	public JFreeChart diskStats() {
 		String repHome = null;
 
 		// Allow absolute repository path

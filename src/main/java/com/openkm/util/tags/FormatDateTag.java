@@ -59,9 +59,7 @@ public class FormatDateTag extends TagSupport {
 			}
 
 			pageContext.getOut().write(str);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (DatabaseException | IOException e) {
 			e.printStackTrace();
 		}
 

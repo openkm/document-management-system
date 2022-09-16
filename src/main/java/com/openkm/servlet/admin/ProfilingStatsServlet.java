@@ -90,8 +90,7 @@ public class ProfilingStatsServlet extends BaseServlet {
 	/**
 	 * Activate stats
 	 */
-	private void activate(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void activate(HttpServletRequest request, HttpServletResponse response) {
 		Config.SYSTEM_PROFILING = true;
 	}
 

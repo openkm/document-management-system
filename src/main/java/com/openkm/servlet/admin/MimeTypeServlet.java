@@ -170,13 +170,7 @@ public class MimeTypeServlet extends BaseServlet {
 					list(userId, request, response);
 				}
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (FileUploadException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (SQLException e) {
+		} catch (DatabaseException | FileUploadException | SQLException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		} finally {

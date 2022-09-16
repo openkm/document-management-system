@@ -135,9 +135,7 @@ public class ImageUtils {
 			IOUtils.copy(fis, baos);
 			IOUtils.closeQuietly(fis);
 			ret = baos.toByteArray();
-		} catch (DatabaseException e) {
-			throw new RuntimeException(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (DatabaseException | IOException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		} finally {
 			FileUtils.deleteQuietly(tmpFileIn);

@@ -88,8 +88,7 @@ public class CacheStatsServlet extends BaseServlet {
 	/**
 	 * Activate stats
 	 */
-	private void activate(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void activate(HttpServletRequest request, HttpServletResponse response) {
 		for (String name : CacheProvider.getInstance().getOkmCacheNames()) {
 			Cache cache = CacheProvider.getInstance().getCache(name);
 
@@ -104,8 +103,7 @@ public class CacheStatsServlet extends BaseServlet {
 	/**
 	 * Deactivate stats
 	 */
-	private void deactivate(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void deactivate(HttpServletRequest request, HttpServletResponse response) {
 		for (String name : CacheProvider.getInstance().getOkmCacheNames()) {
 			Cache cache = CacheProvider.getInstance().getCache(name);
 
@@ -120,7 +118,7 @@ public class CacheStatsServlet extends BaseServlet {
 	/**
 	 * Clear stats
 	 */
-	private void clear(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void clear(HttpServletRequest request, HttpServletResponse response) {
 		for (String name : CacheProvider.getInstance().getOkmCacheNames()) {
 			Cache cache = CacheProvider.getInstance().getCache(name);
 			cache.clearStatistics();
@@ -132,7 +130,7 @@ public class CacheStatsServlet extends BaseServlet {
 	/**
 	 * Remove all elements in cache
 	 */
-	private void reset(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void reset(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		String name = WebUtils.getString(request, "name");
 
@@ -148,7 +146,7 @@ public class CacheStatsServlet extends BaseServlet {
 	/**
 	 * Remove all elements in all caches
 	 */
-	private void resetAll(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void resetAll(HttpServletRequest request, HttpServletResponse response) {
 		CacheProvider.getInstance().clearAll();
 	}
 

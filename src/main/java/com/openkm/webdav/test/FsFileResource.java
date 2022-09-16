@@ -63,9 +63,7 @@ public class FsFileResource extends FsResource implements CopyableResource, Dele
 				IOUtils.copy(in, out);
 			}
 			out.flush();
-		} catch (ReadingException e) {
-			throw new IOException(e);
-		} catch (WritingException e) {
+		} catch (ReadingException | WritingException e) {
 			throw new IOException(e);
 		} finally {
 			IOUtils.closeQuietly(in);

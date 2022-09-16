@@ -88,11 +88,7 @@ public class FormUtils {
 					}
 				}
 			}
-		} catch (ParserConfigurationException e) {
-			throw new ParseException(e.getMessage(), e);
-		} catch (SAXException e) {
-			throw new ParseException(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new ParseException(e.getMessage(), e);
 		}
 
@@ -136,11 +132,7 @@ public class FormUtils {
 					}
 				}
 			}
-		} catch (ParserConfigurationException e) {
-			throw new ParseException(e.getMessage(), e);
-		} catch (SAXException e) {
-			throw new ParseException(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new ParseException(e.getMessage(), e);
 		}
 
@@ -202,9 +194,7 @@ public class FormUtils {
 						}
 					}
 				}
-			} catch (ParserConfigurationException e) {
-				throw new ParseException(e.getMessage());
-			} catch (SAXException e) {
+			} catch (ParserConfigurationException | SAXException e) {
 				throw new ParseException(e.getMessage());
 			} catch (IOException e) {
 				throw e;

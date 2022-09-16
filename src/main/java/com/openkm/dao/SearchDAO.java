@@ -143,13 +143,7 @@ public class SearchDAO {
 			log.trace("findByQuery.Time: {}", FormatUtil.formatMiliSeconds(System.currentTimeMillis() - begin));
 			log.debug("findByQuery: {}", result);
 			return result;
-		} catch (IOException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (InvalidTokenOffsetsException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (HibernateException e) {
+		} catch (IOException | InvalidTokenOffsetsException | HibernateException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {
@@ -197,13 +191,7 @@ public class SearchDAO {
 		} catch (org.apache.lucene.queryParser.ParseException e) {
 			HibernateUtil.rollback(tx);
 			throw new ParseException(e.getMessage(), e);
-		} catch (IOException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (InvalidTokenOffsetsException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (HibernateException e) {
+		} catch (IOException | InvalidTokenOffsetsException | HibernateException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {
@@ -583,10 +571,7 @@ public class SearchDAO {
 				// fldResultCache.put(new Element(key, ret));
 				SystemProfiling.log(parentUuid, System.currentTimeMillis() - begin);
 				log.trace("findFoldersInDepth.Time: {}", FormatUtil.formatMiliSeconds(System.currentTimeMillis() - begin));
-			} catch (PathNotFoundException e) {
-				HibernateUtil.rollback(tx);
-				throw e;
-			} catch (DatabaseException e) {
+			} catch (PathNotFoundException | DatabaseException e) {
 				HibernateUtil.rollback(tx);
 				throw e;
 			} catch (HibernateException e) {
@@ -685,13 +670,7 @@ public class SearchDAO {
 			log.trace("moreLikeThis.Time: {}", FormatUtil.formatMiliSeconds(System.currentTimeMillis() - begin));
 			log.debug("moreLikeThis: {}", result);
 			return result;
-		} catch (IOException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (InvalidTokenOffsetsException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (HibernateException e) {
+		} catch (IOException | InvalidTokenOffsetsException | HibernateException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {

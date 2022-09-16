@@ -84,13 +84,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 			}
 		} catch (DatabaseException e) {
 			throw e;
-		} catch (PathNotFoundException e) {
-			log.error(e.getMessage(), e);
-			throw new RepositoryException(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
-		} catch (AccessDeniedException e) {
-			log.error(e.getMessage(), e);
-			throw new RepositoryException(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
-		} catch (ItemExistsException e) {
+		} catch (PathNotFoundException | AccessDeniedException | ItemExistsException e) {
 			log.error(e.getMessage(), e);
 			throw new RepositoryException(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
 		}

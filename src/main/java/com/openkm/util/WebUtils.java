@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class WebUtils {
 
 		if (value != null) {
 			try {
-				return new String(value.getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), "UTF-8").trim();
+				return new String(value.getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), StandardCharsets.UTF_8).trim();
 			} catch (UnsupportedEncodingException e) {
 				// Ignore
 			}
@@ -84,7 +85,7 @@ public class WebUtils {
 
 		if (value != null) {
 			try {
-				return new String(value.getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), "UTF-8").trim();
+				return new String(value.getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), StandardCharsets.UTF_8).trim();
 			} catch (UnsupportedEncodingException e) {
 				// Ignore
 			}
@@ -107,7 +108,7 @@ public class WebUtils {
 		if (value != null) {
 			try {
 				for (int i = 0; i < value.length; i++) {
-					stringValue.add(new String(value[i].getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), "UTF-8"));
+					stringValue.add(new String(value[i].getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), StandardCharsets.UTF_8));
 				}
 			} catch (UnsupportedEncodingException e) {
 				// Ignore
@@ -130,15 +131,11 @@ public class WebUtils {
 		String stringValue = EMPTY_STRING;
 
 		if (value != null) {
-			try {
-				for (int i = 0; i < value.length; i++) {
-					if (i > 0) {
-						stringValue += ",";
-					}
-					stringValue += (new String(value[i].getBytes("ISO-8859-1"), "UTF-8"));
+			for (int i = 0; i < value.length; i++) {
+				if (i > 0) {
+					stringValue += ",";
 				}
-			} catch (UnsupportedEncodingException e) {
-				// Ignore
+				stringValue += (new String(value[i].getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
 			}
 		}
 

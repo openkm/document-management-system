@@ -58,7 +58,7 @@ public class WikiPageDAO {
 			tx = session.beginTransaction();
 			Long id = (Long) session.save(wkp);
 			HibernateUtil.commit(tx);
-			log.debug("create: {}" + id);
+			log.debug("create: {}", id);
 			return id;
 		} catch (HibernateException e) {
 			HibernateUtil.rollback(tx);
@@ -96,7 +96,7 @@ public class WikiPageDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<WikiPage> findAll() throws DatabaseException {
-		log.debug("findAll({})");
+		log.debug("findAll()");
 		String qs = "select wkp from WikiPage wkp where wkp.deleted=false order by wkp.date desc";
 		Session session = null;
 
@@ -119,7 +119,7 @@ public class WikiPageDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<WikiPage> findAllByTitle(String title) throws DatabaseException {
-		log.debug("findAllByTitle({})");
+		log.debug("findAllByTitle({})", title);
 		String qs = "select wkp from WikiPage wkp where wkp.title=:title and wkp.deleted=false order by wkp.date desc";
 		Session session = null;
 
@@ -143,7 +143,7 @@ public class WikiPageDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<WikiPage> findAllHistoricByTitle(String title) throws DatabaseException {
-		log.debug("findAllHistoricByTitle({})");
+		log.debug("findAllHistoricByTitle({})", title);
 		String qs = "select wkp from WikiPage wkp where wkp.title=:title order by wkp.date desc";
 		Session session = null;
 
@@ -258,7 +258,8 @@ public class WikiPageDAO {
 		// Only can locked last page
 		WikiPage actualWikiPage = findLatestByTitle(wikiPage.getTitle());
 
-		if (actualWikiPage != null && actualWikiPage.getId() == wikiPage.getId() && (actualWikiPage.getLockUser() == null || actualWikiPage.getLockUser().equals(""))) {
+		if (actualWikiPage != null && actualWikiPage.getId() == wikiPage.getId() && (actualWikiPage.getLockUser() == null
+				|| actualWikiPage.getLockUser().equals(""))) {
 			wikiPage.setLockUser(user);
 			update(wikiPage);
 			return true;

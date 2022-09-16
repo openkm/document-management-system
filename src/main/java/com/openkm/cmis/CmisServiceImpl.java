@@ -98,8 +98,8 @@ public class CmisServiceImpl extends AbstractCmisService {
 	}
 
 	@Override
-	public TypeDefinitionList getTypeChildren(String repositoryId, String typeId, Boolean includePropertyDefinitions, BigInteger maxItems,
-	                                          BigInteger skipCount, ExtensionsData extension) {
+	public TypeDefinitionList getTypeChildren(String repositoryId, String typeId, Boolean includePropertyDefinitions,
+			BigInteger maxItems, BigInteger skipCount, ExtensionsData extension) {
 		log.debug("getTypeChildren({}, {}, {}, {}, {}, {})", repositoryId, typeId, includePropertyDefinitions, maxItems,
 				skipCount, extension);
 		return getRepository().getTypesChildren(getCallContext(), typeId, includePropertyDefinitions, maxItems, skipCount);

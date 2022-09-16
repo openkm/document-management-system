@@ -443,9 +443,7 @@ public class DbSearchModule implements SearchModule {
 
 			// Activity log
 			UserActivity.log(auth.getName(), "FIND_BY_STATEMENT_PAGINATED", null, null, offset + ", " + limit + ", " + query);
-		} catch (PathNotFoundException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (ParseException e) {
+		} catch (PathNotFoundException | ParseException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw e;
@@ -1120,9 +1118,7 @@ public class DbSearchModule implements SearchModule {
 
 			// Activity log
 			UserActivity.log(auth.getName(), "FIND_SIMPLE_QUERY_PAGINATED", null, null, offset + ", " + limit + ", " + statement);
-		} catch (PathNotFoundException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (ParseException e) {
+		} catch (PathNotFoundException | ParseException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw e;

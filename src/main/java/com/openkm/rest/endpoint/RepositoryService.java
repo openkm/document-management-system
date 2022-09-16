@@ -250,7 +250,7 @@ public class RepositoryService {
 			RepositoryModule rm = ModuleManager.getRepositoryModule();
 			boolean has = rm.hasNode(null, nodeId);
 			log.debug("hasNode: {}", has);
-			return new Boolean(has);
+			return has;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}

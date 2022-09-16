@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class DatabasePrincipalAdapter implements PrincipalAdapter {
@@ -46,8 +45,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 		try {
 			List<User> col = AuthDAO.findAllUsers(Config.PRINCIPAL_DATABASE_FILTER_INACTIVE_USERS);
 
-			for (Iterator<User> it = col.iterator(); it.hasNext(); ) {
-				User dbUser = it.next();
+			for (User dbUser : col) {
 				list.add(dbUser.getId());
 			}
 		} catch (DatabaseException e) {
@@ -66,8 +64,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 		try {
 			List<Role> col = AuthDAO.findAllRoles();
 
-			for (Iterator<Role> it = col.iterator(); it.hasNext(); ) {
-				Role dbRole = it.next();
+			for (Role dbRole : col) {
 				list.add(dbRole.getId());
 			}
 		} catch (DatabaseException e) {
@@ -86,8 +83,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 		try {
 			List<User> col = AuthDAO.findUsersByRole(role, true);
 
-			for (Iterator<User> it = col.iterator(); it.hasNext(); ) {
-				User dbUser = it.next();
+			for (User dbUser : col) {
 				list.add(dbUser.getId());
 			}
 		} catch (DatabaseException e) {
@@ -106,8 +102,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 		try {
 			List<Role> col = AuthDAO.findRolesByUser(user, true);
 
-			for (Iterator<Role> it = col.iterator(); it.hasNext(); ) {
-				Role dbRole = it.next();
+			for (Role dbRole : col) {
 				list.add(dbRole.getId());
 			}
 		} catch (DatabaseException e) {
@@ -189,9 +184,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can create users");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -204,9 +197,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can delete users");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -225,9 +216,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can delete users");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -243,9 +232,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can create roles");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -258,9 +245,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can delete roles");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -276,9 +261,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can create roles");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -294,9 +277,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can assign roles");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}
@@ -312,9 +293,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 			} else {
 				throw new PrincipalAdapterException("Only administrators can remove roles");
 			}
-		} catch (DatabaseException e) {
-			throw new PrincipalAdapterException(e.getMessage(), e);
-		} catch (AccessDeniedException e) {
+		} catch (DatabaseException | AccessDeniedException e) {
 			throw new PrincipalAdapterException(e.getMessage(), e);
 		}
 	}

@@ -49,7 +49,6 @@ public class AddCategoryToWizard implements Action {
 	 * execute
 	 *
 	 * @param env    OpenKM API internal environment data.
-	 * @param params Action configured parameters.
 	 */
 	private void execute(Map<String, Object> env, Object... params) {
 		if (env.keySet().contains(AutomationUtils.UPLOAD_RESPONSE)) {

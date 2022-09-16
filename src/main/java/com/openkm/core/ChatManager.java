@@ -144,9 +144,7 @@ public class ChatManager {
 				if (usersRooms.containsKey(user)) {
 					List<String> rooms = usersRooms.get(user);
 
-					for (Iterator<String> it = rooms.iterator(); it.hasNext(); ) {
-						String room = it.next();
-
+					for (String room : rooms) {
 						if (msgUsersRooms.containsKey(room)) {
 							Map<String, List<String>> roomMessages = msgUsersRooms.get(room);
 							if (roomMessages.containsKey(user)) {
@@ -254,9 +252,7 @@ public class ChatManager {
 				if (msgUsersRooms.containsKey(room)) {
 					Map<String, List<String>> roomMap = msgUsersRooms.get(room);
 
-					for (Iterator<String> it = roomMap.keySet().iterator(); it.hasNext(); ) {
-						String roomUser = it.next();
-
+					for (String roomUser : roomMap.keySet()) {
 						// Pending message is not added to himself ( that's done by UI )
 						if (!roomUser.equals(user)) {
 							// Add message for each user available

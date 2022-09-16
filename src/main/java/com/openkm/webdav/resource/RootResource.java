@@ -139,10 +139,8 @@ public class RootResource implements PropFindableResource, GetableResource, Coll
 		log.debug("getChildren()");
 		List<Resource> resources = new ArrayList<Resource>();
 
-		if (fldChilds != null) {
-			for (Folder fld : fldChilds) {
-				resources.add(new FolderResource(fld));
-			}
+		for (Folder fld : fldChilds) {
+			resources.add(new FolderResource(fld));
 		}
 
 		return resources;

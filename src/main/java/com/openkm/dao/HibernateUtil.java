@@ -221,13 +221,7 @@ public class HibernateUtil {
 								Config.HIBERNATE_CREATE_AUTOFIX);
 					}
 				}
-			} catch (HibernateException e) {
-				log.error(e.getMessage(), e);
-				throw new ExceptionInInitializerError(e);
-			} catch (URISyntaxException e) {
-				log.error(e.getMessage(), e);
-				throw new ExceptionInInitializerError(e);
-			} catch (IOException e) {
+			} catch (HibernateException | URISyntaxException | IOException e) {
 				log.error(e.getMessage(), e);
 				throw new ExceptionInInitializerError(e);
 			}
@@ -439,7 +433,7 @@ public class HibernateUtil {
 
 				if (idx > -1) {
 					String key = line.substring(0, idx).trim();
-					String value = line.substring(idx + 1, line.length()).trim();
+					String value = line.substring(idx + 1).trim();
 
 					if (Config.PROPERTY_HIBERNATE_HBM2DDL.equals(key)) {
 						value = HBM2DDL_NONE;

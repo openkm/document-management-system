@@ -511,7 +511,7 @@ public class WorkspaceServlet extends OKMRemoteServiceServlet implements OKMWork
 	@Override
 	public Double getUserDocumentsSize() throws OKMException {
 		log.debug("getUserDocumentsSize()");
-		Double docSize = new Double(0);
+		Double docSize = (double) 0;
 		updateSessionManager();
 
 		try {

@@ -81,13 +81,7 @@ public class DashboardServlet extends HttpServlet {
 			} else if (action.equals("generalLastModified")) {
 				generalLastModified(request, response);
 			}
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (OKMException e) {
+		} catch (PathNotFoundException | RepositoryException | DatabaseException | OKMException e) {
 			sendErrorRedirect(request, response, e);
 		}
 	}

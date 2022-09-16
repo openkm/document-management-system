@@ -165,9 +165,7 @@ public class TextExtractorWorker extends TimerTask {
 					monitor.documentsAdded(1);
 				}
 			}
-		} catch (FileNotFoundException e) {
-			log.warn(e.getMessage(), e);
-		} catch (DatabaseException e) {
+		} catch (FileNotFoundException | DatabaseException e) {
 			log.warn(e.getMessage(), e);
 		} finally {
 			inProgress.clear();

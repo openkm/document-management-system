@@ -103,7 +103,7 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 				if (unreadMap.containsKey(sender)) {
 					received.put(sender, unreadMap.get(sender));
 				} else {
-					received.put(sender, new Long(0));
+					received.put(sender, 0L);
 				}
 			}
 		} catch (DatabaseException e) {
@@ -222,7 +222,7 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 				pqId.add(String.valueOf(proposedQueryReceived.getId()));
 			}
 			for (String id : pqId) {
-				ProposedQueryDAO.deleteReceived(Integer.valueOf(id));
+				ProposedQueryDAO.deleteReceived(Integer.parseInt(id));
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);

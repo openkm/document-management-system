@@ -127,7 +127,7 @@ public class AuthService {
 			AuthModule am = ModuleManager.getAuthModule();
 			UserList ul = new UserList();
 			ul.getList().addAll(am.getUsers(null));
-			log.debug("getUsers: {]", ul);
+			log.debug("getUsers: {}", ul);
 			return ul;
 		} catch (Exception e) {
 			throw new GenericException(e);

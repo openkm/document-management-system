@@ -117,10 +117,7 @@ public class CronTabServlet extends BaseServlet {
 			} else {
 				list(request, response);
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (EvalError e) {
+		} catch (DatabaseException | EvalError e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}
@@ -190,10 +187,7 @@ public class CronTabServlet extends BaseServlet {
 					list(request, response);
 				}
 			}
-		} catch (DatabaseException e) {
-			log.error(e.getMessage(), e);
-			sendErrorRedirect(request, response, e);
-		} catch (FileUploadException e) {
+		} catch (DatabaseException | FileUploadException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

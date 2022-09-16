@@ -42,8 +42,6 @@ public class Serializer {
 			fos = new FileOutputStream(Config.HOME_DIR + File.separator + filename + ".ser");
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(obj);
-		} catch (FileNotFoundException e) {
-			log.error(e.getMessage());
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		} finally {
@@ -84,11 +82,7 @@ public class Serializer {
 			fis = new FileInputStream(Config.HOME_DIR + File.separator + filename + ".ser");
 			ois = new ObjectInputStream(fis);
 			obj = ois.readObject();
-		} catch (FileNotFoundException e) {
-			log.error(e.getMessage());
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		} catch (ClassNotFoundException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			log.error(e.getMessage());
 		} finally {
 			IOUtils.closeQuietly(ois);

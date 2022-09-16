@@ -134,7 +134,7 @@ public class MessageServlet extends OKMRemoteServiceServlet implements OKMMessag
 				if (unreadMap.containsKey(sender)) {
 					received.put(sender, unreadMap.get(sender));
 				} else {
-					received.put(sender, new Long(0));
+					received.put(sender, 0L);
 				}
 			}
 			return received;
@@ -298,11 +298,11 @@ public class MessageServlet extends OKMRemoteServiceServlet implements OKMMessag
 			}
 
 			for (String id : pqId) {
-				ProposedQueryDAO.deleteSent(Integer.valueOf(id));
+				ProposedQueryDAO.deleteSent(Integer.parseInt(id));
 			}
 
 			for (String id : psId) {
-				ProposedSubscriptionDAO.deleteSent(Integer.valueOf(id));
+				ProposedSubscriptionDAO.deleteSent(Integer.parseInt(id));
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);
@@ -323,7 +323,7 @@ public class MessageServlet extends OKMRemoteServiceServlet implements OKMMessag
 				msgId.add(String.valueOf(messageReceived.getId()));
 			}
 			for (String id : msgId) {
-				MessageDAO.deleteReceived(Integer.valueOf(id));
+				MessageDAO.deleteReceived(Integer.parseInt(id));
 			}
 		} catch (DatabaseException e) {
 			log.error(e.getMessage(), e);

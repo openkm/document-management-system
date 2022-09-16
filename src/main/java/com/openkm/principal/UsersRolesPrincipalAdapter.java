@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -42,8 +41,6 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 
 		try {
 			prop.load(new FileInputStream(Config.HOME_DIR + "/server/default/conf/props/openkm-users.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,8 +64,6 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 
 		try {
 			prop.load(new FileInputStream(Config.HOME_DIR + "/server/default/conf/props/openkm-roles.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -105,8 +100,6 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 
 		try {
 			prop.load(new FileInputStream(Config.HOME_DIR + "/server/default/conf/props/openkm-emails.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,8 +117,6 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 
 		try {
 			prop.load(new FileInputStream(Config.HOME_DIR + "/server/default/conf/props/openkm-names.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

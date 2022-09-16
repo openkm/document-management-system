@@ -173,9 +173,7 @@ public class RepositoryExporter {
 			}
 		}
 
-		for (Iterator<Document> it = dm.getChildren(token, fldPath).iterator(); it.hasNext(); ) {
-			Document docChild = it.next();
-
+		for (Document docChild : dm.getChildren(token, fldPath)) {
 			try {
 				String fileName = PathUtils.decodeEntities(PathUtils.getName(docChild.getPath()));
 
@@ -196,8 +194,7 @@ public class RepositoryExporter {
 			}
 		}
 
-		for (Iterator<Folder> it = fm.getChildren(token, fldPath).iterator(); it.hasNext(); ) {
-			Folder fldChild = it.next();
+		for (Folder fldChild : fm.getChildren(token, fldPath)) {
 			ImpExpStats tmp = exportDocumentsHelper(token, fldChild.getPath(), fsPath, metadata, history, out, deco);
 			String dirName = PathUtils.decodeEntities(PathUtils.getName(fldChild.getPath()));
 

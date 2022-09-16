@@ -43,7 +43,7 @@ public class ListClass implements OptionSelectValues {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Exception occured: " + e.getMessage());
+			System.out.println("Exception occurred: " + e.getMessage());
 		}
 		return options;
 	}

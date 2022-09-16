@@ -89,22 +89,6 @@ public class DesktopServlet extends HttpServlet {
 			} else {
 				browse(uuid, path, request, response);
 			}
-		} catch (PathNotFoundException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (LockException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (AccessDeniedException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (ParseException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (NoSuchGroupException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (ExtensionException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (RepositoryException e) {
-			sendErrorRedirect(request, response, e);
-		} catch (DatabaseException e) {
-			sendErrorRedirect(request, response, e);
 		} catch (Exception e) {
 			sendErrorRedirect(request, response, e);
 		}

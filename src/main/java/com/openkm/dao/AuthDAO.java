@@ -59,10 +59,7 @@ public class AuthDAO {
 			user.setPassword(SecureStore.md5Encode(user.getPassword().getBytes()));
 			session.save(user);
 			HibernateUtil.commit(tx);
-		} catch (HibernateException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (HibernateException | NoSuchAlgorithmException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {
@@ -155,10 +152,7 @@ public class AuthDAO {
 				q.executeUpdate();
 				HibernateUtil.commit(tx);
 			}
-		} catch (HibernateException e) {
-			HibernateUtil.rollback(tx);
-			throw new DatabaseException(e.getMessage(), e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (HibernateException | NoSuchAlgorithmException e) {
 			HibernateUtil.rollback(tx);
 			throw new DatabaseException(e.getMessage(), e);
 		} finally {

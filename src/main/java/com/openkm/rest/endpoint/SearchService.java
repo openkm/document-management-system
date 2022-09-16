@@ -249,7 +249,7 @@ public class SearchService {
 			SearchModule sm = ModuleManager.getSearchModule();
 			long id = sm.saveSearch(null, params);
 			log.debug("saveSearch: {}", id);
-			return new Long(id);
+			return id;
 		} catch (Exception e) {
 			throw new GenericException(e);
 		}
@@ -315,8 +315,8 @@ public class SearchService {
 	 * copyToQueryParams
 	 */
 	private QueryParams copyToQueryParams(String content, String name, int domain, List<String> keywords, List<String> categories,
-										  List<String> properties, String author, String mimeType, String lastModifiedFrom, String lastModifiedTo, String mailSubject,
-										  String mailFrom, String mailTo, String path) {
+			List<String> properties, String author, String mimeType, String lastModifiedFrom, String lastModifiedTo, String mailSubject,
+			String mailFrom, String mailTo, String path) {
 		QueryParams params = new QueryParams();
 		Map<String, String> propMap = new HashMap<String, String>();
 

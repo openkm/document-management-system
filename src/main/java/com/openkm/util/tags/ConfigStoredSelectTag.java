@@ -55,9 +55,7 @@ public class ConfigStoredSelectTag extends TagSupport {
 			}
 
 			pageContext.getOut().write(html);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (DatabaseException | IOException e) {
 			e.printStackTrace();
 		}
 

@@ -532,13 +532,7 @@ public class DbMailModule implements MailModule {
 
 			// Activity log - Already inside DAO
 			// UserActivity.log(auth.getName(), "PURGE_MAIL", mailUuid, mailPath, null);
-		} catch (IOException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (ParseException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (NoSuchGroupException e) {
-			throw new RepositoryException(e.getMessage(), e);
-		} catch (MessagingException e) {
+		} catch (IOException | ParseException | NoSuchGroupException | MessagingException e) {
 			throw new RepositoryException(e.getMessage(), e);
 		} catch (DatabaseException e) {
 			throw e;

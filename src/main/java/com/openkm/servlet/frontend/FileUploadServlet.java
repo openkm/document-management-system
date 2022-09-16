@@ -456,9 +456,7 @@ public class FileUploadServlet extends OKMHttpServlet {
 
 			try {
 				sc.getRequestDispatcher(redirectURL).forward(request, response);
-			} catch (ServletException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (ServletException | IOException e) {
 				e.printStackTrace();
 			}
 		} else {

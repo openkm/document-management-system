@@ -58,9 +58,7 @@ public class RepositoryInfo extends TimerTask {
 					foldersByContext = okmStats.getFoldersByContext(token);
 					documentsByContext = okmStats.getDocumentsByContext(token);
 					documentsSizeByContext = okmStats.getDocumentsSizeByContext(token);
-				} catch (RepositoryException e) {
-					log.error(e.getMessage(), e);
-				} catch (DatabaseException e) {
+				} catch (RepositoryException | DatabaseException e) {
 					log.error(e.getMessage(), e);
 				}
 			} finally {

@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,7 +50,7 @@ public class ContextSubjectFilter implements Filter {
 
 		try {
 			if (EnvironmentDetector.isServerTomcat() && httpRequest.getRemoteUser() != null) {
-				HttpSession hs = (HttpSession) (httpRequest).getSession(false);
+				HttpSession hs = (httpRequest).getSession(false);
 				Subject sub = (Subject) hs.getAttribute(SESSION_AUTH_SUBJECT);
 
 				if (sub == null) {
@@ -61,7 +60,6 @@ public class ContextSubjectFilter implements Filter {
 					lc.login();
 					sub = lc.getSubject();
 					hs.setAttribute(SESSION_AUTH_SUBJECT, sub);
-					//LoginContextHolder.set(lc);
 				}
 
 				Subject.doAs(sub, new PrivilegedAction<Object>() {
@@ -70,9 +68,7 @@ public class ContextSubjectFilter implements Filter {
 							log.debug("AccessController: {}", AccessController.getContext());
 							log.debug("Subject: {}", Subject.getSubject(AccessController.getContext()));
 							chain.doFilter(request, response);
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (ServletException e) {
+						} catch (IOException | ServletException e) {
 							e.printStackTrace();
 						}
 
@@ -82,16 +78,8 @@ public class ContextSubjectFilter implements Filter {
 			} else {
 				chain.doFilter(request, response);
 			}
-		} catch (LoginException e) {
-			log.error(e.getMessage(), e);
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-		} catch (ServletException e) {
-			log.error(e.getMessage(), e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		} finally {
-			//LoginContextHolder.set(null);
 		}
 	}
 

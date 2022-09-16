@@ -53,8 +53,6 @@ public class TestServlet extends HttpServlet {
 			out.println("Authentication: " + PrincipalUtils.getAuthentication() + "<br/>");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-
 		}
 	}
 }

@@ -232,15 +232,8 @@ public class DocumentResource implements CopyableResource, DeletableResource, Ge
 				lt.timeout = new LockTimeout(Long.MAX_VALUE);
 				return LockResult.success(lt);
 			}
-		} catch (LockException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (PathNotFoundException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (AccessDeniedException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (RepositoryException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (DatabaseException e) {
+		} catch (LockException | PathNotFoundException | AccessDeniedException | RepositoryException |
+				 DatabaseException e) {
 			throw new RuntimeException("Failed to lock: " + fixedDocPath);
 		}
 	}
@@ -279,22 +272,15 @@ public class DocumentResource implements CopyableResource, DeletableResource, Ge
 			} else {
 				return null;
 			}
-		} catch (LockException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (AccessDeniedException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (PathNotFoundException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (RepositoryException e) {
-			throw new RuntimeException("Failed to lock: " + fixedDocPath);
-		} catch (DatabaseException e) {
+		} catch (LockException | AccessDeniedException | PathNotFoundException | RepositoryException |
+				 DatabaseException e) {
 			throw new RuntimeException("Failed to lock: " + fixedDocPath);
 		}
 	}
 
 	@Override
 	public Long getQuotaUsed() {
-		return new Long(0);
+		return 0L;
 	}
 
 	@Override

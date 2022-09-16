@@ -47,9 +47,7 @@ public class MessageTag extends TagSupport {
 			}
 
 			pageContext.getOut().write(msg);
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (DatabaseException | IOException e) {
 			e.printStackTrace();
 		}
 

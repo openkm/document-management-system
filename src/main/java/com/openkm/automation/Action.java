@@ -21,13 +21,13 @@
 
 package com.openkm.automation;
 
-import java.util.Map;
-
 import net.xeoh.plugins.base.Plugin;
 
+import java.util.Map;
+
 public interface Action extends Plugin {
-	public static final String METHOD_PRE = "executePre";
-	public static final String METHOD_POST = "executePost";
+	String METHOD_PRE = "executePre";
+	String METHOD_POST = "executePost";
 
 	void executePre(Map<String, Object> env, Object... params) throws Exception;
 
