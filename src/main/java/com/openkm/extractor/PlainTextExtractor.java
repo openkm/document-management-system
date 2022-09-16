@@ -70,8 +70,7 @@ public class PlainTextExtractor extends AbstractTextExtractor {
 				return IOUtils.toString(stream, encoding);
 			}
 		} catch (UnsupportedEncodingException e) {
-			logger.warn("Unsupported encoding '{}', using default ({}) instead.",
-					new Object[]{encoding, System.getProperty("file.encoding")});
+			logger.warn("Unsupported encoding '{}', using default ({}) instead.", encoding, System.getProperty("file.encoding"));
 		}
 
 		return IOUtils.toString(stream);

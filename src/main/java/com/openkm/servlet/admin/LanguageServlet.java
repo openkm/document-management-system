@@ -204,7 +204,7 @@ public class LanguageServlet extends BaseServlet {
 	 */
 	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException {
-		log.debug("list({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		sc.setAttribute("langs", LanguageDAO.findAll());
 		sc.setAttribute("max", LanguageDAO.findByPk(Language.DEFAULT).getTranslations().size());
@@ -217,7 +217,7 @@ public class LanguageServlet extends BaseServlet {
 	 */
 	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("delete({}, {}, {})", userId, request, response);
 
 		ServletContext sc = getServletContext();
 		String lgId = WebUtils.getString(request, "lg_id");
@@ -234,7 +234,7 @@ public class LanguageServlet extends BaseServlet {
 	 */
 	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException {
-		log.debug("edit({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("edit({}, {}, {})", userId, request, response);
 
 		ServletContext sc = getServletContext();
 		String lgId = WebUtils.getString(request, "lg_id");
@@ -251,7 +251,7 @@ public class LanguageServlet extends BaseServlet {
 	 */
 	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException {
-		log.debug("edit({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("edit({}, {}, {})", userId, request, response);
 
 		ServletContext sc = getServletContext();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -267,7 +267,7 @@ public class LanguageServlet extends BaseServlet {
 	 */
 	private void addTranslation(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException {
-		log.debug("addTranslation({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("addTranslation({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			Language lang = LanguageDAO.findByPk(Language.DEFAULT);
@@ -299,9 +299,9 @@ public class LanguageServlet extends BaseServlet {
     /**
      * Translate language
      */
-    private void translate(String userId, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, DatabaseException {
-        log.debug("translate({}, {}, {})", new Object[] { userId, request, response });
+    private void translate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+        log.debug("translate({}, {}, {})", userId, request, response);
         Language langBase = LanguageDAO.findByPk(Language.DEFAULT); // English always it'll be used as a translations base
         Set<Translation> translationsBase = langBase.getTranslations();
 
@@ -386,8 +386,9 @@ public class LanguageServlet extends BaseServlet {
 	/**
 	 * Show language flag icon
 	 */
-	private void flag(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException, IOException {
-		log.debug("flag({}, {}, {})", new Object[]{userId, request, response});
+	private void flag(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			IOException {
+		log.debug("flag({}, {}, {})", userId, request, response);
 		String lgId = WebUtils.getString(request, "lg_id");
 		ServletOutputStream out = response.getOutputStream();
 		Language language = LanguageDAO.findByPk(lgId);
@@ -401,7 +402,7 @@ public class LanguageServlet extends BaseServlet {
 	}
 
 	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException, IOException {
-		log.debug("export({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("export({}, {}, {})", userId, request, response);
 		String lgId = WebUtils.getString(request, "lg_id");
 		Language language = LanguageDAO.findByPk(lgId);
 
@@ -440,10 +441,9 @@ public class LanguageServlet extends BaseServlet {
 	/**
 	 * Import a new language into database
 	 */
-	private void importLanguage(String userId, HttpServletRequest request, HttpServletResponse response,
-	                            final byte[] data, Session dbSession) throws DatabaseException,
-			IOException, SQLException {
-		log.debug("importLanguage({}, {}, {}, {}, {})", new Object[]{userId, request, response, data, dbSession});
+	private void importLanguage(String userId, HttpServletRequest request, HttpServletResponse response, final byte[] data,
+			Session dbSession) throws DatabaseException, SQLException {
+		log.debug("importLanguage({}, {}, {}, {}, {})", userId, request, response, data, dbSession);
 		// Because need to be final and an array can be modified being final
 		final String[] insertLanguage = new String[1];
 
@@ -458,7 +458,7 @@ public class LanguageServlet extends BaseServlet {
 				try {
 					while ((query = br.readLine()) != null) {
 						// Used to get the inserted language id
-						if (query.indexOf("INSERT INTO OKM_LANGUAGE") >= 0) {
+						if (query.contains("INSERT INTO OKM_LANGUAGE")) {
 							insertLanguage[0] = query;
 						}
 
@@ -492,8 +492,8 @@ public class LanguageServlet extends BaseServlet {
 	/**
 	 * Normalize languages
 	 */
-	private void normalize(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
-		log.debug("normalize({}, {})", new Object[]{request, response});
+	private void normalize(HttpServletRequest request, HttpServletResponse response) throws IOException, DatabaseException {
+		log.debug("normalize({}, {})", request, response);
 
 		for (Language language : LanguageDAO.findAll()) {
 			if (!Language.DEFAULT.equalsIgnoreCase(language.getId())) {

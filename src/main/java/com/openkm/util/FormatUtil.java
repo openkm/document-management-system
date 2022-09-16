@@ -222,7 +222,7 @@ public class FormatUtil {
 	 * Parser log file
 	 */
 	public static Collection<LogMessage> parseLog(File flog, int begin, int end, String str) throws IOException {
-		// log.debug("parseLog({}, {}, {}, {})", new Object[] { flog, begin, end, str });
+		log.debug("parseLog({}, {}, {}, {})", flog, begin, end, str);
 		ArrayList<LogMessage> al = new ArrayList<LogMessage>();
 		int i = 0;
 

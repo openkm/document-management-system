@@ -21,33 +21,25 @@
 
 package com.openkm.principal;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
+import com.openkm.cache.CacheProvider;
+import com.openkm.core.Config;
+import com.openkm.util.SystemProfiling;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
+import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.ReferralException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
-
-import org.apache.commons.lang.NotImplementedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.openkm.cache.CacheProvider;
-import com.openkm.core.Config;
-import com.openkm.util.SystemProfiling;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
+import javax.naming.directory.*;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * http://forums.sun.com/thread.jspa?threadID=581444
@@ -263,7 +255,7 @@ public class OpenLdapPrincipalAdapter implements PrincipalAdapter {
 
     @SuppressWarnings("unchecked")
     private List<String> ldapSearch(String cache, String key, List<String> searchBases, String searchFilter, String attribute) {
-        log.debug("ldapSearch({}, {}, {}, {}, {})", new Object[]{cache, key, searchBases, searchFilter, attribute});
+        log.debug("ldapSearch({}, {}, {}, {}, {})", cache, key, searchBases, searchFilter, attribute);
         List<String> al = new ArrayList<String>();
         Cache ldapResultCache = CacheProvider.getInstance().getCache(cache);
         Element elto = ldapResultCache.get(key);
@@ -283,7 +275,7 @@ public class OpenLdapPrincipalAdapter implements PrincipalAdapter {
                 if (!attribute.equals("")) {
                     searchCtls.setReturningAttributes(new String[] {attribute});
                 }
-                
+
                 for (String searchBase : searchBases) {
                     NamingEnumeration<SearchResult> results = ctx.search(searchBase, searchFilter, searchCtls);
 
@@ -336,7 +328,7 @@ public class OpenLdapPrincipalAdapter implements PrincipalAdapter {
                 }
             } catch (NamingException e) {
                 log.error("NamingException: {} (Cache: {} - Key: {} - Base: {} - Filter: {} - Attribute: {})",
-                        new Object[]{e.getMessage(), cache, key, searchBases, searchFilter, attribute});
+						e.getMessage(), cache, key, searchBases, searchFilter, attribute);
 
                 // To prevent the same error over and over again
                 ldapResultCache.put(new Element(key, al));

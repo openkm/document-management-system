@@ -46,7 +46,7 @@ public class OKMProperty implements PropertyModule {
 	public void addCategory(String token, String nodeId, String catId) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("addCategory({}, {}, {})", new Object[]{token, nodeId, catId});
+		log.debug("addCategory({}, {}, {})", token, nodeId, catId);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.addCategory(token, nodeId, catId);
 		log.debug("addCategory: void");
@@ -56,7 +56,7 @@ public class OKMProperty implements PropertyModule {
 	public void removeCategory(String token, String nodeId, String catId) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("removeCategory({}, {}, {})", new Object[]{token, nodeId, catId});
+		log.debug("removeCategory({}, {}, {})", token, nodeId, catId);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.removeCategory(token, nodeId, catId);
 		log.debug("removeCategory: void");
@@ -66,7 +66,7 @@ public class OKMProperty implements PropertyModule {
 	public String addKeyword(String token, String nodeId, String keyword) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("addKeyword({}, {}, {})", new Object[]{token, nodeId, keyword});
+		log.debug("addKeyword({}, {}, {})", token, nodeId, keyword);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		String ret = pm.addKeyword(token, nodeId, keyword);
 		log.debug("addKeyword: {}", ret);
@@ -77,7 +77,7 @@ public class OKMProperty implements PropertyModule {
 	public void removeKeyword(String token, String nodeId, String keyword) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("removeKeyword({}, {}, {})", new Object[]{token, nodeId, keyword});
+		log.debug("removeKeyword({}, {}, {})", token, nodeId, keyword);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.removeKeyword(token, nodeId, keyword);
 		log.debug("removeKeyword: void");
@@ -87,7 +87,7 @@ public class OKMProperty implements PropertyModule {
 	public void setEncryption(String token, String nodePath, String cipherName) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("setEncryption({}, {}, {})", new Object[]{token, nodePath, cipherName});
+		log.debug("setEncryption({}, {}, {})", token, nodePath, cipherName);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.setEncryption(token, nodePath, cipherName);
 		log.debug("setEncryption: void");
@@ -97,7 +97,7 @@ public class OKMProperty implements PropertyModule {
 	public void unsetEncryption(String token, String nodePath) throws VersionException,
 			LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("unsetEncryption({}, {})", new Object[]{token, nodePath});
+		log.debug("unsetEncryption({}, {})", token, nodePath);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.unsetEncryption(token, nodePath);
 		log.debug("unsetEncryption: void");
@@ -106,7 +106,7 @@ public class OKMProperty implements PropertyModule {
 	@Override
 	public void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setSigned({}, {}, {})", new Object[]{token, nodePath, signed});
+		log.debug("setSigned({}, {}, {})", token, nodePath, signed);
 		PropertyModule pm = ModuleManager.getPropertyModule();
 		pm.setSigned(token, nodePath, signed);
 		log.debug("setSigned: void");

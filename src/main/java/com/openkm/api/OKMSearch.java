@@ -91,7 +91,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public ResultSet findPaginated(String token, QueryParams params, int offset, int limit) throws IOException,
 			ParseException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findPaginated({}, {}, {}, {})", new Object[]{token, params, offset, limit});
+		log.debug("findPaginated({}, {}, {}, {})", token, params, offset, limit);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet rs = sm.findPaginated(token, params, offset, limit);
 		log.debug("findPaginated: {}", rs);
@@ -111,7 +111,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public ResultSet findByQueryPaginated(String token, String query, int offset, int limit) throws IOException, ParseException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findByQueryPaginated({}, {}, {}, {})", new Object[]{token, query, offset, limit});
+		log.debug("findByQueryPaginated({}, {}, {}, {})", token, query, offset, limit);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet rs = sm.findByQueryPaginated(token, query, offset, limit);
 		log.debug("findByQueryPaginated: {}", rs);
@@ -236,7 +236,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public List<Document> getDocumentsByPropertyValue(String token, String group, String property, String value)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getDocumentsByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+		log.debug("getDocumentsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		SearchModule sm = ModuleManager.getSearchModule();
 		List<Document> col = sm.getDocumentsByPropertyValue(token, group, property, value);
 		log.debug("getDocumentsByPropertyValue: {}", col);
@@ -246,7 +246,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public List<Folder> getFoldersByPropertyValue(String token, String group, String property, String value)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getFoldersByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+		log.debug("getFoldersByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		SearchModule sm = ModuleManager.getSearchModule();
 		List<Folder> col = sm.getFoldersByPropertyValue(token, group, property, value);
 		log.debug("getFoldersByPropertyValue: {}", col);
@@ -256,7 +256,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public List<Mail> getMailsByPropertyValue(String token, String group, String property, String value)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getMailsByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+		log.debug("getMailsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		SearchModule sm = ModuleManager.getSearchModule();
 		List<Mail> col = sm.getMailsByPropertyValue(token, group, property, value);
 		log.debug("getMailsByPropertyValue: {}", col);
@@ -286,7 +286,7 @@ public class OKMSearch implements SearchModule {
 	@Override
 	public ResultSet findMoreLikeThis(String token, String uuid, int maxResults) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("findMoreLikeThis({}, {}, {})", new Object[]{token, uuid, maxResults});
+		log.debug("findMoreLikeThis({}, {}, {})", token, uuid, maxResults);
 		SearchModule sm = ModuleManager.getSearchModule();
 		ResultSet ret = sm.findMoreLikeThis(token, uuid, maxResults);
 		log.debug("findMoreLikeThis: {}", ret);

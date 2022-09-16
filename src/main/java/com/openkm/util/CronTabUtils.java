@@ -39,12 +39,12 @@ public class CronTabUtils {
 	 */
 	public static void createOrUpdate(String name, String expression, String content) throws DatabaseException,
 			PrincipalAdapterException {
-		log.debug("createOrUpdate({}, {}, {})", new Object[]{name, expression, content});
+		log.debug("createOrUpdate({}, {}, {})", name, expression, content);
 		CronTab ct = CronTabDAO.findByName(name);
 
 		if (ct == null) {
 			String mail = CommonAuthModule.getMail(Config.ADMIN_USER);
-			
+
 			ct = new CronTab();
 			ct.setActive(true);
 			ct.setExpression(expression);

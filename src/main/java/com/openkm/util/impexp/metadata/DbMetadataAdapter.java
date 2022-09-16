@@ -56,9 +56,9 @@ public class DbMetadataAdapter extends MetadataAdapter {
 	}
 
 	@Override
-	public void importWithMetadata(DocumentMetadata dmd, InputStream is) throws ItemExistsException,
-			RepositoryException, DatabaseException, IOException {
-		log.debug("importWithMetadata({}, {})", new Object[]{dmd, is});
+	public void importWithMetadata(DocumentMetadata dmd, InputStream is) throws ItemExistsException, RepositoryException,
+			DatabaseException, IOException {
+		log.debug("importWithMetadata({}, {})", dmd, is);
 		long begin = System.currentTimeMillis();
 		NodeDocumentVersion nDocVer = new NodeDocumentVersion();
 		NodeDocument nDoc = new NodeDocument();
@@ -246,8 +246,8 @@ public class DbMetadataAdapter extends MetadataAdapter {
 	}
 
 	@Override
-	public void importWithMetadata(String parentPath, VersionMetadata vmd, InputStream is) throws ItemExistsException,
-			RepositoryException, DatabaseException, IOException {
+	public void importWithMetadata(String parentPath, VersionMetadata vmd, InputStream is) throws RepositoryException,
+			DatabaseException, IOException {
 		log.debug("importWithMetadata({}, {})", vmd, is);
 		long begin = System.currentTimeMillis();
 		VersionNumerationAdapter verNumAdapter = VersionNumerationFactory.getVersionNumerationAdapter();
@@ -334,8 +334,7 @@ public class DbMetadataAdapter extends MetadataAdapter {
 	}
 
 	@Override
-	public void importWithMetadata(FolderMetadata fmd) throws ItemExistsException, RepositoryException,
-			DatabaseException {
+	public void importWithMetadata(FolderMetadata fmd) throws ItemExistsException, RepositoryException, DatabaseException {
 		log.debug("importWithMetadata({})", fmd);
 		long begin = System.currentTimeMillis();
 		NodeFolder nFld = new NodeFolder();
@@ -450,7 +449,7 @@ public class DbMetadataAdapter extends MetadataAdapter {
 
 	@Override
 	public void importWithMetadata(MailMetadata mmd) throws ItemExistsException, RepositoryException, DatabaseException {
-		log.debug("importWithMetadata({})", new Object[]{mmd});
+		log.debug("importWithMetadata({})", mmd);
 		long begin = System.currentTimeMillis();
 		NodeMail nMail = new NodeMail();
 		Session session = null;

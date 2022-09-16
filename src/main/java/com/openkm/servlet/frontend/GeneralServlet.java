@@ -103,7 +103,7 @@ public class GeneralServlet extends OKMRemoteServiceServlet implements OKMGenera
 
 	@Override
 	public GWTTestMail testMailConnection(String protocol, String host, String user, String password, String mailFolder) {
-		log.debug("testMailConnection({}, {}, {}, {}, {})", new Object[]{protocol, host, user, password, mailFolder});
+		log.debug("testMailConnection({}, {}, {}, {}, {})", protocol, host, user, password, mailFolder);
 		GWTTestMail test = new GWTTestMail();
 		updateSessionManager();
 

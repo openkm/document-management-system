@@ -69,7 +69,7 @@ public class ImageUtils {
 	 * crop
 	 */
 	public static byte[] crop(byte[] img, int x, int y, int width, int height) throws RuntimeException {
-		log.debug("crop({}, {}, {}, {}, {})", new Object[]{img.length, x, y, width, height});
+		log.debug("crop({}, {}, {}, {}, {})", img.length, x, y, width, height);
 		ByteArrayInputStream bais = new ByteArrayInputStream(img);
 		byte[] imageInByte;
 
@@ -100,7 +100,7 @@ public class ImageUtils {
 	 * @param angle Rotation angle.
 	 */
 	public static void rotate(File input, File output, double angle) throws RuntimeException {
-		log.debug("rotate({}, {}, {})", new Object[]{input, output, angle});
+		log.debug("rotate({}, {}, {})", input, output, angle);
 		String params = "-rotate " + angle + " ${fileIn} ${fileOut}";
 		ImageMagickConvert(input, output, params);
 	}
@@ -113,7 +113,7 @@ public class ImageUtils {
 	 * @return the image rotated.
 	 */
 	public static byte[] rotate(byte[] img, double angle) throws RuntimeException {
-		log.debug("rotate({}, {})", new Object[]{img.length, angle});
+		log.debug("rotate({}, {})", img.length, angle);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		FileOutputStream fos = null;
 		FileInputStream fis = null;
@@ -154,7 +154,7 @@ public class ImageUtils {
 	 * Create image thumbnail.
 	 */
 	public static void createThumbnail(File input, String size, File output) throws RuntimeException {
-		log.debug("createThumbnail({}, {}, {})", new Object[]{input, size, output});
+		log.debug("createThumbnail({}, {}, {})", input, size, output);
 		String params = "-thumbnail " + size + " -background white -flatten ${fileIn} ${fileOut}";
 		ImageMagickConvert(input, output, params);
 	}
@@ -163,7 +163,7 @@ public class ImageUtils {
 	 * Resize image.
 	 */
 	public static void resize(File input, String size, File output) throws RuntimeException {
-		log.debug("resize({}, {}, {})", new Object[]{input, size, output});
+		log.debug("resize({}, {}, {})", input, size, output);
 		String params = "-resize " + size + " ${fileIn} ${fileOut}";
 		ImageMagickConvert(input, output, params);
 	}
@@ -179,7 +179,7 @@ public class ImageUtils {
 	 * Execute ImageMagick convert with parameters.
 	 */
 	public static void ImageMagickConvert(String input, String output, String params) {
-		log.debug("ImageMagickConvert({}, {}, {})", new Object[]{input, output, params});
+		log.debug("ImageMagickConvert({}, {}, {})", input, output, params);
 		String cmd = null;
 
 		try {
@@ -203,7 +203,7 @@ public class ImageUtils {
 			throw new RuntimeException("Template exception", e);
 		}
 	}
-	
+
 	/**
      * Execute ghostscript command
      */

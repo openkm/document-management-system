@@ -75,9 +75,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	 * Group List
 	 */
 	@SuppressWarnings("unchecked")
-	private void groupList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			PrincipalAdapterException {
-		log.debug("groupList({}, {})", new Object[]{request, response});
+	private void groupList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException, PrincipalAdapterException {
+		log.debug("groupList({}, {})", request, response);
 		ServletContext sc = getServletContext();
 		String qs = "select distinct (dmv.col00) from DatabaseMetadataValue dmv where dmv.table='group' order by dmv.col00";
 		org.hibernate.Session dbSession = null;
@@ -105,9 +105,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	 * Edit
 	 */
 	@SuppressWarnings("unchecked")
-	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			PrincipalAdapterException {
-		log.debug("edit({}, {})", new Object[]{request, response});
+	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException, PrincipalAdapterException {
+		log.debug("edit({}, {})", request, response);
 		String group = WebUtils.getString(request, "gru_name");
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
@@ -172,9 +172,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	/**
 	 * Create
 	 */
-	private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			PrincipalAdapterException {
-		log.debug("create({}, {})", new Object[]{request, response});
+	private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException, PrincipalAdapterException {
+		log.debug("create({}, {})", request, response);
 		String group = WebUtils.getString(request, "gru_name");
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
@@ -235,9 +235,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	 * Delete
 	 */
 	@SuppressWarnings("unchecked")
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			PrincipalAdapterException {
-		log.debug("delete({}, {})", new Object[]{request, response});
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException, PrincipalAdapterException {
+		log.debug("delete({}, {})", request, response);
 		String group = WebUtils.getString(request, "gru_name");
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
@@ -291,9 +291,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	/**
 	 * syncUsers
 	 */
-	private void syncUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
+	private void syncUsers(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
 			PrincipalAdapterException {
-		log.debug("syncUsers({}, {})", new Object[]{request, response});
+		log.debug("syncUsers({}, {})", request, response);
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
 
@@ -343,9 +343,9 @@ public class DocumentExpirationServlet extends BaseServlet {
 	/**
 	 * syncRoles
 	 */
-	private void syncRoles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
+	private void syncRoles(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
 			PrincipalAdapterException {
-		log.debug("syncRoles({}, {})", new Object[]{request, response});
+		log.debug("syncRoles({}, {})", request, response);
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
 
@@ -412,9 +412,8 @@ public class DocumentExpirationServlet extends BaseServlet {
 	/**
 	 * clean
 	 */
-	private void clean(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			PrincipalAdapterException {
-		log.debug("clean({}, {})", new Object[]{request, response});
+	private void clean(HttpServletRequest request, HttpServletResponse response) throws DatabaseException, PrincipalAdapterException {
+		log.debug("clean({}, {})", request, response);
 		org.hibernate.Session dbSession = null;
 		Transaction tx = null;
 

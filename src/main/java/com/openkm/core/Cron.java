@@ -49,7 +49,7 @@ public class Cron extends TimerTask {
 						CronTabExpression cte = CronTabExpression.parse(ct.getExpression());
 
 						if (cte.matches(cal)) {
-							log.debug("Id: {}, Name: {}, Mime: {}", new Object[]{ct.getId(), ct.getName(), ct.getFileMime()});
+							log.debug("Id: {}, Name: {}, Mime: {}", ct.getId(), ct.getName(), ct.getFileMime());
 
 							if (MimeTypeConfig.MIME_BSH.equals(ct.getFileMime())) {
 								RunnerBsh runner = new RunnerBsh(ct.getId(), ct.getName(), ct.getMail(),

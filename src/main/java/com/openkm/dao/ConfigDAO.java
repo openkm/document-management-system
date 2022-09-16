@@ -143,7 +143,7 @@ public class ConfigDAO {
 	 * Find by pk with a default value
 	 */
 	private static String getProperty(String key, String defaultValue, String type) throws DatabaseException {
-		log.debug("getProperty({}, {}, {})", new Object[]{key, defaultValue, type});
+		log.debug("getProperty({}, {}, {})", key, defaultValue, type);
 		Session session = null;
 		Transaction tx = null;
 

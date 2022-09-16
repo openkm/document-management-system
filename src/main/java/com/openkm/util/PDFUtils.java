@@ -23,14 +23,11 @@ package com.openkm.util;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
 import com.openkm.api.OKMDocument;
 import com.openkm.automation.AutomationException;
 import com.openkm.core.*;
 import com.openkm.extension.core.ExtensionException;
-import de.svenjacobs.loremipsum.LoremIpsum;
 import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -54,9 +51,9 @@ public class PDFUtils {
 	 * Fill PDF form
 	 */
 	@SuppressWarnings("rawtypes")
-	public static void fillForm(InputStream input, Map<String, Object> values, OutputStream output) throws FileNotFoundException,
+	public static void fillForm(InputStream input, Map<String, Object> values, OutputStream output) throws
 			DocumentException, TemplateException, IOException {
-		log.debug("fillForm({}, {}, {})", new Object[]{input, values, output});
+		log.debug("fillForm({}, {}, {})", input, values, output);
 		PdfReader reader = new PdfReader(input);
 		PdfStamper stamper = new PdfStamper(reader, output);
 		AcroFields fields = stamper.getAcroFields();
@@ -99,44 +96,6 @@ public class PDFUtils {
 		stamper.setFormFlattening(formFlattening);
 		stamper.close();
 		reader.close();
-	}
-
-	/**
-	 * List form fields
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<String> listFormFields(String input) throws FileNotFoundException, DocumentException, IOException {
-		log.debug("listFormFields({})", input);
-		List<String> formFields = new ArrayList<String>();
-		PdfReader reader = new PdfReader(input);
-		PRAcroForm form = reader.getAcroForm();
-
-		if (form != null) {
-			for (Iterator it = form.getFields().iterator(); it.hasNext(); ) {
-				PRAcroForm.FieldInformation field = (PRAcroForm.FieldInformation) it.next();
-				formFields.add(field.getName());
-			}
-		}
-
-		reader.close();
-		log.debug("listFormFields: {}", formFields);
-		return formFields;
-	}
-
-	/**
-	 * Generate sample PDF
-	 */
-	public static void generateSample(int paragraphs, OutputStream os) throws DocumentException {
-		LoremIpsum li = new LoremIpsum();
-		Document doc = new Document(PageSize.A4, 25, 25, 25, 25);
-		PdfWriter.getInstance(doc, os);
-		doc.open();
-
-		for (int i = 0; i < paragraphs; i++) {
-			doc.add(new Paragraph(li.getParagraphs()));
-		}
-
-		doc.close();
 	}
 
 	/**
@@ -338,7 +297,7 @@ public class PDFUtils {
 
 		return BaseFont.createFont(fontName, fontEncoding, BaseFont.EMBEDDED);
 	}
-	
+
 	/**
      * Optimize PDF (reduce size)
      */

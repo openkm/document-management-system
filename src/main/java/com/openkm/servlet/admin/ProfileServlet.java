@@ -98,9 +98,9 @@ public class ProfileServlet extends BaseServlet {
 	/**
 	 * New user
 	 */
-	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			AccessDeniedException, RepositoryException, ParseException, WorkflowException {
-		log.debug("create({}, {}, {})", new Object[]{userId, request, response});
+	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, AccessDeniedException, RepositoryException, ParseException, WorkflowException {
+		log.debug("create({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			Profile prf = getUserProfile(request);
@@ -127,9 +127,10 @@ public class ProfileServlet extends BaseServlet {
 	/**
 	 * Edit user
 	 */
-	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, NoSuchAlgorithmException, AccessDeniedException, RepositoryException, ParseException, WorkflowException {
-		log.debug("edit({}, {}, {})", new Object[]{userId, request, response});
+	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException, RepositoryException,
+			ParseException, WorkflowException {
+		log.debug("edit({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			Profile prf = getUserProfile(request);
@@ -168,7 +169,7 @@ public class ProfileServlet extends BaseServlet {
 	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException, RepositoryException, ParseException,
 			WorkflowException {
-		log.debug("delete({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("delete({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int prfId = WebUtils.getInt(request, "prf_id");
@@ -197,7 +198,7 @@ public class ProfileServlet extends BaseServlet {
 	 */
 	private void clone(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
 			IOException, ParseException, AccessDeniedException, RepositoryException, WorkflowException, ServletException {
-		log.debug("clone({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("clone({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			Profile prf = getUserProfile(request);
@@ -226,8 +227,9 @@ public class ProfileServlet extends BaseServlet {
 	/**
 	 * List user profiles
 	 */
-	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {}, {})", new Object[]{userId, request, response});
+	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		sc.setAttribute("userProfiles", ProfileDAO.findAll(false));
 		sc.getRequestDispatcher("/admin/profile_list.jsp").forward(request, response);

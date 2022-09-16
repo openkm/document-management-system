@@ -21,11 +21,7 @@
 
 package com.openkm.api;
 
-import com.openkm.core.AccessDeniedException;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.LockException;
-import com.openkm.core.PathNotFoundException;
-import com.openkm.core.RepositoryException;
+import com.openkm.core.*;
 import com.openkm.module.ModuleManager;
 import com.openkm.module.NotificationModule;
 import com.openkm.principal.PrincipalAdapterException;
@@ -83,7 +79,7 @@ public class OKMNotification implements NotificationModule {
 	public void notify(String token, String nodeId, List<String> users, List<String> mails, String message, boolean attachment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
 			DatabaseException, IOException, LockException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodeId, users, mails, message, attachment});
+		log.debug("notify({}, {}, {}, {}, {}, {})", token, nodeId, users, mails, message, attachment);
 		NotificationModule nm = ModuleManager.getNotificationModule();
 		nm.notify(token, nodeId, users, mails, message, attachment);
 		log.debug("notify: void");
@@ -93,7 +89,7 @@ public class OKMNotification implements NotificationModule {
 	public void proposedSubscription(String token, String nodeId, List<String> users, String comment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException,
 			DatabaseException, IOException {
-		log.debug("proposedSubscription({}, {}, {}, {})", new Object[]{token, nodeId, users, comment});
+		log.debug("proposedSubscription({}, {}, {}, {})", token, nodeId, users, comment);
 		NotificationModule nm = ModuleManager.getNotificationModule();
 		nm.proposedSubscription(token, nodeId, users, comment);
 		log.debug("proposedSubscription: void");

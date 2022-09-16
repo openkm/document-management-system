@@ -58,9 +58,9 @@ public class FilterUtils {
 	 * filter
 	 */
 	public static FilterResult filter(GWTWorkspace workspace, List<Object> col, int order, String selectedRowId,
-	                                  Map<String, GWTFilter> mapFilter) throws PrincipalAdapterException, IOException, ParseException,
+			Map<String, GWTFilter> mapFilter) throws PrincipalAdapterException, IOException, ParseException,
 			NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
-		log.debug("filter({}, {}, {}, {}, {})", new Object[]{workspace, col, order, selectedRowId, mapFilter});
+		log.debug("filter({}, {}, {}, {}, {})", workspace, col, order, selectedRowId, mapFilter);
 		long begin = System.currentTimeMillis();
 		List<ObjectToOrder> convertedCol = new ArrayList<ObjectToOrder>();
 		int selectedRow = -1;

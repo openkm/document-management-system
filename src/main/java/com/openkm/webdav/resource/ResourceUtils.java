@@ -159,7 +159,7 @@ public class ResourceUtils {
 	 */
 	public static void createContent(OutputStream out, Path path, List<Folder> fldChilds, List<Document> docChilds,
 	                                 List<Mail> mailChilds) {
-		log.debug("createContent({}, {}, {}, {}, {})", new Object[]{out, path, fldChilds, docChilds, mailChilds});
+		log.debug("createContent({}, {}, {}, {}, {})", out, path, fldChilds, docChilds, mailChilds);
 		long begin = System.currentTimeMillis();
 		PrintWriter pw = new PrintWriter(out);
 		pw.println("<html>");

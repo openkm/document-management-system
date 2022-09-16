@@ -100,21 +100,21 @@ public class CmisServiceImpl extends AbstractCmisService {
 	@Override
 	public TypeDefinitionList getTypeChildren(String repositoryId, String typeId, Boolean includePropertyDefinitions, BigInteger maxItems,
 	                                          BigInteger skipCount, ExtensionsData extension) {
-		log.debug("getTypeChildren({}, {}, {}, {}, {}, {})", new Object[]{repositoryId, typeId, includePropertyDefinitions, maxItems,
-				skipCount, extension});
+		log.debug("getTypeChildren({}, {}, {}, {}, {}, {})", repositoryId, typeId, includePropertyDefinitions, maxItems,
+				skipCount, extension);
 		return getRepository().getTypesChildren(getCallContext(), typeId, includePropertyDefinitions, maxItems, skipCount);
 	}
 
 	@Override
 	public TypeDefinition getTypeDefinition(String repositoryId, String typeId, ExtensionsData extension) {
-		log.debug("getTypeDefinition({}, {}, {})", new Object[]{repositoryId, typeId, extension});
+		log.debug("getTypeDefinition({}, {}, {})", repositoryId, typeId, extension);
 		return getRepository().getTypeDefinition(getCallContext(), typeId);
 	}
 
 	@Override
 	public List<TypeDefinitionContainer> getTypeDescendants(String repositoryId, String typeId, BigInteger depth,
 	                                                        Boolean includePropertyDefinitions, ExtensionsData extension) {
-		log.debug("getTypeDescendants({}, {}, {})", new Object[]{repositoryId, typeId, depth});
+		log.debug("getTypeDescendants({}, {}, {})", repositoryId, typeId, depth);
 		return getRepository().getTypesDescendants(getCallContext(), typeId, depth, includePropertyDefinitions);
 	}
 
@@ -122,50 +122,50 @@ public class CmisServiceImpl extends AbstractCmisService {
 
 	@Override
 	public ObjectInFolderList getChildren(String repositoryId, String folderId, String filter, String orderBy,
-	                                      Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, Boolean includePathSegment,
-	                                      BigInteger maxItems, BigInteger skipCount, ExtensionsData extension) {
-		log.debug("getChildren({}, {}, {}, {})", new Object[]{repositoryId, folderId, filter, orderBy});
+			Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter,
+			Boolean includePathSegment, BigInteger maxItems, BigInteger skipCount, ExtensionsData extension) {
+		log.debug("getChildren({}, {}, {}, {})", repositoryId, folderId, filter, orderBy);
 		return getRepository().getChildren(getCallContext(), folderId, filter, includeAllowableActions, includePathSegment, maxItems,
 				skipCount, this);
 	}
 
 	@Override
 	public List<ObjectInFolderContainer> getDescendants(String repositoryId, String folderId, BigInteger depth, String filter,
-	                                                    Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, Boolean includePathSegment,
-	                                                    ExtensionsData extension) {
-		log.debug("getDescendants({}, {}, {})", new Object[]{repositoryId, folderId, depth});
+			Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter,
+			Boolean includePathSegment, ExtensionsData extension) {
+		log.debug("getDescendants({}, {}, {})", repositoryId, folderId, depth);
 		return getRepository().getDescendants(getCallContext(), folderId, depth, filter, includeAllowableActions, includePathSegment, this,
 				false);
 	}
 
 	@Override
 	public ObjectData getFolderParent(String repositoryId, String folderId, String filter, ExtensionsData extension) {
-		log.debug("getFolderParent({}, {}, {})", new Object[]{repositoryId, folderId, filter});
+		log.debug("getFolderParent({}, {}, {})", repositoryId, folderId, filter);
 		return getRepository().getFolderParent(getCallContext(), folderId, filter, this);
 	}
 
 	@Override
 	public List<ObjectInFolderContainer> getFolderTree(String repositoryId, String folderId, BigInteger depth, String filter,
-	                                                   Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, Boolean includePathSegment,
-	                                                   ExtensionsData extension) {
-		log.debug("getFolderTree({}, {}, {})", new Object[]{repositoryId, folderId, depth});
+			Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter,
+			Boolean includePathSegment, ExtensionsData extension) {
+		log.debug("getFolderTree({}, {}, {})", repositoryId, folderId, depth);
 		return getRepository().getDescendants(getCallContext(), folderId, depth, filter, includeAllowableActions, includePathSegment, this,
 				true);
 	}
 
 	@Override
 	public List<ObjectParentData> getObjectParents(String repositoryId, String objectId, String filter, Boolean includeAllowableActions,
-	                                               IncludeRelationships includeRelationships, String renditionFilter, Boolean includeRelativePathSegment, ExtensionsData extension) {
-		log.debug("getObjectParents({}, {}, {}, {})", new Object[]{repositoryId, objectId, filter, includeAllowableActions});
+			IncludeRelationships includeRelationships, String renditionFilter, Boolean includeRelativePathSegment, ExtensionsData extension) {
+		log.debug("getObjectParents({}, {}, {}, {})", repositoryId, objectId, filter, includeAllowableActions);
 		return getRepository().getObjectParents(getCallContext(), objectId, filter, includeAllowableActions, includeRelativePathSegment,
 				this);
 	}
 
 	@Override
 	public ObjectList getCheckedOutDocs(String repositoryId, String folderId, String filter, String orderBy,
-	                                    Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, BigInteger maxItems,
-	                                    BigInteger skipCount, ExtensionsData extension) {
-		log.debug("getCheckedOutDocs({}, {}, {})", new Object[]{repositoryId, folderId, filter});
+			Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter,
+			BigInteger maxItems, BigInteger skipCount, ExtensionsData extension) {
+		log.debug("getCheckedOutDocs({}, {}, {})", repositoryId, folderId, filter);
 		ObjectListImpl result = new ObjectListImpl();
 
 		result.setHasMoreItems(false);
@@ -180,113 +180,113 @@ public class CmisServiceImpl extends AbstractCmisService {
 
 	@Override
 	public String create(String repositoryId, Properties properties, String folderId, ContentStream contentStream,
-	                     VersioningState versioningState, List<String> policies, ExtensionsData extension) {
-		log.debug("create({}, {}, {})", new Object[]{repositoryId, properties, folderId});
+			VersioningState versioningState, List<String> policies, ExtensionsData extension) {
+		log.debug("create({}, {}, {})", repositoryId, properties, folderId);
 		ObjectData object = getRepository().create(getCallContext(), properties, folderId, contentStream, versioningState, this);
 		return object.getId();
 	}
 
 	@Override
 	public String createDocument(String repositoryId, Properties properties, String folderId, ContentStream contentStream,
-	                             VersioningState versioningState, List<String> policies, Acl addAces, Acl removeAces, ExtensionsData extension) {
-		log.debug("createDocument({}, {}, {})", new Object[]{repositoryId, properties, folderId});
+			 VersioningState versioningState, List<String> policies, Acl addAces, Acl removeAces, ExtensionsData extension) {
+		log.debug("createDocument({}, {}, {})", repositoryId, properties, folderId);
 		return getRepository().createDocument(getCallContext(), properties, folderId, contentStream, versioningState);
 	}
 
 	@Override
 	public String createDocumentFromSource(String repositoryId, String sourceId, Properties properties, String folderId,
-	                                       VersioningState versioningState, List<String> policies, Acl addAces, Acl removeAces, ExtensionsData extension) {
-		log.debug("createDocumentFromSource({}, {}, {}, {})", new Object[]{repositoryId, sourceId, properties, folderId});
+			VersioningState versioningState, List<String> policies, Acl addAces, Acl removeAces, ExtensionsData extension) {
+		log.debug("createDocumentFromSource({}, {}, {}, {})", repositoryId, sourceId, properties, folderId);
 		return getRepository().createDocumentFromSource(getCallContext(), sourceId, properties, folderId, versioningState);
 	}
 
 	@Override
 	public String createFolder(String repositoryId, Properties properties, String folderId, List<String> policies, Acl addAces,
-	                           Acl removeAces, ExtensionsData extension) {
-		log.debug("createFolder({}, {}, {})", new Object[]{repositoryId, properties, folderId});
+			Acl removeAces, ExtensionsData extension) {
+		log.debug("createFolder({}, {}, {})", repositoryId, properties, folderId);
 		return getRepository().createFolder(getCallContext(), properties, folderId);
 	}
 
 	@Override
 	public void deleteContentStream(String repositoryId, Holder<String> objectId, Holder<String> changeToken, ExtensionsData extension) {
-		log.debug("deleteContentStream({}, {}, {})", new Object[]{repositoryId, objectId, changeToken});
+		log.debug("deleteContentStream({}, {}, {})", repositoryId, objectId, changeToken);
 		throw new CmisNotSupportedException("Not supported!");
 	}
 
 	@Override
 	public void deleteObjectOrCancelCheckOut(String repositoryId, String objectId, Boolean allVersions, ExtensionsData extension) {
-		log.debug("deleteObjectOrCancelCheckOut({}, {}, {})", new Object[]{repositoryId, objectId, allVersions});
+		log.debug("deleteObjectOrCancelCheckOut({}, {}, {})", repositoryId, objectId, allVersions);
 		getRepository().deleteObject(getCallContext(), objectId);
 	}
 
 	@Override
 	public FailedToDeleteData deleteTree(String repositoryId, String folderId, Boolean allVersions, UnfileObject unfileObjects,
-	                                     Boolean continueOnFailure, ExtensionsData extension) {
-		log.debug("deleteTree({}, {}, {})", new Object[]{repositoryId, folderId, allVersions});
+			Boolean continueOnFailure, ExtensionsData extension) {
+		log.debug("deleteTree({}, {}, {})", repositoryId, folderId, allVersions);
 		return getRepository().deleteTree(getCallContext(), folderId, continueOnFailure);
 	}
 
 	@Override
 	public AllowableActions getAllowableActions(String repositoryId, String objectId, ExtensionsData extension) {
-		log.debug("getAllowableActions({}, {})", new Object[]{repositoryId, objectId});
+		log.debug("getAllowableActions({}, {})", repositoryId, objectId);
 		return getRepository().getAllowableActions(getCallContext(), objectId);
 	}
 
 	@Override
 	public ContentStream getContentStream(String repositoryId, String objectId, String streamId, BigInteger offset, BigInteger length,
-	                                      ExtensionsData extension) {
-		log.debug("getContentStream({}, {}, {})", new Object[]{repositoryId, objectId, streamId});
+			ExtensionsData extension) {
+		log.debug("getContentStream({}, {}, {})", repositoryId, objectId, streamId);
 		return getRepository().getContentStream(getCallContext(), objectId, offset, length);
 	}
 
 	@Override
 	public ObjectData getObject(String repositoryId, String objectId, String filter, Boolean includeAllowableActions,
-	                            IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds, Boolean includeAcl,
-	                            ExtensionsData extension) {
-		log.debug("getObject({}, {}, {})", new Object[]{repositoryId, objectId, filter});
+			IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds, Boolean includeAcl,
+			ExtensionsData extension) {
+		log.debug("getObject({}, {}, {})", repositoryId, objectId, filter);
 		return getRepository().getObject(getCallContext(), objectId, null, filter, includeAllowableActions, includeAcl, this);
 	}
 
 	@Override
 	public ObjectData getObjectByPath(String repositoryId, String path, String filter, Boolean includeAllowableActions,
-	                                  IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds, Boolean includeAcl,
-	                                  ExtensionsData extension) {
-		log.debug("getObjectByPath({}, {}, {})", new Object[]{repositoryId, path, filter});
+			IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds, Boolean includeAcl,
+			ExtensionsData extension) {
+		log.debug("getObjectByPath({}, {}, {})", repositoryId, path, filter);
 		return getRepository().getObjectByPath(getCallContext(), path, filter, includeAllowableActions, includeAcl, this);
 	}
 
 	@Override
 	public Properties getProperties(String repositoryId, String objectId, String filter, ExtensionsData extension) {
-		log.debug("getProperties({}, {}, {})", new Object[]{repositoryId, objectId, filter});
+		log.debug("getProperties({}, {}, {})", repositoryId, objectId, filter);
 		ObjectData object = getRepository().getObject(getCallContext(), objectId, null, filter, false, false, this);
 		return object.getProperties();
 	}
 
 	@Override
 	public List<RenditionData> getRenditions(String repositoryId, String objectId, String renditionFilter, BigInteger maxItems,
-	                                         BigInteger skipCount, ExtensionsData extension) {
-		log.debug("getRenditions({}, {}, {})", new Object[]{repositoryId, objectId, renditionFilter});
+			BigInteger skipCount, ExtensionsData extension) {
+		log.debug("getRenditions({}, {}, {})", repositoryId, objectId, renditionFilter);
 		return Collections.emptyList();
 	}
 
 	@Override
 	public void moveObject(String repositoryId, Holder<String> objectId, String targetFolderId, String sourceFolderId,
-	                       ExtensionsData extension) {
-		log.debug("moveObject({}, {}, {})", new Object[]{repositoryId, objectId, targetFolderId});
+			ExtensionsData extension) {
+		log.debug("moveObject({}, {}, {})", repositoryId, objectId, targetFolderId);
 		getRepository().moveObject(getCallContext(), objectId, targetFolderId, this);
 	}
 
 	@Override
 	public void setContentStream(String repositoryId, Holder<String> objectId, Boolean overwriteFlag, Holder<String> changeToken,
-	                             ContentStream contentStream, ExtensionsData extension) {
-		log.debug("setContentStream({}, {}, {})", new Object[]{repositoryId, objectId, overwriteFlag});
+			ContentStream contentStream, ExtensionsData extension) {
+		log.debug("setContentStream({}, {}, {})", repositoryId, objectId, overwriteFlag);
 		getRepository().setContentStream(getCallContext(), objectId, overwriteFlag, contentStream);
 	}
 
 	@Override
 	public void updateProperties(String repositoryId, Holder<String> objectId, Holder<String> changeToken, Properties properties,
-	                             ExtensionsData extension) {
-		log.debug("updateProperties({}, {}, {})", new Object[]{repositoryId, objectId, changeToken});
+			ExtensionsData extension) {
+		log.debug("updateProperties({}, {}, {})", repositoryId, objectId, changeToken);
 		getRepository().updateProperties(getCallContext(), objectId, properties, this);
 	}
 
@@ -294,8 +294,8 @@ public class CmisServiceImpl extends AbstractCmisService {
 
 	@Override
 	public List<ObjectData> getAllVersions(String repositoryId, String objectId, String versionSeriesId, String filter,
-	                                       Boolean includeAllowableActions, ExtensionsData extension) {
-		log.debug("getAllVersions({}, {}, {})", new Object[]{repositoryId, objectId, versionSeriesId});
+			Boolean includeAllowableActions, ExtensionsData extension) {
+		log.debug("getAllVersions({}, {}, {})", repositoryId, objectId, versionSeriesId);
 		ObjectData theVersion = getRepository().getObject(getCallContext(), objectId, versionSeriesId, filter, includeAllowableActions,
 				false, this);
 		return Collections.singletonList(theVersion);
@@ -303,16 +303,16 @@ public class CmisServiceImpl extends AbstractCmisService {
 
 	@Override
 	public ObjectData getObjectOfLatestVersion(String repositoryId, String objectId, String versionSeriesId, Boolean major, String filter,
-	                                           Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds,
-	                                           Boolean includeAcl, ExtensionsData extension) {
-		log.debug("getObjectOfLatestVersion({}, {}, {})", new Object[]{repositoryId, objectId, versionSeriesId});
+			Boolean includeAllowableActions, IncludeRelationships includeRelationships, String renditionFilter, Boolean includePolicyIds,
+			Boolean includeAcl, ExtensionsData extension) {
+		log.debug("getObjectOfLatestVersion({}, {}, {})", repositoryId, objectId, versionSeriesId);
 		return getRepository().getObject(getCallContext(), objectId, versionSeriesId, filter, includeAllowableActions, includeAcl, this);
 	}
 
 	@Override
 	public Properties getPropertiesOfLatestVersion(String repositoryId, String objectId, String versionSeriesId, Boolean major,
-	                                               String filter, ExtensionsData extension) {
-		log.debug("getPropertiesOfLatestVersion({}, {}, {})", new Object[]{repositoryId, objectId, versionSeriesId});
+			String filter, ExtensionsData extension) {
+		log.debug("getPropertiesOfLatestVersion({}, {}, {})", repositoryId, objectId, versionSeriesId);
 		ObjectData object = getRepository().getObject(getCallContext(), objectId, versionSeriesId, filter, false, false, null);
 		return object.getProperties();
 	}
@@ -321,7 +321,7 @@ public class CmisServiceImpl extends AbstractCmisService {
 
 	@Override
 	public Acl getAcl(String repositoryId, String objectId, Boolean onlyBasicPermissions, ExtensionsData extension) {
-		log.debug("getAcl({}, {}, {})", new Object[]{repositoryId, objectId, onlyBasicPermissions});
+		log.debug("getAcl({}, {}, {})", repositoryId, objectId, onlyBasicPermissions);
 		return getRepository().getAcl(getCallContext(), objectId);
 	}
 }

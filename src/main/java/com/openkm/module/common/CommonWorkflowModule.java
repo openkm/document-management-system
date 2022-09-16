@@ -142,7 +142,7 @@ public class CommonWorkflowModule {
 	 * Get Process Definition Image
 	 */
 	public static byte[] getProcessDefinitionImage(long processDefinitionId, String node) throws WorkflowException {
-		log.debug("getProcessDefinitionImage({}, {})", new Object[]{processDefinitionId, node});
+		log.debug("getProcessDefinitionImage({}, {})", processDefinitionId, node);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 		byte[] image = null;
 
@@ -238,7 +238,7 @@ public class CommonWorkflowModule {
 	 */
 	public static ProcessInstance runProcessDefinition(String user, long processDefinitionId, String uuid,
 	                                                   List<FormElement> variables) throws WorkflowException {
-		log.debug("runProcessDefinition({}, {}, {}, {})", new Object[]{user, processDefinitionId, uuid, variables});
+		log.debug("runProcessDefinition({}, {}, {}, {})", user, processDefinitionId, uuid, variables);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 		ProcessInstance vo = new ProcessInstance();
 
@@ -292,7 +292,7 @@ public class CommonWorkflowModule {
 	 */
 	public static ProcessInstance sendProcessInstanceSignal(long processInstanceId, String transitionName)
 			throws WorkflowException {
-		log.debug("sendProcessInstanceSignal({}, {})", new Object[]{processInstanceId, transitionName});
+		log.debug("sendProcessInstanceSignal({}, {})", processInstanceId, transitionName);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 		ProcessInstance vo = new ProcessInstance();
 
@@ -546,9 +546,8 @@ public class CommonWorkflowModule {
 	/**
 	 * Add Process Instance Variable
 	 */
-	public static void addProcessInstanceVariable(long processInstanceId, String name, Object value)
-			throws WorkflowException {
-		log.debug("addProcessInstanceVariable({}, {}, {})", new Object[]{processInstanceId, name, value});
+	public static void addProcessInstanceVariable(long processInstanceId, String name, Object value) throws WorkflowException {
+		log.debug("addProcessInstanceVariable({}, {}, {})", processInstanceId, name, value);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -566,7 +565,7 @@ public class CommonWorkflowModule {
 	 * Delete Process Instance
 	 */
 	public static void deleteProcessInstanceVariable(long processInstanceId, String name) throws WorkflowException {
-		log.debug("deleteProcessInstanceVariable({}, {})", new Object[]{processInstanceId, name});
+		log.debug("deleteProcessInstanceVariable({}, {})", processInstanceId, name);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -676,7 +675,7 @@ public class CommonWorkflowModule {
 	 */
 	public static void setTaskInstanceValues(long taskInstanceId, String transitionName, List<FormElement> values)
 			throws WorkflowException {
-		log.debug("setTaskInstanceValues({}, {}, {})", new Object[]{taskInstanceId, transitionName, values});
+		log.debug("setTaskInstanceValues({}, {}, {})", taskInstanceId, transitionName, values);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -715,9 +714,8 @@ public class CommonWorkflowModule {
 	/**
 	 * Add Task Instance Comment
 	 */
-	public static void addTaskInstanceComment(String user, long taskInstanceId, String message)
-			throws WorkflowException {
-		log.debug("addTaskInstanceComment({}, {}, {})", new Object[]{user, taskInstanceId, message});
+	public static void addTaskInstanceComment(String user, long taskInstanceId, String message) throws WorkflowException {
+		log.debug("addTaskInstanceComment({}, {}, {})", user, taskInstanceId, message);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -758,7 +756,7 @@ public class CommonWorkflowModule {
 	 * Set Task Instance Actor Id
 	 */
 	public static void setTaskInstanceActorId(long taskInstanceId, String actorId) throws WorkflowException {
-		log.debug("setTaskInstanceActorId({}, {})", new Object[]{taskInstanceId, actorId});
+		log.debug("setTaskInstanceActorId({}, {})", taskInstanceId, actorId);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -778,7 +776,7 @@ public class CommonWorkflowModule {
 	 * Add Task Instance Variable Esto creo que sobra pq no se puede hacer
 	 */
 	public static void addTaskInstanceVariable(long taskInstanceId, String name, Object value) throws WorkflowException {
-		log.debug("addTaskInstanceVariable({}, {}, {})", new Object[]{taskInstanceId, name, value});
+		log.debug("addTaskInstanceVariable({}, {}, {})", taskInstanceId, name, value);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -798,7 +796,7 @@ public class CommonWorkflowModule {
 	 * Delete Task Instance Variable
 	 */
 	public static void deleteTaskInstanceVariable(long taskInstanceId, String name) throws WorkflowException {
-		log.debug("deleteTaskInstanceVariable({}, {})", new Object[]{taskInstanceId, name});
+		log.debug("deleteTaskInstanceVariable({}, {})", taskInstanceId, name);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -839,7 +837,7 @@ public class CommonWorkflowModule {
 	 * End Task Instance
 	 */
 	public static void endTaskInstance(long taskInstanceId, String transitionName) throws WorkflowException {
-		log.debug("endTaskInstance({}, {})", new Object[]{taskInstanceId, transitionName});
+		log.debug("endTaskInstance({}, {})", taskInstanceId, transitionName);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -940,7 +938,7 @@ public class CommonWorkflowModule {
 	 * Add Token Comment
 	 */
 	public static void addTokenComment(String user, long tokenId, String message) throws WorkflowException {
-		log.debug("addTokenComment({}, {}, {})", new Object[]{user, tokenId, message});
+		log.debug("addTokenComment({}, {}, {})", user, tokenId, message);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {
@@ -1000,7 +998,7 @@ public class CommonWorkflowModule {
 	 * Send Token Signal
 	 */
 	public static Token sendTokenSignal(long tokenId, String transitionName) throws WorkflowException {
-		log.debug("sendTokenSignal({}, {})", new Object[]{tokenId, transitionName});
+		log.debug("sendTokenSignal({}, {})", tokenId, transitionName);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 		Token vo = new Token();
 
@@ -1032,7 +1030,7 @@ public class CommonWorkflowModule {
 	 * Set Token Node
 	 */
 	public static void setTokenNode(long tokenId, String nodeName) throws WorkflowException {
-		log.debug("setTokenNode({}, {})", new Object[]{tokenId, nodeName});
+		log.debug("setTokenNode({}, {})", tokenId, nodeName);
 		JbpmContext jbpmContext = JBPMUtils.getConfig().createJbpmContext();
 
 		try {

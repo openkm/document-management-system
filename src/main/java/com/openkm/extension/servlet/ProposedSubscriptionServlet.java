@@ -52,7 +52,7 @@ public class ProposedSubscriptionServlet extends OKMRemoteServiceServlet impleme
 
 	@Override
 	public void send(String uuid, String type, String users, String roles, String comment) throws OKMException {
-		log.debug("create({}, {}, {}, {}, {})", new Object[]{uuid, type, users, roles, comment});
+		log.debug("create({}, {}, {}, {}, {})", uuid, type, users, roles, comment);
 		updateSessionManager();
 
 		try {

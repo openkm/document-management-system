@@ -130,8 +130,7 @@ public class DbReadRecursiveAccessManager implements DbAccessManager {
 
 	private boolean recursiveIsGranted(Session session, NodeBase node, String user, Set<String> roles, int perms) throws DatabaseException {
 		if (log.isDebugEnabled()) {
-			log.debug("recursiveIsGranted({}, {}, {}, {})", new Object[]{NodeBaseDAO.getInstance().getParentUuid(node.getUuid()), user,
-					roles, perms});
+			log.debug("recursiveIsGranted({}, {}, {}, {})", NodeBaseDAO.getInstance().getParentUuid(node.getUuid()), user, roles, perms);
 		}
 
 		boolean access = checkProperties(node.getUserPermissions(), node.getRolePermissions(), user, roles, perms);
@@ -154,7 +153,7 @@ public class DbReadRecursiveAccessManager implements DbAccessManager {
 	 */
 	private boolean checkProperties(Map<String, Integer> usersPerms, Map<String, Integer> rolesPerms, String user, Set<String> roles,
 	                                int perms) {
-		log.debug("checkProperties({}, {}, {}, {})", new Object[]{usersPerms, rolesPerms, roles, perms});
+		log.debug("checkProperties({}, {}, {}, {})", usersPerms, rolesPerms, roles, perms);
 		boolean access = false;
 
 		// Fist try with user permissions

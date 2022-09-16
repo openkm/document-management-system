@@ -139,7 +139,7 @@ public class DbNotificationModule implements NotificationModule {
 	public void notify(String token, String nodeId, List<String> users, List<String> mails, String message, boolean attachment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException,
 			IOException, LockException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodeId, users, mails, message});
+		log.debug("notify({}, {}, {}, {}, {})", token, nodeId, users, mails, message);
 		List<String> nodesIds = new ArrayList<String>();
 		nodesIds.add(nodeId);
 		notify(token, nodesIds, users, mails, message, attachment);
@@ -148,7 +148,7 @@ public class DbNotificationModule implements NotificationModule {
 	public void notify(String token, List<String> nodesIds, List<String> users, List<String> mails, String message, boolean attachment)
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException,
 			IOException, LockException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodesIds, users, mails, message});
+		log.debug("notify({}, {}, {}, {}, {})", token, nodesIds, users, mails, message);
 		List<String> to = new ArrayList<String>(mails);
 		Authentication auth = null, oldAuth = null;
 
@@ -213,7 +213,7 @@ public class DbNotificationModule implements NotificationModule {
 	@Override
 	public void proposedSubscription(String token, String nodeId, List<String> users, String comment) throws PathNotFoundException,
 			AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException, IOException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{token, nodeId, users, comment});
+		log.debug("notify({}, {}, {}, {})", token, nodeId, users, comment);
 		List<String> nodesIds = new ArrayList<String>();
 		nodesIds.add(nodeId);
 		proposedSubscription(token, nodesIds, users, comment);
@@ -222,7 +222,7 @@ public class DbNotificationModule implements NotificationModule {
 
 	public void proposedSubscription(String token, List<String> nodesIds, List<String> users, String comment) throws PathNotFoundException,
 			AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException, IOException {
-		log.debug("proposedSubscription({},{}, {}, {})", new Object[]{token, nodesIds, users, comment});
+		log.debug("proposedSubscription({},{}, {}, {})", token, nodesIds, users, comment);
 		List<String> to = new ArrayList<String>();
 		Authentication auth = null, oldAuth = null;
 

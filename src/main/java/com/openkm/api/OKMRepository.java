@@ -198,7 +198,7 @@ public class OKMRepository implements RepositoryModule {
 	@Override
 	public void copyAttributes(String token, String srcId, String dstId, ExtendedAttributes extAttr) throws AccessDeniedException,
 			PathNotFoundException, DatabaseException {
-		log.debug("copyAttributes({}, {}, {}, {})", new Object[]{token, srcId, dstId, extAttr});
+		log.debug("copyAttributes({}, {}, {}, {})", token, srcId, dstId, extAttr);
 		RepositoryModule rm = ModuleManager.getRepositoryModule();
 		rm.copyAttributes(token, srcId, dstId, extAttr);
 		log.debug("copyAttributes: void");

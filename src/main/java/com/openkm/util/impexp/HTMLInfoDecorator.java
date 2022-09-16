@@ -36,7 +36,7 @@ public class HTMLInfoDecorator implements InfoDecorator {
 
 	@Override
 	public String print(String path, long size, String error) {
-		log.debug("print({}, {}, {})", new Object[]{path, size, error});
+		log.debug("print({}, {}, {})", path, size, error);
 		StringBuffer sb = new StringBuffer();
 		int perCent = ++idx * 100 / total;
 

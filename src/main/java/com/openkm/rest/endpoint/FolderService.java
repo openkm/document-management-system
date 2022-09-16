@@ -120,7 +120,7 @@ public class FolderService {
 	@Path("/rename")
 	public Folder rename(@QueryParam("fldId") String fldId, @QueryParam("newName") String newName) throws GenericException {
 		try {
-			log.debug("rename({}, {})", new Object[]{fldId, newName});
+			log.debug("rename({}, {})", fldId, newName);
 			FolderModule fm = ModuleManager.getFolderModule();
 			Folder renamedFolder = fm.rename(null, fldId, newName);
 			log.debug("rename: {}", renamedFolder);
@@ -134,7 +134,7 @@ public class FolderService {
 	@Path("/move")
 	public void move(@QueryParam("fldId") String fldId, @QueryParam("dstId") String dstId) throws GenericException {
 		try {
-			log.debug("move({}, {}, {})", new Object[]{fldId, dstId});
+			log.debug("move({}, {})", fldId, dstId);
 			FolderModule fm = ModuleManager.getFolderModule();
 			fm.move(null, fldId, dstId);
 			log.debug("move: void");
@@ -163,8 +163,7 @@ public class FolderService {
 			@QueryParam("propertyGroups") boolean propertyGroups, @QueryParam("notes") boolean notes,
 			@QueryParam("wiki") boolean wiki) throws GenericException {
 		try {
-			log.debug("extendedCopy({}, {}, {}, {}, {}, {}, {})",
-					new Object[]{fldId, dstId, categories, keywords, propertyGroups, notes, wiki});
+			log.debug("extendedCopy({}, {}, {}, {}, {}, {}, {})", fldId, dstId, categories, keywords, propertyGroups, notes, wiki);
 			FolderModule dm = ModuleManager.getFolderModule();
 			ExtendedAttributes extAttr = new ExtendedAttributes();
 			extAttr.setCategories(categories);

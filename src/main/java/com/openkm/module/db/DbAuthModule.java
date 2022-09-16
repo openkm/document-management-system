@@ -179,7 +179,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	@Override
 	public void grantUser(String token, String nodeId, String guser, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("grantUser({}, {}, {}, {}, {})", new Object[]{token, nodeId, guser, permissions, recursive});
+		log.debug("grantUser({}, {}, {}, {}, {})", token, nodeId, guser, permissions, recursive);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -218,7 +218,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	@Override
 	public void revokeUser(String token, String nodeId, String guser, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("revokeUser({}, {}, {}, {}, {})", new Object[]{token, nodeId, guser, permissions, recursive});
+		log.debug("revokeUser({}, {}, {}, {}, {})", token, nodeId, guser, permissions, recursive);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -294,7 +294,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	@Override
 	public void grantRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("grantRole({}, {}, {}, {}, {})", new Object[]{token, nodeId, role, permissions, recursive});
+		log.debug("grantRole({}, {}, {}, {}, {})", token, nodeId, role, permissions, recursive);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -333,7 +333,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	@Override
 	public void revokeRole(String token, String nodeId, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("revokeRole({}, {}, {}, {}, {})", new Object[]{token, nodeId, role, permissions, recursive});
+		log.debug("revokeRole({}, {}, {}, {}, {})", token, nodeId, role, permissions, recursive);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -371,10 +371,10 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public void changeSecurity(String token, String nodeId, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
-	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
+			Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("changeSecurity({}, {}, {}, {}, {}, {}, {})", new Object[]{token, nodeId, grantUsers, revokeUsers, grantRoles,
-				revokeRoles, recursive});
+		log.debug("changeSecurity({}, {}, {}, {}, {}, {}, {})", token, nodeId, grantUsers, revokeUsers, grantRoles,
+				revokeRoles, recursive);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;

@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Map;
 
 public class ClassLoaderUtils {
 	private static Logger log = LoggerFactory.getLogger(ClassLoaderUtils.class);
@@ -97,9 +96,9 @@ public class ClassLoaderUtils {
 	/**
 	 * Invoke static methodName from class.
 	 */
-	public static Object invokeMethodFromClass(Class<?> c, String methodName) throws ClassNotFoundException,
-			NoSuchMethodException, InvocationTargetException, IllegalArgumentException, InstantiationException, SecurityException {
-		log.debug("invokeMethodFromClass({}, {})", new Object[]{c, methodName});
+	public static Object invokeMethodFromClass(Class<?> c, String methodName) throws NoSuchMethodException,
+			InvocationTargetException, IllegalArgumentException, InstantiationException, SecurityException {
+		log.debug("invokeMethodFromClass({}, {})", c, methodName);
 		Method m = c.getMethod(methodName);
 		m.setAccessible(true);
 		int mods = m.getModifiers();
@@ -125,10 +124,9 @@ public class ClassLoaderUtils {
 	/**
 	 * Invoke methodName with arguments from class.
 	 */
-	public static Object invokeMethodFromClass(Class<?> c, String methodName, Object args)
-			throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalArgumentException,
-			SecurityException, InstantiationException {
-		log.debug("invokeMethodFromClass({}, {}, {})", new Object[]{c, methodName, args});
+	public static Object invokeMethodFromClass(Class<?> c, String methodName, Object args) throws NoSuchMethodException,
+			InvocationTargetException, IllegalArgumentException, SecurityException, InstantiationException {
+		log.debug("invokeMethodFromClass({}, {}, {})", c, methodName, args);
 		Method m = c.getMethod(methodName, args.getClass());
 		m.setAccessible(true);
 		int mods = m.getModifiers();
@@ -143,25 +141,6 @@ public class ClassLoaderUtils {
 			} else {
 				return m.invoke(c.getConstructor().newInstance(), args);
 			}
-		} catch (IllegalAccessException e) {
-			// This should not happen, as we have disabled access checks
-		}
-
-		return null;
-	}
-
-	/**
-	 * Invoke methodName with arguments from class.
-	 */
-	public static Object invokeAutomationMethod(String className, String methodName, Map<String, Object> env,
-	                                            Object[] params) throws ClassNotFoundException, SecurityException, NoSuchMethodException,
-			IllegalArgumentException, InvocationTargetException, InstantiationException {
-		log.debug("invokeAutomationMethod({}, {}, {})", new Object[]{className, methodName, env, params});
-		Class<?> c = ClassLoaderUtils.class.getClassLoader().loadClass(className);
-		Method m = c.getMethod(methodName, env.getClass(), params.getClass());
-
-		try {
-			return m.invoke(c.getConstructor().newInstance(), env, params);
 		} catch (IllegalAccessException e) {
 			// This should not happen, as we have disabled access checks
 		}

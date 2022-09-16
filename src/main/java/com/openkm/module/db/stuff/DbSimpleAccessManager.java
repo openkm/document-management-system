@@ -112,9 +112,9 @@ public class DbSimpleAccessManager implements DbAccessManager {
 	/**
 	 * Check access properties
 	 */
-	private boolean checkProperties(Map<String, Integer> usersPerms, Map<String, Integer> rolesPerms, String user, Set<String> roles,
-	                                int perms) {
-		log.debug("checkProperties({}, {}, {}, {})", new Object[]{usersPerms, rolesPerms, roles, perms});
+	private boolean checkProperties(Map<String, Integer> usersPerms, Map<String, Integer> rolesPerms, String user,
+									Set<String> roles, int perms) {
+		log.debug("checkProperties({}, {}, {}, {})", usersPerms, rolesPerms, roles, perms);
 		boolean access = false;
 
 		// Fist try with user permissions

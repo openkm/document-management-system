@@ -135,7 +135,7 @@ public class MailAccountServlet extends BaseServlet {
 			if (action.equals("check")) {
 				check(pw, userId, request, response);
 			} else if (action.equals("checkAll")) {
-				checkAll(pw, userId, request, response);
+				checkAll(pw, userId);
 			} else if (action.equals("serverImport")) {
 				serverImport(pw, userId, request, response);
 			}
@@ -181,9 +181,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * New mail account
 	 */
-	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("create({}, {}, {})", new Object[]{userId, request, response});
+	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("create({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			MailAccount ma = new MailAccount();
@@ -217,9 +217,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Edit mail account
 	 */
-	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, NoSuchAlgorithmException {
-		log.debug("edit({}, {}, {})", new Object[]{userId, request, response});
+	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException {
+		log.debug("edit({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			String password = WebUtils.getString(request, "ma_mpassword");
@@ -257,9 +257,8 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Check connectivity
 	 */
-	private void check(PrintWriter pw, String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
-		log.debug("check({}, {}, {})", new Object[]{userId, request, response});
+	private void check(PrintWriter pw, String userId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		log.debug("check({}, {}, {})", userId, request, response);
 		MailAccount ma = new MailAccount();
 		ma.setId(WebUtils.getInt(request, "ma_id"));
 		ma.setUser(WebUtils.getString(request, "ma_user"));
@@ -282,10 +281,9 @@ public class MailAccountServlet extends BaseServlet {
 	}
 
 	/**
-	 * Check all conectivity
+	 * Check all connectivity
 	 */
-	private void checkAll(PrintWriter pw, String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	private void checkAll(PrintWriter pw, String userId) throws IOException {
 		UserMailImporter umi = new UserMailImporter();
 
 		if (umi.isRunning()) {
@@ -309,9 +307,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Update mail account
 	 */
-	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, NoSuchAlgorithmException {
-		log.debug("delete({}, {}, {})", new Object[]{userId, request, response});
+	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException {
+		log.debug("delete({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int maId = WebUtils.getInt(request, "ma_id");
@@ -335,9 +333,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * List mail accounts
 	 */
-	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("list({}, {}, {})", new Object[]{userId, request, response});
+	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		String usrId = WebUtils.getString(request, "ma_user");
 		sc.setAttribute("ma_user", usrId);
@@ -349,9 +347,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * List mail filters
 	 */
-	private void filterList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("filterList({}, {}, {})", new Object[]{userId, request, response});
+	private void filterList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("filterList({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int maId = WebUtils.getInt(request, "ma_id");
 		String ma_user = WebUtils.getString(request, "ma_user");
@@ -368,7 +366,7 @@ public class MailAccountServlet extends BaseServlet {
 	 */
 	private void filterCreate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, PathNotFoundException, DatabaseException {
-		log.debug("filterCreate({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("filterCreate({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int maId = WebUtils.getInt(request, "ma_id");
@@ -402,9 +400,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Edit mail filter
 	 */
-	private void filterEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			PathNotFoundException, DatabaseException {
-		log.debug("filterEdit({}, {}, {})", new Object[]{userId, request, response});
+	private void filterEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, PathNotFoundException, DatabaseException {
+		log.debug("filterEdit({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int mfId = WebUtils.getInt(request, "mf_id");
@@ -441,7 +439,7 @@ public class MailAccountServlet extends BaseServlet {
 	 */
 	private void filterDelete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException, PathNotFoundException, DatabaseException {
-		log.debug("filterDelete({}, {}, {})", new Object[]{userId, request, response});
+		log.debug("filterDelete({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int maId = WebUtils.getInt(request, "ma_id");
@@ -467,9 +465,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * List filter rules
 	 */
-	private void ruleList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("ruleList({}, {}, {})", new Object[]{userId, request, response});
+	private void ruleList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("ruleList({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int maId = WebUtils.getInt(request, "ma_id");
 		int mfId = WebUtils.getInt(request, "mf_id");
@@ -490,9 +488,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Create filter rule
 	 */
-	private void ruleCreate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			PathNotFoundException, DatabaseException {
-		log.debug("ruleCreate({}, {}, {})", new Object[]{userId, request, response});
+	private void ruleCreate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, PathNotFoundException, DatabaseException {
+		log.debug("ruleCreate({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int mf_id = WebUtils.getInt(request, "mf_id");
@@ -524,9 +522,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Edit filter rule
 	 */
-	private void ruleEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("ruleEdit({}, {}, {})", new Object[]{userId, request, response});
+	private void ruleEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("ruleEdit({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int mfrId = WebUtils.getInt(request, "mfr_id");
@@ -563,9 +561,9 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * Delete filter rule
 	 */
-	private void ruleDelete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("ruleDelete({}, {}, {})", new Object[]{userId, request, response});
+	private void ruleDelete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("ruleDelete({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			int mfrId = WebUtils.getInt(request, "mfr_id");
@@ -594,8 +592,8 @@ public class MailAccountServlet extends BaseServlet {
 	/**
 	 * List server mails
 	 */
-	private void serverList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, MessagingException {
+	private void serverList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, MessagingException {
 		log.debug("serverList({}, {}, {})", userId, request, response);
 		int maId = WebUtils.getInt(request, "ma_id");
 		String ma_user = WebUtils.getString(request, "ma_user");
@@ -659,9 +657,9 @@ public class MailAccountServlet extends BaseServlet {
 	 * Import server mail
 	 */
 	private void serverImport(PrintWriter pw, String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, PathNotFoundException, DatabaseException, MessagingException, RepositoryException,
-			AccessDeniedException, ItemExistsException, VirusDetectedException, UserQuotaExceededException, ExtensionException,
-			AutomationException {
+			throws IOException, PathNotFoundException, DatabaseException, MessagingException, RepositoryException,
+			AccessDeniedException, ItemExistsException, VirusDetectedException, UserQuotaExceededException,
+			ExtensionException, AutomationException {
 		log.debug("serverImport({}, {}, {})", userId, request, response);
 		int maId = WebUtils.getInt(request, "ma_id");
 		long msgId = WebUtils.getLong(request, "msg_id");

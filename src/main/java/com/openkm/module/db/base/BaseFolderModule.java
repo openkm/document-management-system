@@ -196,7 +196,7 @@ public class BaseFolderModule {
 	public static NodeFolder copy(String user, NodeFolder srcFldNode, NodeFolder dstFldNode, ExtendedAttributes extAttr)
 			throws ItemExistsException, UserQuotaExceededException, PathNotFoundException, AccessDeniedException, AutomationException,
 			DatabaseException, IOException {
-		log.debug("copy({}, {}, {}, {})", new Object[]{user, srcFldNode, dstFldNode, extAttr});
+		log.debug("copy({}, {}, {}, {})", user, srcFldNode, dstFldNode, extAttr);
 		InputStream is = null;
 		NodeFolder newFolder = null;
 

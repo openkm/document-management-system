@@ -56,7 +56,7 @@ public class StackTraceUtils {
 			for (int i = 2; i < trace.length; i++) {
 				if (trace[i].getClassName().startsWith("com.openkm")) {
 					StackTraceElement sse = trace[i];
-					log.warn("{} -> {} ({}:{})", new Object[]{sse.getClassName(), sse.getMethodName(), sse.getFileName(), sse.getLineNumber()});
+					log.warn("{} -> {} ({}:{})", sse.getClassName(), sse.getMethodName(), sse.getFileName(), sse.getLineNumber());
 				}
 			}
 		}

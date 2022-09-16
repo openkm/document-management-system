@@ -23,23 +23,14 @@
 
 package com.openkm.servlet.admin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.openkm.core.*;
+import com.openkm.dao.OmrDAO;
+import com.openkm.dao.bean.Omr;
+import com.openkm.omr.OMRHelper;
+import com.openkm.util.FileUtils;
+import com.openkm.util.PropertyGroupUtils;
+import com.openkm.util.UserActivity;
+import com.openkm.util.WebUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -49,18 +40,12 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.openkm.core.AccessDeniedException;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.MimeTypeConfig;
-import com.openkm.core.ParseException;
-import com.openkm.core.RepositoryException;
-import com.openkm.dao.OmrDAO;
-import com.openkm.dao.bean.Omr;
-import com.openkm.omr.OMRHelper;
-import com.openkm.util.FileUtils;
-import com.openkm.util.PropertyGroupUtils;
-import com.openkm.util.UserActivity;
-import com.openkm.util.WebUtils;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 /**
  * omr servlet
@@ -254,9 +239,9 @@ public class OmrServlet extends BaseServlet {
 	/**
 	 * List omr templates
 	 */
-	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("list({}, {}, {})", new Object[] { userId, request, response });
+	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		List<Omr> list = OmrDAO.getInstance().findAll();
 		sc.setAttribute("omr", list);
@@ -267,9 +252,9 @@ public class OmrServlet extends BaseServlet {
 	/**
 	 * New omr template
 	 */
-	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, ParseException, AccessDeniedException, RepositoryException {
-		log.debug("create({}, {}, {})", new Object[] { userId, request, response });
+	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, ParseException, AccessDeniedException, RepositoryException {
+		log.debug("create({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		Omr om = new Omr();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -282,9 +267,9 @@ public class OmrServlet extends BaseServlet {
 	/**
 	 * edit type record
 	 */
-	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, ParseException, AccessDeniedException, RepositoryException {
-		log.debug("edit({}, {}, {})", new Object[] { userId, request, response });
+	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, ParseException, AccessDeniedException, RepositoryException {
+		log.debug("edit({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		long omId = WebUtils.getLong(request, "om_id");
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -297,9 +282,9 @@ public class OmrServlet extends BaseServlet {
 	/**
 	 * delete type record
 	 */
-	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[] { userId, request, response });
+	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("delete({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		long omId = WebUtils.getLong(request, "om_id");
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -313,7 +298,7 @@ public class OmrServlet extends BaseServlet {
 	 */
 	private void downloadFile(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
 			IOException {
-		log.debug("downloadFile({}, {}, {})", new Object[] { userId, request, response });
+		log.debug("downloadFile({}, {}, {})", userId, request, response);
 		long omId = WebUtils.getLong(request, "om_id");
 		int fileType = WebUtils.getInt(request, "type");
 		Omr omr = OmrDAO.getInstance().findByPk(omId);
@@ -328,14 +313,17 @@ public class OmrServlet extends BaseServlet {
 						fileContent = omr.getTemplateFileContent();
 						WebUtils.prepareSendFile(request, response, omr.getTemplateFileName(), omr.getTemplateFileMime(), false);
 						break;
+
 					case FILE_ASC:
 						fileContent = omr.getAscFileContent();
 						WebUtils.prepareSendFile(request, response, omr.getAscFileName(), omr.getAscFileMime(), false);
 						break;
+
 					case FILE_CONFIG:
 						fileContent = omr.getConfigFileContent();
 						WebUtils.prepareSendFile(request, response, omr.getConfigFileName(), omr.getConfigFileMime(), false);
 						break;
+
 					case FILE_FIELDS:
 						fileContent = omr.getFieldsFileContent();
 						WebUtils.prepareSendFile(request, response, omr.getFieldsFileName(), omr.getFieldsFileMime(), false);

@@ -32,9 +32,9 @@ import com.openkm.module.db.DbDocumentModule;
 import com.openkm.util.PathUtils;
 import com.openkm.util.WarUtils;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
-import org.apache.chemistry.opencmis.commons.data.*;
 import org.apache.chemistry.opencmis.commons.data.Properties;
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
+import org.apache.chemistry.opencmis.commons.data.*;
 import org.apache.chemistry.opencmis.commons.definitions.*;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.*;
@@ -726,7 +726,7 @@ public class CmisRepository {
 	 */
 	public ObjectData getObject(CallContext context, String objectId, String versionServicesId, String filter,
 	                            Boolean includeAllowableActions, Boolean includeAcl, ObjectInfoHandler objectInfos) {
-		log.debug("getObject({}, {}, {})", new Object[]{objectId, versionServicesId, filter});
+		log.debug("getObject({}, {}, {})", objectId, versionServicesId, filter);
 
 		// check id
 		if ((objectId == null) && (versionServicesId == null)) {
@@ -781,7 +781,7 @@ public class CmisRepository {
 	 * CMIS getContentStream.
 	 */
 	public ContentStream getContentStream(CallContext context, String objectId, BigInteger offset, BigInteger length) {
-		log.debug("getContentStream({}, {}, {})", new Object[]{objectId, offset, length});
+		log.debug("getContentStream({}, {}, {})", objectId, offset, length);
 
 		if ((offset != null) || (length != null)) {
 			throw new CmisInvalidArgumentException("Offset and Length are not supported!");
@@ -1046,7 +1046,7 @@ public class CmisRepository {
 	 */
 	public ObjectData getObjectByPath(CallContext context, String folderPath, String filter, boolean includeAllowableActions,
 	                                  boolean includeACL, ObjectInfoHandler objectInfos) {
-		log.debug("getObjectByPath({}, {}, {})", new Object[]{folderPath, filter, includeAllowableActions});
+		log.debug("getObjectByPath({}, {}, {})", folderPath, filter, includeAllowableActions);
 
 		// split filter
 		Set<String> filterCollection = splitFilter(filter);

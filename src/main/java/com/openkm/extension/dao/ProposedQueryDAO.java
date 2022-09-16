@@ -47,9 +47,8 @@ public class ProposedQueryDAO {
 	/**
 	 * Send proposed query
 	 */
-	public static void send(long qpId, String from, String to, String user, String comment) throws
-			DatabaseException {
-		log.debug("send({}, {}, {}, {}, {}, {}, {})", new Object[]{qpId, from, to, user, comment});
+	public static void send(long qpId, String from, String to, String user, String comment) throws DatabaseException {
+		log.debug("send({}, {}, {}, {}, {}, {})", qpId, from, to, user, comment);
 		Session session = null;
 		Transaction tx = null;
 

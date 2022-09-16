@@ -26,8 +26,8 @@ import com.openkm.bean.nr.NodeQueryResult;
 import com.openkm.bean.nr.NodeResultSet;
 import com.openkm.cache.CacheProvider;
 import com.openkm.cache.UserItemsManager;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.*;
 import com.openkm.dao.bean.*;
 import com.openkm.dao.bean.cache.UserItems;
@@ -47,7 +47,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 
 import java.io.IOException;
 import java.util.*;
@@ -218,7 +217,7 @@ public class DbDashboardModule implements DashboardModule {
 	@SuppressWarnings("unchecked")
 	private List<DashboardDocumentResult> executeQueryDocument(String user, String qs, String action, int maxResults)
 			throws RepositoryException, DatabaseException {
-		log.debug("executeQueryDocument({}, {}, {}, {})", new Object[]{user, qs, action, maxResults});
+		log.debug("executeQueryDocument({}, {}, {}, {})", user, qs, action, maxResults);
 		List<DashboardDocumentResult> al = new ArrayList<DashboardDocumentResult>();
 		Session session = null;
 		int i = 0;
@@ -992,7 +991,7 @@ public class DbDashboardModule implements DashboardModule {
 	@SuppressWarnings("unchecked")
 	private List<DashboardDocumentResult> getTopDocuments(String user, String source, String qs, Calendar date)
 			throws RepositoryException, DatabaseException {
-		log.debug("getTopDocuments({}, {}, {}, {})", new Object[]{user, source, qs, (date != null ? date.getTime() : "null")});
+		log.debug("getTopDocuments({}, {}, {}, {})", user, source, qs, (date != null ? date.getTime() : "null"));
 		List<DashboardDocumentResult> al = new ArrayList<>();
 		Cache docResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_TOP_DOCUMENTS);
 		String key = source + ":" + user;
@@ -1107,7 +1106,7 @@ public class DbDashboardModule implements DashboardModule {
 	@SuppressWarnings("unchecked")
 	private List<DashboardFolderResult> getTopFolders(String user, String source, String qs, Calendar date)
 			throws RepositoryException, DatabaseException {
-		log.debug("getTopFolders({}, {}, {}, {})", new Object[]{user, source, qs, (date != null ? date.getTime() : "null")});
+		log.debug("getTopFolders({}, {}, {}, {})", user, source, qs, (date != null ? date.getTime() : "null"));
 		List<DashboardFolderResult> al = new ArrayList<>();
 		Cache fldResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_TOP_FOLDERS);
 		String key = source + ":" + user;
@@ -1177,9 +1176,9 @@ public class DbDashboardModule implements DashboardModule {
 		return results;
 	}
 	@Override
-	public void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException, RepositoryException,
+	public void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException,
 			DatabaseException {
-		log.debug("visiteNode({}, {}, {}, {})", new Object[]{token, source, node, (date == null ? null : date.getTime())});
+		log.debug("visiteNode({}, {}, {}, {})", token, source, node, (date == null ? null : date.getTime()));
 
 		try {
 			if (token != null) {
@@ -1330,9 +1329,8 @@ public class DbDashboardModule implements DashboardModule {
 	 * Get documents from statement
 	 */
 	@SuppressWarnings("unchecked")
-	private ArrayList<DashboardDocumentResult> getUserDocuments(String user, String source, String qs) throws
-			DatabaseException {
-		log.debug("getUserDocuments({}, {}, {})", new Object[]{user, source, qs});
+	private ArrayList<DashboardDocumentResult> getUserDocuments(String user, String source, String qs) throws DatabaseException {
+		log.debug("getUserDocuments({}, {}, {})", user, source, qs);
 		ArrayList<DashboardDocumentResult> al = new ArrayList<DashboardDocumentResult>();
 		Cache docResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_USER_DOCUMENTS);
 		String key = source + ":" + user;
@@ -1385,9 +1383,8 @@ public class DbDashboardModule implements DashboardModule {
 	 * Get mails from statement
 	 */
 	@SuppressWarnings("unchecked")
-	private ArrayList<DashboardMailResult> getUserMails(String user, String source, String qs) throws
-			DatabaseException {
-		log.debug("getUserMails({}, {}, {})", new Object[]{user, source, qs});
+	private ArrayList<DashboardMailResult> getUserMails(String user, String source, String qs) throws DatabaseException {
+		log.debug("getUserMails({}, {}, {})", user, source, qs);
 		ArrayList<DashboardMailResult> al = new ArrayList<DashboardMailResult>();
 		Cache mailResultCache = CacheProvider.getInstance().getCache(CACHE_DASHBOARD_USER_MAILS);
 		String key = source + ":" + user;

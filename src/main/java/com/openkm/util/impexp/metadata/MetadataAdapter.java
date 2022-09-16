@@ -60,7 +60,7 @@ public abstract class MetadataAdapter {
 	 */
 	public DocumentMetadata getMetadata(Document doc) throws PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException, IOException, ParseException, NoSuchGroupException {
-		log.debug("getMetadata({})", new Object[]{doc});
+		log.debug("getMetadata({})", doc);
 		DocumentMetadata dmd = new DocumentMetadata();
 		dmd.setUuid(doc.getUuid());
 		dmd.setAuthor(doc.getAuthor());
@@ -93,7 +93,7 @@ public abstract class MetadataAdapter {
 		dmd.setGrantedRoles(okmAuth.getGrantedRoles(token, doc.getPath()));
 
 		// Property Groups
-		dmd.setPropertyGroups(getPropertyGroupsMetada(doc.getPath()));
+		dmd.setPropertyGroups(getPropertyGroupsMetadata(doc.getPath()));
 
 		log.debug("getMetadata: {}", dmd);
 		return dmd;
@@ -104,7 +104,7 @@ public abstract class MetadataAdapter {
 	 */
 	public FolderMetadata getMetadata(Folder fld) throws PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException, IOException, ParseException, NoSuchGroupException {
-		log.debug("getMetadata({})", new Object[]{fld});
+		log.debug("getMetadata({})", fld);
 		FolderMetadata fmd = new FolderMetadata();
 		fmd.setUuid(fld.getUuid());
 		fmd.setAuthor(fld.getAuthor());
@@ -133,7 +133,7 @@ public abstract class MetadataAdapter {
 		fmd.setGrantedRoles(okmAuth.getGrantedRoles(token, fld.getPath()));
 
 		// Property Groups
-		fmd.setPropertyGroups(getPropertyGroupsMetada(fld.getPath()));
+		fmd.setPropertyGroups(getPropertyGroupsMetadata(fld.getPath()));
 
 		log.debug("getMetadata: {}", fmd);
 		return fmd;
@@ -144,7 +144,7 @@ public abstract class MetadataAdapter {
 	 */
 	public MailMetadata getMetadata(Mail mail) throws PathNotFoundException, AccessDeniedException, RepositoryException,
 			DatabaseException, IOException, ParseException, NoSuchGroupException {
-		log.debug("getMetadata({})", new Object[]{mail});
+		log.debug("getMetadata({})", mail);
 		MailMetadata mmd = new MailMetadata();
 		mmd.setUuid(mail.getUuid());
 		mmd.setPath(mail.getPath());
@@ -181,7 +181,7 @@ public abstract class MetadataAdapter {
 		mmd.setGrantedRoles(okmAuth.getGrantedRoles(token, mail.getPath()));
 
 		// Property Groups
-		mmd.setPropertyGroups(getPropertyGroupsMetada(mail.getPath()));
+		mmd.setPropertyGroups(getPropertyGroupsMetadata(mail.getPath()));
 
 		log.debug("getMetadata: {}", mmd);
 		return mmd;
@@ -191,7 +191,7 @@ public abstract class MetadataAdapter {
 	 * Performs metadata conversion.
 	 */
 	public VersionMetadata getMetadata(Version ver, String mimeType) {
-		log.debug("getMetadata({})", new Object[]{ver});
+		log.debug("getMetadata({})", ver);
 		VersionMetadata vmd = new VersionMetadata();
 		vmd.setAuthor(ver.getAuthor());
 		vmd.setName(ver.getName());
@@ -207,7 +207,7 @@ public abstract class MetadataAdapter {
 	 * Performs metadata conversion.
 	 */
 	private NoteMetadata getMetadata(Note nt) {
-		log.debug("getMetadata({})", new Object[]{nt});
+		log.debug("getMetadata({})", nt);
 		NoteMetadata nmd = new NoteMetadata();
 		nmd.setUser(nt.getAuthor());
 		nmd.setDate(nt.getDate());
@@ -229,7 +229,7 @@ public abstract class MetadataAdapter {
 	/**
 	 * Perform specific PropertyGroup extraction.
 	 */
-	private List<PropertyGroupMetadata> getPropertyGroupsMetada(String path) throws IOException, ParseException,
+	private List<PropertyGroupMetadata> getPropertyGroupsMetadata(String path) throws IOException, ParseException,
 			AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException, NoSuchGroupException {
 		List<PropertyGroupMetadata> propGrpMeta = new ArrayList<>();
 		OKMPropertyGroup okmPropGrp = OKMPropertyGroup.getInstance();

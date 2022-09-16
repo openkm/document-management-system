@@ -196,9 +196,9 @@ public class ReportServlet extends BaseServlet {
 	/**
 	 * List registered reports
 	 */
-	private void list(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {}, {})", new Object[]{userId, request, response});
+	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		List<Report> list = ReportDAO.findAll();
 		sc.setAttribute("reports", list);
@@ -209,9 +209,9 @@ public class ReportServlet extends BaseServlet {
 	/**
 	 * Show report parameters, previous step to execution
 	 */
-	private void getParams(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, ParseException {
-		log.debug("getParams({}, {}, {})", new Object[]{userId, request, response});
+	private void getParams(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, ParseException {
+		log.debug("getParams({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int rpId = WebUtils.getInt(request, "rp_id");
 		List<FormElement> params = ReportUtils.getReportParameters(rpId);
@@ -226,9 +226,9 @@ public class ReportServlet extends BaseServlet {
 	/**
 	 * Execute report
 	 */
-	private void execute(String userId, HttpServletRequest request, HttpServletResponse response) throws
-			IOException, DatabaseException, JRException, EvalError, ParseException {
-		log.debug("execute({}, {}, {})", new Object[]{userId, request, response});
+	private void execute(String userId, HttpServletRequest request, HttpServletResponse response) throws IOException,
+			DatabaseException, JRException, EvalError, ParseException {
+		log.debug("execute({}, {}, {})", userId, request, response);
 		int rpId = WebUtils.getInt(request, "rp_id");
 		int format = WebUtils.getInt(request, "format", ReportUtils.OUTPUT_PDF);
 		Report rp = ReportDAO.findByPk(rpId);
@@ -276,9 +276,9 @@ public class ReportServlet extends BaseServlet {
 	/**
 	 * List reports parameters
 	 */
-	private void paramList(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, ParseException {
-		log.debug("paramList({}, {}, {})", new Object[]{userId, request, response});
+	private void paramList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, ParseException {
+		log.debug("paramList({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int rpId = WebUtils.getInt(request, "rp_id");
 		List<FormElement> params = ReportUtils.getReportParameters(rpId);

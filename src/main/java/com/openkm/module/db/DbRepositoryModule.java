@@ -726,7 +726,7 @@ public class DbRepositoryModule implements RepositoryModule {
 	@Override
 	public void copyAttributes(String token, String srcId, String dstId, ExtendedAttributes extAttr) throws AccessDeniedException,
 			PathNotFoundException, DatabaseException {
-		log.debug("copyAttributes({}, {}, {}, {})", new Object[]{token, srcId, dstId, extAttr});
+		log.debug("copyAttributes({}, {}, {}, {})", token, srcId, dstId, extAttr);
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
 		String srcPath = null;

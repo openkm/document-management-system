@@ -64,14 +64,13 @@ public class MailResource implements CopyableResource, DeletableResource, Getabl
 
 	@Override
 	public Object authenticate(String user, String password) {
-		// log.debug("authenticate({}, {})", new Object[] { user, password });
+		log.debug("authenticate({}, {})", user, password);
 		return "OpenKM";
 	}
 
 	@Override
 	public boolean authorise(Request request, Method method, Auth auth) {
-		// log.debug("authorise({}, {}, {})", new Object[] { request.getAbsolutePath(), method.toString(),
-		// auth.getUser() });
+		log.debug("authorise({}, {}, {})", request.getAbsolutePath(), method.toString(), auth.getUser());
 		return true;
 	}
 
@@ -115,8 +114,7 @@ public class MailResource implements CopyableResource, DeletableResource, Getabl
 	}
 
 	@Override
-	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType)
-			throws IOException, NotAuthorizedException, BadRequestException {
+	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException {
 		log.debug("sendContent({}, {})", params, contentType);
 
 		try {

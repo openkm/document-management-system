@@ -21,21 +21,6 @@
 
 package com.openkm.servlet.admin;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.openkm.api.OKMRepository;
 import com.openkm.core.AccessDeniedException;
@@ -44,13 +29,22 @@ import com.openkm.core.PathNotFoundException;
 import com.openkm.core.RepositoryException;
 import com.openkm.dao.AutomationDAO;
 import com.openkm.dao.OmrDAO;
-import com.openkm.dao.bean.Automation;
-import com.openkm.dao.bean.AutomationAction;
-import com.openkm.dao.bean.AutomationRule;
-import com.openkm.dao.bean.AutomationValidation;
-import com.openkm.dao.bean.Omr;
+import com.openkm.dao.bean.*;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Automation servlet
@@ -136,9 +130,9 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * List rules
 	 */
-	private void ruleList(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("ruleList({}, {})", new Object[] { request, response });
+	private void ruleList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException {
+		log.debug("ruleList({}, {})", request, response);
 		ServletContext sc = getServletContext();
 		sc.setAttribute("automationRules", AutomationDAO.getInstance().findAll());
 		sc.setAttribute("events", AutomationRule.EVENTS);
@@ -152,16 +146,17 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * List rules
 	 */
-	private void definitionList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			AccessDeniedException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException,
-			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		log.debug("definitionList({}, {})", new Object[] { request, response });
+	private void definitionList(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, AccessDeniedException, RepositoryException, IllegalArgumentException,
+			SecurityException, URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
+			InstantiationException, IllegalAccessException {
+		log.debug("definitionList({}, {})", request, response);
 		ServletContext sc = getServletContext();
 
 		try {
 			long arId = WebUtils.getLong(request, "ar_id");
 			AutomationRule aRule = AutomationDAO.getInstance().findByPk(arId);
-			
+
 			for (AutomationValidation av : aRule.getValidations()) {
 				for (int i = 0; i < av.getParams().size(); i++) {
 					av.getParams().set(i, convertToHumanValue(av.getParams().get(i), av.getClassName(), i));
@@ -193,23 +188,22 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * registeredList
 	 */
-	private void registeredList(HttpServletRequest request, HttpServletResponse response, boolean reload) throws ServletException, IOException,
-			DatabaseException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException,
-			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		log.debug("registeredList({}, {})", new Object[]{request, response});
+	private void registeredList(HttpServletRequest request, HttpServletResponse response, boolean reload) throws ServletException,
+			IOException, IllegalArgumentException, SecurityException, URISyntaxException {
+		log.debug("registeredList({}, {})", request, response);
 		ServletContext sc = getServletContext();
 		sc.setAttribute("actions", AutomationDAO.getInstance().findActions(reload));
 		sc.setAttribute("validations", AutomationDAO.getInstance().findValidations(reload));
 		sc.getRequestDispatcher("/admin/automation_registered_list.jsp").forward(request, response);
 		log.debug("registeredList: void");
 	}
-	
+
 	/**
 	 * getMetadataAction
 	 */
-	private void getMetadata(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, IllegalArgumentException, SecurityException,
-			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
+	private void getMetadata(HttpServletRequest request, HttpServletResponse response) throws IOException, DatabaseException,
+			IllegalArgumentException, SecurityException, URISyntaxException, ClassNotFoundException, NoSuchMethodException,
+			InvocationTargetException,
 			InstantiationException, IllegalAccessException {
 		String className = WebUtils.getString(request, "am_className");
 		Gson son = new Gson();
@@ -223,8 +217,9 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * New automation
 	 */
-	private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
-		log.debug("create({}, {})", new Object[]{request, response});
+	private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException {
+		log.debug("create({}, {})", request, response);
 
 		if (isPost(request)) {
 			AutomationRule ar = new AutomationRule();
@@ -255,9 +250,10 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * New metadata action
 	 */
-	private void createAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException,
-			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+	private void createAction(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
+			URISyntaxException,ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
+			IllegalAccessException {
 		long arId = WebUtils.getLong(request, "ar_id");
 		AutomationAction aa = new AutomationAction();
 		aa.setClassName(WebUtils.getString(request, "am_className"));
@@ -303,7 +299,7 @@ public class AutomationServlet extends BaseServlet {
 		AutomationRule ar = AutomationDAO.getInstance().findByPk(arId);
 		ar.getActions().add(aa);
 		AutomationDAO.getInstance().update(ar);
-		
+
 		// Activity log
 		UserActivity.log(request.getRemoteUser(), "ADMIN_AUTOMATION_ADD_ACTION", Long.toString(ar.getId()), null, ar.toString());
 	}
@@ -311,7 +307,7 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * Delete action
 	 */
-	private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
+	private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 		long aaId = WebUtils.getLong(request, "aa_id");
 		long arId = WebUtils.getLong(request, "ar_id");
 		AutomationRule ar = AutomationDAO.getInstance().findByPk(arId);
@@ -333,9 +329,10 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * Edit action
 	 */
-	private void editAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException,
-			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException,
-			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+	private void editAction(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
+			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
+			IllegalAccessException {
 		long aaId = WebUtils.getLong(request, "aa_id");
 		AutomationAction aa = AutomationDAO.getInstance().findActionByPk(aaId);
 		aa.setOrder(WebUtils.getInt(request, "am_order"));
@@ -385,8 +382,8 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * Edit validation
 	 */
-	private void editValidation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
+	private void editValidation(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
 			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
 			IllegalAccessException {
 		long avId = WebUtils.getLong(request, "av_id");
@@ -417,12 +414,12 @@ public class AutomationServlet extends BaseServlet {
 		// Activity log
 		UserActivity.log(request.getRemoteUser(), "ADMIN_AUTOMATION_EDIT_VALIDATION", Long.toString(av.getId()), null, av.toString());
 	}
-	
+
 	/**
 	 * New metadata validation
 	 */
-	private void createValidation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException, AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
+	private void createValidation(HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
 			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
 			IllegalAccessException {
 		long arId = WebUtils.getLong(request, "ar_id");
@@ -461,8 +458,7 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * Delete validation
 	 */
-	private void deleteValidation(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
-			DatabaseException {
+	private void deleteValidation(HttpServletRequest request, HttpServletResponse response) throws DatabaseException {
 		long avId = WebUtils.getLong(request, "av_id");
 		long arId = WebUtils.getLong(request, "ar_id");
 		AutomationRule ar = AutomationDAO.getInstance().findByPk(arId);
@@ -485,7 +481,7 @@ public class AutomationServlet extends BaseServlet {
 	 * Edit automation
 	 */
 	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
-		log.debug("edit({}, {})", new Object[]{request, response});
+		log.debug("edit({}, {})", request, response);
 
 		if (isPost(request)) {
 			long arId = WebUtils.getLong(request, "ar_id");
@@ -623,8 +619,9 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * Delete automation
 	 */
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DatabaseException {
-		log.debug("delete({}, {})", new Object[]{request, response});
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException {
+		log.debug("delete({}, {})", request, response);
 
 		if (isPost(request)) {
 			long arId = WebUtils.getLong(request, "ar_id");
@@ -648,10 +645,10 @@ public class AutomationServlet extends BaseServlet {
 	/**
 	 * convertToInternalValue
 	 */
-	private String convertToInternalValue(String value, String className, int param)
-			throws DatabaseException, AccessDeniedException, PathNotFoundException, RepositoryException,
-			IllegalArgumentException, SecurityException, URISyntaxException, ClassNotFoundException,
-			NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+	private String convertToInternalValue(String value, String className, int param) throws DatabaseException,
+			AccessDeniedException, PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException,
+			URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
+			InstantiationException, IllegalAccessException {
 		Automation am = AutomationDAO.getInstance().findMetadataByPk(className);
 
 		// Convert folder path to UUID
@@ -679,8 +676,9 @@ public class AutomationServlet extends BaseServlet {
 	 * convertToHumanValue
 	 */
 	private String convertToHumanValue(String value, String className, int param) throws DatabaseException, AccessDeniedException,
-			PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException, ClassNotFoundException,
-			NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+			PathNotFoundException, RepositoryException, IllegalArgumentException, SecurityException, URISyntaxException,
+			ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
+			IllegalAccessException {
 		Automation am = AutomationDAO.getInstance().findMetadataByPk(className);
 
 		// Convert folder path to UUID

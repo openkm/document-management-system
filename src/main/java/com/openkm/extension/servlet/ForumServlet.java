@@ -92,7 +92,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 
 	@Override
 	public GWTForumTopic createTopic(long id, String nodeUuid, GWTForumTopic topic) throws OKMException {
-		log.debug("createTopic({}, {}, {})", new Object[]{id, nodeUuid, topic});
+		log.debug("createTopic({}, {}, {})", id, nodeUuid, topic);
 		updateSessionManager();
 
 		try {
@@ -151,7 +151,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 
 	@Override
 	public void createPost(long forumId, long topicId, GWTForumPost post) throws OKMException {
-		log.debug("createPost({}, {}, {})", new Object[]{forumId, topicId, post.getSubject()});
+		log.debug("createPost({}, {}, {})", forumId, topicId, post.getSubject());
 		updateSessionManager();
 
 		try {

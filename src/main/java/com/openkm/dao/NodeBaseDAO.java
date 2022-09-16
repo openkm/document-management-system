@@ -22,8 +22,8 @@
 package com.openkm.dao;
 
 import com.openkm.bean.*;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.bean.*;
 import com.openkm.extension.dao.WikiPageDAO;
 import com.openkm.extension.dao.bean.WikiPage;
@@ -601,7 +601,7 @@ public class NodeBaseDAO {
 	 */
 	public void grantRolePermissions(String uuid, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, DatabaseException {
-		log.debug("grantRolePermissions({}, {}, {}, {})", new Object[]{uuid, role, permissions, recursive});
+		log.debug("grantRolePermissions({}, {}, {}, {})", uuid, role, permissions, recursive);
 		Session session = null;
 		Transaction tx = null;
 
@@ -702,7 +702,7 @@ public class NodeBaseDAO {
 	 */
 	public void revokeRolePermissions(String uuid, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, DatabaseException {
-		log.debug("revokeRolePermissions({}, {}, {}, {})", new Object[]{uuid, role, permissions, recursive});
+		log.debug("revokeRolePermissions({}, {}, {}, {})", uuid, role, permissions, recursive);
 		Session session = null;
 		Transaction tx = null;
 
@@ -808,7 +808,7 @@ public class NodeBaseDAO {
 	public void changeSecurity(String uuid, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
 	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, DatabaseException {
-		log.debug("changeSecurity({}, {}, {}, {})", new Object[]{uuid, grantUsers, revokeUsers, grantRoles, revokeRoles, recursive});
+		log.debug("changeSecurity({}, {}, {}, {}, {}, {})", uuid, grantUsers, revokeUsers, grantRoles, revokeRoles, recursive);
 		Session session = null;
 		Transaction tx = null;
 
@@ -857,7 +857,7 @@ public class NodeBaseDAO {
 	public int changeSecurity(Session session, NodeBase node, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
 	                          Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, DatabaseException, HibernateException {
-		log.debug("changeSecurity({}, {}, {}, {}, {})", new Object[]{node.getUuid(), grantUsers, revokeUsers, grantRoles, revokeRoles});
+		log.debug("changeSecurity({}, {}, {}, {}, {})", node.getUuid(), grantUsers, revokeUsers, grantRoles, revokeRoles);
 		boolean canModify = true;
 
 		// Security Check
@@ -1520,8 +1520,8 @@ public class NodeBaseDAO {
 	 *
 	 * @see com.openkm.module.db.DbStatsModule
 	 */
-	public long getCount(String nodeType) throws PathNotFoundException, DatabaseException {
-		log.debug("getCount({})", new Object[]{nodeType});
+	public long getCount(String nodeType) throws DatabaseException {
+		log.debug("getCount({})", nodeType);
 		String qs = "select count(*) from " + nodeType + " nt";
 		long begin = System.currentTimeMillis();
 		Session session = null;
@@ -1554,7 +1554,7 @@ public class NodeBaseDAO {
 	 * @see com.openkm.module.db.DbStatsModule
 	 */
 	public long getCount(String nodeType, String context) throws PathNotFoundException, DatabaseException {
-		log.debug("getCount({}, {})", new Object[]{nodeType, context});
+		log.debug("getCount({}, {})", nodeType, context);
 		String qs = "select count(*) from " + nodeType + " nt where nt.context = :context";
 		long begin = System.currentTimeMillis();
 		Session session = null;
@@ -1588,7 +1588,7 @@ public class NodeBaseDAO {
 	 * @see com.openkm.module.db.DbStatsModule
 	 */
 	public long getBaseCount(String nodeType, String path) throws PathNotFoundException, DatabaseException {
-		log.debug("getBaseCount({}, {})", new Object[]{nodeType, path});
+		log.debug("getBaseCount({}, {})", nodeType, path);
 		String qs = "select coalesce(count(*), 0) from NodeFolder n where n.parent=:parent";
 		long begin = System.currentTimeMillis();
 		Session session = null;
@@ -1623,7 +1623,7 @@ public class NodeBaseDAO {
 	 * @see com.openkm.module.db.DbStatsModule
 	 */
 	public long getSubtreeCount(String nodeType, String path, int depth) throws PathNotFoundException, DatabaseException {
-		log.debug("getSubtreeCount({}, {}, {})", new Object[]{nodeType, path, depth});
+		log.debug("getSubtreeCount({}, {}, {})", nodeType, path, depth);
 		long begin = System.currentTimeMillis();
 		Session session = null;
 		Transaction tx = null;
@@ -1661,7 +1661,7 @@ public class NodeBaseDAO {
 	@SuppressWarnings("unchecked")
 	private long getSubtreeCountHelper(Session session, String nodeType, String parentUuid, int depth, int level)
 			throws HibernateException, DatabaseException {
-		log.debug("getSubtreeCountHelper({}, {}, {},  {})", new Object[]{nodeType, parentUuid, depth, level});
+		log.debug("getSubtreeCountHelper({}, {}, {},  {})", nodeType, parentUuid, depth, level);
 		String qs = "from NodeBase n where n.parent=:parent";
 		Query q = session.createQuery(qs).setCacheable(true);
 		q.setString("parent", parentUuid);
@@ -1730,7 +1730,7 @@ public class NodeBaseDAO {
 	@SuppressWarnings("unchecked")
 	private long subTreeHasMoreThanNodesHelper(Session session, String parentUuid, long maxNodes, long curNodes) throws HibernateException,
 			DatabaseException {
-		log.debug("getSubtreeCountHelper({}, {}, {})", new Object[]{parentUuid, maxNodes, curNodes});
+		log.debug("getSubtreeCountHelper({}, {}, {})", parentUuid, maxNodes, curNodes);
 		String qs = "from NodeBase n where n.parent=:parent";
 		Query q = session.createQuery(qs).setCacheable(true);
 		q.setString("parent", parentUuid);
@@ -2030,7 +2030,7 @@ public class NodeBaseDAO {
 	 * Get single property value from property group
 	 */
 	public String getProperty(String uuid, String grpName, String propName) throws PathNotFoundException, DatabaseException {
-		log.debug("getProperty({}, {}, {})", new Object[]{uuid, grpName, propName});
+		log.debug("getProperty({}, {}, {})", uuid, grpName, propName);
 		long begin = System.currentTimeMillis();
 		String propValue = null;
 		Session session = null;
@@ -2097,13 +2097,13 @@ public class NodeBaseDAO {
 			nBase.setCategories(catIds);
 		}
 	}
-	
+
 	/**
 	 * Set properties from property group
 	 */
 	public Map<String, String> setProperties(String uuid, String grpName, Map<String, String> properties) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setProperties({}, {}, {})", new Object[]{uuid, grpName, properties});
+		log.debug("setProperties({}, {}, {})", uuid, grpName, properties);
 		Map<String, String> ret = new HashMap<String, String>();
 		Session session = null;
 		Transaction tx = null;
@@ -2129,7 +2129,7 @@ public class NodeBaseDAO {
 				// Set new property group values
 				for (NodeProperty nodProp : node.getProperties()) {
 					if (grpName.equals(nodProp.getGroup()) && prop.getKey().equals(nodProp.getName())) {
-						log.debug("UPDATE - Group: {}, Property: {}, Value: {}", new Object[]{grpName, prop.getKey(), prop.getValue()});
+						log.debug("UPDATE - Group: {}, Property: {}, Value: {}", grpName, prop.getKey(), prop.getValue());
 						nodProp.setValue(prop.getValue());
 						alreadyAssigned = true;
 
@@ -2137,7 +2137,7 @@ public class NodeBaseDAO {
 						tmp.add(nodProp);
 					} else if (nodProp.getValue() != null && !nodProp.getValue().isEmpty()) {
 						if (!tmp.contains(nodProp)) {
-							log.debug("KEEP - Group: {}, Property: {}, Value: {}", new Object[]{nodProp.getGroup(), nodProp.getName(), nodProp.getValue()});
+							log.debug("KEEP - Group: {}, Property: {}, Value: {}", nodProp.getGroup(), nodProp.getName(), nodProp.getValue());
 
 							// TODO: Workaround for Hibernate Search
 							tmp.add(nodProp);
@@ -2146,7 +2146,7 @@ public class NodeBaseDAO {
 				}
 
 				if (!alreadyAssigned) {
-					log.debug("ADD - Group: {}, Property: {}, Value: {}", new Object[]{grpName, prop.getKey(), prop.getValue()});
+					log.debug("ADD - Group: {}, Property: {}, Value: {}", grpName, prop.getKey(), prop.getValue());
 					NodeProperty nodProp = new NodeProperty();
 					nodProp.setNode(node);
 					nodProp.setGroup(grpName);
@@ -2233,7 +2233,7 @@ public class NodeBaseDAO {
 
 	public void copyAttributes(String srcUuid, String dstUuid, ExtendedAttributes extAttr) throws PathNotFoundException,
 			AccessDeniedException, DatabaseException {
-		log.info("copyAttributes({}, {}, {})", new Object[]{srcUuid, dstUuid, extAttr});
+		log.info("copyAttributes({}, {}, {})", srcUuid, dstUuid, extAttr);
 		Session session = null;
 		Transaction tx = null;
 

@@ -43,7 +43,7 @@ public class DbPropertyModule implements PropertyModule {
 	@Override
 	public void addCategory(String token, String nodeId, String catId) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("addCategory({}, {}, {})", new Object[]{token, nodeId, catId});
+		log.debug("addCategory({}, {}, {})", token, nodeId, catId);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -100,7 +100,7 @@ public class DbPropertyModule implements PropertyModule {
 	@Override
 	public void removeCategory(String token, String nodeId, String catId) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("removeCategory({}, {}, {})", new Object[]{token, nodeId, catId});
+		log.debug("removeCategory({}, {}, {})", token, nodeId, catId);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -157,7 +157,7 @@ public class DbPropertyModule implements PropertyModule {
 	@Override
 	public String addKeyword(String token, String nodeId, String keyword) throws VersionException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("addKeyword({}, {}, {})", new Object[]{token, nodeId, keyword});
+		log.debug("addKeyword({}, {}, {})", token, nodeId, keyword);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -217,9 +217,9 @@ public class DbPropertyModule implements PropertyModule {
 	}
 
 	@Override
-	public void removeKeyword(String token, String nodeId, String keyword) throws VersionException, LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("removeCategory({}, {}, {})", new Object[]{token, nodeId, keyword});
+	public void removeKeyword(String token, String nodeId, String keyword) throws VersionException, LockException,
+			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("removeCategory({}, {}, {})", token, nodeId, keyword);
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;
@@ -271,7 +271,7 @@ public class DbPropertyModule implements PropertyModule {
 	@Override
 	public void setEncryption(String token, String nodePath, String cipherName) throws VersionException, LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setEncryption({}, {}, {})", new Object[]{token, nodePath, cipherName});
+		log.debug("setEncryption({}, {}, {})", token, nodePath, cipherName);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {
@@ -307,9 +307,9 @@ public class DbPropertyModule implements PropertyModule {
 	}
 
 	@Override
-	public void unsetEncryption(String token, String nodePath) throws VersionException, LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("unsetEncryption({}, {})", new Object[]{token, nodePath});
+	public void unsetEncryption(String token, String nodePath) throws LockException, PathNotFoundException,
+			AccessDeniedException, DatabaseException {
+		log.debug("unsetEncryption({}, {})", token, nodePath);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {
@@ -345,9 +345,9 @@ public class DbPropertyModule implements PropertyModule {
 	}
 
 	@Override
-	public void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException, PathNotFoundException,
-			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("setSigned({}, {}, {})", new Object[]{token, nodePath, signed});
+	public void setSigned(String token, String nodePath, boolean signed) throws VersionException, LockException,
+			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("setSigned({}, {}, {})", token, nodePath, signed);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {

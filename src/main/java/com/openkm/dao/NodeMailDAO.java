@@ -554,9 +554,9 @@ public class NodeMailDAO {
 	/**
 	 * Delete mail
 	 */
-	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException,
-			AccessDeniedException, DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[]{name, uuid, trashUuid});
+	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException, AccessDeniedException,
+			DatabaseException {
+		log.debug("delete({}, {}, {})", name, uuid, trashUuid);
 		long begin = System.currentTimeMillis();
 		Session session = null;
 		Transaction tx = null;

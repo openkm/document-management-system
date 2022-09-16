@@ -73,7 +73,7 @@ public class OKMAuth implements AuthModule {
 	@Override
 	public void grantUser(String token, String nodePath, String user, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("grantUser({}, {}, {}, {})", new Object[]{token, nodePath, user, permissions});
+		log.debug("grantUser({}, {}, {}, {})", token, nodePath, user, permissions);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.grantUser(token, nodePath, user, permissions, recursive);
 		log.debug("grantUser: void");
@@ -82,7 +82,7 @@ public class OKMAuth implements AuthModule {
 	@Override
 	public void revokeUser(String token, String nodePath, String user, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("revokeUser({}, {}, {}, {})", new Object[]{token, nodePath, user, permissions});
+		log.debug("revokeUser({}, {}, {}, {})", token, nodePath, user, permissions);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.revokeUser(token, nodePath, user, permissions, recursive);
 		log.debug("revokeUser: void");
@@ -101,7 +101,7 @@ public class OKMAuth implements AuthModule {
 	@Override
 	public void grantRole(String token, String nodePath, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("grantRole({}, {}, {}, {})", new Object[]{token, nodePath, role, permissions});
+		log.debug("grantRole({}, {}, {}, {})", token, nodePath, role, permissions);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.grantRole(token, nodePath, role, permissions, recursive);
 		log.debug("grantRole: void");
@@ -110,7 +110,7 @@ public class OKMAuth implements AuthModule {
 	@Override
 	public void revokeRole(String token, String nodePath, String role, int permissions, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("revokeRole({}, {}, {}, {})", new Object[]{token, nodePath, role, permissions});
+		log.debug("revokeRole({}, {}, {}, {})", token, nodePath, role, permissions);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.revokeRole(token, nodePath, role, permissions, recursive);
 		log.debug("revokeRole: void");
@@ -184,8 +184,8 @@ public class OKMAuth implements AuthModule {
 	public void changeSecurity(String token, String nodePath, Map<String, Integer> grantUsers, Map<String, Integer> revokeUsers,
 	                           Map<String, Integer> grantRoles, Map<String, Integer> revokeRoles, boolean recursive) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("changeSecurity({}, {}, {}, {}, {}, {})", new Object[]{token, nodePath, grantUsers, revokeUsers, grantRoles,
-				revokeRoles, recursive});
+		log.debug("changeSecurity({}, {}, {}, {}, {}, {})", token, nodePath, grantUsers, revokeUsers, grantRoles,
+				revokeRoles, recursive);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.changeSecurity(token, nodePath, grantUsers, revokeUsers, grantRoles, revokeRoles, recursive);
 		log.debug("changeSecurity: void");
@@ -199,7 +199,7 @@ public class OKMAuth implements AuthModule {
 	@Override
 	public void createUser(String token, String user, String password, String email, String name, boolean active)
 			throws PrincipalAdapterException {
-		log.debug("createUser({}, {}, {}, {}, {}, {})", new Object[]{token, user, password, active});
+		log.debug("createUser({}, {}, {}, {})", token, user, password, active);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.createUser(token, user, password, email, name, active);
 		log.debug("createUser: void");
@@ -207,7 +207,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void deleteUser(String token, String user) throws PrincipalAdapterException {
-		log.debug("deleteUser({}, {})", new Object[]{token, user});
+		log.debug("deleteUser({}, {})", token, user);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.deleteUser(token, user);
 		log.debug("deleteUser: void");
@@ -215,7 +215,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void updateUser(String token, String user, String password, String email, String name, boolean active) throws PrincipalAdapterException {
-		log.debug("updateUser({}, {}, {}, {}, {}, {})", new Object[]{token, user, password, email, name, active});
+		log.debug("updateUser({}, {}, {}, {}, {}, {})", token, user, password, email, name, active);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.updateUser(token, user, password, email, name, active);
 		log.debug("updateUser: void");
@@ -223,7 +223,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void createRole(String token, String role, boolean active) throws PrincipalAdapterException {
-		log.debug("createRole({}, {}, {})", new Object[]{token, role, active});
+		log.debug("createRole({}, {}, {})", token, role, active);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.createRole(token, role, active);
 		log.debug("createRole: void");
@@ -231,7 +231,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void deleteRole(String token, String role) throws PrincipalAdapterException {
-		log.debug("deleteRole({}, {})", new Object[]{token, role});
+		log.debug("deleteRole({}, {})", token, role);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.deleteRole(token, role);
 		log.debug("deleteUser: void");
@@ -239,7 +239,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void updateRole(String token, String role, boolean active) throws PrincipalAdapterException {
-		log.debug("updateRole({}, {}, {})", new Object[]{token, role, active});
+		log.debug("updateRole({}, {}, {})", token, role, active);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.updateRole(token, role, active);
 		log.debug("updateRole: void");
@@ -247,7 +247,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void assignRole(String token, String user, String role) throws PrincipalAdapterException {
-		log.debug("assignRole({}, {}, {})", new Object[]{token, user, role});
+		log.debug("assignRole({}, {}, {})", token, user, role);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.assignRole(token, user, role);
 		log.debug("assignRole: void");
@@ -255,7 +255,7 @@ public class OKMAuth implements AuthModule {
 
 	@Override
 	public void removeRole(String token, String user, String role) throws PrincipalAdapterException {
-		log.debug("removeRole({}, {}, {})", new Object[]{token, user, role});
+		log.debug("removeRole({}, {}, {})", token, user, role);
 		AuthModule am = ModuleManager.getAuthModule();
 		am.removeRole(token, user, role);
 		log.debug("removeRole: void");

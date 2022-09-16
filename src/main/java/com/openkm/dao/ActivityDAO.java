@@ -135,7 +135,7 @@ public class ActivityDAO {
 	 */
 	public static Calendar getActivityDate(String user, String action, String item) throws
 			DatabaseException {
-		log.debug("getActivityDate({}, {}, {})", new Object[]{user, action, item});
+		log.debug("getActivityDate({}, {}, {})", user, action, item);
 		String qsAct = "select max(a.date) from Activity a " +
 				"where a.user=:user and a.action=:action and a.item=:item";
 		String qsNoAct = "select max(a.date) from Activity a " +

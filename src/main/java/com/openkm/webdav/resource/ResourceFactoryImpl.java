@@ -47,7 +47,7 @@ public class ResourceFactoryImpl implements ResourceFactory {
 		Path path = null;
 
 		if (url.startsWith("/" + Config.CONTEXT + "/webdav")) {
-			// STRIP PRECEEDING PATH
+			// STRIP PRECEDING PATH
 			path = srcPath.getStripFirst().getStripFirst();
 		} else {
 			path = Path.path(url);

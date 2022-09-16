@@ -79,7 +79,7 @@ public class DownloadServlet extends HttpServlet {
 					fileName = nameParts[0] + versionToAppend + "." + nameParts[1];
 				}
 
-				log.info("Download {} by {} ({})", new Object[]{path, userId, (inline ? "inline" : "attachment")});
+				log.info("Download {} by {} ({})", path, userId, (inline ? "inline" : "attachment"));
 				is = OKMDocument.getInstance().getContent(null, path, false);
 				WebUtils.sendFile(request, response, fileName, doc.getMimeType(), inline, is, doc.getActualVersion().getSize());
 			} else {

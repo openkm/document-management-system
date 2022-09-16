@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ResourceFactoryFactoryImpl implements ResourceFactoryFactory {
-	Logger log = LoggerFactory.getLogger(ResourceFactoryFactoryImpl.class);
+	private Logger log = LoggerFactory.getLogger(ResourceFactoryFactoryImpl.class);
 	private static AuthenticationService authenticationService;
 	private static ResourceFactory resourceFactory;
 
@@ -49,9 +49,6 @@ public class ResourceFactoryFactoryImpl implements ResourceFactoryFactory {
 		if (authenticationService == null) {
 			authenticationService = new AuthenticationService();
 			resourceFactory = new ResourceFactoryImpl();
-			//FileSystemResourceFactory fs = new FileSystemResourceFactory();
-			//fs.setAllowDirectoryBrowsing(true);
-			//resourceFactory = fs;
 		}
 	}
 }

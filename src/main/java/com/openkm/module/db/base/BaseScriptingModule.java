@@ -41,7 +41,7 @@ public class BaseScriptingModule {
 	 * @param eventType Type of modification event
 	 */
 	public static void checkScripts(String user, String scriptNodeUuid, String eventNodeUuid, String eventType) {
-		log.debug("checkScripts({}, {}, {}, {})", new Object[]{user, scriptNodeUuid, eventNodeUuid, eventType});
+		log.debug("checkScripts({}, {}, {}, {})", user, scriptNodeUuid, eventNodeUuid, eventType);
 
 		try {
 			checkScriptsHelper(user, scriptNodeUuid, eventNodeUuid, eventType);
@@ -59,7 +59,7 @@ public class BaseScriptingModule {
 	 */
 	private static void checkScriptsHelper(String user, String scriptNodeUuid, String eventNodeUuid, String eventType)
 			throws PathNotFoundException, DatabaseException {
-		log.debug("checkScriptsHelper({}, {}, {}, {})", new Object[]{user, scriptNodeUuid, eventNodeUuid, eventType});
+		log.debug("checkScriptsHelper({}, {}, {}, {})", user, scriptNodeUuid, eventNodeUuid, eventType);
 		NodeBase scriptNode = NodeBaseDAO.getInstance().findByPk(scriptNodeUuid);
 
 		if (scriptNode.isScripting()) {

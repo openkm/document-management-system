@@ -192,7 +192,7 @@ public class Select extends FormElement {
 		List<Option> dbOptions = new ArrayList<Option>();
 
 		try {
-			log.debug("Getting options from DB (table={}, query={})", new Object[]{table, optionsQuery});
+			log.debug("Getting options from DB (table={}, query={})", table, optionsQuery);
 			List<KeyValue> keyValues = KeyValueDAO.getKeyValues(table, optionsQuery);
 
 			for (KeyValue keyValue : keyValues) {
@@ -254,7 +254,7 @@ public class Select extends FormElement {
 	}
 
 	/**
-	 * Return list of Select's Options from class 
+	 * Return list of Selects Options from class
 	 *
 	 * @return list of options from class, empty list on error.
 	 */

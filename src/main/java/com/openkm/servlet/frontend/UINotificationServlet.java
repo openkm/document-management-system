@@ -72,7 +72,7 @@ public class UINotificationServlet extends OKMRemoteServiceServlet implements OK
 	 * Add notification message.
 	 */
 	public static void add(int action, String message, int type, boolean show) {
-		log.debug("add({}, {}, {}, {})", new Object[]{action, message, type, show});
+		log.debug("add({}, {}, {}, {})", action, message, type, show);
 		GWTUINotification uin = new GWTUINotification();
 		uin.setId(getId());
 		uin.setDate(new Date());

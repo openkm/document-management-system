@@ -104,8 +104,7 @@ public class XMLTextExtractor extends AbstractTextExtractor {
 					Charset.forName(encoding);
 					source.setEncoding(encoding);
 				} catch (Exception e) {
-					logger.warn("Unsupported encoding '{}', using default ({}) instead.",
-							new Object[]{encoding, System.getProperty("file.encoding")});
+					logger.warn("Unsupported encoding '{}', using default ({}) instead.", encoding, System.getProperty("file.encoding"));
 				}
 			}
 

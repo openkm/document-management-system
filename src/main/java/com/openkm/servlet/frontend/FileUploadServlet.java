@@ -210,7 +210,7 @@ public class FileUploadServlet extends OKMHttpServlet {
 							sendResponse(out, action, fuResponse.get());
 						} else {
 							fileName = FilenameUtils.getName(fileName);
-							log.debug("Upload file '{}' into '{} ({})'", new Object[]{fileName, path, FormatUtil.formatSize(size)});
+							log.debug("Upload file '{}' into '{} ({})'", fileName, path, FormatUtil.formatSize(size));
 							String mimeType = MimeTypeConfig.mimeTypes.getContentType(fileName.toLowerCase());
 							Document doc = new Document();
 							doc.setPath(path + "/" + fileName);

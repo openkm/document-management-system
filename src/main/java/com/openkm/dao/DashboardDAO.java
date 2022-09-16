@@ -177,7 +177,7 @@ public class DashboardDAO {
 	 */
 	public static void purgeOldVisitedNode(String user, String source, String node, Calendar date) throws
 			DatabaseException {
-		log.debug("purgeOldVisitedNode({}, {}, {}, {})", new Object[]{user, source, node, date});
+		log.debug("purgeOldVisitedNode({}, {}, {}, {})", user, source, node, date);
 		String qs = "delete from Dashboard db where db.user=:user and db.source=:source " +
 				"and db.node=:node and db.date=:date";
 		Session session = null;
