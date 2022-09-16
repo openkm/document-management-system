@@ -2,6 +2,11 @@ package com.openkm.servlet.frontend.util;
 
 import com.openkm.frontend.client.bean.GWTFolder;
 
+/**
+ * FolderComparator
+ *
+ * @author jllort
+ */
 public class FolderComparator extends CultureComparator<GWTFolder> {
 
 	protected FolderComparator(String locale) {
@@ -10,22 +15,17 @@ public class FolderComparator extends CultureComparator<GWTFolder> {
 
 	public static FolderComparator getInstance(String locale) {
 		try {
-			FolderComparator comparator = (FolderComparator) CultureComparator.getInstance(FolderComparator.class, locale);
-			return comparator;
+			return (FolderComparator) CultureComparator.getInstance(FolderComparator.class, locale);
 		} catch (Exception e) {
 			return new FolderComparator(locale);
 		}
 	}
 
 	public static FolderComparator getInstance() {
-		FolderComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTFolder arg0, GWTFolder arg1) {
-		GWTFolder first = arg0;
-		GWTFolder second = arg1;
-
+	public int compare(GWTFolder first, GWTFolder second) {
 		return collator.compare(first.getName(), second.getName());
 	}
 }

@@ -24,13 +24,11 @@ package com.openkm.servlet.frontend.util;
 import com.openkm.frontend.client.bean.extension.GWTMessageSent;
 
 import java.util.Comparator;
-import java.util.Date;
 
 /**
  * MessageSentComparator
  *
  * @author jllort
- *
  */
 public class MessageSentComparator implements Comparator<GWTMessageSent> {
 	private static final Comparator<GWTMessageSent> INSTANCE = new MessageSentComparator();
@@ -39,7 +37,7 @@ public class MessageSentComparator implements Comparator<GWTMessageSent> {
 		return INSTANCE;
 	}
 
-	public int compare(GWTMessageSent arg0, GWTMessageSent arg1) {
-		return ((Date) arg0.getSentDate()).compareTo((Date) arg1.getSentDate());
+	public int compare(GWTMessageSent first, GWTMessageSent second) {
+		return first.getSentDate().compareTo(second.getSentDate());
 	}
 }

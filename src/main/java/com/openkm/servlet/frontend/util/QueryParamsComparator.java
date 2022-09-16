@@ -27,7 +27,6 @@ import com.openkm.frontend.client.bean.GWTQueryParams;
  * QueryParamsComparator
  *
  * @author jllort
- *
  */
 public class QueryParamsComparator extends CultureComparator<GWTQueryParams> {
 
@@ -37,22 +36,17 @@ public class QueryParamsComparator extends CultureComparator<GWTQueryParams> {
 
 	public static QueryParamsComparator getInstance(String locale) {
 		try {
-			QueryParamsComparator comparator = (QueryParamsComparator) CultureComparator.getInstance(QueryParamsComparator.class, locale);
-			return comparator;
+			return (QueryParamsComparator) CultureComparator.getInstance(QueryParamsComparator.class, locale);
 		} catch (Exception e) {
 			return new QueryParamsComparator(locale);
 		}
 	}
 
 	public static QueryParamsComparator getInstance() {
-		QueryParamsComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTQueryParams arg0, GWTQueryParams arg1) {
-		GWTQueryParams first = arg0;
-		GWTQueryParams second = arg1;
-
+	public int compare(GWTQueryParams first, GWTQueryParams second) {
 		return collator.compare(first.getQueryName(), second.getQueryName());
 	}
 }

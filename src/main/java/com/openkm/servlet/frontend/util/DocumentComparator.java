@@ -23,6 +23,11 @@ package com.openkm.servlet.frontend.util;
 
 import com.openkm.frontend.client.bean.GWTDocument;
 
+/**
+ * DocumentComparator
+ *
+ * @author jllort
+ */
 public class DocumentComparator extends CultureComparator<GWTDocument> {
 
 	protected DocumentComparator(String locale) {
@@ -31,22 +36,17 @@ public class DocumentComparator extends CultureComparator<GWTDocument> {
 
 	public static DocumentComparator getInstance(String locale) {
 		try {
-			DocumentComparator comparator = (DocumentComparator) CultureComparator.getInstance(DocumentComparator.class, locale);
-			return comparator;
+			return (DocumentComparator) CultureComparator.getInstance(DocumentComparator.class, locale);
 		} catch (Exception e) {
 			return new DocumentComparator(locale);
 		}
 	}
 
 	public static DocumentComparator getInstance() {
-		DocumentComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTDocument arg0, GWTDocument arg1) {
-		GWTDocument first = arg0;
-		GWTDocument second = arg1;
-
+	public int compare(GWTDocument first, GWTDocument second) {
 		return collator.compare(first.getName(), second.getName());
 	}
 }

@@ -27,7 +27,6 @@ import com.openkm.frontend.client.bean.GWTPropertyGroup;
  * PropertyGroupComparator
  *
  * @author jllort
- *
  */
 public class PropertyGroupComparator extends CultureComparator<GWTPropertyGroup> {
 
@@ -37,22 +36,17 @@ public class PropertyGroupComparator extends CultureComparator<GWTPropertyGroup>
 
 	public static PropertyGroupComparator getInstance(String locale) {
 		try {
-			PropertyGroupComparator comparator = (PropertyGroupComparator) CultureComparator.getInstance(PropertyGroupComparator.class, locale);
-			return comparator;
+			return (PropertyGroupComparator) CultureComparator.getInstance(PropertyGroupComparator.class, locale);
 		} catch (Exception e) {
 			return new PropertyGroupComparator(locale);
 		}
 	}
 
 	public static PropertyGroupComparator getInstance() {
-		PropertyGroupComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTPropertyGroup arg0, GWTPropertyGroup arg1) {
-		GWTPropertyGroup first = arg0;
-		GWTPropertyGroup second = arg1;
-
+	public int compare(GWTPropertyGroup first, GWTPropertyGroup second) {
 		return collator.compare(first.getLabel(), second.getLabel());
 	}
 }

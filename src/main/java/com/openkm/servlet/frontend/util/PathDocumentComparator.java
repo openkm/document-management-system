@@ -27,7 +27,6 @@ import com.openkm.frontend.client.bean.GWTDocument;
  * PathDocumentComparator
  *
  * @author jllort
- *
  */
 public class PathDocumentComparator extends CultureComparator<GWTDocument> {
 
@@ -37,21 +36,20 @@ public class PathDocumentComparator extends CultureComparator<GWTDocument> {
 
 	public static PathDocumentComparator getInstance(String locale) {
 		try {
-			PathDocumentComparator comparator = (PathDocumentComparator) CultureComparator.getInstance(PathDocumentComparator.class, locale);
-			return comparator;
+			return (PathDocumentComparator) CultureComparator.getInstance(PathDocumentComparator.class, locale);
 		} catch (Exception e) {
 			return new PathDocumentComparator(locale);
 		}
 	}
 
 	public static PathDocumentComparator getInstance() {
-		PathDocumentComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTDocument arg0, GWTDocument arg1) {
-		String[] paths1 = arg0.getPath().split("/");
-		String[] paths2 = arg1.getPath().split("/");
+	public int compare(GWTDocument first, GWTDocument second) {
+		String[] paths1 = first.getPath().split("/");
+		String[] paths2 = second.getPath().split("/");
+
 		for (int i = 0; i < paths1.length - 2; i++) {        // Not compares document name here
 			if (i != paths2.length - 2) {
 				break;
@@ -60,10 +58,11 @@ public class PathDocumentComparator extends CultureComparator<GWTDocument> {
 				return collator.compare(paths1[i], paths2[i]);
 			}
 		}
-		if (paths1.length == paths2.length) {            // here is compared document name
+
+		if (paths1.length == paths2.length) {            // Here is compared document name
 			return collator.compare(paths1[paths1.length - 1], paths2[paths2.length - 1]);
 		} else {
-			return paths1.length - paths2.length;        // otherside number of folders lenght
+			return paths1.length - paths2.length;        // Otherwise number of folders length
 		}
 	}
 }
