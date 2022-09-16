@@ -371,7 +371,7 @@ public class HibernateUtil {
 					try {
 						for (HashMap<String, String> error : LegacyDAO.executeScript(con, rd)) {
 							log.error("Error during script execution at line {}: {} [ {} ]",
-									new Object[]{error.get("ln"), error.get("msg"), error.get("sql")});
+									error.get("ln"), error.get("msg"), error.get("sql"));
 						}
 					} catch (IOException e) {
 						log.error(e.getMessage(), e);

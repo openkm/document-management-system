@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -186,9 +187,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * List registered mime types
 	 */
-	private void list(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {}, {})", new Object[]{userId, request, response});
+	private void list(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("list({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		sc.setAttribute("mimeTypes", MimeTypeDAO.findAll("mt.name"));
 		sc.getRequestDispatcher("/admin/mime_list.jsp").forward(request, response);
@@ -198,9 +199,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * Delete mime type
 	 */
-	private void delete(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[]{userId, request, response});
+	private void delete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("delete({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int mtId = WebUtils.getInt(request, "mt_id");
 		MimeType mt = MimeTypeDAO.findByPk(mtId);
@@ -220,9 +221,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * Create mime type
 	 */
-	private void create(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("create({}, {}, {})", new Object[]{userId, request, response});
+	private void create(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("create({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		MimeType mt = new MimeType();
 		sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -235,9 +236,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * Edit mime type
 	 */
-	private void edit(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("edit({}, {}, {})", new Object[]{userId, request, response});
+	private void edit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException {
+		log.debug("edit({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 		int mtId = WebUtils.getInt(request, "mt_id");
 		MimeType mt = MimeTypeDAO.findByPk(mtId);
@@ -257,8 +258,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * Export mime types
 	 */
-	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException, IOException {
-		log.debug("export({}, {}, {})", new Object[]{userId, request, response});
+	private void export(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			IOException {
+		log.debug("export({}, {}, {})", userId, request, response);
 
 		// Disable browser cache
 		response.setHeader("Expires", "Sat, 6 May 1971 12:00:00 GMT");
@@ -268,7 +270,7 @@ public class MimeTypeServlet extends BaseServlet {
 
 		response.setHeader("Content-disposition", "inline; filename=\"" + fileName + "\"");
 		response.setContentType("text/x-sql; charset=UTF-8");
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), "UTF8"), true);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true);
 		out.println("DELETE FROM OKM_MIME_TYPE_EXTENSION;");
 		out.println("DELETE FROM OKM_MIME_TYPE;");
 
@@ -300,10 +302,9 @@ public class MimeTypeServlet extends BaseServlet {
 	/**
 	 * Import mime types into database
 	 */
-	private void importMimeTypes(String userId, HttpServletRequest request, HttpServletResponse response,
-	                             final byte[] data, Session dbSession) throws DatabaseException,
-			IOException, SQLException {
-		log.debug("import({}, {}, {}, {}, {})", new Object[]{userId, request, response, data, dbSession});
+	private void importMimeTypes(String userId, HttpServletRequest request, HttpServletResponse response, final byte[] data,
+			Session dbSession) throws DatabaseException, SQLException {
+		log.debug("import({}, {}, {}, {}, {})", userId, request, response, data, dbSession);
 
         WorkerUpdate worker = new DatabaseQueryServlet().new WorkerUpdate();
         worker.setData(data);

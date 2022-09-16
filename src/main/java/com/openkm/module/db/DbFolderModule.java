@@ -28,8 +28,8 @@ import com.openkm.bean.ContentInfo;
 import com.openkm.bean.ExtendedAttributes;
 import com.openkm.bean.Folder;
 import com.openkm.bean.Repository;
-import com.openkm.core.*;
 import com.openkm.core.Config;
+import com.openkm.core.*;
 import com.openkm.dao.NodeBaseDAO;
 import com.openkm.dao.NodeFolderDAO;
 import com.openkm.dao.PendingTaskDAO;
@@ -333,7 +333,7 @@ public class DbFolderModule implements FolderModule {
 	@Override
 	public Folder rename(String token, String fldId, String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, fldId, newName});
+		log.debug("rename({}, {}, {})", token, fldId, newName);
 		Folder renamedFolder = null;
 		Authentication auth = null, oldAuth = null;
 		String fldPath = null;
@@ -398,9 +398,9 @@ public class DbFolderModule implements FolderModule {
 	}
 
 	@Override
-	public void move(String token, String fldId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
-			RepositoryException, DatabaseException {
-		log.debug("move({}, {}, {})", new Object[]{token, fldId, dstId});
+	public void move(String token, String fldId, String dstId) throws PathNotFoundException, ItemExistsException,
+			AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("move({}, {}, {})", token, fldId, dstId);
 		Authentication auth = null, oldAuth = null;
 		String fldPath = null;
 		String fldUuid = null;
@@ -476,7 +476,7 @@ public class DbFolderModule implements FolderModule {
 	@Override
 	public void copy(String token, String fldId, String dstId) throws PathNotFoundException, ItemExistsException, AccessDeniedException,
 			RepositoryException, IOException, AutomationException, DatabaseException, UserQuotaExceededException {
-		log.debug("copy({}, {}, {})", new Object[]{token, fldId, dstId});
+		log.debug("copy({}, {}, {})", token, fldId, dstId);
 		extendedCopy(token, fldId, dstId, new ExtendedAttributes());
 	}
 
@@ -484,7 +484,7 @@ public class DbFolderModule implements FolderModule {
 	public void extendedCopy(String token, String fldId, String dstId, ExtendedAttributes extAttr) throws PathNotFoundException,
 			ItemExistsException, AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException,
 			UserQuotaExceededException {
-		log.debug("extendedCopy({}, {}, {})", new Object[]{token, fldId, dstId});
+		log.debug("extendedCopy({}, {}, {})", token, fldId, dstId);
 		Authentication auth = null, oldAuth = null;
 		String fldPath = null;
 		String fldUuid = null;

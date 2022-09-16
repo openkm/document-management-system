@@ -194,7 +194,7 @@ public class PropertyGroupServlet extends OKMRemoteServiceServlet implements OKM
 
 	@Override
 	public List<GWTFormElement> getProperties(String path, String grpName, boolean suggestion) throws OKMException {
-		log.debug("getProperties({}, {}, {})", new Object[]{path, grpName, suggestion});
+		log.debug("getProperties({}, {}, {})", path, grpName, suggestion);
 		List<GWTFormElement> properties = new ArrayList<GWTFormElement>();
 		updateSessionManager();
 
@@ -266,7 +266,7 @@ public class PropertyGroupServlet extends OKMRemoteServiceServlet implements OKM
 
 	@Override
 	public List<GWTFormElement> getPropertyGroupForm(String grpName, String path, boolean suggestion) throws OKMException {
-		log.debug("getPropertyGroupForm({},{},{})", new Object[]{grpName, path, suggestion});
+		log.debug("getPropertyGroupForm({},{},{})", grpName, path, suggestion);
 		List<GWTFormElement> gwtProperties = new ArrayList<GWTFormElement>();
 		updateSessionManager();
 
@@ -307,7 +307,7 @@ public class PropertyGroupServlet extends OKMRemoteServiceServlet implements OKM
 
 	@Override
 	public void setProperties(String path, String grpName, List<GWTFormElement> formProperties) throws OKMException {
-		log.debug("setProperties({}, {}, {})", new Object[]{path, grpName, formProperties});
+		log.debug("setProperties({}, {}, {})", path, grpName, formProperties);
 		updateSessionManager();
 
 		try {

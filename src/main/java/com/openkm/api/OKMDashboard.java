@@ -234,7 +234,7 @@ public class OKMDashboard implements DashboardModule {
 	@Override
 	public void visiteNode(String token, String source, String node, Calendar date) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("visiteNode({}, {}, {}, {})", new Object[]{token, source, node, date});
+		log.debug("visiteNode({}, {}, {}, {})", token, source, node, date);
 		DashboardModule dm = ModuleManager.getDashboardModule();
 		dm.visiteNode(token, source, node, date);
 		log.debug("visiteNode: void");

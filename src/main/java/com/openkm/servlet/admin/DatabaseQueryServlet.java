@@ -444,7 +444,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 	 */
 	private void executeUpdate(Session session, byte[] data, ServletContext sc, HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
-		log.debug("executeUpdate({}, {}, {})", new Object[]{session, request, response});
+		log.debug("executeUpdate({}, {}, {})", session, request, response);
 		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();
 		WorkerUpdate worker = new WorkerUpdate();
 		worker.setData(data);

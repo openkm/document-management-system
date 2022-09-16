@@ -321,9 +321,9 @@ public class DbMailModule implements MailModule {
 	}
 
 	@Override
-	public void deleteAttachment(String token, String mailId, String docId) throws LockException, PathNotFoundException, AccessDeniedException,
-			RepositoryException, DatabaseException {
-		log.debug("deleteAttachment({}, {})", new Object[]{token, docId});
+	public void deleteAttachment(String token, String mailId, String docId) throws LockException, PathNotFoundException,
+			AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("deleteAttachment({}, {})", token, docId);
 		long begin = System.currentTimeMillis();
 		String mailUuid = mailId;
 		String docPath = null;
@@ -397,8 +397,8 @@ public class DbMailModule implements MailModule {
 	}
 
 	@Override
-	public List<Document> getAttachments(String token, String mailId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
-			DatabaseException {
+	public List<Document> getAttachments(String token, String mailId) throws AccessDeniedException, PathNotFoundException,
+			RepositoryException, DatabaseException {
 		log.debug("getAttachments({}, {})", token, mailId);
 		long begin = System.currentTimeMillis();
 		List<Document> children = new ArrayList<Document>();
@@ -486,8 +486,8 @@ public class DbMailModule implements MailModule {
 	}
 
 	@Override
-	public void purge(String token, String mailId) throws LockException, PathNotFoundException, AccessDeniedException, RepositoryException,
-			DatabaseException {
+	public void purge(String token, String mailId) throws LockException, PathNotFoundException, AccessDeniedException,
+			RepositoryException, DatabaseException {
 		log.debug("purge({}, {})", token, mailId);
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;

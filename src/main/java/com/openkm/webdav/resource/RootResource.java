@@ -24,8 +24,6 @@ package com.openkm.webdav.resource;
 import com.bradmcevoy.common.Path;
 import com.bradmcevoy.http.*;
 import com.bradmcevoy.http.Request.Method;
-import com.bradmcevoy.http.exceptions.BadRequestException;
-import com.bradmcevoy.http.exceptions.NotAuthorizedException;
 import com.openkm.api.OKMRepository;
 import com.openkm.bean.Folder;
 import com.openkm.bean.Repository;
@@ -34,7 +32,6 @@ import com.openkm.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,14 +89,13 @@ public class RootResource implements PropFindableResource, GetableResource, Coll
 
 	@Override
 	public Object authenticate(String user, String password) {
-		// log.debug("authenticate({}, {})", new Object[] { user, password });
+		log.debug("authenticate({}, {})", user, password);
 		return ResourceFactoryImpl.REALM;
 	}
 
 	@Override
 	public boolean authorise(Request request, Method method, Auth auth) {
-		// log.debug("authorise({}, {}, {})", new Object[] {
-		// request.getAbsolutePath(), method, auth });
+		log.debug("authorise({}, {}, {})", request.getAbsolutePath(), method, auth);
 		return true;
 	}
 
@@ -153,8 +149,7 @@ public class RootResource implements PropFindableResource, GetableResource, Coll
 	}
 
 	@Override
-	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType)
-			throws IOException, NotAuthorizedException, BadRequestException {
+	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) {
 		log.debug("sendContent({}, {})", params, contentType);
 		ResourceUtils.createContent(out, path, fldChilds, null, null);
 	}

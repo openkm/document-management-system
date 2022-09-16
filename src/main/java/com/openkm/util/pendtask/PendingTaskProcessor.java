@@ -128,7 +128,7 @@ public class PendingTaskProcessor {
 	@SuppressWarnings("unchecked")
 	private void processInDepthHelper(Session session, NodeBase parentNode, ProcessInDepthTask task) throws DatabaseException,
 			InterruptedException {
-		log.debug("processInDepthHelper({}, {}, {}", new Object[]{session, parentNode, task});
+		log.debug("processInDepthHelper({}, {}, {}", session, parentNode, task);
 
 		if (!PendingTaskExecutor.running) {
 			log.info("### ### ### Executor flag disabled ### ### ###");

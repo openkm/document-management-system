@@ -255,7 +255,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 
 	@SuppressWarnings("unchecked")
 	private List<String> ldapSearch(String cache, String key, List<String> searchBases, String searchFilter, String attribute) {
-		log.debug("ldapSearch({}, {}, {}, {}, {})", new Object[]{cache, key, searchBases, searchFilter, attribute});
+		log.debug("ldapSearch({}, {}, {}, {}, {})", cache, key, searchBases, searchFilter, attribute);
 		List<String> al = new ArrayList<String>();
 		Cache ldapResultCache = CacheProvider.getInstance().getCache(cache);
 		Element elto = ldapResultCache.get(key);
@@ -325,7 +325,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				}
 			} catch (NamingException e) {
 				log.error("NamingException: {} (Cache: {} - Key: {} - Base: {} - Filter: {} - Attribute: {})",
-						new Object[]{e.getMessage(), cache, key, searchBases, searchFilter, attribute});
+						e.getMessage(), cache, key, searchBases, searchFilter, attribute);
 
 				// To prevent the same error over and over again
 				ldapResultCache.put(new Element(key, al));

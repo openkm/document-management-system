@@ -42,7 +42,6 @@ import com.openkm.util.SystemProfiling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
@@ -89,14 +88,13 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 
 	@Override
 	public Object authenticate(String user, String password) {
-		// log.debug("authenticate({}, {})", new Object[] { user, password });
+		log.debug("authenticate({}, {})", user, password);
 		return ResourceFactoryImpl.REALM;
 	}
 
 	@Override
 	public boolean authorise(Request request, Method method, Auth auth) {
-		// log.debug("authorise({}, {}, {})", new Object[] {
-		// request.getAbsolutePath(), method, auth });
+		log.debug("authorise({}, {}, {})", request.getAbsolutePath(), method, auth);
 		return true;
 	}
 
@@ -165,8 +163,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 	}
 
 	@Override
-	public Resource createNew(String newName, InputStream is, Long length, String contentType) throws IOException,
-			ConflictException, NotAuthorizedException, BadRequestException {
+	public Resource createNew(String newName, InputStream is, Long length, String contentType) {
 		log.debug("createNew({}, {}, {}, {})", newName, is, length, contentType);
 		Document newDoc = new Document();
 		String fixedDocPath = ResourceUtils.fixRepositoryPath(fld.getPath());
@@ -220,8 +217,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 	}
 
 	@Override
-	public CollectionResource createCollection(String newName) throws NotAuthorizedException, ConflictException,
-			BadRequestException {
+	public CollectionResource createCollection(String newName) throws ConflictException {
 		log.debug("createCollection({})", newName);
 		Folder newFld = new Folder();
 		String fixedFldPath = ResourceUtils.fixRepositoryPath(fld.getPath());
@@ -236,8 +232,7 @@ public class FolderResource implements MakeCollectionableResource, PutableResour
 	}
 
 	@Override
-	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType)
-			throws IOException, NotAuthorizedException, BadRequestException {
+	public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) {
 		log.debug("sendContent({}, {})", params, contentType);
 		ResourceUtils.createContent(out, path, fldChilds, docChilds, mailChilds);
 	}

@@ -71,7 +71,7 @@ public class ReportDAO {
 	 * Create report from file
 	 */
 	public static long createFromFile(File repFile, String name, boolean active) throws DatabaseException, IOException {
-		log.debug("createFromFile({}, {}, {})", new Object[]{repFile, name, active});
+		log.debug("createFromFile({}, {}, {})", repFile, name, active);
 		Session session = null;
 		Transaction tx = null;
 		FileInputStream fis = null;

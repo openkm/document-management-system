@@ -589,7 +589,7 @@ public class ImageManipulation {
 
 				if (field != null) {
 					field.putValue(i);
-					log.debug("Found mark at ({}, {}) : {} : {} = {}", new Object[]{x, y, (char) (ascTemplateLocations[i]), field.getName(), field.getValue(i)});
+					log.debug("Found mark at ({}, {}) : {} : {} = {}", x, y, (char) (ascTemplateLocations[i]), field.getName(), field.getValue(i));
 					mark.putMarkOnImage(markedImage);
 				}
 			}

@@ -47,7 +47,7 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 
 	@Override
 	public List<Map<String, String>> executeValueQuery(String table, String filter, String order) throws OKMException {
-		log.debug("executeValueQuery({}, {}, {})", new Object[]{table, filter, order});
+		log.debug("executeValueQuery({}, {}, {})", table, filter, order);
 		updateSessionManager();
 		List<Map<String, String>> metadataValues = new ArrayList<Map<String, String>>();
 

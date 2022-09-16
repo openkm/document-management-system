@@ -64,8 +64,7 @@ public class RepositoryImporter {
 	public static ImpExpStats importDocuments(String token, File fs, String fldPath, boolean metadata, boolean history,
 			boolean uuid, Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("importDocuments({}, {}, {}, {}, {}, {}, {}, {})",
-				new Object[]{token, fs, fldPath, metadata, history, uuid, out, deco});
+		log.debug("importDocuments({}, {}, {}, {}, {}, {}, {}, {})", token, fs, fldPath, metadata, history, uuid, out, deco);
 		ImpExpStats stats;
 
 		try {
@@ -114,7 +113,7 @@ public class RepositoryImporter {
 	private static ImpExpStats importDocumentsHelper(String token, File fs, String fldPath, boolean metadata, boolean history,
 			boolean uuid, Writer out, InfoDecorator deco) throws PathNotFoundException, AccessDeniedException, RepositoryException,
 			IOException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("importDocumentsHelper({}, {}, {}, {}, {}, {}, {}, {})", new Object[]{token, fs, fldPath, metadata, history, uuid, out, deco});
+		log.debug("importDocumentsHelper({}, {}, {}, {}, {}, {}, {}, {})", token, fs, fldPath, metadata, history, uuid, out, deco);
 		long begin = System.currentTimeMillis();
 		File[] files = fs.listFiles(new RepositoryImporter.NoVersionFilenameFilter());
 		ImpExpStats stats = new ImpExpStats();

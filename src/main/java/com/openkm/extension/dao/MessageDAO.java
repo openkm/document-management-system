@@ -46,9 +46,8 @@ public class MessageDAO {
 	/**
 	 * Send message
 	 */
-	public static void send(String from, String to, String user, String subject, String content) throws
-			DatabaseException {
-		log.debug("send({}, {}, {}, {}, {})", new Object[]{from, to, user, subject, content});
+	public static void send(String from, String to, String user, String subject, String content) throws DatabaseException {
+		log.debug("send({}, {}, {}, {}, {})", from, to, user, subject, content);
 		Session session = null;
 		Transaction tx = null;
 

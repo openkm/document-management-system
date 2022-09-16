@@ -846,7 +846,7 @@ public class DashboardServlet extends OKMRemoteServiceServlet implements OKMDash
 
 	@Override
 	public void visiteNode(String source, String node, Date date) throws OKMException {
-		log.debug("visiteNode({}, {}, {})", new Object[]{source, node, date});
+		log.debug("visiteNode({}, {}, {})", source, node, date);
 		updateSessionManager();
 
 		try {

@@ -45,7 +45,7 @@ public class NoteService {
 	// The "text" parameter comes in the POST request body.
 	public Note add(@QueryParam("nodeId") String nodeId, String text) throws GenericException {
 		try {
-			log.debug("add({}, {})", new Object[]{nodeId, text});
+			log.debug("add({}, {})", nodeId, text);
 			NoteModule nm = ModuleManager.getNoteModule();
 			Note ret = nm.add(null, nodeId, text);
 			log.debug("addNote: {}", ret);
@@ -87,7 +87,7 @@ public class NoteService {
 	// The "text" parameter comes in the PUT request body.
 	public void set(@QueryParam("noteId") String noteId, String text) throws GenericException {
 		try {
-			log.debug("set({}, {})", new Object[]{noteId, text});
+			log.debug("set({}, {})", noteId, text);
 			NoteModule nm = ModuleManager.getNoteModule();
 			nm.set(null, noteId, text);
 			log.debug("set: void");

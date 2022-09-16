@@ -115,7 +115,7 @@ public class SearchDAO {
 	 * Search by query
 	 */
 	public NodeResultSet findByQuery(Query query, int offset, int limit) throws ParseException, DatabaseException {
-		log.debug("findByQuery({}, {}, {})", new Object[]{query, offset, limit});
+		log.debug("findByQuery({}, {}, {})", query, offset, limit);
 		FullTextSession ftSession = null;
 		Session session = null;
 		Transaction tx = null;
@@ -163,7 +163,7 @@ public class SearchDAO {
 	 */
 	public NodeResultSet findBySimpleQuery(String expression, int offset, int limit) throws ParseException,
 			DatabaseException {
-		log.debug("findBySimpleQuery({}, {}, {})", new Object[]{expression, offset, limit});
+		log.debug("findBySimpleQuery({}, {}, {})", expression, offset, limit);
 		FullTextSession ftSession = null;
 		Session session = null;
 		Transaction tx = null;
@@ -219,7 +219,7 @@ public class SearchDAO {
 	 * @param field      the default field for query terms.
 	 */
 	public Query parseQuery(String expression, String field) throws ParseException, DatabaseException {
-		log.debug("parseQuery({})", new Object[]{expression});
+		log.debug("parseQuery({}, {})", expression, field);
 
 		try {
 			QueryParser parser = new QueryParser(Config.LUCENE_VERSION, field, analyzer);
@@ -242,7 +242,7 @@ public class SearchDAO {
 	@SuppressWarnings("unchecked")
 	private NodeResultSet runQueryLucene(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, HibernateException, DatabaseException {
-		log.debug("runQueryLucene({}, {}, {}, {})", new Object[]{ftSession, query, offset, limit});
+		log.debug("runQueryLucene({}, {}, {}, {})", ftSession, query, offset, limit);
 		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
@@ -287,7 +287,7 @@ public class SearchDAO {
 	@SuppressWarnings("unchecked")
 	private NodeResultSet runQueryAccessManagerMore(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
-		log.debug("runQueryAccessManagerMore({}, {}, {}, {})", new Object[]{ftSession, query, offset, limit});
+		log.debug("runQueryAccessManagerMore({}, {}, {}, {})", ftSession, query, offset, limit);
 		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
@@ -358,7 +358,7 @@ public class SearchDAO {
 	@SuppressWarnings("unchecked")
 	private NodeResultSet runQueryAccessManagerWindow(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
-		log.debug("runQueryAccessManagerWindow({}, {}, {}, {})", new Object[]{ftSession, query, offset, limit});
+		log.debug("runQueryAccessManagerWindow({}, {}, {}, {})", ftSession, query, offset, limit);
 		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
@@ -526,7 +526,7 @@ public class SearchDAO {
 			excerpt = highlighter.getBestFragment(analyzer, NodeMail.CONTENT_FIELD, nMail.getContent());
 		}
 
-		log.debug("Result: SCORE({}), EXCERPT({}), DOCUMENT({})", new Object[]{score, excerpt, nBase});
+		log.debug("Result: SCORE({}), EXCERPT({}), DOCUMENT({})", score, excerpt, nBase);
 		qr.setScore(score);
 		qr.setExcerpt(FormatUtil.stripNonValidXMLCharacters(excerpt));
 
@@ -634,7 +634,7 @@ public class SearchDAO {
 	 * Return a list of similar documents.
 	 */
 	public NodeResultSet moreLikeThis(String uuid, int maxResults) throws DatabaseException, PathNotFoundException {
-		log.debug("moreLikeThis({}, {})", new Object[]{uuid, maxResults});
+		log.debug("moreLikeThis({}, {})", uuid, maxResults);
 		String[] moreLikeFields = new String[]{"text"};
 		FullTextSession ftSession = null;
 		Session session = null;

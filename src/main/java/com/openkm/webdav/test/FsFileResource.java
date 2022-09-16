@@ -39,7 +39,7 @@ public class FsFileResource extends FsResource implements CopyableResource, Dele
 		String mime = ContentTypeUtils.findContentTypes(this.file);
 		String s = ContentTypeUtils.findAcceptableContentType(mime, preferredList);
 		if (log.isTraceEnabled()) {
-			log.trace("getContentType: preferred: {} mime: {} selected: {}", new Object[]{preferredList, mime, s});
+			log.trace("getContentType: preferred: {} mime: {} selected: {}", preferredList, mime, s);
 		}
 		return s;
 	}
@@ -73,14 +73,14 @@ public class FsFileResource extends FsResource implements CopyableResource, Dele
 	}
 
 	/**
-	 * @{@inheritDoc
+	 *
 	 */
 	public Long getMaxAgeSeconds(Auth auth) {
 		return factory.maxAgeSeconds(this);
 	}
 
 	/**
-	 * @{@inheritDoc
+	 *
 	 */
 	@Override
 	protected void doCopy(File dest) {

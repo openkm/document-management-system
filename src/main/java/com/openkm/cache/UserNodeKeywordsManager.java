@@ -58,7 +58,7 @@ public class UserNodeKeywordsManager {
 	 * @param keyword The keyword to be cached.
 	 */
 	public static synchronized void add(String user, String nodeUuid, String keyword) {
-		log.info("add({}, {}, {})", new Object[]{user, nodeUuid, keyword});
+		log.info("add({}, {}, {})", user, nodeUuid, keyword);
 		Map<String, UserNodeKeywords> usrDocs = get(user);
 		UserNodeKeywords udk = usrDocs.get(nodeUuid);
 

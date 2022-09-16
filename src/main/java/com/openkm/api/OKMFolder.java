@@ -101,7 +101,7 @@ public class OKMFolder implements FolderModule {
 	@Override
 	public Folder rename(String token, String fldId, String newName) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("rename({}, {}, {})", new Object[]{token, fldId, newName});
+		log.debug("rename({}, {}, {})", token, fldId, newName);
 		FolderModule fm = ModuleManager.getFolderModule();
 		Folder renamedFolder = fm.rename(token, fldId, newName);
 		log.debug("rename: {}", renamedFolder);
@@ -111,7 +111,7 @@ public class OKMFolder implements FolderModule {
 	@Override
 	public void move(String token, String fldId, String dstId) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("move({}, {}, {})", new Object[]{token, fldId, dstId});
+		log.debug("move({}, {}, {})", token, fldId, dstId);
 		FolderModule fm = ModuleManager.getFolderModule();
 		fm.move(token, fldId, dstId);
 		log.debug("move: void");
@@ -120,7 +120,7 @@ public class OKMFolder implements FolderModule {
 	@Override
 	public void copy(String token, String fldId, String dstId) throws PathNotFoundException, ItemExistsException,
 			AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException, UserQuotaExceededException {
-		log.debug("copy({}, {}, {})", new Object[]{token, fldId, dstId});
+		log.debug("copy({}, {}, {})", token, fldId, dstId);
 		FolderModule fm = ModuleManager.getFolderModule();
 		fm.copy(token, fldId, dstId);
 		log.debug("copy: void");
@@ -130,7 +130,7 @@ public class OKMFolder implements FolderModule {
 	public void extendedCopy(String token, String fldId, String dstId, ExtendedAttributes extAttr) throws PathNotFoundException,
 			ItemExistsException, AccessDeniedException, RepositoryException, IOException, AutomationException, DatabaseException,
 			UserQuotaExceededException {
-		log.debug("extendedCopy({}, {}, {}, {})", new Object[]{token, fldId, dstId, extAttr});
+		log.debug("extendedCopy({}, {}, {}, {})", token, fldId, dstId, extAttr);
 		FolderModule fm = ModuleManager.getFolderModule();
 		fm.extendedCopy(token, fldId, dstId, extAttr);
 		log.debug("extendedCopy: void");

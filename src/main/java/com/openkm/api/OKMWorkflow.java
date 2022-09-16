@@ -53,8 +53,8 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public void registerProcessDefinition(String token, InputStream is) throws ParseException,
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException, IOException {
+	public void registerProcessDefinition(String token, InputStream is) throws ParseException, AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException, IOException {
 		log.debug("registerProcessDefinition({}, {})", token, is);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.registerProcessDefinition(token, is);
@@ -71,8 +71,8 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public ProcessDefinition getProcessDefinition(String token, long processDefinitionId) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
+	public ProcessDefinition getProcessDefinition(String token, long processDefinitionId) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException {
 		log.debug("getProcessDefinition({}, {})", token, processDefinitionId);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		ProcessDefinition result = wm.getProcessDefinition(token, processDefinitionId);
@@ -81,9 +81,9 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public byte[] getProcessDefinitionImage(String token, long processDefinitionId, String node) throws
-			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("getProcessDefinitionImage({}, {}, {})", new Object[]{token, processDefinitionId, node});
+	public byte[] getProcessDefinitionImage(String token, long processDefinitionId, String node) throws AccessDeniedException,
+			RepositoryException, DatabaseException, WorkflowException {
+		log.debug("getProcessDefinitionImage({}, {}, {})", token, processDefinitionId, node);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		byte[] result = wm.getProcessDefinitionImage(token, processDefinitionId, node);
 		log.debug("getProcessDefinitionImage: {}", result);
@@ -101,10 +101,9 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public ProcessInstance runProcessDefinition(String token, long processDefinitionId, String uuid,
-	                                            List<FormElement> variables) throws WorkflowException, AccessDeniedException, RepositoryException,
-			DatabaseException {
-		log.debug("runProcessDefinition({}, {}, {}, {})", new Object[]{token, processDefinitionId, uuid, variables});
+	public ProcessInstance runProcessDefinition(String token, long processDefinitionId, String uuid, List<FormElement> variables)
+			throws WorkflowException, AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("runProcessDefinition({}, {}, {}, {})", token, processDefinitionId, uuid, variables);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		ProcessInstance result = wm.runProcessDefinition(token, processDefinitionId, uuid, variables);
 		log.debug("runProcessDefinition: {}", result);
@@ -112,9 +111,9 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public ProcessInstance sendProcessInstanceSignal(String token, long processInstanceId,
-	                                                 String transitionName) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("sendProcessInstanceSignal({}, {}, {})", new Object[]{token, processInstanceId, transitionName});
+	public ProcessInstance sendProcessInstanceSignal(String token, long processInstanceId, String transitionName) throws
+			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
+		log.debug("sendProcessInstanceSignal({}, {}, {})", token, processInstanceId, transitionName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		ProcessInstance result = wm.sendProcessInstanceSignal(token, processInstanceId, transitionName);
 		log.debug("sendProcessInstanceSignal: {}", result);
@@ -220,7 +219,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void addProcessInstanceVariable(String token, long processInstanceId, String name, Object value)
 			throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("addProcessInstanceVariable({}, {}, {}, {})", new Object[]{token, processInstanceId, name, value});
+		log.debug("addProcessInstanceVariable({}, {}, {}, {})", token, processInstanceId, name, value);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addProcessInstanceVariable(token, processInstanceId, name, value);
 		log.debug("addProcessInstanceVariable: void");
@@ -229,7 +228,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void deleteProcessInstanceVariable(String token, long processInstanceId, String name) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("deleteProcessInstanceVariable({}, {}, {})", new Object[]{token, processInstanceId, name});
+		log.debug("deleteProcessInstanceVariable({}, {}, {})", token, processInstanceId, name);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.deleteProcessInstanceVariable(token, processInstanceId, name);
 		log.debug("deleteProcessInstanceVariable: void");
@@ -266,9 +265,9 @@ public class OKMWorkflow implements WorkflowModule {
 	}
 
 	@Override
-	public void setTaskInstanceValues(String token, long taskInstanceId, String transitionName,
-	                                  List<FormElement> values) throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("setTaskInstanceValues({}, {}, {}, {})", new Object[]{token, taskInstanceId, transitionName, values});
+	public void setTaskInstanceValues(String token, long taskInstanceId, String transitionName, List<FormElement> values)
+			throws AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
+		log.debug("setTaskInstanceValues({}, {}, {}, {})", token, taskInstanceId, transitionName, values);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.setTaskInstanceValues(token, taskInstanceId, transitionName, values);
 		log.debug("setTaskInstanceValues: void");
@@ -277,7 +276,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void addTaskInstanceComment(String token, long taskInstanceId, String message) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("addTaskInstanceComment({}, {}, {})", new Object[]{token, taskInstanceId, message});
+		log.debug("addTaskInstanceComment({}, {}, {})", token, taskInstanceId, message);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTaskInstanceComment(token, taskInstanceId, message);
 		log.debug("addTaskInstanceComment: void");
@@ -296,7 +295,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void setTaskInstanceActorId(String token, long taskInstanceId, String actorId) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("setTaskInstanceActorId({}, {}, {})", new Object[]{token, taskInstanceId, actorId});
+		log.debug("setTaskInstanceActorId({}, {}, {})", token, taskInstanceId, actorId);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.setTaskInstanceActorId(token, taskInstanceId, actorId);
 		log.debug("setTaskInstanceActorId: void");
@@ -305,7 +304,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void addTaskInstanceVariable(String token, long taskInstanceId, String name, Object value) throws
 			AccessDeniedException, RepositoryException, DatabaseException, WorkflowException {
-		log.debug("addTaskInstanceVariable({}, {}, {}, {})", new Object[]{token, taskInstanceId, name, value});
+		log.debug("addTaskInstanceVariable({}, {}, {}, {})", token, taskInstanceId, name, value);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTaskInstanceVariable(token, taskInstanceId, name, value);
 		log.debug("addTaskInstanceVariable: void");
@@ -314,7 +313,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void deleteTaskInstanceVariable(String token, long taskInstanceId, String name) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("deleteTaskInstanceVariable({}, {}, {})", new Object[]{token, taskInstanceId, name});
+		log.debug("deleteTaskInstanceVariable({}, {}, {})", token, taskInstanceId, name);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.deleteTaskInstanceVariable(token, taskInstanceId, name);
 		log.debug("deleteTaskInstanceVariable: void");
@@ -332,7 +331,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void endTaskInstance(String token, long taskInstanceId, String transitionName) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("endTaskInstance({}, {} ,{})", new Object[]{token, taskInstanceId, transitionName});
+		log.debug("endTaskInstance({}, {} ,{})", token, taskInstanceId, transitionName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.endTaskInstance(token, taskInstanceId, transitionName);
 		log.debug("endTaskInstance: void");
@@ -369,7 +368,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void addTokenComment(String token, long tokenId, String message) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException {
-		log.debug("addTokenComment({}, {}, {})", new Object[]{token, tokenId, message});
+		log.debug("addTokenComment({}, {}, {})", token, tokenId, message);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.addTokenComment(token, tokenId, message);
 		log.debug("addTokenComment: void");
@@ -396,7 +395,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public Token sendTokenSignal(String token, long tokenId, String transitionName) throws AccessDeniedException,
 			RepositoryException, DatabaseException, WorkflowException {
-		log.debug("sendTokenSignal({}, {}, {})", new Object[]{token, tokenId, transitionName});
+		log.debug("sendTokenSignal({}, {}, {})", token, tokenId, transitionName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		Token result = wm.sendTokenSignal(token, tokenId, transitionName);
 		log.debug("sendTokenSignal: {}", result);
@@ -406,7 +405,7 @@ public class OKMWorkflow implements WorkflowModule {
 	@Override
 	public void setTokenNode(String token, long tokenId, String nodeName) throws AccessDeniedException, RepositoryException,
 			DatabaseException, WorkflowException {
-		log.debug("setTokenNode({}, {}, {})", new Object[]{token, tokenId, nodeName});
+		log.debug("setTokenNode({}, {}, {})", token, tokenId, nodeName);
 		WorkflowModule wm = ModuleManager.getWorkflowModule();
 		wm.setTokenNode(token, tokenId, nodeName);
 		log.debug("setTokenNode: void");

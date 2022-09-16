@@ -21,41 +21,20 @@
 
 package com.openkm.rest.endpoint;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.openkm.module.AuthModule;
 import com.openkm.module.ModuleManager;
 import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.rest.GenericException;
-import com.openkm.rest.util.ChangeSecurity;
-import com.openkm.rest.util.GrantedRole;
-import com.openkm.rest.util.GrantedRoleList;
-import com.openkm.rest.util.GrantedUser;
-import com.openkm.rest.util.GrantedUserList;
-import com.openkm.rest.util.RevokedRole;
-import com.openkm.rest.util.RevokedUser;
-import com.openkm.rest.util.RoleList;
-import com.openkm.rest.util.UserList;
-
+import com.openkm.rest.util.*;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -161,7 +140,7 @@ public class AuthService {
 	public void grantRole(@FormParam("nodeId") String nodeId, @FormParam("role") String role, @FormParam("permissions") int permissions,
 	                      @FormParam("recursive") boolean recursive) throws GenericException {
 		try {
-			log.debug("grantRole({}, {}, {}, {})", new Object[]{nodeId, role, permissions, recursive});
+			log.debug("grantRole({}, {}, {}, {})", nodeId, role, permissions, recursive);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.grantRole(null, nodeId, role, permissions, recursive);
 			log.debug("grantRole: void");
@@ -176,7 +155,7 @@ public class AuthService {
 	public void grantUser(@FormParam("nodeId") String nodeId, @FormParam("user") String user, @FormParam("permissions") int permissions,
 	                      @DefaultValue("false") @FormParam("recursive") boolean recursive) throws GenericException {
 		try {
-			log.debug("grantUser({}, {}, {}, {})", new Object[]{nodeId, user, permissions, recursive});
+			log.debug("grantUser({}, {}, {}, {})", nodeId, user, permissions, recursive);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.grantUser(null, nodeId, user, permissions, recursive);
 			log.debug("grantUser: void");
@@ -191,7 +170,7 @@ public class AuthService {
 	public void revokeRole(@FormParam("nodeId") String nodeId, @FormParam("role") String role, @FormParam("permissions") int permissions,
 	                       @FormParam("recursive") boolean recursive) throws GenericException {
 		try {
-			log.debug("revokeRole({}, {}, {}, {})", new Object[]{nodeId, role, permissions, recursive});
+			log.debug("revokeRole({}, {}, {}, {})", nodeId, role, permissions, recursive);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.revokeRole(null, nodeId, role, permissions, recursive);
 			log.debug("revokeRole: void");
@@ -206,7 +185,7 @@ public class AuthService {
 	public void revokeUser(@FormParam("nodeId") String nodeId, @FormParam("user") String user, @FormParam("permissions") int permissions,
 	                       @FormParam("recursive") boolean recursive) throws GenericException {
 		try {
-			log.debug("revokeUser({}, {}, {}, {})", new Object[]{nodeId, user, permissions, recursive});
+			log.debug("revokeUser({}, {}, {}, {})", nodeId, user, permissions, recursive);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.revokeUser(null, nodeId, user, permissions, recursive);
 			log.debug("revokeUser: void");
@@ -304,14 +283,14 @@ public class AuthService {
 	            throw new GenericException(e);
 	        }
 	    }
-	   
+
 	@POST
 	@Path("/createUser")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void createUser(@FormParam("user") String user, @FormParam("password") String password, @FormParam("email") String email,
 	                       @FormParam("name") String name, @FormParam("active") boolean active) throws GenericException {
 		try {
-			log.debug("createUser({}, {}, {}, {}, {})", new Object[]{user, password, email, name, active});
+			log.debug("createUser({}, {}, {}, {}, {})", user, password, email, name, active);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.createUser(null, user, password, email, name, active);
 			log.debug("createUser: void");
@@ -324,7 +303,7 @@ public class AuthService {
 	@Path("/deleteUser")
 	public void deleteUser(@QueryParam("user") String user) throws GenericException {
 		try {
-			log.debug("deleteUser({})", new Object[]{user});
+			log.debug("deleteUser({})", user);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.deleteUser(null, user);
 			log.debug("deleteUser: void");
@@ -339,7 +318,7 @@ public class AuthService {
 	public void updateUser(@FormParam("user") String user, @FormParam("password") String password, @FormParam("email") String email,
 	                       @FormParam("name") String name, @FormParam("active") boolean active) throws GenericException {
 		try {
-			log.debug("updateUser({}, {}, {}, {}, {})", new Object[]{user, password, email, name, active});
+			log.debug("updateUser({}, {}, {}, {}, {})", user, password, email, name, active);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.updateUser(null, user, password, email, name, active);
 			log.debug("updateUser: void");
@@ -353,7 +332,7 @@ public class AuthService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void createRole(@FormParam("role") String role, @FormParam("active") boolean active) throws GenericException {
 		try {
-			log.debug("createRole({}, {})", new Object[]{role, active});
+			log.debug("createRole({}, {})", role, active);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.createRole(null, role, active);
 			log.debug("createRole: void");
@@ -366,7 +345,7 @@ public class AuthService {
 	@Path("/deleteRole")
 	public void deleteRole(@QueryParam("role") String role) throws GenericException {
 		try {
-			log.debug("deleteRole({})", new Object[]{role});
+			log.debug("deleteRole({})", role);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.deleteRole(null, role);
 			log.debug("deleteRole: void");
@@ -380,7 +359,7 @@ public class AuthService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void updateRole(@FormParam("role") String role, @FormParam("active") boolean active) throws GenericException {
 		try {
-			log.debug("updateRole({}, {})", new Object[]{role, active});
+			log.debug("updateRole({}, {})", role, active);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.updateRole(null, role, active);
 			log.debug("updateRole: void");
@@ -394,7 +373,7 @@ public class AuthService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void assignRole(@FormParam("user") String user, @FormParam("role") String role) throws GenericException {
 		try {
-			log.debug("assignRole({}, {})", new Object[]{user, role});
+			log.debug("assignRole({}, {})", user, role);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.assignRole(null, user, role);
 			log.debug("assignRole: void");
@@ -408,7 +387,7 @@ public class AuthService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void removeRole(@FormParam("user") String user, @FormParam("role") String role) throws GenericException {
 		try {
-			log.debug("removeRole({}, {})", new Object[]{user, role});
+			log.debug("removeRole({}, {})", user, role);
 			AuthModule am = ModuleManager.getAuthModule();
 			am.removeRole(null, user, role);
 			log.debug("removeRole: void");

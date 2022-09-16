@@ -48,7 +48,7 @@ public class OKMNote implements NoteModule {
 	@Override
 	public Note add(String token, String nodeId, String text) throws LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("add({}, {}, {})", new Object[]{token, nodeId, text});
+		log.debug("add({}, {}, {})", token, nodeId, text);
 		NoteModule nm = ModuleManager.getNoteModule();
 		Note ret = nm.add(token, nodeId, text);
 		log.debug("add: {}", ret);
@@ -77,7 +77,7 @@ public class OKMNote implements NoteModule {
 	@Override
 	public String set(String token, String noteId, String text) throws LockException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("set({}, {}, {})", new Object[]{token, noteId, text});
+		log.debug("set({}, {}, {})", token, noteId, text);
 		NoteModule nm = ModuleManager.getNoteModule();
 		String ret = nm.set(token, noteId, text);
 		log.debug("set: {}", ret);

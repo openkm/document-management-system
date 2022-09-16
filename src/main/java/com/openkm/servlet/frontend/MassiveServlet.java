@@ -508,7 +508,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 
 	@Override
 	public void setProperties(List<String> paths, String grpName, List<GWTFormElement> formProperties) throws OKMException {
-		log.debug("setProperties({}, {}, {})", new Object[]{paths, grpName, formProperties});
+		log.debug("setProperties({}, {}, {})", paths, grpName, formProperties);
 		updateSessionManager();
 		String error = "";
 		String pathErrors = "";
@@ -666,8 +666,9 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 	}
 
 	@Override
-	public void notify(List<String> uuids, String mails, String users, String roles, String message, boolean attachment) throws OKMException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{uuids, mails, users, roles, message, attachment});
+	public void notify(List<String> uuids, String mails, String users, String roles, String message, boolean attachment)
+			throws OKMException {
+		log.debug("notify({}, {}, {}, {}, {}, {})", uuids, mails, users, roles, message, attachment);
 		updateSessionManager();
 
 		try {
@@ -717,7 +718,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 
 	@Override
 	public void forwardMail(List<String> uuids, String mails, String users, String roles, String message) throws OKMException {
-		log.debug("forwardMail({}, {}, {}, {}, {})", new Object[]{uuids, mails, users, roles, message});
+		log.debug("forwardMail({}, {}, {}, {}, {})", uuids, mails, users, roles, message);
 		updateSessionManager();
 
 		try {
@@ -779,7 +780,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 
 	@Override
 	public void setMixedProperties(List<String> uuidList, List<GWTFormElement> formProperties, boolean recursive) throws OKMException {
-		log.debug("setMixedProperties({}, {})", new Object[]{uuidList, formProperties, recursive});
+		log.debug("setMixedProperties({}, {}, {})", uuidList, formProperties, recursive);
 		Map<String, List<FormElement>> groupElements = new HashMap<String, List<FormElement>>();
 		updateSessionManager();
 		String error = "";

@@ -26,7 +26,7 @@ public class DbNoteModule implements NoteModule {
 	@Override
 	public Note add(String token, String nodeId, String text) throws LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("add({}, {}, {})", new Object[]{token, nodeId, text});
+		log.debug("add({}, {}, {})", token, nodeId, text);
 		Note newNote = null;
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;

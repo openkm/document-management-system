@@ -125,9 +125,6 @@ public class Benchmark {
 
 	/**
 	 * Run system calibration
-	 *
-	 * @throws IOException
-	 * @throws InputMismatchException
 	 */
 	public long runCalibration() throws InputMismatchException, IOException {
 		final int ITERATIONS = 10;
@@ -157,17 +154,17 @@ public class Benchmark {
 		okmApiHighPopulateHelper(token, root, out, res, gen, 0);
 		long end = System.currentTimeMillis();
 		String elapse = FormatUtil.formatSeconds(end - begin);
-		log.debug("Total Time: {} - Folders: {}, Documents: {}", new Object[]{elapse, totalFolders, totalDocuments});
+		log.debug("Total Time: {} - Folders: {}, Documents: {}", elapse, totalFolders, totalDocuments);
 	}
 
 	/**
 	 * Helper
 	 */
 	private void okmApiHighPopulateHelper(String token, Folder root, PrintWriter out, PrintWriter res, Generator gen,
-	                                      int depth) throws InputMismatchException, IOException, ItemExistsException, PathNotFoundException,
+			int depth) throws InputMismatchException, IOException, ItemExistsException, PathNotFoundException,
 			UserQuotaExceededException, AccessDeniedException, UnsupportedMimeTypeException, FileSizeExceededException,
 			VirusDetectedException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		log.debug("okmApiHighPopulateHelper({}, {}, {}, {})", new Object[]{token, root, gen, depth});
+		log.debug("okmApiHighPopulateHelper({}, {}, {}, {})", token, root, gen, depth);
 
 		if (depth < maxDepth) {
 			for (int i = 0; i < maxFolders; i++) {
@@ -196,8 +193,7 @@ public class Benchmark {
 
 				long end = System.currentTimeMillis();
 				String elapse = FormatUtil.formatSeconds(end - begin);
-				log.debug("Partial Time: {} - Folders: {}, Documents: {}", new Object[]{elapse, totalFolders,
-						totalDocuments});
+				log.debug("Partial Time: {} - Folders: {}, Documents: {}", elapse, totalFolders, totalDocuments);
 				out.print("<tr class=\"" + (row++ % 2 == 0 ? "even" : "odd") + "\">");
 				out.print("<td>" + FormatUtil.formatDate(Calendar.getInstance()) + "</td>");
 				out.print("<td>" + elapse + "</td>");
@@ -235,18 +231,15 @@ public class Benchmark {
 		filesystemDocumentGenerateHelper(root, gen, 0, begin);
 		long end = System.currentTimeMillis();
 		String elapse = FormatUtil.formatSeconds(end - begin);
-		log.debug("Total Time: {} - Folders: {}, Documents: {}", new Object[]{elapse, totalFolders, totalDocuments});
+		log.debug("Total Time: {} - Folders: {}, Documents: {}", elapse, totalFolders, totalDocuments);
 	}
 
 	/**
 	 * Helper
 	 */
 	private void filesystemDocumentGenerateHelper(File root, Generator gen, int depth, long begin) throws
-			InputMismatchException, IOException, ItemExistsException, PathNotFoundException,
-			UserQuotaExceededException, AccessDeniedException, UnsupportedMimeTypeException,
-			FileSizeExceededException, VirusDetectedException, RepositoryException, DatabaseException,
-			ExtensionException, AutomationException {
-		log.debug("filesystemDocumentGenerateHelper({}, {}, {}, {})", new Object[]{root, gen, depth, begin});
+			InputMismatchException, IOException {
+		log.debug("filesystemDocumentGenerateHelper({}, {}, {}, {})", root, gen, depth, begin);
 
 		if (depth < maxDepth) {
 			for (int i = 0; i < maxFolders; i++) {
@@ -266,8 +259,8 @@ public class Benchmark {
 
 				long end = System.currentTimeMillis();
 				String elapse = FormatUtil.formatSeconds(end - begin);
-				log.info("Elapse Time: {} - Folders: {}, Documents: {}, Size: {}", new Object[]{elapse, totalFolders,
-						totalDocuments, FormatUtil.formatSize(totalSize)});
+				log.info("Elapse Time: {} - Folders: {}, Documents: {}, Size: {}", elapse, totalFolders,
+						totalDocuments, FormatUtil.formatSize(totalSize));
 
 				// Go depth
 				filesystemDocumentGenerateHelper(fld, gen, depth + 1, begin);

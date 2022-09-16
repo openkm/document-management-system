@@ -49,7 +49,7 @@ public class ProposedSubscriptionDAO {
 	 */
 	public static void send(String from, String to, String user, String nodeUuid, String type, String comment) throws
 			DatabaseException {
-		log.debug("send({}, {}, {}, {}, {})", new Object[]{from, to, user, nodeUuid, comment});
+		log.debug("send({}, {}, {}, {}, {})", from, to, user, nodeUuid, comment);
 		Session session = null;
 		Transaction tx = null;
 

@@ -153,7 +153,7 @@ public class CustomLoginModule implements LoginModule {
 	private void authenticate() throws PrincipalAdapterException, NoSuchAlgorithmException, LoginException {
 		PrincipalAdapter pa = CommonAuthModule.getPrincipalAdapter();
 		String ppass = pa.getPassword(name);
-		log.debug("User: {}, Password: {}, DBPassword: {}", new Object[]{name, password, ppass});
+		log.debug("User: {}, Password: {}, DBPassword: {}", name, password, ppass);
 
 		if (customCallbackHandler || ppass.equals(SecureStore.md5Encode(password.getBytes()))) {
 			subject.getPrincipals().add(new UserImpl(name));

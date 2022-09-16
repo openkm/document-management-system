@@ -44,7 +44,6 @@ import com.openkm.servlet.frontend.ChatServlet;
 import com.openkm.util.SecureStore;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,7 +110,7 @@ public class AuthServlet extends BaseServlet {
                 } else {
                     userList(userId, request, response);
                 }
-				
+
 			} catch (DatabaseException e) {
 				log.error(e.getMessage(), e);
 				sendErrorRedirect(request, response, e);
@@ -133,7 +132,7 @@ public class AuthServlet extends BaseServlet {
 			sendErrorRedirect(request, response, ade);
 		}
 	}
-	
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         log.debug("doPost({}, {})", request, response);
@@ -223,7 +222,7 @@ public class AuthServlet extends BaseServlet {
 		out.flush();
 		out.close();
 	}
-	
+
 	/**
      * Export users and roles
      */
@@ -258,9 +257,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * New user
 	 */
-	private void userCreate(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("userCreate({}, {}, {})", new Object[]{userId, request, response});
+	private void userCreate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("userCreate({}, {}, {})", userId, request, response);
 
 		if (Config.CLOUD_MODE && Config.CLOUD_MAX_USERS > 0) {
 			// Subtract 2 because users "okmAdmin" and "admin" should not count
@@ -328,9 +327,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Edit user
 	 */
-	private void userEdit(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("userEdit({}, {}, {})", new Object[]{userId, request, response});
+	private void userEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("userEdit({}, {}, {})", userId, request, response);
 		String usrId = WebUtils.getString(request, "usr_id");
 
 		if (WebUtils.getBoolean(request, "persist")) {
@@ -384,9 +383,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Update user
 	 */
-	private void userDelete(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("userDelete({}, {}, {})", new Object[]{userId, request, response});
+	private void userDelete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("userDelete({}, {}, {})", userId, request, response);
 		String usrId = WebUtils.getString(request, "usr_id");
 
 		if (WebUtils.getBoolean(request, "persist")) {
@@ -424,9 +423,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Active user
 	 */
-	private void userActive(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("userActive({}, {}, {})", new Object[]{userId, request, response});
+	private void userActive(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("userActive({}, {}, {})", userId, request, response);
 		boolean active = WebUtils.getBoolean(request, "usr_active");
 		String usrId = WebUtils.getString(request, "usr_id");
 
@@ -443,9 +442,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * List users
 	 */
-	private void userList(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, PrincipalAdapterException {
-		log.debug("userList({}, {}, {})", new Object[]{userId, request, response});
+	private void userList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, PrincipalAdapterException {
+		log.debug("userList({}, {}, {})", userId, request, response);
 		String roleFilter = WebUtils.getString(request, "roleFilter");
 		ServletContext sc = getServletContext();
 		sc.setAttribute("roleFilter", roleFilter);
@@ -484,7 +483,7 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * User list export
 	 */
-	private String userListExport(List<String[]> csvValues) throws PrincipalAdapterException, DatabaseException {
+	private String userListExport(List<String[]> csvValues) throws PrincipalAdapterException {
 		String[] columns = new String[]{"Id", "Name", "Mail", "Roles", "Active"};
 		csvValues.add(columns);
 
@@ -505,9 +504,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * New role
 	 */
-	private void roleCreate(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("roleCreate({}, {}, {})", new Object[]{userId, request, response});
+	private void roleCreate(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("roleCreate({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			String reqCsrft = WebUtils.getString(request, "csrft");
@@ -554,9 +553,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Edit role
 	 */
-	private void roleEdit(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("roleEdit({}, {}, {})", new Object[]{userId, request, response});
+	private void roleEdit(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("roleEdit({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			String reqCsrft = WebUtils.getString(request, "csrft");
@@ -594,9 +593,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Delete role
 	 */
-	private void roleDelete(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("roleDelete({}, {}, {})", new Object[]{userId, request, response});
+	private void roleDelete(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("roleDelete({}, {}, {})", userId, request, response);
 
 		if (WebUtils.getBoolean(request, "persist")) {
 			String reqCsrft = WebUtils.getString(request, "csrft");
@@ -632,9 +631,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Active role
 	 */
-	private void roleActive(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, NoSuchAlgorithmException, AccessDeniedException {
-		log.debug("roleActive({}, {}, {})", new Object[]{userId, request, response});
+	private void roleActive(String userId, HttpServletRequest request, HttpServletResponse response) throws DatabaseException,
+			NoSuchAlgorithmException, AccessDeniedException {
+		log.debug("roleActive({}, {}, {})", userId, request, response);
 		String rolId = WebUtils.getString(request, "rol_id");
 		boolean active = WebUtils.getBoolean(request, "rol_active");
 		AuthDAO.activeRole(rolId, active);
@@ -645,11 +644,11 @@ public class AuthServlet extends BaseServlet {
 	}
 
 	/**
-	 * Diconnect user chat
+	 * Disconnect user chat
 	 */
 	private void userChatDisconnect(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException, DatabaseException, NoSuchAlgorithmException {
-		log.debug("userChatDisconnect({}, {})", new Object[]{request, response});
+			DatabaseException, NoSuchAlgorithmException {
+		log.debug("userChatDisconnect({}, {})", request, response);
 		try {
 			String userId = WebUtils.getString(request, "usr_id");
 			ChatServlet.getChatManager().logout(userId);
@@ -662,9 +661,9 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * List roles
 	 */
-	private void roleList(String userId, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException, PrincipalAdapterException {
-		log.debug("roleList({}, {}, {})", new Object[]{userId, request, response});
+	private void roleList(String userId, HttpServletRequest request, HttpServletResponse response) throws ServletException,
+			IOException, DatabaseException, PrincipalAdapterException {
+		log.debug("roleList({}, {}, {})", userId, request, response);
 		ServletContext sc = getServletContext();
 
 		if (db) {
@@ -681,7 +680,7 @@ public class AuthServlet extends BaseServlet {
 	/**
 	 * Export role list
 	 */
-	private String roleListExport(List<String[]> csvValues) throws PrincipalAdapterException, DatabaseException {
+	private String roleListExport(List<String[]> csvValues) throws PrincipalAdapterException {
 		String[] columns = new String[]{"Id", "Active"};
 		csvValues.add(columns);
 

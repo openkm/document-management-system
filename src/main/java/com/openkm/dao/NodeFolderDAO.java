@@ -330,7 +330,7 @@ public class NodeFolderDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<NodeFolder> findByPropertyValue(String group, String property, String value) throws DatabaseException {
-		log.debug("findByPropertyValue({}, {}, {})", new Object[]{group, property, value});
+		log.debug("findByPropertyValue({}, {}, {})", group, property, value);
 		String qs = "select nb from NodeFolder nb join nb.properties nbp where nbp.group=:group and nbp.name=:property and nbp.value like :value";
 		Session session = null;
 		Transaction tx = null;
@@ -537,7 +537,7 @@ public class NodeFolderDAO {
 	 * Delete folder
 	 */
 	public void delete(String name, String uuid, String trashUuid) throws PathNotFoundException, AccessDeniedException, DatabaseException {
-		log.debug("delete({}, {}, {})", new Object[]{name, uuid, trashUuid});
+		log.debug("delete({}, {}, {})", name, uuid, trashUuid);
 		long begin = System.currentTimeMillis();
 		Session session = null;
 		Transaction tx = null;

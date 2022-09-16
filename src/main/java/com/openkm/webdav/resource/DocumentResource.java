@@ -64,14 +64,13 @@ public class DocumentResource implements CopyableResource, DeletableResource, Ge
 
 	@Override
 	public Object authenticate(String user, String password) {
-		// log.debug("authenticate({}, {})", new Object[] { user, password });
+		log.debug("authenticate({}, {})", user, password);
 		return "OpenKM";
 	}
 
 	@Override
 	public boolean authorise(Request request, Method method, Auth auth) {
-		// log.debug("authorise({}, {}, {})", new Object[] { request.getAbsolutePath(), method.toString(),
-		// auth.getUser() });
+		log.debug("authorise({}, {}, {})", request.getAbsolutePath(), method.toString(), auth.getUser());
 		return true;
 	}
 
@@ -247,7 +246,7 @@ public class DocumentResource implements CopyableResource, DeletableResource, Ge
 	}
 
 	@Override
-	public LockResult refreshLock(String token) throws NotAuthorizedException, PreConditionFailedException {
+	public LockResult refreshLock(String token) {
 		return LockResult.success(lt);
 	}
 

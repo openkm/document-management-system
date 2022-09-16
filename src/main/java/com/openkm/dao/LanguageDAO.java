@@ -210,7 +210,7 @@ public class LanguageDAO {
 	 * Get translation
 	 */
 	public static String getTranslation(String lang, String module, String key) throws DatabaseException {
-		log.debug("getTranslation({}, {}, {})", new Object[]{module, lang, key});
+		log.debug("getTranslation({}, {}, {})", module, lang, key);
 		String qs = "select tr.text from Translation tr where tr.translationId.key=:key "
 				+ "and tr.translationId.language=:lang and tr.translationId.module=:module";
 		Session session = null;

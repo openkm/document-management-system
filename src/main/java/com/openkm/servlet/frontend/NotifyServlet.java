@@ -101,7 +101,7 @@ public class NotifyServlet extends OKMRemoteServiceServlet implements OKMNotifyS
 	@Override
 	public void notify(String docPath, String mails, String users, String roles, String message, boolean attachment) throws
 			OKMException {
-		log.debug("notify({}, {}, {}, {}, {})", new Object[]{docPath, mails, users, roles, message, attachment});
+		log.debug("notify({}, {}, {}, {}, {}, {})", docPath, mails, users, roles, message, attachment);
 		updateSessionManager();
 
 		try {

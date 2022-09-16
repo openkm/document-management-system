@@ -202,9 +202,9 @@ public class CronTabServlet extends BaseServlet {
 	/**
 	 * List registered reports
 	 */
-	private void list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, DatabaseException {
-		log.debug("list({}, {})", new Object[]{request, response});
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException,
+			DatabaseException {
+		log.debug("list({}, {})", request, response);
 		ServletContext sc = getServletContext();
 		List<CronTab> list = CronTabDAO.findAll();
 		sc.setAttribute("crontabs", list);
@@ -215,9 +215,8 @@ public class CronTabServlet extends BaseServlet {
 	/**
 	 * Execute report
 	 */
-	private void execute(HttpServletRequest request, HttpServletResponse response) throws
-			IOException, DatabaseException, EvalError {
-		log.debug("execute({}, {})", new Object[]{request, response});
+	private void execute(HttpServletRequest request, HttpServletResponse response) throws DatabaseException, EvalError {
+		log.debug("execute({}, {})", request, response);
 		int ctId = WebUtils.getInt(request, "ct_id");
 		CronTab ct = CronTabDAO.findByPk(ctId);
 
@@ -239,9 +238,8 @@ public class CronTabServlet extends BaseServlet {
 	/**
 	 * Download script or jar
 	 */
-	private void download(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			DatabaseException {
-		log.debug("download({}, {})", new Object[]{request, response});
+	private void download(HttpServletRequest request, HttpServletResponse response) throws IOException, DatabaseException {
+		log.debug("download({}, {})", request, response);
 		int ctId = WebUtils.getInt(request, "ct_id");
 		CronTab ct = CronTabDAO.findByPk(ctId);
 		ByteArrayInputStream bais = null;

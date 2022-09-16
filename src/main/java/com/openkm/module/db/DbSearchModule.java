@@ -105,7 +105,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public ResultSet findPaginated(String token, QueryParams params, int offset, int limit) throws IOException, ParseException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findPaginated({}, {}, {}, {})", new Object[]{token, params, offset, limit});
+		log.debug("findPaginated({}, {}, {}, {})", token, params, offset, limit);
 		Authentication auth = null, oldAuth = null;
 		Query query = null;
 
@@ -142,7 +142,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public ResultSet findByQueryPaginated(String token, String query, int offset, int limit) throws ParseException,
 			AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("findByQueryPaginated({}, {}, {}, {})", new Object[]{token, query, offset, limit});
+		log.debug("findByQueryPaginated({}, {}, {}, {})", token, query, offset, limit);
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -191,7 +191,7 @@ public class DbSearchModule implements SearchModule {
 		boolean document = (params.getDomain() & QueryParams.DOCUMENT) != 0;
 		boolean folder = (params.getDomain() & QueryParams.FOLDER) != 0;
 		boolean mail = (params.getDomain() & QueryParams.MAIL) != 0;
-		log.debug("doc={}, fld={}, mail={}", new Object[]{document, folder, mail});
+		log.debug("doc={}, fld={}, mail={}", document, folder, mail);
 
 		/**
 		 * DOCUMENT
@@ -307,7 +307,8 @@ public class DbSearchModule implements SearchModule {
 	/**
 	 * Add common fields
 	 */
-	private void appendCommon(QueryParams params, BooleanQuery query) throws IOException, ParseException, DatabaseException, RepositoryException {
+	private void appendCommon(QueryParams params, BooleanQuery query) throws IOException, ParseException, DatabaseException,
+			RepositoryException {
 		if (!params.getPath().equals("")) {
 			if (Config.STORE_NODE_PATH) {
 				Term t = new Term("path", params.getPath() + "/");
@@ -408,7 +409,7 @@ public class DbSearchModule implements SearchModule {
 	 */
 	private ResultSet findByStatementPaginated(Authentication auth, Query query, int offset, int limit) throws RepositoryException,
 			DatabaseException {
-		log.debug("findByStatementPaginated({}, {}, {}, {}, {})", new Object[]{auth, query, offset, limit});
+		log.debug("findByStatementPaginated({}, {}, {}, {})", auth, query, offset, limit);
 		long begin = System.currentTimeMillis();
 		List<QueryResult> results = new ArrayList<QueryResult>();
 		ResultSet rs = new ResultSet();
@@ -428,7 +429,7 @@ public class DbSearchModule implements SearchModule {
 					} else if (nqr.getFolder() != null) {
 						qr.setNode(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
 					} else if (nqr.getMail() != null) {
-						qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));					
+						qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
 					} else if (nqr.getAttachment() != null) {
 						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
 						qr.setAttachment(true);
@@ -457,7 +458,7 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public long saveSearch(String token, QueryParams params) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public long saveSearch(String token, QueryParams params) throws AccessDeniedException, DatabaseException {
 		log.debug("saveSearch({}, {})", token, params);
 		Authentication auth = null, oldAuth = null;
 		long id = 0;
@@ -492,7 +493,7 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public void updateSearch(String token, QueryParams params) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public void updateSearch(String token, QueryParams params) throws AccessDeniedException, DatabaseException {
 		log.debug("updateSearch({}, {})", token, params);
 		Authentication auth = null, oldAuth = null;
 
@@ -657,7 +658,7 @@ public class DbSearchModule implements SearchModule {
 	 * Get keyword map
 	 */
 	@SuppressWarnings("unchecked")
-	private Map<String, Integer> getKeywordMapLive(String token, List<String> filter) throws AccessDeniedException, RepositoryException,
+	private Map<String, Integer> getKeywordMapLive(String token, List<String> filter) throws AccessDeniedException,
 			DatabaseException {
 		log.debug("getKeywordMapLive({}, {})", token, filter);
 		String qs = "select elements(nb.keywords) from NodeBase nb";
@@ -708,8 +709,7 @@ public class DbSearchModule implements SearchModule {
 	/**
 	 * Get keyword map
 	 */
-	private Map<String, Integer> getKeywordMapCached(String token, List<String> filter) throws AccessDeniedException, RepositoryException,
-			DatabaseException {
+	private Map<String, Integer> getKeywordMapCached(String token, List<String> filter) throws AccessDeniedException {
 		log.debug("getKeywordMapCached({}, {})", token, filter);
 		HashMap<String, Integer> keywordMap = new HashMap<String, Integer>();
 		Authentication auth = null, oldAuth = null;
@@ -819,7 +819,8 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public List<Mail> getCategorizedMails(String token, String categoryId) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public List<Mail> getCategorizedMails(String token, String categoryId) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
 		log.debug("getCategorizedMails({}, {})", token, categoryId);
 		long begin = System.currentTimeMillis();
 		List<Mail> mails = new ArrayList<Mail>();
@@ -888,7 +889,8 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public List<Folder> getFoldersByKeyword(String token, String keyword) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public List<Folder> getFoldersByKeyword(String token, String keyword) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
 		log.debug("getFoldersByKeyword({}, {})", token, keyword);
 		long begin = System.currentTimeMillis();
 		List<Folder> folders = new ArrayList<Folder>();
@@ -922,7 +924,8 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public List<Mail> getMailsByKeyword(String token, String keyword) throws AccessDeniedException, RepositoryException, DatabaseException {
+	public List<Mail> getMailsByKeyword(String token, String keyword) throws AccessDeniedException, RepositoryException,
+			DatabaseException {
 		log.debug("getMailsByKeyword({}, {})", token, keyword);
 		long begin = System.currentTimeMillis();
 		List<Mail> mails = new ArrayList<Mail>();
@@ -958,7 +961,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public List<Document> getDocumentsByPropertyValue(String token, String group, String property, String value)
 			throws AccessDeniedException, RepositoryException, DatabaseException {
-		log.debug("getDocumentsByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+		log.debug("getDocumentsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
 		List<Document> documents = new ArrayList<Document>();
 		Authentication auth = null, oldAuth = null;
@@ -991,9 +994,9 @@ public class DbSearchModule implements SearchModule {
 	}
 
 	@Override
-	public List<Folder> getFoldersByPropertyValue(String token, String group, String property, String value) throws AccessDeniedException,
-			RepositoryException, DatabaseException {
-		log.debug("getFoldersByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+	public List<Folder> getFoldersByPropertyValue(String token, String group, String property, String value) throws
+			AccessDeniedException, RepositoryException, DatabaseException {
+		log.debug("getFoldersByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
 		List<Folder> folders = new ArrayList<Folder>();
 		Authentication auth = null, oldAuth = null;
@@ -1028,7 +1031,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public List<Mail> getMailsByPropertyValue(String token, String group, String property, String value) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("getMailsByPropertyValue({}, {}, {}, {})", new Object[]{token, group, property, value});
+		log.debug("getMailsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
 		List<Mail> mails = new ArrayList<Mail>();
 		Authentication auth = null, oldAuth = null;
@@ -1072,7 +1075,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public ResultSet findSimpleQueryPaginated(String token, String statement, int offset, int limit) throws AccessDeniedException,
 			RepositoryException, DatabaseException {
-		log.debug("findSimpleQueryPaginated({}, {}, {}, {})", new Object[]{token, statement, offset, limit});
+		log.debug("findSimpleQueryPaginated({}, {}, {}, {})", token, statement, offset, limit);
 		long begin = System.currentTimeMillis();
 		List<QueryResult> results = new ArrayList<QueryResult>();
 		ResultSet rs = new ResultSet();
@@ -1104,7 +1107,7 @@ public class DbSearchModule implements SearchModule {
 						qr.setNode(BaseFolderModule.getProperties(auth.getName(), nqr.getFolder()));
 					} else if (nqr.getMail() != null) {
 						qr.setNode(BaseMailModule.getProperties(auth.getName(), nqr.getMail()));
-					} else if (nqr.getAttachment() != null) {						
+					} else if (nqr.getAttachment() != null) {
 						qr.setNode(BaseDocumentModule.getProperties(auth.getName(), nqr.getAttachment()));
 						qr.setAttachment(true);
 					}
@@ -1138,7 +1141,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public ResultSet findMoreLikeThis(String token, String uuid, int maxResults) throws AccessDeniedException, RepositoryException,
 			DatabaseException {
-		log.debug("findMoreLikeThis({}, {}, {})", new Object[]{token, uuid, maxResults});
+		log.debug("findMoreLikeThis({}, {}, {})", token, uuid, maxResults);
 		long begin = System.currentTimeMillis();
 		List<QueryResult> results = new ArrayList<QueryResult>();
 		ResultSet rs = new ResultSet();

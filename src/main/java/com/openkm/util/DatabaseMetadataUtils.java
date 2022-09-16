@@ -45,7 +45,7 @@ public class DatabaseMetadataUtils {
 	 * Build a query
 	 */
 	public static String buildQuery(String table, String filter, String order) throws DatabaseException {
-		log.debug("buildQuery({}, {}, {})", new Object[]{table, filter, order});
+		log.debug("buildQuery({}, {}, {})", table, filter, order);
 		StringBuilder sb = new StringBuilder();
 		String ret = null;
 
@@ -68,7 +68,7 @@ public class DatabaseMetadataUtils {
 	 * Build a query
 	 */
 	public static String buildQuery(String table, String filter) throws DatabaseException {
-		log.debug("buildQuery({}, {})", new Object[]{table, filter});
+		log.debug("buildQuery({}, {})", table, filter);
 		StringBuilder sb = new StringBuilder();
 		String ret = null;
 
@@ -87,7 +87,7 @@ public class DatabaseMetadataUtils {
 	 * Build a query
 	 */
 	public static String buildUpdate(String table, String values, String filter) throws DatabaseException {
-		log.debug("buildUpdate({}, {}, {})", new Object[]{table, values, filter});
+		log.debug("buildUpdate({}, {}, {})", table, values, filter);
 		StringBuilder sb = new StringBuilder();
 		String ret = null;
 
@@ -112,7 +112,7 @@ public class DatabaseMetadataUtils {
 	 * Build a query
 	 */
 	public static String buildDelete(String table, String filter) throws DatabaseException {
-		log.debug("buildDelete({}, {})", new Object[]{table, filter});
+		log.debug("buildDelete({}, {})", table, filter);
 		StringBuilder sb = new StringBuilder();
 		String ret = null;
 
@@ -237,7 +237,7 @@ public class DatabaseMetadataUtils {
 	 * Replace virtual columns by real ones
 	 */
 	private static String replaceVirtual(String table, String query) throws DatabaseException {
-		log.debug("replaceVirtual({}, {})", new Object[]{table, query});
+		log.debug("replaceVirtual({}, {})", table, query);
 		String ret = "";
 
 		if (query != null && query.length() > 0) {

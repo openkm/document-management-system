@@ -48,7 +48,7 @@ public class BaseNotificationModule {
 	 * @param eventType Type of modification event
 	 */
 	public static void checkSubscriptions(NodeBase node, String user, String eventType, String comment) {
-		log.debug("checkSubscriptions({}, {}, {}, {})", new Object[]{node, user, eventType, comment});
+		log.debug("checkSubscriptions({}, {}, {}, {})", node, user, eventType, comment);
 		Set<String> users = new HashSet<String>();
 		Set<String> mails = new HashSet<String>();
 

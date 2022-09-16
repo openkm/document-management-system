@@ -325,8 +325,8 @@ public class WebUtils {
 	 * {@link #sendFile(HttpServletRequest, HttpServletResponse, String, String, boolean, InputStream, long)}
 	 */
 	public static void sendFile(HttpServletRequest request, HttpServletResponse response,
-	                            String fileName, String mimeType, boolean inline, InputStream is) throws IOException {
-		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, is});
+			String fileName, String mimeType, boolean inline, InputStream is) throws IOException {
+		log.debug("sendFile({}, {}, {}, {}, {}, {})", request, response, fileName, mimeType, inline, is);
 		sendFile(request, response, fileName, mimeType, inline, is, is.available());
 	}
 
@@ -334,8 +334,8 @@ public class WebUtils {
 	 * Send file to client browser.
 	 */
 	public static void sendFile(HttpServletRequest request, HttpServletResponse response, String fileName, String mimeType,
-	                            boolean inline, InputStream is, long overallSize) throws IOException {
-		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, is});
+			boolean inline, InputStream is, long overallSize) throws IOException {
+		log.debug("sendFile({}, {}, {}, {}, {}, {})", request, response, fileName, mimeType, inline, is);
 		prepareSendFile(request, response, fileName, mimeType, inline);
 
 		// Set length
@@ -354,8 +354,8 @@ public class WebUtils {
 	 * @throws IOException If there is a communication error.
 	 */
 	public static void sendFile(HttpServletRequest request, HttpServletResponse response,
-	                            String fileName, String mimeType, boolean inline, File input) throws IOException {
-		log.debug("sendFile({}, {}, {}, {}, {}, {})", new Object[]{request, response, fileName, mimeType, inline, input});
+			String fileName, String mimeType, boolean inline, File input) throws IOException {
+		log.debug("sendFile({}, {}, {}, {}, {}, {})", request, response, fileName, mimeType, inline, input);
 		prepareSendFile(request, response, fileName, mimeType, inline);
 
 		// Set length
@@ -372,7 +372,7 @@ public class WebUtils {
 	 * Prepare to send the file.
 	 */
 	public static void prepareSendFile(HttpServletRequest request, HttpServletResponse response,
-	                                   String fileName, String mimeType, boolean inline) throws UnsupportedEncodingException {
+			String fileName, String mimeType, boolean inline) throws UnsupportedEncodingException {
 		String userAgent = WebUtils.getHeader(request, "user-agent").toLowerCase();
 		fileName = PathUtils.decodeEntities(fileName);
 

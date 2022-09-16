@@ -377,7 +377,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 	 */
 	public NodeDocumentVersion checkin(String user, String comment, String docUuid, InputStream is, long size, int increment)
 			throws IOException, PathNotFoundException, AccessDeniedException, LockException, DatabaseException {
-		log.debug("checkin({}, {}, {}, {}, {}, {})", new Object[]{user, comment, docUuid, is, size, increment});
+		log.debug("checkin({}, {}, {}, {}, {}, {})", user, comment, docUuid, is, size, increment);
 		String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		NodeDocumentVersion newDocVersion = new NodeDocumentVersion();
 		Session session = null;
@@ -467,7 +467,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 	 */
 	public void setContent(String docUuid, InputStream is, long size) throws IOException, PathNotFoundException, AccessDeniedException,
 			LockException, DatabaseException {
-		log.debug("setContent({}, {}, {})", new Object[]{docUuid, is, size});
+		log.debug("setContent({}, {}, {})", docUuid, is, size);
 		String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		Session session = null;
 		Transaction tx = null;
@@ -529,7 +529,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 	 */
 	public void restoreVersion(String docUuid, String versionId) throws PathNotFoundException, AccessDeniedException, LockException,
 			DatabaseException {
-		log.debug("restoreVersion({}, {})", new Object[]{docUuid, versionId});
+		log.debug("restoreVersion({}, {})", docUuid, versionId);
 		String qsCurrent = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		String qsName = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.name=:name";
 		Session session = null;
@@ -693,7 +693,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 			}
 		}
 	}
-	
+
 	/*
 	 * ========================
 	 * LiveEdit methods
@@ -705,7 +705,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 	 */
 	public void liveEditSetContent(String docUuid, InputStream is, long size) throws IOException, PathNotFoundException,
 			AccessDeniedException, LockException, DatabaseException {
-		log.debug("liveEditSetContent({}, {}, {})", new Object[]{docUuid, is, size});
+		log.debug("liveEditSetContent({}, {}, {})", docUuid, is, size);
 		String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		Session session = null;
 		Transaction tx = null;
@@ -757,7 +757,7 @@ public class NodeDocumentVersionDAO extends GenericDAO<NodeDocumentVersion, Stri
 	 */
 	public NodeDocumentVersion liveEditCheckin(String user, String comment, int increment, String docUuid) throws IOException,
 			PathNotFoundException, AccessDeniedException, LockException, DatabaseException {
-		log.debug("liveEditCheckin({}, {}, {})", new Object[]{user, comment, docUuid});
+		log.debug("liveEditCheckin({}, {}, {})", user, comment, docUuid);
 		String qs = "from NodeDocumentVersion ndv where ndv.parent=:parent and ndv.current=:current";
 		NodeDocumentVersion newDocVersion = new NodeDocumentVersion();
 		Session session = null;

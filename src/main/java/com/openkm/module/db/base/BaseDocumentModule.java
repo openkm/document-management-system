@@ -374,11 +374,12 @@ public class BaseDocumentModule {
 	 * Create Document from Template
 	 */
 	public static Document createFromTemplate(String token, String docId, String dstPath, List<FormElement> properties,
-			ExtendedAttributes attributes) throws PathNotFoundException, AccessDeniedException, RepositoryException, IOException,
-			DatabaseException, DocumentException, TemplateException, DocumentTemplateException, ConversionException, UnsupportedMimeTypeException,
-			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ItemExistsException, AutomationException,
-			ExtensionException, ParseException, NoSuchGroupException, NoSuchPropertyException, LockException {
-		log.debug("createFromTemplate({}, {}, {}, {})", new Object[]{docId, dstPath, properties, attributes});
+			ExtendedAttributes attributes) throws PathNotFoundException, AccessDeniedException, RepositoryException,
+			IOException, DatabaseException, DocumentException, TemplateException, DocumentTemplateException,
+			ConversionException, UnsupportedMimeTypeException, FileSizeExceededException, UserQuotaExceededException,
+			VirusDetectedException, ItemExistsException, AutomationException, ExtensionException, ParseException,
+			NoSuchGroupException, NoSuchPropertyException, LockException {
+		log.debug("createFromTemplate({}, {}, {}, {})", docId, dstPath, properties, attributes);
 		Document newDoc = new Document();
 		InputStream fis = null;
 		File tmp = null;

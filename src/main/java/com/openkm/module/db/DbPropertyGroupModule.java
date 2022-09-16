@@ -60,7 +60,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public void addGroup(String token, String nodeId, String grpName) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException, AutomationException {
-		log.debug("addGroup({}, {}, {})", new Object[]{token, nodeId, grpName});
+		log.debug("addGroup({}, {}, {})", token, nodeId, grpName);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {
@@ -107,7 +107,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public void removeGroup(String token, String nodeId, String grpName) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException, AutomationException {
-		log.debug("removeGroup({}, {}, {})", new Object[]{token, nodeId, grpName});
+		log.debug("removeGroup({}, {}, {})", token, nodeId, grpName);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {
@@ -236,7 +236,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public List<FormElement> getProperties(String token, String nodeId, String grpName) throws IOException, ParseException,
 			NoSuchGroupException, AccessDeniedException, PathNotFoundException, DatabaseException {
-		log.debug("getProperties({}, {}, {})", new Object[]{token, nodeId, grpName});
+		log.debug("getProperties({}, {}, {})", token, nodeId, grpName);
 		long begin = System.currentTimeMillis();
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
@@ -339,9 +339,9 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	/**
 	 * Convenient method for GWTUtil.getExtraColumn()
 	 */
-	public FormElement getProperty(String token, String nodeId, String grpName, String propName) throws IOException, ParseException,
-			NoSuchGroupException, AccessDeniedException, PathNotFoundException, DatabaseException {
-		log.debug("getProperty({}, {}, {}, {})", new Object[]{token, nodeId, grpName, propName});
+	public FormElement getProperty(String token, String nodeId, String grpName, String propName) throws IOException,
+			ParseException, NoSuchGroupException, AccessDeniedException, PathNotFoundException, DatabaseException {
+		log.debug("getProperty({}, {}, {}, {})", token, nodeId, grpName, propName);
 		long begin = System.currentTimeMillis();
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
@@ -441,7 +441,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public void setProperties(String token, String nodeId, String grpName, List<FormElement> properties) throws ParseException,
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, AutomationException {
-		log.debug("setProperties({}, {}, {}, {})", new Object[]{token, nodeId, grpName, properties});
+		log.debug("setProperties({}, {}, {}, {})", token, nodeId, grpName, properties);
 		Authentication auth = null, oldAuth = null;
 
 		if (Config.SYSTEM_READONLY) {
@@ -524,8 +524,8 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	}
 
 	@Override
-	public List<FormElement> getPropertyGroupForm(String token, String grpName) throws ParseException, IOException, AccessDeniedException,
-			DatabaseException {
+	public List<FormElement> getPropertyGroupForm(String token, String grpName) throws ParseException, IOException,
+			AccessDeniedException, DatabaseException {
 		log.debug("getPropertyGroupForm({}, {})", token, grpName);
 		List<FormElement> ret = new ArrayList<>();
 		@SuppressWarnings("unused")
@@ -566,7 +566,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public boolean hasGroup(String token, String nodeId, String grpName) throws AccessDeniedException, PathNotFoundException,
 			DatabaseException {
-		log.debug("hasGroup({}, {}, {})", new Object[]{token, nodeId, grpName});
+		log.debug("hasGroup({}, {}, {})", token, nodeId, grpName);
 		boolean ret = false;
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
@@ -606,7 +606,7 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	@Override
 	public List<String> getSuggestions(String token, String nodeId, String grpName, String propName) throws AccessDeniedException,
 			PathNotFoundException, IOException, ParseException, NoSuchGroupException, SuggestionException, DatabaseException {
-		log.debug("getSuggestions({}, {}, {}, {})", new Object[]{token, nodeId, grpName, propName});
+		log.debug("getSuggestions({}, {}, {}, {})", token, nodeId, grpName, propName);
 		long begin = System.currentTimeMillis();
 		List<String> list = new ArrayList<>();
 		@SuppressWarnings("unused")
@@ -672,8 +672,9 @@ public class DbPropertyGroupModule implements PropertyGroupModule {
 	}
 
 	@Override
-	public void registerDefinition(String token, String pgDef) throws ParseException, AccessDeniedException, DatabaseException, IOException {
-		log.debug("registerDefinition({}, {})", new Object[]{token, pgDef});
+	public void registerDefinition(String token, String pgDef) throws ParseException, AccessDeniedException,
+			DatabaseException, IOException {
+		log.debug("registerDefinition({}, {})", token, pgDef);
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
 		long begin = System.currentTimeMillis();

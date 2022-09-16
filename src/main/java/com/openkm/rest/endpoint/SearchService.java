@@ -172,9 +172,9 @@ public class SearchService {
 	@Path("/findSimpleQueryPaginated")
 	// Default "domain" is "1" for documents.
 	public ResultSet findSimpleQueryPaginated(@DefaultValue("0") @QueryParam("offset") int offset,
-											  @DefaultValue("10") @QueryParam("limit") int limit, @QueryParam("statement") String statement) throws GenericException {
+			@DefaultValue("10") @QueryParam("limit") int limit, @QueryParam("statement") String statement) throws GenericException {
 		try {
-			log.debug("findSimpleQueryPaginated({},{},{})", new Object[]{offset, limit, statement});
+			log.debug("findSimpleQueryPaginated({},{},{})", offset, limit, statement);
 			SearchModule sm = ModuleManager.getSearchModule();
 			ResultSet rs = sm.findSimpleQueryPaginated(null, statement, offset, limit);
 			log.debug("findSimpleQueryPaginated: {}", rs);

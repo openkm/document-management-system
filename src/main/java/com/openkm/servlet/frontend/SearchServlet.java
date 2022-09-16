@@ -93,7 +93,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 
 	@Override
 	public Long saveSearch(GWTQueryParams params, String type) throws OKMException {
-		log.debug("saveSearch({}, {}, {})", new Object[]{params, type});
+		log.debug("saveSearch({}, {})", params, type);
 		updateSessionManager();
 
 		try {
@@ -139,7 +139,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 
 	@Override
 	public GWTResultSet findPaginated(GWTQueryParams params, int offset, int limit) throws OKMException {
-		log.debug("findPaginated({}, {}, {})", new Object[]{params, offset, limit});
+		log.debug("findPaginated({}, {}, {})", params, offset, limit);
 		List<GWTQueryResult> resultList = new ArrayList<GWTQueryResult>();
 		GWTResultSet gwtResultSet = new GWTResultSet();
 		QueryParams queryParams = new QueryParams();
