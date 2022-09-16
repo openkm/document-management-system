@@ -27,7 +27,6 @@ import com.openkm.frontend.client.bean.GWTKeyword;
  * KeywordComparator
  *
  * @author jllort
- *
  */
 public class KeywordComparator extends CultureComparator<GWTKeyword> {
 
@@ -37,22 +36,17 @@ public class KeywordComparator extends CultureComparator<GWTKeyword> {
 
 	public static KeywordComparator getInstance(String locale) {
 		try {
-			KeywordComparator comparator = (KeywordComparator) CultureComparator.getInstance(KeywordComparator.class, locale);
-			return comparator;
+			return (KeywordComparator) CultureComparator.getInstance(KeywordComparator.class, locale);
 		} catch (Exception e) {
 			return new KeywordComparator(locale);
 		}
 	}
 
 	public static KeywordComparator getInstance() {
-		KeywordComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTKeyword arg0, GWTKeyword arg1) {
-		GWTKeyword first = arg0;
-		GWTKeyword second = arg1;
-
+	public int compare(GWTKeyword first, GWTKeyword second) {
 		return collator.compare(first.getKeyword(), second.getKeyword());
 	}
 }

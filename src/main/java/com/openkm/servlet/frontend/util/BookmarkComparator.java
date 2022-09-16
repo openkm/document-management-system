@@ -27,7 +27,6 @@ import com.openkm.frontend.client.bean.GWTBookmark;
  * BookmarkComparator
  *
  * @author jllort
- *
  */
 public class BookmarkComparator extends CultureComparator<GWTBookmark> {
 
@@ -37,25 +36,20 @@ public class BookmarkComparator extends CultureComparator<GWTBookmark> {
 
 	public static BookmarkComparator getInstance(String locale) {
 		try {
-			BookmarkComparator comparator = (BookmarkComparator) CultureComparator.getInstance(BookmarkComparator.class, locale);
-			return comparator;
+			return (BookmarkComparator) CultureComparator.getInstance(BookmarkComparator.class, locale);
 		} catch (Exception e) {
 			return new BookmarkComparator(locale);
 		}
 	}
 
 	public static BookmarkComparator getInstance() {
-		BookmarkComparator instance = getInstance(CultureComparator.DEFAULT_LOCALE);
-		return instance;
+		return getInstance(CultureComparator.DEFAULT_LOCALE);
 	}
 
-	public int compare(GWTBookmark arg0, GWTBookmark arg1) {
-		GWTBookmark first = arg0;
-		GWTBookmark second = arg1;
-
+	public int compare(GWTBookmark first, GWTBookmark second) {
 		// Compare first with type, and second for name
-		if (!arg0.getType().equals(arg0.getType())) {
-			return arg1.getType().compareTo(arg0.getType()); // inverse comparation
+		if (!first.getType().equals(first.getType())) {
+			return second.getType().compareTo(first.getType()); // inverse comparison
 		} else {
 			return collator.compare(first.getName(), second.getName());
 		}

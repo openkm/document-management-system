@@ -13,10 +13,8 @@ import java.util.Locale;
  * by name of comparator's class. It uses collator {@link collator} for comparing objects.
  *
  * @param <T> type to be compared
- * @author Franta
  */
 public abstract class CultureComparator<T> implements Comparator<T> {
-
 	private static Logger log = LoggerFactory.getLogger(CultureComparator.class);
 	protected static final String DEFAULT_LOCALE = "en";
 
@@ -31,9 +29,7 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 	private static final Object SYNC_LOCK = new Object();
 
 	/**
-	 * Protected construcotr that creates collator according to the locale.
-	 *
-	 * @param sLocale locale
+	 * Protected constructor that creates collator according to the locale.
 	 */
 	protected CultureComparator(String sLocale) {
 		try {
@@ -46,7 +42,7 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 			Locale locale = split.length > 1 ? new Locale(split[0], split[1]) : new Locale(split[0]);
 
 			collator = Collator.getInstance(locale);
-			log.debug("created new collator (locale={}, lang={}, country={}", new Object[]{sLocale, locale.getLanguage(), locale.getCountry()});
+			log.debug("created new collator (locale={}, lang={}, country={}", sLocale, locale.getLanguage(), locale.getCountry());
 		} catch (Exception e) {
 			log.warn(String.format("Unable to create collator for %1$s, creating default", sLocale), e);
 			collator = Collator.getInstance();
@@ -61,12 +57,6 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 	/**
 	 * Return instance of comparator of class className for locale locale. If no instance is present
 	 * in hashmap, creates a new one.
-	 *
-	 * @param className name of comparator's class
-	 * @param locale    locale
-	 * @param hashMap   hashmap of comparator keyd by locales
-	 * @return CultureComparator
-	 * @throws Exception
 	 */
 	private static CultureComparator<?> getComparator(String className, String locale, HashMap<String, CultureComparator<?>> hashMap) throws Exception {
 		// get required comparator
@@ -92,11 +82,6 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 	/**
 	 * Gets instance of CultureComparator stored in hashmap {@link comparators} by comparator's class
 	 * and locale. If no instance is present in hashmap, a new instance is created.
-	 *
-	 * @param clazz  comparator's class
-	 * @param locale locale
-	 * @return CultureComparator
-	 * @throws Exception
 	 */
 	protected static CultureComparator<?> getInstance(Class<?> clazz, String locale) throws Exception {
 		CultureComparator<?> comparator;
