@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class RootResource implements PropFindableResource, GetableResource, CollectionResource, QuotaResource {
 	private final Logger log = LoggerFactory.getLogger(RootResource.class);
-	private final List<Folder> fldChilds = new ArrayList<Folder>();
+	private final List<Folder> fldChilds = new ArrayList<>();
 	private Folder fld;
 	private final Path path;
 
@@ -137,7 +137,7 @@ public class RootResource implements PropFindableResource, GetableResource, Coll
 	@Override
 	public List<? extends Resource> getChildren() {
 		log.debug("getChildren()");
-		List<Resource> resources = new ArrayList<Resource>();
+		List<Resource> resources = new ArrayList<>();
 
 		for (Folder fld : fldChilds) {
 			resources.add(new FolderResource(fld));

@@ -21,19 +21,18 @@
 
 package com.openkm.rest.util;
 
+import com.openkm.ws.common.util.FormElementComplex;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.openkm.ws.common.util.FormElementComplex;
 
 @XmlRootElement(name = "processDefinitionForm")
 public class ProcessDefinitionForm implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String key = null;
-	List<FormElementComplex> formElementsComplex = new ArrayList<FormElementComplex>();
+	List<FormElementComplex> formElementsComplex = new ArrayList<>();
 
 	public String getKey() {
 		return key;

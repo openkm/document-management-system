@@ -58,7 +58,7 @@ public class GWTQueryParams implements IsSerializable, Cloneable {
 	private String categoryPath = "";
 	private boolean isShared = false;
 	private String operator = OPERATOR_AND;
-	private Map<String, GWTPropertyParams> properties = new HashMap<String, GWTPropertyParams>();
+	private Map<String, GWTPropertyParams> properties = new HashMap<>();
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
@@ -82,7 +82,7 @@ public class GWTQueryParams implements IsSerializable, Cloneable {
 		newParans.setName(getName());
 		newParans.setOperator(getOperator());
 		newParans.setPath(getPath());
-		Map<String, GWTPropertyParams> newProperties = new HashMap<String, GWTPropertyParams>();
+		Map<String, GWTPropertyParams> newProperties = new HashMap<>();
 
 		for (String key : properties.keySet()) {
 			newProperties.put(key, properties.get(key));

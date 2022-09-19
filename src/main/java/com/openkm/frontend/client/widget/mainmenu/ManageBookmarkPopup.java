@@ -33,7 +33,6 @@ import com.openkm.frontend.client.service.OKMBookmarkServiceAsync;
 import com.openkm.frontend.client.util.Util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +55,7 @@ public class ManageBookmarkPopup extends DialogBox {
 	private ScrollPanel scrollPanel;
 	private ScrollPanel scrollPanelBookmark;
 	private TextBox textBox;
-	private Map<String, GWTBookmark> bookmarkMap = new HashMap<String, GWTBookmark>();
+	private Map<String, GWTBookmark> bookmarkMap = new HashMap<>();
 	private int selectedRow = -1;
 	private int columns = 3;
 
@@ -229,10 +228,9 @@ public class ManageBookmarkPopup extends DialogBox {
 	final AsyncCallback<List<GWTBookmark>> callbackGetAll = new AsyncCallback<List<GWTBookmark>>() {
 		public void onSuccess(List<GWTBookmark> result) {
 			int row = table.getRowCount();
-			bookmarkMap = new HashMap<String, GWTBookmark>();
+			bookmarkMap = new HashMap<>();
 
-			for (Iterator<GWTBookmark> it = result.iterator(); it.hasNext(); ) {
-				GWTBookmark bookmark = (GWTBookmark) it.next();
+			for (GWTBookmark bookmark : result) {
 				bookmarkMap.put(String.valueOf(bookmark.getId()), bookmark);
 
 				String icon = "";
@@ -362,7 +360,7 @@ public class ManageBookmarkPopup extends DialogBox {
 	 * Removes all rows
 	 */
 	private void removeAll() {
-		bookmarkMap = new HashMap<String, GWTBookmark>();
+		bookmarkMap = new HashMap<>();
 		while (table.getRowCount() > 0) {
 			table.removeRow(0);
 		}

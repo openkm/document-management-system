@@ -33,7 +33,6 @@ import com.openkm.frontend.client.widget.dashboard.keymap.KeyMapDashboard;
 import com.openkm.frontend.client.widget.dashboard.workflow.WorkflowDashboard;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -73,8 +72,8 @@ public class Dashboard extends Composite implements HasDashboardHandlerExtension
 	 * Dashboard
 	 */
 	public Dashboard() {
-		toolBarBoxExtensionList = new ArrayList<ToolBarBoxExtension>();
-		dashboardHandlerExtensionList = new ArrayList<DashboardHandlerExtension>();
+		toolBarBoxExtensionList = new ArrayList<>();
+		dashboardHandlerExtensionList = new ArrayList<>();
 		panel = new VerticalPanel();
 		sp = new SimplePanel();
 		userDashboard = new UserDashboard();
@@ -121,8 +120,8 @@ public class Dashboard extends Composite implements HasDashboardHandlerExtension
 		horizontalToolBar.setHeight("60px");
 		horizontalToolBar.setWidth("100%");
 
-		for (Iterator<ToolBarBoxExtension> it = toolBarBoxExtensionList.iterator(); it.hasNext(); ) {
-			it.next().getWidget().setPixelSize(width - 2, height - (60 + 2));
+		for (ToolBarBoxExtension widgets : toolBarBoxExtensionList) {
+			widgets.getWidget().setPixelSize(width - 2, height - (60 + 2));
 		}
 
 		newsDashboard.getUserSearchs(true); // Here must get all searchs to set correct width size

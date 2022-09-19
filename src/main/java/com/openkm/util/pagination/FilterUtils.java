@@ -62,7 +62,7 @@ public class FilterUtils {
 			NoSuchGroupException, AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
 		log.debug("filter({}, {}, {}, {}, {})", workspace, col, order, selectedRowId, mapFilter);
 		long begin = System.currentTimeMillis();
-		List<ObjectToOrder> convertedCol = new ArrayList<ObjectToOrder>();
+		List<ObjectToOrder> convertedCol = new ArrayList<>();
 		int selectedRow = -1;
 		int actualRow = 0;
 		boolean foundRow = false;
@@ -530,7 +530,7 @@ public class FilterUtils {
 	public static void filter(GWTWorkspace workspace, List<?> col, Map<String, GWTFilter> mapFilter)
 			throws PrincipalAdapterException, IOException, ParseException, NoSuchGroupException, PathNotFoundException,
 			RepositoryException, DatabaseException {
-		List<Object> toRemove = new ArrayList<Object>();
+		List<Object> toRemove = new ArrayList<>();
 
 		for (Object obj : col) {
 			// Filtering enabled

@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "queriesParams")
 public class QueryParamsList {
 	@XmlElement(name = "queryParams", required = true)
-	List<QueryParams> queriesParams = new ArrayList<QueryParams>();
+	List<QueryParams> queriesParams = new ArrayList<>();
 
 	public List<QueryParams> getList() {
 		return queriesParams;

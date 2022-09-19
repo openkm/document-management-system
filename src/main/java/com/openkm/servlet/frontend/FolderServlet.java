@@ -121,7 +121,7 @@ public class FolderServlet extends OKMRemoteServiceServlet implements OKMFolderS
 	@Override
 	public List<GWTFolder> getCategorizedChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException {
 		log.debug("getCategorizedChilds({})", fldPath);
-		List<GWTFolder> folderList = new ArrayList<GWTFolder>();
+		List<GWTFolder> folderList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -159,7 +159,7 @@ public class FolderServlet extends OKMRemoteServiceServlet implements OKMFolderS
 	@Override
 	public List<GWTFolder> getThesaurusChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException {
 		log.debug("getThesaurusChilds({})", fldPath);
-		List<GWTFolder> folderList = new ArrayList<GWTFolder>();
+		List<GWTFolder> folderList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -188,7 +188,7 @@ public class FolderServlet extends OKMRemoteServiceServlet implements OKMFolderS
 	@Override
 	public List<GWTFolder> getMetadataChilds(String fldPath, Map<String, GWTFilter> mapFilter) throws OKMException {
 		log.debug("getMetadataChilds({})", fldPath);
-		List<GWTFolder> folderList = new ArrayList<GWTFolder>();
+		List<GWTFolder> folderList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -220,7 +220,7 @@ public class FolderServlet extends OKMRemoteServiceServlet implements OKMFolderS
 	@Override
 	public List<GWTFolder> getChilds(String fldPath, boolean extraColumns, Map<String, GWTFilter> mapFilter) throws OKMException {
 		log.debug("getChilds({})", fldPath);
-		List<GWTFolder> folderList = new ArrayList<GWTFolder>();
+		List<GWTFolder> folderList = new ArrayList<>();
 		updateSessionManager();
 
 		try {

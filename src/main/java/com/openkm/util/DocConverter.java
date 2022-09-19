@@ -364,7 +364,7 @@ public class DocConverter {
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 			String tpl = Config.SYSTEM_GHOSTSCRIPT + " ${fileIn} ${fileOut}";
@@ -399,7 +399,7 @@ public class DocConverter {
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 
@@ -432,13 +432,13 @@ public class DocConverter {
 	/**
 	 * Convert CAD files to PDF
 	 */
-	public void cad2pdf(File input, String mimeType, File output) throws ConversionException, DatabaseException, IOException {
+	public void cad2pdf(File input, String mimeType, File output) throws ConversionException {
 		log.debug("** Convert from {} to PDF **", mimeType);
 		String cmd = null;
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 			String tpl = Config.SYSTEM_DWG2DXF + " /r /ad /lw 1 /f 105 /d ${fileOut} ${fileIn}";
@@ -557,7 +557,7 @@ public class DocConverter {
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 			cmd = TemplateUtils.replace("SYSTEM_PDF2SWF", Config.SYSTEM_SWFTOOLS_PDF2SWF, hm);
@@ -582,14 +582,14 @@ public class DocConverter {
 	/**
 	 * Convert PDF to IMG (for document preview feature).
 	 */
-	public void pdf2img(File input, File output) throws ConversionException, DatabaseException, IOException {
+	public void pdf2img(File input, File output) throws ConversionException, IOException {
 		log.debug("** Convert from PDF to IMG **");
 		File tmpDir = FileUtils.createTempDir();
 		String cmd = null;
 
 		try {
 			// Performs step 1: split pdf into several images
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", tmpDir + File.separator + "out.jpg");
 			String tpl = Config.SYSTEM_IMAGEMAGICK_CONVERT + " -bordercolor #666 -border 2x2 ${fileIn} ${fileOut}";
@@ -601,7 +601,7 @@ public class DocConverter {
 			}
 
 			// Performs step 2: join split images into a big one
-			hm = new HashMap<String, Object>();
+			hm = new HashMap<>();
 			StringBuilder sb = new StringBuilder();
 			File files[] = tmpDir.listFiles();
 			Arrays.sort(files, new FileOrderComparator());
@@ -712,14 +712,14 @@ public class DocConverter {
 	 * Convert DWG to DXF (for document preview feature).
 	 * Actually only tested with Acme CAD Converter 2011 v8.2.2
 	 */
-	public void dwg2dxf(File input, File output) throws ConversionException, DatabaseException, IOException {
+	public void dwg2dxf(File input, File output) throws ConversionException {
 		log.debug("** Convert from DWG to DXF **");
 		BufferedReader stdout = null;
 		String cmd = null;
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input.getPath());
 			hm.put("fileOut", output.getPath());
 			String tpl = Config.SYSTEM_DWG2DXF + " /r /ad /x14 ${fileIn} ${fileOut}";
@@ -754,7 +754,7 @@ public class DocConverter {
 
 		try {
 			// Performs conversion
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", imgIn.getPath());
 			hm.put("fileOut", imgOut.getPath());
 			String tpl = Config.SYSTEM_IMAGEMAGICK_CONVERT + " -rotate " + angle + " ${fileIn} ${fileOut}";

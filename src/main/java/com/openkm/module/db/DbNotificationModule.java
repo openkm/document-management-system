@@ -109,7 +109,7 @@ public class DbNotificationModule implements NotificationModule {
 	public Set<String> getSubscriptors(String token, String nodePath) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
 		log.debug("getSusbcriptions({}, {})", token, nodePath);
-		Set<String> users = new HashSet<String>();
+		Set<String> users = new HashSet<>();
 		@SuppressWarnings("unused")
 		Authentication auth = null, oldAuth = null;
 
@@ -140,7 +140,7 @@ public class DbNotificationModule implements NotificationModule {
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException,
 			IOException, LockException {
 		log.debug("notify({}, {}, {}, {}, {})", token, nodeId, users, mails, message);
-		List<String> nodesIds = new ArrayList<String>();
+		List<String> nodesIds = new ArrayList<>();
 		nodesIds.add(nodeId);
 		notify(token, nodesIds, users, mails, message, attachment);
 	}
@@ -149,7 +149,7 @@ public class DbNotificationModule implements NotificationModule {
 			throws PathNotFoundException, AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException,
 			IOException, LockException {
 		log.debug("notify({}, {}, {}, {}, {})", token, nodesIds, users, mails, message);
-		List<String> to = new ArrayList<String>(mails);
+		List<String> to = new ArrayList<>(mails);
 		Authentication auth = null, oldAuth = null;
 
 		if (!users.isEmpty() || !mails.isEmpty()) {
@@ -175,7 +175,7 @@ public class DbNotificationModule implements NotificationModule {
 				String from = new DbAuthModule().getMail(token, auth.getName());
 
 				if (!to.isEmpty() && from != null && !from.isEmpty()) {
-					ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<CommonNotificationModule.NodeInfo>();
+					ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<>();
 					String nodePath = null;
 					String nodeUuid = null;
 
@@ -214,7 +214,7 @@ public class DbNotificationModule implements NotificationModule {
 	public void proposedSubscription(String token, String nodeId, List<String> users, String comment) throws PathNotFoundException,
 			AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException, IOException {
 		log.debug("notify({}, {}, {}, {})", token, nodeId, users, comment);
-		List<String> nodesIds = new ArrayList<String>();
+		List<String> nodesIds = new ArrayList<>();
 		nodesIds.add(nodeId);
 		proposedSubscription(token, nodesIds, users, comment);
 
@@ -223,7 +223,7 @@ public class DbNotificationModule implements NotificationModule {
 	public void proposedSubscription(String token, List<String> nodesIds, List<String> users, String comment) throws PathNotFoundException,
 			AccessDeniedException, PrincipalAdapterException, RepositoryException, DatabaseException, IOException {
 		log.debug("proposedSubscription({},{}, {}, {})", token, nodesIds, users, comment);
-		List<String> to = new ArrayList<String>();
+		List<String> to = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		if (!users.isEmpty()) {
@@ -249,7 +249,7 @@ public class DbNotificationModule implements NotificationModule {
 				String from = new DbAuthModule().getMail(token, auth.getName());
 
 				if (!to.isEmpty() && from != null && !from.isEmpty()) {
-					ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<CommonNotificationModule.NodeInfo>();
+					ArrayList<CommonNotificationModule.NodeInfo> nodesInfo = new ArrayList<>();
 					String nodePath = null;
 					String nodeUuid = null;
 

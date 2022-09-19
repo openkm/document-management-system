@@ -38,8 +38,6 @@ import com.openkm.frontend.client.service.OKMSearchServiceAsync;
 import com.openkm.frontend.client.util.CommonUI;
 import com.openkm.frontend.client.util.Util;
 
-import java.util.Iterator;
-
 /**
  * FindSimilarDocumentSelectPopup
  *
@@ -239,9 +237,7 @@ public class FindSimilarDocumentSelectPopup extends DialogBox {
 			GWTResultSet resultSet = result;
 			removeAllRows();
 
-			for (Iterator<GWTQueryResult> it = resultSet.getResults().iterator(); it.hasNext(); ) {
-				GWTQueryResult gwtQueryResult = it.next();
-
+			for (GWTQueryResult gwtQueryResult : resultSet.getResults()) {
 				if (gwtQueryResult.getDocument() != null) {
 					GWTDocument doc = gwtQueryResult.getDocument();
 					int rows = documentTable.getRowCount();
@@ -274,9 +270,7 @@ public class FindSimilarDocumentSelectPopup extends DialogBox {
 				GWTResultSet resultSet = result;
 				removeAllRows();
 
-				for (Iterator<GWTQueryResult> it = resultSet.getResults().iterator(); it.hasNext(); ) {
-					GWTQueryResult gwtQueryResult = it.next();
-
+				for (GWTQueryResult gwtQueryResult : resultSet.getResults()) {
 					if (gwtQueryResult.getDocument() != null) {
 						GWTDocument doc = gwtQueryResult.getDocument();
 						int rows = documentTable.getRowCount();

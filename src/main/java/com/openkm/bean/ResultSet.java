@@ -30,7 +30,7 @@ import java.util.List;
 public class ResultSet implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long total;
-	private List<QueryResult> results = new ArrayList<QueryResult>();
+	private List<QueryResult> results = new ArrayList<>();
 
 	public long getTotal() {
 		return total;

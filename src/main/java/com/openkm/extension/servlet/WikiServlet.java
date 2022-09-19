@@ -142,7 +142,7 @@ public class WikiServlet extends OKMRemoteServiceServlet implements OKMWikiServi
 
 	@Override
 	public List<GWTWikiPage> findAllByTitle(String title) throws OKMException {
-		List<GWTWikiPage> wikiPages = new ArrayList<GWTWikiPage>();
+		List<GWTWikiPage> wikiPages = new ArrayList<>();
 
 		try {
 			for (WikiPage wikiPage : WikiPageDAO.findAllByTitle(title)) {
@@ -213,7 +213,7 @@ public class WikiServlet extends OKMRemoteServiceServlet implements OKMWikiServi
 
 	@Override
 	public List<GWTWikiPage> findAllHistoricByTitle(String title) throws OKMException {
-		List<GWTWikiPage> wikiPages = new ArrayList<GWTWikiPage>();
+		List<GWTWikiPage> wikiPages = new ArrayList<>();
 
 		try {
 			for (WikiPage wikiPage : WikiPageDAO.findAllHistoricByTitle(title)) {

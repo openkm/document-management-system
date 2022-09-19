@@ -22,11 +22,10 @@
   } else {
     out.println("<table class=\"demo_list\" width=\"100%\" align=\"center\">");
     out.println("<tr><th>User</th><th>Login</th><th>Last action</th></tr>");
-    for (Iterator<HttpSessionInfo> it = sm.getSessions().iterator(); it.hasNext(); ) {
-      HttpSessionInfo si = it.next();
-      out.print("<tr><td>"+si.getUser()+"</td><td>"+
-        FormatUtil.formatDate(si.getCreation())+"</td><td>"+
-        FormatUtil.formatDate(si.getLastAccess())+"</td</tr>");
+    for (HttpSessionInfo si : sm.getSessions()) {
+      out.print("<tr><td>" + si.getUser() + "</td><td>" +
+        FormatUtil.formatDate(si.getCreation()) + "</td><td>" +
+        FormatUtil.formatDate(si.getLastAccess()) + "</td</tr>");
     }
     out.println("</table>");
   }

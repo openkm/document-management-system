@@ -51,7 +51,7 @@ public class GWTWorkspace implements IsSerializable {
 	private String webSkin = "";
 	private boolean adminRole = false;
 	private String previewer = "";
-	private List<GWTReport> reports = new ArrayList<GWTReport>();
+	private List<GWTReport> reports = new ArrayList<>();
 	private int minSearchCharacters = 0;
 	private int securityExtendedMask = 0;
 	private boolean systemReadOnly = false;
@@ -88,9 +88,9 @@ public class GWTWorkspace implements IsSerializable {
 	private int increaseVersion = 0;
 	private boolean userQuotaEnabled;
 	private boolean webdavFix;
-	private List<GWTPropertyGroup> wizardPropertyGroupList = new ArrayList<GWTPropertyGroup>();
-	private List<String> wizardWorkflowList = new ArrayList<String>();
-	private List<String> miscWorkflowList = new ArrayList<String>();
+	private List<GWTPropertyGroup> wizardPropertyGroupList = new ArrayList<>();
+	private List<String> wizardWorkflowList = new ArrayList<>();
+	private List<String> miscWorkflowList = new ArrayList<>();
 	private boolean wizardPropertyGroups;
 	private boolean wizardWorkflows;
 	private boolean wizardKeywords;
@@ -135,7 +135,7 @@ public class GWTWorkspace implements IsSerializable {
 	private boolean tabMailPreviewVisible;
 	private boolean tabMailNotesVisible;
 	private GWTAvailableOption availableOption = new GWTAvailableOption();
-	private List<GWTLanguage> langs = new ArrayList<GWTLanguage>();
+	private List<GWTLanguage> langs = new ArrayList<>();
 	private GWTProfileToolbar profileToolbar = new GWTProfileToolbar();
 	private GWTProfileFileBrowser profileFileBrowser = new GWTProfileFileBrowser();
 	private GWTProfilePagination profilePagination = new GWTProfilePagination();

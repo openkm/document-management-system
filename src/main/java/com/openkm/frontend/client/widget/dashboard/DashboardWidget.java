@@ -72,9 +72,9 @@ public class DashboardWidget extends Composite {
 	private Image feedImage;
 	private boolean zoom = false;
 	private boolean flagZoom = true;
-	private List<GWTDashboardDocumentResult> lastDocList = new ArrayList<GWTDashboardDocumentResult>();
-	private List<GWTDashboardFolderResult> lastFolderList = new ArrayList<GWTDashboardFolderResult>();
-	private List<GWTDashboardMailResult> lastMailList = new ArrayList<GWTDashboardMailResult>();
+	private List<GWTDashboardDocumentResult> lastDocList = new ArrayList<>();
+	private List<GWTDashboardFolderResult> lastFolderList = new ArrayList<>();
+	private List<GWTDashboardMailResult> lastMailList = new ArrayList<>();
 	private WidgetToFire widgetToFire;
 	private String source;
 	public Status status;

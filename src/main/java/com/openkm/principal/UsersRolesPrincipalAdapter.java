@@ -36,7 +36,7 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getUsers() throws PrincipalAdapterException {
 		log.debug("getUsers()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		Properties prop = new Properties();
 
 		try {
@@ -59,7 +59,7 @@ public class UsersRolesPrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getRoles() throws PrincipalAdapterException {
 		log.debug("getRoles()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		Properties prop = new Properties();
 
 		try {

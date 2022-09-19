@@ -233,7 +233,7 @@ public class NodeMailDAO {
 		final String qs = "from NodeMail nm where :category in elements(nm.categories) order by nm.name";
 		final String sql = "select NBS_UUID from OKM_NODE_CATEGORY, OKM_NODE_MAIL " +
 				"where NCT_CATEGORY = :catUuid and NCT_NODE = NBS_UUID";
-		List<NodeMail> ret = new ArrayList<NodeMail>();
+		List<NodeMail> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -291,7 +291,7 @@ public class NodeMailDAO {
 		final String qs = "from NodeMail nm where :keyword in elements(nm.keywords) order by nm.name";
 		final String sql = "select NBS_UUID from OKM_NODE_KEYWORD, OKM_NODE_MAIL " +
 				"where NKW_KEYWORD = :keyword and NKW_NODE = NBS_UUID";
-		List<NodeMail> ret = new ArrayList<NodeMail>();
+		List<NodeMail> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 

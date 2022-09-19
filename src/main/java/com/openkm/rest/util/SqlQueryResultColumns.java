@@ -29,7 +29,7 @@ import java.util.List;
 @XmlRootElement(name = "sqlQueryResultColumns")
 public class SqlQueryResultColumns {
 	@XmlElement(name = "sqlQueryResultColumn", required = true)
-	List<String> sqlQueryResultColumns = new ArrayList<String>();
+	List<String> sqlQueryResultColumns = new ArrayList<>();
 
 	public List<String> getColumns() {
 		return sqlQueryResultColumns;

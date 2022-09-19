@@ -33,8 +33,6 @@ import com.openkm.frontend.client.service.OKMSearchService;
 import com.openkm.frontend.client.service.OKMSearchServiceAsync;
 import com.openkm.frontend.client.widget.searchin.SearchControl;
 
-import java.util.Iterator;
-
 /**
  * @author jllort
  *
@@ -130,9 +128,7 @@ public class SearchResult extends Composite {
 		Main.get().mainPanel.search.searchBrowser.searchIn.searchControl.controlSearch.refreshControl(resultSet.getTotal());
 		removeAllRows();
 
-		for (Iterator<GWTQueryResult> it = resultSet.getResults().iterator(); it.hasNext(); ) {
-			GWTQueryResult gwtQueryResult = it.next();
-
+		for (GWTQueryResult gwtQueryResult : resultSet.getResults()) {
 			switch (resultsViewMode) {
 				case SearchControl.RESULTS_VIEW_COMPACT:
 					searchCompactResult.addRow(gwtQueryResult);

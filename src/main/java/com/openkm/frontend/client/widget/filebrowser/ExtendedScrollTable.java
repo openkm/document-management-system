@@ -65,8 +65,8 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	private static final int DRAG_PIXELS_SENSIBILITY = 3;
 
 	// Holds the data rows of the table this is a list of RowData Object
-	public Map<Integer, Object> data = new HashMap<Integer, Object>();
-	public List<Integer> massiveSelected = new ArrayList<Integer>();
+	public Map<Integer, Object> data = new HashMap<>();
+	public List<Integer> massiveSelected = new ArrayList<>();
 	private FixedWidthGrid dataTable;
 	private FixedWidthFlexTable headerTable;
 
@@ -90,12 +90,9 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	public int colMassiveIndex = 0;
 
 	/**
-	 * @param dataTable
-	 * @param headerTable
-	 * @param scrollTableImages
+	 *
 	 */
-	public ExtendedScrollTable(FixedWidthGrid dataTable, FixedWidthFlexTable headerTable,
-	                           ScrollTableImages scrollTableImages) {
+	public ExtendedScrollTable(FixedWidthGrid dataTable, FixedWidthFlexTable headerTable, ScrollTableImages scrollTableImages) {
 		super(dataTable, headerTable, scrollTableImages);
 		formManager = new FormManager(null); // Used to draw extended columns
 
@@ -144,8 +141,8 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 		rowAction = ACTION_NONE;
 
 		// Only resets rows table the header is never reset
-		data = new HashMap<Integer, Object>();
-		massiveSelected = new ArrayList<Integer>();
+		data = new HashMap<>();
+		massiveSelected = new ArrayList<>();
 	}
 
 	/**
@@ -1406,7 +1403,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * selectAllMassive
 	 */
 	public void selectAllMassive() {
-		massiveSelected = new ArrayList<Integer>();
+		massiveSelected = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
 			checkBox.setValue(true);
@@ -1419,7 +1416,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * selectAllFoldersMassive
 	 */
 	public void selectAllFoldersMassive() {
-		massiveSelected = new ArrayList<Integer>();
+		massiveSelected = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			if (data.get(Integer.parseInt(dataTable.getText(i, colDataIndex))) instanceof GWTFolder) {
 				CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1433,7 +1430,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * selectAllDocumentsMassive
 	 */
 	public void selectAllDocumentsMassive() {
-		massiveSelected = new ArrayList<Integer>();
+		massiveSelected = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			if (data.get(Integer.parseInt(dataTable.getText(i, colDataIndex))) instanceof GWTDocument) {
 				CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1448,7 +1445,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * selectAllMailsMassive
 	 */
 	public void selectAllMailsMassive() {
-		massiveSelected = new ArrayList<Integer>();
+		massiveSelected = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			if (data.get(Integer.parseInt(dataTable.getText(i, colDataIndex))) instanceof GWTMail) {
 				CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1462,7 +1459,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * removeAllMassive
 	 */
 	public void removeAllMassive() {
-		massiveSelected = new ArrayList<Integer>();
+		massiveSelected = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
 			checkBox.setValue(false);
@@ -1472,8 +1469,6 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * isMassive
-	 *
-	 * @return
 	 */
 	public boolean isMassive() {
 		return (massiveSelected.size() > 0);
@@ -1481,11 +1476,9 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * getAllSelectedPaths
-	 *
-	 * @return
 	 */
 	public List<String> getAllSelectedPaths() {
-		List<String> paths = new ArrayList<String>();
+		List<String> paths = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
 			if (checkBox.getValue()) {
@@ -1506,7 +1499,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * getAllSelectedUUIDs
 	 */
 	public List<String> getAllSelectedUUIDs() {
-		List<String> uuidList = new ArrayList<String>();
+		List<String> uuidList = new ArrayList<>();
 
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1530,7 +1523,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * getAllSelectedDocumentsUUIDs
 	 */
 	public List<String> getAllSelectedDocumentsUUIDs() {
-		List<String> uuidList = new ArrayList<String>();
+		List<String> uuidList = new ArrayList<>();
 
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1550,7 +1543,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * getAllSelectedDocumentsPaths
 	 */
 	public List<String> getAllSelectedDocumentsPaths() {
-		List<String> pathList = new ArrayList<String>();
+		List<String> pathList = new ArrayList<>();
 
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1570,7 +1563,7 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 	 * getAllSelectedMailUUIDs
 	 */
 	public List<String> getAllSelectedMailUUIDs() {
-		List<String> uuidList = new ArrayList<String>();
+		List<String> uuidList = new ArrayList<>();
 
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
@@ -1588,11 +1581,9 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * getAllSelectedPdfDocuments
-	 *
-	 * @return
 	 */
 	public List<GWTDocument> getAllSelectedPdfDocuments() {
-		List<GWTDocument> docs = new ArrayList<GWTDocument>();
+		List<GWTDocument> docs = new ArrayList<>();
 		for (int i = 0; dataTable.getRowCount() > i; i++) {
 			CheckBox checkBox = (CheckBox) dataTable.getWidget(i, colMassiveIndex);
 			if (checkBox.getValue()) {
@@ -1626,8 +1617,6 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * getColDataIndex
-	 *
-	 * @return
 	 */
 	public int getColDataIndex() {
 		return colDataIndex;
@@ -1635,8 +1624,6 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * setDataColumn
-	 *
-	 * @param dataColumn
 	 */
 	public void setColDataIndex(int colDataIndex) {
 		this.colDataIndex = colDataIndex;
@@ -1645,8 +1632,6 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * setColMassiveIndex
-	 *
-	 * @param colMassiveIndex
 	 */
 	public void setColMassiveIndex(int colMassiveIndex) {
 		this.colMassiveIndex = colMassiveIndex;
@@ -1654,8 +1639,6 @@ public class ExtendedScrollTable extends ScrollTable implements OriginPanel {
 
 	/**
 	 * setProfileFileBrowser
-	 *
-	 * @param profileFileBrowser
 	 */
 	public void setProfileFileBrowser(GWTProfileFileBrowser profileFileBrowser) {
 		this.profileFileBrowser = profileFileBrowser;

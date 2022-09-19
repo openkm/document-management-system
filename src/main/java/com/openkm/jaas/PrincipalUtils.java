@@ -28,9 +28,9 @@ import org.springframework.security.core.Authentication;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.security.auth.Subject;
+import java.security.Principal;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -52,11 +52,9 @@ public class PrincipalUtils {
 		Subject subject = PrincipalUtils.getSubject();
 		String user = null;
 
-		for (Iterator<java.security.Principal> it = subject.getPrincipals().iterator(); it.hasNext(); ) {
-			Object obj = it.next();
-
+		for (Principal obj : subject.getPrincipals()) {
 			if (!(obj instanceof java.security.acl.Group)) {
-				java.security.Principal principal = (java.security.Principal) obj;
+				java.security.Principal principal = obj;
 				user = principal.getName();
 			}
 		}
@@ -69,16 +67,14 @@ public class PrincipalUtils {
 	 */
 	public static Set<String> getRoles() throws NamingException {
 		Subject subject = PrincipalUtils.getSubject();
-		Set<String> roles = new HashSet<String>();
+		Set<String> roles = new HashSet<>();
 
-		for (Iterator<java.security.Principal> it = subject.getPrincipals().iterator(); it.hasNext(); ) {
-			Object obj = it.next();
-
+		for (Object obj : subject.getPrincipals()) {
 			if (obj instanceof java.security.acl.Group) {
 				java.security.acl.Group group = (java.security.acl.Group) obj;
 
 				for (Enumeration<? extends java.security.Principal> groups = group.members(); groups.hasMoreElements(); ) {
-					java.security.Principal rol = (java.security.Principal) groups.nextElement();
+					java.security.Principal rol = groups.nextElement();
 					roles.add(rol.getName());
 				}
 			}

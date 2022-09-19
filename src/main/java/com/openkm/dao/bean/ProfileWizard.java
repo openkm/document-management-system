@@ -29,8 +29,8 @@ public class ProfileWizard implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean keywordsEnabled;
 	private boolean categoriesEnabled;
-	private Set<String> propertyGroups = new HashSet<String>();
-	private Set<String> workflows = new HashSet<String>();
+	private Set<String> propertyGroups = new HashSet<>();
+	private Set<String> workflows = new HashSet<>();
 
 	public boolean isKeywordsEnabled() {
 		return keywordsEnabled;

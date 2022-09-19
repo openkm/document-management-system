@@ -521,7 +521,7 @@ public class ConfigServlet extends BaseServlet {
 	private void importConfig(String userId, HttpServletRequest request, HttpServletResponse response, final byte[] data,
 							  Session dbSession) {
 		log.debug("importConfig({}, {}, {}, {}, {})", userId, request, response, data, dbSession);
-		WorkerUpdate worker = new DatabaseQueryServlet().new WorkerUpdate();
+		WorkerUpdate worker = new WorkerUpdate();
 		worker.setData(data);
 		dbSession.doWork(worker);
 		log.debug("importConfig: void");

@@ -77,13 +77,13 @@ public class SpanishAnalyzer extends Analyzer {
 	/**
 	 * Contains the stopwords used with the StopFilter.
 	 */
-	private Set<Object> stopTable = new HashSet<Object>();
+	private Set<Object> stopTable = new HashSet<>();
 
 	/**
 	 * Contains words that should be indexed but not stemmed.
 	 */
 	@SuppressWarnings("unused")
-	private Set<Object> exclTable = new HashSet<Object>();
+	private Set<Object> exclTable = new HashSet<>();
 
 	/**
 	 * Builds an analyzer with the default stop words.

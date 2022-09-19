@@ -137,16 +137,14 @@ public class DocumentExpirationServlet extends BaseServlet {
 				q.setParameter("group", group);
 				List<String> users = q.list();
 				HibernateUtil.commit(tx);
-				List<String> availableUsers = new ArrayList<String>();
+				List<String> availableUsers = new ArrayList<>();
 
 				if (db) {
 					for (User user : AuthDAO.findAllUsers(false)) {
 						availableUsers.add(user.getId());
 					}
 				} else {
-					for (String user : OKMAuth.getInstance().getUsers(null)) {
-						availableUsers.add(user);
-					}
+					availableUsers.addAll(OKMAuth.getInstance().getUsers(null));
 				}
 
 				sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -199,23 +197,21 @@ public class DocumentExpirationServlet extends BaseServlet {
 				HibernateUtil.commit(tx);
 			} else {
 				ServletContext sc = getServletContext();
-				List<String> availableUsers = new ArrayList<String>();
+				List<String> availableUsers = new ArrayList<>();
 
 				if (db) {
 					for (User user : AuthDAO.findAllUsers(false)) {
 						availableUsers.add(user.getId());
 					}
 				} else {
-					for (String user : OKMAuth.getInstance().getUsers(null)) {
-						availableUsers.add(user);
-					}
+					availableUsers.addAll(OKMAuth.getInstance().getUsers(null));
 				}
 
 				sc.setAttribute("action", WebUtils.getString(request, "action"));
-				sc.setAttribute("group", group);
 				sc.setAttribute("users", new ArrayList<String>());
 				sc.setAttribute("availableUsers", availableUsers);
 				sc.setAttribute("persist", true);
+				sc.setAttribute("group", group);
 				sc.getRequestDispatcher("/admin/document_expiration_group_edit.jsp").forward(request, response);
 			}
 		} catch (HibernateException e) {
@@ -256,16 +252,14 @@ public class DocumentExpirationServlet extends BaseServlet {
 				q.setParameter("group", group);
 				List<String> users = q.list();
 				HibernateUtil.commit(tx);
-				List<String> availableUsers = new ArrayList<String>();
+				List<String> availableUsers = new ArrayList<>();
 
 				if (db) {
 					for (User user : AuthDAO.findAllUsers(false)) {
 						availableUsers.add(user.getId());
 					}
 				} else {
-					for (String user : OKMAuth.getInstance().getUsers(null)) {
-						availableUsers.add(user);
-					}
+					availableUsers.addAll(OKMAuth.getInstance().getUsers(null));
 				}
 
 				sc.setAttribute("action", WebUtils.getString(request, "action"));
@@ -297,16 +291,14 @@ public class DocumentExpirationServlet extends BaseServlet {
 		try {
 			dbSession = HibernateUtil.getSessionFactory().openSession();
 			tx = dbSession.beginTransaction();
-			List<String> availableUsers = new ArrayList<String>();
+			List<String> availableUsers = new ArrayList<>();
 
 			if (db) {
 				for (User user : AuthDAO.findAllUsers(false)) {
 					availableUsers.add(user.getId());
 				}
 			} else {
-				for (String user : OKMAuth.getInstance().getUsers(null)) {
-					availableUsers.add(user);
-				}
+				availableUsers.addAll(OKMAuth.getInstance().getUsers(null));
 			}
 
 			// Delete all users
@@ -349,16 +341,14 @@ public class DocumentExpirationServlet extends BaseServlet {
 		try {
 			dbSession = HibernateUtil.getSessionFactory().openSession();
 			tx = dbSession.beginTransaction();
-			List<String> availableRoles = new ArrayList<String>();
+			List<String> availableRoles = new ArrayList<>();
 
 			if (db) {
 				for (Role role : AuthDAO.findAllRoles()) {
 					availableRoles.add(role.getId());
 				}
 			} else {
-				for (String role : OKMAuth.getInstance().getRoles(null)) {
-					availableRoles.add(role);
-				}
+				availableRoles.addAll(OKMAuth.getInstance().getRoles(null));
 			}
 
 			// Delete all roles
@@ -372,16 +362,14 @@ public class DocumentExpirationServlet extends BaseServlet {
 
 			// Create all roles
 			for (String role : availableRoles) {
-				List<String> users = new ArrayList<String>();
+				List<String> users = new ArrayList<>();
 
 				if (db) {
 					for (User user : AuthDAO.findUsersByRole(role, false)) {
 						users.add(user.getId());
 					}
 				} else {
-					for (String user : OKMAuth.getInstance().getUsersByRole(null, role)) {
-						users.add(user);
-					}
+					users.addAll(OKMAuth.getInstance().getUsersByRole(null, role));
 				}
 
 				for (String user : users) {

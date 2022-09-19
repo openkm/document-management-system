@@ -42,7 +42,7 @@ public class ThesaurusServlet extends OKMRemoteServiceServlet implements OKMThes
 	@Override
 	public List<String> getKeywords(final String filter) throws OKMException {
 		log.debug("getKeywords({})", filter);
-		List<String> keywordList = new ArrayList<String>();
+		List<String> keywordList = new ArrayList<>();
 		List<String> keywords = RDFREpository.getInstance().getKeywords();
 		int index = -1;
 		int size = keywords.size();

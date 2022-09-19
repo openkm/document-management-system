@@ -35,16 +35,14 @@ import java.util.List;
  */
 public class FileUploadResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	private boolean hasAutomation = false;
-	private String path = "";
-	private List<String> groupsList = new ArrayList<String>();
-	private List<String> workflowList = new ArrayList<String>();
+	private List<String> groupsList = new ArrayList<>();
+	private List<String> workflowList = new ArrayList<>();
 	private boolean showWizardCategories = false;
 	private boolean showWizardKeywords = false;
 	private boolean digitalSignature = false;
-
+	private boolean hasAutomation = false;
 	private String error = "";
+	private String path = "";
 
 	public String getPath() {
 		return path;

@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -111,15 +110,13 @@ public class CssServlet extends BaseServlet {
 				Css css = new Css();
 				css.setActive(false);
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
 						} else if (item.getFieldName().equals("css_id")) {
 							if (!item.getString("UTF-8").isEmpty()) {
-								css.setId(new Long(item.getString("UTF-8")).longValue());
+								css.setId(new Long(item.getString("UTF-8")));
 							}
 						} else if (item.getFieldName().equals("css_name")) {
 							css.setName(item.getString("UTF-8"));

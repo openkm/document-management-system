@@ -334,14 +334,14 @@ public class ConfigDAO {
 	 * Find by pk with a default value
 	 */
 	public static List<String> getList(String key, String defaultValue) throws DatabaseException {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		String dbValue = getProperty(key, defaultValue, Config.LIST);
 		StringTokenizer st = new StringTokenizer(dbValue, "\t\n\r\f");
 
 		while (st.hasMoreTokens()) {
 			String tk = st.nextToken().trim();
 
-			if (tk != null && !tk.equals("")) {
+			if (!tk.equals("")) {
 				list.add(tk);
 			}
 		}

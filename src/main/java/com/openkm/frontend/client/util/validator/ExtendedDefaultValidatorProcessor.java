@@ -55,7 +55,7 @@ public class ExtendedDefaultValidatorProcessor extends DefaultValidationProcesso
 
 	@Override
 	public boolean validate(String... names) {
-		return validate(new ArrayList<String>(), names);
+		return validate(new ArrayList<>(), names);
 	}
 
 	/**
@@ -68,6 +68,7 @@ public class ExtendedDefaultValidatorProcessor extends DefaultValidationProcesso
 		result = true;
 		pluginsValidated = 0;
 		result = result && super.validate(names);
+
 		// Always evaluate plugins rpc calls at ends
 		if (plugins > 0 && validatorToFire != null) {
 			waitUntilValidatorsFinished();

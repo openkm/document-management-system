@@ -87,9 +87,8 @@ public class LegacyDAO {
 	/**
 	 * Execute script
 	 */
-	public static List<HashMap<String, String>> executeScript(Connection con, Reader file) throws
-			IOException, SQLException {
-		List<HashMap<String, String>> errors = new ArrayList<HashMap<String, String>>();
+	public static List<HashMap<String, String>> executeScript(Connection con, Reader file) throws IOException, SQLException {
+		List<HashMap<String, String>> errors = new ArrayList<>();
 		BufferedReader br = new BufferedReader(file);
 		Statement stmt = con.createStatement();
 		String sql = null;
@@ -108,7 +107,7 @@ public class LegacyDAO {
 
 						stmt.execute(trimmedSql);
 					} catch (SQLException e) {
-						HashMap<String, String> error = new HashMap<String, String>();
+						HashMap<String, String> error = new HashMap<>();
 						error.put("ln", Integer.toString(lineNo));
 						error.put("sql", trimmedSql);
 						error.put("msg", e.getMessage());
@@ -263,7 +262,7 @@ public class LegacyDAO {
 	 * Utility inner class
 	 */
 	public static class ResultWorker implements Work {
-		private List<List<String>> results = new ArrayList<List<String>>();
+		private List<List<String>> results = new ArrayList<>();
 		private String sql = null;
 
 		public void setSql(String sql) {
@@ -288,7 +287,7 @@ public class LegacyDAO {
 						ResultSetMetaData md = rs.getMetaData();
 
 						while (rs.next()) {
-							List<String> row = new ArrayList<String>();
+							List<String> row = new ArrayList<>();
 
 							for (int j = 1; j < md.getColumnCount() + 1; j++) {
 								if (Types.BLOB == md.getColumnType(j)) {

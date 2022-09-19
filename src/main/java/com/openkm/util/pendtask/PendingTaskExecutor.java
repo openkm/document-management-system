@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PendingTaskExecutor {
 	private static Logger log = LoggerFactory.getLogger(PendingTaskExecutor.class);
-	private static Set<Long> runningTasks = new HashSet<Long>();
+	private static Set<Long> runningTasks = new HashSet<>();
 	public static volatile boolean running = true;
 	private static ExecutorService executor = Executors.newFixedThreadPool(Config.AVAILABLE_PROCESSORS,
 			new ThreadFactory() {

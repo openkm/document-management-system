@@ -21,16 +21,13 @@
 
 package com.openkm.servlet.admin;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.openkm.api.OKMDocument;
+import com.openkm.api.OKMRepository;
+import com.openkm.bean.Repository;
+import com.openkm.core.*;
+import com.openkm.extractor.RegisteredExtractors;
+import com.openkm.extractor.TextExtractor;
+import com.openkm.util.PathUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -41,18 +38,13 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.openkm.api.OKMDocument;
-import com.openkm.api.OKMRepository;
-import com.openkm.bean.Repository;
-import com.openkm.core.AccessDeniedException;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.LockException;
-import com.openkm.core.MimeTypeConfig;
-import com.openkm.core.PathNotFoundException;
-import com.openkm.core.RepositoryException;
-import com.openkm.extractor.RegisteredExtractors;
-import com.openkm.extractor.TextExtractor;
-import com.openkm.util.PathUtils;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * Mime type management servlet
@@ -95,9 +87,7 @@ public class CheckTextExtractionServlet extends BaseServlet {
 				String mimeType = null;
 				String extractor = null;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("docUuid")) {
 							docUuid = item.getString("UTF-8");

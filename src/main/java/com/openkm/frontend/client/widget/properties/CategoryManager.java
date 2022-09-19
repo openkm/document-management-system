@@ -61,7 +61,7 @@ public class CategoryManager {
 	private FlexTable tableSubscribedCategories;
 	private HorizontalPanel hPanelCategories;
 	private boolean remove;
-	private Set<GWTFolder> categories = new HashSet<GWTFolder>();
+	private Set<GWTFolder> categories = new HashSet<>();
 	private String path = "";
 	private Object object;
 	private int origin;
@@ -96,14 +96,12 @@ public class CategoryManager {
 
 	/**
 	 * setObject
-	 *
-	 * @param object
-	 * @param remove
 	 */
 	public void setObject(Object object, boolean remove) {
 		this.object = object;
 		this.remove = remove;
-		categories = new HashSet<GWTFolder>();
+		categories = new HashSet<>();
+
 		if (object instanceof GWTDocument) {
 			categories = ((GWTDocument) object).getCategories();
 			path = ((GWTDocument) object).getPath();
@@ -118,8 +116,6 @@ public class CategoryManager {
 
 	/**
 	 * getPanelCategories
-	 *
-	 * @return
 	 */
 	public Widget getPanelCategories() {
 		return hPanelCategories;
@@ -127,8 +123,6 @@ public class CategoryManager {
 
 	/**
 	 * getSubscribedCategoriesTable
-	 *
-	 * @return
 	 */
 	public FlexTable getSubscribedCategoriesTable() {
 		return tableSubscribedCategories;
@@ -145,8 +139,6 @@ public class CategoryManager {
 
 	/**
 	 * setVisible
-	 *
-	 * @param visible
 	 */
 	public void setVisible(boolean visible) {
 		categoriesImage.setVisible(visible);
@@ -163,8 +155,6 @@ public class CategoryManager {
 
 	/**
 	 * drawCategory
-	 *
-	 * @param category
 	 */
 	private void drawCategory(final GWTFolder category, boolean remove) {
 		int row = tableSubscribedCategories.getRowCount();

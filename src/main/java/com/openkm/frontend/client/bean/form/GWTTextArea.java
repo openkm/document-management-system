@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GWTTextArea extends GWTFormElement implements IsSerializable {
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private String value = "";
 	private String data = "";
 	private boolean readonly = false;

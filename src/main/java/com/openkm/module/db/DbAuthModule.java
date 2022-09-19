@@ -252,7 +252,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	public Map<String, Integer> getGrantedUsers(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
 		log.debug("getGrantedUsers({}, {})", token, nodeId);
-		Map<String, Integer> users = new HashMap<String, Integer>();
+		Map<String, Integer> users = new HashMap<>();
 		@SuppressWarnings("unused")
 		Authentication oldAuth = null;
 		@SuppressWarnings("unused")
@@ -431,7 +431,7 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 	public Map<String, Integer> getGrantedRoles(String token, String nodeId) throws PathNotFoundException, AccessDeniedException,
 			RepositoryException, DatabaseException {
 		log.debug("getGrantedRoles({}, {})", token, nodeId);
-		Map<String, Integer> roles = new HashMap<String, Integer>();
+		Map<String, Integer> roles;
 		@SuppressWarnings("unused")
 		Authentication oldAuth = null;
 		@SuppressWarnings("unused")
@@ -466,8 +466,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public List<String> getUsers(String token) throws PrincipalAdapterException {
-		List<String> users = new ArrayList<String>();
 		Authentication oldAuth = null;
+		List<String> users;
 
 		try {
 			if (token == null) {
@@ -491,8 +491,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public List<String> getRoles(String token) throws PrincipalAdapterException {
-		List<String> roles = new ArrayList<String>();
 		Authentication oldAuth = null;
+		List<String> roles;
 
 		try {
 			if (token == null) {
@@ -516,8 +516,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public List<String> getUsersByRole(String token, String role) throws PrincipalAdapterException {
-		List<String> users = new ArrayList<String>();
 		Authentication oldAuth = null;
+		List<String> users;
 
 		try {
 			if (token == null) {
@@ -541,8 +541,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public List<String> getRolesByUser(String token, String user) throws PrincipalAdapterException {
-		List<String> roles = new ArrayList<String>();
 		Authentication oldAuth = null;
+		List<String> roles;
 
 		try {
 			if (token == null) {
@@ -566,8 +566,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public String getMail(String token, String user) throws PrincipalAdapterException {
-		String mail = null;
 		Authentication oldAuth = null;
+		String mail;
 
 		try {
 			if (token == null) {
@@ -591,8 +591,8 @@ public class DbAuthModule implements AuthModule, ApplicationContextAware {
 
 	@Override
 	public String getName(String token, String user) throws PrincipalAdapterException {
-		String name = null;
 		Authentication oldAuth = null;
+		String name;
 
 		try {
 			if (token == null) {

@@ -63,7 +63,7 @@ public class CategoriesWidget extends Composite {
 	public CategoriesWidget(String docPath, Widget widget) {
 		table = new FlexTable();
 		tableSubscribedCategories = new FlexTable();
-		assignedCategories = new ArrayList<GWTFolder>();
+		assignedCategories = new ArrayList<>();
 		this.docPath = docPath;
 
 		cellFormatter = table.getCellFormatter(); // Gets the cell formatter

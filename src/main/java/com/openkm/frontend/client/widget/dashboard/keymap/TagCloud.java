@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.openkm.frontend.client.bean.GWTKeyword;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -79,8 +78,7 @@ public class TagCloud extends Composite {
 		minFrequency = 1;
 		maxFrequency = 1;
 
-		for (Iterator<GWTKeyword> it = keywordsList.iterator(); it.hasNext(); ) {
-			GWTKeyword keyword = it.next();
+		for (GWTKeyword keyword : keywordsList) {
 			if (minFrequency > keyword.getFrequency()) {
 				minFrequency = keyword.getFrequency();
 			}

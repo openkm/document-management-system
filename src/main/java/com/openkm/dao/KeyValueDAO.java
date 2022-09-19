@@ -44,7 +44,7 @@ public class KeyValueDAO {
 	 */
 	public static List<KeyValue> getKeyValues(String query) throws DatabaseException {
 		log.debug("getKeyValues({})", query);
-		List<KeyValue> ret = new ArrayList<KeyValue>();
+		List<KeyValue> ret = new ArrayList<>();
 		Session session = null;
 
 		try {
@@ -86,7 +86,7 @@ public class KeyValueDAO {
 	 */
 	public static List<KeyValue> getKeyValues(String table, String query) throws DatabaseException {
 		log.debug("getKeyValues({}, {})", table, query);
-		List<String> tables = new ArrayList<String>();
+		List<String> tables = new ArrayList<>();
 		tables.add(table);
 		List<KeyValue> ret = getKeyValues(tables, query);
 		log.debug("getKeyValues: {}", ret);

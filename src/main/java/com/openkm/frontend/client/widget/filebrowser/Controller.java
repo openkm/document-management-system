@@ -41,7 +41,7 @@ public class Controller {
 	private String selectedRowId;
 	private int selectedOrderBy = 0;
 	private boolean reverse = false;
-	private Map<String, GWTFilter> mapFilter = new LinkedHashMap<String, GWTFilter>();
+	private Map<String, GWTFilter> mapFilter = new LinkedHashMap<>();
 
 	public boolean isShowFolder() {
 		return showFolders;

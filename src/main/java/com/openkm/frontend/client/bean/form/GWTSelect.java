@@ -36,8 +36,8 @@ import java.util.List;
 public class GWTSelect extends GWTFormElement implements IsSerializable {
 	public static final String TYPE_SIMPLE = "simple";
 	public static final String TYPE_MULTIPLE = "multiple";
-	private Collection<GWTOption> options = new ArrayList<GWTOption>();
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private Collection<GWTOption> options = new ArrayList<>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private String type = TYPE_SIMPLE;
 	private String data = "";
 	private String optionsData = "";

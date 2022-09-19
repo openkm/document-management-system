@@ -28,7 +28,7 @@ import java.util.List;
 public class NodeResultSet implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long total;
-	private List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
+	private List<NodeQueryResult> results = new ArrayList<>();
 
 	public long getTotal() {
 		return total;

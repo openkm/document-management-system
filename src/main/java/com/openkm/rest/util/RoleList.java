@@ -29,7 +29,7 @@ import java.util.List;
 @XmlRootElement(name = "roles")
 public class RoleList {
 	@XmlElement(name = "role", required = true)
-	List<String> roles = new ArrayList<String>();
+	List<String> roles = new ArrayList<>();
 
 	public List<String> getList() {
 		return roles;

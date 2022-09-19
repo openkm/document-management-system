@@ -135,7 +135,7 @@ public class CmisRepository {
 		aclCapability.setAclPropagation(AclPropagation.OBJECTONLY);
 
 		// permissions
-		List<PermissionDefinition> permissions = new ArrayList<PermissionDefinition>();
+		List<PermissionDefinition> permissions = new ArrayList<>();
 		permissions.add(createPermission(CMIS_READ, "Read"));
 		permissions.add(createPermission(CMIS_WRITE, "Write"));
 		permissions.add(createPermission(CMIS_DELETE, "Delete"));
@@ -143,7 +143,7 @@ public class CmisRepository {
 		aclCapability.setPermissionDefinitionData(permissions);
 
 		// mapping
-		List<PermissionMapping> list = new ArrayList<PermissionMapping>();
+		List<PermissionMapping> list = new ArrayList<>();
 		list.add(createMapping(PermissionMapping.CAN_CREATE_DOCUMENT_FOLDER, CMIS_WRITE));
 		list.add(createMapping(PermissionMapping.CAN_CREATE_FOLDER_FOLDER, CMIS_WRITE));
 		list.add(createMapping(PermissionMapping.CAN_DELETE_CONTENT_DOCUMENT, CMIS_WRITE));
@@ -163,7 +163,7 @@ public class CmisRepository {
 		list.add(createMapping(PermissionMapping.CAN_UPDATE_PROPERTIES_OBJECT, CMIS_WRITE));
 		list.add(createMapping(PermissionMapping.CAN_VIEW_CONTENT_OBJECT, CMIS_READ));
 
-		Map<String, PermissionMapping> map = new LinkedHashMap<String, PermissionMapping>();
+		Map<String, PermissionMapping> map = new LinkedHashMap<>();
 		for (PermissionMapping pm : list) {
 			map.put(pm.getKey(), pm);
 		}
@@ -574,7 +574,7 @@ public class CmisRepository {
 	public FailedToDeleteData deleteTree(CallContext context, String folderId, Boolean continueOnFailure) {
 		log.debug("deleteTree({})", folderId);
 		FailedToDeleteDataImpl result = new FailedToDeleteDataImpl();
-		result.setIds(new ArrayList<String>());
+		result.setIds(new ArrayList<>());
 
 		try {
 			if (OKMFolder.getInstance().isValid(null, folderId)) {
@@ -804,7 +804,7 @@ public class CmisRepository {
 
 			// prepare result
 			ObjectInFolderListImpl result = new ObjectInFolderListImpl();
-			result.setObjects(new ArrayList<ObjectInFolderData>());
+			result.setObjects(new ArrayList<>());
 			result.setHasMoreItems(false);
 			int count = 0;
 
@@ -906,7 +906,7 @@ public class CmisRepository {
 			}
 
 			// get the tree
-			List<ObjectInFolderContainer> result = new ArrayList<ObjectInFolderContainer>();
+			List<ObjectInFolderContainer> result = new ArrayList<>();
 			gatherDescendants(context, fld, result, foldersOnly, d, filterCollection, iaa, ips, objectInfos);
 
 			return result;
@@ -970,7 +970,7 @@ public class CmisRepository {
 				result.setRelativePathSegment(PathUtils.getName(parent.getPath()));
 			}
 
-			return Collections.singletonList((ObjectParentData) result);
+			return Collections.singletonList(result);
 		} catch (AccessDeniedException e) {
 			throw new CmisPermissionDeniedException(e.getMessage(), e);
 		} catch (PathNotFoundException e) {
@@ -1007,7 +1007,7 @@ public class CmisRepository {
 	 * Gather the children of a folder.
 	 */
 	private void gatherDescendants(CallContext context, Folder fld, List<ObjectInFolderContainer> list, boolean foldersOnly, int depth,
-	                               Set<String> filter, boolean includeAllowableActions, boolean includePathSegments, ObjectInfoHandler objectInfos)
+			Set<String> filter, boolean includeAllowableActions, boolean includePathSegments, ObjectInfoHandler objectInfos)
 			throws AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException {
 		// iterate through children
 		for (Folder child : OKMFolder.getInstance().getChildren(null, fld.getPath())) {
@@ -1026,7 +1026,7 @@ public class CmisRepository {
 
 			// move to next level
 			if (depth != 1) {
-				container.setChildren(new ArrayList<ObjectInFolderContainer>());
+				container.setChildren(new ArrayList<>());
 				gatherDescendants(context, child, container.getChildren(), foldersOnly, depth - 1, filter, includeAllowableActions,
 						includePathSegments, objectInfos);
 			}
@@ -1083,7 +1083,7 @@ public class CmisRepository {
 	 */
 	private Properties compileProperties(Node node, Set<String> orgfilter, ObjectInfoImpl objectInfo) {
 		// copy filter
-		Set<String> filter = (orgfilter == null ? null : new HashSet<String>(orgfilter));
+		Set<String> filter = (orgfilter == null ? null : new HashSet<>(orgfilter));
 
 		// find base type
 		String typeId = null;
@@ -1291,7 +1291,7 @@ public class CmisRepository {
 	private Properties compileProperties(String typeId, String creator, GregorianCalendar creationDate, String modifier,
 	                                     Properties properties) {
 		PropertiesImpl result = new PropertiesImpl();
-		Set<String> addedProps = new HashSet<String>();
+		Set<String> addedProps = new HashSet<>();
 
 		if ((properties == null) || (properties.getProperties() == null)) {
 			throw new CmisConstraintException("No properties!");
@@ -1606,7 +1606,7 @@ public class CmisRepository {
 	 */
 	private Acl compileAcl(Node node) {
 		AccessControlListImpl result = new AccessControlListImpl();
-		result.setAces(new ArrayList<Ace>());
+		result.setAces(new ArrayList<>());
 
 		try {
 			for (Map.Entry<String, Integer> ue : OKMAuth.getInstance().getGrantedUsers(null, node.getUuid()).entrySet()) {
@@ -1617,7 +1617,7 @@ public class CmisRepository {
 				// create ACE
 				AccessControlEntryImpl entry = new AccessControlEntryImpl();
 				entry.setPrincipal(principal);
-				entry.setPermissions(new ArrayList<String>());
+				entry.setPermissions(new ArrayList<>());
 				entry.getPermissions().add(CMIS_READ);
 
 				if (checkPermission(ue.getValue(), Permission.WRITE)) {
@@ -1694,7 +1694,7 @@ public class CmisRepository {
 			return null;
 		}
 
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		for (String s : filter.split(",")) {
 			s = s.trim();
 			if (s.equals("*")) {

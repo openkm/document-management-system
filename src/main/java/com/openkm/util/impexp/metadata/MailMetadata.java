@@ -30,10 +30,10 @@ public class MailMetadata {
 	private String name;
 	private long size;
 	private String from;
-	private List<String> reply = new ArrayList<String>();
-	private List<String> to = new ArrayList<String>();
-	private List<String> cc = new ArrayList<String>();
-	private List<String> bcc = new ArrayList<String>();
+	private List<String> reply = new ArrayList<>();
+	private List<String> to = new ArrayList<>();
+	private List<String> cc = new ArrayList<>();
+	private List<String> bcc = new ArrayList<>();
 	private Calendar sentDate;
 	private Calendar receivedDate;
 	private String subject;
@@ -41,22 +41,22 @@ public class MailMetadata {
 	private String mimeType;
 	private String author;
 	private Calendar created;
-	private Set<String> keywords = new HashSet<String>();
-	private Set<CategoryMetadata> categories = new HashSet<CategoryMetadata>();
-	private List<DocumentMetadata> attachments = new ArrayList<DocumentMetadata>();
+	private Set<String> keywords = new HashSet<>();
+	private Set<CategoryMetadata> categories = new HashSet<>();
+	private List<DocumentMetadata> attachments = new ArrayList<>();
 
 	// mix:scripting
 	private String scripting;
 
 	// okm:notes
-	private List<NoteMetadata> notes = new ArrayList<NoteMetadata>();
+	private List<NoteMetadata> notes = new ArrayList<>();
 
 	// mix:property_group
-	private List<PropertyGroupMetadata> propertyGroups = new ArrayList<PropertyGroupMetadata>();
+	private List<PropertyGroupMetadata> propertyGroups = new ArrayList<>();
 
 	// mix:accessControlled
-	private Map<String, Integer> grantedUsers = new HashMap<String, Integer>();
-	private Map<String, Integer> grantedRoles = new HashMap<String, Integer>();
+	private Map<String, Integer> grantedUsers = new HashMap<>();
+	private Map<String, Integer> grantedRoles = new HashMap<>();
 
 	public String getUuid() {
 		return uuid;

@@ -35,7 +35,6 @@ import com.openkm.frontend.client.service.OKMSearchServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +60,7 @@ public class SearchSaved extends Composite {
 	 * SearchSaved
 	 */
 	public SearchSaved() {
-		data = new HashMap<Long, GWTQueryParams>();
+		data = new HashMap<>();
 		table = new ExtendedFlexTable();
 		menuPopup = new MenuPopup();
 		menuPopup.setStyleName("okm-MenuPopup");
@@ -111,9 +110,10 @@ public class SearchSaved extends Composite {
 		public void onSuccess(List<GWTQueryParams> result) {
 			table.removeAllRows();
 
-			for (Iterator<GWTQueryParams> it = result.iterator(); it.hasNext(); ) {
-				addRow(it.next());
+			for (GWTQueryParams gwtQueryParams : result) {
+				addRow(gwtQueryParams);
 			}
+
 			if (!firstTime) {
 				status.unsetFlag_getSearchs();
 			} else {

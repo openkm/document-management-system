@@ -73,7 +73,7 @@ public class ExpressionAssignmentHandler extends org.jbpm.identity.assignment.Ex
 			} else if (entity instanceof Group) {
 				// put the group in the pool
 				Group group = (Group) entity;
-				List<String> pooledActors = new ArrayList<String>();
+				List<String> pooledActors = new ArrayList<>();
 
 				for (User user : (Set<User>) group.getUsers()) {
 					pooledActors.add(user.getName());

@@ -33,7 +33,7 @@ import java.util.List;
  *
  */
 public class GWTSuggestBox extends GWTFormElement implements IsSerializable {
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private String value = "";
 	private String text = ""; // text Value
 	private String data = "";

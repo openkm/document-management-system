@@ -216,7 +216,7 @@ public class RoleScrollTable extends Composite {
 	 * @return The users list
 	 */
 	public List<String> getRolesToNotifyList() {
-		List<String> rolesList = new ArrayList<String>();
+		List<String> rolesList = new ArrayList<>();
 
 		if (dataTable.getRowCount() > 0) {
 			for (int i = 0; i < dataTable.getRowCount(); i++) {

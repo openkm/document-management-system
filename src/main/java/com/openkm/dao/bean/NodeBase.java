@@ -90,21 +90,21 @@ public class NodeBase implements Serializable {
 	@CollectionTable(name = "OKM_NODE_SUBSCRIPTOR", joinColumns = {@JoinColumn(name = "NSB_NODE")})
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	protected Set<String> subscriptors = new HashSet<String>();
+	protected Set<String> subscriptors = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NKW_KEYWORD")
 	@CollectionTable(name = "OKM_NODE_KEYWORD", joinColumns = {@JoinColumn(name = "NKW_NODE")})
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	protected Set<String> keywords = new HashSet<String>();
+	protected Set<String> keywords = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NCT_CATEGORY")
 	@CollectionTable(name = "OKM_NODE_CATEGORY", joinColumns = {@JoinColumn(name = "NCT_NODE")})
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	protected Set<String> categories = new HashSet<String>();
+	protected Set<String> categories = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NUP_PERMISSION")
@@ -112,7 +112,7 @@ public class NodeBase implements Serializable {
 	@CollectionTable(name = "OKM_NODE_USER_PERMISSION", joinColumns = {@JoinColumn(name = "NUP_NODE")})
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = MapFieldBridge.class)
-	protected Map<String, Integer> userPermissions = new HashMap<String, Integer>();
+	protected Map<String, Integer> userPermissions = new HashMap<>();
 
 	@ElementCollection
 	@Column(name = "NRP_PERMISSION")
@@ -120,12 +120,12 @@ public class NodeBase implements Serializable {
 	@CollectionTable(name = "OKM_NODE_ROLE_PERMISSION", joinColumns = {@JoinColumn(name = "NRP_NODE")})
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = MapFieldBridge.class)
-	protected Map<String, Integer> rolePermissions = new HashMap<String, Integer>();
+	protected Map<String, Integer> rolePermissions = new HashMap<>();
 
 	@OneToMany(mappedBy = "node", targetEntity = NodeProperty.class, cascade = CascadeType.ALL)
 	@Field(index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetPropertiesFieldBridge.class)
-	protected Set<NodeProperty> properties = new HashSet<NodeProperty>();
+	protected Set<NodeProperty> properties = new HashSet<>();
 
 	public String getUuid() {
 		return uuid;

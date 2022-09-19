@@ -22,8 +22,8 @@ public class QueryParams implements Serializable {
 	private String queryName;
 	private String user;
 	private String name;
-	private Set<String> keywords = new HashSet<String>();
-	private Set<String> categories = new HashSet<String>();
+	private Set<String> keywords = new HashSet<>();
+	private Set<String> categories = new HashSet<>();
 	private String content;
 	private String mimeType;
 	private String author;
@@ -38,10 +38,10 @@ public class QueryParams implements Serializable {
 	private boolean dashboard;
 	private long domain = DOCUMENT;
 	private String operator = AND;
-	private Map<String, String> properties = new HashMap<String, String>();
-	private Set<String> shared = new HashSet<String>();
-	private Set<ProposedQuerySent> proposedSent = new HashSet<ProposedQuerySent>();
-	private Set<ProposedQueryReceived> proposedReceived = new HashSet<ProposedQueryReceived>();
+	private Map<String, String> properties = new HashMap<>();
+	private Set<String> shared = new HashSet<>();
+	private Set<ProposedQuerySent> proposedSent = new HashSet<>();
+	private Set<ProposedQueryReceived> proposedReceived = new HashSet<>();
 
 	public long getId() {
 		return id;

@@ -55,13 +55,13 @@ public class MacrosServlet extends OKMRemoteServiceServlet implements OKMMacrosS
 	@Override
 	public List<GWTMacros> getActions() throws OKMException {
 		updateSessionManager();
-		List<GWTMacros> actionList = new ArrayList<GWTMacros>();
+		List<GWTMacros> actionList = new ArrayList<>();
 
 		try {
-			String actions[] = ConfigDAO.getText("macros.actions", "").split("\r\n");
+			String[] actions = ConfigDAO.getText("macros.actions", "").split("\r\n");
 
 			for (String action : actions) {
-				String act[] = action.split(",");
+				String[] act = action.split(",");
 
 				if (act.length > 1) {
 					// Path fix: all paths must finish with "/" for comparison
@@ -107,9 +107,9 @@ public class MacrosServlet extends OKMRemoteServiceServlet implements OKMMacrosS
 			// Case when on destination should create folders to store documents
 			String rightPath = path.substring(orgPath.length() + 1); // Right path
 
-			if (rightPath.indexOf("/") >= 0) {
+			if (rightPath.contains("/")) {
 				String extraFldPath = rightPath.substring(0, rightPath.lastIndexOf("/"));
-				String destFoldersToCreate[] = extraFldPath.split("/");
+				String[] destFoldersToCreate = extraFldPath.split("/");
 				for (int i = 0; i < destFoldersToCreate.length; i++) { // Put all destination files path
 					if (i == 0) {
 						destFoldersToCreate[i] = dstPath + "/" + destFoldersToCreate[i];
@@ -256,18 +256,18 @@ public class MacrosServlet extends OKMRemoteServiceServlet implements OKMMacrosS
 
 				// Setting privileges except remote user
 				for (String role : orgRolesMap.keySet()) {
-					OKMAuth.getInstance().grantRole(null, folder, role, orgRolesMap.get(role).intValue(), false);
+					OKMAuth.getInstance().grantRole(null, folder, role, orgRolesMap.get(role), false);
 				}
 
 				for (String user : orgUsersMap.keySet()) {
 					if (!remoteUser.equals(user)) {
-						OKMAuth.getInstance().grantUser(null, folder, user, orgUsersMap.get(user).intValue(), false);
+						OKMAuth.getInstance().grantUser(null, folder, user, orgUsersMap.get(user), false);
 					}
 				}
 
 				// Setting user privileges if exists, otherside revokes all
 				if (orgUsersMap.containsKey(remoteUser)) {
-					int permission = orgUsersMap.get(remoteUser).intValue();
+					int permission = orgUsersMap.get(remoteUser);
 
 					if ((permission & Permission.READ) != Permission.READ) {
 						OKMAuth.getInstance().revokeUser(null, folder, remoteUser, Permission.READ, false);

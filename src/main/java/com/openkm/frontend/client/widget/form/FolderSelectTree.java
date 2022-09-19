@@ -37,7 +37,6 @@ import com.openkm.frontend.client.service.OKMRepositoryService;
 import com.openkm.frontend.client.service.OKMRepositoryServiceAsync;
 import com.openkm.frontend.client.util.Util;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -171,8 +170,7 @@ public class FolderSelectTree extends Composite {
 			}
 
 			// Ads folders childs if exists
-			for (Iterator<GWTFolder> it = result.iterator(); it.hasNext(); ) {
-				GWTFolder folder = it.next();
+			for (GWTFolder folder : result) {
 				TreeItem folderItem = new TreeItem();
 				folderItem.setHTML(folder.getName());
 				folderItem.setUserObject(folder);

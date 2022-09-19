@@ -51,7 +51,7 @@ import java.util.TreeMap;
 
 public class Config {
 	private static Logger log = LoggerFactory.getLogger(Config.class);
-	public static TreeMap<String, String> values = new TreeMap<String, String>();
+	public static TreeMap<String, String> values = new TreeMap<>();
 	public static final String DEFAULT_CONTEXT = "OpenKM";
 
 	// Server specific configuration
@@ -432,11 +432,11 @@ public class Config {
 	public static String PRINCIPAL_LDAP_REFERRAL;
 	public static boolean PRINCIPAL_LDAP_USERS_FROM_ROLES;
 
-	public static List<String> PRINCIPAL_LDAP_USER_SEARCH_BASE = new ArrayList<String>(); // ou=people,dc=openkm,dc=com
+	public static List<String> PRINCIPAL_LDAP_USER_SEARCH_BASE = new ArrayList<>(); // ou=people,dc=openkm,dc=com
 	public static String PRINCIPAL_LDAP_USER_SEARCH_FILTER; // (&(objectClass=posixAccount)(!(objectClass=gosaUserTemplate)))
 	public static String PRINCIPAL_LDAP_USER_ATTRIBUTE; // uid
 
-	public static List<String> PRINCIPAL_LDAP_ROLE_SEARCH_BASE = new ArrayList<String>(); // ou=groups,dc=openkm,dc=com
+	public static List<String> PRINCIPAL_LDAP_ROLE_SEARCH_BASE = new ArrayList<>(); // ou=groups,dc=openkm,dc=com
 	public static String PRINCIPAL_LDAP_ROLE_SEARCH_FILTER; // (&(objectClass=posixGroup)(cn=*)(|(description=*OpenKM*)(cn=users)))
 	public static String PRINCIPAL_LDAP_ROLE_ATTRIBUTE; // cn
 

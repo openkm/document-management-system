@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class UserActivity {
 	private static Logger log = LoggerFactory.getLogger(UserActivity.class);
-	private static List<String> dashboardActions = new ArrayList<String>();
+	private static List<String> dashboardActions = new ArrayList<>();
 
 	static {
 		dashboardActions.add("CREATE_DOCUMENT");

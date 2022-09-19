@@ -73,13 +73,13 @@ public class DbSimpleAccessManager implements DbAccessManager {
 	@Override
 	public boolean isGranted(NodeBase node, String user, int permissions) throws PrincipalAdapterException, DatabaseException {
 		List<String> roles = CommonAuthModule.getPrincipalAdapter().getRolesByUser(user);
-		return isGranted(node, user, new HashSet<String>(roles), permissions);
+		return isGranted(node, user, new HashSet<>(roles), permissions);
 	}
 
 	/**
 	 * Check for permissions.
 	 */
-	private boolean isGranted(NodeBase node, String user, Set<String> roles, int permissions) throws DatabaseException {
+	private boolean isGranted(NodeBase node, String user, Set<String> roles, int permissions) {
 		log.debug("isGranted({}, {})", node.getUuid(), permissions);
 		boolean access = false;
 

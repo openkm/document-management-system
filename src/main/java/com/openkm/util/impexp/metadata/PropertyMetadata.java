@@ -30,7 +30,7 @@ public class PropertyMetadata {
 	private String type;
 	private boolean multiValue;
 	private String value;
-	private List<String> values = new ArrayList<String>();
+	private List<String> values = new ArrayList<>();
 
 	public String getName() {
 		return name;

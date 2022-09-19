@@ -42,7 +42,7 @@ public class HttpSessionManager {
 	@SuppressWarnings("unused")
 	private static Logger log = LoggerFactory.getLogger(HttpSessionManager.class);
 	private static HttpSessionManager instance = new HttpSessionManager();
-	private List<HttpSessionInfo> sessions = new ArrayList<HttpSessionInfo>();
+	private List<HttpSessionInfo> sessions = new ArrayList<>();
 
 	/**
 	 * Prevents class instantiation

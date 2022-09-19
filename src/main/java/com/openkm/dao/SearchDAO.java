@@ -42,7 +42,10 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermDocs;
+import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.*;
@@ -231,7 +234,7 @@ public class SearchDAO {
 	private NodeResultSet runQueryLucene(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, HibernateException, DatabaseException {
 		log.debug("runQueryLucene({}, {}, {}, {})", ftSession, query, offset, limit);
-		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
+		List<NodeQueryResult> results = new ArrayList<>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
 		ftq.setProjection(FullTextQuery.SCORE, FullTextQuery.THIS);
@@ -276,7 +279,7 @@ public class SearchDAO {
 	private NodeResultSet runQueryAccessManagerMore(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
 		log.debug("runQueryAccessManagerMore({}, {}, {}, {})", ftSession, query, offset, limit);
-		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
+		List<NodeQueryResult> results = new ArrayList<>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
 		ftq.setProjection(FullTextQuery.SCORE, FullTextQuery.THIS);
@@ -347,7 +350,7 @@ public class SearchDAO {
 	private NodeResultSet runQueryAccessManagerWindow(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
 		log.debug("runQueryAccessManagerWindow({}, {}, {}, {})", ftSession, query, offset, limit);
-		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
+		List<NodeQueryResult> results = new ArrayList<>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
 		ftq.setProjection(FullTextQuery.SCORE, FullTextQuery.THIS);
@@ -418,7 +421,7 @@ public class SearchDAO {
 	private NodeResultSet runQueryAccessManagerLimited(FullTextSession ftSession, Query query, int offset, int limit)
 			throws IOException, InvalidTokenOffsetsException, DatabaseException, HibernateException {
 		log.debug("runQueryAccessManagerLimited({}, {}, {}, {})", ftSession, query, offset, limit);
-		List<NodeQueryResult> results = new ArrayList<NodeQueryResult>();
+		List<NodeQueryResult> results = new ArrayList<>();
 		NodeResultSet result = new NodeResultSet();
 		FullTextQuery ftq = ftSession.createFullTextQuery(query, NodeDocument.class, NodeFolder.class, NodeMail.class);
 		ftq.setProjection(FullTextQuery.SCORE, FullTextQuery.THIS);
@@ -593,7 +596,7 @@ public class SearchDAO {
 	private List<String> findFoldersInDepthHelper(Session session, String parentUuid) throws HibernateException,
 			DatabaseException {
 		log.debug("findFoldersInDepthHelper({}, {})", "session", parentUuid);
-		List<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<>();
 		String qs = "from NodeFolder nf where nf.parent=:parent";
 		org.hibernate.Query q = session.createQuery(qs).setCacheable(true);
 		q.setString("parent", parentUuid);
@@ -602,9 +605,7 @@ public class SearchDAO {
 		// Security Check
 		DbAccessManager am = SecurityHelper.getAccessManager();
 
-		for (Iterator<NodeFolder> it = results.iterator(); it.hasNext(); ) {
-			NodeFolder node = it.next();
-
+		for (NodeFolder node : results) {
 			if (am.isGranted(node, Permission.READ)) {
 				ret.add(node.getUuid());
 				ret.addAll(findFoldersInDepthHelper(session, node.getUuid()));
@@ -694,8 +695,8 @@ public class SearchDAO {
 	 * Get Lucent document terms.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> getTerms(Class<?> entityType, String nodeUuid) throws CorruptIndexException, IOException {
-		List<String> terms = new ArrayList<String>();
+	public List<String> getTerms(Class<?> entityType, String nodeUuid) throws IOException {
+		List<String> terms = new ArrayList<>();
 		FullTextSession ftSession = null;
 		IndexSearcher searcher = null;
 		ReaderProvider provider = null;

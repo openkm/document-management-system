@@ -181,7 +181,7 @@ public class ImageUtils {
 		String cmd = null;
 
 		try {
-			HashMap<String, Object> hm = new HashMap<String, Object>();
+			HashMap<String, Object> hm = new HashMap<>();
 			hm.put("fileIn", input);
 			hm.put("fileOut", output);
 			String tpl = Config.SYSTEM_IMAGEMAGICK_CONVERT + " " + params;

@@ -133,13 +133,7 @@ public class DbSessionManager {
 	 * Return all active tokens
 	 */
 	public List<String> getTokens() {
-		List<String> list = new ArrayList<String>();
-
-		for (String token : sessions.keySet()) {
-			list.add(token);
-		}
-
-		return list;
+		return new ArrayList<>(sessions.keySet());
 	}
 
 	/**

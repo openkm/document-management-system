@@ -61,8 +61,8 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 			} else {
 				to = users + roles;
 			}
-			List<String> userNames = new ArrayList<String>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
-			List<String> roleNames = new ArrayList<String>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
+			List<String> userNames = new ArrayList<>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
+			List<String> roleNames = new ArrayList<>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
 
 			for (String role : roleNames) {
 				List<String> usersInRole = OKMAuth.getInstance().getUsersByRole(null, role);
@@ -94,7 +94,7 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 	@Override
 	public Map<String, Long> findProposedQueriesUsersFrom() throws OKMException {
 		log.debug("findProposedQueriesUsersFrom()");
-		Map<String, Long> received = new HashMap<String, Long>();
+		Map<String, Long> received = new HashMap<>();
 		updateSessionManager();
 		try {
 			String user = getThreadLocalRequest().getRemoteUser();
@@ -144,7 +144,7 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 	public List<GWTProposedQueryReceived> findProposedQueryByMeFromUser(String user) throws OKMException {
 		log.debug("findProposedQueryByMeFromUser()");
 		updateSessionManager();
-		List<GWTProposedQueryReceived> proposedQueryReceivedList = new ArrayList<GWTProposedQueryReceived>();
+		List<GWTProposedQueryReceived> proposedQueryReceivedList = new ArrayList<>();
 
 		try {
 			String me = getThreadLocalRequest().getRemoteUser();
@@ -215,8 +215,9 @@ public class ProposedQueryServlet extends OKMRemoteServiceServlet implements OKM
 	@Override
 	public void deleteProposedQueryByMeFromUser(String user) throws OKMException {
 		log.debug("deleteProposedQueryByMeFromUser({})", user);
-		List<String> pqId = new ArrayList<String>();
+		List<String> pqId = new ArrayList<>();
 		updateSessionManager();
+
 		try {
 			for (ProposedQueryReceived proposedQueryReceived : ProposedQueryDAO.findProposedQueryByMeFromUser(getThreadLocalRequest().getRemoteUser(), user)) {
 				pqId.add(String.valueOf(proposedQueryReceived.getId()));

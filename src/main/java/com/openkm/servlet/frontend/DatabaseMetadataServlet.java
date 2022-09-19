@@ -49,7 +49,7 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 	public List<Map<String, String>> executeValueQuery(String table, String filter, String order) throws OKMException {
 		log.debug("executeValueQuery({}, {}, {})", table, filter, order);
 		updateSessionManager();
-		List<Map<String, String>> metadataValues = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> metadataValues = new ArrayList<>();
 
 		try {
 			for (DatabaseMetadataValue dmv : DatabaseMetadataDAO.executeValueQuery(DatabaseMetadataUtils.buildQuery(table, filter, order))) {
@@ -134,11 +134,11 @@ public class DatabaseMetadataServlet extends OKMRemoteServiceServlet implements 
 	public List<List<Map<String, String>>> executeMultiValueQuery(List<String> tables, String query) throws OKMException {
 		log.debug("executeMultiValueQuery({})", query);
 		updateSessionManager();
-		List<List<Map<String, String>>> ret = new ArrayList<List<Map<String, String>>>();
+		List<List<Map<String, String>>> ret = new ArrayList<>();
 
 		try {
 			for (DatabaseMetadataValue[] dmv : DatabaseMetadataDAO.executeMultiValueQuery(DatabaseMetadataUtils.replaceVirtual(tables, query))) {
-				List<Map<String, String>> dmvRow = new ArrayList<Map<String, String>>();
+				List<Map<String, String>> dmvRow = new ArrayList<>();
 
 				for (DatabaseMetadataValue databaseMetadataValue : dmv) {
 					dmvRow.add(DatabaseMetadataUtils.getDatabaseMetadataValueMap(databaseMetadataValue));

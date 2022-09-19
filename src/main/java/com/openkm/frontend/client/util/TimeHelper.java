@@ -32,7 +32,7 @@ import java.util.Map;
  *
  */
 public class TimeHelper {
-	private static Map<String, Date> timeMap = new HashMap<String, Date>();
+	private static Map<String, Date> timeMap = new HashMap<>();
 
 	/**
 	 * changeControlTime

@@ -122,7 +122,7 @@ public class MessagingToolBarBox implements LanguageHandlerExtension, DashboardH
 	 * getExtensions
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(messagingToolBarBox);
 		extensions.add(proposedSubscriptionReceivedUserInfoImage);
@@ -220,5 +220,4 @@ public class MessagingToolBarBox implements LanguageHandlerExtension, DashboardH
 			messageDashboard.refreshAll();
 		}
 	}
-
 }

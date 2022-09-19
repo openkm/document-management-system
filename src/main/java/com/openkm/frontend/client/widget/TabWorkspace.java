@@ -34,7 +34,6 @@ import com.openkm.frontend.client.extension.event.hashandler.HasWorkspaceHandler
 import com.openkm.frontend.client.extension.widget.tabworkspace.TabWorkspaceExtension;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -62,13 +61,13 @@ public class TabWorkspace extends Composite implements HasWorkspaceEvent, HasWor
 	 * Tab Workspace
 	 */
 	public TabWorkspace() {
-		widgetExtensionList = new ArrayList<TabWorkspaceExtension>();
-		workHandlerExtensionList = new ArrayList<WorkspaceHandlerExtension>();
+		widgetExtensionList = new ArrayList<>();
+		workHandlerExtensionList = new ArrayList<>();
 		tabBar = new TabBar();
 		tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				int index = indexCorrectedChangeViewIndex(event.getSelectedItem().intValue());
+				int index = indexCorrectedChangeViewIndex(event.getSelectedItem());
 
 				switch (index) {
 					case UIDockPanelConstants.DESKTOP:
@@ -130,8 +129,8 @@ public class TabWorkspace extends Composite implements HasWorkspaceEvent, HasWor
 			tabBar.addTab(Main.i18n("tab.workspace.administration"));
 		}
 
-		for (Iterator<TabWorkspaceExtension> it = widgetExtensionList.iterator(); it.hasNext(); ) {
-			tabBar.addTab(it.next().getTabText());
+		for (TabWorkspaceExtension tabWorkspaceExtension : widgetExtensionList) {
+			tabBar.addTab(tabWorkspaceExtension.getTabText());
 		}
 
 		tabBar.selectTab(selected);
@@ -311,8 +310,8 @@ public class TabWorkspace extends Composite implements HasWorkspaceEvent, HasWor
 
 	@Override
 	public void fireEvent(WorkspaceEventConstant event) {
-		for (Iterator<WorkspaceHandlerExtension> it = workHandlerExtensionList.iterator(); it.hasNext(); ) {
-			it.next().onChange(event);
+		for (WorkspaceHandlerExtension workspaceHandlerExtension : workHandlerExtensionList) {
+			workspaceHandlerExtension.onChange(event);
 		}
 	}
 

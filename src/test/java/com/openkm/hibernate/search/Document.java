@@ -48,7 +48,7 @@ public class Document implements Serializable {
 	@CollectionTable(name="OKM_DOCUMENT_KEYWORD", joinColumns = { @JoinColumn( name = "NDK_DOCUMENT" ) })
 	@Field(index=Index.UN_TOKENIZED, store=Store.YES)
 	@FieldBridge(impl=SetFieldBridge.class)
-	protected Set<String> keywords = new HashSet<String>();
+	protected Set<String> keywords = new HashSet<>();
 
 	public String getUuid() {
 		return uuid;

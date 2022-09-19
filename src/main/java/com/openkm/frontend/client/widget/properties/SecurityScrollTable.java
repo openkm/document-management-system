@@ -43,7 +43,10 @@ import com.openkm.frontend.client.util.RoleComparator;
 import com.openkm.frontend.client.util.ScrollTableHelper;
 import com.openkm.frontend.client.util.Util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SecurityScrollTable
@@ -494,17 +497,14 @@ public class SecurityScrollTable extends Composite implements ClickHandler {
 	 */
 	final AsyncCallback<Map<String, Integer>> callbackGetGrantedRoles = new AsyncCallback<Map<String, Integer>>() {
 		public void onSuccess(Map<String, Integer> result) {
-			List<String> rolesList = new ArrayList<String>();
+			List<String> rolesList = new ArrayList<>();
 
 			// Ordering grant roles to list
-			for (Iterator<String> it = result.keySet().iterator(); it.hasNext(); ) {
-				rolesList.add(it.next());
-			}
+			rolesList.addAll(result.keySet());
 			Collections.sort(rolesList, RoleComparator.getInstance());
 
-			for (Iterator<String> it = rolesList.iterator(); it.hasNext(); ) {
-				String groupName = it.next();
-				Integer permission = (Integer) result.get(groupName);
+			for (String groupName : rolesList) {
+				Integer permission = result.get(groupName);
 				addRolRow(groupName, permission);
 			}
 

@@ -72,7 +72,7 @@ public class ActivityLog implements LanguageHandlerExtension {
 	 * getExtensions
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(tabDocumentActivityLog);
 		extensions.add(tabFolderActivityLog);

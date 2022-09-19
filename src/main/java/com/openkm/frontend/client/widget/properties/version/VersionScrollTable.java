@@ -44,7 +44,10 @@ import com.openkm.frontend.client.util.ScrollTableHelper;
 import com.openkm.frontend.client.util.Util;
 import com.openkm.frontend.client.widget.ConfirmPopup;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * VersionScrollTable
@@ -68,15 +71,15 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 	private List<Button> buttonView;
 	private List<Button> buttonRestore;
 	private boolean evaluateHistory = false;
-	public Map<Integer, GWTVersion> data = new HashMap<Integer, GWTVersion>();
+	public Map<Integer, GWTVersion> data = new HashMap<>();
 
 	/**
 	 * Version
 	 */
 	public VersionScrollTable() {
-		versions = new ArrayList<String>();
-		buttonView = new ArrayList<Button>();
-		buttonRestore = new ArrayList<Button>();
+		versions = new ArrayList<>();
+		buttonView = new ArrayList<>();
+		buttonRestore = new ArrayList<>();
 
 		purge = new Button(Main.i18n("version.purge.document"), this);
 		purge.setStyleName("okm-CompactButton");
@@ -176,8 +179,6 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 
 	/**
 	 * initExtendedSecurity
-	 *
-	 * @param extendedSecurity
 	 */
 	public void initExtendedSecurity(int extendedSecurity) {
 		evaluateHistory = ((extendedSecurity & GWTPermission.COMPACT_HISTORY) == GWTPermission.COMPACT_HISTORY);
@@ -196,15 +197,13 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 
 		// Translate all view buttons
 		if (!buttonView.isEmpty()) {
-			for (Iterator<Button> it = buttonView.iterator(); it.hasNext(); ) {
-				Button button = it.next();
+			for (Button button : buttonView) {
 				button.setHTML(Main.i18n("button.view"));
 			}
 		}
 
 		if (!buttonRestore.isEmpty()) {
-			for (Iterator<Button> it = buttonRestore.iterator(); it.hasNext(); ) {
-				Button button = it.next();
+			for (Button button : buttonRestore) {
 				button.setHTML(Main.i18n("button.restore"));
 			}
 		}
@@ -212,8 +211,6 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 
 	/**
 	 * Sets the document
-	 *
-	 * @param GWTDocument The document
 	 */
 	public void set(GWTDocument doc) {
 		this.doc = doc;
@@ -228,8 +225,8 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 			dataTable.removeRow(0);
 		}
 		dataTable.resize(0, NUMBER_OF_COLUMNS);
-		versions = new ArrayList<String>();
-		data = new HashMap<Integer, GWTVersion>();
+		versions = new ArrayList<>();
+		data = new HashMap<>();
 	}
 
 	/**
@@ -249,15 +246,9 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 		versions.add(version.getName());
 		data.put(rows, version);
 
-		// Special case when visibleButtons are false, widget are on trash, must
-		// disable all buttons,
-		// but must enable the actual version to view ( on default is not
-		// enabled because is active one )
 		if (version.isActual() && visibleButtons) {
 			dataTable.selectRow(rows, true);
 		} else {
-
-			// Only on trash widget it'll occurs
 			if (version.isActual()) {
 				dataTable.selectRow(rows, true);
 			}
@@ -275,11 +266,8 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 
 			restoreButton.setVisible(visibleButtons);
 
-			if ((doc.getPermissions() & GWTPermission.WRITE) == GWTPermission.WRITE && !doc.isCheckedOut() && !doc.isLocked()) {
-				restoreButton.setEnabled(true);
-			} else {
-				restoreButton.setEnabled(false);
-			}
+			restoreButton.setEnabled((doc.getPermissions() & GWTPermission.WRITE) == GWTPermission.WRITE
+					&& !doc.isCheckedOut() && !doc.isLocked());
 
 			dataTable.setWidget(rows, 5, restoreButton);
 			dataTable.getCellFormatter().setHorizontalAlignment(rows, 5, HorizontalPanel.ALIGN_CENTER);
@@ -291,7 +279,7 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 			@Override
 			public void onClick(ClickEvent event) {
 				List<String> versions = Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.versions;
-				String ver = (String) versions.get(rows);
+				String ver = versions.get(rows);
 				Util.downloadFileByUUID(doc.getUuid(), "ver=" + ver);
 			}
 		});
@@ -311,8 +299,8 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 			reset();
 
 			// Initializes buttons lists ( to make language translations )
-			buttonView = new ArrayList<Button>();
-			buttonRestore = new ArrayList<Button>();
+			buttonView = new ArrayList<>();
+			buttonRestore = new ArrayList<>();
 
 			// When there's more than one version document can purge it
 			if (result.size() > 1) {
@@ -325,8 +313,7 @@ public class VersionScrollTable extends Composite implements ClickHandler {
 				purge.setEnabled(false);
 			}
 
-			for (Iterator<GWTVersion> it = result.iterator(); it.hasNext(); ) {
-				GWTVersion version = it.next();
+			for (GWTVersion version : result) {
 				addRow(version);
 			}
 

@@ -66,8 +66,8 @@ public class SecurityRole extends Composite implements HasWidgets {
 	 * Security group
 	 */
 	public SecurityRole() {
-		actualGrants = new HashMap<String, Integer>();
-		changedGrants = new HashMap<String, Integer>();
+		actualGrants = new HashMap<>();
+		changedGrants = new HashMap<>();
 		panel = new HorizontalPanel();
 		buttonPanel = new VerticalPanel();
 		assignedRole = new RoleScrollTable(true);
@@ -195,22 +195,19 @@ public class SecurityRole extends Composite implements HasWidgets {
 	 */
 	public void getGrantedRoles() {
 		if (uuid != null) {
-			actualGrants = new HashMap<String, Integer>();
-			changedGrants = new HashMap<String, Integer>();
+			actualGrants = new HashMap<>();
+			changedGrants = new HashMap<>();
 			authService.getGrantedRoles(uuid, new AsyncCallback<Map<String, Integer>>() {
 				public void onSuccess(Map<String, Integer> result) {
-					List<String> rolesList = new ArrayList<String>();
+					List<String> rolesList = new ArrayList<>();
 
 					// Ordering grant roles to list
-					for (Iterator<String> it = result.keySet().iterator(); it.hasNext(); ) {
-						rolesList.add(it.next());
-					}
+					rolesList.addAll(result.keySet());
 
 					Collections.sort(rolesList, RoleComparator.getInstance());
 
-					for (Iterator<String> it = rolesList.iterator(); it.hasNext(); ) {
-						String groupName = it.next();
-						Integer permission = (Integer) result.get(groupName);
+					for (String groupName : rolesList) {
+						Integer permission = result.get(groupName);
 						actualGrants.put(groupName, permission);
 						assignedRole.addRow(groupName, permission, false);
 					}
@@ -272,7 +269,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 				authService.grantRole(uuid, role, GWTPermission.READ, Main.get().securityPopup.recursive.getValue(),
 						new AsyncCallback<Object>() {
 							public void onSuccess(Object result) {
-								assignedRole.addRow(role, new Integer(GWTPermission.READ), false);
+								assignedRole.addRow(role, GWTPermission.READ, false);
 								unassignedRole.removeSelectedRow();
 								Main.get().securityPopup.status.unsetFlag_update();
 							}
@@ -285,7 +282,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 			} else {
 				boolean modified = false;
 
-				if (isGrantChanged(role, new Integer(GWTPermission.READ))) {
+				if (isGrantChanged(role, GWTPermission.READ)) {
 					changedGrants.put(role, GWTPermission.READ);
 					modified = true;
 				} else {
@@ -293,7 +290,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 				}
 
 				unassignedRole.removeSelectedRow();
-				assignedRole.addRow(role, new Integer(GWTPermission.READ), modified);
+				assignedRole.addRow(role, GWTPermission.READ, modified);
 				Main.get().securityPopup.securityPanel.evaluateChangeButton();
 			}
 		}
@@ -301,8 +298,6 @@ public class SecurityRole extends Composite implements HasWidgets {
 
 	/**
 	 * Revokes all role permissions
-	 *
-	 * @param user The role
 	 */
 	public void revokeRole(final String role) {
 		if (uuid != null) {
@@ -325,7 +320,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 			} else {
 				boolean modified = false;
 
-				if (isGrantChanged(role, new Integer(GWTPermission.REMOVED))) {
+				if (isGrantChanged(role, GWTPermission.REMOVED)) {
 					changedGrants.put(role, GWTPermission.REMOVED);
 					modified = true;
 				} else {
@@ -342,9 +337,6 @@ public class SecurityRole extends Composite implements HasWidgets {
 
 	/**
 	 * Grant the role
-	 *
-	 * @param user The granted role
-	 * @param permissions The permissions value
 	 */
 	public void grant(String role, int permissions, boolean recursive, final int flag_property) {
 		if (uuid != null) {
@@ -409,9 +401,9 @@ public class SecurityRole extends Composite implements HasWidgets {
 				int newGrant = 0;
 
 				if (!changedGrants.containsKey(role) && actualGrants.containsKey(role)) { // Case start new grant with checkbox change
-					newGrant = actualGrants.get(role).intValue();
+					newGrant = actualGrants.get(role);
 				} else {
-					newGrant = changedGrants.get(role).intValue();
+					newGrant = changedGrants.get(role);
 				}
 
 				switch (flag_property) {
@@ -463,9 +455,6 @@ public class SecurityRole extends Composite implements HasWidgets {
 
 	/**
 	 * Revoke the role grant
-	 *
-	 * @param user The role
-	 * @param permissions The permissions value
 	 */
 	public void revoke(String role, int permissions, boolean recursive, final int flag_property) {
 		if (uuid != null) {
@@ -480,7 +469,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 
 						// If user has no grants must be deleted
 						if (!dataTable.getSelectedRows().isEmpty()) {
-							int selectedRow = ((Integer) dataTable.getSelectedRows().iterator().next()).intValue();
+							int selectedRow = dataTable.getSelectedRows().iterator().next();
 							if (!hasSomeCheckBox(selectedRow)) {
 								unassignedRole.addRow(dataTable.getText(selectedRow, 0), false);
 								assignedRole.removeSelectedRow();
@@ -541,9 +530,9 @@ public class SecurityRole extends Composite implements HasWidgets {
 				int newGrant = 0;
 
 				if (changedGrants.containsKey(role)) { // Case start new grant with checkbox change
-					newGrant = changedGrants.get(role).intValue();
+					newGrant = changedGrants.get(role);
 				} else if (actualGrants.containsKey(role)) {
-					newGrant = actualGrants.get(role).intValue();
+					newGrant = actualGrants.get(role);
 				}
 
 				switch (flag_property) {
@@ -594,7 +583,7 @@ public class SecurityRole extends Composite implements HasWidgets {
 				FixedWidthGrid dataTable = assignedRole.getDataTable();
 
 				if (!dataTable.getSelectedRows().isEmpty()) {
-					int selectedRow = ((Integer) dataTable.getSelectedRows().iterator().next()).intValue();
+					int selectedRow = dataTable.getSelectedRows().iterator().next();
 
 					if (!hasSomeCheckBox(selectedRow)) {
 						unassignedRole.addRow(dataTable.getText(selectedRow, 0), modified);
@@ -612,12 +601,8 @@ public class SecurityRole extends Composite implements HasWidgets {
 	 * isNewGrant
 	 */
 	private boolean isGrantChanged(String role, int permission) {
-		if (actualGrants.containsKey(role)) {
-			return (permission != actualGrants.get(role).intValue());
-		} else {
-			// true if not removing some grant that
-			return (permission != GWTPermission.REMOVED);
-		}
+		// true if not removing some grant that
+		return (permission != actualGrants.getOrDefault(role, GWTPermission.REMOVED));
 	}
 
 	/**
@@ -642,14 +627,14 @@ public class SecurityRole extends Composite implements HasWidgets {
 	 * getNewGrants
 	 */
 	public List<Map<String, Integer>> getNewGrants() {
-		List<Map<String, Integer>> grants = new ArrayList<Map<String, Integer>>();
-		Map<String, Integer> addGrants = new HashMap<String, Integer>();
-		Map<String, Integer> revokeGrants = new HashMap<String, Integer>();
+		List<Map<String, Integer>> grants = new ArrayList<>();
+		Map<String, Integer> addGrants = new HashMap<>();
+		Map<String, Integer> revokeGrants = new HashMap<>();
 		grants.add(addGrants);
 		grants.add(revokeGrants);
 
 		for (String role : changedGrants.keySet()) {
-			if (changedGrants.get(role).intValue() == GWTPermission.REMOVED) {
+			if (changedGrants.get(role) == GWTPermission.REMOVED) {
 				// If actualGrants not contains role will be strange case
 				if (actualGrants.containsKey(role)) {
 					revokeGrants.put(role, actualGrants.get(role)); // Remove all actual grants
@@ -662,9 +647,9 @@ public class SecurityRole extends Composite implements HasWidgets {
 					// 0 1   1    B & (XOR) -> 1  ( add grant )
 					// 1 0   1    A & (XOR) -> 1  ( revoke grant )
 					// 1 1   0
-					int bitDiference = changedGrants.get(role).intValue() ^ actualGrants.get(role).intValue();
-					int addBit = changedGrants.get(role).intValue() & bitDiference;
-					int revokeBit = actualGrants.get(role).intValue() & bitDiference;
+					int bitDiference = changedGrants.get(role) ^ actualGrants.get(role);
+					int addBit = changedGrants.get(role) & bitDiference;
+					int revokeBit = actualGrants.get(role) & bitDiference;
 
 					if (addBit != 0) {
 						addGrants.put(role, addBit);

@@ -110,7 +110,7 @@ public class OKMPropertyGroup implements PropertyGroupModule {
 	public static void setPropertySimple(String token, String nodeId, String propGroup, String propName, String propValue)
 			throws IOException, ParseException, NoSuchPropertyException, NoSuchGroupException, LockException, PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException, ExtensionException, AutomationException {
-		Map<String, String> props = new HashMap<String, String>();
+		Map<String, String> props = new HashMap<>();
 		props.put(propName, propValue);
 		OKMPropertyGroup.getInstance().setPropertiesSimple(token, nodeId, propGroup, props);
 	}
@@ -120,7 +120,7 @@ public class OKMPropertyGroup implements PropertyGroupModule {
 			RepositoryException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("setPropertiesSimple({}, {}, {}, {})", token, nodeId, grpName, properties);
 		PropertyGroupModule cm = ModuleManager.getPropertyGroupModule();
-		List<FormElement> al = new ArrayList<FormElement>();
+		List<FormElement> al = new ArrayList<>();
 
 		for (FormElement fe : cm.getProperties(token, nodeId, grpName)) {
 			String value = properties.get(fe.getName());

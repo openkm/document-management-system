@@ -94,7 +94,7 @@ public class SearchServlet extends HttpServlet {
 		ServletContext sc = getServletContext();
 
 		if (!content.isEmpty() || !filename.isEmpty() || !keywords.isEmpty()) {
-			Set<String> kwd = new HashSet<String>();
+			Set<String> kwd = new HashSet<>();
 			for (StringTokenizer st = new StringTokenizer(keywords); st.hasMoreTokens(); ) {
 				kwd.add(st.nextToken());
 			}

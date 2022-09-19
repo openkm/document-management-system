@@ -238,7 +238,7 @@ public class FileBrowserController extends Composite {
 		});
 		orderBy.setStyleName("okm-Input");
 
-		// Reverse 
+		// Reverse
 		reverseText = new HTML(Main.i18n("filebrowser.controller.reverse") + "&nbsp;");
 		reverse = new CheckBox();
 		reverse.addClickHandler(new ClickHandler() {
@@ -249,7 +249,7 @@ public class FileBrowserController extends Composite {
 			}
 		});
 
-		// Filter 
+		// Filter
 		fPopup = new FilterPopup();
 		fPopup.setWidth("150px");
 		fPopup.setHeight("10px");
@@ -649,11 +649,10 @@ public class FileBrowserController extends Composite {
 
 	/**
 	 * getFilter
-	 *
-	 * @return
 	 */
 	public Map<String, GWTFilter> getFilter() {
-		Map<String, GWTFilter> map = new HashMap<String, GWTFilter>();
+		Map<String, GWTFilter> map = new HashMap<>();
+
 		// Only values with filter not empty
 		for (String key : fPopup.getMapFilter().keySet()) {
 			if (key.equals(String.valueOf(GWTPaginated.COL_NAME)) || key.equals(String.valueOf(GWTPaginated.COL_AUTHOR)) ||
@@ -746,10 +745,10 @@ public class FileBrowserController extends Composite {
 			super(false, true);
 			setText(Main.i18n("filebrowser.controller.filter"));
 
-			map = new LinkedHashMap<String, GWTFilter>();
+			map = new LinkedHashMap<>();
 			vPanel = new VerticalPanel();
 
-			// filter table 
+			// filter table
 			table = new FlexTable();
 			table.setCellSpacing(0);
 			table.setCellPadding(2);
@@ -796,7 +795,7 @@ public class FileBrowserController extends Composite {
 			});
 			cleanAll.setStyleName("okm-Hyperlink");
 			table.removeAllRows();
-			// Case not only order by none is enabled first row show clean all 
+			// Case not only order by none is enabled first row show clean all
 			if (map.keySet().size() > 1) {
 				int row = table.getRowCount();
 				table.setHTML(row, 0, "");

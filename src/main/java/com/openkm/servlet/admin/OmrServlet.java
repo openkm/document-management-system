@@ -45,7 +45,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * omr servlet
@@ -104,12 +107,10 @@ public class OmrServlet extends BaseServlet {
 				FileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				List<FileItem> items = upload.parseRequest(request);
-				Set<String> properties = new HashSet<String>();
+				Set<String> properties = new HashSet<>();
 				Omr om = new Omr();
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext();) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");

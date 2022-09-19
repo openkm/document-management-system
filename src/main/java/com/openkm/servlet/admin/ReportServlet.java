@@ -58,7 +58,7 @@ import java.util.*;
 public class ReportServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(ReportServlet.class);
-	private static Map<String, String> types = new LinkedHashMap<String, String>();
+	private static Map<String, String> types = new LinkedHashMap<>();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,
 			ServletException {
@@ -124,9 +124,7 @@ public class ReportServlet extends BaseServlet {
 				List<FileItem> items = upload.parseRequest(request);
 				Report rp = new Report();
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
@@ -222,7 +220,7 @@ public class ReportServlet extends BaseServlet {
 		String fileName = rp.getFileName().substring(0, rp.getFileName().indexOf('.')) + ReportUtils.FILE_EXTENSION[format];
 
 		// Set default report parameters
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<>();
 		String host = com.openkm.core.Config.APPLICATION_URL;
 		params.put("host", host.substring(0, host.lastIndexOf("/") + 1));
 
@@ -267,7 +265,7 @@ public class ReportServlet extends BaseServlet {
 		ServletContext sc = getServletContext();
 		int rpId = WebUtils.getInt(request, "rp_id");
 		List<FormElement> params = ReportUtils.getReportParameters(rpId);
-		List<Map<String, String>> fMaps = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> fMaps = new ArrayList<>();
 
 		for (FormElement fe : params) {
 			fMaps.add(FormUtils.toString(fe));

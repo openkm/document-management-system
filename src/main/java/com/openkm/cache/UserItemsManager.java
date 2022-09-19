@@ -106,7 +106,7 @@ public class UserItemsManager {
 	 */
 	public static synchronized void refreshDbUserItemsAs(String token) throws AccessDeniedException, RepositoryException {
 		log.debug("refreshDbUserItemsAs({})", token);
-		Map<String, ContentInfo> totalUserContInfo = new HashMap<String, ContentInfo>();
+		Map<String, ContentInfo> totalUserContInfo = new HashMap<>();
 		String[] bases = new String[]{Repository.ROOT, Repository.CATEGORIES, Repository.TEMPLATES,
 				Repository.PERSONAL, Repository.MAIL, Repository.TRASH};
 		@SuppressWarnings("unused")

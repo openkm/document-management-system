@@ -47,7 +47,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +81,7 @@ public class CronTabServlet extends BaseServlet {
 		updateSessionManager(request);
 
 		try {
-			Map<String, String> types = new LinkedHashMap<String, String>();
+			Map<String, String> types = new LinkedHashMap<>();
 			types.put(MimeTypeConfig.MIME_BSH, "BSH");
 			types.put(MimeTypeConfig.MIME_JAR, "JAR");
 
@@ -141,9 +140,7 @@ public class CronTabServlet extends BaseServlet {
 				List<FileItem> items = upload.parseRequest(request);
 				CronTab ct = new CronTab();
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");

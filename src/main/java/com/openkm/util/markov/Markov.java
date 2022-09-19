@@ -48,7 +48,7 @@ public class Markov {
 	 * the Markov chain.
 	 */
 	public Markov(Reader in, int length) throws java.io.IOException {
-		map = new HashMap<String, Chain>();
+		map = new HashMap<>();
 		CharQueue queue = new CharQueue(length);
 		int c;
 
@@ -134,7 +134,7 @@ public class Markov {
 		public Chain(String prefix) {
 			this.prefix = prefix;
 			total = 0;
-			list = new LinkedList<Link>();
+			list = new LinkedList<>();
 		}
 
 		public int getTotal() {

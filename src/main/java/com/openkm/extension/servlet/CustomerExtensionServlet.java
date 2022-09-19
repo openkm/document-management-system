@@ -67,9 +67,8 @@ public class CustomerExtensionServlet extends OKMRemoteServiceServlet implements
 			Double id = (double) DatabaseMetadataDAO.createValue(dmv);
 
 			if (recursive) {
-				String path;
-				path = OKMRepository.getInstance().getNodePath(null, security.getUuid());
-				List<String> folders = new ArrayList<String>();
+				String path = OKMRepository.getInstance().getNodePath(null, security.getUuid());
+				List<String> folders = new ArrayList<>();
 				folders.add(path);
 
 				while (folders.size() > 0) {
@@ -165,7 +164,7 @@ public class CustomerExtensionServlet extends OKMRemoteServiceServlet implements
 
 			if (recursive) {
 				String path = OKMRepository.getInstance().getNodePath(null, security.getUuid());
-				List<String> folders = new ArrayList<String>();
+				List<String> folders = new ArrayList<>();
 				folders.add(path);
 
 				while (folders.size() > 0) {

@@ -46,8 +46,8 @@ public class NewsDashboard extends WidgetToFire {
 	private final int NUMBER_OF_COLUMNS = 2;
 
 	private HorizontalPanel hPanel;
-	private Map<String, DashboardWidget> hWidgetSearch = new HashMap<String, DashboardWidget>();
-	private Map<String, GWTQueryParams> keyMap = new HashMap<String, GWTQueryParams>();
+	private Map<String, DashboardWidget> hWidgetSearch = new HashMap<>();
+	private Map<String, GWTQueryParams> keyMap = new HashMap<>();
 	private VerticalPanel vPanelLeft;
 	private VerticalPanel vPanelRight;
 	private int columnWidth = 0;
@@ -78,13 +78,12 @@ public class NewsDashboard extends WidgetToFire {
 	final AsyncCallback<List<GWTQueryParams>> callbackGetUserSearchs = new AsyncCallback<List<GWTQueryParams>>() {
 		public void onSuccess(List<GWTQueryParams> result) {
 			// Drops widget panel , prevent user deletes query
-			for (Iterator<String> it = keyMap.keySet().iterator(); it.hasNext(); ) {
-				int key = Integer.parseInt(it.next());
+			for (String s : keyMap.keySet()) {
+				int key = Integer.parseInt(s);
 				boolean found = false;
 
 				// looking for key
-				for (Iterator<GWTQueryParams> itx = result.iterator(); itx.hasNext(); ) {
-					GWTQueryParams params = itx.next();
+				for (GWTQueryParams params : result) {
 					if (params.getId() == key) {
 						found = true;
 						break;
@@ -170,15 +169,17 @@ public class NewsDashboard extends WidgetToFire {
 	}
 
 	/**
-	 * refreshAllSearchs
+	 * find
 	 */
 	private void find(int value) {
 		if (keyMap.keySet().size() > value) {
-			List<String> keySet = new ArrayList<String>(keyMap.keySet());
+			List<String> keySet = new ArrayList<>(keyMap.keySet());
 			actualRefreshingKey = keySet.get(value);
+
 			if (!showStatus) {
 				hWidgetSearch.get(actualRefreshingKey).setRefreshing();
 			}
+
 			dashboardService.find(Integer.parseInt(actualRefreshingKey), callbackFind);
 		} else {
 			Main.get().mainPanel.bottomPanel.userInfo.setNewsDocuments(newsDocuments);
@@ -186,7 +187,7 @@ public class NewsDashboard extends WidgetToFire {
 	}
 
 	/**
-	 * Refreshing all searchs
+	 * Refreshing all searches
 	 */
 	public void refreshAll() {
 		showStatus = ((Main.get().mainPanel.topPanel.tabWorkspace.getSelectedWorkspace() == UIDockPanelConstants.DASHBOARD) &&

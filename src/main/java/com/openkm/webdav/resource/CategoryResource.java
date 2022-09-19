@@ -127,7 +127,7 @@ public class CategoryResource implements CollectionResource, PropFindableResourc
 	@Override
 	public List<? extends Resource> getChildren() {
 		log.info("getChildren()");
-		List<Resource> resources = new ArrayList<Resource>();
+		List<Resource> resources = new ArrayList<>();
 
 		if (fldChilds != null) {
 			for (Folder fld : fldChilds) {

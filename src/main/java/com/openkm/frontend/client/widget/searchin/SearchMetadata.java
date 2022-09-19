@@ -124,7 +124,7 @@ public class SearchMetadata extends Composite {
 	 * reset
 	 */
 	public void reset() {
-		formManager.setFormElements(new ArrayList<GWTFormElement>()); // reset all values
+		formManager.setFormElements(new ArrayList<>()); // reset all values
 		formManager.draw();
 	}
 

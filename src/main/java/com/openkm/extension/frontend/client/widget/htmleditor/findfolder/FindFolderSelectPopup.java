@@ -36,7 +36,6 @@ import com.openkm.frontend.client.service.OKMSearchServiceAsync;
 import com.openkm.frontend.client.util.EventUtils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * FindFolderSelectPopup
@@ -137,7 +136,7 @@ public class FindFolderSelectPopup extends DialogBox {
 					gwtParams.setLastModifiedFrom(null);
 					gwtParams.setLastModifiedTo(null);
 					gwtParams.setDomain(GWTQueryParams.FOLDER);
-					gwtParams.setProperties(new HashMap<String, GWTPropertyParams>());
+					gwtParams.setProperties(new HashMap<>());
 
 					find(gwtParams);
 				} else {
@@ -298,9 +297,7 @@ public class FindFolderSelectPopup extends DialogBox {
 			GWTResultSet resultSet = result;
 			removeAllRows();
 
-			for (Iterator<GWTQueryResult> it = resultSet.getResults().iterator(); it.hasNext(); ) {
-				GWTQueryResult gwtQueryResult = it.next();
-
+			for (GWTQueryResult gwtQueryResult : resultSet.getResults()) {
 				if (gwtQueryResult.getFolder() != null) {
 					GWTFolder folder = gwtQueryResult.getFolder();
 					int rows = folderTable.getRowCount();

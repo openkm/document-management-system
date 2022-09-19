@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class UserNodeKeywordsManager {
 	private static Logger log = LoggerFactory.getLogger(UserNodeKeywordsManager.class);
-	private static Map<String, Map<String, UserNodeKeywords>> userNodeKeywordsMgr = new HashMap<String, Map<String, UserNodeKeywords>>();
+	private static Map<String, Map<String, UserNodeKeywords>> userNodeKeywordsMgr = new HashMap<>();
 
 	/**
 	 * Get user document keywords
@@ -44,7 +44,7 @@ public class UserNodeKeywordsManager {
 		Map<String, UserNodeKeywords> userDocKeywords = userNodeKeywordsMgr.get(user);
 
 		if (userDocKeywords == null) {
-			userDocKeywords = new HashMap<String, UserNodeKeywords>();
+			userDocKeywords = new HashMap<>();
 		}
 
 		return userDocKeywords;
@@ -116,7 +116,7 @@ public class UserNodeKeywordsManager {
 	 */
 	public static synchronized void deserialize() throws DatabaseException {
 		for (String user : UserNodeKeywordsDAO.findUsers()) {
-			Map<String, UserNodeKeywords> udkMap = new HashMap<String, UserNodeKeywords>();
+			Map<String, UserNodeKeywords> udkMap = new HashMap<>();
 
 			for (UserNodeKeywords udk : UserNodeKeywordsDAO.findByUser(user)) {
 				udkMap.put(udk.getNode(), udk);

@@ -77,7 +77,7 @@ public class CmisServiceFactory extends AbstractServiceFactory {
 		// add the CMIS service wrapper
 		// (The wrapper catches invalid CMIS requests and sets default values
 		// for parameters that have not been provided by the client.)
-		CmisServiceWrapper<CmisService> wrapperService = new CmisServiceWrapper<CmisService>(service, DEFAULT_MAX_ITEMS_TYPES,
+		CmisServiceWrapper<CmisService> wrapperService = new CmisServiceWrapper<>(service, DEFAULT_MAX_ITEMS_TYPES,
 				DEFAULT_DEPTH_TYPES, DEFAULT_MAX_ITEMS_OBJECTS, DEFAULT_DEPTH_OBJECTS);
 
 		// hand over the call context to the service object

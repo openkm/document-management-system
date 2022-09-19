@@ -29,7 +29,7 @@ public class CloneUtils {
 	 * Clone collection
 	 */
 	public static <E> List<E> clone(List<E> input) {
-		List<E> ret = new ArrayList<E>();
+		List<E> ret = new ArrayList<>();
 
 		for (E tmp : input) {
 			ret.add(tmp);
@@ -42,7 +42,7 @@ public class CloneUtils {
 	 * Clone set
 	 */
 	public static <E> Set<E> clone(Set<E> input) {
-		Set<E> ret = new HashSet<E>();
+		Set<E> ret = new HashSet<>();
 
 		for (E tmp : input) {
 			ret.add(tmp);
@@ -55,7 +55,7 @@ public class CloneUtils {
 	 * Clone map
 	 */
 	public static <K, V> Map<K, V> clone(Map<K, V> input) {
-		Map<K, V> ret = new HashMap<K, V>();
+		Map<K, V> ret = new HashMap<>();
 
 		for (Entry<K, V> tmp : input.entrySet()) {
 			ret.put(tmp.getKey(), tmp.getValue());
@@ -71,8 +71,7 @@ public class CloneUtils {
 	public static HashMap deepClone(HashMap map) {
 		HashMap newone = (HashMap) map.clone();
 
-		for (Iterator it = newone.keySet().iterator(); it.hasNext(); ) {
-			Object newkey = it.next();
+		for (Object newkey : newone.keySet()) {
 			Object deepobj = null, newobj = newone.get(newkey);
 
 			if (newobj instanceof HashMap) {

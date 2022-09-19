@@ -35,7 +35,7 @@ public class StapleGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long id = -1;
 	private String user = "";
-	private Set<Staple> staples = new HashSet<Staple>();
+	private Set<Staple> staples = new HashSet<>();
 
 	public String getUser() {
 		return user;

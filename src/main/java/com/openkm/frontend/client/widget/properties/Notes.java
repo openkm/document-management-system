@@ -43,7 +43,6 @@ import com.openkm.frontend.client.widget.ConfirmPopup;
 import com.openkm.frontend.client.widget.richtext.RichTextToolbar;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Notes
@@ -189,8 +188,8 @@ public class Notes extends Composite {
 			tableNotes.removeRow(0);
 		}
 
-		for (Iterator<GWTNote> it = doc.getNotes().iterator(); it.hasNext(); ) {
-			writeNote(it.next());
+		for (GWTNote gwtNote : doc.getNotes()) {
+			writeNote(gwtNote);
 		}
 
 		writeAddNote();
@@ -210,8 +209,8 @@ public class Notes extends Composite {
 			tableNotes.removeRow(0);
 		}
 
-		for (Iterator<GWTNote> it = folder.getNotes().iterator(); it.hasNext(); ) {
-			writeNote(it.next());
+		for (GWTNote gwtNote : folder.getNotes()) {
+			writeNote(gwtNote);
 		}
 
 		writeAddNote();
@@ -231,8 +230,8 @@ public class Notes extends Composite {
 			tableNotes.removeRow(0);
 		}
 
-		for (Iterator<GWTNote> it = mail.getNotes().iterator(); it.hasNext(); ) {
-			writeNote(it.next());
+		for (GWTNote gwtNote : mail.getNotes()) {
+			writeNote(gwtNote);
 		}
 
 		writeAddNote();

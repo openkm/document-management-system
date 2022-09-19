@@ -54,7 +54,7 @@ public class OmrServlet extends OKMRemoteServiceServlet implements OKMOmrService
 
 	@Override
 	public List<GWTOmr> getAllOmr() throws OKMException {
-		List<GWTOmr> omrList = new ArrayList<GWTOmr>();
+		List<GWTOmr> omrList = new ArrayList<>();
 		try {
 			for (Omr omr : OmrDAO.getInstance().findAllActive()) {
 				omrList.add(GWTUtil.copy(omr));

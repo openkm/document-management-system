@@ -31,7 +31,6 @@ import com.openkm.frontend.client.service.OKMAuthService;
 import com.openkm.frontend.client.service.OKMAuthServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -151,8 +150,8 @@ public class NotifyRole extends Composite {
 	 */
 	final AsyncCallback<List<String>> callbackAllRoles = new AsyncCallback<List<String>>() {
 		public void onSuccess(List<String> result) {
-			for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
-				rolesTable.addRow(it.next());
+			for (String s : result) {
+				rolesTable.addRow(s);
 			}
 		}
 

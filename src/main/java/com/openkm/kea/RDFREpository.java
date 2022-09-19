@@ -127,8 +127,8 @@ public class RDFREpository {
 	 * loadTerms
 	 */
 	private void loadTerms() {
-		terms = new ArrayList<Term>();
-		keywords = new ArrayList<String>();
+		terms = new ArrayList<>();
+		keywords = new ArrayList<>();
 		RepositoryConnection con = null;
 		TupleQuery query;
 

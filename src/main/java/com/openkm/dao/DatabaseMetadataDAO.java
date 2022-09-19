@@ -244,7 +244,7 @@ public class DatabaseMetadataDAO {
 	 */
 	public static List<DatabaseMetadataValue[]> executeMultiValueQuery(String query) throws DatabaseException {
 		log.debug("executeMultiValueQuery({})", query);
-		List<DatabaseMetadataValue[]> ret = new ArrayList<DatabaseMetadataValue[]>();
+		List<DatabaseMetadataValue[]> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 

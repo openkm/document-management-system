@@ -141,7 +141,7 @@ public class Customization {
 	 * getDynamicExtensionWidgets
 	 */
 	public static Map<String, String> getDynamicExtensionWidgets(List<String> uuidList) {
-		Map<String, String> dynamicExtensionsMap = new HashMap<String, String>();
+		Map<String, String> dynamicExtensionsMap = new HashMap<>();
 		if (ExternalTabDocument.isRegistered(uuidList)) {
 			dynamicExtensionsMap.put(ExternalTabDocument.getSimpleName(), ExternalTabDocument.KEY);
 		}

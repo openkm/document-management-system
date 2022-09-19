@@ -31,7 +31,6 @@ import com.openkm.frontend.client.service.OKMChatService;
 import com.openkm.frontend.client.service.OKMChatServiceAsync;
 import com.openkm.frontend.client.util.OKMBundleResources;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -253,8 +252,8 @@ public class ChatRoomPopup extends ChatRoomDialogBox {
 
 				@Override
 				public void onSuccess(List<String> result) {
-					for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
-						addMessage(it.next());
+					for (String s : result) {
+						addMessage(s);
 					}
 
 					Timer timer = new Timer() {

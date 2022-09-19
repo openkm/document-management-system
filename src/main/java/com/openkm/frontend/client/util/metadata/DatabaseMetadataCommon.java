@@ -53,7 +53,7 @@ public abstract class DatabaseMetadataCommon implements IsSerializable {
 	 * restoreToMap
 	 */
 	public Map<String, String> restoreToMap() {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 
 		if (realId != null) {
 			map.put(DatabaseMetadataMap.MV_NAME_ID, DatabaseMetadataMap.mapDoubleValue(getRealId()));

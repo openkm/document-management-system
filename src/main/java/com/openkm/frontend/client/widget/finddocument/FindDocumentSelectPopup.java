@@ -27,7 +27,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.openkm.frontend.client.Main;
-import com.openkm.frontend.client.bean.*;
+import com.openkm.frontend.client.bean.GWTDocument;
+import com.openkm.frontend.client.bean.GWTQueryParams;
+import com.openkm.frontend.client.bean.GWTQueryResult;
+import com.openkm.frontend.client.bean.GWTResultSet;
 import com.openkm.frontend.client.constants.ui.UIDesktopConstants;
 import com.openkm.frontend.client.service.OKMSearchService;
 import com.openkm.frontend.client.service.OKMSearchServiceAsync;
@@ -135,7 +138,7 @@ public class FindDocumentSelectPopup extends DialogBox {
 					gwtParams.setLastModifiedFrom(null);
 					gwtParams.setLastModifiedTo(null);
 					gwtParams.setDomain(GWTQueryParams.DOCUMENT);
-					gwtParams.setProperties(new HashMap<String, GWTPropertyParams>());
+					gwtParams.setProperties(new HashMap<>());
 
 					find(gwtParams);
 				} else {

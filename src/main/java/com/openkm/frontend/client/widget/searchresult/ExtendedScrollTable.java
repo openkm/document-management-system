@@ -49,9 +49,8 @@ import java.util.Map;
  *
  */
 public class ExtendedScrollTable extends ScrollTable {
-
 	// Holds the data rows of the table this is a list of RowData Object
-	public Map<Integer, GWTQueryResult> data = new HashMap<Integer, GWTQueryResult>();
+	public Map<Integer, GWTQueryResult> data = new HashMap<>();
 	private int mouseX = 0;
 	private int mouseY = 0;
 	private int dataIndexValue = 0;
@@ -221,7 +220,7 @@ public class ExtendedScrollTable extends ScrollTable {
 		dataIndexValue = 0;
 
 		// Only resets rows table the header is never reset
-		data = new HashMap<Integer, GWTQueryResult>();
+		data = new HashMap<>();
 	}
 
 	/**

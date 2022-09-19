@@ -31,13 +31,13 @@ import java.util.List;
  */
 public class DbQueryGlobalResult implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<HashMap<String, String>> errors = new ArrayList<HashMap<String, String>>();
-	private List<List<String>> results = new ArrayList<List<String>>();
-	private List<String> columns = new ArrayList<String>();
-	private Integer rows = new Integer(0);
-	private String extra = new String();
-	private String sql = new String();
-	private Long time = new Long(0);
+	private List<HashMap<String, String>> errors = new ArrayList<>();
+	private List<List<String>> results = new ArrayList<>();
+	private List<String> columns = new ArrayList<>();
+	private String extra = "";
+	private Integer rows = 0;
+	private String sql = "";
+	private Long time = 0L;
 
 	public List<String> getColumns() {
 		return columns;

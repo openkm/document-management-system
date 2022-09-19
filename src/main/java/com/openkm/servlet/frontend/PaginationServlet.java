@@ -66,8 +66,8 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 		log.debug("getChildrenPaginated({})", fldPath);
 		long begin = System.currentTimeMillis();
 		GWTPaginated paginated = new GWTPaginated();
-		List<Object> col = new ArrayList<Object>();
-		List<Object> gwtCol = new ArrayList<Object>();
+		List<Object> col = new ArrayList<>();
+		List<Object> gwtCol = new ArrayList<>();
 		String user = getThreadLocalRequest().getRemoteUser();
 		paginated.setObjects(gwtCol);
 		updateSessionManager();
@@ -80,7 +80,7 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 			}
 
 			// Folders
-			List<NodeFolder> colFolders = new ArrayList<NodeFolder>();
+			List<NodeFolder> colFolders = new ArrayList<>();
 
 			if (fldPath.startsWith("/" + Repository.CATEGORIES)) {
 				colFolders = NodeFolderDAO.getInstance().findByCategory(fldUuid);
@@ -106,7 +106,7 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 			}
 
 			// Documents
-			List<NodeDocument> colDocuments = new ArrayList<NodeDocument>();
+			List<NodeDocument> colDocuments = new ArrayList<>();
 
 			if (fldPath.startsWith("/" + Repository.CATEGORIES)) {
 				colDocuments = NodeDocumentDAO.getInstance().findByCategory(fldUuid);
@@ -133,7 +133,7 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 			}
 
 			// Mails
-			List<NodeMail> colMails = new ArrayList<NodeMail>();
+			List<NodeMail> colMails = new ArrayList<>();
 
 			if (fldPath.startsWith("/" + Repository.CATEGORIES)) {
 				colMails = NodeMailDAO.getInstance().findByCategory(fldUuid);
@@ -198,8 +198,7 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 				}
 			}
 
-			// When selectedRowId any filtering, ordering, reverse etc.. value is empty
-			// Ordering
+			// When selectedRowId any filtering, ordering, reverse etc.. value is empty Ordering
 			switch (order) {
 				case GWTPaginated.COL_NONE:
 					// No ordering
@@ -342,7 +341,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderByName
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderByName implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderByName();
@@ -379,7 +377,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderBySize
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderBySize implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderBySize();
@@ -424,7 +421,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderByDate
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderByDate implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderByDate();
@@ -461,7 +457,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderByAuthor
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderByAuthor implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderByAuthor();
@@ -510,7 +505,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderByVersion
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderByVersion implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderByVersion();
@@ -548,21 +542,19 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 
 	/**
 	 * getComparableVersion
-	 *
-	 * @return
 	 */
 	private static String getComparableVersion(String version) {
 		// Based on ExtendedScrollTableSorter considering version number is 1.0 ( number dot number pattern )
-		String numberParts[] = version.split("\\.");
+		String[] numberParts = version.split("\\.");
 		version = "";
 
-		for (int x = 0; x < numberParts.length; x++) {
-			switch (numberParts[x].length()) {
+		for (String numberPart : numberParts) {
+			switch (numberPart.length()) {
 				case 1:
-					version = version + "00" + numberParts[x];
+					version = version + "00" + numberPart;
 					break;
 				case 2:
-					version = version + "0" + numberParts[x];
+					version = version + "0" + numberPart;
 					break;
 			}
 		}
@@ -582,7 +574,6 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 	 * OrderByColumn
 	 *
 	 * @author jllort
-	 *
 	 */
 	private static class OrderByColumn implements Comparator<ObjectToOrder> {
 		private static final Comparator<ObjectToOrder> INSTANCE = new OrderByColumn();
@@ -616,7 +607,7 @@ public class PaginationServlet extends OKMRemoteServiceServlet implements OKMPag
 				} else if (formE0 instanceof GWTSelect) {
 					String value0 = "";
 					String value1 = "";
-					boolean breakEnabled = false;
+					boolean breakEnabled;
 					breakEnabled = ((GWTSelect) formE0).getType().equals(GWTSelect.TYPE_SIMPLE);
 
 					for (GWTOption opt : ((GWTSelect) formE0).getOptions()) {

@@ -108,7 +108,7 @@ public class ListIndexesServlet extends BaseServlet {
 		ReaderProvider rProv = null;
 		Session session = null;
 		IndexReader idx = null;
-		List<Map<String, String>> fields = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> fields = new ArrayList<>();
 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
@@ -125,7 +125,7 @@ public class ListIndexesServlet extends BaseServlet {
 				String hibClass = null;
 
 				for (Fieldable fld : doc.getFields()) {
-					Map<String, String> field = new HashMap<String, String>();
+					Map<String, String> field = new HashMap<>();
 					field.put("name", fld.name());
 					field.put("value", fld.stringValue());
 					fields.add(field);
@@ -142,7 +142,7 @@ public class ListIndexesServlet extends BaseServlet {
 				 * 4) So, we have the term-doc pairs at this point.
 				 */
 				if (showTerms && NodeDocument.class.getCanonicalName().equals(hibClass)) {
-					List<String> terms = new ArrayList<String>();
+					List<String> terms = new ArrayList<>();
 
 					for (TermEnum te = idx.terms(); te.next(); ) {
 						Term t = te.term();
@@ -156,7 +156,7 @@ public class ListIndexesServlet extends BaseServlet {
 						}
 					}
 
-					Map<String, String> field = new HashMap<String, String>();
+					Map<String, String> field = new HashMap<>();
 					field.put("name", "terms");
 					field.put("value", terms.toString());
 					fields.add(field);
@@ -190,7 +190,7 @@ public class ListIndexesServlet extends BaseServlet {
 		String exp = WebUtils.getString(request, "exp");
 		FullTextSession ftSession = null;
 		Session session = null;
-		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> results = new ArrayList<>();
 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
@@ -217,7 +217,7 @@ public class ListIndexesServlet extends BaseServlet {
 					NodeBase nBase = (NodeBase) qRes[2];
 
 					// Add result
-					Map<String, String> res = new HashMap<String, String>();
+					Map<String, String> res = new HashMap<>();
 					res.put("docId", String.valueOf(docId));
 					res.put("score", String.valueOf(score));
 					res.put("uuid", nBase.getUuid());

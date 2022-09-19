@@ -55,7 +55,7 @@ import java.util.zip.ZipInputStream;
  */
 public class ReportUtils {
 	private static Logger log = LoggerFactory.getLogger(ReportUtils.class);
-	public static Map<String, JasperReport> JasperCharged = new HashMap<String, JasperReport>();
+	public static Map<String, JasperReport> JasperCharged = new HashMap<>();
 
 	public static final int OUTPUT_TEXT = 0;
 	public static final int OUTPUT_HTML = 1;
@@ -266,7 +266,7 @@ public class ReportUtils {
 			}
 
 			if (params == null) {
-				params = new ArrayList<FormElement>();
+				params = new ArrayList<>();
 				log.warn("Report '{}' has no params.xml file", rpId);
 			}
 

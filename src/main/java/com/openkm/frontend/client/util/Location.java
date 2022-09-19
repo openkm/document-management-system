@@ -92,13 +92,13 @@ public class Location {
 
 	protected void setQueryString(String queryString) {
 		this.queryString = queryString;
-		paramMap = new HashMap<String, String>();
+		paramMap = new HashMap<>();
 
 		if (queryString != null && queryString.length() > 1) {
 			String qs = queryString.substring(1);
 			String[] kvPairs = qs.split("&");
-			for (int i = 0; i < kvPairs.length; i++) {
-				String[] kv = kvPairs[i].split("=");
+			for (String kvPair : kvPairs) {
+				String[] kv = kvPair.split("=");
 				if (kv.length > 1) {
 					paramMap.put(kv[0], URL.decodeQueryString(kv[1]));
 				} else {
@@ -109,7 +109,7 @@ public class Location {
 	}
 
 	public String getParameter(String name) {
-		return (String) paramMap.get(name);
+		return paramMap.get(name);
 	}
 
 	public Map<String, String> getParameterMap() {

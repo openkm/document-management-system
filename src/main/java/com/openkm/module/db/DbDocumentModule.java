@@ -68,7 +68,7 @@ public class DbDocumentModule implements DocumentModule {
 			VirusDetectedException, ItemExistsException, PathNotFoundException, AccessDeniedException,
 			RepositoryException, IOException, DatabaseException, ExtensionException, AutomationException {
 		log.debug("create({}, {}, {}, {}, {})", token, doc, is, size, userId);
-		return create(token, doc, is, size, userId, new Ref<FileUploadResponse>(null), mailSubject);
+		return create(token, doc, is, size, userId, new Ref<>(null), mailSubject);
 	}
 
 	/**

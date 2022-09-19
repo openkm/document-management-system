@@ -520,13 +520,13 @@ public class ImageManipulation {
 	 */
 	public void readFields(InputStream is) {
 		String line;
-		fields = new Hashtable<Character, Field>();
+		fields = new Hashtable<>();
 
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(is));
 			while ((line = in.readLine()) != null && !line.equals("")) {
 				Field field = new Field(line);
-				fields.put(new Character(field.getCh()), field);
+				fields.put(field.getCh(), field);
 			}
 
 			in.close();
@@ -660,7 +660,7 @@ public class ImageManipulation {
 			}
 
 			name = st.nextToken();
-			ArrayList<String> choicearr = new ArrayList<String>();
+			ArrayList<String> choicearr = new ArrayList<>();
 
 			while (st.hasMoreTokens()) {
 				choicearr.add(st.nextToken());
@@ -679,7 +679,7 @@ public class ImageManipulation {
 				singleDone = new boolean[100];
 			}
 
-			positions = new Hashtable<Integer, Integer>();
+			positions = new Hashtable<>();
 		}
 
 		public char getCh() {
@@ -738,7 +738,7 @@ public class ImageManipulation {
 		 */
 		public void putValue(int i) {
 			if (type == GRID_CHOICE && subtype == COLUMN) {
-				int posi = positions.get(new Integer(i));
+				int posi = positions.get(i);
 				log.debug("currpos = " + currpos + ":" + choices.length + ":" + i + ":" + posi + ":" + (posi % (currpos / choices.length))
 						+ ":" + singleDone[posi % (currpos / choices.length)]);
 				if (!singleDone[posi % (currpos / choices.length)]) {

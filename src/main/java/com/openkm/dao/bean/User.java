@@ -32,7 +32,7 @@ public class User implements Serializable {
 	private String password = "";
 	private String email = "";
 	private boolean active = false;
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
 	public String getId() {
 		return id;

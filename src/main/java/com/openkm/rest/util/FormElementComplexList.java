@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "formElementsComplex")
 public class FormElementComplexList {
 	@XmlElement(name = "formElementComplex", required = true)
-	List<FormElementComplex> formElementsComplex = new ArrayList<FormElementComplex>();
+	List<FormElementComplex> formElementsComplex = new ArrayList<>();
 
 	public List<FormElementComplex> getList() {
 		return formElementsComplex;

@@ -319,7 +319,7 @@ public class NodeBaseDAO {
 	 */
 	public Map<String, Integer> getUserPermissions(String uuid) throws PathNotFoundException, DatabaseException {
 		log.debug("getUserPermissions({})", uuid);
-		Map<String, Integer> ret = new HashMap<String, Integer>();
+		Map<String, Integer> ret = new HashMap<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -548,7 +548,7 @@ public class NodeBaseDAO {
 	 */
 	public Map<String, Integer> getRolePermissions(String uuid) throws PathNotFoundException, DatabaseException {
 		log.debug("getRolePermissions({})", uuid);
-		Map<String, Integer> ret = new HashMap<String, Integer>();
+		Map<String, Integer> ret = new HashMap<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -1792,7 +1792,7 @@ public class NodeBaseDAO {
 	public Map<String, String> getProperties(String uuid, String grpName) throws PathNotFoundException, DatabaseException {
 		log.debug("getProperties({}, {})", uuid, grpName);
 		long begin = System.currentTimeMillis();
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, String> ret = new HashMap<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -1901,7 +1901,7 @@ public class NodeBaseDAO {
 	public Map<String, String> setProperties(String uuid, String grpName, Map<String, String> properties) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("setProperties({}, {}, {})", uuid, grpName, properties);
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, String> ret = new HashMap<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -1918,7 +1918,7 @@ public class NodeBaseDAO {
 				SecurityHelper.checkExtended(node, Permission.PROPERTY_GROUP);
 			}
 
-			Set<NodeProperty> tmp = new HashSet<NodeProperty>();
+			Set<NodeProperty> tmp = new HashSet<>();
 
 			for (Entry<String, String> prop : properties.entrySet()) {
 				boolean alreadyAssigned = false;

@@ -71,7 +71,7 @@ public class DatabaseRecordSelectPopup extends DialogBox {
 		super(false, true);
 		this.suggestBox = suggestBox;
 
-		tables = new ArrayList<String>();
+		tables = new ArrayList<>();
 		if (suggestBox.getTable() != null) {
 			tables.add(suggestBox.getTable());
 		}
@@ -181,7 +181,7 @@ public class DatabaseRecordSelectPopup extends DialogBox {
 		keyValueService.getKeyValues(tables, MessageFormat.format(suggestBox.getFilterQuery(), record.getText()), new AsyncCallback<List<GWTKeyValue>>() {
 			@Override
 			public void onSuccess(List<GWTKeyValue> result) {
-				rowKeyValueMap = new HashMap<Integer, GWTKeyValue>();
+				rowKeyValueMap = new HashMap<>();
 				for (GWTKeyValue keyValue : result) {
 					int row = recordTabla.getRowCount();
 					rowKeyValueMap.put(row, keyValue);
@@ -207,9 +207,10 @@ public class DatabaseRecordSelectPopup extends DialogBox {
 		record.setText("");
 		record.setReadOnly(false);
 		acceptButton.setEnabled(false);
-		rowKeyValueMap = new HashMap<Integer, GWTKeyValue>();
+		rowKeyValueMap = new HashMap<>();
 		super.show();
 		record.setFocus(true);
+
 		// Case must show by default all values
 		if (suggestBox.getFilterMinLen() == 0) {
 			findFilteredDatabaseRecords();

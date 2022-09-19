@@ -78,7 +78,7 @@ public class DbReadRecursiveAccessManager implements DbAccessManager {
 	@Override
 	public boolean isGranted(NodeBase node, String user, int permissions) throws PrincipalAdapterException, DatabaseException {
 		List<String> roles = CommonAuthModule.getPrincipalAdapter().getRolesByUser(user);
-		return isGranted(node, user, new HashSet<String>(roles), permissions);
+		return isGranted(node, user, new HashSet<>(roles), permissions);
 	}
 
 	/**

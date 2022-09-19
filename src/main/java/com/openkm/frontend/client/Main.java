@@ -76,7 +76,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 	private final OKMFolderServiceAsync folderService = GWT.create(OKMFolderService.class);
 	private final OKMDocumentServiceAsync documentService = GWT.create(OKMDocumentService.class);
 	private static final OKMMailServiceAsync mailService = GWT.create(OKMMailService.class);
-	private List<String> extensionUuidList = new ArrayList<String>();
+	private List<String> extensionUuidList = new ArrayList<>();
 	public static String CONTEXT = "/OpenKM";
 	private static Main singleton;
 
@@ -191,7 +191,7 @@ public final class Main implements EntryPoint, HasLanguageHandlerExtension, HasL
 		singleton = this;
 
 		// All objects defined before singleton to use global reference.
-		langHandlerExtensionList = new ArrayList<LanguageHandlerExtension>();
+		langHandlerExtensionList = new ArrayList<>();
 
 		// Saves repository context paths
 		repositoryContext = new RepositoryContext();

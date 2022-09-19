@@ -28,7 +28,7 @@ public class Upload extends FormElement {
 	private static final long serialVersionUID = 1L;
 	public static final String TYPE_CREATE = "create";
 	public static final String TYPE_UPDATE = "update";
-	private List<Validator> validators = new ArrayList<Validator>();
+	private List<Validator> validators = new ArrayList<>();
 	private String type = TYPE_CREATE;
 	private String folderPath = "";
 	private String folderUuid = "";

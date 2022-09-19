@@ -32,7 +32,7 @@ public class MailFilter implements Serializable {
 	private String node;
 	private boolean grouping = true;
 	private boolean active = false;
-	private Set<MailFilterRule> filterRules = new HashSet<MailFilterRule>();
+	private Set<MailFilterRule> filterRules = new HashSet<>();
 
 	public long getId() {
 		return id;

@@ -26,8 +26,8 @@ import java.util.List;
 
 public class Download extends FormElement {
 	private static final long serialVersionUID = 1L;
-	private List<Validator> validators = new ArrayList<Validator>();
-	private List<Node> nodes = new ArrayList<Node>();
+	private List<Validator> validators = new ArrayList<>();
+	private List<Node> nodes = new ArrayList<>();
 	private String data = "";
 
 	public Download() {

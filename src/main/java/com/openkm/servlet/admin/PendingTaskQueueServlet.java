@@ -58,10 +58,10 @@ public class PendingTaskQueueServlet extends BaseServlet {
 		Gson gson = new Gson();
 
 		try {
-			List<Map<String, Object>> tasks = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> tasks = new ArrayList<>();
 
 			for (PendingTask pt : PendingTaskDAO.getInstance().findAll()) {
-				Map<String, Object> tsk = new HashMap<String, Object>();
+				Map<String, Object> tsk = new HashMap<>();
 				tsk.put("nodeUuid", pt.getNode());
 				tsk.put("nodePath", NodeBaseDAO.getInstance().getPathFromUuid(pt.getNode()));
 				tsk.put("created", pt.getCreated());
@@ -80,10 +80,10 @@ public class PendingTaskQueueServlet extends BaseServlet {
 				}
 
 				if (pt.getStatus() != null && !pt.getStatus().isEmpty()) {
-					List<Map<String, String>> nsList = new ArrayList<Map<String, String>>();
+					List<Map<String, String>> nsList = new ArrayList<>();
 
 					for (NodeStatus nodStatus : PendingTaskProcessor.decodeStatus(pt.getStatus())) {
-						Map<String, String> ns = new HashMap<String, String>();
+						Map<String, String> ns = new HashMap<>();
 						ns.put("nodeUuid", nodStatus.getNode());
 						ns.put("nodePath", NodeBaseDAO.getInstance().getPathFromUuid(nodStatus.getNode()));
 						ns.put("status", nodStatus.getStatus());

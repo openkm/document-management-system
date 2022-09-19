@@ -42,15 +42,15 @@ import java.util.*;
 public class HibernateStatsServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(HibernateStatsServlet.class);
-	static Map<String, QueryStatistics> queryStatistics = Collections.synchronizedMap(new TreeMap<String, QueryStatistics>(Collator.getInstance()));
-	static Map<String, EntityStatistics> entityStatistics = Collections.synchronizedMap(new TreeMap<String, EntityStatistics>(Collator.getInstance()));
-	static Map<String, CollectionStatistics> collectionStatistics = Collections.synchronizedMap(new TreeMap<String, CollectionStatistics>(Collator.getInstance()));
-	static Map<String, SecondLevelCacheStatistics> secondLevelCacheStatistics = Collections.synchronizedMap(new TreeMap<String, SecondLevelCacheStatistics>(Collator.getInstance()));
-	static List<Long> generalStatistics = Collections.synchronizedList(new ArrayList<Long>(18));
+	static Map<String, QueryStatistics> queryStatistics = Collections.synchronizedMap(new TreeMap<>(Collator.getInstance()));
+	static Map<String, EntityStatistics> entityStatistics = Collections.synchronizedMap(new TreeMap<>(Collator.getInstance()));
+	static Map<String, CollectionStatistics> collectionStatistics = Collections.synchronizedMap(new TreeMap<>(Collator.getInstance()));
+	static Map<String, SecondLevelCacheStatistics> secondLevelCacheStatistics = Collections.synchronizedMap(new TreeMap<>(Collator.getInstance()));
+	static List<Long> generalStatistics = Collections.synchronizedList(new ArrayList<>(18));
 
 	static {
 		for (int i = 0; i < 9; i++) {
-			generalStatistics.add(new Long(-1));
+			generalStatistics.add((long) -1);
 		}
 	}
 
@@ -105,8 +105,7 @@ public class HibernateStatsServlet extends BaseServlet {
 	/**
 	 * Deactivate stats
 	 */
-	private void deactivate(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void deactivate(HttpServletRequest request, HttpServletResponse response) {
 		Statistics stats = HibernateUtil.getSessionFactory().getStatistics();
 
 		if (stats.isStatisticsEnabled()) {
@@ -117,18 +116,17 @@ public class HibernateStatsServlet extends BaseServlet {
 	/**
 	 * Clear stats
 	 */
-	private void clear(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void clear(HttpServletRequest request, HttpServletResponse response) {
 		HibernateUtil.getSessionFactory().getStatistics().clear();
-		generalStatistics.set(0, new Long(0));
-		generalStatistics.set(1, new Long(0));
-		generalStatistics.set(2, new Long(0));
-		generalStatistics.set(3, new Long(0));
-		generalStatistics.set(4, new Long(0));
-		generalStatistics.set(5, new Long(0));
-		generalStatistics.set(6, new Long(0));
-		generalStatistics.set(7, new Long(0));
-		generalStatistics.set(8, new Long(0));
+		generalStatistics.set(0, 0L);
+		generalStatistics.set(1, 0L);
+		generalStatistics.set(2, 0L);
+		generalStatistics.set(3, 0L);
+		generalStatistics.set(4, 0L);
+		generalStatistics.set(5, 0L);
+		generalStatistics.set(6, 0L);
+		generalStatistics.set(7, 0L);
+		generalStatistics.set(8, 0L);
 		queryStatistics.clear();
 		entityStatistics.clear();
 		collectionStatistics.clear();
@@ -138,16 +136,15 @@ public class HibernateStatsServlet extends BaseServlet {
 	/**
 	 * View log
 	 */
-	private void view(HttpServletRequest request, HttpServletResponse response) throws IOException,
-			ServletException {
+	private void view(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		log.debug("view({}, {})", request, response);
 		refresh();
 
 		// Query Statistics
-		List<Map<String, String>> qStats = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> qStats = new ArrayList<>();
 		for (String query : queryStatistics.keySet()) {
 			QueryStatistics queryStats = queryStatistics.get(query);
-			Map<String, String> stat = new HashMap<String, String>();
+			Map<String, String> stat = new HashMap<>();
 			stat.put("query", query);
 			//stat.put("tquery", HibernateUtil.toSql(query));
 			stat.put("executionCount", Long.toString(queryStats.getExecutionCount()));
@@ -163,10 +160,10 @@ public class HibernateStatsServlet extends BaseServlet {
 		}
 
 		// Entity Statistics
-		List<Map<String, String>> eStats = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> eStats = new ArrayList<>();
 		for (String entity : entityStatistics.keySet()) {
 			EntityStatistics entityStats = entityStatistics.get(entity);
-			Map<String, String> stat = new HashMap<String, String>();
+			Map<String, String> stat = new HashMap<>();
 			stat.put("entity", entity);
 			stat.put("loadCount", Long.toString(entityStats.getLoadCount()));
 			stat.put("fetchCount", Long.toString(entityStats.getFetchCount()));
@@ -178,10 +175,10 @@ public class HibernateStatsServlet extends BaseServlet {
 		}
 
 		// Collection Statistics
-		List<Map<String, String>> cStats = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> cStats = new ArrayList<>();
 		for (String collection : collectionStatistics.keySet()) {
 			CollectionStatistics collectionStats = collectionStatistics.get(collection);
-			Map<String, String> stat = new HashMap<String, String>();
+			Map<String, String> stat = new HashMap<>();
 			stat.put("collection", collection);
 			stat.put("loadCount", Long.toString(collectionStats.getLoadCount()));
 			stat.put("fetchCount", Long.toString(collectionStats.getFetchCount()));
@@ -193,11 +190,11 @@ public class HibernateStatsServlet extends BaseServlet {
 
 		// 2nd Level Cache Statistics
 		long totalSizeInMemory = 0;
-		List<Map<String, String>> slcStats = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> slcStats = new ArrayList<>();
 		for (String cache : secondLevelCacheStatistics.keySet()) {
 			SecondLevelCacheStatistics cacheStats = secondLevelCacheStatistics.get(cache);
 			totalSizeInMemory += cacheStats.getSizeInMemory();
-			Map<String, String> stat = new HashMap<String, String>();
+			Map<String, String> stat = new HashMap<>();
 			stat.put("cache", cache);
 			stat.put("putCount", Long.toString(cacheStats.getPutCount()));
 			stat.put("hitCount", Long.toString(cacheStats.getHitCount()));
@@ -242,8 +239,8 @@ public class HibernateStatsServlet extends BaseServlet {
 		String[] names = statistics.getQueries();
 
 		if (names != null && names.length > 0) {
-			for (int i = 0; i < names.length; i++) {
-				queryStatistics.put(names[i], statistics.getQueryStatistics(names[i]));
+			for (String name : names) {
+				queryStatistics.put(name, statistics.getQueryStatistics(name));
 			}
 		}
 
@@ -251,8 +248,8 @@ public class HibernateStatsServlet extends BaseServlet {
 		names = statistics.getEntityNames();
 
 		if (names != null && names.length > 0) {
-			for (int i = 0; i < names.length; i++) {
-				entityStatistics.put(names[i], statistics.getEntityStatistics(names[i]));
+			for (String name : names) {
+				entityStatistics.put(name, statistics.getEntityStatistics(name));
 			}
 		}
 
@@ -260,8 +257,8 @@ public class HibernateStatsServlet extends BaseServlet {
 		names = statistics.getCollectionRoleNames();
 
 		if (names != null && names.length > 0) {
-			for (int i = 0; i < names.length; i++) {
-				collectionStatistics.put(names[i], statistics.getCollectionStatistics(names[i]));
+			for (String name : names) {
+				collectionStatistics.put(name, statistics.getCollectionStatistics(name));
 			}
 		}
 
@@ -269,8 +266,8 @@ public class HibernateStatsServlet extends BaseServlet {
 		names = statistics.getSecondLevelCacheRegionNames();
 
 		if (names != null && names.length > 0) {
-			for (int i = 0; i < names.length; i++) {
-				secondLevelCacheStatistics.put(names[i], statistics.getSecondLevelCacheStatistics(names[i]));
+			for (String name : names) {
+				secondLevelCacheStatistics.put(name, statistics.getSecondLevelCacheStatistics(name));
 			}
 		}
 	}

@@ -157,11 +157,11 @@ public class FileBrowser extends Composite implements OriginPanel, HasDocumentEv
 	public FileBrowser() {
 		// Sets the actual view and view values hashMap object
 		actualView = UIDesktopConstants.NAVIGATOR_TAXONOMY;
-		viewValues = new HashMap<String, Controller>();
-		docHandlerExtensionList = new ArrayList<DocumentHandlerExtension>();
-		folderHandlerExtensionList = new ArrayList<FolderHandlerExtension>();
-		mailHandlerExtensionList = new ArrayList<MailHandlerExtension>();
-		mapFilter = new LinkedHashMap<String, GWTFilter>();
+		viewValues = new HashMap<>();
+		docHandlerExtensionList = new ArrayList<>();
+		folderHandlerExtensionList = new ArrayList<>();
+		mailHandlerExtensionList = new ArrayList<>();
+		mapFilter = new LinkedHashMap<>();
 
 		panel = new VerticalPanel();
 		filePath = new FilePath();

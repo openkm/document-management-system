@@ -32,7 +32,7 @@ public class UserConfig implements Serializable {
 	private String homeType;
 	private String homeNode;
 	private Profile profile;
-	private Set<String> lockTokens = new HashSet<String>();
+	private Set<String> lockTokens = new HashSet<>();
 
 	public String getUser() {
 		return user;

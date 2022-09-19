@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -75,9 +74,7 @@ public class CreateFolderServlet extends OKMHttpServlet {
 				List<FileItem> items = upload.parseRequest(request);
 
 				// Parse the request and get all parameters and the uploaded file
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("path")) {
 							path = item.getString("UTF-8");

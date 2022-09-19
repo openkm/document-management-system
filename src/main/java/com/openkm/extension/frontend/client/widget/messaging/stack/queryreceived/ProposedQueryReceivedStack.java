@@ -55,7 +55,7 @@ public class ProposedQueryReceivedStack extends Composite {
 	 * Propose
 	 */
 	public ProposedQueryReceivedStack() {
-		userSeen = new HashMap<String, Long>();
+		userSeen = new HashMap<>();
 		menuPopup = new MenuPopup();
 		menuPopup.setStyleName("okm-MenuPopup");
 

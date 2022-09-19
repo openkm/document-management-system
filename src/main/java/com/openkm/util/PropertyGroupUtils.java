@@ -49,7 +49,7 @@ public class PropertyGroupUtils {
 	public static List<String> getAllGroupsProperties() throws IOException, ParseException, AccessDeniedException, RepositoryException,
 			DatabaseException {
 		log.debug("getAllGroupsProperties()");
-		List<String> pgProperties = new ArrayList<String>();
+		List<String> pgProperties = new ArrayList<>();
 
 		for (PropertyGroup pgrp : OKMPropertyGroup.getInstance().getAllGroups(null)) {
 			for (FormElement fe : OKMPropertyGroup.getInstance().getPropertyGroupForm(null, pgrp.getName())) {
@@ -65,7 +65,7 @@ public class PropertyGroupUtils {
 	 * getRelatedGroupsFromProperties
 	 */
 	public static List<String> getRelatedGroupsFromProperties(List<String> properties) {
-		List<String> groups = new ArrayList<String>();
+		List<String> groups = new ArrayList<>();
 
 		for (String property : properties) {
 			if (isValidPropertyName(property)) {
@@ -83,7 +83,7 @@ public class PropertyGroupUtils {
 	 * isValidPropertyName
 	 */
 	public static boolean isValidPropertyName(String property) {
-		return (property.length() > 0 && property.startsWith("okp:") && property.indexOf(".") > 0);
+		return (property.startsWith("okp:") && property.indexOf(".") > 0);
 	}
 
 	/**

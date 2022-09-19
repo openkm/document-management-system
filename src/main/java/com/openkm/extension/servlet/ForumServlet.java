@@ -57,7 +57,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 	public List<GWTForumTopic> getTopicsByForum(long id) throws OKMException {
 		log.debug("getTopicsByForum({})", id);
 		updateSessionManager();
-		List<GWTForumTopic> topicList = new ArrayList<GWTForumTopic>();
+		List<GWTForumTopic> topicList = new ArrayList<>();
 
 		try {
 			for (ForumTopic topic : ForumDAO.findByPk(id).getTopics()) {
@@ -77,7 +77,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 	public List<GWTForumTopic> getTopicsByNode(String uuid) throws OKMException {
 		log.debug("getTopicsByNode({})", uuid);
 		updateSessionManager();
-		List<GWTForumTopic> topicList = new ArrayList<GWTForumTopic>();
+		List<GWTForumTopic> topicList = new ArrayList<>();
 
 		try {
 			for (ForumTopic topic : ForumDAO.findAllTopicsByNode(uuid)) {
@@ -225,7 +225,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 				Forum forum = ForumDAO.findByPk(forumId);
 				forum.setNumPosts(forum.getNumPosts() - 1);
 				ForumDAO.update(forum); // Updating forum
-				return new Boolean(true);
+				return Boolean.TRUE;
 			} else {
 				Forum forum = ForumDAO.findByPk(forumId);
 				forum.setNumPosts(forum.getNumPosts() - 1);
@@ -272,7 +272,7 @@ public class ForumServlet extends OKMRemoteServiceServlet implements OKMForumSer
 	@Override
 	public List<GWTForum> getAllForum() throws OKMException {
 		log.debug("getAllForum()");
-		List<GWTForum> forumList = new ArrayList<GWTForum>();
+		List<GWTForum> forumList = new ArrayList<>();
 		updateSessionManager();
 
 		try {

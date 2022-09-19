@@ -172,7 +172,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 
 		// Property group
 		groupIndex = 0;
-		groupsList = new ArrayList<GWTPropertyGroup>();
+		groupsList = new ArrayList<>();
 		for (String groupName : fuResponse.getGroupsList()) {
 			GWTPropertyGroup pg = new GWTPropertyGroup();
 			pg.setName(groupName);
@@ -272,7 +272,7 @@ public class WizardPopup extends DialogBox implements ValidatorToFire {
 		hPanel.add(actualButton);
 		hPanel.add(space);
 		hPanel.setCellWidth(space, "3px");
-		workflowWidget = new WorkflowWidget(workflowsList.get(workflowIndex), uuid, vPanelFired, new HashMap<String, Object>());
+		workflowWidget = new WorkflowWidget(workflowsList.get(workflowIndex), uuid, vPanelFired, new HashMap<>());
 		vPanelFired.clear();
 		vPanelFired.add(workflowWidget);
 		vPanelFired.add(hPanel);

@@ -32,7 +32,7 @@ import java.util.List;
 public class ListClass implements OptionSelectValues {
 	@Override
 	public List<Option> getOptions() {
-		List<Option> options = new ArrayList<Option>();
+		List<Option> options = new ArrayList<>();
 		try {
 			List<String> userList = OKMAuth.getInstance().getUsers(null);
 			for (String user : userList) {

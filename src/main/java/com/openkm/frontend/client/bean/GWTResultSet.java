@@ -33,9 +33,8 @@ import java.util.Collection;
  *
  */
 public class GWTResultSet implements IsSerializable {
-
+	private Collection<GWTQueryResult> results = new ArrayList<>();
 	private long total;
-	private Collection<GWTQueryResult> results = new ArrayList<GWTQueryResult>();
 
 	public long getTotal() {
 		return total;

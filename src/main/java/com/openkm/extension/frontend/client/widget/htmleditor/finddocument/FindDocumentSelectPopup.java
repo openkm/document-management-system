@@ -26,7 +26,10 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import com.openkm.frontend.client.bean.*;
+import com.openkm.frontend.client.bean.GWTDocument;
+import com.openkm.frontend.client.bean.GWTQueryParams;
+import com.openkm.frontend.client.bean.GWTQueryResult;
+import com.openkm.frontend.client.bean.GWTResultSet;
 import com.openkm.frontend.client.constants.service.RPCService;
 import com.openkm.frontend.client.constants.ui.UIDesktopConstants;
 import com.openkm.frontend.client.constants.ui.UIGeneralConstants;
@@ -40,7 +43,6 @@ import com.openkm.frontend.client.util.Util;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * FindDocumentSelectPopup
@@ -159,7 +161,7 @@ public class FindDocumentSelectPopup extends DialogBox {
 					gwtParams.setLastModifiedFrom(null);
 					gwtParams.setLastModifiedTo(null);
 					gwtParams.setDomain(GWTQueryParams.DOCUMENT);
-					gwtParams.setProperties(new HashMap<String, GWTPropertyParams>());
+					gwtParams.setProperties(new HashMap<>());
 
 					find(gwtParams);
 				} else {
@@ -431,9 +433,7 @@ public class FindDocumentSelectPopup extends DialogBox {
 			GWTResultSet resultSet = result;
 			removeAllRows();
 
-			for (Iterator<GWTQueryResult> it = resultSet.getResults().iterator(); it.hasNext(); ) {
-				GWTQueryResult gwtQueryResult = it.next();
-
+			for (GWTQueryResult gwtQueryResult : resultSet.getResults()) {
 				if (gwtQueryResult.getDocument() != null) {
 					GWTDocument doc = gwtQueryResult.getDocument();
 					boolean add = false;

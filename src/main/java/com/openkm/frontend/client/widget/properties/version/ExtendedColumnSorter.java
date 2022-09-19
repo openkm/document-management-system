@@ -59,9 +59,9 @@ public class ExtendedColumnSorter extends ColumnSorter {
 	public void sort(int column, boolean ascending) {
 		int rows = Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.getDataTable().getRowCount();
 		int columns = Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.getDataTable().getColumnCount();
-		Map<Integer, GWTVersion> data = new HashMap<Integer, GWTVersion>(Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.data);
+		Map<Integer, GWTVersion> data = new HashMap<>(Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.data);
 
-		List<GWTObjectToOrder> elementToOrder = new ArrayList<GWTObjectToOrder>(); // List with column data,  and actual position
+		List<GWTObjectToOrder> elementToOrder = new ArrayList<>(); // List with column data,  and actual position
 
 		if (column >= 0 && column <= 6
 				&& column != UIDesktopConstants.DOCUMENT_HISTORY_COLUMN_BUTTON_SHOW
@@ -76,15 +76,15 @@ public class ExtendedColumnSorter extends ColumnSorter {
 				switch (column) {
 					case UIDesktopConstants.DOCUMENT_HISTORY_COLUMN_VERSION:
 						String version = data.get(i).getName();
-						String numberParts[] = version.split("\\.");
+						String[] numberParts = version.split("\\.");
 						version = "";
-						for (int x = 0; x < numberParts.length; x++) {
-							switch (numberParts[x].length()) {
+						for (String numberPart : numberParts) {
+							switch (numberPart.length()) {
 								case 1:
-									version = version + "00" + numberParts[x];
+									version = version + "00" + numberPart;
 									break;
 								case 2:
-									version = version + "0" + numberParts[x];
+									version = version + "0" + numberPart;
 									break;
 							}
 						}
@@ -122,7 +122,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 						break;
 
 					case UIDesktopConstants.DOCUMENT_HISTORY_COLUMN_SIZE:
-						rowToOrder.setObject(new Double((data.get(i)).getSize()));
+						rowToOrder.setObject((double) (data.get(i)).getSize());
 						rowToOrder.setDataId(String.valueOf(i)); // Actual position value
 						elementToOrder.add(rowToOrder);
 						break;
@@ -157,12 +157,11 @@ public class ExtendedColumnSorter extends ColumnSorter {
 	}
 
 	/**
-	 * @param elementList
-	 * @param elementToOrder
+	 *
 	 */
 	private void applySort(List<GWTObjectToOrder> elementToOrder) {
 		// Data map
-		Map<Integer, GWTVersion> data = new HashMap<Integer, GWTVersion>(Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.data);
+		Map<Integer, GWTVersion> data = new HashMap<>(Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.data);
 		Main.get().mainPanel.desktop.browser.tabMultiple.tabDocument.version.reset();
 
 		for (GWTObjectToOrder orderedColumn : elementToOrder) {

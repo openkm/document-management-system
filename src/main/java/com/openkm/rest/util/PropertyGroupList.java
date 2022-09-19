@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "propertyGroups")
 public class PropertyGroupList {
 	@XmlElement(name = "propertyGroup", required = true)
-	List<PropertyGroup> propertyGroups = new ArrayList<PropertyGroup>();
+	List<PropertyGroup> propertyGroups = new ArrayList<>();
 
 	public List<PropertyGroup> getList() {
 		return propertyGroups;

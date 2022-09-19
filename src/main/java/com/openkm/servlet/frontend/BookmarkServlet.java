@@ -36,7 +36,10 @@ import com.openkm.util.GWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Servlet Class
@@ -48,14 +51,13 @@ public class BookmarkServlet extends OKMRemoteServiceServlet implements OKMBookm
 	@Override
 	public List<GWTBookmark> getAll() throws OKMException {
 		log.debug("getAll()");
-		List<GWTBookmark> bookmarkList = new ArrayList<GWTBookmark>();
+		List<GWTBookmark> bookmarkList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
 			Collection<Bookmark> col = OKMBookmark.getInstance().getAll(null);
 
-			for (Iterator<Bookmark> it = col.iterator(); it.hasNext(); ) {
-				Bookmark bookmark = it.next();
+			for (Bookmark bookmark : col) {
 				log.debug("Bookmark: {}", bookmark);
 				String path = NodeBaseDAO.getInstance().getPathFromUuid(bookmark.getNode());
 				GWTBookmark bookmarkClient = GWTUtil.copy(bookmark, path);

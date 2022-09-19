@@ -62,9 +62,9 @@ public class FormManager {
 	// Boolean contants
 	private String BOOLEAN_TRUE = String.valueOf(Boolean.TRUE);
 
-	private List<GWTFormElement> formElementList = new ArrayList<GWTFormElement>();
-	public Map<String, GWTPropertyParams> hPropertyParams = new HashMap<String, GWTPropertyParams>();
-	private Map<String, Widget> hWidgetProperties = new HashMap<String, Widget>();
+	private List<GWTFormElement> formElementList = new ArrayList<>();
+	public Map<String, GWTPropertyParams> hPropertyParams = new HashMap<>();
+	private Map<String, Widget> hWidgetProperties = new HashMap<>();
 	private FlexTable table;
 	private FolderSelectPopup folderSelectPopup;
 	private ExtendedDefaultValidatorProcessor validationProcessor;
@@ -78,7 +78,7 @@ public class FormManager {
 	private boolean isMassiveView = false;
 	private HasPropertyHandler propertyHandler;
 	private List<Button> buttonControlList;
-	private Map<String, Object> workflowVarMap = new HashMap<String, Object>();
+	private Map<String, Object> workflowVarMap = new HashMap<>();
 	private FormManager singleton;
 	private ValidatorToFire validatorToFire;
 
@@ -133,13 +133,11 @@ public class FormManager {
 		folderSelectPopup.setStyleName("okm-Popup");
 		folderSelectPopup.addStyleName("okm-DisableSelect");
 		submitButtonPanel = new HorizontalPanel();
-		buttonControlList = new ArrayList<Button>();
+		buttonControlList = new ArrayList<>();
 	}
 
 	/**
 	 * getTable
-	 *
-	 * @return
 	 */
 	public FlexTable getTable() {
 		return table;
@@ -150,7 +148,6 @@ public class FormManager {
 	 *
 	 * @param row     The row cell
 	 * @param columns Number of row columns
-	 * @param warp
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp) {
 		for (int i = 0; i < columns; i++) {
@@ -164,7 +161,6 @@ public class FormManager {
 	 * @param table   FlexTable The table to format
 	 * @param row     The row cell
 	 * @param columns Number of row columns
-	 * @param warp
 	 */
 	private void setRowWordWarp(FlexTable table, int row, int columns, boolean warp) {
 		for (int i = 0; i < columns; i++) {
@@ -328,7 +324,7 @@ public class FormManager {
 				calendarPopup.add(calendar);
 				final Image calendarIcon = new Image(OKMBundleResources.INSTANCE.calendar());
 
-				if (readOnly || ((GWTInput) gwtFormElement).isReadonly()) {                        // read only
+				if (readOnly || ((GWTInput) gwtFormElement).isReadonly()) {     // read only
 					calendarIcon.setResource(OKMBundleResources.INSTANCE.calendarDisabled());
 				} else {
 					calendarIcon.addClickHandler(new ClickHandler() {
@@ -1339,9 +1335,7 @@ public class FormManager {
 		validationProcessor = new ExtendedDefaultValidatorProcessor(validatorToFire);
 		FocusAction focusAction = new FocusAction();
 
-		for (Iterator<GWTFormElement> it = formElementList.iterator(); it.hasNext(); ) {
-			GWTFormElement formField = it.next();
-
+		for (GWTFormElement formField : formElementList) {
 			if (formField instanceof GWTTextArea) {
 				HorizontalPanel hPanel = (HorizontalPanel) hWidgetProperties.get(formField.getName());
 				table.setWidget(rows, 1, hPanel);
@@ -1448,7 +1442,7 @@ public class FormManager {
 	 * initButtonControlList
 	 */
 	private void initButtonControlList() {
-		buttonControlList = new ArrayList<Button>(); // Ensure button list is empty
+		buttonControlList = new ArrayList<>(); // Ensure button list is empty
 		if (submitForm != null) {
 			buttonControlList.add(submitForm);
 		}
@@ -1654,8 +1648,7 @@ public class FormManager {
 						selectedValue = listBox.getValue(listBox.getSelectedIndex());
 					}
 
-					for (Iterator<GWTOption> itOptions = gwtSelect.getOptions().iterator(); itOptions.hasNext(); ) {
-						GWTOption option = itOptions.next();
+					for (GWTOption option : gwtSelect.getOptions()) {
 						if (option.getValue().equals(selectedValue)) {
 							option.setSelected(true);
 						} else {
@@ -1667,16 +1660,15 @@ public class FormManager {
 					FlexTable tableMulti = (FlexTable) hPanel.getWidget(0);
 
 					// Disables all options
-					for (Iterator<GWTOption> itOptions = gwtSelect.getOptions().iterator(); itOptions.hasNext(); ) {
-						itOptions.next().setSelected(false);
+					for (GWTOption gwtOption : gwtSelect.getOptions()) {
+						gwtOption.setSelected(false);
 					}
 
 					// Enables options
 					if (tableMulti.getRowCount() > 0) {
 						for (int i = 0; i < tableMulti.getRowCount(); i++) {
 							String selectedValue = tableMulti.getText(i, 0);
-							for (Iterator<GWTOption> itOptions = gwtSelect.getOptions().iterator(); itOptions.hasNext(); ) {
-								GWTOption option = itOptions.next();
+							for (GWTOption option : gwtSelect.getOptions()) {
 								if (option.getValue().equals(selectedValue)) {
 									option.setSelected(true);
 								}
@@ -1726,7 +1718,7 @@ public class FormManager {
 	 * getFilesToUpload
 	 */
 	public Collection<FileToUpload> getFilesToUpload(String transition) {
-		List<FileToUpload> filesToUpload = new ArrayList<FileToUpload>();
+		List<FileToUpload> filesToUpload = new ArrayList<>();
 		int rows = 0;
 
 		for (GWTFormElement formElement : formElementList) {
@@ -1949,21 +1941,21 @@ public class FormManager {
 	 */
 	private List<GWTNode> getNodesValueFromVariable(Object obj) {
 		if (obj instanceof GWTInput) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTTextArea) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTSuggestBox) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTCheckBox) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTSelect) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTUpload) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTText) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTSeparator) {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		} else if (obj instanceof GWTDownload) {
 			GWTDownload download = (GWTDownload) obj;
 			return download.getNodes();
@@ -1971,7 +1963,7 @@ public class FormManager {
 			GWTPrint print = (GWTPrint) obj;
 			return print.getNodes();
 		} else {
-			return new ArrayList<GWTNode>();
+			return new ArrayList<>();
 		}
 	}
 
@@ -2149,7 +2141,7 @@ public class FormManager {
 	 * Gets a string map values
 	 */
 	public Map<String, String> getStringMapValues() {
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, String> values = new HashMap<>();
 
 		for (GWTFormElement formElement : formElementList) {
 			if (formElement instanceof GWTTextArea) {
@@ -2191,11 +2183,9 @@ public class FormManager {
 
 	/**
 	 * updateSuggestBoxTextValue
-	 *
-	 * @param suggestBox
 	 */
 	private void updateSuggestBoxTextValue(final GWTSuggestBox suggestBox) {
-		List<String> tables = new ArrayList<String>();
+		List<String> tables = new ArrayList<>();
 		if (suggestBox.getTable() != null) {
 			tables.add(suggestBox.getTable());
 		}

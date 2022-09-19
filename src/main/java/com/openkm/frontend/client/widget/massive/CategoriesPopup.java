@@ -73,7 +73,7 @@ public class CategoriesPopup extends DialogBox {
 
 		table = new FlexTable();
 		tableSubscribedCategories = new FlexTable();
-		assignedCategories = new ArrayList<GWTFolder>();
+		assignedCategories = new ArrayList<>();
 		cellFormatter = table.getCellFormatter(); // Gets the cell formatter
 		table.setWidth("100%");
 		table.setCellPadding(0);
@@ -153,8 +153,9 @@ public class CategoriesPopup extends DialogBox {
 	 */
 	public void reset() {
 		folderSelectTree.reset();
-		assignedCategories = new ArrayList<GWTFolder>();
+		assignedCategories = new ArrayList<>();
 		tableSubscribedCategories.removeAllRows();
+
 		if (!Main.get().mainPanel.desktop.browser.fileBrowser.isMassive()) {
 			if (Main.get().mainPanel.desktop.browser.fileBrowser.isDocumentSelected()) {
 				assignedCategories = Main.get().mainPanel.desktop.browser.fileBrowser.getDocument().getCategories();

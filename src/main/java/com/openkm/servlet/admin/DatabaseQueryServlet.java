@@ -124,9 +124,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 				String qs = "";
 				byte[] data = null;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("qs")) {
 							qs = item.getString("UTF-8");
@@ -217,7 +215,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 			HttpServletResponse response) throws DatabaseException, ServletException, IOException, HibernateException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		StringTokenizer st = new StringTokenizer(qs, "\n\r");
-		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();
+		List<DbQueryGlobalResult> globalResults = new ArrayList<>();
 
 		// For each query line
 		while (st.hasMoreTokens()) {
@@ -227,48 +225,57 @@ public class DatabaseQueryServlet extends BaseServlet {
 			if (parts.length > 1) {
 				String hql = null;
 
-				if (parts[0].toUpperCase().equals("SENTENCE")) {
-					if (parts.length > 2) {
-						List<String> tables = Arrays.asList(parts[1].split(","));
-						hql = DatabaseMetadataUtils.replaceVirtual(tables, parts[2]);
-						log.debug("Metadata SENTENCE: {}", hql);
-						globalResults.add(executeHQL(session, hql, showSql, tables));
-					}
-				} else if (parts[0].toUpperCase().equals("SELECT")) {
-					if (parts.length > 2) {
-						hql = DatabaseMetadataUtils.buildQuery(parts[1], parts[2]);
-					} else {
-						// Filter parameter is optional
-						hql = DatabaseMetadataUtils.buildQuery(parts[1], null);
-					}
+				switch (parts[0].toUpperCase()) {
+					case "SENTENCE":
+						if (parts.length > 2) {
+							List<String> tables = Arrays.asList(parts[1].split(","));
+							hql = DatabaseMetadataUtils.replaceVirtual(tables, parts[2]);
+							log.debug("Metadata SENTENCE: {}", hql);
+							globalResults.add(executeHQL(session, hql, showSql, tables));
+						}
+						break;
 
-					log.debug("Metadata SELECT: {}", hql);
-					globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
-				} else if (parts[0].toUpperCase().equals("UPDATE")) {
-					if (parts.length > 3) {
-						hql = DatabaseMetadataUtils.buildUpdate(parts[1], parts[2], parts[3]);
-					} else if (parts.length > 2) {
-						// Filter parameter is optional
-						hql = DatabaseMetadataUtils.buildUpdate(parts[1], parts[2], null);
-					} else {
-						// Filter parameter is optional
-						hql = DatabaseMetadataUtils.buildUpdate(parts[1], null, null);
-					}
+					case "SELECT":
+						if (parts.length > 2) {
+							hql = DatabaseMetadataUtils.buildQuery(parts[1], parts[2]);
+						} else {
+							// Filter parameter is optional
+							hql = DatabaseMetadataUtils.buildQuery(parts[1], null);
+						}
 
-					log.debug("Metadata UPDATE: {}", hql);
-					globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
-				} else if (parts[0].toUpperCase().equals("DELETE")) {
-					if (parts.length > 2) {
-						hql = DatabaseMetadataUtils.buildDelete(parts[1], parts[2]);
-					} else {
-						// Filter parameter is optional
-						hql = DatabaseMetadataUtils.buildDelete(parts[1], null);
-					}
+						log.debug("Metadata SELECT: {}", hql);
+						globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
+						break;
 
-					log.debug("Metadata DELETE: {}", hql);
-					globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
-				} else {
-					throw new DatabaseException("Error in metadata action");
+					case "UPDATE":
+						if (parts.length > 3) {
+							hql = DatabaseMetadataUtils.buildUpdate(parts[1], parts[2], parts[3]);
+						} else if (parts.length > 2) {
+							// Filter parameter is optional
+							hql = DatabaseMetadataUtils.buildUpdate(parts[1], parts[2], null);
+						} else {
+							// Filter parameter is optional
+							hql = DatabaseMetadataUtils.buildUpdate(parts[1], null, null);
+						}
+
+						log.debug("Metadata UPDATE: {}", hql);
+						globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
+						break;
+
+					case "DELETE":
+						if (parts.length > 2) {
+							hql = DatabaseMetadataUtils.buildDelete(parts[1], parts[2]);
+						} else {
+							// Filter parameter is optional
+							hql = DatabaseMetadataUtils.buildDelete(parts[1], null);
+						}
+
+						log.debug("Metadata DELETE: {}", hql);
+						globalResults.add(executeHQL(session, hql, showSql, Arrays.asList(parts[1])));
+						break;
+
+					default:
+						throw new DatabaseException("Error in metadata action");
 				}
 			} else {
 				throw new DatabaseException("Error in metadata sentence parameters");
@@ -285,10 +292,10 @@ public class DatabaseQueryServlet extends BaseServlet {
 	 * Execute Hibernate query
 	 */
 	private void executeHibernate(Session session, String qs, boolean showSql, ServletContext sc, HttpServletRequest request,
-	                              HttpServletResponse response) throws ServletException, IOException, HibernateException, DatabaseException,
+			HttpServletResponse response) throws ServletException, IOException, HibernateException, DatabaseException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		StringTokenizer st = new StringTokenizer(qs, "\n\r");
-		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();
+		List<DbQueryGlobalResult> globalResults = new ArrayList<>();
 
 		// For each query line
 		while (st.hasMoreTokens()) {
@@ -322,9 +329,9 @@ public class DatabaseQueryServlet extends BaseServlet {
 		if (hql.toUpperCase().startsWith("SELECT") || hql.toUpperCase().startsWith("FROM")) {
 			Query q = session.createQuery(hql);
 			List<Object> ret = q.list();
-			List<String> columns = new ArrayList<String>();
-			List<String> vcolumns = new ArrayList<String>();
-			List<List<String>> results = new ArrayList<List<String>>();
+			List<String> columns = new ArrayList<>();
+			List<String> vcolumns = new ArrayList<>();
+			List<List<String>> results = new ArrayList<>();
 			Type[] rt = q.getReturnTypes();
 			int i = 0;
 
@@ -347,15 +354,15 @@ public class DatabaseQueryServlet extends BaseServlet {
 			}
 
 			for (Iterator<Object> it = ret.iterator(); it.hasNext() && i++ < Config.MAX_SEARCH_RESULTS; ) {
-				List<String> row = new ArrayList<String>();
+				List<String> row = new ArrayList<>();
 				Object obj = it.next();
 
 				if (vtables == null) {
 					if (obj instanceof Object[]) {
 						Object[] ao = (Object[]) obj;
 
-						for (int j = 0; j < ao.length; j++) {
-							row.add(String.valueOf(ao[j]));
+						for (Object o : ao) {
+							row.add(String.valueOf(o));
 						}
 					} else {
 						row.add(String.valueOf(obj));
@@ -434,7 +441,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 	private void executeUpdate(Session session, byte[] data, ServletContext sc, HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		log.debug("executeUpdate({}, {}, {})", session, request, response);
-		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();
+		List<DbQueryGlobalResult> globalResults = new ArrayList<>();
 		WorkerUpdate worker = new WorkerUpdate();
 		worker.setData(data);
 		session.doWork(worker);
@@ -460,7 +467,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 	 * List tables from database
 	 */
 	private List<String> listTables(Session session) {
-		final List<String> tables = new ArrayList<String>();
+		final List<String> tables = new ArrayList<>();
 		final String[] tableTypes = {"TABLE"};
 		final String[] tablePatterns = new String[]{"JBPM_%", "OKM_%", "DEFAULT_%", "VERSION_%", "jbpm_%", "okm_%", "default_%",
 				"version_%"};
@@ -491,7 +498,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 	private List<String> listVirtualTables() throws DatabaseException {
 		String query = "select distinct(dmv.table) from DatabaseMetadataType dmv order by dmv.table";
 		List<Object> tmp = LegacyDAO.executeQuery(query);
-		List<String> tables = new ArrayList<String>();
+		List<String> tables = new ArrayList<>();
 
 		for (Object obj : tmp) {
 			tables.add(String.valueOf(obj));
@@ -513,8 +520,8 @@ public class DatabaseQueryServlet extends BaseServlet {
 	/**
 	 * Hibernate worker helper
 	 */
-	public class WorkerJdbc implements Work {
-		List<DbQueryGlobalResult> globalResults = new ArrayList<DbQueryGlobalResult>();
+	public static class WorkerJdbc implements Work {
+		List<DbQueryGlobalResult> globalResults = new ArrayList<>();
 		String qs = null;
 
 		List<DbQueryGlobalResult> getGlobalResults() {
@@ -553,15 +560,15 @@ public class DatabaseQueryServlet extends BaseServlet {
 							if (tk.toUpperCase().startsWith("SELECT") || tk.toUpperCase().startsWith("DESCRIBE")) {
 								rs = stmt.executeQuery(tk);
 								ResultSetMetaData md = rs.getMetaData();
-								List<String> columns = new ArrayList<String>();
-								List<List<String>> results = new ArrayList<List<String>>();
+								List<String> columns = new ArrayList<>();
+								List<List<String>> results = new ArrayList<>();
 
 								for (int i = 1; i < md.getColumnCount() + 1; i++) {
 									columns.add(md.getColumnName(i));
 								}
 
 								for (int i = 0; rs.next() && i++ < Config.MAX_SEARCH_RESULTS; ) {
-									List<String> row = new ArrayList<String>();
+									List<String> row = new ArrayList<>();
 
 									for (int j = 1; j < md.getColumnCount() + 1; j++) {
 										if (Types.BLOB == md.getColumnType(j)) {
@@ -599,8 +606,8 @@ public class DatabaseQueryServlet extends BaseServlet {
 							}
 						} catch (SQLException e) {
 							DbQueryGlobalResult gr = new DbQueryGlobalResult();
-							List<HashMap<String, String>> errors = new ArrayList<HashMap<String, String>>();
-							HashMap<String, String> error = new HashMap<String, String>();
+							List<HashMap<String, String>> errors = new ArrayList<>();
+							HashMap<String, String> error = new HashMap<>();
 							error.put("ln", Integer.toString(ln));
 							error.put("sql", tk);
 							error.put("msg", e.getMessage());
@@ -625,8 +632,8 @@ public class DatabaseQueryServlet extends BaseServlet {
 	/**
 	 * Hibernate worker helper
 	 */
-	public class WorkerUpdate implements Work {
-		List<HashMap<String, String>> errors = new ArrayList<HashMap<String, String>>();
+	public static class WorkerUpdate implements Work {
+		List<HashMap<String, String>> errors = new ArrayList<>();
 		int rows = 0;
 		byte[] data;
 
@@ -668,7 +675,7 @@ public class DatabaseQueryServlet extends BaseServlet {
 						try {
 							rows += stmt.executeUpdate(tk);
 						} catch (SQLException e) {
-							HashMap<String, String> error = new HashMap<String, String>();
+							HashMap<String, String> error = new HashMap<>();
 							error.put("ln", Integer.toString(ln));
 							error.put("sql", tk);
 							error.put("msg", e.getMessage());

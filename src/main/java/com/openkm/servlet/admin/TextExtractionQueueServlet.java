@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,12 +50,10 @@ public class TextExtractionQueueServlet extends BaseServlet {
 
 		try {
 			List<TextExtractorWork> pending = TextExtractorWorker.getPendingWorks(MAX_RESULTS + 1);
-			List<TextExtractorWork> pendingWorks = new ArrayList<TextExtractorWork>();
-			Iterator<TextExtractorWork> it = pending.iterator();
-			int row = 0;
+			List<TextExtractorWork> pendingWorks = new ArrayList<>();
 
-			while (row < MAX_RESULTS && it.hasNext()) {
-				pendingWorks.add(it.next());
+			for (TextExtractorWork textExtractorWork : pending) {
+				pendingWorks.add(textExtractorWork);
 			}
 
 			sc.setAttribute("pendingWorks", pendingWorks);

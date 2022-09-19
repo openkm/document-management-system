@@ -56,7 +56,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 	@Override
 	public List<GWTQueryParams> getAllSearchs() throws OKMException {
 		log.debug("getAllSearchs()");
-		List<GWTQueryParams> resultList = new ArrayList<GWTQueryParams>();
+		List<GWTQueryParams> resultList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -140,7 +140,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 	@Override
 	public GWTResultSet findPaginated(GWTQueryParams params, int offset, int limit) throws OKMException {
 		log.debug("findPaginated({}, {}, {})", params, offset, limit);
-		List<GWTQueryResult> resultList = new ArrayList<GWTQueryResult>();
+		List<GWTQueryResult> resultList = new ArrayList<>();
 		GWTResultSet gwtResultSet = new GWTResultSet();
 		QueryParams queryParams = new QueryParams();
 		ResultSet results;
@@ -182,7 +182,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 	@Override
 	public GWTResultSet find(GWTQueryParams params) throws OKMException {
 		log.debug("find({})", params);
-		List<GWTQueryResult> resultList = new ArrayList<GWTQueryResult>();
+		List<GWTQueryResult> resultList = new ArrayList<>();
 		GWTResultSet gwtResultSet = new GWTResultSet();
 		QueryParams queryParams = new QueryParams();
 		Collection<QueryResult> results;
@@ -224,9 +224,9 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 	@Override
 	public List<GWTKeyword> getKeywordMap(List<String> filter) throws OKMException {
 		log.debug("getKeywordMap()");
-		List<GWTKeyword> selectedTop10 = new ArrayList<GWTKeyword>();
-		List<GWTKeyword> keyList = new ArrayList<GWTKeyword>();
-		int maxValues[] = new int[10];
+		List<GWTKeyword> selectedTop10 = new ArrayList<>();
+		List<GWTKeyword> keyList = new ArrayList<>();
+		int[] maxValues = new int[10];
 		int countTop10 = 0;
 		updateSessionManager();
 
@@ -326,7 +326,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 	@Override
 	public GWTResultSet findSimpleQueryPaginated(String statement, int offset, int limit) throws OKMException {
 		log.debug("findSimpleQueryPaginated({})", statement);
-		List<GWTQueryResult> resultList = new ArrayList<GWTQueryResult>();
+		List<GWTQueryResult> resultList = new ArrayList<>();
 		GWTResultSet gwtResultSet = new GWTResultSet();
 		ResultSet results;
 		updateSessionManager();
@@ -360,7 +360,7 @@ public class SearchServlet extends OKMRemoteServiceServlet implements OKMSearchS
 
 	@Override
 	public GWTResultSet findMoreLikeThis(String uuid) throws OKMException {
-		List<GWTQueryResult> resultList = new ArrayList<GWTQueryResult>();
+		List<GWTQueryResult> resultList = new ArrayList<>();
 		GWTResultSet gwtResultSet = new GWTResultSet();
 		ResultSet results;
 

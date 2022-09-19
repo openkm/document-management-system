@@ -39,7 +39,10 @@ import com.openkm.frontend.client.util.validator.ExtendedDefaultValidatorProcess
 import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * PropertyGroupWidget
@@ -54,7 +57,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	private CellFormatter cellFormatter;
 	private PropertyGroupWidgetToFire propertyGroupWidgetToFire;
 	private List<PropertyGroupHandlerExtension> propertyGroupHandlerExtensionList;
-	private Map<String, GWTFormElement> propertyGroupVariablesMap = new HashMap<String, GWTFormElement>();
+	private Map<String, GWTFormElement> propertyGroupVariablesMap = new HashMap<>();
 	private GWTPropertyGroup propertyGroup;
 	private FormManager manager;
 	private ScrollPanel scrollPropertyGroup;
@@ -74,7 +77,7 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 	 * start
 	 */
 	private void start(String path, GWTPropertyGroup propertyGroup, Widget widget, PropertyGroupWidgetToFire propertyGroupWidgetToFire, ValidatorToFire validatorToFire) {
-		propertyGroupHandlerExtensionList = new ArrayList<PropertyGroupHandlerExtension>();
+		propertyGroupHandlerExtensionList = new ArrayList<>();
 		manager = new FormManager(validatorToFire);
 		this.path = path;
 		this.propertyGroup = propertyGroup;
@@ -263,8 +266,8 @@ public class PropertyGroupWidget extends Composite implements HasPropertyGroupEv
 
 	@Override
 	public void fireEvent(PropertyGroupEventConstant event) {
-		for (Iterator<PropertyGroupHandlerExtension> it = propertyGroupHandlerExtensionList.iterator(); it.hasNext(); ) {
-			it.next().onChange(event);
+		for (PropertyGroupHandlerExtension propertyGroupHandlerExtension : propertyGroupHandlerExtensionList) {
+			propertyGroupHandlerExtension.onChange(event);
 		}
 	}
 
