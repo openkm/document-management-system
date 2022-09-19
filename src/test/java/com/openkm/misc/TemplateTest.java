@@ -69,7 +69,7 @@ public class TemplateTest extends TestCase {
 
 	public void testPdf() throws IOException, DocumentException, TemplateException {
 		log.debug("testPdf()");
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("okp_tpl_name", "el nombre");
 		model.put("okp_tpl_bird_date", new Date());
 		model.put("okp_tpl_language", "el lenguaje");
@@ -82,7 +82,7 @@ public class TemplateTest extends TestCase {
 
 	public void testOpenOffice() throws IOException, DocumentTemplateException {
 		log.debug("testOpenOffice()");
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("okp_tpl_name", "el nombre");
 		model.put("okp_tpl_bird_date", new Date());
 		model.put("okp_tpl_language", "el lenguaje");
@@ -95,7 +95,7 @@ public class TemplateTest extends TestCase {
 
 	public void testHtml() throws IOException, TemplateException {
 		log.debug("testHtml()");
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("okp_tpl_name", "el nombre");
 		model.put("okp_tpl_bird_date", new Date());
 		model.put("okp_tpl_language", "el lenguaje");

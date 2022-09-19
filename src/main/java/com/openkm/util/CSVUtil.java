@@ -66,7 +66,7 @@ public class CSVUtil {
 		// Getting translations
 		Map<String, String> translations = LanguageUtils.getTranslations(lang,
 				new String[]{Translation.MODULE_FRONTEND});
-		Map<String, GWTFilebrowseExtraColumn> ecMap = new HashMap<String, GWTFilebrowseExtraColumn>();
+		Map<String, GWTFilebrowseExtraColumn> ecMap;
 
 		Profile up = new Profile();
 		UserConfig uc = UserConfigDAO.findByPk(user);
@@ -144,7 +144,7 @@ public class CSVUtil {
 		// Getting translations
 		Map<String, String> translations = LanguageUtils.getTranslations(lang,
 				new String[]{Translation.MODULE_FRONTEND});
-		Map<String, GWTFilebrowseExtraColumn> ecMap = new HashMap<String, GWTFilebrowseExtraColumn>();
+		Map<String, GWTFilebrowseExtraColumn> ecMap;
 
 		Profile up = new Profile();
 		UserConfig uc = UserConfigDAO.findByPk(user);
@@ -368,7 +368,7 @@ public class CSVUtil {
 	private static Map<String, GWTFilebrowseExtraColumn> addExtraColumns(String[] columns, Profile up, int index)
 			throws IOException, ParseException, RepositoryException, DatabaseException, AccessDeniedException, PathNotFoundException,
 			PrincipalAdapterException, NoSuchGroupException {
-		Map<String, GWTFilebrowseExtraColumn> map = new HashMap<String, GWTFilebrowseExtraColumn>();
+		Map<String, GWTFilebrowseExtraColumn> map = new HashMap<>();
 
 		if (isValidPropertyGroup(up.getPrfFileBrowser().getColumn0())) {
 			GWTFilebrowseExtraColumn ec = GWTUtil.getExtraColumn(up.getPrfFileBrowser().getColumn0());

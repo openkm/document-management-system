@@ -21,156 +21,28 @@
 
 package com.openkm.util;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.openkm.api.OKMAuth;
-import com.openkm.api.OKMDocument;
-import com.openkm.api.OKMFolder;
-import com.openkm.api.OKMMail;
-import com.openkm.api.OKMPropertyGroup;
-import com.openkm.api.OKMRepository;
-import com.openkm.bean.AppVersion;
-import com.openkm.bean.DashboardDocumentResult;
-import com.openkm.bean.DashboardFolderResult;
-import com.openkm.bean.DashboardMailResult;
-import com.openkm.bean.Document;
-import com.openkm.bean.ExtendedAttributes;
-import com.openkm.bean.Folder;
-import com.openkm.bean.LockInfo;
-import com.openkm.bean.Mail;
-import com.openkm.bean.Note;
-import com.openkm.bean.PropertyGroup;
-import com.openkm.bean.QueryResult;
-import com.openkm.bean.Version;
-import com.openkm.bean.form.Button;
-import com.openkm.bean.form.CheckBox;
-import com.openkm.bean.form.Download;
-import com.openkm.bean.form.FormElement;
-import com.openkm.bean.form.Input;
+import com.openkm.api.*;
+import com.openkm.bean.*;
 import com.openkm.bean.form.Node;
-import com.openkm.bean.form.Option;
-import com.openkm.bean.form.Print;
-import com.openkm.bean.form.Select;
-import com.openkm.bean.form.Separator;
-import com.openkm.bean.form.SuggestBox;
-import com.openkm.bean.form.Text;
-import com.openkm.bean.form.TextArea;
-import com.openkm.bean.form.Upload;
-import com.openkm.bean.form.Validator;
-import com.openkm.bean.workflow.Comment;
-import com.openkm.bean.workflow.ProcessDefinition;
-import com.openkm.bean.workflow.ProcessInstance;
-import com.openkm.bean.workflow.TaskInstance;
-import com.openkm.bean.workflow.Token;
-import com.openkm.bean.workflow.Transition;
-import com.openkm.core.AccessDeniedException;
+import com.openkm.bean.form.*;
+import com.openkm.bean.workflow.*;
 import com.openkm.core.Config;
-import com.openkm.core.DatabaseException;
-import com.openkm.core.NoSuchGroupException;
-import com.openkm.core.ParseException;
-import com.openkm.core.PathNotFoundException;
-import com.openkm.core.RepositoryException;
+import com.openkm.core.*;
 import com.openkm.dao.KeyValueDAO;
-import com.openkm.dao.bean.Activity;
-import com.openkm.dao.bean.Bookmark;
-import com.openkm.dao.bean.KeyValue;
-import com.openkm.dao.bean.Language;
-import com.openkm.dao.bean.MimeType;
-import com.openkm.dao.bean.Omr;
-import com.openkm.dao.bean.QueryParams;
-import com.openkm.dao.bean.Report;
-import com.openkm.dao.bean.UserConfig;
-import com.openkm.extension.dao.bean.Forum;
-import com.openkm.extension.dao.bean.ForumPost;
-import com.openkm.extension.dao.bean.ForumTopic;
-import com.openkm.extension.dao.bean.MessageReceived;
-import com.openkm.extension.dao.bean.MessageSent;
-import com.openkm.extension.dao.bean.ProposedQueryReceived;
-import com.openkm.extension.dao.bean.ProposedQuerySent;
-import com.openkm.extension.dao.bean.ProposedSubscriptionReceived;
-import com.openkm.extension.dao.bean.ProposedSubscriptionSent;
-import com.openkm.extension.dao.bean.Staple;
-import com.openkm.extension.dao.bean.StapleGroup;
-import com.openkm.extension.dao.bean.WikiPage;
-import com.openkm.frontend.client.bean.GWTAppVersion;
-import com.openkm.frontend.client.bean.GWTBookmark;
-import com.openkm.frontend.client.bean.GWTComment;
-import com.openkm.frontend.client.bean.GWTConfig;
-import com.openkm.frontend.client.bean.GWTDashboardDocumentResult;
-import com.openkm.frontend.client.bean.GWTDashboardFolderResult;
-import com.openkm.frontend.client.bean.GWTDashboardMailResult;
-import com.openkm.frontend.client.bean.GWTDocument;
-import com.openkm.frontend.client.bean.GWTExtendedAttributes;
-import com.openkm.frontend.client.bean.GWTFilebrowseExtraColumn;
-import com.openkm.frontend.client.bean.GWTFolder;
-import com.openkm.frontend.client.bean.GWTKeyValue;
-import com.openkm.frontend.client.bean.GWTLanguage;
-import com.openkm.frontend.client.bean.GWTLockInfo;
-import com.openkm.frontend.client.bean.GWTMail;
-import com.openkm.frontend.client.bean.GWTMimeType;
-import com.openkm.frontend.client.bean.GWTNote;
-import com.openkm.frontend.client.bean.GWTOmr;
-import com.openkm.frontend.client.bean.GWTProcessDefinition;
-import com.openkm.frontend.client.bean.GWTProcessInstance;
-import com.openkm.frontend.client.bean.GWTProcessInstanceLogEntry;
-import com.openkm.frontend.client.bean.GWTPropertyGroup;
-import com.openkm.frontend.client.bean.GWTPropertyParams;
-import com.openkm.frontend.client.bean.GWTQueryParams;
-import com.openkm.frontend.client.bean.GWTQueryResult;
-import com.openkm.frontend.client.bean.GWTReport;
-import com.openkm.frontend.client.bean.GWTTaskInstance;
-import com.openkm.frontend.client.bean.GWTToken;
-import com.openkm.frontend.client.bean.GWTTransition;
-import com.openkm.frontend.client.bean.GWTUser;
-import com.openkm.frontend.client.bean.GWTUserConfig;
-import com.openkm.frontend.client.bean.GWTVersion;
-import com.openkm.frontend.client.bean.GWTWorkflowComment;
-import com.openkm.frontend.client.bean.GWTWorkspace;
-import com.openkm.frontend.client.bean.extension.GWTActivity;
-import com.openkm.frontend.client.bean.extension.GWTForum;
-import com.openkm.frontend.client.bean.extension.GWTForumPost;
-import com.openkm.frontend.client.bean.extension.GWTForumTopic;
-import com.openkm.frontend.client.bean.extension.GWTMessageReceived;
-import com.openkm.frontend.client.bean.extension.GWTProposedQueryReceived;
-import com.openkm.frontend.client.bean.extension.GWTProposedQuerySent;
-import com.openkm.frontend.client.bean.extension.GWTProposedSubscriptionReceived;
-import com.openkm.frontend.client.bean.extension.GWTProposedSubscriptionSent;
-import com.openkm.frontend.client.bean.extension.GWTStaple;
-import com.openkm.frontend.client.bean.extension.GWTStapleGroup;
-import com.openkm.frontend.client.bean.extension.GWTTextMessageSent;
-import com.openkm.frontend.client.bean.extension.GWTWikiPage;
-import com.openkm.frontend.client.bean.form.GWTButton;
-import com.openkm.frontend.client.bean.form.GWTCheckBox;
-import com.openkm.frontend.client.bean.form.GWTDownload;
-import com.openkm.frontend.client.bean.form.GWTFormElement;
-import com.openkm.frontend.client.bean.form.GWTInput;
-import com.openkm.frontend.client.bean.form.GWTNode;
-import com.openkm.frontend.client.bean.form.GWTOption;
-import com.openkm.frontend.client.bean.form.GWTPrint;
-import com.openkm.frontend.client.bean.form.GWTSelect;
-import com.openkm.frontend.client.bean.form.GWTSeparator;
-import com.openkm.frontend.client.bean.form.GWTSuggestBox;
-import com.openkm.frontend.client.bean.form.GWTText;
-import com.openkm.frontend.client.bean.form.GWTTextArea;
-import com.openkm.frontend.client.bean.form.GWTUpload;
-import com.openkm.frontend.client.bean.form.GWTValidator;
+import com.openkm.dao.bean.*;
+import com.openkm.extension.dao.bean.*;
+import com.openkm.frontend.client.bean.*;
+import com.openkm.frontend.client.bean.extension.*;
+import com.openkm.frontend.client.bean.form.*;
 import com.openkm.module.db.DbPropertyGroupModule;
 import com.openkm.principal.PrincipalAdapterException;
 import com.openkm.util.WorkflowUtils.ProcessInstanceLogEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class GWTUtil {
 	private static Logger log = LoggerFactory.getLogger(GWTUtil.class);
@@ -221,7 +93,7 @@ public class GWTUtil {
 		}
 
 		// Subscriptors
-		Set<GWTUser> subscriptors = new HashSet<GWTUser>();
+		Set<GWTUser> subscriptors = new HashSet<>();
 		for (String userId : doc.getSubscriptors()) {
 			GWTUser subscriptor = new GWTUser();
 			subscriptor.setId(userId);
@@ -292,15 +164,15 @@ public class GWTUtil {
 		doc.setActualVersion(GWTUtil.copy(gWTDoc.getActualVersion()));
 		doc.setPermissions(gWTDoc.getPermissions());
 		doc.setSubscribed(gWTDoc.isSubscribed());
-		Set<String> subscriptors = new HashSet<String>();
+		Set<String> subscriptors = new HashSet<>();
 		for (GWTUser user : gWTDoc.getSubscriptors()) {
 			subscriptors.add(user.getId());
 		}
 		doc.setSubscriptors(subscriptors);
-		Set<Folder> categories = new HashSet<Folder>();
+		Set<Folder> categories = new HashSet<>();
 
-		for (Iterator<GWTFolder> it = gWTDoc.getCategories().iterator(); it.hasNext(); ) {
-			categories.add(copy(it.next()));
+		for (GWTFolder gwtFolder : gWTDoc.getCategories()) {
+			categories.add(copy(gwtFolder));
 		}
 
 		doc.setCategories(categories);
@@ -340,7 +212,7 @@ public class GWTUtil {
 		}
 
 		// Subscriptors
-		Set<GWTUser> subscriptors = new HashSet<GWTUser>();
+		Set<GWTUser> subscriptors = new HashSet<>();
 		for (String userId : fld.getSubscriptors()) {
 			GWTUser subscriptor = new GWTUser();
 			subscriptor.setId(userId);
@@ -408,7 +280,7 @@ public class GWTUtil {
 		folder.setSubscribed(fld.isSubscribed());
 
 		// Subscriptors
-		Set<String> subscriptors = new HashSet<String>();
+		Set<String> subscriptors = new HashSet<>();
 		for (GWTUser user : fld.getSubscriptors()) {
 			subscriptors.add(user.getId());
 		}
@@ -533,33 +405,30 @@ public class GWTUtil {
 	public static QueryParams copy(GWTQueryParams gWTParams) {
 		QueryParams params = new QueryParams();
 
-		params.setId(new Long(gWTParams.getId()));
+		params.setId(gWTParams.getId());
 		params.setQueryName(gWTParams.getQueryName());
 		params.setContent(gWTParams.getContent());
 		String keywords = gWTParams.getKeywords().trim();
-		Set<String> tmpKwd = new HashSet<String>();
+		Set<String> tmpKwd = new HashSet<>();
 
 		if (!keywords.equals("")) {
 			String kw[] = keywords.split(" ");
-			for (int i = 0; i < kw.length; i++) {
-				tmpKwd.add(kw[i]);
-			}
+			Collections.addAll(tmpKwd, kw);
 		}
 
 		params.setKeywords(tmpKwd);
 		params.setMimeType(gWTParams.getMimeType());
 		params.setName(gWTParams.getName());
-		Map<String, String> properties = new HashMap<String, String>();
+		Map<String, String> properties = new HashMap<>();
 
-		for (Iterator<String> it = gWTParams.getProperties().keySet().iterator(); it.hasNext(); ) {
-			String key = it.next();
+		for (String key : gWTParams.getProperties().keySet()) {
 			properties.put(key, gWTParams.getProperties().get(key).getValue());
 		}
 
 		params.setProperties(properties);
 		params.setPath(gWTParams.getPath());
 		String categories = gWTParams.getCategoryUuid().trim();
-		Set<String> tmpCat = new HashSet<String>();
+		Set<String> tmpCat = new HashSet<>();
 
 		if (!categories.equals("")) {
 			tmpCat.add(categories);
@@ -637,8 +506,8 @@ public class GWTUtil {
 		gWTParams.setContent(params.getContent());
 		String tmp = "";
 
-		for (Iterator<String> itKwd = params.getKeywords().iterator(); itKwd.hasNext(); ) {
-			tmp += itKwd.next() + " ";
+		for (String s : params.getKeywords()) {
+			tmp += s + " ";
 		}
 
 		gWTParams.setKeywords(tmp);
@@ -671,12 +540,11 @@ public class GWTUtil {
 		}
 
 		// Sets group name for each property param
-		Map<String, GWTPropertyParams> finalProperties = new HashMap<String, GWTPropertyParams>();
+		Map<String, GWTPropertyParams> finalProperties = new HashMap<>();
 		Map<String, String> properties = params.getProperties();
 		Collection<String> colKeys = properties.keySet();
 
-		for (Iterator<String> itKeys = colKeys.iterator(); itKeys.hasNext(); ) {
-			String key = itKeys.next();
+		for (String key : colKeys) {
 			boolean found = false;
 
 			// Obtain all group names
@@ -687,8 +555,7 @@ public class GWTUtil {
 
 				// Obtain all metadata values
 				Collection<FormElement> metaData = OKMPropertyGroup.getInstance().getPropertyGroupForm(null, group.getName());
-				for (Iterator<FormElement> it = metaData.iterator(); it.hasNext(); ) {
-					FormElement formElement = it.next();
+				for (FormElement formElement : metaData) {
 					if (formElement.getName().equals(key)) {
 						found = true;
 						GWTPropertyParams gWTPropertyParams = new GWTPropertyParams();
@@ -823,10 +690,9 @@ public class GWTUtil {
 		gWTProcessInstance.setId(processInstance.getId());
 		gWTProcessInstance.setProcessDefinition(copy(processInstance.getProcessDefinition()));
 		gWTProcessInstance.setSuspended(processInstance.isSuspended());
-		Map<String, Object> variables = new HashMap<String, Object>();
+		Map<String, Object> variables = new HashMap<>();
 
-		for (Iterator<String> it = processInstance.getVariables().keySet().iterator(); it.hasNext(); ) {
-			String key = it.next();
+		for (String key : processInstance.getVariables().keySet()) {
 			Object obj = processInstance.getVariables().get(key);
 
 			if (obj instanceof FormElement) {
@@ -861,17 +727,17 @@ public class GWTUtil {
 	public static GWTToken copy(Token token) throws AccessDeniedException, PathNotFoundException, RepositoryException, DatabaseException,
 			PrincipalAdapterException, IOException, ParseException, NoSuchGroupException {
 		GWTToken gWTToken = new GWTToken();
-		Collection<GWTTransition> availableTransitions = new ArrayList<GWTTransition>();
+		Collection<GWTTransition> availableTransitions = new ArrayList<>();
 
-		for (Iterator<Transition> it = token.getAvailableTransitions().iterator(); it.hasNext(); ) {
-			availableTransitions.add(copy(it.next()));
+		for (Transition transition : token.getAvailableTransitions()) {
+			availableTransitions.add(copy(transition));
 		}
 
 		gWTToken.setAvailableTransitions(availableTransitions);
-		Collection<GWTWorkflowComment> comments = new ArrayList<GWTWorkflowComment>();
+		Collection<GWTWorkflowComment> comments = new ArrayList<>();
 
-		for (Iterator<Comment> it = token.getComments().iterator(); it.hasNext(); ) {
-			comments.add(copy(it.next()));
+		for (Comment comment : token.getComments()) {
+			comments.add(copy(comment));
 		}
 
 		gWTToken.setComments(comments);
@@ -936,7 +802,7 @@ public class GWTUtil {
 	 * @return The GWTValidator object with data values from original Validator
 	 */
 	public static List<GWTValidator> copyValidators(List<Validator> validators) {
-		List<GWTValidator> gwtValidatorsList = new ArrayList<GWTValidator>();
+		List<GWTValidator> gwtValidatorsList = new ArrayList<>();
 		for (Validator validator : validators) {
 			gwtValidatorsList.add(copy(validator));
 		}
@@ -947,7 +813,7 @@ public class GWTUtil {
 	 * copyNodes
 	 */
 	public static List<GWTNode> copyNodes(List<Node> nodes) {
-		List<GWTNode> gwtNodesList = new ArrayList<GWTNode>();
+		List<GWTNode> gwtNodesList = new ArrayList<>();
 		for (Node node : nodes) {
 			gwtNodesList.add(copy(node));
 		}
@@ -1055,7 +921,7 @@ public class GWTUtil {
 			gWTselect.setType(select.getType());
 			gWTselect.setReadonly(select.isReadonly());
 
-			List<GWTOption> options = new ArrayList<GWTOption>();
+			List<GWTOption> options = new ArrayList<>();
 			for (Option option : select.getOptions()) {
 				options.add(copy(option));
 			}
@@ -1200,7 +1066,7 @@ public class GWTUtil {
 			GWTSelect gWTSelect = ((GWTSelect) formElement);
 			select.setType(gWTSelect.getType());
 			select.setReadonly(gWTSelect.isReadonly());
-			List<Option> options = new ArrayList<Option>();
+			List<Option> options = new ArrayList<>();
 
 			for (GWTOption option : gWTSelect.getOptions()) {
 				options.add(copy(option));
@@ -1266,7 +1132,7 @@ public class GWTUtil {
 			download.setHeight(gWTDownload.getHeight());
 			download.setWidth(gWTDownload.getWidth());
 			download.setData(gWTDownload.getData());
-			List<Node> nodes = new ArrayList<Node>();
+			List<Node> nodes = new ArrayList<>();
 
 			for (GWTNode gWTNode : gWTDownload.getNodes()) {
 				nodes.add(copy(gWTNode));
@@ -1281,7 +1147,7 @@ public class GWTUtil {
 			print.setHeight(gWTprint.getHeight());
 			print.setWidth(gWTprint.getWidth());
 			print.setData(gWTprint.getData());
-			List<Node> nodes = new ArrayList<Node>();
+			List<Node> nodes = new ArrayList<>();
 
 			for (GWTNode gWTNode : gWTprint.getNodes()) {
 				nodes.add(copy(gWTNode));
@@ -1326,9 +1192,7 @@ public class GWTUtil {
 		} else if (formElement instanceof GWTSelect) {
 			String value = "";
 
-			for (Iterator<GWTOption> it = ((GWTSelect) formElement).getOptions().iterator(); it.hasNext(); ) {
-				GWTOption option = it.next();
-
+			for (GWTOption option : ((GWTSelect) formElement).getOptions()) {
 				if (option.isSelected()) {
 					value += option.getLabel() + " ";
 				}
@@ -1458,11 +1322,10 @@ public class GWTUtil {
 	 * @return The GWTTaskInstanceComment object with data values from original TaskInstanceComment
 	 */
 	public static List<GWTComment> copyComments(List<Comment> list) {
-		List<GWTComment> al = new ArrayList<GWTComment>();
+		List<GWTComment> al = new ArrayList<>();
 		GWTComment gWTComment;
 
-		for (Iterator<Comment> it = list.iterator(); it.hasNext(); ) {
-			Comment comment = it.next();
+		for (Comment comment : list) {
 			gWTComment = new GWTComment();
 
 			gWTComment.setActorId(comment.getActorId());
@@ -1481,10 +1344,10 @@ public class GWTUtil {
 	 * @return The GWTNote object with data values from original Note
 	 */
 	public static List<GWTNote> copy(List<Note> commentList) throws PrincipalAdapterException {
-		List<GWTNote> gWTCommentList = new ArrayList<GWTNote>();
+		List<GWTNote> gWTCommentList = new ArrayList<>();
 
-		for (Iterator<Note> it = commentList.iterator(); it.hasNext(); ) {
-			gWTCommentList.add(copy(it.next()));
+		for (Note note : commentList) {
+			gWTCommentList.add(copy(note));
 		}
 
 		return gWTCommentList;
@@ -1787,8 +1650,8 @@ public class GWTUtil {
 		ft.setNode(topic.getNode());
 		ft.setViews(topic.getViews());
 
-		for (Iterator<ForumPost> it = topic.getPosts().iterator(); it.hasNext(); ) {
-			ft.getPosts().add(copy(it.next()));
+		for (ForumPost forumPost : topic.getPosts()) {
+			ft.getPosts().add(copy(forumPost));
 		}
 
 		return ft;
@@ -1852,8 +1715,8 @@ public class GWTUtil {
 		ft.setNode(topic.getNode());
 		ft.setViews(topic.getViews());
 
-		for (Iterator<GWTForumPost> it = topic.getPosts().iterator(); it.hasNext(); ) {
-			ft.getPosts().add(copy(it.next()));
+		for (GWTForumPost gwtForumPost : topic.getPosts()) {
+			ft.getPosts().add(copy(gwtForumPost));
 		}
 
 		return ft;
@@ -1863,8 +1726,7 @@ public class GWTUtil {
 	 * Copy ForumPost to GWTForumPost
 	 */
 	public static ForumPost copy(GWTForumPost gwtForumPost) {
-		ForumPost forumPost = MappingUtils.getMapper().map(gwtForumPost, ForumPost.class);
-		return forumPost;
+		return MappingUtils.getMapper().map(gwtForumPost, ForumPost.class);
 	}
 
 	/**
@@ -1887,7 +1749,7 @@ public class GWTUtil {
 		gWTReport.setFileName(report.getFileName());
 		gWTReport.setId(report.getId());
 		gWTReport.setName(report.getName());
-		List<GWTFormElement> gWTFormElemets = new ArrayList<GWTFormElement>();
+		List<GWTFormElement> gWTFormElemets = new ArrayList<>();
 
 		for (FormElement formElement : formElements) {
 			gWTFormElemets.add(copy(formElement));

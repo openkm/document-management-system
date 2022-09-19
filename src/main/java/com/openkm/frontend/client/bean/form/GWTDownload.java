@@ -33,8 +33,8 @@ import java.util.List;
  *
  */
 public class GWTDownload extends GWTFormElement implements IsSerializable {
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
-	private List<GWTNode> nodes = new ArrayList<GWTNode>();
+	private List<GWTValidator> validators = new ArrayList<>();
+	private List<GWTNode> nodes = new ArrayList<>();
 	private String data = "";
 
 	public GWTDownload() {

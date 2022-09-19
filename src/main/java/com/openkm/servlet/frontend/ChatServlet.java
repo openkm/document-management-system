@@ -74,7 +74,7 @@ public class ChatServlet extends OKMRemoteServiceServlet implements OKMChatServi
 
 	@Override
 	public List<GWTUser> getLoggedUsers() throws OKMException {
-		List<GWTUser> users = new ArrayList<GWTUser>();
+		List<GWTUser> users = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -111,7 +111,7 @@ public class ChatServlet extends OKMRemoteServiceServlet implements OKMChatServi
 	public List<String> getPendingMessage(String room) throws OKMException {
 		updateSessionManager();
 		String user = getThreadLocalRequest().getRemoteUser();
-		List<String> pendingMessages = new ArrayList<String>();
+		List<String> pendingMessages = new ArrayList<>();
 
 		try {
 			if (user != null) {
@@ -141,7 +141,7 @@ public class ChatServlet extends OKMRemoteServiceServlet implements OKMChatServi
 	public List<String> getPendingChatRoomUser() {
 		updateSessionManager();
 		String user = getThreadLocalRequest().getRemoteUser();
-		List<String> pendingRooms = new ArrayList<String>();
+		List<String> pendingRooms = new ArrayList<>();
 
 		if (user != null) {
 			int countCycle = 0;

@@ -41,7 +41,7 @@ public class Document implements Serializable {
 	@ElementCollection
 	@Column(name="NDK_KEYWORD")
 	@CollectionTable(name="OKM_DOCUMENT_KEYWORD", joinColumns = { @JoinColumn( name = "NDK_DOCUMENT" ) })
-	protected Set<String> keywords = new HashSet<String>();
+	protected Set<String> keywords = new HashSet<>();
 
 	public String getUuid() {
 		return uuid;

@@ -75,7 +75,7 @@ public class Tesseract2TextExtractor extends AbstractTextExtractor {
 				fos.close();
 
 				// Performs image pre-processing
-				HashMap<String, Object> hm = new HashMap<String, Object>();
+				HashMap<String, Object> hm = new HashMap<>();
 				hm.put("fileIn", tmpFileIn.getPath());
 				hm.put("fileOut", tmpFilePre.getPath());
 				String tpl = Config.SYSTEM_IMAGEMAGICK_CONVERT + " -depth 8 -monochrome ${fileIn} ${fileOut}";
@@ -83,7 +83,7 @@ public class Tesseract2TextExtractor extends AbstractTextExtractor {
 				ExecutionUtils.runCmd(cmd);
 
 				// Performs OCR
-				hm = new HashMap<String, Object>();
+				hm = new HashMap<>();
 				hm.put("fileIn", tmpFilePre.getPath());
 				hm.put("fileOut", tmpFileOut.getPath());
 				cmd = TemplateUtils.replace("SYSTEM_OCR", Config.SYSTEM_OCR, hm);

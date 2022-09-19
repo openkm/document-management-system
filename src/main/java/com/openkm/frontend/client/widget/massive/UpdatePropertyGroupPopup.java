@@ -70,7 +70,7 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 		super(false, true);
 		setText(Main.i18n("group.update.label"));
 
-		uuidList = new ArrayList<String>();
+		uuidList = new ArrayList<>();
 		vPanel = new VerticalPanel();
 		formManager = new FormManager(this);
 		formManager.setIsMassiveUpdate(this);
@@ -228,7 +228,7 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 			hide();
 		}
 	}
-	
+
 	/**
 	 * reset
 	 */
@@ -261,7 +261,7 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 	 * @return The actual form elements values
 	 */
 	public Collection<String> getFormElementsKeys() {
-		List<String> keyList = new ArrayList<String>();
+		List<String> keyList = new ArrayList<>();
 		for (GWTFormElement formElement : formManager.getFormElements()) {
 			keyList.add(formElement.getName());
 		}
@@ -298,7 +298,7 @@ public class UpdatePropertyGroupPopup extends DialogBox implements HasPropertyHa
 	@Override
 	public void metadataValueChanged() {
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		if (result) {

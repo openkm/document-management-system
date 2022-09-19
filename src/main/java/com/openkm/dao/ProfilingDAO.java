@@ -91,7 +91,7 @@ public class ProfilingDAO {
 		String qsClazzes = "select distinct prl.clazz, prl.method from Profiling prl order by prl.clazz, prl.method";
 		String qsStats = "select max(prl.time), min(prl.time), avg(prl.time), sum(prl.time), count(prl.time) "
 				+ "from Profiling prl where prl.clazz=:clazz and prl.method=:method";
-		List<ProfilingStats> ret = new ArrayList<ProfilingStats>();
+		List<ProfilingStats> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 

@@ -44,7 +44,7 @@ public class DocumentContentTokenizerSuggestion implements Suggestion {
 	public List<String> getSuggestions(String nodeUuid, String nodePath, Select sel) throws PathNotFoundException, SuggestionException,
 			DatabaseException {
 		log.debug("getSuggestions({}, {}, {})", nodeUuid, nodePath, sel);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		String textExtracted = null;
 
 		try {

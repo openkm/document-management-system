@@ -36,8 +36,8 @@ import java.util.jar.JarInputStream;
 
 public class BinaryClassLoader extends ClassLoader implements MultipleClassLoader {
 	private static Logger log = LoggerFactory.getLogger(BinaryClassLoader.class);
-	private Hashtable<String, Class<?>> classes = new Hashtable<String, Class<?>>();
-	private Hashtable<String, byte[]> resources = new Hashtable<String, byte[]>();
+	private Hashtable<String, Class<?>> classes = new Hashtable<>();
+	private Hashtable<String, byte[]> resources = new Hashtable<>();
 	private String mainClassName = null;
 
 	public BinaryClassLoader(byte[] buf) throws IOException {

@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "noteList")
 public class NoteList {
 	@XmlElement(name = "note", required = true)
-	List<Note> notes = new ArrayList<Note>();
+	List<Note> notes = new ArrayList<>();
 
 	public List<Note> getList() {
 		return notes;

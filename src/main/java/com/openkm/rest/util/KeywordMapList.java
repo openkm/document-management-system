@@ -29,7 +29,7 @@ import java.util.List;
 @XmlRootElement(name = "keywordMaps")
 public class KeywordMapList {
 	@XmlElement(name = "keywordMap", required = true)
-	List<KeywordMap> keywordMaps = new ArrayList<KeywordMap>();
+	List<KeywordMap> keywordMaps = new ArrayList<>();
 
 	public List<KeywordMap> getList() {
 		return keywordMaps;

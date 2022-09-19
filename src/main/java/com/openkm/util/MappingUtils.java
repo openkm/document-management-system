@@ -38,7 +38,7 @@ public class MappingUtils {
 	 * Initialize collection
 	 */
 	public static <E> List<E> map(List<E> input) {
-		List<E> ret = new ArrayList<E>();
+		List<E> ret = new ArrayList<>();
 
 		for (E tmp : input) {
 			ret.add(tmp);
@@ -51,7 +51,7 @@ public class MappingUtils {
 	 * Initialize set
 	 */
 	public static <E> Set<E> map(Set<E> input) {
-		Set<E> ret = new HashSet<E>();
+		Set<E> ret = new HashSet<>();
 
 		for (E tmp : input) {
 			ret.add(tmp);
@@ -64,7 +64,7 @@ public class MappingUtils {
 	 * Initialize map
 	 */
 	public static <K, V> Map<K, V> map(Map<K, V> input) {
-		Map<K, V> ret = new HashMap<K, V>();
+		Map<K, V> ret = new HashMap<>();
 
 		for (Entry<K, V> tmp : input.entrySet()) {
 			ret.put(tmp.getKey(), tmp.getValue());

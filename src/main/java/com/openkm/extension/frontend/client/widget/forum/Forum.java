@@ -41,7 +41,6 @@ import java.util.List;
  *
  */
 public class Forum implements LanguageHandlerExtension {
-
 	public static final int TAB_DOCUMENT = 0;
 	public static final int TAB_FOLDER = 1;
 	public static final int TAB_MAIL = 2;
@@ -58,8 +57,6 @@ public class Forum implements LanguageHandlerExtension {
 
 	/**
 	 * Forum
-	 *
-	 * @param uuidList
 	 */
 	public Forum(List<String> uuidList) {
 		if (isRegistered(uuidList)) {
@@ -80,11 +77,9 @@ public class Forum implements LanguageHandlerExtension {
 
 	/**
 	 * getExtensions
-	 *
-	 * @return
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(tabDocumentForum);
 		extensions.add(tabFolderForum);
@@ -96,8 +91,6 @@ public class Forum implements LanguageHandlerExtension {
 
 	/**
 	 * get
-	 *
-	 * @return
 	 */
 	public static Forum get() {
 		return singleton;
@@ -105,8 +98,6 @@ public class Forum implements LanguageHandlerExtension {
 
 	/**
 	 * getUuid
-	 *
-	 * @return
 	 */
 	public String getUuid() {
 		switch (selectedPanel) {
@@ -164,9 +155,11 @@ public class Forum implements LanguageHandlerExtension {
 				case TAB_DOCUMENT:
 					widget = tabDocumentForum;
 					break;
+
 				case TAB_FOLDER:
 					widget = tabFolderForum;
 					break;
+
 				case TAB_MAIL:
 					widget = tabMailForum;
 					break;
@@ -180,9 +173,6 @@ public class Forum implements LanguageHandlerExtension {
 
 	/**
 	 * isRegistered
-	 *
-	 * @param uuidList
-	 * @return
 	 */
 	public static boolean isRegistered(List<String> uuidList) {
 		return uuidList.contains(UUID);

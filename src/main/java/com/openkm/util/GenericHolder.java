@@ -22,7 +22,7 @@
 package com.openkm.util;
 
 public class GenericHolder {
-	private static final ThreadLocal<Object> tl = new ThreadLocal<Object>();
+	private static final ThreadLocal<Object> tl = new ThreadLocal<>();
 
 	public static void set(Object obj) {
 		tl.set(obj);

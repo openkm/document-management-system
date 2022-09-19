@@ -39,7 +39,7 @@ public class GWTInput extends GWTFormElement implements IsSerializable {
 	public static final String TYPE_DATE = "date";
 	public static final String TYPE_LINK = "link";
 	public static final String TYPE_FOLDER = "folder";
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private String type = TYPE_TEXT;
 	private String value = "";
 	private Date date;

@@ -53,9 +53,9 @@ public class ExtendedColumnSorter extends ColumnSorter {
 		int rows = MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.getDataTable().getRowCount();
 		int columns = MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.getDataTable().getColumnCount();
 		int selectedRow = MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.getSelectedRow();
-		Map<Integer, Object> data = new HashMap<Integer, Object>(MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.data);
+		Map<Integer, Object> data = new HashMap<>(MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.data);
 
-		List<String[]> elementList = new ArrayList<String[]>();                    // List with all data
+		List<String[]> elementList = new ArrayList<>();                    // List with all data
 		List<GWTObjectToOrder> elementToOrder = new ArrayList<GWTObjectToOrder>();    // List with column data, and actual position
 
 		// Gets the data values and set on a list of String arrays ( element by column )
@@ -141,15 +141,14 @@ public class ExtendedColumnSorter extends ColumnSorter {
 		}
 
 		// Data map
-		Map<Integer, Object> data = new HashMap<Integer, Object>(MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.data);
+		Map<Integer, Object> data = new HashMap<>(MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.data);
 		MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.reset();
 
 		int column = 0;
-		for (Iterator<GWTObjectToOrder> it = elementToOrder.iterator(); it.hasNext(); ) {
-			GWTObjectToOrder orderedColumn = it.next();
+		for (GWTObjectToOrder orderedColumn : elementToOrder) {
 			String[] row = elementList.get(Integer.parseInt(orderedColumn.getDataId()));
 
-			MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.addRow((Object) data.get(Integer.parseInt(row[5])));
+			MessagingToolBarBox.get().messageDashboard.messageBrowser.message.table.addRow(data.get(Integer.parseInt(row[5])));
 
 			// Sets selectedRow
 			if (!selectedRowDataID.equals("") && selectedRowDataID.equals(row[5])) {

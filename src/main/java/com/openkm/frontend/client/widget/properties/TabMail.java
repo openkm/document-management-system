@@ -47,7 +47,6 @@ import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
 import com.openkm.frontend.client.util.Util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -88,21 +87,21 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 	 * The Document tab
 	 */
 	public TabMail() {
-		widgetExtensionList = new ArrayList<TabMailExtension>();
-		mailHandlerExtensionList = new ArrayList<MailHandlerExtension>();
-		propertyGroupHandlerExtensionList = new ArrayList<PropertyGroupHandlerExtension>();
+		widgetExtensionList = new ArrayList<>();
+		mailHandlerExtensionList = new ArrayList<>();
+		propertyGroupHandlerExtensionList = new ArrayList<>();
 		tabPanel = new TabLayoutPanel(TAB_HEIGHT, Unit.PX);
 		mail = new Mail();
 		notes = new Notes(Notes.MAIL_NOTE);
 		mailViewer = new MailViewer();
 		security = new SecurityScrollTable();
 		panel = new VerticalPanel();
-		propertyGroup = new ArrayList<PropertyGroup>();
+		propertyGroup = new ArrayList<>();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-				int tabIndex = event.getSelectedItem().intValue();
+				int tabIndex = event.getSelectedItem();
 				Main.get().mainPanel.topPanel.toolBar.evaluateRemovePropertyGroup(isRemovePropertyGroupEnabled(tabIndex));
 				selectedTab = tabIndex;
 
@@ -148,13 +147,12 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 		security.fillWidth();
 
 		// Setting size to extension
-		for (Iterator<TabMailExtension> it = widgetExtensionList.iterator(); it.hasNext(); ) {
-			it.next().setPixelSize(width, height - TAB_HEIGHT);
+		for (TabMailExtension tabMailExtension : widgetExtensionList) {
+			tabMailExtension.setPixelSize(width, height - TAB_HEIGHT);
 		}
 
-		if (!propertyGroup.isEmpty()) { // Sets size to propety groups
-			for (Iterator<PropertyGroup> it = propertyGroup.iterator(); it.hasNext(); ) {
-				PropertyGroup group = it.next();
+		if (!propertyGroup.isEmpty()) { // Sets size to property groups
+			for (PropertyGroup group : propertyGroup) {
 				group.setPixelSize(width, height - TAB_HEIGHT);
 			}
 		}
@@ -193,8 +191,8 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 		}
 
 		if (!propertyGroup.isEmpty()) {
-			for (Iterator<PropertyGroup> it = propertyGroup.iterator(); it.hasNext(); ) {
-				tabPanel.remove(it.next());
+			for (PropertyGroup group : propertyGroup) {
+				tabPanel.remove(group);
 			}
 			propertyGroup.clear();
 		}
@@ -206,8 +204,8 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 		}
 
 		// Setting folder object to extensions
-		for (Iterator<TabMailExtension> it = widgetExtensionList.iterator(); it.hasNext(); ) {
-			it.next().set(gWTMail);
+		for (TabMailExtension tabMailExtension : widgetExtensionList) {
+			tabMailExtension.set(gWTMail);
 		}
 
 		// TODO:Solves minor bug with IE ( now shows contents )
@@ -296,15 +294,13 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 		}
 
 		// Adding extensions
-		for (Iterator<TabMailExtension> it = widgetExtensionList.iterator(); it.hasNext(); ) {
-			TabMailExtension extension = it.next();
+		for (TabMailExtension extension : widgetExtensionList) {
 			tabPanel.add(extension, extension.getTabText());
 		}
 
 		// Refresh lang property group
 		if (!propertyGroup.isEmpty()) {
-			for (Iterator<PropertyGroup> it = propertyGroup.iterator(); it.hasNext(); ) {
-				PropertyGroup group = it.next();
+			for (PropertyGroup group : propertyGroup) {
 				tabPanel.add(group, group.getGrpLabel());
 				group.langRefresh();
 			}
@@ -341,8 +337,8 @@ public class TabMail extends Composite implements HasMailEvent, HasMailHandlerEx
 				propertyGroup.add(group);
 
 				// Adds property group handlers
-				for (Iterator<PropertyGroupHandlerExtension> itx = propertyGroupHandlerExtensionList.iterator(); itx.hasNext(); ) {
-					group.addPropertyGroupHandlerExtension(itx.next());
+				for (PropertyGroupHandlerExtension propertyGroupHandlerExtension : propertyGroupHandlerExtensionList) {
+					group.addPropertyGroupHandlerExtension(propertyGroupHandlerExtension);
 				}
 
 				// has update property group

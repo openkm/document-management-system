@@ -309,7 +309,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		String pathErrors = "";
 
 		// Properties conversion to be added
-		List<FormElement> properties = new ArrayList<FormElement>();
+		List<FormElement> properties = new ArrayList<>();
 		for (GWTFormElement gWTformElement : formProperties) {
 			properties.add(GWTUtil.copy(gWTformElement));
 		}
@@ -389,8 +389,8 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		updateSessionManager();
 
 		try {
-			List<String> userNames = new ArrayList<String>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
-			List<String> roleNames = new ArrayList<String>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
+			List<String> userNames = new ArrayList<>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
+			List<String> roleNames = new ArrayList<>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
 
 			for (String role : roleNames) {
 				List<String> usersInRole = OKMAuth.getInstance().getUsersByRole(null, role);
@@ -439,9 +439,9 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		updateSessionManager();
 
 		try {
-			List<String> userNames = new ArrayList<String>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
-			List<String> roleNames = new ArrayList<String>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
-			List<String> to = new ArrayList<String>(MailUtils.parseMailList(mails));
+			List<String> userNames = new ArrayList<>(Arrays.asList(users.isEmpty() ? new String[0] : users.split(",")));
+			List<String> roleNames = new ArrayList<>(Arrays.asList(roles.isEmpty() ? new String[0] : roles.split(",")));
+			List<String> to = new ArrayList<>(MailUtils.parseMailList(mails));
 
 			for (String role : roleNames) {
 				List<String> usersInRole = OKMAuth.getInstance().getUsersByRole(null, role);
@@ -498,7 +498,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 	@Override
 	public void setMixedProperties(List<String> uuidList, List<GWTFormElement> formProperties, boolean recursive) throws OKMException {
 		log.debug("setMixedProperties({}, {}, {})", uuidList, formProperties, recursive);
-		Map<String, List<FormElement>> groupElements = new HashMap<String, List<FormElement>>();
+		Map<String, List<FormElement>> groupElements = new HashMap<>();
 		updateSessionManager();
 		String error = "";
 		String pathErrors = "";
@@ -506,7 +506,7 @@ public class MassiveServlet extends OKMRemoteServiceServlet implements OKMMassiv
 		// Prepare data
 		try {
 			for (Entry<PropertyGroup, List<FormElement>> entry : FormUtils.parsePropertyGroupsForms(Config.PROPERTY_GROUPS_XML).entrySet()) {
-				List<FormElement> grpEltos = new ArrayList<FormElement>();
+				List<FormElement> grpEltos = new ArrayList<>();
 
 				for (FormElement fe : entry.getValue()) {
 					for (GWTFormElement gwtFe : formProperties) {

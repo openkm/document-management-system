@@ -37,9 +37,9 @@ public class ProfileMisc implements Serializable {
 	private boolean acrobatPluginPreview;
 	private boolean increaseVersion;
 	private String sentMailStorage;
-	private Set<String> extensions = new HashSet<String>();
-	private Set<Long> reports = new HashSet<Long>();
-	private Set<String> workflows = new HashSet<String>();
+	private Set<String> extensions = new HashSet<>();
+	private Set<Long> reports = new HashSet<>();
+	private Set<String> workflows = new HashSet<>();
 
 	public boolean isAdvancedFilters() {
 		return advancedFilters;

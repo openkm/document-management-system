@@ -40,7 +40,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getUsers() throws PrincipalAdapterException {
 		log.debug("getUsers()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		try {
 			List<User> col = AuthDAO.findAllUsers(Config.PRINCIPAL_DATABASE_FILTER_INACTIVE_USERS);
@@ -59,7 +59,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getRoles() throws PrincipalAdapterException {
 		log.debug("getRoles()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		try {
 			List<Role> col = AuthDAO.findAllRoles();
@@ -78,7 +78,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getUsersByRole(String role) throws PrincipalAdapterException {
 		log.debug("getUsersByRole({})", role);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		try {
 			List<User> col = AuthDAO.findUsersByRole(role, true);
@@ -97,7 +97,7 @@ public class DatabasePrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getRolesByUser(String user) throws PrincipalAdapterException {
 		log.debug("getRolesByUser({})", user);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		try {
 			List<Role> col = AuthDAO.findRolesByUser(user, true);

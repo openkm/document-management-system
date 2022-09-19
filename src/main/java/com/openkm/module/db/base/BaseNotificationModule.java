@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class BaseNotificationModule {
@@ -49,8 +48,8 @@ public class BaseNotificationModule {
 	 */
 	public static void checkSubscriptions(NodeBase node, String user, String eventType, String comment) {
 		log.debug("checkSubscriptions({}, {}, {}, {})", node, user, eventType, comment);
-		Set<String> users = new HashSet<String>();
-		Set<String> mails = new HashSet<String>();
+		Set<String> users = new HashSet<>();
+		Set<String> mails = new HashSet<>();
 
 		try {
 			for (String usr : checkSubscriptionsHelper(node.getUuid())) {
@@ -111,9 +110,7 @@ public class BaseNotificationModule {
 		if (!Config.ROOT_NODE_UUID.equals(parentUuid)) {
 			Set<String> tmp = checkSubscriptionsHelper(parentUuid);
 
-			for (Iterator<String> it = tmp.iterator(); it.hasNext(); ) {
-				String usr = it.next();
-
+			for (String usr : tmp) {
 				if (!subscriptors.contains(usr)) {
 					subscriptors.add(usr);
 				}

@@ -24,7 +24,6 @@ package com.openkm.bean.kea;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -51,7 +50,7 @@ public class MetadataDTO implements Serializable {
 	 * MetadataDTO
 	 */
 	public MetadataDTO() {
-		subjects = new ArrayList<String>();
+		subjects = new ArrayList<>();
 	}
 
 	public String getCreator() {
@@ -67,10 +66,9 @@ public class MetadataDTO implements Serializable {
 	}
 
 	public List<Term> getSubjectsAsTerms() {
-		List<Term> terms = new ArrayList<Term>();
-		Iterator<String> iter = subjects.iterator();
-		while (iter.hasNext()) {
-			terms.add(new Term("", iter.next()));
+		List<Term> terms = new ArrayList<>();
+		for (String subject : subjects) {
+			terms.add(new Term("", subject));
 		}
 		return terms;
 	}

@@ -62,7 +62,8 @@ public class TestServlet extends OKMRemoteServiceServlet implements OKMTestServi
 	public List<GWTFolder> folderText(int size) {
 		log.debug("folderText({})", size);
 		updateSessionManager();
-		List<GWTFolder> folderList = new ArrayList<GWTFolder>();
+		List<GWTFolder> folderList = new ArrayList<>();
+
 		for (int i = 0; i < size; i++) {
 			GWTFolder folder = new GWTFolder();
 			folder.setPath("some path");
@@ -84,7 +85,8 @@ public class TestServlet extends OKMRemoteServiceServlet implements OKMTestServi
 	public List<GWTDocument> documentText(int size) {
 		log.debug("documentText({})", size);
 		updateSessionManager();
-		List<GWTDocument> documentList = new ArrayList<GWTDocument>();
+		List<GWTDocument> documentList = new ArrayList<>();
+
 		for (int i = 0; i < size; i++) {
 			GWTDocument doc = new GWTDocument();
 			doc.setPath("some path");
@@ -112,7 +114,7 @@ public class TestServlet extends OKMRemoteServiceServlet implements OKMTestServi
 	@Override
 	public void RPCTimeout(int seconds) {
 		try {
-			Thread.sleep(1000 * seconds);
+			Thread.sleep(1000L * seconds);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

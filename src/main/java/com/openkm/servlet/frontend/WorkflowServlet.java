@@ -43,7 +43,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Servlet Class
@@ -55,7 +58,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public List<GWTProcessDefinition> findLatestProcessDefinitions() throws OKMException {
 		log.debug("findLatestProcessDefinitions()");
-		List<GWTProcessDefinition> processDefinitionList = new ArrayList<GWTProcessDefinition>();
+		List<GWTProcessDefinition> processDefinitionList = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -86,7 +89,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 		updateSessionManager();
 
 		try {
-			List<FormElement> formElementList = new ArrayList<FormElement>();
+			List<FormElement> formElementList = new ArrayList<>();
 
 			for (GWTFormElement formElement : formElements) {
 				formElementList.add(GWTUtil.copy(formElement));
@@ -114,7 +117,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public List<GWTTaskInstance> findUserTaskInstances() throws OKMException {
 		log.debug("findUserTaskInstances()");
-		List<GWTTaskInstance> taskInstances = new ArrayList<GWTTaskInstance>();
+		List<GWTTaskInstance> taskInstances = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -145,7 +148,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public List<GWTTaskInstance> findPooledTaskInstances() throws OKMException {
 		log.debug("findPooledTaskInstances()");
-		List<GWTTaskInstance> taskInstances = new ArrayList<GWTTaskInstance>();
+		List<GWTTaskInstance> taskInstances = new ArrayList<>();
 		updateSessionManager();
 
 		try {
@@ -173,16 +176,15 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public Map<String, List<GWTFormElement>> getProcessDefinitionForms(double id) throws OKMException {
 		log.debug("getProcessDefinitionForms()");
-		Map<String, List<GWTFormElement>> formElementList = new HashMap<String, List<GWTFormElement>>();
+		Map<String, List<GWTFormElement>> formElementList = new HashMap<>();
 		updateSessionManager();
 
 		try {
 			Map<String, List<FormElement>> list = OKMWorkflow.getInstance().getProcessDefinitionForms(null, new Double(id).longValue());
 
-			for (Iterator<String> it = list.keySet().iterator(); it.hasNext(); ) {
-				String key = it.next();
+			for (String key : list.keySet()) {
 				List<FormElement> col = list.get(key);
-				List<GWTFormElement> gwtCol = new ArrayList<GWTFormElement>();
+				List<GWTFormElement> gwtCol = new ArrayList<>();
 
 				for (FormElement formElement : col) {
 					gwtCol.add(GWTUtil.copy(formElement));
@@ -214,17 +216,16 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public Map<String, List<GWTFormElement>> getProcessDefinitionFormsByName(String name) throws OKMException {
 		log.debug("getProcessDefinitionFormsByName()");
-		Map<String, List<GWTFormElement>> formElementList = new HashMap<String, List<GWTFormElement>>();
+		Map<String, List<GWTFormElement>> formElementList = new HashMap<>();
 		updateSessionManager();
 
 		try {
 			ProcessDefinition pd = OKMWorkflow.getInstance().findLastProcessDefinition(null, name);
 			Map<String, List<FormElement>> list = OKMWorkflow.getInstance().getProcessDefinitionForms(null, pd.getId());
 
-			for (Iterator<String> it = list.keySet().iterator(); it.hasNext(); ) {
-				String key = it.next();
+			for (String key : list.keySet()) {
 				List<FormElement> col = list.get(key);
-				List<GWTFormElement> gwtCol = new ArrayList<GWTFormElement>();
+				List<GWTFormElement> gwtCol = new ArrayList<>();
 
 				for (FormElement formElement : col) {
 					gwtCol.add(GWTUtil.copy(formElement));
@@ -259,7 +260,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 		updateSessionManager();
 
 		try {
-			List<FormElement> formElementList = new ArrayList<FormElement>();
+			List<FormElement> formElementList = new ArrayList<>();
 
 			for (GWTFormElement formElement : formElements) {
 				formElementList.add(GWTUtil.copy(formElement));
@@ -364,7 +365,8 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 	@Override
 	public List<GWTProcessInstance> findProcessInstancesByNode(String uuid) throws OKMException {
 		log.debug("findProcessInstancesByNode({})", uuid);
-		List<GWTProcessInstance> processInstanceList = new ArrayList<GWTProcessInstance>();
+		List<GWTProcessInstance> processInstanceList = new ArrayList<>();
+
 		try {
 			for (ProcessInstance processInstance : WorkflowUtils.findProcessInstancesByNode(uuid)) {
 				processInstanceList.add(GWTUtil.copy(processInstance));
@@ -404,7 +406,7 @@ public class WorkflowServlet extends OKMRemoteServiceServlet implements OKMWorkf
 
 	@Override
 	public List<GWTProcessInstanceLogEntry> findLogsByProcessInstance(int processInstanceId) throws OKMException {
-		List<GWTProcessInstanceLogEntry> instanceLogEntryList = new ArrayList<GWTProcessInstanceLogEntry>();
+		List<GWTProcessInstanceLogEntry> instanceLogEntryList = new ArrayList<>();
 		try {
 			for (ProcessInstanceLogEntry instanceLogEntry : WorkflowUtils.findLogsByProcessInstance(processInstanceId)) {
 				instanceLogEntryList.add(GWTUtil.copy(instanceLogEntry));

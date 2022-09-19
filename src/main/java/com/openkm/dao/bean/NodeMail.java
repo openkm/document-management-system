@@ -53,28 +53,28 @@ public class NodeMail extends NodeBase {
 	@CollectionTable(name = "OKM_NODE_MAIL_REPLY", joinColumns = {@JoinColumn(name = "NMT_NODE")})
 	@Field(index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	private Set<String> reply = new HashSet<String>();
+	private Set<String> reply = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NML_TO")
 	@CollectionTable(name = "OKM_NODE_MAIL_TO", joinColumns = {@JoinColumn(name = "NMT_NODE")})
 	@Field(index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	private Set<String> to = new HashSet<String>();
+	private Set<String> to = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NML_CC")
 	@CollectionTable(name = "OKM_NODE_MAIL_CC", joinColumns = {@JoinColumn(name = "NMC_NODE")})
 	@Field(index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	private Set<String> cc = new HashSet<String>();
+	private Set<String> cc = new HashSet<>();
 
 	@ElementCollection
 	@Column(name = "NML_BCC")
 	@CollectionTable(name = "OKM_NODE_MAIL_BCC", joinColumns = {@JoinColumn(name = "NMB_NODE")})
 	@Field(index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	private Set<String> bcc = new HashSet<String>();
+	private Set<String> bcc = new HashSet<>();
 
 	@Column(name = "NML_SENT_DATE")
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)

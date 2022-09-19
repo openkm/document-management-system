@@ -145,8 +145,8 @@ public class ResourceUtils {
 		//}
 
 		//catChilds.addAll(fldChilds);
-		List<Document> docChilds = new ArrayList<Document>();
-		List<Mail> mailChilds = new ArrayList<Mail>();
+		List<Document> docChilds = new ArrayList<>();
+		List<Mail> mailChilds = new ArrayList<>();
 		Resource catResource = new CategoryResource(path, cat, catChilds, docChilds, mailChilds);
 
 		SystemProfiling.log(null, System.currentTimeMillis() - begin);

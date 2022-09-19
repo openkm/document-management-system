@@ -59,7 +59,7 @@ public class UserMailImporter extends TimerTask {
 			log.warn("*** User mail importer already running ***");
 		} else {
 			running = true;
-			exceptionMessages = new ArrayList<String>();
+			exceptionMessages = new ArrayList<>();
 			log.info("*** User mail importer activated ***");
 
 			try {

@@ -57,7 +57,7 @@ public class SystemAuthentication implements Authentication {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new HashSet<GrantedAuthority>();
+		return new HashSet<>();
 	}
 
 	@Override

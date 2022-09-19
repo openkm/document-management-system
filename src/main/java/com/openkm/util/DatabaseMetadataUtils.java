@@ -174,7 +174,7 @@ public class DatabaseMetadataUtils {
 	 */
 	public static Map<String, String> getDatabaseMetadataValueMap(DatabaseMetadataValue value) throws DatabaseException,
 			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		List<DatabaseMetadataType> types = DatabaseMetadataDAO.findAllTypes(value.getTable());
 
 		for (DatabaseMetadataType emt : types) {

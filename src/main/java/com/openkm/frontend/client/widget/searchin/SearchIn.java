@@ -170,7 +170,7 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	 * @return The actual form elements values
 	 */
 	public Collection<String> getFormElementsKeys() {
-		List<String> keyList = new ArrayList<String>();
+		List<String> keyList = new ArrayList<>();
 		for (GWTFormElement formElement : searchMetadata.getFormElements()) {
 			keyList.add(formElement.getName());
 		}
@@ -180,7 +180,7 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 	@Override
 	public void propertyRemoved() {
 		searchControl.evaluateSearchButtonVisible();
-		searchMetadata.groupPopup.enableAddGroupButton(); // Enables or disables button ( depends exist some item on list to be added )
+		searchMetadata.groupPopup.enableAddGroupButton();
 	}
 
 	@Override
@@ -254,17 +254,9 @@ public class SearchIn extends Composite implements HasPropertyHandler {
 		}
 
 		// Document type
-		if ((gWTParams.getDomain() & GWTQueryParams.DOCUMENT) != 0) {
-			searchAdvanced.typeDocument.setValue(true);
-		} else {
-			searchAdvanced.typeDocument.setValue(false);
-		}
+		searchAdvanced.typeDocument.setValue((gWTParams.getDomain() & GWTQueryParams.DOCUMENT) != 0);
 
-		if ((gWTParams.getDomain() & GWTQueryParams.FOLDER) != 0) {
-			searchAdvanced.typeFolder.setValue(true);
-		} else {
-			searchAdvanced.typeFolder.setValue(false);
-		}
+		searchAdvanced.typeFolder.setValue((gWTParams.getDomain() & GWTQueryParams.FOLDER) != 0);
 
 		if ((gWTParams.getDomain() & GWTQueryParams.MAIL) != 0) {
 			searchAdvanced.typeMail.setValue(true);

@@ -41,10 +41,10 @@ public class Node implements Serializable {
 	protected int permissions;
 	protected String uuid;
 	protected boolean subscribed;
-	protected Set<String> subscriptors = new HashSet<String>();
-	protected Set<String> keywords = new HashSet<String>();
-	protected Set<Folder> categories = new HashSet<Folder>();
-	protected List<Note> notes = new ArrayList<Note>();
+	protected Set<String> subscriptors = new HashSet<>();
+	protected Set<String> keywords = new HashSet<>();
+	protected Set<Folder> categories = new HashSet<>();
+	protected List<Note> notes = new ArrayList<>();
 
 	public Calendar getCreated() {
 		return created;

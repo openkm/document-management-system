@@ -123,10 +123,10 @@ public class FancyFileUpload extends Composite implements NotifyHandler, HasText
 	private boolean wizard = false;
 	private int action = UIFileUploadConstants.ACTION_NONE;
 	private FileUploadForm uploadForm;
-	private List<FileToUpload> filesToUpload = new ArrayList<FileToUpload>();
-	private List<FileToUpload> pendingFileToUpload = new ArrayList<FileToUpload>();
+	private List<FileToUpload> filesToUpload = new ArrayList<>();
+	private List<FileToUpload> pendingFileToUpload = new ArrayList<>();
 	private FileToUpload actualFileToUpload;
-	private List<FileToUpload> uploadedWorkflowFiles = new ArrayList<FileToUpload>();
+	private List<FileToUpload> uploadedWorkflowFiles = new ArrayList<>();
 	private DisclosurePanel diclousureFilesPanel;
 	private VerticalPanel pendingFilePanel;
 
@@ -215,8 +215,7 @@ public class FancyFileUpload extends Composite implements NotifyHandler, HasText
 			finalFormater = new TextFormatter() {
 				@Override
 				protected String getText(ProgressBar bar, double curProgress) {
-					String text = " " + (int) (100 * progressBar.getPercent()) + "% ";
-					return text;
+					return " " + (int) (100 * progressBar.getPercent()) + "% ";
 				}
 			};
 
@@ -1051,7 +1050,7 @@ public class FancyFileUpload extends Composite implements NotifyHandler, HasText
 	 * executeWorkflow
 	 */
 	private void executeWorkflow(double taskId) {
-		List<FileToUpload> uploadedFiles = new ArrayList<FileToUpload>();
+		List<FileToUpload> uploadedFiles = new ArrayList<>();
 
 		for (FileToUpload uploaded : uploadedWorkflowFiles) {
 			if (uploaded.getWorkflowTaskId() == taskId) {

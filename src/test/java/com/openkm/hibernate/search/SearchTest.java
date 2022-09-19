@@ -39,7 +39,6 @@ import org.hibernate.search.Search;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
 import java.util.UUID;
 
 public class SearchTest extends TestCase {
@@ -148,8 +147,7 @@ public class SearchTest extends TestCase {
 			FullTextQuery ftq = ftSession.createFullTextQuery(query, Document.class);
 			assertEquals(1, ftq.list().size());
 
-			for (Iterator<Document> it = ftq.list().iterator(); it.hasNext(); ) {
-				Document doc = it.next();
+			for (Document doc : (Iterable<Document>) ftq.list()) {
 				log.info("Results: {}", doc);
 			}
 
@@ -158,8 +156,7 @@ public class SearchTest extends TestCase {
 			ftq = ftSession.createFullTextQuery(query, Document.class);
 			assertEquals(1, ftq.list().size());
 
-			for (Iterator<Document> it = ftq.list().iterator(); it.hasNext(); ) {
-				Document doc = it.next();
+			for (Document doc : (Iterable<Document>) ftq.list()) {
 				log.info("Results: {}", doc);
 			}
 

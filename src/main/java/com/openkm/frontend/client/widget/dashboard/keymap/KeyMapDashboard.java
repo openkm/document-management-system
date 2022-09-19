@@ -38,7 +38,10 @@ import com.openkm.frontend.client.widget.dashboard.AnchorExtended;
 import com.openkm.frontend.client.widget.dashboard.ControlSearchIn;
 import com.openkm.frontend.client.widget.dashboard.ImageHover;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * KeyMapDashboard
@@ -106,9 +109,9 @@ public class KeyMapDashboard extends Composite {
 		keyTopTable = new KeywordWidget(Main.i18n("dashboard.keyword.top"));
 		keyRelatedTable = new KeywordWidget(Main.i18n("dashboard.keyword.related"));
 
-		allKeywordList = new ArrayList<GWTKeyword>();
-		relatedKeywordList = new ArrayList<GWTKeyword>();
-		rateMap = new HashMap<String, String>();
+		allKeywordList = new ArrayList<>();
+		relatedKeywordList = new ArrayList<>();
+		rateMap = new HashMap<>();
 		HTML space = new HTML("&nbsp;");
 		flowPanelDivisor = new HTML("&nbsp;");
 
@@ -134,9 +137,9 @@ public class KeyMapDashboard extends Composite {
 		vPanel = new VerticalPanel();
 		controlPanel = new HorizontalPanel();
 		paginationPanel = new HorizontalPanel();
-		selectedKeyMap = new HashMap<String, Widget>();
+		selectedKeyMap = new HashMap<>();
 		multiWordSuggestKey = new MultiWordSuggestOracle();
-		keywordList = new ArrayList<String>();
+		keywordList = new ArrayList<>();
 		suggestKey = new SuggestBox(multiWordSuggestKey);
 		suggestKey.setHeight("20px");
 		suggestKey.setText(Main.i18n("dashboard.keyword.suggest"));
@@ -239,9 +242,9 @@ public class KeyMapDashboard extends Composite {
 				if (selectedKeyMap.keySet().size() > 0) {
 					// Resets keywordPanel
 					for (String key : selectedKeyMap.keySet()) {
-						selectedKeyPanel.remove((Widget) selectedKeyMap.get(key));
+						selectedKeyPanel.remove(selectedKeyMap.get(key));
 					}
-					selectedKeyMap = new HashMap<String, Widget>();
+					selectedKeyMap = new HashMap<>();
 					keyAllTable.unselectAllRows();
 					keyTopTable.unselectAllRows();
 					keyRelatedTable.unselectAllRows();
@@ -441,17 +444,19 @@ public class KeyMapDashboard extends Composite {
 	 */
 	final AsyncCallback<List<GWTKeyword>> callbackGetKeywordMap = new AsyncCallback<List<GWTKeyword>>() {
 		public void onSuccess(List<GWTKeyword> result) {
-			List<GWTKeyword> top10List = new ArrayList<GWTKeyword>();
+			List<GWTKeyword> top10List = new ArrayList<>();
 			multiWordSuggestKey.clear();
-			keywordList = new ArrayList<String>();
+			keywordList = new ArrayList<>();
 			keyAllTable.reset();
 			allKeywordList.clear();
 			rateMap.clear();
+
 			for (GWTKeyword keyword : result) {
 				allKeywordList.add(keyword);
 				rateMap.put(keyword.getKeyword(), "" + keyword.getFrequency());
 				multiWordSuggestKey.add(keyword.getKeyword());
 				keywordList.add(keyword.getKeyword());
+
 				if (dashboardVisible) {
 					keyAllTable.add(keyword);
 					if (keyword.isTop10()) {
@@ -513,11 +518,12 @@ public class KeyMapDashboard extends Composite {
 				keyRelatedTable.reset();
 				keyRelatedTable.setVisible(result.size() > 0); // Show or hide table if has values
 				relatedKeywordList.clear();
-				for (Iterator<GWTKeyword> it = result.iterator(); it.hasNext(); ) {
-					GWTKeyword keyword = it.next();
+
+				for (GWTKeyword keyword : result) {
 					keyRelatedTable.add(keyword);
 					relatedKeywordList.add(keyword);
 				}
+
 				keyRelatedTable.unsetRefreshing();
 				drawTagCloud(); // Draws tag cloud
 			}
@@ -562,7 +568,7 @@ public class KeyMapDashboard extends Composite {
 			keyAllTable.setRefreshing();
 			keyTopTable.setRefreshing();
 		}
-		searchService.getKeywordMap(new ArrayList<String>(), callbackGetKeywordMap);
+		searchService.getKeywordMap(new ArrayList<>(), callbackGetKeywordMap);
 	}
 
 	/**
@@ -585,9 +591,6 @@ public class KeyMapDashboard extends Composite {
 
 	/**
 	 * Fins paginated setting the offset and limit
-	 *
-	 * @param offset The offset
-	 * @param limit The limit
 	 */
 	public void findPaginated(int offset, int limit) {
 		this.offset = offset;
@@ -599,6 +602,7 @@ public class KeyMapDashboard extends Composite {
 		GWTQueryParams params = new GWTQueryParams();
 		params.setKeywords(getWordsToFilter());
 		params.setDomain(GWTQueryParams.DOCUMENT | GWTQueryParams.FOLDER | GWTQueryParams.MAIL); // Only make searches
+
 		// for documents
 		limit = Integer.parseInt(resultPage.getItemText(resultPage.getSelectedIndex()));
 
@@ -650,7 +654,7 @@ public class KeyMapDashboard extends Composite {
 	 */
 	public void selectKey(final String keyword) {
 		// Only adds keyword if not exist
-		if (!selectedKeyMap.keySet().contains(keyword) && keyword.length() > 0 && dashboardVisible) {
+		if (!selectedKeyMap.containsKey(keyword) && keyword.length() > 0 && dashboardVisible) {
 			selectedKeyPanel.remove(suggestKeyPanel); // Always is setting the last, must be removed
 			HorizontalPanel externalPanel = new HorizontalPanel();
 			HorizontalPanel hPanel = new HorizontalPanel();
@@ -684,6 +688,7 @@ public class KeyMapDashboard extends Composite {
 			selectedKeyPanel.add(suggestKeyPanel); // Always is setting the last
 			selectedKeyPanel.setCellVerticalAlignment(externalPanel, HasAlignment.ALIGN_MIDDLE);
 			selectedKeyMap.put(keyword, externalPanel);
+
 			// Selects keyword on all keyword panels
 			keyAllTable.selectRow(keyword);
 			keyTopTable.selectRow(keyword);
@@ -702,7 +707,7 @@ public class KeyMapDashboard extends Composite {
 	 */
 	public void removeKey(String keyword) {
 		if (selectedKeyMap.containsKey(keyword) && dashboardVisible) {
-			selectedKeyPanel.remove((Widget) selectedKeyMap.get(keyword));
+			selectedKeyPanel.remove(selectedKeyMap.get(keyword));
 			selectedKeyMap.remove(keyword);
 		}
 		// Selects keyword on all keyword panels
@@ -718,28 +723,20 @@ public class KeyMapDashboard extends Composite {
 
 	/**
 	 * Gets the filtering
-	 *
-	 * @return
 	 */
 	public List<String> getFiltering() {
-		List<String> filtering = new ArrayList<String>();
-		for (String key : selectedKeyMap.keySet()) {
-			filtering.add(key);
-		}
-		return filtering;
+		return new ArrayList<>(selectedKeyMap.keySet());
 	}
 
 	/**
 	 * Gets the filtering words
-	 *
-	 * @return The words
 	 */
 	private String getWordsToFilter() {
-		String words = "";
+		StringBuilder words = new StringBuilder();
 		for (String key : selectedKeyMap.keySet()) {
-			words += key + " ";
+			words.append(key).append(" ");
 		}
-		return words;
+		return words.toString();
 	}
 
 	/**
@@ -775,8 +772,7 @@ public class KeyMapDashboard extends Composite {
 
 			if (selectedKeyMap.size() > 0) {
 				tagCloud.calculateFrequencies(relatedKeywordList);
-				for (Iterator<GWTKeyword> it = relatedKeywordList.iterator(); it.hasNext(); ) {
-					final GWTKeyword keyword = it.next();
+				for (final GWTKeyword keyword : relatedKeywordList) {
 					AnchorExtended tagLink = new AnchorExtended(keyword.getKeyword(), true);
 					tagLink.addClickHandler(new ClickHandler() {
 						@Override
@@ -795,11 +791,11 @@ public class KeyMapDashboard extends Composite {
 				}
 			} else {
 				tagCloud.calculateFrequencies(allKeywordList);
+
 				// Sets the maximun an minumum frequencies ( used by document properties tag cloud )
 				totalMaxFrequency = tagCloud.getMaxFrequency();
 				totalMinFrequency = tagCloud.getMinFrequency();
-				for (Iterator<GWTKeyword> it = allKeywordList.iterator(); it.hasNext(); ) {
-					final GWTKeyword keyword = it.next();
+				for (final GWTKeyword keyword : allKeywordList) {
 					AnchorExtended tagLink = new AnchorExtended(keyword.getKeyword(), true);
 					tagLink.addClickHandler(new ClickHandler() {
 						@Override
@@ -847,7 +843,7 @@ public class KeyMapDashboard extends Composite {
 	 */
 	public int getKeywordRate(String keyword) {
 		int rate = 1;
-		if (rateMap.keySet().contains((keyword))) {
+		if (rateMap.containsKey((keyword))) {
 			rate = Integer.parseInt(rateMap.get(keyword));
 		}
 		return rate;
@@ -869,7 +865,7 @@ public class KeyMapDashboard extends Composite {
 	 */
 	public void increaseKeywordRate(String keyword) {
 		int rate = 1;
-		if (rateMap.keySet().contains((keyword))) {
+		if (rateMap.containsKey((keyword))) {
 			rate = Integer.parseInt(rateMap.get(keyword));
 			rate++;
 		}
@@ -880,12 +876,14 @@ public class KeyMapDashboard extends Composite {
 			keyRelatedTable.increaseKeywordRate(keyword, false);
 		}
 		refreshFrequencies();
+
 		// In case keyword is selected must change results
 		if (selectedKeyMap.containsKey(keyword)) {
 			controlSearchIn.executeSearch(limit);
 			getKeywordMap(getFiltering()); // Gets related keyMap
 			refreshClean();
 		}
+
 		// We add new keyword in suggest list
 		if (!keywordList.contains(keyword)) {
 			multiWordSuggestKey.add(keyword);
@@ -899,14 +897,14 @@ public class KeyMapDashboard extends Composite {
 	 * @param keyword The keyword to change rate
 	 */
 	public void decreaseKeywordRate(String keyword) {
-		if (rateMap.keySet().contains((keyword))) {
+		if (rateMap.containsKey((keyword))) {
 			int rate = Integer.parseInt(rateMap.get(keyword));
 			rate--;
 			if (rate <= 0) {
 				// Case that is needed to remove some keyword is better to refreshing all data to prevent
-				// visualization inconsistenses
+				// visualization inconsistencies
 				if (selectedKeyMap.containsKey(keyword) && dashboardVisible) {
-					selectedKeyPanel.remove((Widget) selectedKeyMap.get(keyword)); // removes selected keyword
+					selectedKeyPanel.remove(selectedKeyMap.get(keyword)); // removes selected keyword
 				}
 				refreshAll();
 			} else {
@@ -994,8 +992,6 @@ public class KeyMapDashboard extends Composite {
 
 	/**
 	 * showStatus
-	 *
-	 * @return
 	 */
 	private boolean showStatus() {
 		return (Main.get().mainPanel.topPanel.tabWorkspace.getSelectedWorkspace() == UIDockPanelConstants.DASHBOARD)
@@ -1004,8 +1000,6 @@ public class KeyMapDashboard extends Composite {
 
 	/**
 	 * setDashboardKeywordsVisible
-	 *
-	 * @param visible
 	 */
 	public void setDashboardKeywordsVisible(boolean visible) {
 		dashboardVisible = visible;

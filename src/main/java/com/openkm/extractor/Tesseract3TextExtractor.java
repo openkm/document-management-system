@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 /**
@@ -143,7 +144,7 @@ public class Tesseract3TextExtractor extends AbstractTextExtractor {
 				tmpFileOut = File.createTempFile("okm", "");
 
 				// Performs OCR
-				HashMap<String, Object> hm = new HashMap<String, Object>();
+				HashMap<String, Object> hm = new HashMap<>();
 				hm.put("fileIn", tmpFileIn.getPath());
 				hm.put("fileOut", tmpFileOut.getPath());
 				cmd = TemplateUtils.replace("SYSTEM_OCR", ocr, hm);
@@ -151,7 +152,7 @@ public class Tesseract3TextExtractor extends AbstractTextExtractor {
 
 				// Read result
 				fis = new FileInputStream(tmpFileOut.getPath() + ".txt");
-				String text = IOUtils.toString(fis, "UTF-8");
+				String text = IOUtils.toString(fis, StandardCharsets.UTF_8);
 
 				// Spellchecker
 				if (Config.SYSTEM_OPENOFFICE_DICTIONARY.isEmpty()) {

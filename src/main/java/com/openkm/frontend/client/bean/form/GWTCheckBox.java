@@ -33,7 +33,7 @@ import java.util.List;
  *
  */
 public class GWTCheckBox extends GWTFormElement implements IsSerializable {
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private boolean value = false;
 	private String data = "";
 	private boolean readonly = false;

@@ -136,7 +136,7 @@ public class GeneralServlet extends OKMRemoteServiceServlet implements OKMGenera
 		try {
 			UserConfig uc = UserConfigDAO.findByPk(getThreadLocalRequest().getRemoteUser());
 			Profile up = uc.getProfile();
-			extensions = new ArrayList<String>(up.getPrfMisc().getExtensions());
+			extensions = new ArrayList<>(up.getPrfMisc().getExtensions());
 		} catch (PathNotFoundException e) {
 			log.warn(e.getMessage(), e);
 			throw new OKMException(ErrorCode.get(ErrorCode.ORIGIN_OKMGeneralService, ErrorCode.CAUSE_PathNotFound), e.getMessage());

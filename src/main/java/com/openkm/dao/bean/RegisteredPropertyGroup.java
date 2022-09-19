@@ -43,7 +43,7 @@ public class RegisteredPropertyGroup implements Serializable {
 	@Column(name = "RPR_TYPE", length = 64)
 	@MapKeyColumn(name = "RPR_NAME", length = 64)
 	@CollectionTable(name = "OKM_REG_PROPERTY", joinColumns = {@JoinColumn(name = "RPR_GROUP")})
-	private Map<String, String> properties = new HashMap<String, String>();
+	private Map<String, String> properties = new HashMap<>();
 
 	public String getName() {
 		return name;

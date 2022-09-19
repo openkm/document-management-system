@@ -40,12 +40,12 @@ public class LanguageUtils {
 	 * getTranslations
 	 */
 	public static Map<String, String> getTranslations(String lang, String module[]) throws DatabaseException {
-		Map<String, String> translations = new HashMap<String, String>();
+		Map<String, String> translations = new HashMap<>();
 
 		// By default english is used to complete non defined translations
 		Language baseLang = LanguageDAO.findByPk(Language.DEFAULT);
 		Language language = LanguageDAO.findByPk(lang);
-		Map<String, String> keys = new HashMap<String, String>();
+		Map<String, String> keys = new HashMap<>();
 
 		// Getting keys
 		if (language != null) {

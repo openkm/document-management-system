@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ConfigStoredSelect implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<ConfigStoredOption> options = new ArrayList<ConfigStoredOption>();
+	private List<ConfigStoredOption> options = new ArrayList<>();
 
 	public List<ConfigStoredOption> getOptions() {
 		return options;

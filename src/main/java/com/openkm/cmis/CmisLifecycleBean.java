@@ -45,7 +45,7 @@ public class CmisLifecycleBean implements ServletContextAware, InitializingBean,
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (factory != null) {
-			factory.init(new HashMap<String, String>());
+			factory.init(new HashMap<>());
 			servletContext.setAttribute(CmisRepositoryContextListener.SERVICES_FACTORY, factory);
 		}
 	}

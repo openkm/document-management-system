@@ -38,7 +38,6 @@ import javax.naming.directory.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -55,7 +54,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	public List<String> getUsers() throws PrincipalAdapterException {
 		log.debug("getUsers()");
 		long begin = System.currentTimeMillis();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		// @formatter:off
 		List<String> ldap = ldapSearch(CACHE_LDAP_GENERAL, "getUsers",
@@ -64,9 +63,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				Config.PRINCIPAL_LDAP_USER_ATTRIBUTE);
 		// @formatter:on
 
-		for (Iterator<String> it = ldap.iterator(); it.hasNext(); ) {
-			String user = it.next();
-
+		for (String user : ldap) {
 			if (!Config.SYSTEM_USER.equals(user)) {
 				if (Config.SYSTEM_LOGIN_LOWERCASE) {
 					user = user.toLowerCase();
@@ -118,7 +115,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	public List<String> getRoles() throws PrincipalAdapterException {
 		log.debug("getRoles()");
 		long begin = System.currentTimeMillis();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		// @formatter:off
 		List<String> ldap = ldapSearch(CACHE_LDAP_GENERAL, "getRoles",
@@ -127,8 +124,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				Config.PRINCIPAL_LDAP_ROLE_ATTRIBUTE);
 		// @formatter:on
 
-		for (Iterator<String> it = ldap.iterator(); it.hasNext(); ) {
-			String role = it.next();
+		for (String role : ldap) {
 			list.add(role);
 		}
 
@@ -193,7 +189,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	public List<String> getUsersByRole(String role) throws PrincipalAdapterException {
 		log.debug("getUsersByRole({})", role);
 		long begin = System.currentTimeMillis();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		// @formatter:off
 		List<String> ldap = ldapSearch(CACHE_LDAP_GENERAL, "getUsersByRole:" + role,
@@ -202,9 +198,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				Config.PRINCIPAL_LDAP_USERS_BY_ROLE_ATTRIBUTE);
 		// @formatter:on
 
-		for (Iterator<String> it = ldap.iterator(); it.hasNext(); ) {
-			String user = it.next();
-
+		for (String user : ldap) {
 			if (!Config.SYSTEM_USER.equals(user)) {
 				if (Config.SYSTEM_LOGIN_LOWERCASE) {
 					user = user.toLowerCase();
@@ -224,7 +218,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	public List<String> getRolesByUser(String user) throws PrincipalAdapterException {
 		log.debug("getRolesByUser({})", user);
 		long begin = System.currentTimeMillis();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		// @formatter:off
 		List<String> ldap = ldapSearch(CACHE_LDAP_GENERAL, "getRolesByUser:" + user,
@@ -233,8 +227,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 				Config.PRINCIPAL_LDAP_ROLES_BY_USER_ATTRIBUTE);
 		// @formatter:on
 
-		for (Iterator<String> it = ldap.iterator(); it.hasNext(); ) {
-			String role = it.next();
+		for (String role : ldap) {
 			list.add(role);
 		}
 
@@ -248,7 +241,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	 * LDAP Search
 	 */
 	private List<String> ldapSearch(String cache, String key, String searchBase, String searchFilter, String attribute) {
-		List<String> searchBases = new ArrayList<String>();
+		List<String> searchBases = new ArrayList<>();
 		searchBases.add(searchBase);
 		return ldapSearch(cache, key, searchBases, searchFilter, attribute);
 	}
@@ -256,7 +249,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	@SuppressWarnings("unchecked")
 	private List<String> ldapSearch(String cache, String key, List<String> searchBases, String searchFilter, String attribute) {
 		log.debug("ldapSearch({}, {}, {}, {}, {})", cache, key, searchBases, searchFilter, attribute);
-		List<String> al = new ArrayList<String>();
+		List<String> al = new ArrayList<>();
 		Cache ldapResultCache = CacheProvider.getInstance().getCache(cache);
 		Element elto = ldapResultCache.get(key);
 		DirContext ctx = null;
@@ -277,7 +270,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 					NamingEnumeration<SearchResult> results = ctx.search(searchBase, searchFilter, searchCtls);
 
 					while (results.hasMore()) {
-						SearchResult searchResult = (SearchResult) results.next();
+						SearchResult searchResult = results.next();
 						Attributes attributes = searchResult.getAttributes();
 
 						if (attribute.equals("")) {
@@ -348,7 +341,7 @@ public class LdapPrincipalAdapter implements PrincipalAdapter {
 	 * Create static LDAP configuration environment.
 	 */
 	private static Hashtable<String, String> getEnvironment() {
-		Hashtable<String, String> env = new Hashtable<String, String>();
+		Hashtable<String, String> env = new Hashtable<>();
 
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");

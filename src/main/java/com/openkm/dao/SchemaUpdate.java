@@ -49,14 +49,14 @@ public class SchemaUpdate {
 		props.putAll(dialect.getDefaultProperties());
 		props.putAll(connectionProperties);
 		connectionProvider = ConnectionProviderFactory.newConnectionProvider(props);
-		exceptions = new ArrayList<Exception>();
+		exceptions = new ArrayList<>();
 	}
 
 	public SchemaUpdate(Configuration cfg, Settings settings) throws HibernateException {
 		this.configuration = cfg;
 		dialect = settings.getDialect();
 		connectionProvider = settings.getConnectionProvider();
-		exceptions = new ArrayList<Exception>();
+		exceptions = new ArrayList<>();
 	}
 
 	public static void main(String[] args) {
@@ -70,24 +70,24 @@ public class SchemaUpdate {
 			boolean doUpdate = true;
 			String propFile = null;
 
-			for (int i = 0; i < args.length; i++) {
-				if (args[i].startsWith("--")) {
-					if (args[i].equals("--quiet")) {
+			for (String arg : args) {
+				if (arg.startsWith("--")) {
+					if (arg.equals("--quiet")) {
 						script = false;
-					} else if (args[i].startsWith("--properties=")) {
-						propFile = args[i].substring(13);
-					} else if (args[i].startsWith("--config=")) {
-						cfg.configure(args[i].substring(9));
-					} else if (args[i].startsWith("--text")) {
+					} else if (arg.startsWith("--properties=")) {
+						propFile = arg.substring(13);
+					} else if (arg.startsWith("--config=")) {
+						cfg.configure(arg.substring(9));
+					} else if (arg.startsWith("--text")) {
 						doUpdate = false;
-					} else if (args[i].startsWith("--naming=")) {
+					} else if (arg.startsWith("--naming=")) {
 						cfg.setNamingStrategy((NamingStrategy) ReflectHelper.classForName(
-								args[i].substring(9)).newInstance());
-					} else if (args[i].startsWith("--output=")) {
-						outFile = args[i].substring(9);
+								arg.substring(9)).newInstance());
+					} else if (arg.startsWith("--output=")) {
+						outFile = arg.substring(9);
 					}
 				} else {
-					cfg.addFile(args[i]);
+					cfg.addFile(arg);
 				}
 
 			}

@@ -42,7 +42,7 @@ public class DragAndDropUploadFilesPopup extends DialogBox {
 	private ScrollPanel sPanel;
 	private FlexTable innerTable;
 
-	private final Map<String, UploaderProgressBar> progressBars = new LinkedHashMap<String, UploaderProgressBar>();
+	private final Map<String, UploaderProgressBar> progressBars = new LinkedHashMap<>();
 	private DragAndDropUploader uploader;
 
 	public DragAndDropUploadFilesPopup() {

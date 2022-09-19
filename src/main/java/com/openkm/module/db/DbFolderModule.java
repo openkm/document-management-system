@@ -90,7 +90,7 @@ public class DbFolderModule implements FolderModule {
 				fld.setPath(parentPath + "/" + name);
 
 				// AUTOMATION - PRE
-				Map<String, Object> env = new HashMap<String, Object>();
+				Map<String, Object> env = new HashMap<>();
 				env.put(AutomationUtils.PARENT_UUID, parentUuid);
 				env.put(AutomationUtils.PARENT_PATH, parentPath);
 				env.put(AutomationUtils.PARENT_NODE, parentFolder);
@@ -98,8 +98,8 @@ public class DbFolderModule implements FolderModule {
 				parentFolder = (NodeFolder) env.get(AutomationUtils.PARENT_NODE);
 
 				// Create node
-				NodeFolder fldNode = BaseFolderModule.create(auth.getName(), parentFolder, name, fld.getCreated(), new HashSet<String>(),
-						new HashSet<String>(), new HashSet<NodeProperty>(), new ArrayList<NodeNote>(), null);
+				NodeFolder fldNode = BaseFolderModule.create(auth.getName(), parentFolder, name, fld.getCreated(), new HashSet<>(),
+						new HashSet<>(), new HashSet<>(), new ArrayList<>(), null);
 
 				// AUTOMATION - POST
 				env.put(AutomationUtils.FOLDER_NODE, fldNode);
@@ -542,7 +542,7 @@ public class DbFolderModule implements FolderModule {
 			DatabaseException {
 		log.debug("getChildren({}, {})", token, fldId);
 		long begin = System.currentTimeMillis();
-		List<Folder> children = new ArrayList<Folder>();
+		List<Folder> children = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 		String fldPath = null;
 		String fldUuid = null;

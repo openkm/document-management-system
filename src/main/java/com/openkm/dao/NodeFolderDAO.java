@@ -209,7 +209,7 @@ public class NodeFolderDAO {
 		final String qs = "from NodeFolder nf where :category in elements(nf.categories) order by nf.name";
 		final String sql = "select NBS_UUID from OKM_NODE_CATEGORY, OKM_NODE_FOLDER "
 				+ "where NCT_CATEGORY = :catUuid and NCT_NODE = NBS_UUID";
-		List<NodeFolder> ret = new ArrayList<NodeFolder>();
+		List<NodeFolder> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -267,7 +267,7 @@ public class NodeFolderDAO {
 		final String qs = "from NodeFolder nf where :keyword in elements(nf.keywords) order by nf.name";
 		final String sql = "select NBS_UUID from OKM_NODE_KEYWORD, OKM_NODE_FOLDER "
 				+ "where NKW_KEYWORD = :keyword and NKW_NODE = NBS_UUID";
-		List<NodeFolder> ret = new ArrayList<NodeFolder>();
+		List<NodeFolder> ret = new ArrayList<>();
 		Session session = null;
 		Transaction tx = null;
 
@@ -574,7 +574,7 @@ public class NodeFolderDAO {
 	 */
 	public Set<NodeFolder> resolveCategories(Set<String> categories) throws DatabaseException {
 		log.debug("resolveCategories({})", categories);
-		Set<NodeFolder> ret = new HashSet<NodeFolder>();
+		Set<NodeFolder> ret = new HashSet<>();
 		Session session = null;
 		Transaction tx = null;
 

@@ -130,9 +130,7 @@ public class LanguageServlet extends BaseServlet {
 				Language lang = new Language();
 				byte data[] = null;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
@@ -274,7 +272,7 @@ public class LanguageServlet extends BaseServlet {
 			LanguageDAO.update(lang);
 		}
 
-		List<String> modules = new ArrayList<String>();
+		List<String> modules = new ArrayList<>();
 		modules.add(Translation.MODULE_FRONTEND);
 		modules.add(Translation.MODULE_EXTENSION);
 		modules.add(Translation.MODULE_ADMINISTRATION);
@@ -306,7 +304,7 @@ public class LanguageServlet extends BaseServlet {
         modules.add(Translation.MODULE_MOBILE);
 
         if (WebUtils.getBoolean(request, "persist")) {
-            Set<Translation> newTranslations = new HashSet<Translation>();
+            Set<Translation> newTranslations = new HashSet<>();
             String lgId = WebUtils.getString(request, "lg_id");
             Language lang = LanguageDAO.findByPk(lgId);
 
@@ -331,7 +329,7 @@ public class LanguageServlet extends BaseServlet {
             String filter = WebUtils.getString(request, "filter");
             String module = WebUtils.getString(request, "module");
             Language langToTranslate = LanguageDAO.findByPk(lgId);
-            Map<String, String> translations = new HashMap<String, String>();
+            Map<String, String> translations = new HashMap<>();
 
             if (filter.isEmpty() && module.isEmpty()) {
                 for (Translation translation : langToTranslate.getTranslations()) {

@@ -29,7 +29,7 @@ import java.util.List;
 @XmlRootElement(name = "languages")
 public class LanguageList {
 	@XmlElement(name = "language", required = true)
-	List<String> languages = new ArrayList<String>();
+	List<String> languages = new ArrayList<>();
 
 	public List<String> getList() {
 		return languages;

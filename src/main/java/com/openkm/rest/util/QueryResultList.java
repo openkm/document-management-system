@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "queryResults")
 public class QueryResultList {
 	@XmlElement(name = "queryResult", required = true)
-	List<QueryResult> queryResults = new ArrayList<QueryResult>();
+	List<QueryResult> queryResults = new ArrayList<>();
 
 	public List<QueryResult> getList() {
 		return queryResults;

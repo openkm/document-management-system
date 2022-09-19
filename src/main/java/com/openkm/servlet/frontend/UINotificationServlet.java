@@ -42,8 +42,8 @@ import java.util.List;
 public class UINotificationServlet extends OKMRemoteServiceServlet implements OKMUINotificationService {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(UINotificationServlet.class);
+	private static List<GWTUINotification> notifications = new ArrayList<>();
 	private static int count = 0;
-	private static List<GWTUINotification> notifications = new ArrayList<GWTUINotification>();
 	private static int indexToDelete = 0;
 	private static String msg = "";
 
@@ -104,7 +104,7 @@ public class UINotificationServlet extends OKMRemoteServiceServlet implements OK
 		log.debug("clean()");
 
 		if (indexToDelete > 0) {
-			List<GWTUINotification> toDelete = new ArrayList<GWTUINotification>();
+			List<GWTUINotification> toDelete = new ArrayList<>();
 
 			for (int i = 0; (i < notifications.size() && i < indexToDelete); i++) {
 				// Deleting temporal notifications

@@ -58,8 +58,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 	 * .gwt.widgetideas.table.client.SortableGrid.ColumnSorterCallback)
 	 */
 	public void onSortColumn(SortableGrid grid, ColumnSortList sortList, ColumnSorterCallback callback) {
-
-		// Get the primary column, sort order, number of rows, number of columns
 		column = sortList.getPrimaryColumn();
 		ascending = sortList.isPrimaryAscending();
 		sort(column, ascending);
@@ -77,8 +75,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * isSorted
-	 *
-	 * @return
 	 */
 	public boolean isSorted() {
 		return column >= 0;
@@ -86,29 +82,16 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * prepareDataToSort
-	 *
-	 * @param column
-	 * @param ascending
 	 */
 	private void sort(int column, boolean ascending) {
 		int rows = Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.getDataTable().getRowCount();
 		int columns = Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.getDataTable().getColumnCount();
 		int selectedRow = Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.getSelectedRow();
-		Map<Integer, GWTQueryResult> data = new HashMap<Integer, GWTQueryResult>(
+		Map<Integer, GWTQueryResult> data = new HashMap<>(
 				Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.data);
 
-		List<String[]> elementList = new ArrayList<String[]>(); // List with all
-		// data
-		List<GWTObjectToOrder> elementToOrder = new ArrayList<GWTObjectToOrder>(); // List
-		// with
-		// column
-		// data,
-		// and
-		// actual
-		// position
-
-		// Gets the data values and set on a list of String arrays ( element by
-		// column )
+		List<String[]> elementList = new ArrayList<>();
+		List<GWTObjectToOrder> elementToOrder = new ArrayList<>();
 		int correctedColumn = correctedColumnIndex(column);
 		if (correctedColumn <= 16) {
 			for (int i = 0; i < rows; i++) {
@@ -125,32 +108,24 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					case 5:
 					case 6:
 						// Text
-						rowToOrder.setObject(rowI[column].toLowerCase()); // Lower
-						// case
-						// solves
-						// problem
-						// with
-						// sort
-						// ordering
+						rowToOrder.setObject(rowI[column].toLowerCase());
 						rowToOrder.setDataId("" + i); // Actual position value
 						elementToOrder.add(rowToOrder);
 						break;
 
 					case 2:
 						// Text
-						// Name in table is anchor, lower case solves problem
-						// with sort ordering
-						if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument().getName()
+						if (data.get(Integer.parseInt(rowI[colDataIndex])).getDocument() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getDocument().getName()
 									.toLowerCase());
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment()
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment()
 									.getName().toLowerCase());
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder().getName()
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getFolder() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getFolder().getName()
 									.toLowerCase());
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail().getSubject()
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getMail() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getMail().getSubject()
 									.toLowerCase());
 						}
 						rowToOrder.setDataId("" + i); // Actual position value
@@ -159,17 +134,17 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 					case 3:
 						// Bytes
-						if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument() != null) {
-							rowToOrder.setObject(new Double(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument()
-									.getActualVersion().getSize()));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment() != null) {
-							rowToOrder.setObject(new Double(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex])))
-									.getAttachment().getActualVersion().getSize()));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder() != null) {
-							rowToOrder.setObject(new Double(0));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail() != null) {
-							rowToOrder.setObject(new Double(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail()
-									.getSize()));
+						if (data.get(Integer.parseInt(rowI[colDataIndex])).getDocument() != null) {
+							rowToOrder.setObject((double) data.get(Integer.parseInt(rowI[colDataIndex])).getDocument()
+									.getActualVersion().getSize());
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment() != null) {
+							rowToOrder.setObject((double) data.get(Integer.parseInt(rowI[colDataIndex]))
+									.getAttachment().getActualVersion().getSize());
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getFolder() != null) {
+							rowToOrder.setObject((double) 0);
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getMail() != null) {
+							rowToOrder.setObject((double) data.get(Integer.parseInt(rowI[colDataIndex])).getMail()
+									.getSize());
 						}
 						rowToOrder.setDataId("" + i); // Actual position value
 						elementToOrder.add(rowToOrder);
@@ -177,17 +152,17 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 					case 4:
 						// Date
-						if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument()
+						if (data.get(Integer.parseInt(rowI[colDataIndex])).getDocument() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getDocument()
 									.getLastModified()); // Date value
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment()
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment()
 									.getLastModified()); // Date value
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder() != null) {
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getFolder() != null) {
 							rowToOrder
-									.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder().getCreated());
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail() != null) {
-							rowToOrder.setObject(((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail()
+									.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getFolder().getCreated());
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getMail() != null) {
+							rowToOrder.setObject(data.get(Integer.parseInt(rowI[colDataIndex])).getMail()
 									.getReceivedDate());
 						}
 						rowToOrder.setDataId("" + i); // Actual position value
@@ -204,18 +179,18 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					case 14:
 					case 15:
 					case 16:
-						if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument() != null) {
+						if (data.get(Integer.parseInt(rowI[colDataIndex])).getDocument() != null) {
 							rowToOrder.setObject(getExtraColumn(
-									((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getDocument(), correctedColumn));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment() != null) {
+									data.get(Integer.parseInt(rowI[colDataIndex])).getDocument(), correctedColumn));
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment() != null) {
 							rowToOrder.setObject(getExtraColumn(
-									((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getAttachment(), correctedColumn));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder() != null) {
+									data.get(Integer.parseInt(rowI[colDataIndex])).getAttachment(), correctedColumn));
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getFolder() != null) {
 							rowToOrder.setObject(getExtraColumn(
-									((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getFolder(), correctedColumn));
-						} else if (((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail() != null) {
+									data.get(Integer.parseInt(rowI[colDataIndex])).getFolder(), correctedColumn));
+						} else if (data.get(Integer.parseInt(rowI[colDataIndex])).getMail() != null) {
 							rowToOrder.setObject(getExtraColumn(
-									((GWTQueryResult) data.get(Integer.parseInt(rowI[colDataIndex]))).getMail(), correctedColumn));
+									data.get(Integer.parseInt(rowI[colDataIndex])).getMail(), correctedColumn));
 						}
 						rowToOrder.setDataId("" + i); // Actual position value
 						elementToOrder.add(rowToOrder);
@@ -275,8 +250,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 	}
 
 	/**
-	 * @param elementList
-	 * @param elementToOrder
+	 *
 	 */
 	private void applySort(List<String[]> elementList, List<GWTObjectToOrder> elementToOrder) {
 		// Removing all values
@@ -285,16 +259,15 @@ public class ExtendedColumnSorter extends ColumnSorter {
 		}
 
 		// Data map
-		Map<Integer, GWTQueryResult> data = new HashMap<Integer, GWTQueryResult>(
+		Map<Integer, GWTQueryResult> data = new HashMap<>(
 				Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.data);
 		Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.reset();
 
 		int column = 0;
-		for (Iterator<GWTObjectToOrder> it = elementToOrder.iterator(); it.hasNext(); ) {
-			GWTObjectToOrder orderedColumn = it.next();
+		for (GWTObjectToOrder orderedColumn : elementToOrder) {
 			String[] row = elementList.get(Integer.parseInt(orderedColumn.getDataId()));
 
-			Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.addRow((GWTQueryResult) data.get(Integer
+			Main.get().mainPanel.search.searchBrowser.searchResult.searchCompactResult.table.addRow(data.get(Integer
 					.parseInt(row[colDataIndex])));
 
 			// Sets selectedRow
@@ -309,10 +282,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * getExtraColumn
-	 *
-	 * @param obj
-	 * @param column
-	 * @return
 	 */
 	private GWTFormElement getExtraColumn(Object obj, int column) {
 		GWTFormElement formElement = null;
@@ -327,6 +296,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					return ((GWTDocument) obj).getColumn0();
 				}
 				break;
+
 			case 8:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn1();
@@ -337,6 +307,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					return ((GWTDocument) obj).getColumn1();
 				}
 				break;
+
 			case 9:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn2();
@@ -347,6 +318,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					return ((GWTDocument) obj).getColumn2();
 				}
 				break;
+
 			case 10:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn3();
@@ -357,6 +329,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					return ((GWTDocument) obj).getColumn3();
 				}
 				break;
+
 			case 11:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn4();
@@ -366,6 +339,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 				if (obj instanceof GWTDocument) {
 					return ((GWTDocument) obj).getColumn4();
 				}
+
 			case 12:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn5();
@@ -376,6 +350,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 					return ((GWTDocument) obj).getColumn5();
 				}
 				break;
+
 			case 13:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn6();
@@ -385,6 +360,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 				if (obj instanceof GWTDocument) {
 					return ((GWTDocument) obj).getColumn6();
 				}
+
 			case 14:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn7();
@@ -394,6 +370,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 				if (obj instanceof GWTDocument) {
 					return ((GWTDocument) obj).getColumn7();
 				}
+
 			case 15:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn8();
@@ -403,6 +380,7 @@ public class ExtendedColumnSorter extends ColumnSorter {
 				if (obj instanceof GWTDocument) {
 					return ((GWTDocument) obj).getColumn8();
 				}
+
 			case 16:
 				if (obj instanceof GWTFolder) {
 					return ((GWTFolder) obj).getColumn9();
@@ -418,9 +396,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * correctedColumnIndex
-	 *
-	 * @param col
-	 * @return
 	 */
 	private int correctedColumnIndex(int col) {
 		int corrected = col;
@@ -478,8 +453,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * setDataColumn
-	 *
-	 * @param colDataIndex
 	 */
 	public void setColDataIndex(int colDataIndex) {
 		this.colDataIndex = colDataIndex;
@@ -487,8 +460,6 @@ public class ExtendedColumnSorter extends ColumnSorter {
 
 	/**
 	 * setProfileFileBrowser
-	 *
-	 * @param profileFileBrowser
 	 */
 	public void setProfileFileBrowser(GWTProfileFileBrowser profileFileBrowser) {
 		this.profileFileBrowser = profileFileBrowser;

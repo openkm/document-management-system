@@ -66,8 +66,8 @@ public class CmisTypeManager {
 	 * Creates the base types.
 	 */
 	private void setup() {
-		types = new HashMap<String, TypeDefinitionContainerImpl>();
-		typesList = new ArrayList<TypeDefinitionContainer>();
+		types = new HashMap<>();
+		typesList = new ArrayList<>();
 
 		// type mutability
 		TypeMutabilityImpl typeMutability = new TypeMutabilityImpl();
@@ -429,7 +429,7 @@ public class CmisTypeManager {
 			TypeDefinitionContainerImpl tdc = types.get(type.getParentTypeId());
 			if (tdc != null) {
 				if (tdc.getChildren() == null) {
-					tdc.setChildren(new ArrayList<TypeDefinitionContainer>());
+					tdc.setChildren(new ArrayList<>());
 				}
 				tdc.getChildren().add(tc);
 			}
@@ -442,9 +442,9 @@ public class CmisTypeManager {
 	/**
 	 * CMIS getTypesChildren.
 	 */
-	public TypeDefinitionList getTypesChildren(CallContext context, String typeId, boolean includePropertyDefinitions, BigInteger maxItems,
-	                                           BigInteger skipCount) {
-		TypeDefinitionListImpl result = new TypeDefinitionListImpl(new ArrayList<TypeDefinition>());
+	public TypeDefinitionList getTypesChildren(CallContext context, String typeId, boolean includePropertyDefinitions,
+			BigInteger maxItems, BigInteger skipCount) {
+		TypeDefinitionListImpl result = new TypeDefinitionListImpl(new ArrayList<>());
 
 		int skip = (skipCount == null ? 0 : skipCount.intValue());
 		if (skip < 0) {
@@ -508,7 +508,7 @@ public class CmisTypeManager {
 	 */
 	public List<TypeDefinitionContainer> getTypesDescendants(CallContext context, String typeId, BigInteger depth,
 	                                                         Boolean includePropertyDefinitions) {
-		List<TypeDefinitionContainer> result = new ArrayList<TypeDefinitionContainer>();
+		List<TypeDefinitionContainer> result = new ArrayList<>();
 
 		// check depth
 		int d = (depth == null ? -1 : depth.intValue());
@@ -557,7 +557,7 @@ public class CmisTypeManager {
 
 		if (depth != 0) {
 			if (tc.getChildren() != null) {
-				result.setChildren(new ArrayList<TypeDefinitionContainer>());
+				result.setChildren(new ArrayList<>());
 
 				for (TypeDefinitionContainer tdc : tc.getChildren()) {
 					result.getChildren().add(getTypesDescendants(depth < 0 ? -1 : depth - 1, tdc, includePropertyDefinitions));

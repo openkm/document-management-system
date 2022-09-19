@@ -48,7 +48,7 @@ public class KeyValueServlet extends OKMRemoteServiceServlet implements OKMKeyVa
 	public List<GWTKeyValue> getKeyValues(List<String> tables, String query) throws OKMException {
 		log.debug("getKeyValues({},{}})", tables, query);
 		updateSessionManager();
-		List<GWTKeyValue> keyValues = new ArrayList<GWTKeyValue>();
+		List<GWTKeyValue> keyValues = new ArrayList<>();
 
 		try {
 			for (KeyValue keyValue : KeyValueDAO.getKeyValues(tables, query)) {

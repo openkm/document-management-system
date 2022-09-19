@@ -41,7 +41,10 @@ import com.openkm.frontend.client.widget.form.FormManager;
 import com.openkm.frontend.client.widget.searchin.SearchControl;
 import com.openkm.frontend.client.widget.util.WidgetUtil;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * SearchFullResult
@@ -224,7 +227,7 @@ public class SearchFullResult extends Composite {
 
 		// Extended columns
 		if (profileFileBrowser.isExtraColumns()) {
-			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<GWTFilebrowseExtraColumn, GWTFormElement>();
+			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<>();
 			if (profileFileBrowser.getColumn0() != null) {
 				ecMap.put(profileFileBrowser.getColumn0(), doc.getColumn0());
 			}
@@ -338,8 +341,8 @@ public class SearchFullResult extends Composite {
 				tableSubscribedCategories.setStyleName("okm-DisableSelect");
 
 				// Sets the document categories
-				for (Iterator<GWTFolder> it = categories.iterator(); it.hasNext(); ) {
-					drawCategory(tableSubscribedCategories, it.next());
+				for (GWTFolder category : categories) {
+					drawCategory(tableSubscribedCategories, category);
 				}
 
 				hPanel.add(new HTML("<b>" + Main.i18n("document.categories") + "</b>"));
@@ -491,7 +494,7 @@ public class SearchFullResult extends Composite {
 
 		// Extended columns
 		if (profileFileBrowser.isExtraColumns()) {
-			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<GWTFilebrowseExtraColumn, GWTFormElement>();
+			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<>();
 			if (profileFileBrowser.getColumn0() != null) {
 				ecMap.put(profileFileBrowser.getColumn0(), folder.getColumn0());
 			}
@@ -615,7 +618,7 @@ public class SearchFullResult extends Composite {
 
 		// Extended columns
 		if (profileFileBrowser.isExtraColumns()) {
-			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<GWTFilebrowseExtraColumn, GWTFormElement>();
+			Map<GWTFilebrowseExtraColumn, GWTFormElement> ecMap = new LinkedHashMap<>();
 			if (profileFileBrowser.getColumn0() != null) {
 				ecMap.put(profileFileBrowser.getColumn0(), mail.getColumn0());
 			}

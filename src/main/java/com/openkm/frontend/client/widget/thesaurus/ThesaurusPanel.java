@@ -35,7 +35,6 @@ import com.openkm.frontend.client.Main;
 import com.openkm.frontend.client.service.OKMThesaurusService;
 import com.openkm.frontend.client.service.OKMThesaurusServiceAsync;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -166,8 +165,8 @@ public class ThesaurusPanel extends Composite {
 	final AsyncCallback<List<String>> callbackGetKeywords = new AsyncCallback<List<String>>() {
 		public void onSuccess(List<String> result) {
 			removeAllRows();
-			for (Iterator<String> it = result.iterator(); it.hasNext(); ) {
-				keywordTable.setHTML(keywordTable.getRowCount(), 0, it.next());
+			for (String s : result) {
+				keywordTable.setHTML(keywordTable.getRowCount(), 0, s);
 			}
 			status.unsetFlagKeywords();
 		}

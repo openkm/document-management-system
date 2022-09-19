@@ -21,17 +21,7 @@
 
 package com.openkm.frontend.client.widget.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -44,6 +34,9 @@ import com.openkm.frontend.client.util.OKMBundleResources;
 import com.openkm.frontend.client.util.Util;
 import com.openkm.frontend.client.widget.base.handler.CaptionHandler;
 import com.openkm.frontend.client.widget.base.hashandler.HasCaptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ExtendedCaption
@@ -58,7 +51,7 @@ public class ExtendedCaption extends HorizontalPanel implements Caption, HasCapt
 	private Image maximize = new Image(OKMBundleResources.INSTANCE.buttonMaximize());
 	private HTML space2 = Util.hSpace("2px");
 	private Image close = new Image(OKMBundleResources.INSTANCE.buttonClose());
-	private List<CaptionHandler> captionHandlers = new ArrayList<CaptionHandler>();
+	private List<CaptionHandler> captionHandlers = new ArrayList<>();
 
 	/**
 	 * ExtendedCaption

@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "versions")
 public class VersionList {
 	@XmlElement(name = "version", required = true)
-	List<Version> versions = new ArrayList<Version>();
+	List<Version> versions = new ArrayList<>();
 
 	public List<Version> getList() {
 		return versions;

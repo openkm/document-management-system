@@ -1,27 +1,16 @@
 package com.openkm.dao.bean;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
+import com.openkm.module.db.stuff.SetFieldBridge;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.FieldBridge;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 
-import com.openkm.module.db.stuff.SetFieldBridge;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -32,57 +21,57 @@ public class Omr implements Serializable {
 	@Column(name="OMR_ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-		
+
 	@Column(name="OMR_NAME", length=128, unique=true)
 	private String name;
-		
+
 	@Column(name="OMR_TEMPLATE_FILE_CONTENT")
 	@Lob
 	private byte[] templateFileContent;
-	
+
 	@Column(name="OMR_ASC_FILE_CONTENT")
-	@Lob 
+	@Lob
 	private byte[] ascFileContent;
-	
+
 	@Column(name="OMR_CONFIG_FILE_CONTENT")
-	@Lob 
+	@Lob
 	private byte[] configFileContent;
-	
+
 	@Column(name="OMR_FIELDS_FILE_CONTENT")
 	@Lob
 	private byte[] fieldsFileContent;
-	
+
 	@Column(name="OMR_FILE_TEMPLATE_MIME", length=32)
 	private String templateFileMime;
-	
+
 	@Column(name="OMR_FILE_ASC_MIME", length=32)
 	private String ascFileMime;
-	
+
 	@Column(name="OMR_FILE_CONFIG_MIME", length=32)
 	private String configFileMime;
-	
+
 	@Column(name="OMR_FILE_FIELDS_MIME", length=32)
 	private String fieldsFileMime;
-	
+
 	@Column(name="OMR_TEMPLATE_FILENAME", length=128)
 	private String templateFileName;
-	
+
 	@Column(name="OMR_ASC_FILENAME", length=128)
 	private String ascFileName;
-	
+
 	@Column(name="OMR_CONFIG_FILENAME", length=128)
 	private String configFileName;
-	
+
 	@Column(name="OMR_FIELDS_FILENAME", length=128)
 	private String fieldsFileName;
-	
+
 	@ElementCollection
 	@Column(name = "OMP_PROPERTY")
 	@CollectionTable(name = "OKM_OMR_PROPERTY", joinColumns = { @JoinColumn(name = "OMP_OMR") })
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = SetFieldBridge.class)
-	protected Set<String> properties = new HashSet<String>();
-	
+	protected Set<String> properties = new HashSet<>();
+
 	@Column(name = "OMR_ACTIVE", nullable = false)
 	@Type(type = "true_false")
 	private boolean active;
@@ -210,7 +199,7 @@ public class Omr implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	public Set<String> getProperties() {
 		return properties;
 	}

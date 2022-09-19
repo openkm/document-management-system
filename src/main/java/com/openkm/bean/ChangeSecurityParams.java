@@ -34,11 +34,11 @@ import java.util.Set;
 public class ChangeSecurityParams implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String user = new String();
-	private Set<String> roles = new HashSet<String>();
-	private Map<String, Integer> grantUsers = new HashMap<String, Integer>();
-	private Map<String, Integer> revokeUsers = new HashMap<String, Integer>();
-	private Map<String, Integer> grantRoles = new HashMap<String, Integer>();
-	private Map<String, Integer> revokeRoles = new HashMap<String, Integer>();
+	private Set<String> roles = new HashSet<>();
+	private Map<String, Integer> grantUsers = new HashMap<>();
+	private Map<String, Integer> revokeUsers = new HashMap<>();
+	private Map<String, Integer> grantRoles = new HashMap<>();
+	private Map<String, Integer> revokeRoles = new HashMap<>();
 
 	public String getUser() {
 		return user;

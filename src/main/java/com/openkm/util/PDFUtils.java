@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,8 +60,8 @@ public class PDFUtils {
 		boolean formFlattening = false;
 
 		if (form != null) {
-			for (Iterator it = form.getFields().iterator(); it.hasNext(); ) {
-				PRAcroForm.FieldInformation field = (PRAcroForm.FieldInformation) it.next();
+			for (Object o : form.getFields()) {
+				PRAcroForm.FieldInformation field = (PRAcroForm.FieldInformation) o;
 				String fieldValue = fields.getField(field.getName());
 				log.debug("Field: {}, Value: '{}'", field.getName(), fieldValue);
 
@@ -134,7 +133,7 @@ public class PDFUtils {
 			PathNotFoundException, AccessDeniedException, RepositoryException, DatabaseException, UnsupportedMimeTypeException,
 			FileSizeExceededException, UserQuotaExceededException, VirusDetectedException, ExtensionException, AutomationException,
 			LockException, VersionException {
-		List<InputStream> docIsLst = new ArrayList<InputStream>();
+		List<InputStream> docIsLst = new ArrayList<>();
 		File docOut = null;
 		InputStream docIs = null;
 		OutputStream docOs = null;

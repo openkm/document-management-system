@@ -49,7 +49,7 @@ public class PendingTaskProcessor {
 	private static final String END = "end";
 	private static Type statusObjType = new TypeToken<LinkedList<NodeStatus>>() {
 	}.getType();
-	private LinkedList<NodeStatus> status = new LinkedList<NodeStatus>();
+	private LinkedList<NodeStatus> status = new LinkedList<>();
 	private PendingTask pt = null;
 
 	public PendingTaskProcessor(PendingTask pt) {

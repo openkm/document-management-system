@@ -239,12 +239,10 @@ public class CommonNotificationModule {
 			sr.close();
 		}
 
-		for (Iterator<String> itUsers = users.iterator(); itUsers.hasNext(); ) {
-			String itUser = itUsers.next();
+		for (String itUser : users) {
 			Collection<TwitterAccount> twitterAccounts = TwitterAccountDAO.findByUser(itUser, true);
 
-			for (Iterator<TwitterAccount> itTwitter = twitterAccounts.iterator(); itTwitter.hasNext(); ) {
-				TwitterAccount ta = itTwitter.next();
+			for (TwitterAccount ta : twitterAccounts) {
 				log.info("Twitter Notify from {} to {} ({}) - {}", twitter.getUserId(), ta.getTwitterUser(), itUser, swStatus);
 				twitter.sendDirectMessage(ta.getTwitterUser(), swStatus.toString());
 			}

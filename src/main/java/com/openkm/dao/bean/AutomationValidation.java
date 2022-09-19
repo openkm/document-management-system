@@ -48,7 +48,7 @@ public class AutomationValidation implements Serializable {
 	@Column(name = "AVP_PARAM")
 	@OrderColumn(name = "AVP_ORDER")
 	@CollectionTable(name = "OKM_AUTO_VALIDATION_PARAMS", joinColumns = {@JoinColumn(name = "AVP_VALIDATION")})
-	private List<String> params = new ArrayList<String>();
+	private List<String> params = new ArrayList<>();
 
 	@Column(name = "AVL_ACTIVE", nullable = false)
 	@Type(type = "true_false")

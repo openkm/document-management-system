@@ -27,7 +27,7 @@ import java.util.List;
 public class PropertyGroupMetadata {
 	// mix:property_group
 	private String name;
-	private List<PropertyMetadata> properties = new ArrayList<PropertyMetadata>();
+	private List<PropertyMetadata> properties = new ArrayList<>();
 
 	public String getName() {
 		return name;

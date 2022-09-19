@@ -62,12 +62,11 @@ public class OnlineUsersPopup extends DialogBox {
 	 * Online users popup
 	 */
 	public OnlineUsersPopup() {
-
 		// Establishes auto-close when click outside
 		super(false, true);
 
 		setText(Main.i18n("user.online"));
-		usersInChat = new ArrayList<String>();
+		usersInChat = new ArrayList<>();
 
 		vPanel = new VerticalPanel();
 		cancel = new Button(Main.i18n("button.cancel"), new ClickHandler() {
@@ -155,7 +154,6 @@ public class OnlineUsersPopup extends DialogBox {
 	 *
 	 * @param row The row cell
 	 * @param columns Number of row columns
-	 * @param warp
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp) {
 		CellFormatter cellFormatter = table.getCellFormatter();
@@ -224,8 +222,6 @@ public class OnlineUsersPopup extends DialogBox {
 
 	/**
 	 * setAction
-	 *
-	 * @param action
 	 */
 	public void setAction(int action) {
 		setAction(action, "");
@@ -233,8 +229,6 @@ public class OnlineUsersPopup extends DialogBox {
 
 	/**
 	 * setAction
-	 *
-	 * @param action
 	 */
 	public void setAction(int action, String room) {
 		this.action = action;
@@ -258,8 +252,6 @@ public class OnlineUsersPopup extends DialogBox {
 
 	/**
 	 * setUsersInChat
-	 *
-	 * @param usersInChat
 	 */
 	public void setUsersInChat(List<String> usersInChat) {
 		this.usersInChat = usersInChat;

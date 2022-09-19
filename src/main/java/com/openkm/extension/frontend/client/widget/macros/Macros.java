@@ -65,15 +65,13 @@ public class Macros implements DocumentHandlerExtension, FolderHandlerExtension,
 
 	private ToolBarButton button;
 	private boolean enabled = false;
-	private List<GWTMacros> actions = new ArrayList<GWTMacros>();
+	private List<GWTMacros> actions = new ArrayList<>();
 	private int selectedPanel = TAB_FOLDER;
 	private GWTMacros selectedAction;
 	public Status status;
 
 	/**
 	 * FastAction
-	 *
-	 * @param uuidList
 	 */
 	public Macros(List<String> uuidList) {
 		if (isRegistered(uuidList)) {
@@ -131,7 +129,7 @@ public class Macros implements DocumentHandlerExtension, FolderHandlerExtension,
 	 * getExtensions
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(button);
 		return extensions;
@@ -209,9 +207,6 @@ public class Macros implements DocumentHandlerExtension, FolderHandlerExtension,
 
 	/**
 	 * actionFound
-	 *
-	 * @param path
-	 * @return
 	 */
 	private boolean actionFound(String path) {
 		boolean found = false;
@@ -299,9 +294,6 @@ public class Macros implements DocumentHandlerExtension, FolderHandlerExtension,
 
 	/**
 	 * isRegistered
-	 *
-	 * @param uuidList
-	 * @return
 	 */
 	public static boolean isRegistered(List<String> uuidList) {
 		return uuidList.contains(UUID);

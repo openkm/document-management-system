@@ -126,7 +126,7 @@ public class WorkflowWidget extends Composite implements ValidatorToFire {
 				drawForm();
 				workflowWidgetToFire.hasPendingProcessDefinitionForms();
 			} else {
-				manager.setFormElements(new ArrayList<GWTFormElement>());
+				manager.setFormElements(new ArrayList<>());
 				runProcessDefinitionWithValues();
 			}
 		}

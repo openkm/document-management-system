@@ -54,8 +54,6 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * Workflow
-	 *
-	 * @param uuidList
 	 */
 	public Workflow(List<String> uuidList) {
 		if (isRegistered(uuidList)) {
@@ -67,11 +65,9 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * getExtensions
-	 *
-	 * @return
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(tabDocumentWorkflow);
 		extensions.add(tabFolderWorkflow);
@@ -80,8 +76,6 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * get
-	 *
-	 * @return
 	 */
 	public static Workflow get() {
 		return singleton;
@@ -89,8 +83,6 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * getWidgetTab
-	 *
-	 * @return
 	 */
 	public Widget getWidgetTab() {
 		Widget widget = null;
@@ -134,8 +126,6 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * getUuid
-	 *
-	 * @return
 	 */
 	public String getUuid() {
 		if (WorkspaceComunicator.getSelectedWorkspace() == UIDockPanelConstants.DESKTOP) {
@@ -166,9 +156,6 @@ public class Workflow implements LanguageHandlerExtension {
 
 	/**
 	 * isRegistered
-	 *
-	 * @param uuidList
-	 * @return
 	 */
 	public static boolean isRegistered(List<String> uuidList) {
 		return uuidList.contains(UUID);

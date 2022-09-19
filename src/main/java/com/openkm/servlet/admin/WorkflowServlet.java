@@ -50,7 +50,7 @@ import java.util.Map.Entry;
 public class WorkflowServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(WorkflowServlet.class);
-	private static Map<String, String> statusFilterValues = new LinkedHashMap<String, String>();
+	private static Map<String, String> statusFilterValues = new LinkedHashMap<>();
 
 	static {
 		statusFilterValues.put("0", "All");
@@ -190,10 +190,10 @@ public class WorkflowServlet extends BaseServlet {
 		long pdid = WebUtils.getLong(request, "pdid");
 		int statusFilter = WebUtils.getInt(request, "statusFilter", 1);
 		Map<String, List<FormElement>> procDefForms = OKMWorkflow.getInstance().getProcessDefinitionForms(null, pdid);
-		Map<String, List<Map<String, String>>> pdf = new HashMap<String, List<Map<String, String>>>();
+		Map<String, List<Map<String, String>>> pdf = new HashMap<>();
 
 		for (String key : procDefForms.keySet()) {
-			List<Map<String, String>> value = new ArrayList<Map<String, String>>();
+			List<Map<String, String>> value = new ArrayList<>();
 
 			for (FormElement fe : procDefForms.get(key)) {
 				value.add(FormUtils.toString(fe));
@@ -203,7 +203,7 @@ public class WorkflowServlet extends BaseServlet {
 		}
 
 		// Filter process instances by status
-		List<ProcessInstance> processInstances = new ArrayList<ProcessInstance>();
+		List<ProcessInstance> processInstances = new ArrayList<>();
 
 		for (ProcessInstance pi : OKMWorkflow.getInstance().findProcessInstances(null, pdid)) {
 			if (statusFilter == 1) { // Running
@@ -238,7 +238,7 @@ public class WorkflowServlet extends BaseServlet {
 		ServletContext sc = getServletContext();
 		long piid = WebUtils.getLong(request, "piid");
 		ProcessInstance pi = OKMWorkflow.getInstance().getProcessInstance(null, piid);
-		Map<String, String> vars = new HashMap<String, String>();
+		Map<String, String> vars = new HashMap<>();
 
 		for (Entry<String, Object> entry : pi.getVariables().entrySet()) {
 			vars.put(entry.getKey(), FormatUtil.formatObject(entry.getValue()));
@@ -397,8 +397,8 @@ public class WorkflowServlet extends BaseServlet {
 		TaskInstance ti = OKMWorkflow.getInstance().getTaskInstance(null, tiid);
 		Map<String, List<FormElement>> procDefForms = OKMWorkflow.getInstance().getProcessDefinitionForms(null,
 				ti.getProcessInstance().getProcessDefinition().getId());
-		List<Map<String, String>> pdf = new ArrayList<Map<String, String>>();
-		Map<String, String> vars = new HashMap<String, String>();
+		List<Map<String, String>> pdf = new ArrayList<>();
+		Map<String, String> vars = new HashMap<>();
 		List<FormElement> fes = procDefForms.get(ti.getName());
 
 		if (fes != null) {

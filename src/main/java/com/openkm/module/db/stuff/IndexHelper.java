@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -102,8 +101,8 @@ public class IndexHelper {
 		private Set<String> wordSet;
 
 		@SuppressWarnings("unused")
-		SetDictionary(String words, Analyzer analyzer) throws IOException {
-			wordSet = new HashSet<String>();
+		SetDictionary(String words, Analyzer analyzer) {
+			wordSet = new HashSet<>();
 			if (words != null) {
 				TokenStream tokenStream = analyzer.tokenStream(NodeDocument.TEXT_FIELD, new StringReader(words));
 				Token reusableToken = new Token();

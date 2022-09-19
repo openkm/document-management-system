@@ -23,7 +23,7 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 
 	// all available comparators. First key is the name of comparator's class, second is the locale
 	// e.g. en-GB, cs-CZ, etc.
-	private static HashMap<String, HashMap<String, CultureComparator<?>>> comparators = new HashMap<String, HashMap<String, CultureComparator<?>>>();
+	private static HashMap<String, HashMap<String, CultureComparator<?>>> comparators = new HashMap<>();
 
 	// objet for synchronized access
 	private static final Object SYNC_LOCK = new Object();
@@ -98,7 +98,7 @@ public abstract class CultureComparator<T> implements Comparator<T> {
 		// probably no hasmap defined for class name, create a new one
 		synchronized (SYNC_LOCK) {
 			if (!comparators.containsKey(locale)) {
-				hashMap = new HashMap<String, CultureComparator<?>>();
+				hashMap = new HashMap<>();
 				comparator = (CultureComparator<?>) clazz.getDeclaredConstructor(String.class).newInstance(locale);
 				hashMap.put(className, comparator);
 				comparators.put(locale, hashMap);

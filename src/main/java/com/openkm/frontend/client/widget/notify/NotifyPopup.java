@@ -75,7 +75,7 @@ public class NotifyPopup extends DialogBox implements NotifyHandler {
 		mails = "";
 		users = "";
 		roles = "";
-		uuidList = new ArrayList<String>();
+		uuidList = new ArrayList<>();
 
 		vPanel = new VerticalPanel();
 		hPanel = new HorizontalPanel();
@@ -365,7 +365,8 @@ public class NotifyPopup extends DialogBox implements NotifyHandler {
 	 */
 	public void evaluateSendButton() {
 		boolean enabled = message.getText().trim().length() > 0 &&
-				(!notifyPanel.getUsersToNotify().equals("") || !notifyPanel.getRolesToNotify().equals("") || !notifyPanel.getExternalMailAddress().equals(""));
+				(!notifyPanel.getUsersToNotify().equals("") || !notifyPanel.getRolesToNotify().equals("")
+						|| !notifyPanel.getExternalMailAddress().equals(""));
 		sendButton.setEnabled(enabled);
 	}
 }

@@ -81,7 +81,7 @@ public class NativeMsExcelTextExtractor extends AbstractTextExtractor {
 				fos.close();
 
 				// Perform text extraction
-				HashMap<String, Object> hm = new HashMap<String, Object>();
+				HashMap<String, Object> hm = new HashMap<>();
 				hm.put("fileIn", tmpFileIn.getPath());
 				cmd = TemplateUtils.replace("SYSTEM_XLS2CSV", Config.SYSTEM_CATDOC_XLS2CSV, hm);
 				ExecutionResult execRes = ExecutionUtils.runCmd(cmd);

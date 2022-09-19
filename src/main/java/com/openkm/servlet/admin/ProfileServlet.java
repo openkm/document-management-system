@@ -134,7 +134,7 @@ public class ProfileServlet extends BaseServlet {
 			sc.setAttribute("pgroups", OKMPropertyGroup.getInstance().getAllGroups(null));
 			sc.setAttribute("wflows", OKMWorkflow.getInstance().findLatestProcessDefinitions(null));
 			sc.setAttribute("prf", ProfileDAO.findByPk(prfId));
-			List<String> pgProperties = new ArrayList<String>();
+			List<String> pgProperties = new ArrayList<>();
 
 			for (PropertyGroup pgrp : OKMPropertyGroup.getInstance().getAllGroups(null)) {
 				for (FormElement fe : OKMPropertyGroup.getInstance().getPropertyGroupForm(null, pgrp.getName())) {
@@ -243,15 +243,15 @@ public class ProfileServlet extends BaseServlet {
 		prf.getPrfMisc().setAcrobatPluginPreview(WebUtils.getBoolean(request, "prf_misc_acrobat_plugin_preview"));
 		prf.getPrfMisc().setIncreaseVersion(WebUtils.getBoolean(request, "prf_misc_increase_version"));
 		prf.getPrfMisc().setSentMailStorage(WebUtils.getString(request, "prf_misc_sent_mail_storage"));
-		prf.getPrfMisc().setExtensions(new HashSet<String>(WebUtils.getStringList(request, "prf_misc_extensions")));
-		prf.getPrfMisc().setReports(new HashSet<Long>(WebUtils.getLongList(request, "prf_misc_reports")));
-		prf.getPrfMisc().setWorkflows(new HashSet<String>(WebUtils.getStringList(request, "prf_misc_workflows")));
+		prf.getPrfMisc().setExtensions(new HashSet<>(WebUtils.getStringList(request, "prf_misc_extensions")));
+		prf.getPrfMisc().setReports(new HashSet<>(WebUtils.getLongList(request, "prf_misc_reports")));
+		prf.getPrfMisc().setWorkflows(new HashSet<>(WebUtils.getStringList(request, "prf_misc_workflows")));
 
 		// Wizard
 		prf.getPrfWizard().setKeywordsEnabled(WebUtils.getBoolean(request, "prf_wizard_keywords"));
 		prf.getPrfWizard().setCategoriesEnabled(WebUtils.getBoolean(request, "prf_wizard_categories"));
-		prf.getPrfWizard().setPropertyGroups(new HashSet<String>(WebUtils.getStringList(request, "prf_wizard_property_groups")));
-		prf.getPrfWizard().setWorkflows(new HashSet<String>(WebUtils.getStringList(request, "prf_wizard_workflows")));
+		prf.getPrfWizard().setPropertyGroups(new HashSet<>(WebUtils.getStringList(request, "prf_wizard_property_groups")));
+		prf.getPrfWizard().setWorkflows(new HashSet<>(WebUtils.getStringList(request, "prf_wizard_workflows")));
 
 		// Chat
 		prf.getPrfChat().setChatEnabled(WebUtils.getBoolean(request, "prf_chat_enabled"));

@@ -66,23 +66,20 @@ public class KeywordsWidget extends Composite {
 
 	/**
 	 * KeywordsWidget
-	 *
-	 * @param grpName The group name
-	 * @param widget Widget at firs row
 	 */
 	public KeywordsWidget(String docPath, Widget widget) {
 		table = new FlexTable();
 		this.docPath = docPath;
 
-		docKeywords = new ArrayList<String>();
-		keywordMap = new HashMap<String, Widget>();
-		keyWordsListPending = new ArrayList<String>();
+		docKeywords = new ArrayList<>();
+		keywordMap = new HashMap<>();
+		keyWordsListPending = new ArrayList<>();
 		keywordsCloud = new TagCloud();
 		keywordsCloud.setWidth("350px");
 
 		keywordPanel = new HorizontalPanel();
 		multiWordkSuggestKey = new MultiWordSuggestOracle();
-		keywordList = new ArrayList<String>();
+		keywordList = new ArrayList<>();
 		suggestKey = new SuggestBox(multiWordkSuggestKey);
 		suggestKey.setHeight("20px");
 		suggestKey.setText(Main.i18n("dashboard.keyword.suggest"));
@@ -90,10 +87,8 @@ public class KeywordsWidget extends Composite {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if ((char) KeyCodes.KEY_ENTER == event.getNativeKeyCode() && keyWordsListPending.isEmpty()) {
-					String keys[] = suggestKey.getText().split(" ");    // Separates keywords by space
-					for (int i = 0; i < keys.length; i++) {
-						keyWordsListPending.add(keys[i]);
-					}
+					String[] keys = suggestKey.getText().split(" ");    // Separates keywords by space
+					Collections.addAll(keyWordsListPending, keys);
 					addPendingKeyWordsList();
 					suggestKey.setText("");
 				}
@@ -180,9 +175,9 @@ public class KeywordsWidget extends Composite {
 
 		// Reloading keyword list
 		multiWordkSuggestKey.clear();
-		keywordList = new ArrayList<String>();
-		for (Iterator<GWTKeyword> it = Main.get().mainPanel.dashboard.keyMapDashboard.getAllKeywordList().iterator(); it.hasNext(); ) {
-			String keyword = it.next().getKeyword();
+		keywordList = new ArrayList<>();
+		for (GWTKeyword gwtKeyword : Main.get().mainPanel.dashboard.keyMapDashboard.getAllKeywordList()) {
+			String keyword = gwtKeyword.getKeyword();
 			multiWordkSuggestKey.add(keyword);
 			keywordList.add(keyword);
 		}
@@ -214,8 +209,6 @@ public class KeywordsWidget extends Composite {
 
 	/**
 	 * addKeywordToPendinList
-	 *
-	 * @param key
 	 */
 	public void addKeywordToPendinList(String key) {
 		keyWordsListPending.add(key);
@@ -229,8 +222,7 @@ public class KeywordsWidget extends Composite {
 		if (!keyWordsListPending.isEmpty()) {
 			String keyword = keyWordsListPending.remove(0);
 			if (!keywordMap.containsKey(keyword) && keyword.length() > 0) {
-				for (Iterator<String> it = keywordMap.keySet().iterator(); it.hasNext(); ) {
-					String key = it.next();
+				for (String key : keywordMap.keySet()) {
 					if (!keywordList.contains(key)) {
 						multiWordkSuggestKey.add(key);
 						keywordList.add(key);
@@ -292,8 +284,7 @@ public class KeywordsWidget extends Composite {
 		keywordsCloud.setMinFrequency(Main.get().mainPanel.dashboard.keyMapDashboard.getTotalMinFrequency());
 		keywordsCloud.setMaxFrequency(Main.get().mainPanel.dashboard.keyMapDashboard.getTotalMaxFrequency());
 
-		for (Iterator<String> it = keywords.iterator(); it.hasNext(); ) {
-			String keyword = it.next();
+		for (String keyword : keywords) {
 			HTML tagKey = new HTML(keyword);
 			tagKey.setStyleName("okm-cloudTags");
 			Style linkStyle = tagKey.getElement().getStyle();

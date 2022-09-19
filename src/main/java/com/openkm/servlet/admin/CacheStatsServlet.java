@@ -43,7 +43,7 @@ import java.util.*;
 public class CacheStatsServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(CacheStatsServlet.class);
-	static Map<String, Statistics> cacheStatistics = Collections.synchronizedMap(new TreeMap<String, Statistics>(Collator.getInstance()));
+	static Map<String, Statistics> cacheStatistics = Collections.synchronizedMap(new TreeMap<>(Collator.getInstance()));
 	private boolean statsEnabled = false;
 
 	@Override
@@ -157,12 +157,12 @@ public class CacheStatsServlet extends BaseServlet {
 		log.debug("view({}, {})", request, response);
 		refresh();
 
-		List<Map<String, String>> cacheStats = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> cacheStats = new ArrayList<>();
 
 		for (String cache : cacheStatistics.keySet()) {
 			Statistics stats = cacheStatistics.get(cache);
 
-			Map<String, String> stat = new HashMap<String, String>();
+			Map<String, String> stat = new HashMap<>();
 			stat.put("cache", cache);
 			stat.put("cacheHits", Long.toString(stats.getCacheHits()));
 			stat.put("cacheMisses", Long.toString(stats.getCacheMisses()));

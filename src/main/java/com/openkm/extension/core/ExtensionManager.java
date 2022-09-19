@@ -67,7 +67,7 @@ public class ExtensionManager {
 	 */
 	public <P extends Plugin> List<P> getPlugins(final Class<P> plugin) {
 		PluginManagerUtil pmu = new PluginManagerUtil(pm);
-		return new ArrayList<P>(pmu.getPlugins(plugin));
+		return new ArrayList<>(pmu.getPlugins(plugin));
 	}
 
 	/**

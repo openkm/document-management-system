@@ -673,14 +673,11 @@ public class ForumToolBarEditor extends Composite {
 
 	/**
 	 * bbcode
-	 *
-	 * @param text
-	 * @return
 	 */
 	public static String bbcode(String text) {
 		String html = text;
 
-		Map<String, String> bbMap = new HashMap<String, String>();
+		Map<String, String> bbMap = new HashMap<>();
 
 		bbMap.put("(\r\n|\r|\n|\n\r)", "<br/>");
 		bbMap.put("\\[b\\](.+?)\\[/b\\]", "<strong>$1</strong>");
@@ -731,7 +728,7 @@ public class ForumToolBarEditor extends Composite {
 		bbMap.put(":mrgreen:", "<img width='15' height='15' alt=':mrgreen:' title='Mr. Green' src='img/icon/smilies/icon_mrgreen.gif' />");
 
 		for (Map.Entry<String, String> entry : bbMap.entrySet()) {
-			html = html.replaceAll(entry.getKey().toString(), entry.getValue().toString());
+			html = html.replaceAll(entry.getKey(), entry.getValue());
 		}
 
 		return html;

@@ -95,7 +95,7 @@ public class AutomationManager {
 	 */
 	private List<List<AutomationAction>> getValidActions(String event, String at, Map<String, Object> env)
 			throws IllegalArgumentException, SecurityException, AutomationException {
-		List<List<AutomationAction>> actionsList = new ArrayList<List<AutomationAction>>();
+		List<List<AutomationAction>> actionsList = new ArrayList<>();
 
 		try {
 			for (AutomationRule aRule : AutomationDAO.getInstance().findByEvent(event, at)) {

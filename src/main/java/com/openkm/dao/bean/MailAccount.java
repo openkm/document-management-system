@@ -43,7 +43,7 @@ public class MailAccount implements Serializable {
 	private boolean mailMarkSeen = true;
 	private boolean mailMarkDeleted = false;
 	private long mailLastUid = 0;
-	private Set<MailFilter> mailFilters = new HashSet<MailFilter>();
+	private Set<MailFilter> mailFilters = new HashSet<>();
 	private Set<MailImportError> mailImportErrors = new HashSet<>();
 	private boolean active = false;
 

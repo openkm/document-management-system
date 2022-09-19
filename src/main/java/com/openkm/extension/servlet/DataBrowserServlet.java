@@ -83,8 +83,8 @@ public class DataBrowserServlet extends BaseServlet {
 		String dst = WebUtils.getString(request, "dst");
 		String root = WebUtils.getString(request, "root");
 		File dir = new File(path.isEmpty() ? EnvironmentDetector.getUserHome() : path);
-		List<Map<String, String>> folders = new ArrayList<Map<String, String>>();
-		List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> folders = new ArrayList<>();
+		List<Map<String, String>> documents = new ArrayList<>();
 		boolean browseParent = false;
 
 		if (!root.equals("")) {
@@ -95,7 +95,7 @@ public class DataBrowserServlet extends BaseServlet {
 
 		// Add parent folder link
 		if (browseParent) {
-			Map<String, String> item = new HashMap<String, String>();
+			Map<String, String> item = new HashMap<>();
 			File parent = dir.getParentFile();
 			item.put("name", "&lt;PARENT FOLDER&gt;");
 			item.put("path", fixPath(parent.getPath()));
@@ -104,7 +104,7 @@ public class DataBrowserServlet extends BaseServlet {
 		}
 
 		for (File f : dir.listFiles()) {
-			Map<String, String> item = new HashMap<String, String>();
+			Map<String, String> item = new HashMap<>();
 
 			if (f.isDirectory() && !f.isHidden()) {
 				item.put("name", f.getName());
@@ -167,14 +167,14 @@ public class DataBrowserServlet extends BaseServlet {
 		String sel = WebUtils.getString(request, "sel", SEL_BOTH);
 		String dst = WebUtils.getString(request, "dst");
 		String root = WebUtils.getString(request, "root", "/");
-		List<Map<String, String>> folders = new ArrayList<Map<String, String>>();
-		List<Map<String, String>> documents = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> folders = new ArrayList<>();
+		List<Map<String, String>> documents = new ArrayList<>();
 
 		if (!root.equals(path)) {
 			// Add parent folder link
 		    Folder fld = OKMFolder.getInstance().getProperties(null, uuid);
             String pathParent = PathUtils.getParent(fld.getPath());
-			Map<String, String> item = new HashMap<String, String>();
+			Map<String, String> item = new HashMap<>();
 			item.put("name", "&lt;PARENT FOLDER&gt;");
 			item.put("path", PathUtils.getParent(path));
 			item.put("uuid", OKMRepository.getInstance().getNodeUuid(null, pathParent));
@@ -183,7 +183,7 @@ public class DataBrowserServlet extends BaseServlet {
 		}
 
 		for (Folder fld : OKMFolder.getInstance().getChildren(null, uuid)) {
-			Map<String, String> item = new HashMap<String, String>();
+			Map<String, String> item = new HashMap<>();
 			item.put("name", PathUtils.getName(fld.getPath()));
 			item.put("path", fld.getPath());
 			item.put("uuid", fld.getUuid());
@@ -199,7 +199,7 @@ public class DataBrowserServlet extends BaseServlet {
 
 		if (sel.equals(SEL_BOTH) || sel.equals(SEL_DOCUMENT)) {
 			for (Document doc : OKMDocument.getInstance().getChildren(null, uuid)) {
-				Map<String, String> item = new HashMap<String, String>();
+				Map<String, String> item = new HashMap<>();
 				item.put("name", PathUtils.getName(doc.getPath()));
 				item.put("path", doc.getPath());
 				item.put("uuid", doc.getUuid());
@@ -230,8 +230,7 @@ public class DataBrowserServlet extends BaseServlet {
 	/**
 	 * Specialized comparator.
 	 */
-	private class MapComparator implements Comparator<Map<String, String>> {
-
+	private static class MapComparator implements Comparator<Map<String, String>> {
 		@Override
 		public int compare(Map<String, String> o1, Map<String, String> o2) {
 			return o1.get("name").compareToIgnoreCase(o2.get("name"));

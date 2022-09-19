@@ -65,7 +65,7 @@ public class PrincipalUtils {
 	 */
 	public static Set<String> getRoles() {
 		Authentication auth = getAuthentication();
-		Set<String> roles = new HashSet<String>();
+		Set<String> roles = new HashSet<>();
 
 		if (auth != null) {
 			for (GrantedAuthority ga : auth.getAuthorities()) {
@@ -131,7 +131,7 @@ public class PrincipalUtils {
 	 * Create authentication token
 	 */
 	public static Authentication createAuthentication(String user, Set<String> roles) {
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		List<GrantedAuthority> authorities = new ArrayList<>();
 
 		for (String role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role));

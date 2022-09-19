@@ -60,7 +60,7 @@ public class FormUtils {
 	public static Map<String, List<FormElement>> parseWorkflowForms(InputStream is) throws ParseException {
 		log.debug("parseWorkflowForms({})", is);
 		long begin = System.currentTimeMillis();
-		Map<String, List<FormElement>> forms = new HashMap<String, List<FormElement>>();
+		Map<String, List<FormElement>> forms = new HashMap<>();
 
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -106,7 +106,7 @@ public class FormUtils {
 	public static List<FormElement> parseReportParameters(InputStream is) throws ParseException {
 		log.debug("parseReportParameters({})", is);
 		long begin = System.currentTimeMillis();
-		List<FormElement> params = new ArrayList<FormElement>();
+		List<FormElement> params = new ArrayList<>();
 
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -154,7 +154,7 @@ public class FormUtils {
 
 		if (pGroups == null) {
 			long begin = System.currentTimeMillis();
-			pGroups = new HashMap<PropertyGroup, List<FormElement>>();
+			pGroups = new HashMap<>();
 			FileInputStream fis = null;
 
 			try {
@@ -184,9 +184,9 @@ public class FormUtils {
 							item = nForm.getAttributes().getNamedItem("name");
 							if (item != null) pg.setName(item.getNodeValue());
 							item = nForm.getAttributes().getNamedItem("visible");
-							if (item != null) pg.setVisible(Boolean.valueOf(item.getNodeValue()));
+							if (item != null) pg.setVisible(Boolean.parseBoolean(item.getNodeValue()));
 							item = nForm.getAttributes().getNamedItem("readonly");
-							if (item != null) pg.setReadonly(Boolean.valueOf(item.getNodeValue()));
+							if (item != null) pg.setReadonly(Boolean.parseBoolean(item.getNodeValue()));
 
 							NodeList nlField = nForm.getChildNodes();
 							List<FormElement> fe = parseField(nlField);
@@ -251,9 +251,9 @@ public class FormUtils {
 	 * Retrieve the form elements from a PropertyGroup definition.
 	 */
 	public static Map<String, FormElement> getPropertyGroupFormsMap(Map<PropertyGroup, List<FormElement>>
-																			formsElements, String groupName) {
+			formsElements, String groupName) {
 		// long begin = System.currentTimeMillis();
-		Map<String, FormElement> map = new HashMap<String, FormElement>();
+		Map<String, FormElement> map = new HashMap<>();
 
 		for (Entry<PropertyGroup, List<FormElement>> entry : formsElements.entrySet()) {
 			if (entry.getKey().getName().equals(groupName)) {
@@ -306,7 +306,7 @@ public class FormUtils {
 	 * Parse individual form fields
 	 */
 	private static List<FormElement> parseField(NodeList nlField) {
-		List<FormElement> fe = new ArrayList<FormElement>();
+		List<FormElement> fe = new ArrayList<>();
 
 		for (int j = 0; j < nlField.getLength(); j++) {
 			Node nField = nlField.item(j);
@@ -495,7 +495,7 @@ public class FormUtils {
 					fe.add(sep);
 				} else if (fieldComponent.equals("select")) {
 					Select select = new Select();
-					ArrayList<Option> options = new ArrayList<Option>();
+					ArrayList<Option> options = new ArrayList<>();
 					Node item = nField.getAttributes().getNamedItem("label");
 					if (item != null) select.setLabel(item.getNodeValue());
 					item = nField.getAttributes().getNamedItem("name");
@@ -553,7 +553,7 @@ public class FormUtils {
 	 * Parse form elements nodes
 	 */
 	private static List<com.openkm.bean.form.Node> parseNodes(Node nField) {
-		List<com.openkm.bean.form.Node> nodes = new ArrayList<com.openkm.bean.form.Node>();
+		List<com.openkm.bean.form.Node> nodes = new ArrayList<>();
 		NodeList nlNodes = nField.getChildNodes();
 
 		for (int k = 0; k < nlNodes.getLength(); k++) {
@@ -580,7 +580,7 @@ public class FormUtils {
 	 * Parse form elements validators
 	 */
 	private static List<Validator> parseValidators(Node nField) {
-		List<Validator> validators = new ArrayList<Validator>();
+		List<Validator> validators = new ArrayList<>();
 		NodeList nlValidators = nField.getChildNodes();
 
 		for (int k = 0; k < nlValidators.getLength(); k++) {
@@ -628,7 +628,7 @@ public class FormUtils {
 	 * Get form element type
 	 */
 	public static Map<String, String> toString(FormElement fe) {
-		Map<String, String> ret = new HashMap<String, String>();
+		Map<String, String> ret = new HashMap<>();
 		ret.put("label", fe.getLabel());
 		ret.put("name", fe.getName());
 		ret.put("width", fe.getWidth());
@@ -736,8 +736,7 @@ public class FormUtils {
 
 			sb.append("<i>Options:</i><ul>");
 
-			for (Iterator<Option> itOpt = select.getOptions().iterator(); itOpt.hasNext(); ) {
-				Option opt = itOpt.next();
+			for (Option opt : select.getOptions()) {
 				sb.append("<li><i>Label:</i> ");
 				sb.append(opt.getLabel());
 				sb.append(", <i>Value:</i> ");
@@ -792,8 +791,7 @@ public class FormUtils {
 	private static void drawValidators(StringBuilder sb, List<Validator> validators) {
 		if (!validators.isEmpty()) {
 			sb.append("<br/><i>Validators:</i><ul>");
-			for (Iterator<Validator> it = validators.iterator(); it.hasNext(); ) {
-				Validator v = it.next();
+			for (Validator v : validators) {
 				sb.append("<li><i>Type:</i> ");
 				sb.append(v.getType());
 				sb.append(", <i>Parameter:</i> ");
@@ -809,7 +807,7 @@ public class FormUtils {
 	 */
 	static class LocalResolver implements EntityResolver {
 		private static Logger log = LoggerFactory.getLogger(LocalResolver.class);
-		private Hashtable<String, String> dtds = new Hashtable<String, String>();
+		private Hashtable<String, String> dtds = new Hashtable<>();
 		private boolean hasDTD = false;
 
 		public LocalResolver(String dtdBase) {

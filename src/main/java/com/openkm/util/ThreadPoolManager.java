@@ -36,7 +36,7 @@ public class ThreadPoolManager {
 	private static Logger log = LoggerFactory.getLogger(ThreadPoolManager.class);
 	private static final int POOL_TIMEOUT = 1;
 	private static final int MAX_TIMEOUTS = 10;
-	private static List<ThreadPoolManager> createdManagers = new ArrayList<ThreadPoolManager>();
+	private static List<ThreadPoolManager> createdManagers = new ArrayList<>();
 	private ExecutorService executor;
 	private String name;
 

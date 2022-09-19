@@ -203,7 +203,7 @@ public class ProposedSubscriptionDAO {
 			Query q = session.createQuery(qs);
 			q.setString("me", me);
 			List<Object[]> list = q.list();
-			Map<String, Long> ret = new HashMap<String, Long>();
+			Map<String, Long> ret = new HashMap<>();
 
 			for (Object[] item : list) {
 				ret.put((String) item[0], (Long) item[1]);

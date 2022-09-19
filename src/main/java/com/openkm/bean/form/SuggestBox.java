@@ -26,7 +26,7 @@ import java.util.List;
 
 public class SuggestBox extends FormElement {
 	private static final long serialVersionUID = 1L;
-	private List<Validator> validators = new ArrayList<Validator>();
+	private List<Validator> validators = new ArrayList<>();
 	private String value = "";
 	private String data = "";
 	private boolean readonly = false;

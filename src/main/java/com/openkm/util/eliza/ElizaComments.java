@@ -38,8 +38,8 @@ public class ElizaComments {
 
 	public ElizaComments(InputStream stream) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		comments = new Vector<Comment>();
-		auxVerbs = new Vector<AuxVerb>();
+		comments = new Vector<>();
+		auxVerbs = new Vector<>();
 		lameExcuse = null;
 
 		while (true) {

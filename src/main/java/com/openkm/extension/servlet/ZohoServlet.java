@@ -112,7 +112,7 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 	public Map<String, String> getZohoWriterUrl(String uuid, String lang) throws OKMException {
 		log.debug("getZohoWriterUrl({}, {})", uuid, lang);
 		updateSessionManager();
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 
 		try {
 			result = sendToZoho("https://exportwriter.zoho.com/remotedoc.im", uuid, lang);
@@ -148,7 +148,7 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 	public Map<String, String> getZohoSheetUrl(String uuid, String lang) throws OKMException {
 		log.debug("getZohoSheetUrl({}, {})", uuid, lang);
 		updateSessionManager();
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result;
 
 		try {
 			result = sendToZoho("https://sheet.zoho.com/remotedoc.im", uuid, lang);
@@ -198,7 +198,7 @@ public class ZohoServlet extends OKMRemoteServiceServlet implements OKMZohoServi
 	 */
 	private Map<String, String> sendToZoho(String zohoUrl, String nodeUuid, String lang) throws PathNotFoundException,
 			AccessDeniedException, RepositoryException, DatabaseException, IOException, OKMException, LockException {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 		File tmp = null;
 
 		try {

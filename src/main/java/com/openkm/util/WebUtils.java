@@ -56,7 +56,7 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor String del parámetro o un String vacio si no existe.
 	 */
-	public static final String getString(HttpServletRequest request, String name) {
+	public static String getString(HttpServletRequest request, String name) {
 		String value = request.getParameter(name);
 		String stringValue = EMPTY_STRING;
 
@@ -79,7 +79,7 @@ public class WebUtils {
 	 * @param Valor per defecto del parámetro.
 	 * @return El valor String del parámetro o el valor por defecto si no existe.
 	 */
-	public static final String getString(HttpServletRequest request, String name, String defaultValue) {
+	public static String getString(HttpServletRequest request, String name, String defaultValue) {
 		String value = request.getParameter(name);
 		String stringValue = defaultValue;
 
@@ -101,14 +101,14 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor String del parámetro o un String vacio si no existe.
 	 */
-	public static final List<String> getStringList(HttpServletRequest request, String name) {
+	public static List<String> getStringList(HttpServletRequest request, String name) {
 		String[] value = request.getParameterValues(name);
-		List<String> stringValue = new ArrayList<String>();
+		List<String> stringValue = new ArrayList<>();
 
 		if (value != null) {
 			try {
-				for (int i = 0; i < value.length; i++) {
-					stringValue.add(new String(value[i].getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), StandardCharsets.UTF_8));
+				for (String s : value) {
+					stringValue.add(new String(s.getBytes(Config.TOMCAT_CONNECTOR_URI_ENCODING), StandardCharsets.UTF_8));
 				}
 			} catch (UnsupportedEncodingException e) {
 				// Ignore
@@ -126,7 +126,7 @@ public class WebUtils {
 	 * @param name    Nombre del parámetro
 	 * @return El valor String del parámetro o un String vacio si no existe.
 	 */
-	public static final String getStringComaSeparedValues(HttpServletRequest request, String name) {
+	public static String getStringComaSeparedValues(HttpServletRequest request, String name) {
 		String[] value = request.getParameterValues(name);
 		String stringValue = EMPTY_STRING;
 
@@ -149,7 +149,7 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor int del parámetro o 0 si no existe o no es valido.
 	 */
-	public static final int getInt(HttpServletRequest request, String name) {
+	public static int getInt(HttpServletRequest request, String name) {
 		String strValue = request.getParameter(name);
 		int intValue = 0;
 
@@ -172,7 +172,7 @@ public class WebUtils {
 	 * @param defaultValue Valor per defecto
 	 * @return El valor int del parámetro o el valor por defecto especificado si no existe o no es valido.
 	 */
-	public static final int getInt(HttpServletRequest request, String name, int defaultValue) {
+	public static int getInt(HttpServletRequest request, String name, int defaultValue) {
 		String strValue = request.getParameter(name);
 		int intValue = defaultValue;
 
@@ -194,14 +194,14 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor String del parámetro o un String vacio si no existe.
 	 */
-	public static final List<Integer> getIntList(HttpServletRequest request, String name) {
+	public static List<Integer> getIntList(HttpServletRequest request, String name) {
 		String[] value = request.getParameterValues(name);
-		List<Integer> intValue = new ArrayList<Integer>();
+		List<Integer> intValue = new ArrayList<>();
 
 		if (value != null) {
 			try {
-				for (int i = 0; i < value.length; i++) {
-					intValue.add(Integer.parseInt(value[i]));
+				for (String s : value) {
+					intValue.add(Integer.parseInt(s));
 				}
 			} catch (Throwable e) {
 				// Ignore
@@ -218,14 +218,14 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor String del parámetro o un String vacio si no existe.
 	 */
-	public static final List<Long> getLongList(HttpServletRequest request, String name) {
+	public static List<Long> getLongList(HttpServletRequest request, String name) {
 		String[] value = request.getParameterValues(name);
-		List<Long> intValue = new ArrayList<Long>();
+		List<Long> intValue = new ArrayList<>();
 
 		if (value != null) {
 			try {
-				for (int i = 0; i < value.length; i++) {
-					intValue.add(Long.parseLong(value[i]));
+				for (String s : value) {
+					intValue.add(Long.parseLong(s));
 				}
 			} catch (Throwable e) {
 				// Ignore
@@ -242,7 +242,7 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor int del parámetro o 0 si no existe o no es valido.
 	 */
-	public static final long getLong(HttpServletRequest request, String name) {
+	public static long getLong(HttpServletRequest request, String name) {
 		String strValue = request.getParameter(name);
 		long longValue = 0;
 
@@ -264,7 +264,7 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return El valor float del parámetro o 0 si no existe o no es valido.
 	 */
-	public static final float getFloat(HttpServletRequest request, String name) {
+	public static float getFloat(HttpServletRequest request, String name) {
 		String strValue = request.getParameter(name);
 		float floatValue = 0;
 
@@ -286,7 +286,7 @@ public class WebUtils {
 	 * @param name Nombre del parámetro
 	 * @return true si el parámetro existe y no esta vacio, false en caso contrario.
 	 */
-	public static final boolean getBoolean(HttpServletRequest request, String name) {
+	public static boolean getBoolean(HttpServletRequest request, String name) {
 		String strValue = request.getParameter(name);
 		return (strValue != null && !strValue.equals(EMPTY_STRING) && !strValue.equals("false"));
 	}
@@ -300,7 +300,7 @@ public class WebUtils {
 	 * @param trueValue Valor considerado true.
 	 * @return true si el parámetro existe y es igual a trueValue, false en caso contrario.
 	 */
-	public static final boolean getBoolean(HttpServletRequest request, String name, String trueValue) {
+	public static boolean getBoolean(HttpServletRequest request, String name, String trueValue) {
 		String strValue = request.getParameter(name);
 		return (strValue != null && strValue.equals(trueValue));
 	}

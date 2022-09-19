@@ -24,7 +24,7 @@ public class UserNodeKeywords implements Serializable {
 	@ElementCollection
 	@Column(name = "UNK_NAME")
 	@CollectionTable(name = "OKM_USER_NODE_KEYWORD", joinColumns = {@JoinColumn(name = "UNK_ID")})
-	private Set<String> keywords = new HashSet<String>();
+	private Set<String> keywords = new HashSet<>();
 
 	public int getId() {
 		return id;

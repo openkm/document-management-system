@@ -36,7 +36,7 @@ public class DummyPrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getUsers() throws PrincipalAdapterException {
 		log.debug("getUsers()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		list.add(Config.ADMIN_USER);
 		list.add(TEST_USER);
 		log.debug("getUsers: {}", list);
@@ -46,7 +46,7 @@ public class DummyPrincipalAdapter implements PrincipalAdapter {
 	@Override
 	public List<String> getRoles() throws PrincipalAdapterException {
 		log.debug("getRoles()");
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		list.add(Config.DEFAULT_ADMIN_ROLE);
 		list.add(Config.DEFAULT_USER_ROLE);
 		log.debug("getRoles: {}", list);
@@ -55,7 +55,7 @@ public class DummyPrincipalAdapter implements PrincipalAdapter {
 
 	@Override
 	public List<String> getUsersByRole(String role) throws PrincipalAdapterException {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		if (role.equals(Config.DEFAULT_ADMIN_ROLE)) {
 			list.add(Config.ADMIN_USER);
@@ -69,7 +69,7 @@ public class DummyPrincipalAdapter implements PrincipalAdapter {
 
 	@Override
 	public List<String> getRolesByUser(String user) throws PrincipalAdapterException {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		if (user.equals(Config.ADMIN_USER)) {
 			list.add(Config.DEFAULT_ADMIN_ROLE);

@@ -218,7 +218,7 @@ public class DbNoteModule implements NoteModule {
 	public List<Note> list(String token, String nodeId) throws AccessDeniedException, PathNotFoundException, RepositoryException,
 			DatabaseException {
 		log.debug("list({}, {})", token, nodeId);
-		List<Note> childs = new ArrayList<Note>();
+		List<Note> childs = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 		String nodePath = null;
 		String nodeUuid = null;

@@ -42,7 +42,7 @@ public class GWTForumTopic implements IsSerializable {
 	private int views;
 	private String lastPostUser;
 	private Date lastPostDate;
-	private Set<GWTForumPost> posts = new LinkedHashSet<GWTForumPost>();
+	private Set<GWTForumPost> posts = new LinkedHashSet<>();
 
 	public String getLastPostUser() {
 		return lastPostUser;

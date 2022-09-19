@@ -51,7 +51,7 @@ public final class RandomAccessStream extends InputStream {
 	 */
 	public RandomAccessStream(InputStream inputstream) {
 		pointer = 0L;
-		data = new Vector<byte[]>();
+		data = new Vector<>();
 		length = 0;
 		foundEOS = false;
 		src = inputstream;

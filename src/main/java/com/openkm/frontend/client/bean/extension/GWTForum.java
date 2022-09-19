@@ -21,7 +21,7 @@ public class GWTForum implements IsSerializable {
 	private int numTopics;
 	private int numPosts;
 	private boolean active;
-	private Set<GWTForumTopic> topics = new LinkedHashSet<GWTForumTopic>();
+	private Set<GWTForumTopic> topics = new LinkedHashSet<>();
 
 	public long getId() {
 		return id;

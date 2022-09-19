@@ -51,7 +51,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -106,11 +105,9 @@ public class MimeTypeServlet extends BaseServlet {
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				List<FileItem> items = upload.parseRequest(request);
 				MimeType mt = new MimeType();
-				byte data[] = null;
+				byte[] data = null;
 
-				for (Iterator<FileItem> it = items.iterator(); it.hasNext(); ) {
-					FileItem item = it.next();
-
+				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
@@ -300,7 +297,7 @@ public class MimeTypeServlet extends BaseServlet {
 			Session dbSession) throws DatabaseException, SQLException {
 		log.debug("import({}, {}, {}, {}, {})", userId, request, response, data, dbSession);
 
-        WorkerUpdate worker = new DatabaseQueryServlet().new WorkerUpdate();
+        WorkerUpdate worker = new WorkerUpdate();
         worker.setData(data);
         dbSession.doWork(worker);
         log.debug("importMimeTypes: void");

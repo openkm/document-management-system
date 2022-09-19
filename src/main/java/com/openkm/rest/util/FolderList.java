@@ -31,7 +31,7 @@ import java.util.List;
 @XmlRootElement(name = "folders")
 public class FolderList {
 	@XmlElement(name = "folder", required = true)
-	List<Folder> folders = new ArrayList<Folder>();
+	List<Folder> folders = new ArrayList<>();
 
 	public List<Folder> getList() {
 		return folders;

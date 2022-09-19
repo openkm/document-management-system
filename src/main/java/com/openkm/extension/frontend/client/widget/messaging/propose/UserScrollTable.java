@@ -219,11 +219,9 @@ public class UserScrollTable extends Composite {
 
 	/**
 	 * getUsersToNotifyList
-	 *
-	 * @return
 	 */
 	public List<String> getUsersToNotifyList() {
-		List<String> usersList = new ArrayList<String>();
+		List<String> usersList = new ArrayList<>();
 
 		if (dataTable.getRowCount() > 0) {
 			for (int i = 0; i < dataTable.getRowCount(); i++) {

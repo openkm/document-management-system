@@ -80,9 +80,9 @@ public class Stapling implements DocumentHandlerExtension, FolderHandlerExtensio
 	private String groupIdMarkedToDelete = "";
 	private GWTStapleGroup actualStapleGroup = new GWTStapleGroup();
 	private boolean isValidStackWithStapling = true;
-	private List<Button> addButtonList = new ArrayList<Button>();
-	private List<Button> deleteButtonList = new ArrayList<Button>();
-	private List<Button> downloadButtonList = new ArrayList<Button>();
+	private List<Button> addButtonList = new ArrayList<>();
+	private List<Button> deleteButtonList = new ArrayList<>();
+	private List<Button> downloadButtonList = new ArrayList<>();
 	private ConfirmPopup confirmPopup;
 	private Status status;
 	private int selectedPanel = TAB_FOLDER;
@@ -258,11 +258,9 @@ public class Stapling implements DocumentHandlerExtension, FolderHandlerExtensio
 
 	/**
 	 * getExtensions
-	 *
-	 * @return
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(buttonStart);
 		extensions.add(buttonStop);
@@ -599,9 +597,9 @@ public class Stapling implements DocumentHandlerExtension, FolderHandlerExtensio
 			public void onSuccess(List<GWTStapleGroup> result) {
 				actualStapleGroup = new GWTStapleGroup();
 				table.removeAllRows();
-				addButtonList = new ArrayList<Button>();
-				deleteButtonList = new ArrayList<Button>();
-				downloadButtonList = new ArrayList<Button>();
+				addButtonList = new ArrayList<>();
+				deleteButtonList = new ArrayList<>();
+				downloadButtonList = new ArrayList<>();
 				int count = 0;
 				for (final GWTStapleGroup sg : result) {
 					// Saving actual staplingGroup

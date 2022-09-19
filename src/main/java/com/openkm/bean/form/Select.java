@@ -36,8 +36,8 @@ public class Select extends FormElement {
 	private static final long serialVersionUID = 1L;
 	public static final String TYPE_SIMPLE = "simple";
 	public static final String TYPE_MULTIPLE = "multiple";
-	private List<Validator> validators = new ArrayList<Validator>();
-	private List<Option> options = new ArrayList<Option>();
+	private List<Validator> validators = new ArrayList<>();
+	private List<Option> options = new ArrayList<>();
 	private String type = TYPE_SIMPLE;
 	private String value = "";
 	private String data = "";
@@ -159,7 +159,7 @@ public class Select extends FormElement {
 			List<Option> dbOptions = getOptionsFromDb();
 
 			// creates hashed options (key is value) from internal option list
-			HashMap<String, Option> hashedOptions = new HashMap<String, Option>();
+			HashMap<String, Option> hashedOptions = new HashMap<>();
 
 			if (this.options != null) {
 				for (Option option : this.options) {
@@ -189,7 +189,7 @@ public class Select extends FormElement {
 	 * @return list of options from meta table, empty list on error.
 	 */
 	private List<Option> getOptionsFromDb() {
-		List<Option> dbOptions = new ArrayList<Option>();
+		List<Option> dbOptions = new ArrayList<>();
 
 		try {
 			log.debug("Getting options from DB (table={}, query={})", table, optionsQuery);
@@ -229,7 +229,7 @@ public class Select extends FormElement {
 			List<Option> classOptions = getOptionsFromClass();
 
 			// creates hashed options (key is value) from internal option list
-			HashMap<String, Option> hashedOptions = new HashMap<String, Option>();
+			HashMap<String, Option> hashedOptions = new HashMap<>();
 
 			if (this.options != null) {
 				for (Option option : this.options) {
@@ -260,7 +260,7 @@ public class Select extends FormElement {
 	 */
 	@SuppressWarnings("unchecked")
 	private List<Option> getOptionsFromClass() {
-		List<Option> classOptions = new ArrayList<Option>();
+		List<Option> classOptions = new ArrayList<>();
 
 		try {
 			log.debug("Getting options from Class (className={})", className);

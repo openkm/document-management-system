@@ -82,9 +82,9 @@ public class KeywordManager {
 		keywordsCloud.setWidth("350px");
 		keywordsCloudText = new HTML("<b>" + Main.i18n("document.keywords.cloud") + "</b>");
 		keywordsText = new HTML("<b>" + Main.i18n("document.keywords") + "</b>");
-		keywordMap = new HashMap<String, Widget>();
+		keywordMap = new HashMap<>();
 		multiWordkSuggestKey = new MultiWordSuggestOracle();
-		keywordList = new ArrayList<String>();
+		keywordList = new ArrayList<>();
 		suggestKey = new SuggestBox(multiWordkSuggestKey);
 		suggestKey.setHeight("20px");
 		suggestKey.setText(Main.i18n("dashboard.keyword.suggest"));
@@ -92,10 +92,8 @@ public class KeywordManager {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if ((char) KeyCodes.KEY_ENTER == event.getNativeKeyCode() && keyWordsListPending.isEmpty()) {
-					String keys[] = suggestKey.getText().split(" ");    // Separates keywords by space
-					for (int i = 0; i < keys.length; i++) {
-						keyWordsListPending.add(keys[i]);
-					}
+					String[] keys = suggestKey.getText().split(" ");    // Separates keywords by space
+					Collections.addAll(keyWordsListPending, keys);
 					addPendingKeyWordsList();
 					suggestKey.setText("");
 				}
@@ -114,7 +112,7 @@ public class KeywordManager {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				if (!keyShortcutsEnabled) {
-					Main.get().mainPanel.enableKeyShorcuts();            // Enables general keys applications
+					Main.get().mainPanel.enableKeyShorcuts();
 					keyShortcutsEnabled = true;
 				}
 			}
@@ -168,14 +166,12 @@ public class KeywordManager {
 
 	/**
 	 * setObject
-	 *
-	 * @param object
-	 * @param remove
 	 */
 	public void setObject(Object object, boolean remove) {
 		this.object = object;
 		this.remove = remove;
-		keywords = new HashSet<String>();
+		keywords = new HashSet<>();
+
 		if (object instanceof GWTDocument) {
 			keywords = ((GWTDocument) object).getKeywords();
 			path = ((GWTDocument) object).getPath();
@@ -201,7 +197,7 @@ public class KeywordManager {
 
 		// Reloading keyword list
 		multiWordkSuggestKey.clear();
-		keywordList = new ArrayList<String>();
+		keywordList = new ArrayList<>();
 		for (GWTKeyword key : Main.get().mainPanel.dashboard.keyMapDashboard.getAllKeywordList()) {
 			String keyword = key.getKeyword();
 			multiWordkSuggestKey.add(keyword);
@@ -215,8 +211,6 @@ public class KeywordManager {
 
 	/**
 	 * setVisible
-	 *
-	 * @param visible
 	 */
 	public void setVisible(boolean visible) {
 		suggestKey.setVisible(visible);
@@ -228,14 +222,12 @@ public class KeywordManager {
 	 */
 	public void reset() {
 		hKeyPanel.clear();
-		keywordMap = new HashMap<String, Widget>();
-		keyWordsListPending = new ArrayList<String>();
+		keywordMap = new HashMap<>();
+		keyWordsListPending = new ArrayList<>();
 	}
 
 	/**
 	 * getKeywordText
-	 *
-	 * @return
 	 */
 	public Widget getKeywordText() {
 		return keywordsText;
@@ -243,8 +235,6 @@ public class KeywordManager {
 
 	/**
 	 * getKeywordPanel
-	 *
-	 * @return
 	 */
 	public Widget getKeywordPanel() {
 		return keywordPanel;
@@ -252,8 +242,6 @@ public class KeywordManager {
 
 	/**
 	 * getKeywordCloudText
-	 *
-	 * @return
 	 */
 	public Widget getKeywordCloudText() {
 		return keywordsCloudText;
@@ -261,8 +249,6 @@ public class KeywordManager {
 
 	/**
 	 * getKeywordCloud
-	 *
-	 * @return
 	 */
 	public Widget getKeywordCloud() {
 		return keywordsCloud;
@@ -270,8 +256,6 @@ public class KeywordManager {
 
 	/**
 	 * addKeywordToPendinList
-	 *
-	 * @param key
 	 */
 	public void addKeywordToPendinList(String key) {
 		keyWordsListPending.add(key);
@@ -369,7 +353,7 @@ public class KeywordManager {
 	};
 
 	/**
-	 * @param enabled
+	 *
 	 */
 	public void setKeywordEnabled(boolean enabled) {
 		suggestKey.getTextBox().setEnabled(enabled);
@@ -380,9 +364,7 @@ public class KeywordManager {
 	 */
 	public void addKeyword(String keyword) {
 		if (!keywordMap.containsKey(keyword) && keyword.length() > 0) {
-			for (Iterator<String> it = keywordMap.keySet().iterator(); it.hasNext(); ) {
-				String key = it.next();
-
+			for (String key : keywordMap.keySet()) {
 				if (!keywordList.contains(key)) {
 					multiWordkSuggestKey.add(key);
 					keywordList.add(key);
@@ -484,7 +466,7 @@ public class KeywordManager {
 	 *
 	 * @author jllort
 	 */
-	public class KeywordToRemove {
+	public static class KeywordToRemove {
 		private HorizontalPanel externalPanel;
 		private String keyword;
 

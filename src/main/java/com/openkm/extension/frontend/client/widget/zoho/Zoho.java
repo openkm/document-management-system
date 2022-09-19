@@ -70,7 +70,7 @@ public class Zoho implements DocumentHandlerExtension, FolderHandlerExtension, M
 	 * getExtensions
 	 */
 	public List<Object> getExtensions() {
-		List<Object> extensions = new ArrayList<Object>();
+		List<Object> extensions = new ArrayList<>();
 		extensions.add(singleton);
 		extensions.add(subMenuZoho.getMenu());
 		return extensions;

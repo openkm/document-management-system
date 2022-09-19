@@ -613,7 +613,7 @@ public class DbMetadataAdapter extends MetadataAdapter {
 	 * Convert between formats.
 	 */
 	private Set<String> getValues(Set<CategoryMetadata> categories) {
-		Set<String> ret = new HashSet<String>();
+		Set<String> ret = new HashSet<>();
 
 		for (CategoryMetadata cmd : categories) {
 			try {

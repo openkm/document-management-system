@@ -32,7 +32,6 @@ import com.openkm.frontend.client.bean.GWTKeyword;
 import com.openkm.frontend.client.widget.dashboard.Status;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -46,8 +45,8 @@ public class KeywordWidget extends Composite {
 	private VerticalPanel vPanel;
 	private FlexTable table;
 	private Header header;
-	private Map<String, String> selectedMap = new HashMap<String, String>();
-	private Map<String, String> keywordTableMap = new HashMap<String, String>();
+	private Map<String, String> selectedMap = new HashMap<>();
+	private Map<String, String> keywordTableMap = new HashMap<>();
 	public Status status;
 	private boolean zoom = false;
 
@@ -122,17 +121,15 @@ public class KeywordWidget extends Composite {
 	 * Unselect all rows
 	 */
 	public void unselectAllRows() {
-		for (Iterator<String> it = selectedMap.keySet().iterator(); it.hasNext(); ) {
-			int row = Integer.valueOf(selectedMap.get(it.next()));
+		for (String s : selectedMap.keySet()) {
+			int row = Integer.parseInt(selectedMap.get(s));
 			styleRow(row, false);
 		}
-		selectedMap = new HashMap<String, String>();
+		selectedMap = new HashMap<>();
 	}
 
 	/**
 	 * Adds a keyword
-	 *
-	 * @param keyword
 	 */
 	public void add(GWTKeyword keyword) {
 		int row = table.getRowCount();
@@ -155,18 +152,16 @@ public class KeywordWidget extends Composite {
 	 * Initializes table values
 	 */
 	public void reset() {
-		selectedMap = new HashMap<String, String>();
-		keywordTableMap = new HashMap<String, String>();
+		selectedMap = new HashMap<>();
+		keywordTableMap = new HashMap<>();
 		removeAllRows();
 	}
 
 	/**
 	 * Sets the header text
-	 *
-	 * @param text
 	 */
 	public void setHeaderText(String text) {
-		selectedMap = new HashMap<String, String>();
+		selectedMap = new HashMap<>();
 		header.setHeaderText(text);
 	}
 
@@ -192,7 +187,6 @@ public class KeywordWidget extends Composite {
 	 *
 	 */
 	private class Header extends HorizontalPanel implements HasClickHandlers {
-
 		private Image zoomImage;
 		private HTML headerText;
 

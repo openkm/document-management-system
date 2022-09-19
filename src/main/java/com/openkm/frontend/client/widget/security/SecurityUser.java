@@ -68,8 +68,8 @@ public class SecurityUser extends Composite {
 	 * Security user
 	 */
 	public SecurityUser() {
-		actualGrants = new HashMap<String, Integer>();
-		changedGrants = new HashMap<String, Integer>();
+		actualGrants = new HashMap<>();
+		changedGrants = new HashMap<>();
 		panel = new HorizontalPanel();
 		buttonPanel = new VerticalPanel();
 		assignedUser = new UserScrollTable(true);
@@ -196,8 +196,8 @@ public class SecurityUser extends Composite {
 	 */
 	public void getGrantedUsers() {
 		if (uuid != null) {
-			actualGrants = new HashMap<String, Integer>();
-			changedGrants = new HashMap<String, Integer>();
+			actualGrants = new HashMap<>();
+			changedGrants = new HashMap<>();
 			authService.getGrantedUsers(uuid, new AsyncCallback<List<GWTGrantedUser>>() {
 				@Override
 				public void onSuccess(List<GWTGrantedUser> result) {
@@ -641,14 +641,14 @@ public class SecurityUser extends Composite {
 	 * getNewGrants
 	 */
 	public List<Map<String, Integer>> getNewGrants() {
-		List<Map<String, Integer>> grants = new ArrayList<Map<String, Integer>>();
-		Map<String, Integer> addGrants = new HashMap<String, Integer>();
-		Map<String, Integer> revokeGrants = new HashMap<String, Integer>();
+		List<Map<String, Integer>> grants = new ArrayList<>();
+		Map<String, Integer> addGrants = new HashMap<>();
+		Map<String, Integer> revokeGrants = new HashMap<>();
 		grants.add(addGrants);
 		grants.add(revokeGrants);
 
 		for (String user : changedGrants.keySet()) {
-			if (changedGrants.get(user).intValue() == GWTPermission.REMOVED) {
+			if (changedGrants.get(user) == GWTPermission.REMOVED) {
 				// If actualGrants not contains role will be strange case
 				if (actualGrants.containsKey(user)) {
 					revokeGrants.put(user, actualGrants.get(user)); // Remove all actual grants
@@ -656,11 +656,11 @@ public class SecurityUser extends Composite {
 			} else {
 				if (actualGrants.containsKey(user)) { // test differences
 					// Table A=actual grants B=Change grants
-					// A B  XOR           
-					// 0 0   0      
-					// 0 1   1    B & (XOR) -> 1  ( add grant )   
+					// A B  XOR
+					// 0 0   0
+					// 0 1   1    B & (XOR) -> 1  ( add grant )
 					// 1 0   1    A & (XOR) -> 1  ( revoke grant )
-					// 1 1   0       
+					// 1 1   0
 					int bitDiference = changedGrants.get(user).intValue() ^ actualGrants.get(user).intValue();
 					int addBit = changedGrants.get(user).intValue() & bitDiference;
 					int revokeBit = actualGrants.get(user).intValue() & bitDiference;

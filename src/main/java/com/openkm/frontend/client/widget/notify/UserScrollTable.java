@@ -21,12 +21,12 @@
 
 package com.openkm.frontend.client.widget.notify;
 
-import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollPolicy;
-import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollTableImages;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollPolicy;
+import com.google.gwt.gen2.table.client.AbstractScrollTable.ScrollTableImages;
 import com.google.gwt.gen2.table.client.FixedWidthFlexTable;
 import com.google.gwt.gen2.table.client.FixedWidthGrid;
 import com.google.gwt.gen2.table.client.ScrollTable;
@@ -226,7 +226,7 @@ public class UserScrollTable extends Composite implements HasDoubleClickHandlers
 	 * getUsersToNotifyList
 	 */
 	public List<String> getUsersToNotifyList() {
-		List<String> usersList = new ArrayList<String>();
+		List<String> usersList = new ArrayList<>();
 
 		if (dataTable.getRowCount() > 0) {
 			for (int i = 0; i < dataTable.getRowCount(); i++) {

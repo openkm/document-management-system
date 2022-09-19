@@ -240,7 +240,7 @@ public class PdfMergePopup extends DialogBox {
 	 * merge
 	 */
 	public void merge() {
-		List<String> paths = new ArrayList<String>();
+		List<String> paths = new ArrayList<>();
 		for (GWTDocument doc : data) {
 			paths.add(doc.getPath());
 		}

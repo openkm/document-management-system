@@ -53,7 +53,7 @@ public class GWTMail implements IsSerializable {
 	private boolean hasNotes = false;
 	private List<GWTNote> notes;
 	private Set<GWTFolder> categories;
-	private Set<String> keywords = new HashSet<String>();
+	private Set<String> keywords = new HashSet<>();
 	private String author;
 	private Date created;
 

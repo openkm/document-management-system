@@ -29,7 +29,6 @@ import com.openkm.dao.QueryParamsDAO;
 import com.openkm.dao.bean.QueryParams;
 import com.openkm.module.db.DbDashboardModule;
 import com.sun.syndication.feed.synd.*;
-import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,9 +142,8 @@ public class SyndicationServlet extends HttpServlet {
 	/**
 	 * Get feed documents
 	 */
-	private SyndFeed getFeedDocuments(List<DashboardDocumentResult> result) throws FeedException, SQLException,
-			IOException {
-		List<SyndEntry> entries = new ArrayList<SyndEntry>();
+	private SyndFeed getFeedDocuments(List<DashboardDocumentResult> result) throws IOException {
+		List<SyndEntry> entries = new ArrayList<>();
 		SyndFeed feed = new SyndFeedImpl();
 
 		for (DashboardDocumentResult item : result) {
@@ -166,8 +163,8 @@ public class SyndicationServlet extends HttpServlet {
 	/**
 	 * Get feed folders
 	 */
-	private SyndFeed getFeedFolders(List<DashboardFolderResult> result) throws FeedException, SQLException, IOException {
-		List<SyndEntry> entries = new ArrayList<SyndEntry>();
+	private SyndFeed getFeedFolders(List<DashboardFolderResult> result) throws IOException {
+		List<SyndEntry> entries = new ArrayList<>();
 		SyndFeed feed = new SyndFeedImpl();
 
 		for (DashboardFolderResult item : result) {
@@ -186,8 +183,8 @@ public class SyndicationServlet extends HttpServlet {
 	/**
 	 * Get feed mails
 	 */
-	private SyndFeed getFeedMails(List<DashboardMailResult> result) throws FeedException, SQLException, IOException {
-		List<SyndEntry> entries = new ArrayList<SyndEntry>();
+	private SyndFeed getFeedMails(List<DashboardMailResult> result) throws IOException {
+		List<SyndEntry> entries = new ArrayList<>();
 		SyndFeed feed = new SyndFeedImpl();
 
 		for (DashboardMailResult item : result) {

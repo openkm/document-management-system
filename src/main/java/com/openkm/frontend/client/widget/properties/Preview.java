@@ -66,7 +66,7 @@ public class Preview extends Composite {
 	 */
 	public Preview(final HasPreviewEvent previewEvent) {
 		this.previewEvent = previewEvent;
-		widgetPreviewExtensionList = new ArrayList<PreviewExtension>();
+		widgetPreviewExtensionList = new ArrayList<>();
 		vPanel = new VerticalPanel();
 		htmlPreview = new HTMLPreview();
 		syntaxHighlighterPreview = new SyntaxHighlighterPreview();

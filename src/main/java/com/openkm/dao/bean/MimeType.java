@@ -62,7 +62,7 @@ public class MimeType implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name = "MTE_NAME")
 	@CollectionTable(name = "OKM_MIME_TYPE_EXTENSION", joinColumns = {@JoinColumn(name = "MTE_ID")})
-	private Set<String> extensions = new HashSet<String>();
+	private Set<String> extensions = new HashSet<>();
 
 	public long getId() {
 		return id;

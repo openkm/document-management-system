@@ -29,7 +29,7 @@ import java.util.List;
 @XmlRootElement(name = "simplePropertiesGroup")
 public class SimplePropertyGroupList {
 	@XmlElement(name = "simplePropertyGroup", required = true)
-	List<SimplePropertyGroup> simplePropertiesGroup = new ArrayList<SimplePropertyGroup>();
+	List<SimplePropertyGroup> simplePropertiesGroup = new ArrayList<>();
 
 	public List<SimplePropertyGroup> getList() {
 		return simplePropertiesGroup;

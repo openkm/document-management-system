@@ -30,7 +30,6 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -62,8 +61,7 @@ public class QueryParamsDAO {
 				qpTmp.getCategories().add(category);
 			}
 
-			for (Iterator<Entry<String, String>> it = qp.getProperties().entrySet().iterator(); it.hasNext(); ) {
-				Entry<String, String> entry = it.next();
+			for (Entry<String, String> entry : qp.getProperties().entrySet()) {
 				qpTmp.getProperties().put(entry.getKey(), entry.getValue());
 			}
 

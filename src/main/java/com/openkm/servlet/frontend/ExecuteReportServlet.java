@@ -54,14 +54,14 @@ public class ExecuteReportServlet extends HttpServlet {
 			UserConfig uc = UserConfigDAO.findByPk(request.getRemoteUser());
 			Profile up = uc.getProfile();
 
-			if (up.getPrfMisc().getReports().contains(new Long(id).longValue())) {
+			if (up.getPrfMisc().getReports().contains((long) id)) {
 				Report rp = ReportDAO.findByPk(id);
 
 				// Set file name
 				String fileName = rp.getFileName().substring(0, rp.getFileName().indexOf('.')) + ReportUtils.FILE_EXTENSION[format];
 
 				// Set default report parameters
-				Map<String, Object> params = new HashMap<String, Object>();
+				Map<String, Object> params = new HashMap<>();
 				String host = com.openkm.core.Config.APPLICATION_URL;
 				params.put("host", host.substring(0, host.lastIndexOf("/") + 1));
 

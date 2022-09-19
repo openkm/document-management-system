@@ -124,7 +124,7 @@ public class MailUtils {
 	 */
 	public static void sendMessage(Collection<String> toAddress, String subject, String content) throws MessagingException {
 		try {
-			send(null, null, toAddress, null, null, subject, content, new ArrayList<String>());
+			send(null, null, toAddress, null, null, subject, content, new ArrayList<>());
 		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException |
 				 LockException e) {
 			log.warn(e.getMessage(), e);
@@ -143,7 +143,7 @@ public class MailUtils {
 		try {
 			ArrayList<String> toList = new ArrayList<>();
 			toList.add(toAddress);
-			send(null, null, toList, null, null, subject, content, new ArrayList<String>());
+			send(null, null, toList, null, null, subject, content, new ArrayList<>());
 		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException |
 				 LockException e) {
 			log.warn(e.getMessage(), e);
@@ -160,7 +160,7 @@ public class MailUtils {
 	 */
 	public static void sendMessage(String fromAddress, List<String> toAddress, String subject, String content) throws MessagingException {
 		try {
-			send(fromAddress, null, toAddress, null, null, subject, content, new ArrayList<String>());
+			send(fromAddress, null, toAddress, null, null, subject, content, new ArrayList<>());
 		} catch (PathNotFoundException | AccessDeniedException | RepositoryException | IOException | DatabaseException |
 				 LockException e) {
 			log.warn(e.getMessage(), e);

@@ -34,7 +34,10 @@ import com.openkm.frontend.client.widget.dashboard.ImageHover;
 import com.openkm.frontend.client.widget.dashboard.Score;
 import com.openkm.frontend.client.widget.dashboard.Status;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * KeyMapTable
@@ -64,11 +67,11 @@ public class KeyMapTable extends Composite {
 		status.setStyleName("okm-StatusPopup");
 
 		table = new FlexTable();
-		tableDocumentList = new ArrayList<FlexTable>();
-		tableFolderList = new ArrayList<FlexTable>();
-		tableMailList = new ArrayList<FlexTable>();
-		hKeyPanelList = new ArrayList<HorizontalPanel>();
-		firtRowList = new ArrayList<String>();
+		tableDocumentList = new ArrayList<>();
+		tableFolderList = new ArrayList<>();
+		tableMailList = new ArrayList<>();
+		hKeyPanelList = new ArrayList<>();
+		firtRowList = new ArrayList<>();
 		visibleStatus = VISIBLE_MEDIUM;
 
 		table.setWidth("100%");
@@ -81,8 +84,6 @@ public class KeyMapTable extends Composite {
 
 	/**
 	 * Adds a document to the panel
-	 *
-	 * @param doc The doc to add
 	 */
 	public void addRow(GWTQueryResult gwtQueryResult) {
 		if (gwtQueryResult.getDocument() != null || gwtQueryResult.getAttachment() != null) {
@@ -257,8 +258,7 @@ public class KeyMapTable extends Composite {
 	 */
 	public void langRefresh() {
 		// Documents
-		for (Iterator<FlexTable> it = tableDocumentList.iterator(); it.hasNext(); ) {
-			FlexTable tableDocument = it.next();
+		for (FlexTable tableDocument : tableDocumentList) {
 			FlexTable tableProperties = (FlexTable) tableDocument.getWidget(0, 0);
 			FlexTable tableSubscribedUsers = (FlexTable) tableDocument.getWidget(0, 2);
 
@@ -272,9 +272,9 @@ public class KeyMapTable extends Composite {
 
 			tableSubscribedUsers.setHTML(0, 0, "<b>" + Main.i18n("document.subscribed.users") + "<b>");
 		}
+
 		// Mails
-		for (Iterator<FlexTable> it = tableMailList.iterator(); it.hasNext(); ) {
-			FlexTable tableMail = it.next();
+		for (FlexTable tableMail : tableMailList) {
 			FlexTable tableProperties = (FlexTable) tableMail.getWidget(0, 0);
 
 			tableProperties.setHTML(0, 0, "<b>" + Main.i18n("mail.folder") + "</b>");
@@ -491,10 +491,12 @@ public class KeyMapTable extends Composite {
 				table.getCellFormatter().addStyleName(firstRow, 1, "okm-Table-BottomBorder");
 				table.getCellFormatter().addStyleName(firstRow, 2, "okm-Table-BottomBorder");
 				break;
+
 			case VISIBLE_MEDIUM:
 				tableFolder.setVisible(false);
 				hKeyPanel.setVisible(true);
 				break;
+
 			case VISIBLE_BIG:
 				tableFolder.setVisible(true);
 				hKeyPanel.setVisible(true);
@@ -520,7 +522,6 @@ public class KeyMapTable extends Composite {
 		firtRowList.add("" + firstRow);
 
 		GWTMail mail = gwtQueryResult.getMail();
-		;
 		final String mailPath = mail.getPath();
 
 		Image gotoMail = new Image("img/icon/actions/goto_document.gif");
@@ -544,7 +545,8 @@ public class KeyMapTable extends Composite {
 		table.setWidget(rows, 1, sp);
 		Hyperlink hLink = new Hyperlink();
 		hLink.setHTML(mail.getSubject());
-		// On attachemt case must remove last folder path, because it's internal usage not for visualization
+
+		// On attachment case must remove last folder path, because it's internal usage not for visualization
 		hLink.setTitle(mail.getSubject());
 
 		table.setWidget(rows, 2, hLink);
@@ -612,10 +614,12 @@ public class KeyMapTable extends Composite {
 				table.getCellFormatter().addStyleName(firstRow, 1, "okm-Table-BottomBorder");
 				table.getCellFormatter().addStyleName(firstRow, 2, "okm-Table-BottomBorder");
 				break;
+
 			case VISIBLE_MEDIUM:
 				tableMail.setVisible(false);
 				hKeyPanel.setVisible(true);
 				break;
+
 			case VISIBLE_BIG:
 				tableMail.setVisible(true);
 				hKeyPanel.setVisible(true);
@@ -640,9 +644,9 @@ public class KeyMapTable extends Composite {
 	 */
 	public void reset() {
 		removeAllRows();
-		tableDocumentList = new ArrayList<FlexTable>();
-		hKeyPanelList = new ArrayList<HorizontalPanel>();
-		firtRowList = new ArrayList<String>();
+		tableDocumentList = new ArrayList<>();
+		hKeyPanelList = new ArrayList<>();
+		firtRowList = new ArrayList<>();
 	}
 
 	/**
@@ -650,7 +654,6 @@ public class KeyMapTable extends Composite {
 	 *
 	 * @param row The row cell
 	 * @param columns Number of row columns
-	 * @param warp
 	 * @param table The table to change word wrap
 	 */
 	private void setRowWordWarp(int row, int columns, boolean warp, FlexTable table) {
@@ -681,14 +684,10 @@ public class KeyMapTable extends Composite {
 
 	/**
 	 * addKeywords
-	 *
-	 * @param table
-	 * @param keywords
-	 * @param selectedKeyList
-	 * @return
 	 */
 	private HorizontalPanel addKeywords(FlexTable table, Set<String> keywords, Collection<String> selectedKeyList) {
 		int rows = table.getRowCount();
+
 		// Writing keys
 		rows++; // Next row line
 		HorizontalPanel hKeyPanel = new HorizontalPanel();

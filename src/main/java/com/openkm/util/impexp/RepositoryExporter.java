@@ -43,7 +43,6 @@ import org.slf4j.LoggerFactory;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.util.Iterator;
 
 public class RepositoryExporter {
 	private static Logger log = LoggerFactory.getLogger(RepositoryExporter.class);
@@ -150,9 +149,7 @@ public class RepositoryExporter {
 			}
 		}
 
-		for (Iterator<Mail> it = mm.getChildren(token, fldPath).iterator(); it.hasNext(); ) {
-			Mail mailChild = it.next();
-
+		for (Mail mailChild : mm.getChildren(token, fldPath)) {
 			try {
 				String mailName = PathUtils.decodeEntities(PathUtils.getName(mailChild.getPath()));
 

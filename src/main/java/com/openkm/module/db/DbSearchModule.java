@@ -177,15 +177,15 @@ public class DbSearchModule implements SearchModule {
 		// Clean params
 		params.setName(params.getName() != null ? params.getName().trim() : "");
 		params.setContent(params.getContent() != null ? params.getContent().trim() : "");
-		params.setKeywords(params.getKeywords() != null ? params.getKeywords() : new HashSet<String>());
-		params.setCategories(params.getCategories() != null ? params.getCategories() : new HashSet<String>());
+		params.setKeywords(params.getKeywords() != null ? params.getKeywords() : new HashSet<>());
+		params.setCategories(params.getCategories() != null ? params.getCategories() : new HashSet<>());
 		params.setMimeType(params.getMimeType() != null ? params.getMimeType().trim() : "");
 		params.setAuthor(params.getAuthor() != null ? params.getAuthor().trim() : "");
 		params.setPath(params.getPath() != null ? params.getPath().trim() : "");
 		params.setMailSubject(params.getMailSubject() != null ? params.getMailSubject().trim() : "");
 		params.setMailFrom(params.getMailFrom() != null ? params.getMailFrom().trim() : "");
 		params.setMailTo(params.getMailTo() != null ? params.getMailTo().trim() : "");
-		params.setProperties(params.getProperties() != null ? params.getProperties() : new HashMap<String, String>());
+		params.setProperties(params.getProperties() != null ? params.getProperties() : new HashMap<>());
 
 		// Domains
 		boolean document = (params.getDomain() & QueryParams.DOCUMENT) != 0;
@@ -411,7 +411,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("findByStatementPaginated({}, {}, {}, {})", auth, query, offset, limit);
 		long begin = System.currentTimeMillis();
-		List<QueryResult> results = new ArrayList<QueryResult>();
+		List<QueryResult> results = new ArrayList<>();
 		ResultSet rs = new ResultSet();
 
 		try {
@@ -563,7 +563,7 @@ public class DbSearchModule implements SearchModule {
 	@Override
 	public List<QueryParams> getAllSearchs(String token) throws AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("getAllSearchs({})", token);
-		List<QueryParams> ret = new ArrayList<QueryParams>();
+		List<QueryParams> ret = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -576,9 +576,7 @@ public class DbSearchModule implements SearchModule {
 
 			List<QueryParams> qParams = QueryParamsDAO.findByUser(auth.getName());
 
-			for (Iterator<QueryParams> it = qParams.iterator(); it.hasNext(); ) {
-				QueryParams qp = it.next();
-
+			for (QueryParams qp : qParams) {
 				if (!qp.isDashboard()) {
 					ret.add(qp);
 				}
@@ -660,7 +658,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getKeywordMapLive({}, {})", token, filter);
 		String qs = "select elements(nb.keywords) from NodeBase nb";
-		HashMap<String, Integer> cloud = new HashMap<String, Integer>();
+		HashMap<String, Integer> cloud = new HashMap<>();
 		org.hibernate.Session hSession = null;
 		Transaction tx = null;
 		@SuppressWarnings("unused")
@@ -709,7 +707,7 @@ public class DbSearchModule implements SearchModule {
 	 */
 	private Map<String, Integer> getKeywordMapCached(String token, List<String> filter) throws AccessDeniedException {
 		log.debug("getKeywordMapCached({}, {})", token, filter);
-		HashMap<String, Integer> keywordMap = new HashMap<String, Integer>();
+		HashMap<String, Integer> keywordMap = new HashMap<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -722,13 +720,11 @@ public class DbSearchModule implements SearchModule {
 
 			Collection<UserNodeKeywords> userDocKeywords = UserNodeKeywordsManager.get(auth.getName()).values();
 
-			for (Iterator<UserNodeKeywords> kwIt = userDocKeywords.iterator(); kwIt.hasNext(); ) {
-				Set<String> docKeywords = kwIt.next().getKeywords();
+			for (UserNodeKeywords userDocKeyword : userDocKeywords) {
+				Set<String> docKeywords = userDocKeyword.getKeywords();
 
 				if (filter != null && docKeywords.containsAll(filter)) {
-					for (Iterator<String> itDocKeywords = docKeywords.iterator(); itDocKeywords.hasNext(); ) {
-						String keyword = itDocKeywords.next();
-
+					for (String keyword : docKeywords) {
 						if (!filter.contains(keyword)) {
 							Integer occurs = keywordMap.get(keyword) != null ? keywordMap.get(keyword) : 0;
 							keywordMap.put(keyword, occurs + 1);
@@ -751,7 +747,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getCategorizedDocuments({}, {})", token, categoryId);
 		long begin = System.currentTimeMillis();
-		List<Document> documents = new ArrayList<Document>();
+		List<Document> documents = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -786,7 +782,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getCategorizedFolders({}, {})", token, categoryId);
 		long begin = System.currentTimeMillis();
-		List<Folder> folders = new ArrayList<Folder>();
+		List<Folder> folders = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -821,7 +817,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getCategorizedMails({}, {})", token, categoryId);
 		long begin = System.currentTimeMillis();
-		List<Mail> mails = new ArrayList<Mail>();
+		List<Mail> mails = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -856,7 +852,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getDocumentsByKeyword({}, {})", token, keyword);
 		long begin = System.currentTimeMillis();
-		List<Document> documents = new ArrayList<Document>();
+		List<Document> documents = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -891,7 +887,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getFoldersByKeyword({}, {})", token, keyword);
 		long begin = System.currentTimeMillis();
-		List<Folder> folders = new ArrayList<Folder>();
+		List<Folder> folders = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -926,7 +922,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("getMailsByKeyword({}, {})", token, keyword);
 		long begin = System.currentTimeMillis();
-		List<Mail> mails = new ArrayList<Mail>();
+		List<Mail> mails = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -961,7 +957,7 @@ public class DbSearchModule implements SearchModule {
 			throws AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("getDocumentsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
-		List<Document> documents = new ArrayList<Document>();
+		List<Document> documents = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -996,7 +992,7 @@ public class DbSearchModule implements SearchModule {
 			AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("getFoldersByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
-		List<Folder> folders = new ArrayList<Folder>();
+		List<Folder> folders = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -1031,7 +1027,7 @@ public class DbSearchModule implements SearchModule {
 			RepositoryException, DatabaseException {
 		log.debug("getMailsByPropertyValue({}, {}, {}, {})", token, group, property, value);
 		long begin = System.currentTimeMillis();
-		List<Mail> mails = new ArrayList<Mail>();
+		List<Mail> mails = new ArrayList<>();
 		Authentication auth = null, oldAuth = null;
 
 		try {
@@ -1075,7 +1071,7 @@ public class DbSearchModule implements SearchModule {
 			RepositoryException, DatabaseException {
 		log.debug("findSimpleQueryPaginated({}, {}, {}, {})", token, statement, offset, limit);
 		long begin = System.currentTimeMillis();
-		List<QueryResult> results = new ArrayList<QueryResult>();
+		List<QueryResult> results = new ArrayList<>();
 		ResultSet rs = new ResultSet();
 		Authentication auth = null, oldAuth = null;
 
@@ -1139,7 +1135,7 @@ public class DbSearchModule implements SearchModule {
 			DatabaseException {
 		log.debug("findMoreLikeThis({}, {}, {})", token, uuid, maxResults);
 		long begin = System.currentTimeMillis();
-		List<QueryResult> results = new ArrayList<QueryResult>();
+		List<QueryResult> results = new ArrayList<>();
 		ResultSet rs = new ResultSet();
 		Authentication auth = null, oldAuth = null;
 

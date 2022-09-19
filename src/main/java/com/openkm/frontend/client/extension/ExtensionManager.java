@@ -34,7 +34,6 @@ import com.openkm.frontend.client.extension.widget.toolbar.ToolBarBoxExtension;
 import com.openkm.frontend.client.extension.widget.toolbar.ToolBarButtonExtension;
 import com.openkm.frontend.client.extension.widget.userinfo.UserInfoExtension;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,9 +45,7 @@ public class ExtensionManager {
 
 	// Declare here your new widgets
 	public static void start(List<Object> extensions) {
-		for (Iterator<Object> it = extensions.iterator(); it.hasNext(); ) {
-			Object obj = it.next();
-
+		for (Object obj : extensions) {
 			// Registering widgets
 			if (obj instanceof TabDocumentExtension) {
 				addTabDocumentExtension((TabDocumentExtension) obj);

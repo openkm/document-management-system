@@ -35,7 +35,7 @@ import java.util.List;
 public class GWTUpload extends GWTFormElement implements IsSerializable {
 	public static final String TYPE_CREATE = "create";
 	public static final String TYPE_UPDATE = "update";
-	private List<GWTValidator> validators = new ArrayList<GWTValidator>();
+	private List<GWTValidator> validators = new ArrayList<>();
 	private String type = TYPE_CREATE;
 	private String folderPath = "";
 	private String folderUuid = "";

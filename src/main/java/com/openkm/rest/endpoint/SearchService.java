@@ -81,7 +81,7 @@ public class SearchService {
 		try {
 			log.debug("findByKeywords({})", keywords);
 			SearchModule sm = ModuleManager.getSearchModule();
-			Set<String> set = new HashSet<String>(keywords);
+			Set<String> set = new HashSet<>(keywords);
 			QueryResultList qrl = new QueryResultList();
 			qrl.getList().addAll(sm.findByKeywords(null, set));
 			log.debug("findByKeywords: {}", qrl);
@@ -318,7 +318,7 @@ public class SearchService {
 			List<String> properties, String author, String mimeType, String lastModifiedFrom, String lastModifiedTo, String mailSubject,
 			String mailFrom, String mailTo, String path) {
 		QueryParams params = new QueryParams();
-		Map<String, String> propMap = new HashMap<String, String>();
+		Map<String, String> propMap = new HashMap<>();
 
 		for (String propVal : properties) {
 			String[] keyVal = propVal.split("=");
@@ -334,8 +334,8 @@ public class SearchService {
 		}
 
 		params.setDomain(domain);
-		params.setKeywords(new HashSet<String>(keywords));
-		params.setCategories(new HashSet<String>(categories));
+		params.setKeywords(new HashSet<>(keywords));
+		params.setCategories(new HashSet<>(categories));
 		params.setProperties(propMap);
 
 		if (author != null && !author.isEmpty()) {

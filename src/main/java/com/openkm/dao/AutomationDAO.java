@@ -324,7 +324,7 @@ public class AutomationDAO {
 	 */
 	public List<Automation> findMetadataValidationsByAt(String at) throws URISyntaxException {
 		log.debug("findMetadataValidationsByAt()");
-		List<Automation> amList = new ArrayList<Automation>();
+		List<Automation> amList = new ArrayList<>();
 
 		for (Validation val : findValidations(false)) {
 			if (at.equals(Automation.AT_PRE)) {
@@ -347,7 +347,7 @@ public class AutomationDAO {
 	public List<Automation> findMetadataActionsByAt(String at) throws IllegalArgumentException, SecurityException,
 			URISyntaxException {
 		log.debug("findMetadataActionsByAt()");
-		List<Automation> amList = new ArrayList<Automation>();
+		List<Automation> amList = new ArrayList<>();
 
 		for (Action act : findActions(false)) {
 			if (at.equals(Automation.AT_PRE)) {

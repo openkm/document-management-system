@@ -39,7 +39,6 @@ import com.openkm.frontend.client.service.OKMPropertyGroupServiceAsync;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class GroupPopup extends DialogBox {
 	private Button addButton;
 	private ListBox groupListBox;
 	private ListBox propertyListBox;
-	private List<GWTFormElement> formElementList = new ArrayList<GWTFormElement>();
+	private List<GWTFormElement> formElementList = new ArrayList<>();
 	private FlexTable table;
 	private Label groupLabel;
 	private Label propertyLabel;
@@ -91,8 +90,8 @@ public class GroupPopup extends DialogBox {
 					String grpName = groupListBox.getValue(groupListBox.getSelectedIndex());
 					String grpLabel = groupListBox.getItemText(groupListBox.getSelectedIndex());
 					String propertyName = propertyListBox.getValue(propertyListBox.getSelectedIndex());
-					for (Iterator<GWTFormElement> it = formElementList.iterator(); it.hasNext(); ) {
-						GWTFormElement formElement = it.next();
+
+					for (GWTFormElement formElement : formElementList) {
 						if (formElement.getName().endsWith(propertyName)) {
 							GWTPropertyParams param = new GWTPropertyParams();
 							param.setGrpName(grpName);
@@ -190,8 +189,7 @@ public class GroupPopup extends DialogBox {
 			groupListBox.clear();
 			groupListBox.addItem("", ""); // Adds empty value
 
-			for (Iterator<GWTPropertyGroup> it = result.iterator(); it.hasNext(); ) {
-				GWTPropertyGroup group = it.next();
+			for (GWTPropertyGroup group : result) {
 				groupListBox.addItem(group.getLabel(), group.getName());
 			}
 
@@ -215,7 +213,7 @@ public class GroupPopup extends DialogBox {
 			propertyLabel.setVisible(true);
 			propertyListBox.addItem("", ""); // First item is always blank
 
-			Collection<String> actualProperties = new ArrayList<String>();
+			Collection<String> actualProperties = new ArrayList<>();
 			switch (origin) {
 				case UIDockPanelConstants.SEARCH:
 					actualProperties = Main.get().mainPanel.search.searchBrowser.searchIn.getFormElementsKeys();
@@ -226,8 +224,7 @@ public class GroupPopup extends DialogBox {
 			}
 
 
-			for (Iterator<GWTFormElement> it = result.iterator(); it.hasNext(); ) {
-				GWTFormElement formElement = it.next();
+			for (GWTFormElement formElement : result) {
 				if (!actualProperties.contains(formElement.getName())) { // Only appears properties not stil added
 					propertyListBox.addItem(formElement.getLabel(), formElement.getName());
 				}
@@ -246,7 +243,7 @@ public class GroupPopup extends DialogBox {
 		public void onSuccess(List<GWTFormElement> result) {
 			formElementList = result;
 
-			Collection<String> actualProperties = new ArrayList<String>();
+			Collection<String> actualProperties = new ArrayList<>();
 			switch (origin) {
 				case UIDockPanelConstants.SEARCH:
 					actualProperties = Main.get().mainPanel.search.searchBrowser.searchIn.getFormElementsKeys();
@@ -257,17 +254,17 @@ public class GroupPopup extends DialogBox {
 			}
 			boolean found = false;
 
-			for (Iterator<GWTFormElement> it = result.iterator(); it.hasNext(); ) {
-				GWTFormElement formElement = it.next();
+			for (GWTFormElement formElement : result) {
 				String propertyName = formElement.getName();
-				if (!actualProperties.contains(propertyName)) { // Only appears properties not stil added
+				if (!actualProperties.contains(propertyName)) {
 					found = true;
+					break;
 				}
 			}
 
 			// Removes the item on list
 			if (!found) {
-				groupListBox.removeItem(validate); // When removing object it's not necessary to increment validate value
+				groupListBox.removeItem(validate);
 			} else {
 				validate++;
 			}
@@ -284,7 +281,7 @@ public class GroupPopup extends DialogBox {
 	 */
 	public void enableClose() {
 		closeButton.setEnabled(true);
-		Main.get().mainPanel.setVisible(true); // Shows main panel when all widgets are loaded
+		Main.get().mainPanel.setVisible(true);
 	}
 
 	/**
@@ -300,8 +297,6 @@ public class GroupPopup extends DialogBox {
 
 	/**
 	 * Show the popup error
-	 *
-	 * @param msg Error message
 	 */
 	public void show() {
 		int left = (Window.getClientWidth() - 300) / 2;
@@ -352,20 +347,13 @@ public class GroupPopup extends DialogBox {
 			switch (origin) {
 				case UIDockPanelConstants.SEARCH:
 					// Validate button
-					if (groupListBox.getItemCount() > 1) {
-						Main.get().mainPanel.search.searchBrowser.searchIn.searchMetadata.addGroup.setEnabled(true);
-					} else {
-						Main.get().mainPanel.search.searchBrowser.searchIn.searchMetadata.addGroup.setEnabled(false);
-					}
+					Main.get().mainPanel.search.searchBrowser.searchIn.searchMetadata.addGroup.setEnabled(groupListBox.getItemCount() > 1);
 					validate = -1; // Resets values
 					break;
+
 				case UIDockPanelConstants.DESKTOP:
 					// Validate button
-					if (groupListBox.getItemCount() > 1) {
-						Main.get().updatePropertyGroupPopup.addGroup.setEnabled(true);
-					} else {
-						Main.get().updatePropertyGroupPopup.addGroup.setEnabled(false);
-					}
+					Main.get().updatePropertyGroupPopup.addGroup.setEnabled(groupListBox.getItemCount() > 1);
 					validate = -1; // Resets values
 					break;
 			}

@@ -33,9 +33,9 @@ import java.util.List;
  *
  */
 public class GWTStapleGroup implements IsSerializable {
-	private long id;
+	private List<GWTStaple> staples = new ArrayList<>();
 	private String user;
-	private List<GWTStaple> staples = new ArrayList<GWTStaple>();
+	private long id;
 
 	public long getId() {
 		return id;

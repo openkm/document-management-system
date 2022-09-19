@@ -39,7 +39,6 @@ import com.openkm.frontend.client.util.validator.ValidatorToFire;
 import com.openkm.frontend.client.widget.form.FormManager;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -72,7 +71,7 @@ public class PropertyGroupPopup extends DialogBox implements ValidatorToFire {
 	private int phase = PHASE_NONE;
 	private Status status;
 	private String grpName;
-	
+
 	/**
 	 * PropertyGroupPopup popup
 	 */
@@ -242,8 +241,7 @@ public class PropertyGroupPopup extends DialogBox implements ValidatorToFire {
 						listBox.clear();
 						listBox.addItem("", ""); // Adds empty value
 
-						for (Iterator<GWTPropertyGroup> it = result.iterator(); it.hasNext(); ) {
-							GWTPropertyGroup group = it.next();
+						for (GWTPropertyGroup group : result) {
 							listBox.addItem(group.getLabel(), group.getName());
 						}
 					}
@@ -261,8 +259,7 @@ public class PropertyGroupPopup extends DialogBox implements ValidatorToFire {
 					listBox.clear();
 					listBox.addItem("", ""); // Adds empty value
 
-					for (Iterator<GWTPropertyGroup> it = result.iterator(); it.hasNext(); ) {
-						GWTPropertyGroup group = it.next();
+					for (GWTPropertyGroup group : result) {
 						listBox.addItem(group.getLabel(), group.getName());
 					}
 				}
@@ -327,7 +324,7 @@ public class PropertyGroupPopup extends DialogBox implements ValidatorToFire {
 			}
 		}
 	}
-	
+
 	@Override
 	public void validationWithPluginsFinished(boolean result) {
 		if (result) {

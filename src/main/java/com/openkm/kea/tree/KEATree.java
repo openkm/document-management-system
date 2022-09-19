@@ -127,7 +127,7 @@ public class KEATree {
 	 * @return List of child terms
 	 */
 	private static List<Term> getParentTerms(String termID) {
-		List<Term> childTerms = new ArrayList<Term>();
+		List<Term> childTerms = new ArrayList<>();
 		org.openrdf.repository.RepositoryConnection con = null;
 		TupleQuery query;
 

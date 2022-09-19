@@ -89,7 +89,7 @@ public class CmisServiceImpl extends AbstractCmisService {
 		log.debug("getRepositoryInfos({})", extension);
 
 		try {
-			List<RepositoryInfo> infos = new ArrayList<RepositoryInfo>();
+			List<RepositoryInfo> infos = new ArrayList<>();
 			infos.add(getRepository().getRepositoryInfo(getCallContext()));
 			return infos;
 		} catch (Exception e) {

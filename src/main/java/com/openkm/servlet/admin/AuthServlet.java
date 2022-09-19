@@ -686,7 +686,7 @@ public class AuthServlet extends BaseServlet {
 	 * Convenient conversion method
 	 */
 	private List<User> str2user(List<String> strList) throws PrincipalAdapterException {
-		List<User> usrList = new ArrayList<User>();
+		List<User> usrList = new ArrayList<>();
 
 		for (String usrId : strList) {
 			List<String> roleList = OKMAuth.getInstance().getRolesByUser(null, usrId);
@@ -697,7 +697,7 @@ public class AuthServlet extends BaseServlet {
 			usr.setEmail(OKMAuth.getInstance().getMail(null, usrId));
 
 			if (!roleList.isEmpty()) {
-				Set<Role> roles = new TreeSet<Role>(new RoleComparator());
+				Set<Role> roles = new TreeSet<>(new RoleComparator());
 
 				for (String rolId : roleList) {
 					Role rol = new Role();
@@ -720,7 +720,7 @@ public class AuthServlet extends BaseServlet {
 	 * Convenient conversion method
 	 */
 	private List<Role> str2role(List<String> strList) {
-		List<Role> roleList = new ArrayList<Role>();
+		List<Role> roleList = new ArrayList<>();
 
 		for (String id : strList) {
 			Role rol = new Role();
@@ -765,10 +765,10 @@ public class AuthServlet extends BaseServlet {
 	 * Sort roles from user
 	 */
 	private List<User> sortUserRoles(List<User> users) {
-		List<User> ret = new ArrayList<User>();
+		List<User> ret = new ArrayList<>();
 
 		for (User user : users) {
-			Set<Role> sortedRoles = new TreeSet<Role>(new RoleComparator());
+			Set<Role> sortedRoles = new TreeSet<>(new RoleComparator());
 			sortedRoles.addAll(user.getRoles());
 			user.setRoles(sortedRoles);
 			ret.add(user);
@@ -781,10 +781,10 @@ public class AuthServlet extends BaseServlet {
 	 * Convert to Map and set Profile
 	 */
 	private List<Map<String, Object>> toMapSetProfile(List<User> users) throws DatabaseException {
-		List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> ret = new ArrayList<>();
 
 		for (User user : users) {
-			Map<String, Object> usrMap = new HashMap<String, Object>();
+			Map<String, Object> usrMap = new HashMap<>();
 			Profile prf = ProfileDAO.findByUser(user.getId());
 
 			if (prf != null) {

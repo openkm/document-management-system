@@ -201,7 +201,7 @@ public class RebuildIndexesServlet extends BaseServlet {
 			ftSession.setFlushMode(FlushMode.MANUAL);
 			ftSession.setCacheMode(CacheMode.IGNORE);
 			tx = ftSession.beginTransaction();
-			Map<String, Long> total = new HashMap<String, Long>();
+			Map<String, Long> total = new HashMap<>();
 
 			// Calculate number of entities
 			for (Class cls : classes) {

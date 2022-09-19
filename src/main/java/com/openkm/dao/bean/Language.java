@@ -38,7 +38,7 @@ public class Language implements Serializable {
 	private String name;
 	private String imageContent;
 	private String imageMime;
-	private Set<Translation> translations = new HashSet<Translation>();
+	private Set<Translation> translations = new HashSet<>();
 
 	public String getId() {
 		return id;

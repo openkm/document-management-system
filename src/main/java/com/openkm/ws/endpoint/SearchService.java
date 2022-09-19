@@ -69,7 +69,7 @@ public class SearchService {
 			throws IOException, ParseException, AccessDeniedException, RepositoryException, DatabaseException {
 		log.debug("findByKeywords({}, {})", token, keywords);
 		SearchModule sm = ModuleManager.getSearchModule();
-		Set<String> set = new HashSet<String>(Arrays.asList(keywords));
+		Set<String> set = new HashSet<>(Arrays.asList(keywords));
 		List<QueryResult> col = sm.findByKeywords(token, set);
 		QueryResult[] result = col.toArray(new QueryResult[col.size()]);
 		log.debug("findByKeywords: {}", result);

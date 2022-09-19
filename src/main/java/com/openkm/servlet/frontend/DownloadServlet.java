@@ -46,6 +46,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,18 +95,18 @@ public class DownloadServlet extends OKMHttpServlet {
 						fileName = PathUtils.getName(path) + ".zip";
 					} else if (uuidList != null || pathList != null) {
 						// Export into a zip file multiple documents
-						List<String> paths = new ArrayList<String>();
+						List<String> paths = new ArrayList<>();
 
 						if (uuidList != null) {
 							for (String uuidElto : uuidList) {
 								uuidElto = FormatUtil.sanitizeInput(uuidElto);
-								String foo = new String(uuidElto.getBytes("ISO-8859-1"), "UTF-8");
+								String foo = new String(uuidElto.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 								paths.add(OKMRepository.getInstance().getNodePath(null, foo));
 							}
 						} else if (pathList != null) {
 							for (String pathElto : pathList) {
 								pathElto = FormatUtil.sanitizeInput(pathElto);
-								String foo = new String(pathElto.getBytes("ISO-8859-1"), "UTF-8");
+								String foo = new String(pathElto.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 								paths.add(foo);
 							}
 						}

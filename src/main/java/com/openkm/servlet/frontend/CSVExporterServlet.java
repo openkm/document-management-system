@@ -54,18 +54,17 @@ public class CSVExporterServlet extends OKMHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("service({}, {})", request, response);
-		
-		List<String[]> csvValues = new ArrayList<String[]>();
+
+		List<String[]> csvValues = new ArrayList<>();
 		boolean compact = WebUtils.getBoolean(request, "compact");
 		String action = WebUtils.getString(request, "action");
 		String lang = WebUtils.getString(request, "lang");
-		String json = WebUtils.getString(request, "json");		
+		String json = WebUtils.getString(request, "json");
 		json = URLDecoder.decode(json, "UTF-8");
 		String fileName = "";
-		
+
 		try {
 			if (action.equals("find")) {
 				fileName = CSVUtil.createFind(lang, request.getRemoteUser(), csvValues, json, compact);

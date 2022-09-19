@@ -480,7 +480,7 @@ public class DashboardServlet extends OKMRemoteServiceServlet implements OKMDash
 	@Override
 	public List<GWTDashboardDocumentResult> getLastWeekTopModifiedDocuments() throws OKMException {
 		log.debug("getLastWeekTopModifiedDocuments()");
-		List<GWTDashboardDocumentResult> docList = new ArrayList<GWTDashboardDocumentResult>();
+		List<GWTDashboardDocumentResult> docList = new ArrayList<>();
 		updateSessionManager();
 
 		try {

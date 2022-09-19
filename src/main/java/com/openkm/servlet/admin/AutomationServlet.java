@@ -259,7 +259,7 @@ public class AutomationServlet extends BaseServlet {
 		aa.setClassName(WebUtils.getString(request, "am_className"));
 		aa.setOrder(WebUtils.getInt(request, "am_order"));
 		aa.setActive(WebUtils.getBoolean(request, "am_active"));
-		List<String> params = new ArrayList<String>();
+		List<String> params = new ArrayList<>();
 		String am_param00;
 		String am_param01;
 		String am_param02;
@@ -337,7 +337,7 @@ public class AutomationServlet extends BaseServlet {
 		AutomationAction aa = AutomationDAO.getInstance().findActionByPk(aaId);
 		aa.setOrder(WebUtils.getInt(request, "am_order"));
 		aa.setActive(WebUtils.getBoolean(request, "am_active"));
-		List<String> params = new ArrayList<String>();
+		List<String> params = new ArrayList<>();
 		String am_param00;
 		String am_param01;
 		String am_param02;
@@ -390,7 +390,7 @@ public class AutomationServlet extends BaseServlet {
 		AutomationValidation av = AutomationDAO.getInstance().findValidationByPk(avId);
 		av.setOrder(WebUtils.getInt(request, "am_order"));
 		av.setActive(WebUtils.getBoolean(request, "am_active"));
-		List<String> params = new ArrayList<String>();
+		List<String> params = new ArrayList<>();
 		String am_param00 = WebUtils.getString(request, "am_param00");
 		String am_param01 = WebUtils.getString(request, "am_param01");
 		String am_param02 = WebUtils.getString(request, "am_param02");
@@ -427,7 +427,7 @@ public class AutomationServlet extends BaseServlet {
 		av.setClassName(WebUtils.getString(request, "am_className"));
 		av.setOrder(WebUtils.getInt(request, "am_order"));
 		av.setActive(WebUtils.getBoolean(request, "am_active"));
-		List<String> params = new ArrayList<String>();
+		List<String> params = new ArrayList<>();
 		String am_param00 = WebUtils.getString(request, "am_param00");
 		String am_param01 = WebUtils.getString(request, "am_param01");
 		String am_param02 = WebUtils.getString(request, "am_param02");

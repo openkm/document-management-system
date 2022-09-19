@@ -115,7 +115,7 @@ public class StaplingServlet extends OKMRemoteServiceServlet implements OKMStapl
 	public List<GWTStapleGroup> getAll(String uuid) throws OKMException {
 		log.debug("getAll({})", uuid);
 		updateSessionManager();
-		List<GWTStapleGroup> stapList = new ArrayList<GWTStapleGroup>();
+		List<GWTStapleGroup> stapList = new ArrayList<>();
 
 		try {
 			for (StapleGroup sg : StapleGroupDAO.findAll(uuid)) {
@@ -152,7 +152,7 @@ public class StaplingServlet extends OKMRemoteServiceServlet implements OKMStapl
 		log.debug("removeAllStapleByUuid({})", nodeUuid);
 		updateSessionManager();
 		try {
-			List<Long> idToDelete = new ArrayList<Long>();
+			List<Long> idToDelete = new ArrayList<>();
 
 			for (StapleGroup sg : StapleGroupDAO.findAll(nodeUuid)) {
 				for (Staple staple : sg.getStaples()) {

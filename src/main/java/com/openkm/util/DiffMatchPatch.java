@@ -121,7 +121,7 @@ public class DiffMatchPatch {
 		// Check for equality (speedup).
 		LinkedList<Diff> diffs;
 		if (text1.equals(text2)) {
-			diffs = new LinkedList<Diff>();
+			diffs = new LinkedList<>();
 			if (text1.length() != 0) {
 				diffs.add(new Diff(Operation.EQUAL, text1));
 			}
@@ -168,7 +168,7 @@ public class DiffMatchPatch {
 	 * @return Linked List of Diff objects.
 	 */
 	private LinkedList<Diff> diffCompute(String text1, String text2, boolean checklines, long deadline) {
-		LinkedList<Diff> diffs = new LinkedList<Diff>();
+		LinkedList<Diff> diffs = new LinkedList<>();
 
 		if (text1.length() == 0) {
 			// Just add some text (speedup).
@@ -410,7 +410,7 @@ public class DiffMatchPatch {
 		}
 		// Diff took too long and hit the deadline or
 		// number of diffs equals number of characters, no commonality at all.
-		LinkedList<Diff> diffs = new LinkedList<Diff>();
+		LinkedList<Diff> diffs = new LinkedList<>();
 		diffs.add(new Diff(Operation.DELETE, text1));
 		diffs.add(new Diff(Operation.INSERT, text2));
 		return diffs;
@@ -452,8 +452,8 @@ public class DiffMatchPatch {
 	 * unique strings is intentionally blank.
 	 */
 	protected LinesToCharsResult diffLinesToChars(String text1, String text2) {
-		List<String> lineArray = new ArrayList<String>();
-		Map<String, Integer> lineHash = new HashMap<String, Integer>();
+		List<String> lineArray = new ArrayList<>();
+		Map<String, Integer> lineHash = new HashMap<>();
 		// e.g. linearray[4] == "Hello\n"
 		// e.g. linehash.get("Hello\n") == 4
 
@@ -698,7 +698,7 @@ public class DiffMatchPatch {
 			return;
 		}
 		boolean changes = false;
-		Stack<Diff> equalities = new Stack<Diff>(); // Stack of qualities.
+		Stack<Diff> equalities = new Stack<>(); // Stack of qualities.
 		String lastequality = null; // Always equal to equalities.lastElement().text
 		ListIterator<Diff> pointer = diffs.listIterator();
 		// Number of characters that changed prior to the equality.
@@ -1176,7 +1176,7 @@ public class DiffMatchPatch {
 			throw new IllegalArgumentException("Null inputs. (patch_make)");
 		}
 
-		LinkedList<Patch> patches = new LinkedList<Patch>();
+		LinkedList<Patch> patches = new LinkedList<>();
 		if (diffs.isEmpty()) {
 			return patches; // Get rid of the null case.
 		}
@@ -1343,7 +1343,7 @@ public class DiffMatchPatch {
 		 * Constructor. Initializes with an empty list of diffs.
 		 */
 		public Patch() {
-			this.diffs = new LinkedList<Diff>();
+			this.diffs = new LinkedList<>();
 		}
 
 		/**

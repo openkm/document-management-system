@@ -35,8 +35,8 @@ public class Comment {
 	protected int answerIndex;
 
 	public Comment(BufferedReader reader) throws IOException {
-		phrases = new Vector<String>();
-		answers = new Vector<String>();
+		phrases = new Vector<>();
+		answers = new Vector<>();
 		answerIndex = 0;
 
 		while (true) {
