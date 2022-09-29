@@ -57,7 +57,7 @@ public class MsWordTextExtractor extends AbstractTextExtractor {
 	// -------------------------------------------------------< TextExtractor >
 
 	/**
-	 * {@inheritDoc} Returns an empty reader if an error occured extracting text from
+	 * {@inheritDoc} Returns an empty reader if an error occurred extracting text from
 	 * the word document.
 	 */
 	public String extractText(InputStream stream, String type, String encoding) throws IOException {

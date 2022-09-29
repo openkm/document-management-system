@@ -87,9 +87,7 @@ public class NativeMsExcelTextExtractor extends AbstractTextExtractor {
 				ExecutionResult execRes = ExecutionUtils.runCmd(cmd);
 
 				// Read result
-				String text = execRes.getStdout();
-
-				return text;
+				return execRes.getStdout();
 			} catch (SecurityException e) {
 				log.warn("Security exception executing command: " + cmd, e);
 				return "";

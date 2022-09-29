@@ -46,8 +46,8 @@ public class HTMLParser extends AbstractSAXParser {
 	}
 
 	private String filterAndJoin(String text) {
-		boolean space = false;
 		StringBuffer buffer = new StringBuffer();
+		boolean space = false;
 
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
