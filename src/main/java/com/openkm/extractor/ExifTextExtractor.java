@@ -84,7 +84,7 @@ public class ExifTextExtractor extends AbstractTextExtractor {
 				}
 			}
 
-			log.debug("TEXT: " + sb.toString());
+			log.debug("TEXT: " + sb);
 			return sb.toString();
 		} catch (ImageProcessingException | MetadataException e) {
 			log.warn("Failed to extract EXIF information", e);

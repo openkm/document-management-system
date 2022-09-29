@@ -119,7 +119,7 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 			return content.toString();
 		}
 
-		public void startElement(String namespaceURI, String localName, String rawName, Attributes atts) throws SAXException {
+		public void startElement(String namespaceURI, String localName, String rawName, Attributes atts) {
 			if (rawName.startsWith("text:")) {
 				appendChar = true;
 			}
@@ -131,7 +131,7 @@ public class OpenOfficeTextExtractor extends AbstractTextExtractor {
 			}
 		}
 
-		public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+		public void endElement(String namespaceURI, String localName, String qName) {
 			appendChar = false;
 		}
 	}

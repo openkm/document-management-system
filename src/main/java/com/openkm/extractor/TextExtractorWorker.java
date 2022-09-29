@@ -23,7 +23,6 @@ package com.openkm.extractor;
 
 import com.openkm.core.Config;
 import com.openkm.core.DatabaseException;
-import com.openkm.core.PathNotFoundException;
 import com.openkm.dao.NodeDocumentDAO;
 import com.openkm.util.SystemProfiling;
 import com.openkm.util.ThreadPoolManager;
@@ -110,7 +109,7 @@ public class TextExtractorWorker extends TimerTask {
 	/**
 	 * Force text extraction of every document in the repository
 	 */
-	public void rebuildWorker(MassIndexerProgressMonitor monitor) throws PathNotFoundException, DatabaseException, InterruptedException {
+	public void rebuildWorker(MassIndexerProgressMonitor monitor) throws DatabaseException, InterruptedException {
 		if (running) {
 			log.warn("*** Text extraction already running ***");
 		} else {

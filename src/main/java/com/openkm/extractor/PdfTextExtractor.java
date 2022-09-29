@@ -205,8 +205,7 @@ public class PdfTextExtractor extends AbstractTextExtractor {
 				}
 			}
 		} catch (Exception e) {
-			// it may happen that PDFParser throws a runtime
-			// exception when parsing certain pdf documents
+			// it may happen that PDFParser throws a runtime exception when parsing certain pdf documents
 			log.warn("Failed to extract PDF text content", e);
 			throw new IOException(e.getMessage(), e);
 		} finally {
@@ -224,12 +223,8 @@ public class PdfTextExtractor extends AbstractTextExtractor {
 	private String doOcr(File pdfImg) throws Exception {
 		String text = "";
 
-		if (RegisteredExtractors.isRegistered(CuneiformTextExtractor.class.getCanonicalName())) {
-			text = new CuneiformTextExtractor().doOcr(pdfImg);
-		} else if (RegisteredExtractors.isRegistered(Tesseract3TextExtractor.class.getCanonicalName())) {
-			text = new Tesseract3TextExtractor().doOcr(pdfImg);
-		} else if (RegisteredExtractors.isRegistered(AbbyTextExtractor.class.getCanonicalName())) {
-			text = new AbbyTextExtractor().doOcr(pdfImg);
+		if (RegisteredExtractors.isRegistered(TesseractTextExtractor.class.getCanonicalName())) {
+			text = new TesseractTextExtractor().doOcr(pdfImg);
 		} else {
 			log.warn("No OCR engine configured");
 		}

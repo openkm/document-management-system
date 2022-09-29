@@ -39,8 +39,7 @@ import java.io.InputStream;
 import java.util.Hashtable;
 
 /**
- * Text extractor for image documents.
- * Use OCR from https://code.launchpad.net/cuneiform-linux
+ * Text extractor for barcode in documents.
  */
 @PluginImplementation
 public class BarcodeTextExtractor extends AbstractTextExtractor {
@@ -57,13 +56,6 @@ public class BarcodeTextExtractor extends AbstractTextExtractor {
 		super(new String[]{"image/tiff", "image/gif", "image/jpeg", "image/png"});
 	}
 
-	/**
-	 * Use in AbbyTextExtractor subclass
-	 */
-	public BarcodeTextExtractor(String[] contentTypes) {
-		super(contentTypes);
-	}
-
 	// -------------------------------------------------------< TextExtractor >
 
 	/**
@@ -72,8 +64,7 @@ public class BarcodeTextExtractor extends AbstractTextExtractor {
 	public String extractText(InputStream stream, String type, String encoding) throws IOException {
 		try {
 			BufferedImage image = ImageIO.read(stream);
-			String text = multiple(image);
-			return text;
+			return multiple(image);
 		} catch (Exception e) {
 			log.warn("Failed to extract barcode text", e);
 			return "";
@@ -101,13 +92,13 @@ public class BarcodeTextExtractor extends AbstractTextExtractor {
 	/**
 	 * Decode all barcodes in the image
 	 */
-	private String multiple(BufferedImage img) throws NotFoundException, ChecksumException, FormatException {
+	private String multiple(BufferedImage img) throws NotFoundException {
 		long begin = System.currentTimeMillis();
 		LuminanceSource source = new BufferedImageLuminanceSource(img);
 		BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 		com.google.zxing.Reader reader = new MultiFormatReader();
 		MultipleBarcodeReader bcReader = new GenericMultipleBarcodeReader(reader);
-		Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
+		Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
 		hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 		StringBuilder sb = new StringBuilder();
 
