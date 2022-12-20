@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 
 public class EnvironmentDetector {
 	private static final Logger log = LoggerFactory.getLogger(EnvironmentDetector.class);
@@ -128,44 +127,6 @@ public class EnvironmentDetector {
 	}
 
 	/**
-	 * Guess the system null device
-	 */
-	public static String getNullDevice() {
-		String os = System.getProperty("os.name").toLowerCase();
-
-		if (os.contains(OS_LINUX) || os.contains(OS_MAC)) {
-			return "/dev/null";
-		} else if (os.contains(OS_WINDOWS)) {
-			return "NUL:";
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Execute application launcher
-	 */
-	public static void executeLauncher(String file) throws IOException {
-		String os = System.getProperty("os.name").toLowerCase();
-
-		if (os.contains(OS_LINUX)) {
-			if (new File("/usr/bin/xdg-open").canExecute()) {
-				Runtime.getRuntime().exec(new String[]{"/usr/bin/xdg-open", file});
-			} else if (new File("/usr/bin/kde-open").canExecute()) {
-				Runtime.getRuntime().exec(new String[]{"/usr/bin/kde-open", file});
-			} else {
-				throw new IOException("Linux flavour not supported");
-			}
-		} else if (os.contains(OS_MAC)) {
-			Runtime.getRuntime().exec(new String[]{"open", file});
-		} else if (os.contains(OS_WINDOWS)) {
-			Runtime.getRuntime().exec("rundll32 SHELL32.DLL,ShellExec_RunDLL \"" + file + "\"");
-		} else {
-			throw new IOException("Environment not supported");
-		}
-	}
-
-	/**
 	 * Guess if running in Windows
 	 */
 	public static boolean isWindows() {
@@ -187,13 +148,6 @@ public class EnvironmentDetector {
 	public static boolean isMac() {
 		String os = System.getProperty("os.name").toLowerCase();
 		return os.contains(OS_MAC);
-	}
-
-	/**
-	 * Test if is running in application server
-	 */
-	public static boolean inServer() {
-		return isServerJBoss() || isServerTomcat();
 	}
 
 	/**

@@ -50,17 +50,14 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 public class Config {
-	private static Logger log = LoggerFactory.getLogger(Config.class);
+	private static final Logger log = LoggerFactory.getLogger(Config.class);
 	public static TreeMap<String, String> values = new TreeMap<>();
 	public static final String DEFAULT_CONTEXT = "OpenKM";
 
 	// Server specific configuration
 	public static final String HOME_DIR = EnvironmentDetector.getServerHomeDir();
-	public static final String TMP_DIR = EnvironmentDetector.getTempDir();
 	public static final String LOG_DIR = EnvironmentDetector.getServerLogDir();
-	public static final String NULL_DEVICE = EnvironmentDetector.getNullDevice();
 	public static final String JNDI_BASE = EnvironmentDetector.getServerJndiBase();
-	public static final boolean IN_SERVER = EnvironmentDetector.inServer();
 	public static final int AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
 	public static final URI PLUGIN_DIR = new File(Config.HOME_DIR + File.separator + "plugins").toURI();
 	public static final String WEBAPPS_DIR = Config.HOME_DIR + File.separator + "webapps";
@@ -75,7 +72,6 @@ public class Config {
 
 	// Configuration files
 	public static final String OPENKM_CONFIG = "OpenKM.cfg";
-	public static final String NODE_DEFINITIONS = "CustomNodes.cnd";
 	public static String CONTEXT;
 	public static String INSTANCE_HOME;
 	public static String INSTANCE_DIRNAME = "instances";
