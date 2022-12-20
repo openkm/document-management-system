@@ -55,6 +55,7 @@ public class DbNoteModule implements NoteModule {
 			NodeBase node = NodeBaseDAO.getInstance().findByPk(nodeUuid);
 
 			text = FormatUtil.sanitizeInput(text);
+			text = FormatUtil.cleanXSS(text);
 			NodeNote nNote = BaseNoteModule.create(nodeUuid, auth.getName(), text);
 			newNote = BaseNoteModule.getProperties(nNote, nNote.getUuid());
 
@@ -191,6 +192,8 @@ public class DbNoteModule implements NoteModule {
 
 			if (auth.getName().equals(nNote.getAuthor())) {
 				text = FormatUtil.sanitizeInput(text);
+				text = FormatUtil.cleanXSS(text);
+
 				nNote.setText(text);
 				NodeNoteDAO.getInstance().update(nNote);
 			} else {
