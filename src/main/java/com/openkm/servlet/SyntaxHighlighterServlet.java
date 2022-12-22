@@ -28,6 +28,7 @@ import com.openkm.core.*;
 import com.openkm.servlet.admin.BaseServlet;
 import com.openkm.util.WebUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,14 +83,14 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 		sc.setAttribute("brush", brush);
 		sc.setAttribute("cssCore", core);
 		sc.setAttribute("cssTheme", theme);
-		sc.setAttribute("content", content);
+		sc.setAttribute("content", StringEscapeUtils.escapeHtml(content));
 		sc.getRequestDispatcher("/syntax_highlighter.jsp").forward(request, response);
 	}
 
 	/**
 	 * Used when no syntax highlight
 	 */
-	private void sendContent(HttpServletRequest request, HttpServletResponse response, String content) throws IOException {
+	private void sendContent(HttpServletResponse response, String content) throws IOException {
 		PrintWriter out = response.getWriter();
 		out.print(content);
 		out.flush();
@@ -102,7 +103,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 	private void handlePreviewContent(HttpServletRequest request, HttpServletResponse response, String mimeType,
 	                                  String content, String core, String theme) throws ServletException, IOException {
 		if (mimeType.equals("text/html")) {
-			sendContent(request, response, content);
+			sendContent(response, content);
 		} else if (mimeType.equals(MimeTypeConfig.MIME_JAVA) || mimeType.equals(MimeTypeConfig.MIME_BSH)) {
 			sendHighlight(request, response, "java", "shBrushJava.js", core, theme, content);
 		} else if (mimeType.equals(MimeTypeConfig.MIME_XML)) {
@@ -140,7 +141,7 @@ public class SyntaxHighlighterServlet extends BaseServlet {
 		} else if (mimeType.equals(MimeTypeConfig.MIME_APPLESCRIPT)) {
 			sendHighlight(request, response, "applescript", "shBrushAppleScript.js", core, theme, content);
 		} else {
-			sendContent(request, response, content);
+			sendContent(response, content);
 		}
 	}
 }
