@@ -27,6 +27,7 @@ import com.openkm.core.DatabaseException;
 import com.openkm.core.MimeTypeConfig;
 import com.openkm.dao.CronTabDAO;
 import com.openkm.dao.bean.CronTab;
+import com.openkm.core.AccessDeniedException;
 import com.openkm.util.SecureStore;
 import com.openkm.util.UserActivity;
 import com.openkm.util.WebUtils;
@@ -47,9 +48,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Execute crontab servlet
@@ -86,27 +89,36 @@ public class CronTabServlet extends BaseServlet {
 			types.put(MimeTypeConfig.MIME_JAR, "JAR");
 
 			if (action.equals("create")) {
+				String genCsrft = SecureStore.md5Encode(UUID.randomUUID().toString().getBytes());
+				request.getSession().setAttribute("csrft", genCsrft);
 				ServletContext sc = getServletContext();
 				CronTab ct = new CronTab();
 				sc.setAttribute("action", action);
 				sc.setAttribute("types", types);
 				sc.setAttribute("ct", ct);
+				sc.setAttribute("csrft", genCsrft);
 				sc.getRequestDispatcher("/admin/crontab_edit.jsp").forward(request, response);
 			} else if (action.equals("edit")) {
+				String genCsrft = SecureStore.md5Encode(UUID.randomUUID().toString().getBytes());
+				request.getSession().setAttribute("csrft", genCsrft);
 				ServletContext sc = getServletContext();
 				int ctId = WebUtils.getInt(request, "ct_id");
 				CronTab ct = CronTabDAO.findByPk(ctId);
 				sc.setAttribute("action", action);
 				sc.setAttribute("types", types);
 				sc.setAttribute("ct", ct);
+				sc.setAttribute("csrft", genCsrft);
 				sc.getRequestDispatcher("/admin/crontab_edit.jsp").forward(request, response);
 			} else if (action.equals("delete")) {
+				String genCsrft = SecureStore.md5Encode(UUID.randomUUID().toString().getBytes());
+				request.getSession().setAttribute("csrft", genCsrft);
 				ServletContext sc = getServletContext();
 				int ctId = WebUtils.getInt(request, "ct_id");
 				CronTab ct = CronTabDAO.findByPk(ctId);
 				sc.setAttribute("action", action);
 				sc.setAttribute("types", types);
 				sc.setAttribute("ct", ct);
+				sc.setAttribute("csrft", genCsrft);
 				sc.getRequestDispatcher("/admin/crontab_edit.jsp").forward(request, response);
 			} else if (action.equals("execute")) {
 				execute(request, response);
@@ -116,7 +128,7 @@ public class CronTabServlet extends BaseServlet {
 			} else {
 				list(request, response);
 			}
-		} catch (DatabaseException | EvalError e) {
+		} catch (DatabaseException | EvalError | NoSuchAlgorithmException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}
@@ -139,11 +151,14 @@ public class CronTabServlet extends BaseServlet {
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				List<FileItem> items = upload.parseRequest(request);
 				CronTab ct = new CronTab();
+				String csrfToken = "";
 
 				for (FileItem item : items) {
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("action")) {
 							action = item.getString("UTF-8");
+						} else if (item.getFieldName().equals("csrft")) {
+							csrfToken = item.getString("UTF-8");
 						} else if (item.getFieldName().equals("ct_id")) {
 							ct.setId(Integer.parseInt(item.getString("UTF-8")));
 						} else if (item.getFieldName().equals("ct_name")) {
@@ -162,6 +177,14 @@ public class CronTabServlet extends BaseServlet {
 						ct.setFileMime(MimeTypeConfig.mimeTypes.getContentType(item.getName()));
 						is.close();
 					}
+				}
+
+				// Validate CSRF token
+				String sesCsrft = (String) request.getSession().getAttribute("csrft");
+				if (!csrfToken.equals(sesCsrft)) {
+					// Activity log
+					UserActivity.log(request.getRemoteUser(), "ADMIN_SECURITY_RISK", request.getRemoteHost(), null, null);
+					throw new AccessDeniedException("Security risk detected");
 				}
 
 				if (action.equals("create")) {
@@ -184,7 +207,7 @@ public class CronTabServlet extends BaseServlet {
 					list(request, response);
 				}
 			}
-		} catch (DatabaseException | FileUploadException e) {
+		} catch (DatabaseException | FileUploadException | AccessDeniedException e) {
 			log.error(e.getMessage(), e);
 			sendErrorRedirect(request, response, e);
 		}

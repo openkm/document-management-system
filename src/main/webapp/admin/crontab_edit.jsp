@@ -32,6 +32,7 @@
       <form action="CronTab" method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="${action}"/>
         <input type="hidden" name="ct_id" value="${ct.id}"/>
+        <input type="hidden" name="csrft" value="${csrft}"/>
         <table class="form" width="425px">
           <tr>
             <td nowrap="nowrap">Name</td>
