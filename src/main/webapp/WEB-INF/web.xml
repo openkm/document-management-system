@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">  
+                       xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
   <display-name>OpenKM</display-name>
-  
+
   <!-- Tomcat resources -->
   <!-- Already defined in $TOMCAT_HOME/conf/context.xml -->
   <!--
@@ -20,14 +20,14 @@
     <res-auth>Container</res-auth>
   </resource-ref>
   -->
-  
+
   <jsp-config>
     <taglib>
       <taglib-uri>http://www.openkm.com/tags/utils</taglib-uri>
       <taglib-location>/WEB-INF/tlds/utils.tld</taglib-location>
     </taglib>
   </jsp-config>
-  
+
   <!-- Filters -->
   <filter>
 	<filter-name>springSecurityFilterChain</filter-name>
@@ -41,7 +41,7 @@
     <filter-name>UploadThrottleFilter</filter-name>
     <filter-class>com.openkm.servlet.frontend.UploadThrottleFilter</filter-class>
   </filter>
-  
+
   <!-- Filter Mappings -->
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -55,7 +55,7 @@
     <filter-name>UploadThrottleFilter</filter-name>
     <url-pattern>/frontend/FileUpload</url-pattern>
   </filter-mapping>
-  
+
   <!-- Listeners -->
   <listener>
     <listener-class>com.openkm.servlet.SessionListener</listener-class>
@@ -69,7 +69,7 @@
   <listener>
     <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
   </listener>
-  
+
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -77,7 +77,7 @@
         file:${catalina.home}/OpenKM.xml
     </param-value>
   </context-param>
-  
+
   <!-- Startup Servlets -->
   <servlet>
     <servlet-name>RepositoryStartup</servlet-name>
@@ -89,7 +89,7 @@
     <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
-  
+
   <!-- Frontend Servlets -->
   <servlet>
     <servlet-name>WorkspaceServlet</servlet-name>
@@ -219,7 +219,7 @@
     <servlet-name>CSVExporterServlet</servlet-name>
     <servlet-class>com.openkm.servlet.frontend.CSVExporterServlet</servlet-class>
   </servlet>
-  
+
   <!-- Extension servlets -->
   <servlet>
     <servlet-name>ProposedSubscriptionServlet</servlet-name>
@@ -273,13 +273,13 @@
     <servlet-name>MacrosServlet</servlet-name>
     <servlet-class>com.openkm.extension.servlet.MacrosServlet</servlet-class>
   </servlet>
-  
+
   <!-- Extension Admin servlets -->
   <servlet>
     <servlet-name>DocumentExpirationServlet</servlet-name>
     <servlet-class>com.openkm.extension.servlet.admin.DocumentExpirationServlet</servlet-class>
   </servlet>
-  
+
   <!-- Mobile servlets -->
   <servlet>
   	<servlet-name>MobileDesktopServlet</servlet-name>
@@ -297,7 +297,7 @@
   	<servlet-name>MobileGeneralServlet</servlet-name>
   	<servlet-class>com.openkm.servlet.mobile.GeneralServlet</servlet-class>
   </servlet>
-  
+
   <!-- Misc servlets -->
   <servlet>
     <servlet-name>SyndicationServlet</servlet-name>
@@ -355,7 +355,7 @@
     <servlet-name>MailPreviewServlet</servlet-name>
     <servlet-class>com.openkm.servlet.MailPreviewServlet</servlet-class>
   </servlet>
-  
+
   <!-- Admin servlets -->
   <servlet>
     <servlet-name>StatsGraphServlet</servlet-name>
@@ -412,10 +412,6 @@
   <servlet>
     <servlet-name>MailAccountServlet</servlet-name>
     <servlet-class>com.openkm.servlet.admin.MailAccountServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>TwitterAccountServlet</servlet-name>
-    <servlet-class>com.openkm.servlet.admin.TwitterAccountServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WorkflowServlet</servlet-name>
@@ -497,7 +493,7 @@
     <servlet-name>UnitTestingServlet</servlet-name>
     <servlet-class>com.openkm.servlet.admin.UnitTestingServlet</servlet-class>
   </servlet>
-  
+
   <!-- CMIS Servlets -->
   <servlet>
     <servlet-name>cmisAtom</servlet-name>
@@ -517,19 +513,19 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-  
+
   <!-- Test Servlets -->
   <servlet>
     <servlet-name>Test</servlet-name>
     <servlet-class>com.openkm.servlet.TestServlet</servlet-class>
   </servlet>
-  
+
   <!-- Startup servlets -->
   <servlet-mapping>
     <servlet-name>CXFServlet</servlet-name>
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Frontend Servlet Mappings -->
   <servlet-mapping>
     <servlet-name>WorkspaceServlet</servlet-name>
@@ -651,13 +647,13 @@
     <servlet-name>CSVExporterServlet</servlet-name>
     <url-pattern>/frontend/CSVExporter</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Test Servlets -->
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/frontend/Test</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Extensions Servlet Mappings -->
   <servlet-mapping>
     <servlet-name>StaplingServlet</servlet-name>
@@ -719,13 +715,13 @@
     <servlet-name>ExtensionGeneralServlet</servlet-name>
     <url-pattern>/extension/General</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Extension Admin Servlet Mappings -->
   <servlet-mapping>
     <servlet-name>DocumentExpirationServlet</servlet-name>
     <url-pattern>/admin/DocumentExpiration</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Mobile servlets mappings -->
   <servlet-mapping>
   	<servlet-name>MobileDesktopServlet</servlet-name>
@@ -743,7 +739,7 @@
   	<servlet-name>MobileGeneralServlet</servlet-name>
   	<url-pattern>/mobile/General</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Misc servlets mappings -->
   <servlet-mapping>
     <servlet-name>SyndicationServlet</servlet-name>
@@ -801,7 +797,7 @@
     <servlet-name>MailPreviewServlet</servlet-name>
     <url-pattern>/MailPreview</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Admin Servlet Mappings -->
   <servlet-mapping>
     <servlet-name>StatsGraphServlet</servlet-name>
@@ -858,10 +854,6 @@
   <servlet-mapping>
     <servlet-name>MailAccountServlet</servlet-name>
     <url-pattern>/admin/MailAccount</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>TwitterAccountServlet</servlet-name>
-    <url-pattern>/admin/TwitterAccount</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>WorkflowServlet</servlet-name>
@@ -934,7 +926,7 @@
   <servlet-mapping>
     <servlet-name>OmrServlet</servlet-name>
     <url-pattern>/admin/Omr</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PurgePermissionsServlet</servlet-name>
     <url-pattern>/admin/PurgePermissions</url-pattern>
@@ -943,7 +935,7 @@
     <servlet-name>UnitTestingServlet</servlet-name>
     <url-pattern>/admin/UnitTesting</url-pattern>
   </servlet-mapping>
-  
+
   <!-- CMIS Servlet Mappings -->
   <servlet-mapping>
     <servlet-name>cmisAtom</servlet-name>
@@ -953,7 +945,7 @@
     <servlet-name>cmisBrowser</servlet-name>
     <url-pattern>/cmis/browser/*</url-pattern>
   </servlet-mapping>
-  
+
   <!-- Test Servlet Mapping -->
   <servlet-mapping>
     <servlet-name>Test</servlet-name>

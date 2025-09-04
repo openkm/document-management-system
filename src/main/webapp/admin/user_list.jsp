@@ -162,9 +162,6 @@
               <c:url value="MailAccount" var="urlMail">
                 <c:param name="ma_user" value="${user.id}" />
               </c:url>
-              <c:url value="TwitterAccount" var="urlTwitter">
-                <c:param name="ta_user" value="${user.id}" />
-              </c:url>
               <c:url value="ActivityLog" var="urlLog">
                 <c:param name="user" value="${user.id}" />
                 <c:param name="dbegin" value="${date}" />
@@ -219,8 +216,6 @@
                       <a href="${urlConfig}"><img src="img/action/config.png" alt="User config" title="User config" /></a>
 	                  &nbsp;
 	                  <a href="${urlMail}"><img src="img/action/email.png" alt="Mail accounts" title="Mail accounts" /></a>
-	                  &nbsp;
-	                  <a href="${urlTwitter}"><img src="img/action/twitter.png" alt="Twitter accounts" title="Twitter accounts" /></a>
 	                  &nbsp;
 	                  <a href="${urlLog}"><img src="img/action/calendar.png" alt="Activity log" title="Activity log" /></a>
                   </c:if>
