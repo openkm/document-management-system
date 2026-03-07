@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>贪吃蛇</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #eee;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      letter-spacing: 4px;
+      color: #4ecca3;
+      text-shadow: 0 0 12px #4ecca388;
+    }
+
+    #scoreboard {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 14px;
+      font-size: 1rem;
+    }
+
+    .score-box {
+      text-align: center;
+    }
+
+    .score-box span {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #4ecca3;
+    }
+
+    #canvas-wrapper {
+      position: relative;
+      border: 2px solid #4ecca355;
+      border-radius: 8px;
+      box-shadow: 0 0 30px #4ecca322;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      background: #16213e;
+    }
+
+    #overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #16213ecc;
+      backdrop-filter: blur(2px);
+    }
+
+    #overlay h2 {
+      font-size: 2rem;
+      color: #4ecca3;
+      margin-bottom: 8px;
+    }
+
+    #overlay p {
+      color: #ccc;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    #overlay button {
+      padding: 10px 32px;
+      font-size: 1rem;
+      background: #4ecca3;
+      color: #16213e;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    #overlay button:hover { background: #38b48b; transform: scale(1.04); }
+
+    #controls {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: #888;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    #speed-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+
+    #speed-bar label { color: #aaa; }
+
+    #speed-range {
+      accent-color: #4ecca3;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐍 贪吃蛇</h1>
+
+  <div id="scoreboard">
+    <div class="score-box">当前分数<span id="score">0</span></div>
+    <div class="score-box">最高分数<span id="best">0</span></div>
+    <div class="score-box">关卡<span id="level">1</span></div>
+  </div>
+
+  <div id="canvas-wrapper">
+    <canvas id="canvas" width="480" height="480"></canvas>
+    <div id="overlay">
+      <h2 id="overlay-title">贪吃蛇</h2>
+      <p id="overlay-msg">吃到食物得分，避免撞墙和自身</p>
+      <button id="btn">开始游戏</button>
+    </div>
+  </div>
+
+  <div id="speed-bar">
+    <label>速度：</label>
+    <input type="range" id="speed-range" min="1" max="5" value="3" />
+    <span id="speed-label">普通</span>
+  </div>
+
+  <div id="controls">
+    方向键 / WASD 控制方向 &nbsp;|&nbsp; P 暂停 / 继续 &nbsp;|&nbsp; R 重新开始
+  </div>
+
+  <script>
+    const CELL = 20;
+    const COLS = 24;
+    const ROWS = 24;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width  = COLS * CELL;
+    canvas.height = ROWS * CELL;
+
+    const scoreEl   = document.getElementById('score');
+    const bestEl    = document.getElementById('best');
+    const levelEl   = document.getElementById('level');
+    const overlay   = document.getElementById('overlay');
+    const overlayT  = document.getElementById('overlay-title');
+    const overlayM  = document.getElementById('overlay-msg');
+    const btn       = document.getElementById('btn');
+    const speedRange= document.getElementById('speed-range');
+    const speedLabel= document.getElementById('speed-label');
+
+    const SPEED_NAMES = ['极慢', '慢速', '普通', '快速', '极速'];
+    const BASE_INTERVAL = [220, 160, 110, 70, 40];
+
+    let snake, dir, nextDir, food, bonus, score, best, level;
+    let running = false, paused = false, gameOver = false;
+    let loopId = null;
+
+    function getInterval() {
+      const sp = parseInt(speedRange.value) - 1;
+      const lv = Math.min(level - 1, 9);
+      return Math.max(40, BASE_INTERVAL[sp] - lv * 8);
+    }
+
+    speedRange.addEventListener('input', () => {
+      speedLabel.textContent = SPEED_NAMES[speedRange.value - 1];
+      if (running && !paused && !gameOver) {
+        clearTimeout(loopId);
+        scheduleLoop();
+      }
+    });
+
+    function rand(n) { return Math.floor(Math.random() * n); }
+
+    function randCell(exclude = []) {
+      let pos;
+      do {
+        pos = { x: rand(COLS), y: rand(ROWS) };
+      } while (exclude.some(e => e.x === pos.x && e.y === pos.y));
+      return pos;
+    }
+
+    function initGame() {
+      const cx = Math.floor(COLS / 2), cy = Math.floor(ROWS / 2);
+      snake = [{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }];
+      dir = { x: 1, y: 0 };
+      nextDir = { x: 1, y: 0 };
+      score = 0;
+      level = 1;
+      best = parseInt(localStorage.getItem('snake-best') || '0');
+      food = randCell(snake);
+      bonus = null;
+      updateUI();
+    }
+
+    function spawnBonus() {
+      if (bonus) return;
+      bonus = { ...randCell([...snake, food]), ttl: 80 };
+    }
+
+    function updateUI() {
+      scoreEl.textContent = score;
+      bestEl.textContent  = best;
+      levelEl.textContent = level;
+    }
+
+    function move() {
+      dir = { ...nextDir };
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+      // wall collision
+      if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
+        return endGame();
+      }
+      // self collision
+      if (snake.some(s => s.x === head.x && s.y === head.y)) {
+        return endGame();
+      }
+
+      snake.unshift(head);
+
+      let grew = false;
+      if (head.x === food.x && head.y === food.y) {
+        score += 10 * level;
+        grew = true;
+        food = randCell(snake);
+        if (score % 100 === 0) level++;
+        if (Math.random() < 0.3) spawnBonus();
+        updateUI();
+      }
+
+      if (bonus) {
+        bonus.ttl--;
+        if (head.x === bonus.x && head.y === bonus.y) {
+          score += 30 * level;
+          grew = true;
+          bonus = null;
+          updateUI();
+        } else if (bonus.ttl <= 0) {
+          bonus = null;
+        }
+      }
+
+      if (!grew) snake.pop();
+
+      if (score > best) {
+        best = score;
+        localStorage.setItem('snake-best', best);
+        bestEl.textContent = best;
+      }
+    }
+
+    // ---- drawing ----
+
+    function drawGrid() {
+      ctx.strokeStyle = '#1e2d4d';
+      ctx.lineWidth = 0.5;
+      for (let x = 0; x <= COLS; x++) {
+        ctx.beginPath(); ctx.moveTo(x * CELL, 0); ctx.lineTo(x * CELL, ROWS * CELL); ctx.stroke();
+      }
+      for (let y = 0; y <= ROWS; y++) {
+        ctx.beginPath(); ctx.moveTo(0, y * CELL); ctx.lineTo(COLS * CELL, y * CELL); ctx.stroke();
+      }
+    }
+
+    function drawCell(x, y, color, radius = 3) {
+      const px = x * CELL + 1, py = y * CELL + 1, s = CELL - 2;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect(px, py, s, s, radius);
+      ctx.fill();
+    }
+
+    function drawSnake() {
+      snake.forEach((seg, i) => {
+        const t = i / snake.length;
+        const r = Math.round(78  + (20 - 78)  * t);
+        const g = Math.round(204 + (80 - 204) * t);
+        const b = Math.round(163 + (50 - 163) * t);
+        drawCell(seg.x, seg.y, `rgb(${r},${g},${b})`, i === 0 ? 6 : 3);
+      });
+
+      // eyes on head
+      const h = snake[0];
+      const ex = h.x * CELL, ey = h.y * CELL;
+      ctx.fillStyle = '#16213e';
+      const offsets = dir.x === 1  ? [[13, 5], [13, 13]] :
+                      dir.x === -1 ? [[5,  5], [5,  13]] :
+                      dir.y === -1 ? [[5,  5], [13,  5]] :
+                                     [[5, 13], [13, 13]];
+      offsets.forEach(([ox, oy]) => {
+        ctx.beginPath(); ctx.arc(ex + ox, ey + oy, 2.5, 0, Math.PI * 2); ctx.fill();
+      });
+    }
+
+    function drawFood() {
+      const px = food.x * CELL + CELL / 2;
+      const py = food.y * CELL + CELL / 2;
+      const r  = CELL / 2 - 2;
+      const grd = ctx.createRadialGradient(px - 2, py - 2, 1, px, py, r);
+      grd.addColorStop(0, '#ff6b6b');
+      grd.addColorStop(1, '#c0392b');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2); ctx.fill();
+      // shine
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.beginPath(); ctx.arc(px - 2, py - 2, r * 0.38, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function drawBonus() {
+      if (!bonus) return;
+      const pulse = 0.7 + 0.3 * Math.sin(Date.now() / 150);
+      const px = bonus.x * CELL + CELL / 2;
+      const py = bonus.y * CELL + CELL / 2;
+      ctx.fillStyle = `rgba(255,215,0,${pulse})`;
+      ctx.beginPath();
+      const s = CELL / 2 - 1;
+      // star shape
+      for (let i = 0; i < 5; i++) {
+        const a = (i * 4 * Math.PI / 5) - Math.PI / 2;
+        const ia = a + 2 * Math.PI / 10;
+        if (i === 0) ctx.moveTo(px + s * Math.cos(a), py + s * Math.sin(a));
+        else ctx.lineTo(px + s * Math.cos(a), py + s * Math.sin(a));
+        ctx.lineTo(px + s * 0.4 * Math.cos(ia), py + s * 0.4 * Math.sin(ia));
+      }
+      ctx.closePath(); ctx.fill();
+
+      // countdown bar
+      const bw = (bonus.ttl / 80) * (CELL - 2);
+      ctx.fillStyle = '#ffd700';
+      ctx.fillRect(bonus.x * CELL + 1, bonus.y * CELL + CELL - 4, bw, 3);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid();
+      drawFood();
+      drawBonus();
+      drawSnake();
+    }
+
+    // ---- loop ----
+
+    function scheduleLoop() {
+      loopId = setTimeout(tick, getInterval());
+    }
+
+    function tick() {
+      if (!running || paused || gameOver) return;
+      move();
+      draw();
+      if (!gameOver) scheduleLoop();
+    }
+
+    function startGame() {
+      initGame();
+      overlay.style.display = 'none';
+      running = true;
+      paused  = false;
+      gameOver = false;
+      draw();
+      scheduleLoop();
+    }
+
+    function endGame() {
+      gameOver = true;
+      running  = false;
+      clearTimeout(loopId);
+      overlayT.textContent = '游戏结束';
+      overlayM.textContent = `得分：${score}　最高：${best}`;
+      btn.textContent = '再来一局';
+      overlay.style.display = 'flex';
+    }
+
+    function togglePause() {
+      if (!running || gameOver) return;
+      paused = !paused;
+      if (!paused) {
+        scheduleLoop();
+        draw();
+        overlay.style.display = 'none';
+      } else {
+        clearTimeout(loopId);
+        overlayT.textContent = '已暂停';
+        overlayM.textContent = '按 P 继续';
+        btn.textContent = '继续';
+        overlay.style.display = 'flex';
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      if (paused) togglePause();
+      else startGame();
+    });
+
+    // ---- keyboard ----
+
+    const KEY_MAP = {
+      ArrowUp:    { x:  0, y: -1 }, w: { x:  0, y: -1 }, W: { x:  0, y: -1 },
+      ArrowDown:  { x:  0, y:  1 }, s: { x:  0, y:  1 }, S: { x:  0, y:  1 },
+      ArrowLeft:  { x: -1, y:  0 }, a: { x: -1, y:  0 }, A: { x: -1, y:  0 },
+      ArrowRight: { x:  1, y:  0 }, d: { x:  1, y:  0 }, D: { x:  1, y:  0 },
+    };
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'p' || e.key === 'P') { e.preventDefault(); togglePause(); return; }
+      if (e.key === 'r' || e.key === 'R') { e.preventDefault(); startGame(); return; }
+      const nd = KEY_MAP[e.key];
+      if (!nd) return;
+      e.preventDefault();
+      // prevent reversing
+      if (nd.x !== 0 && nd.x === -dir.x) return;
+      if (nd.y !== 0 && nd.y === -dir.y) return;
+      nextDir = nd;
+    });
+
+    // ---- touch / swipe ----
+    let touchStart = null;
+    canvas.addEventListener('touchstart', e => {
+      touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+    canvas.addEventListener('touchend', e => {
+      if (!touchStart) return;
+      const dx = e.changedTouches[0].clientX - touchStart.x;
+      const dy = e.changedTouches[0].clientY - touchStart.y;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        const nd = dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 };
+        if (nd.x !== -dir.x) nextDir = nd;
+      } else {
+        const nd = dy > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 };
+        if (nd.y !== -dir.y) nextDir = nd;
+      }
+      touchStart = null;
+    }, { passive: true });
+
+    // initial draw
+    initGame();
+    draw();
+  </script>
+</body>
+</html>
